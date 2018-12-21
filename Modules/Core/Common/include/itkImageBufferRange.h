@@ -16,8 +16,8 @@
 *
 *=========================================================================*/
 
-#ifndef itkImageRange_h
-#define itkImageRange_h
+#ifndef itkImageBufferRange_h
+#define itkImageBufferRange_h
 
 #include <cassert>
 #include <cstddef> // For ptrdiff_t.
@@ -38,7 +38,7 @@ namespace Experimental
 {
 
 /**
- * \class ImageRange
+ * \class ImageBufferRange
  * Modern C++11 range to iterate over the pixels of an image.
  * Designed to conform to Standard C++ Iterator requirements,
  * so that it can be used in range-based for loop, and passed to
@@ -46,7 +46,7 @@ namespace Experimental
  *
  * The following example adds 42 to each pixel, using a range-based for loop:
    \code
-   ImageRange<ImageType> range{ *image };
+   ImageBufferRange<ImageType> range{ *image };
 
    for (auto&& pixel : range)
    {
@@ -72,7 +72,7 @@ namespace Experimental
  * \ingroup ITKCommon
  */
 template<typename TImage>
-class ImageRange final
+class ImageBufferRange final
 {
 private:
   using ImageType = TImage;
@@ -230,8 +230,8 @@ private:
    * it points to, to be modified. A const qualified instantiation does not.
    *
    * \note The definition of this class is private. Please use its type alias
-   * ImageRange::iterator, or ImageRange::const_iterator!
-   * \see ImageRange
+   * ImageBufferRange::iterator, or ImageBufferRange::const_iterator!
+   * \see ImageBufferRange
    * \ingroup ImageIterators
    * \ingroup ITKCommon
    */
@@ -243,9 +243,9 @@ private:
     // constructor that allow conversion from non-const to const iterator.
     friend class QualifiedIterator<!VIsConst>;
 
-    // ImageRange is a friend, as it should be the only one that can
+    // ImageBufferRange is a friend, as it should be the only one that can
     // directly use the private constructor of the iterator.
-    friend class ImageRange;
+    friend class ImageBufferRange;
 
     // Image type class that is either 'const' or non-const qualified, depending on QualifiedIterator and TImage.
     using QualifiedImageType = typename std::conditional<VIsConst, const ImageType, ImageType>::type;
@@ -295,7 +295,7 @@ private:
     QualifiedInternalPixelType* m_InternalPixelPointer = nullptr;
 
     // Private constructor, used to create the begin and the end iterator of a range.
-    // Only used by its friend class ImageRange.
+    // Only used by its friend class ImageBufferRange.
     QualifiedIterator(
       const OptionalAccessorFunctorType& accessorFunctor,
       QualifiedInternalPixelType* const internalPixelPointer) ITK_NOEXCEPT
@@ -522,7 +522,7 @@ private:
 
 
   // Helper class for begin() and end(), to ease proper initialization of an
-  // ImageRange iterator (either a 'QualifiedIterator' or a raw pixel pointer).
+  // ImageBufferRange iterator (either a 'QualifiedIterator' or a raw pixel pointer).
   class IteratorInitializer final
   {
   private:
@@ -552,7 +552,7 @@ private:
   };
 
 
-  // ImageRange data members (strictly private):
+  // ImageBufferRange data members (strictly private):
 
   // The accessor functor of the image.
   OptionalAccessorFunctorType m_OptionalAccessorFunctor;
@@ -574,12 +574,12 @@ public:
 
   /** Constructs an empty range
    */
-  ImageRange() = default;
+  ImageBufferRange() = default;
 
 
   /** Specifies a range of the pixels of an image.
    */
-  explicit ImageRange(ImageType& image)
+  explicit ImageBufferRange(ImageType& image)
     :
   // Note: Use parentheses instead of curly braces to initialize data members,
   // to avoid AppleClang 6.0.0.6000056 compile errors, "no viable conversion..."
@@ -668,7 +668,7 @@ public:
 
 
   /** Explicitly-defaulted destructor. */
-  ~ImageRange() = default;
+  ~ImageBufferRange() = default;
 };
 
 /** Creates a range to iterate over the pixels of the specified image.
@@ -676,7 +676,7 @@ public:
  * is a valid use case).
  */
 template<typename TImage>
-ImageRange<TImage> MakeImageRange(TImage* const image)
+ImageBufferRange<TImage> MakeImageBufferRange(TImage* const image)
 {
   if (image == nullptr)
   {
@@ -684,7 +684,7 @@ ImageRange<TImage> MakeImageRange(TImage* const image)
   }
   else
   {
-    return ImageRange<TImage>{*image};
+    return ImageBufferRange<TImage>{*image};
   }
 }
 

@@ -24,7 +24,7 @@
 #include "itkBSplineControlPointImageFilter.h"
 #include "itkDivideImageFilter.h"
 #include "itkExpImageFilter.h"
-#include "itkImageRange.h"
+#include "itkImageBufferRange.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
@@ -89,8 +89,8 @@ void
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 ::GenerateData()
 {
-  using itk::Experimental::ImageRange;
-  using itk::Experimental::MakeImageRange;
+  using itk::Experimental::ImageBufferRange;
+  using itk::Experimental::MakeImageBufferRange;
 
   this->AllocateOutputs();
 
@@ -124,24 +124,24 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 
   ImageAlgorithm::Copy( inputImage, logInputImage.GetPointer(), inputRegion, inputRegion);
 
-  const auto maskImageRange = MakeImageRange(maskImage);
-  const auto confidenceImageRange = MakeImageRange(confidenceImage);
+  const auto maskImageBufferRange = MakeImageBufferRange(maskImage);
+  const auto confidenceImageBufferRange = MakeImageBufferRange(confidenceImage);
   const MaskPixelType maskLabel = this->GetMaskLabel();
   const bool useMaskLabel = this->GetUseMaskLabel();
 
-  const ImageRange<RealImageType> logInputImageRange{ *logInputImage };
-  const std::size_t numberOfPixels = logInputImageRange.size();
+  const ImageBufferRange<RealImageType> logInputImageBufferRange{ *logInputImage };
+  const std::size_t numberOfPixels = logInputImageBufferRange.size();
 
   for( std::size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue )
     {
-    if( ( maskImageRange.empty()
-          || ( useMaskLabel && maskImageRange[indexValue] == maskLabel )
-          || ( !useMaskLabel && maskImageRange[indexValue] != NumericTraits< MaskPixelType >::ZeroValue() )
+    if( ( maskImageBufferRange.empty()
+          || ( useMaskLabel && maskImageBufferRange[indexValue] == maskLabel )
+          || ( !useMaskLabel && maskImageBufferRange[indexValue] != NumericTraits< MaskPixelType >::ZeroValue() )
           )
-        && ( confidenceImageRange.empty() ||
-             confidenceImageRange[indexValue] > 0.0 ) )
+        && ( confidenceImageBufferRange.empty() ||
+             confidenceImageBufferRange[indexValue] > 0.0 ) )
       {
-      auto&& logInputPixel = logInputImageRange[indexValue];
+      auto&& logInputPixel = logInputImageBufferRange[indexValue];
 
       if(logInputPixel > NumericTraits<typename InputImageType::PixelType>::ZeroValue() )
         {
@@ -272,11 +272,11 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::RealIma
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 ::SharpenImage( const RealImageType *unsharpenedImage ) const
 {
-  using itk::Experimental::ImageRange;
-  using itk::Experimental::MakeImageRange;
+  using itk::Experimental::ImageBufferRange;
+  using itk::Experimental::MakeImageBufferRange;
 
-  const auto maskImageRange = MakeImageRange(this->GetMaskImage());
-  const auto confidenceImageRange = MakeImageRange(this->GetConfidenceImage());
+  const auto maskImageBufferRange = MakeImageBufferRange(this->GetMaskImage());
+  const auto confidenceImageBufferRange = MakeImageBufferRange(this->GetConfidenceImage());
   const MaskPixelType maskLabel = this->GetMaskLabel();
   const bool useMaskLabel = this->GetUseMaskLabel();
 
@@ -288,19 +288,19 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   RealType binMaximum = NumericTraits<RealType>::NonpositiveMin();
   RealType binMinimum = NumericTraits<RealType>::max();
 
-  const auto unsharpenedImageRange = MakeImageRange(unsharpenedImage);
-  const std::size_t numberOfPixels = unsharpenedImageRange.size();
+  const auto unsharpenedImageBufferRange = MakeImageBufferRange(unsharpenedImage);
+  const std::size_t numberOfPixels = unsharpenedImageBufferRange.size();
 
   for( std::size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue )
     {
-    if( ( maskImageRange.empty()
-          || ( useMaskLabel && maskImageRange[indexValue] == maskLabel )
-          || ( !useMaskLabel && maskImageRange[indexValue] != NumericTraits< MaskPixelType >::ZeroValue() )
+    if( ( maskImageBufferRange.empty()
+          || ( useMaskLabel && maskImageBufferRange[indexValue] == maskLabel )
+          || ( !useMaskLabel && maskImageBufferRange[indexValue] != NumericTraits< MaskPixelType >::ZeroValue() )
           )
-        && ( confidenceImageRange.empty() ||
-             confidenceImageRange[indexValue] > 0.0 ) )
+        && ( confidenceImageBufferRange.empty() ||
+             confidenceImageBufferRange[indexValue] > 0.0 ) )
       {
-      RealType pixel = unsharpenedImageRange[indexValue];
+      RealType pixel = unsharpenedImageBufferRange[indexValue];
       if( pixel > binMaximum )
         {
         binMaximum = pixel;
@@ -321,14 +321,14 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 
   for( std::size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue )
     {
-    if( ( maskImageRange.empty()
-          || ( useMaskLabel && maskImageRange[indexValue] == maskLabel )
-          || ( !useMaskLabel && maskImageRange[indexValue] != NumericTraits< MaskPixelType >::ZeroValue() )
+    if( ( maskImageBufferRange.empty()
+          || ( useMaskLabel && maskImageBufferRange[indexValue] == maskLabel )
+          || ( !useMaskLabel && maskImageBufferRange[indexValue] != NumericTraits< MaskPixelType >::ZeroValue() )
           )
-        && ( confidenceImageRange.empty() ||
-             confidenceImageRange[indexValue] > 0.0 ) )
+        && ( confidenceImageBufferRange.empty() ||
+             confidenceImageBufferRange[indexValue] > 0.0 ) )
       {
-      RealType pixel = unsharpenedImageRange[indexValue];
+      RealType pixel = unsharpenedImageBufferRange[indexValue];
 
       RealType cidx = ( static_cast<RealType>( pixel ) - binMinimum ) /
         histogramSlope;
@@ -485,18 +485,18 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   sharpenedImage->SetRegions( inputImage->GetLargestPossibleRegion() );
   sharpenedImage->Allocate( true ); // initialize buffer to zero
 
-  const ImageRange<RealImageType> sharpenedImageRange{ *sharpenedImage };
+  const ImageBufferRange<RealImageType> sharpenedImageBufferRange{ *sharpenedImage };
 
   for( std::size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue )
     {
-    if( ( maskImageRange.empty()
-          || ( useMaskLabel && maskImageRange[indexValue] == maskLabel )
-          || ( !useMaskLabel && maskImageRange[indexValue] != NumericTraits< MaskPixelType >::ZeroValue() )
+    if( ( maskImageBufferRange.empty()
+          || ( useMaskLabel && maskImageBufferRange[indexValue] == maskLabel )
+          || ( !useMaskLabel && maskImageBufferRange[indexValue] != NumericTraits< MaskPixelType >::ZeroValue() )
           )
-        && ( confidenceImageRange.empty() ||
-             confidenceImageRange[indexValue] > 0.0 ) )
+        && ( confidenceImageBufferRange.empty() ||
+             confidenceImageBufferRange[indexValue] > 0.0 ) )
       {
-      RealType     cidx = ( unsharpenedImageRange[indexValue] - binMinimum ) / histogramSlope;
+      RealType     cidx = ( unsharpenedImageBufferRange[indexValue] - binMinimum ) / histogramSlope;
       unsigned int idx = itk::Math::floor( cidx );
 
       RealType correctedPixel = 0;
@@ -509,7 +509,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
         {
         correctedPixel = E[E.size() - 1];
         }
-      sharpenedImageRange[indexValue] = correctedPixel;
+      sharpenedImageBufferRange[indexValue] = correctedPixel;
       }
     }
 
@@ -522,7 +522,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::RealIma
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 ::UpdateBiasFieldEstimate( RealImageType* fieldEstimate )
 {
-  using itk::Experimental::MakeImageRange;
+  using itk::Experimental::MakeImageBufferRange;
 
   // Temporarily set the direction cosine to identity since the B-spline
   // approximation algorithm works in parametric space and not physical
@@ -552,8 +552,8 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
     BSplineFilterType::WeightsContainerType::New();
   weights->Initialize();
 
-  const auto maskImageRange = MakeImageRange(this->GetMaskImage());
-  const auto confidenceImageRange = MakeImageRange(this->GetConfidenceImage());
+  const auto maskImageBufferRange = MakeImageBufferRange(this->GetMaskImage());
+  const auto confidenceImageBufferRange = MakeImageBufferRange(this->GetConfidenceImage());
   const MaskPixelType maskLabel = this->GetMaskLabel();
   const bool useMaskLabel = this->GetUseMaskLabel();
 
@@ -563,12 +563,12 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   unsigned int index = 0;
   for (std::size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue, ++It)
     {
-    if( (maskImageRange.empty()
-          || ( useMaskLabel && maskImageRange[indexValue] == maskLabel )
-          || ( !useMaskLabel && maskImageRange[indexValue] != NumericTraits< MaskPixelType >::ZeroValue() )
+    if( (maskImageBufferRange.empty()
+          || ( useMaskLabel && maskImageBufferRange[indexValue] == maskLabel )
+          || ( !useMaskLabel && maskImageBufferRange[indexValue] != NumericTraits< MaskPixelType >::ZeroValue() )
           )
-        && ( confidenceImageRange.empty() ||
-             confidenceImageRange[indexValue] > 0.0 ) )
+        && ( confidenceImageBufferRange.empty() ||
+             confidenceImageBufferRange[indexValue] > 0.0 ) )
       {
       PointType point;
       parametricFieldEstimate->TransformIndexToPhysicalPoint( It.GetIndex(), point );
@@ -580,9 +580,9 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
       fieldPoints->SetPoint( index, point );
 
       RealType confidenceWeight = 1.0;
-      if( !confidenceImageRange.empty())
+      if( !confidenceImageBufferRange.empty())
         {
-        confidenceWeight = confidenceImageRange[indexValue];
+        confidenceWeight = confidenceImageBufferRange[indexValue];
         }
       weights->InsertElement( index, confidenceWeight );
       index++;
@@ -702,7 +702,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 ::CalculateConvergenceMeasurement( const RealImageType *fieldEstimate1,
                                    const RealImageType *fieldEstimate2 ) const
 {
-  using itk::Experimental::MakeImageRange;
+  using itk::Experimental::MakeImageBufferRange;
   using SubtracterType =
       SubtractImageFilter<RealImageType, RealImageType, RealImageType>;
   typename SubtracterType::Pointer subtracter = SubtracterType::New();
@@ -716,24 +716,24 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   RealType sigma = 0.0;
   RealType N = 0.0;
 
-  const auto maskImageRange = MakeImageRange(this->GetMaskImage());
-  const auto confidenceImageRange = MakeImageRange(this->GetConfidenceImage());
+  const auto maskImageBufferRange = MakeImageBufferRange(this->GetMaskImage());
+  const auto confidenceImageBufferRange = MakeImageBufferRange(this->GetConfidenceImage());
   const MaskPixelType maskLabel = this->GetMaskLabel();
   const bool useMaskLabel = this->GetUseMaskLabel();
 
-  const auto subtracterImageRange = MakeImageRange(subtracter->GetOutput());
-  const std::size_t numberOfPixels = subtracterImageRange.size();
+  const auto subtracterImageBufferRange = MakeImageBufferRange(subtracter->GetOutput());
+  const std::size_t numberOfPixels = subtracterImageBufferRange.size();
 
   for( std::size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue )
     {
-    if( ( maskImageRange.empty()
-          || ( useMaskLabel && maskImageRange[indexValue] == maskLabel )
-          || ( !useMaskLabel && maskImageRange[indexValue] != NumericTraits< MaskPixelType >::ZeroValue() )
+    if( ( maskImageBufferRange.empty()
+          || ( useMaskLabel && maskImageBufferRange[indexValue] == maskLabel )
+          || ( !useMaskLabel && maskImageBufferRange[indexValue] != NumericTraits< MaskPixelType >::ZeroValue() )
           )
-        && ( confidenceImageRange.empty() ||
-             confidenceImageRange[indexValue] > 0.0 ) )
+        && ( confidenceImageBufferRange.empty() ||
+             confidenceImageBufferRange[indexValue] > 0.0 ) )
       {
-      RealType pixel = std::exp( subtracterImageRange[indexValue] );
+      RealType pixel = std::exp( subtracterImageBufferRange[indexValue] );
       N += 1.0;
 
       if( N > 1.0 )

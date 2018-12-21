@@ -17,7 +17,7 @@
  *=========================================================================*/
 
  // First include the header file to be tested:
-#include "itkImageRange.h"
+#include "itkImageBufferRange.h"
 
 #include "itkImage.h"
 #include "itkMacro.h" // For itkNotUsed.
@@ -29,38 +29,38 @@
 #include <type_traits>  // For std::is_reference.
 
 // Test template instantiations for various ImageDimension values, and const Image:
-template class itk::Experimental::ImageRange<itk::Image<short, 1>>;
-template class itk::Experimental::ImageRange<itk::Image<short, 2>>;
-template class itk::Experimental::ImageRange<itk::Image<short, 3>>;
-template class itk::Experimental::ImageRange<itk::Image<short, 4>>;
-template class itk::Experimental::ImageRange<const itk::Image<short>>;
-template class itk::Experimental::ImageRange<itk::VectorImage<short>>;
+template class itk::Experimental::ImageBufferRange<itk::Image<short, 1>>;
+template class itk::Experimental::ImageBufferRange<itk::Image<short, 2>>;
+template class itk::Experimental::ImageBufferRange<itk::Image<short, 3>>;
+template class itk::Experimental::ImageBufferRange<itk::Image<short, 4>>;
+template class itk::Experimental::ImageBufferRange<const itk::Image<short>>;
+template class itk::Experimental::ImageBufferRange<itk::VectorImage<short>>;
 
-using itk::Experimental::ImageRange;
-using itk::Experimental::MakeImageRange;
+using itk::Experimental::ImageBufferRange;
+using itk::Experimental::MakeImageBufferRange;
 
 
 namespace
 {
-  // Tells whether or not ImageRange<TImage>::iterator::operator*() returns a reference.
+  // Tells whether or not ImageBufferRange<TImage>::iterator::operator*() returns a reference.
   // (If it does not return a reference, it actually returns a proxy to the pixel.)
   template <typename TImage>
-  constexpr bool DoesImageRangeIteratorDereferenceOperatorReturnReference()
+  constexpr bool DoesImageBufferRangeIteratorDereferenceOperatorReturnReference()
   {
-    using IteratorType = typename ImageRange<TImage>::iterator;
+    using IteratorType = typename ImageBufferRange<TImage>::iterator;
 
     return std::is_reference<decltype(*std::declval<IteratorType>())>::value;
   }
 
 
-  static_assert(DoesImageRangeIteratorDereferenceOperatorReturnReference<itk::Image<int>>(),
-    "ImageRange::iterator::operator*() should return a reference for an itk::Image.");
-  static_assert(DoesImageRangeIteratorDereferenceOperatorReturnReference<const itk::Image<int>>(),
-    "ImageRange::iterator::operator*() should return a reference for a 'const' itk::Image.");
-  static_assert(!DoesImageRangeIteratorDereferenceOperatorReturnReference<itk::VectorImage<int>>(),
-    "ImageRange::iterator::operator*() should not return a reference for an itk::VectorImage.");
-  static_assert(!DoesImageRangeIteratorDereferenceOperatorReturnReference<const itk::VectorImage<int>>(),
-    "ImageRange::iterator::operator*() should not return a reference for a 'const' itk::VectorImage.");
+  static_assert(DoesImageBufferRangeIteratorDereferenceOperatorReturnReference<itk::Image<int>>(),
+    "ImageBufferRange::iterator::operator*() should return a reference for an itk::Image.");
+  static_assert(DoesImageBufferRangeIteratorDereferenceOperatorReturnReference<const itk::Image<int>>(),
+    "ImageBufferRange::iterator::operator*() should return a reference for a 'const' itk::Image.");
+  static_assert(!DoesImageBufferRangeIteratorDereferenceOperatorReturnReference<itk::VectorImage<int>>(),
+    "ImageBufferRange::iterator::operator*() should not return a reference for an itk::VectorImage.");
+  static_assert(!DoesImageBufferRangeIteratorDereferenceOperatorReturnReference<const itk::VectorImage<int>>(),
+    "ImageBufferRange::iterator::operator*() should not return a reference for a 'const' itk::VectorImage.");
 
 
   template<typename TImage>
@@ -146,20 +146,20 @@ namespace
     SetVectorLengthIfImageIsVectorImage(*image, 1);
     image->Allocate();
 
-    EXPECT_FALSE(ImageRange<TImage>{ *image }.empty());
+    EXPECT_FALSE(ImageBufferRange<TImage>{ *image }.empty());
   }
 
 
   template <typename TImage>
-  void ExpectMakeImageRangeReturnsEmptyRangeForNullptr()
+  void ExpectMakeImageBufferRangeReturnsEmptyRangeForNullptr()
   {
     TImage* const imageNullptr = nullptr;
-    EXPECT_TRUE(MakeImageRange(imageNullptr).empty());
+    EXPECT_TRUE(MakeImageBufferRange(imageNullptr).empty());
   }
 
 
   template <typename TImage>
-  void ExpectMakeImageRangeReturnsCorrectImageRangeForNonEmptyImage()
+  void ExpectMakeImageBufferRangeReturnsCorrectRangeForNonEmptyImage()
   {
     // First create a non-empty image:
     const auto image = TImage::New();
@@ -171,11 +171,11 @@ namespace
 
     auto&& imageRef = *image;
 
-    const auto expectedImageRange = ImageRange<TImage>{ imageRef };
-    const auto actualImageRange = MakeImageRange(&imageRef);
+    const auto expectedRange = ImageBufferRange<TImage>{ imageRef };
+    const auto actualRange = MakeImageBufferRange(&imageRef);
 
-    EXPECT_EQ(actualImageRange.begin(), expectedImageRange.begin());
-    EXPECT_EQ(actualImageRange.end(), expectedImageRange.end());
+    EXPECT_EQ(actualRange.begin(), expectedRange.begin());
+    EXPECT_EQ(actualRange.end(), expectedRange.end());
   }
 
 }  // namespace
@@ -183,18 +183,18 @@ namespace
 
 // Tests that a begin iterator compares equal to another begin iterator of the
 // same range. Also does this test for end iterators.
-TEST(ImageRange, EquivalentBeginOrEndIteratorsCompareEqual)
+TEST(ImageBufferRange, EquivalentBeginOrEndIteratorsCompareEqual)
 {
   using ImageType = itk::Image<int>;
 
   const auto image = CreateImage<ImageType>(2, 3);
 
-  ImageRange<ImageType> range{ *image };
+  ImageBufferRange<ImageType> range{ *image };
 
-  const ImageRange<ImageType>::iterator begin = range.begin();
-  const ImageRange<ImageType>::iterator end = range.end();
-  const ImageRange<ImageType>::const_iterator cbegin = range.cbegin();
-  const ImageRange<ImageType>::const_iterator cend = range.cend();
+  const ImageBufferRange<ImageType>::iterator begin = range.begin();
+  const ImageBufferRange<ImageType>::iterator end = range.end();
+  const ImageBufferRange<ImageType>::const_iterator cbegin = range.cbegin();
+  const ImageBufferRange<ImageType>::const_iterator cend = range.cend();
 
   // An iterator object compares equal to itself:
   EXPECT_EQ(begin, begin);
@@ -216,13 +216,13 @@ TEST(ImageRange, EquivalentBeginOrEndIteratorsCompareEqual)
 }
 
 
-TEST(ImageRange, BeginAndEndDoNotCompareEqual)
+TEST(ImageBufferRange, BeginAndEndDoNotCompareEqual)
 {
   using ImageType = itk::Image<int>;
 
   const auto image = CreateImage<ImageType>(2, 3);
 
-  ImageRange<ImageType> range{ *image };
+  ImageBufferRange<ImageType> range{ *image };
 
   EXPECT_FALSE(range.begin() == range.end());
   EXPECT_NE(range.begin(), range.end());
@@ -230,35 +230,35 @@ TEST(ImageRange, BeginAndEndDoNotCompareEqual)
 
 
 // Tests that an iterator converts (implicitly) to a const_iterator.
-TEST(ImageRange, IteratorConvertsToConstIterator)
+TEST(ImageBufferRange, IteratorConvertsToConstIterator)
 {
   using ImageType = itk::Image<int>;
 
   const auto image = CreateImage<ImageType>(2, 3);
 
-  ImageRange<ImageType> range{ *image };
+  ImageBufferRange<ImageType> range{ *image };
 
-  const ImageRange<ImageType>::iterator begin = range.begin();
-  const ImageRange<ImageType>::const_iterator const_begin_from_begin = begin;
+  const ImageBufferRange<ImageType>::iterator begin = range.begin();
+  const ImageBufferRange<ImageType>::const_iterator const_begin_from_begin = begin;
   EXPECT_EQ(const_begin_from_begin, begin);
 
-  const ImageRange<ImageType>::const_iterator const_begin_from_range_begin = range.begin();
+  const ImageBufferRange<ImageType>::const_iterator const_begin_from_range_begin = range.begin();
   EXPECT_EQ(const_begin_from_range_begin, range.begin());
 }
 
 
-// Tests that the iterators of an ImageRange can be used as first and
+// Tests that the iterators of an ImageBufferRange can be used as first and
 // second argument of an std::vector constructor.
-TEST(ImageRange, IteratorsCanBePassedToStdVectorConstructor)
+TEST(ImageBufferRange, IteratorsCanBePassedToStdVectorConstructor)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
   enum { sizeX = 9, sizeY = 11 };
   const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
 
-  ImageRange<ImageType> range{ *image };
+  ImageBufferRange<ImageType> range{ *image };
 
-  // Easily store all pixels of the ImageRange in an std::vector:
+  // Easily store all pixels of the ImageBufferRange in an std::vector:
   const std::vector<PixelType> stdVector(range.begin(), range.end());
   EXPECT_EQ(stdVector, std::vector<PixelType>(range.cbegin(), range.cend()));
   EXPECT_TRUE(std::equal(stdVector.begin(), stdVector.end(), range.cbegin()));
@@ -267,14 +267,14 @@ TEST(ImageRange, IteratorsCanBePassedToStdVectorConstructor)
 
 // Tests that the iterators can be used as first and
 // second argument of std::reverse (which requires bidirectional iterators).
-TEST(ImageRange, IteratorsCanBePassedToStdReverseCopy)
+TEST(ImageBufferRange, IteratorsCanBePassedToStdReverseCopy)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
   enum { sizeX = 9, sizeY = 11 };
   const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
 
-  ImageRange<ImageType> range{ *image };
+  ImageBufferRange<ImageType> range{ *image };
 
   const unsigned numberOfPixels = sizeX * sizeY;
 
@@ -283,7 +283,7 @@ TEST(ImageRange, IteratorsCanBePassedToStdReverseCopy)
   std::vector<PixelType> reversedStdVector2(numberOfPixels);
   std::vector<PixelType> reversedStdVector3(numberOfPixels);
 
-  // Checks bidirectionality of the ImageRange iterators!
+  // Checks bidirectionality of the ImageBufferRange iterators!
   std::reverse_copy(stdVector.cbegin(), stdVector.cend(), reversedStdVector1.begin());
   std::reverse_copy(range.begin(), range.end(), reversedStdVector2.begin());
   std::reverse_copy(range.cbegin(), range.cend(), reversedStdVector3.begin());
@@ -301,14 +301,14 @@ TEST(ImageRange, IteratorsCanBePassedToStdReverseCopy)
 
 // Tests that the iterators can be used as first and
 // second argument of std::inner_product.
-TEST(ImageRange, IteratorsCanBePassedToStdInnerProduct)
+TEST(ImageBufferRange, IteratorsCanBePassedToStdInnerProduct)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
   enum { sizeX = 2, sizeY = 2 };
   const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
 
-  ImageRange<ImageType> range{ *image };
+  ImageBufferRange<ImageType> range{ *image };
 
   const double innerProduct = std::inner_product(range.begin(), range.end(), range.begin(), 0.0);
 
@@ -318,14 +318,14 @@ TEST(ImageRange, IteratorsCanBePassedToStdInnerProduct)
 
 // Tests that the iterators can be used as first and
 // second argument of std::for_each.
-TEST(ImageRange, IteratorsCanBePassedToStdForEach)
+TEST(ImageBufferRange, IteratorsCanBePassedToStdForEach)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
   enum { sizeX = 9, sizeY = 11 };
   const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
 
-  ImageRange<ImageType> range{ *image };
+  ImageBufferRange<ImageType> range{ *image };
 
   std::for_each(range.begin(), range.end(), [](const PixelType pixel)
   {
@@ -334,13 +334,13 @@ TEST(ImageRange, IteratorsCanBePassedToStdForEach)
 }
 
 
-// Tests that an ImageRange can be used as the "range expression" of a
+// Tests that an ImageBufferRange can be used as the "range expression" of a
 // C++11 range-based for loop.
-TEST(ImageRange, CanBeUsedAsExpressionOfRangeBasedForLoop)
+TEST(ImageBufferRange, CanBeUsedAsExpressionOfRangeBasedForLoop)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
-  using RangeType = ImageRange<ImageType>;
+  using RangeType = ImageBufferRange<ImageType>;
 
   enum { sizeX = 2, sizeY = 3 };
   const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
@@ -366,22 +366,22 @@ TEST(ImageRange, CanBeUsedAsExpressionOfRangeBasedForLoop)
 
 // Tests that the distance between two iterators, it1 and it2, can be obtained by
 // subtraction (it2 - it1).
-TEST(ImageRange, DistanceBetweenIteratorsCanBeObtainedBySubtraction)
+TEST(ImageBufferRange, DistanceBetweenIteratorsCanBeObtainedBySubtraction)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
   enum { sizeX = 9, sizeY = 11 };
   const auto image = CreateImage<ImageType>(sizeX, sizeY);
 
-  ImageRange<ImageType> range{ *image };
+  ImageBufferRange<ImageType> range{ *image };
 
-  ImageRange<ImageType>::iterator it1 = range.begin();
+  ImageBufferRange<ImageType>::iterator it1 = range.begin();
 
   const std::size_t numberOfPixels = range.size();
 
   for (std::size_t i1 = 0; i1 < numberOfPixels; ++i1, ++it1)
   {
-    ImageRange<ImageType>::iterator it2 = it1;
+    ImageBufferRange<ImageType>::iterator it2 = it1;
 
     for (std::size_t i2 = 0; i2 < numberOfPixels; ++i2, ++it2)
     {
@@ -393,13 +393,13 @@ TEST(ImageRange, DistanceBetweenIteratorsCanBeObtainedBySubtraction)
 
 // Tests that iterator::reference and const_iterator::reference act like a real
 // (built-in) C++ reference to the pixel type.
-TEST(ImageRange, IteratorReferenceActsLikeARealReference)
+TEST(ImageBufferRange, IteratorReferenceActsLikeARealReference)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
   enum { sizeX = 9, sizeY = 11 };
   const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
-  using RangeType = ImageRange<ImageType>;
+  using RangeType = ImageBufferRange<ImageType>;
 
   RangeType range{ *image };
   RangeType::iterator it = range.begin();
@@ -437,8 +437,8 @@ TEST(ImageRange, IteratorReferenceActsLikeARealReference)
 }
 
 
-// Tests that ImageRange<VectorImage<T>> is supported well.
-TEST(ImageRange, SupportsVectorImage)
+// Tests that ImageBufferRange<VectorImage<T>> is supported well.
+TEST(ImageBufferRange, SupportsVectorImage)
 {
   using ImageType = itk::VectorImage<unsigned char>;
   using PixelType = ImageType::PixelType;
@@ -452,7 +452,7 @@ TEST(ImageRange, SupportsVectorImage)
   fillPixelValue.Fill(42);
   image->FillBuffer(fillPixelValue);
 
-  using RangeType = ImageRange<ImageType>;
+  using RangeType = ImageBufferRange<ImageType>;
   RangeType range{ *image };
 
   for (PixelType pixelValue : range)
@@ -473,14 +473,14 @@ TEST(ImageRange, SupportsVectorImage)
 }
 
 
-TEST(ImageRange, IteratorsCanBePassedToStdSort)
+TEST(ImageBufferRange, IteratorsCanBePassedToStdSort)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
   enum { sizeX = 3, sizeY = 3 };
   const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
 
-  ImageRange<ImageType> range{ *image };
+  ImageBufferRange<ImageType> range{ *image };
 
   // Initial order: (1, 2, 3, ..., 9).
   const std::vector<PixelType> initiallyOrderedPixels(range.cbegin(), range.cend());
@@ -500,14 +500,14 @@ TEST(ImageRange, IteratorsCanBePassedToStdSort)
 }
 
 
-TEST(ImageRange, IteratorsCanBePassedToStdNthElement)
+TEST(ImageBufferRange, IteratorsCanBePassedToStdNthElement)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
   enum { sizeX = 3, sizeY = 3 };
   const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
 
-  ImageRange<ImageType> range{ *image };
+  ImageBufferRange<ImageType> range{ *image };
 
   std::reverse(range.begin(), range.end());
 
@@ -528,9 +528,9 @@ TEST(ImageRange, IteratorsCanBePassedToStdNthElement)
 }
 
 
-TEST(ImageRange, IteratorIsDefaultConstructible)
+TEST(ImageBufferRange, IteratorIsDefaultConstructible)
 {
-  using RangeType = ImageRange<itk::Image<int>>;
+  using RangeType = ImageBufferRange<itk::Image<int>>;
 
   RangeType::iterator defaultConstructedIterator{};
 
@@ -546,11 +546,11 @@ TEST(ImageRange, IteratorIsDefaultConstructible)
 }
 
 
-TEST(ImageRange, IteratorsSupportRandomAccess)
+TEST(ImageBufferRange, IteratorsSupportRandomAccess)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
-  using RangeType = ImageRange<ImageType>;
+  using RangeType = ImageBufferRange<ImageType>;
   enum { sizeX = 3, sizeY = 3 };
   const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
 
@@ -666,11 +666,11 @@ TEST(ImageRange, IteratorsSupportRandomAccess)
 }
 
 
-TEST(ImageRange, SupportsSubscript)
+TEST(ImageBufferRange, SupportsSubscript)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
-  using RangeType = ImageRange<ImageType>;
+  using RangeType = ImageBufferRange<ImageType>;
 
   enum { sizeX = 3, sizeY = 3 };
   const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
@@ -690,11 +690,11 @@ TEST(ImageRange, SupportsSubscript)
 }
 
 
-TEST(ImageRange, ProvidesReverseIterators)
+TEST(ImageBufferRange, ProvidesReverseIterators)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
-  using RangeType = ImageRange<ImageType>;
+  using RangeType = ImageBufferRange<ImageType>;
   enum { sizeX = 9, sizeY = 11 };
   const auto image = CreateImageFilledWithSequenceOfNaturalNumbers<ImageType>(sizeX, sizeY);
 
@@ -732,49 +732,49 @@ TEST(ImageRange, ProvidesReverseIterators)
 
 
 // Tests that begin() == end() for a default-constructed range.
-TEST(ImageRange, BeginIsEndWhenDefaultConstructed)
+TEST(ImageBufferRange, BeginIsEndWhenDefaultConstructed)
 {
-  ExpectBeginIsEndWhenRangeIsDefaultConstructed<ImageRange<itk::Image<int>>>();
-  ExpectBeginIsEndWhenRangeIsDefaultConstructed<ImageRange<itk::VectorImage<int>>>();
+  ExpectBeginIsEndWhenRangeIsDefaultConstructed<ImageBufferRange<itk::Image<int>>>();
+  ExpectBeginIsEndWhenRangeIsDefaultConstructed<ImageBufferRange<itk::VectorImage<int>>>();
 }
 
 
 // Tests that size() returns 0 for a default-constructed range.
-TEST(ImageRange, SizeIsZeroWhenDefaultConstructed)
+TEST(ImageBufferRange, SizeIsZeroWhenDefaultConstructed)
 {
-  ExpectZeroSizeWhenRangeIsDefaultConstructed<ImageRange<itk::Image<int>>>();
-  ExpectZeroSizeWhenRangeIsDefaultConstructed<ImageRange<itk::VectorImage<int>>>();
+  ExpectZeroSizeWhenRangeIsDefaultConstructed<ImageBufferRange<itk::Image<int>>>();
+  ExpectZeroSizeWhenRangeIsDefaultConstructed<ImageBufferRange<itk::VectorImage<int>>>();
 }
 
 
 // Tests empty() for a default-constructed range.
-TEST(ImageRange, IsEmptyWhenDefaultConstructed)
+TEST(ImageBufferRange, IsEmptyWhenDefaultConstructed)
 {
-  ExpectRangeIsEmptyWhenDefaultConstructed<ImageRange<itk::Image<int>>>();
-  ExpectRangeIsEmptyWhenDefaultConstructed<ImageRange<itk::VectorImage<int>>>();
+  ExpectRangeIsEmptyWhenDefaultConstructed<ImageBufferRange<itk::Image<int>>>();
+  ExpectRangeIsEmptyWhenDefaultConstructed<ImageBufferRange<itk::VectorImage<int>>>();
 }
 
 
 // Tests that range.empty() returns false for a non-empty image.
-TEST(ImageRange, IsNotEmptyWhenImageIsNonEmpty)
+TEST(ImageBufferRange, IsNotEmptyWhenImageIsNonEmpty)
 {
   ExpectRangeIsNotEmptyForNonEmptyImage<itk::Image<int>>();
   ExpectRangeIsNotEmptyForNonEmptyImage<itk::VectorImage<int>>();
 }
 
 
-// Tests that MakeImageRange(imagePtr) returns an empty range when the argument (imagePtr) is a nullptr.
-TEST(ImageRange, MakeImageRangeReturnsEmptyRangeForNullptr)
+// Tests that MakeImageBufferRange(imagePtr) returns an empty range when the argument (imagePtr) is a nullptr.
+TEST(ImageBufferRange, MakeImageBufferRangeReturnsEmptyRangeForNullptr)
 {
-  ExpectMakeImageRangeReturnsEmptyRangeForNullptr<itk::Image<int>>();
-  ExpectMakeImageRangeReturnsEmptyRangeForNullptr<itk::VectorImage<int>>();
+  ExpectMakeImageBufferRangeReturnsEmptyRangeForNullptr<itk::Image<int>>();
+  ExpectMakeImageBufferRangeReturnsEmptyRangeForNullptr<itk::VectorImage<int>>();
 }
 
 
-// Tests that MakeImageRange(image) returns the correct ImageRange for a non-empty image:
-// For a non-empty image, MakeImageRange(&image) should be equivalent to ImageRange{image}.
-TEST(ImageRange, MakeImageRangeReturnsCorrectImageRangeForNonEmptyImage)
+// Tests that MakeImageBufferRange(image) returns the correct ImageBufferRange for a non-empty image:
+// For a non-empty image, MakeImageBufferRange(&image) should be equivalent to ImageBufferRange{image}.
+TEST(ImageBufferRange, MakeImageBufferRangeReturnsCorrectRangeForNonEmptyImage)
 {
-  ExpectMakeImageRangeReturnsCorrectImageRangeForNonEmptyImage<itk::Image<int>>();
-  ExpectMakeImageRangeReturnsCorrectImageRangeForNonEmptyImage<itk::VectorImage<int>>();
+  ExpectMakeImageBufferRangeReturnsCorrectRangeForNonEmptyImage<itk::Image<int>>();
+  ExpectMakeImageBufferRangeReturnsCorrectRangeForNonEmptyImage<itk::VectorImage<int>>();
 }
