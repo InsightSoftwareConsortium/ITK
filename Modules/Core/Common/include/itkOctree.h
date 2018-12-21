@@ -20,9 +20,7 @@
 
 #include "itkOctreeNode.h"
 #include "itkImage.h"
-/**
- * Octree data structure
- */
+
 namespace itk
 {
 enum {
@@ -30,14 +28,15 @@ enum {
   B2_MASKFILE_WHITE = 1,
   B2_MASKFILE_GRAY = 2
   };
+
 /**
  * The enumeration to define the planar orientation of the octree
  */
 enum OctreePlaneType {
-  UNKNOWN_PLANE,   /** < The plane is Unknown */
-  SAGITAL_PLANE,   /** < The plane is Sagital */
-  CORONAL_PLANE,   /** < The plane is Coronal */
-  TRANSVERSE_PLANE /** < The plane is Transverse */
+  UNKNOWN_PLANE,   ///< The plane is Unknown
+  SAGITAL_PLANE,   ///< The plane is Sagital
+  CORONAL_PLANE,   ///< The plane is Coronal
+  TRANSVERSE_PLANE ///< The plane is Transverse
   };
 
 /**
@@ -163,15 +162,16 @@ private:
                                   unsigned y, unsigned z, unsigned xsize,
                                   unsigned ysize, unsigned zsize);
 
-  enum OctreePlaneType m_Plane{UNKNOWN_PLANE}; // The orientation of the plane for this octree
-  unsigned int         m_Width{0}; // The width of the Octree
-                                // ( This is always a power of 2, and large
-                                // enough to contain MAX(DIMS[1,2,3]))
-  unsigned int          m_Depth{0};         // < The depth of the Octree
-  unsigned int          m_TrueDims[3];   // The true dimensions of the image
-  OctreeNodeBranch      m_ColorTable[ColorTableSize];
-  OctreeNode   m_Tree;
-  // OctreeColorMapFunction m_ColorMapFunction;
+  OctreePlaneType m_Plane{UNKNOWN_PLANE}; // The orientation of the plane for this octree
+
+  // The width of the Octree. This is always a power of 2,
+  // and large enough to contain MAX(DIMS[1,2,3])
+  unsigned int m_Width{0};
+
+  unsigned int        m_Depth{0}; // The depth of the Octree
+  unsigned int        m_TrueDims[3]; // The true dimensions of the image
+  OctreeNodeBranch    m_ColorTable[ColorTableSize];
+  OctreeNode          m_Tree;
   MappingFunctionType m_MappingFunction;
 };
 }
@@ -180,4 +180,4 @@ private:
 #include "itkOctree.hxx"
 #endif
 
-#endif                          /* itkOctree_h */
+#endif // itkOctree_h
