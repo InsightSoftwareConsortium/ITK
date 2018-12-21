@@ -1224,20 +1224,15 @@ DataObject::Pointer
 ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>
 ::MakeOutput( DataObjectPointerArraySizeType output )
 {
-  switch ( output )
-    {
-    case 0:
-      {
-      OutputTransformPointer ptr;
-      Self::MakeOutputTransform(ptr);
-      DecoratedOutputTransformPointer transformDecorator =  DecoratedOutputTransformType::New();
-      transformDecorator->Set( ptr );
-      return transformDecorator.GetPointer();
-      }
-    default:
-      itkExceptionMacro( "MakeOutput request for an output number larger than the expected number of outputs." );
-      return nullptr;
-    }
+  if (output > 0)
+  {
+    itkExceptionMacro("MakeOutput request for an output number larger than the expected number of outputs.");
+  }
+  OutputTransformPointer ptr;
+  Self::MakeOutputTransform(ptr);
+  DecoratedOutputTransformPointer transformDecorator =  DecoratedOutputTransformType::New();
+  transformDecorator->Set( ptr );
+  return transformDecorator.GetPointer();
 }
 
 template<typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
