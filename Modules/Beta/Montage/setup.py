@@ -20,7 +20,11 @@ setup(
     package_dir={'itk': 'itk'},
     download_url=r'https://github.com/InsightSoftwareConsortium/ITKMontage',
     description=r'Montaging for microscopy imaging files.',
-    long_description='ITK is an open-source, cross-platform library that provides developers with an extensive suite of software tools for image analysis. Developed through extreme programming methodologies, ITK employs leading-edge algorithms for registering and segmenting multidimensional scientific images.',
+    long_description='itk-montage provides classes for montaging of '
+                 'microscopy imaging files.\n'
+                 'Please refer to:\n'
+                 'Bican, J. "Phase Correlation Method for ITK" ',
+                 'Insight Journal, July-December 2006, http://hdl.handle.net/1926/396.',
     classifiers=[
         "License :: OSI Approved :: Apache Software License",
         "Programming Language :: Python",
@@ -41,8 +45,8 @@ setup(
         "Operating System :: MacOS"
         ],
     license='Apache',
-    keywords='ITK InsightToolkit',
-    url=r'https://itk.org/',
+    keywords='ITK InsightToolkit Montage Image-stitching Image-montage',
+    url=r'https://github.com/InsightSoftwareConsortium/ITKMontage',
     install_requires=[
         r'itk'
     ]
