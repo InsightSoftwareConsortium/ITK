@@ -139,7 +139,7 @@ BSplineScatteredDataPointSetToGradientImageFilter<TInputPointSet, TOutputValueTy
   {
     ctrlPointSpacing[i] =
       static_cast<double>(sizeMinus1[i]) * spacing[i] /
-      static_cast<double>(m_NumberOfControlPoints[i] * vcl_pow(2., static_cast<int>(m_NumberOfLevels[i] - 1)) - 1.0);
+      static_cast<double>(m_NumberOfControlPoints[i] * std::pow(2., static_cast<int>(m_NumberOfLevels[i] - 1)) - 1.0);
   }
 
   // We check to make sure we not ad the boundary of the image, because we get
