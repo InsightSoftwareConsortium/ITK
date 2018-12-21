@@ -165,15 +165,11 @@ DataObject::Pointer
 ImageToSpatialObjectRegistrationMethod< TFixedImage, TMovingSpatialObject >
 ::MakeOutput(DataObjectPointerArraySizeType output)
 {
-  switch ( output )
-    {
-    case 0:
-      return TransformOutputType::New().GetPointer();
-      break;
-    default:
-      itkExceptionMacro("MakeOutput request for an output number larger than the expected number of outputs");
-      return nullptr;
-    }
+  if (output > 0)
+  {
+    itkExceptionMacro("MakeOutput request for an output number larger than the expected number of outputs.");
+  }
+  return TransformOutputType::New().GetPointer();
 }
 
 template< typename TFixedImage, typename TMovingSpatialObject >
