@@ -29,7 +29,6 @@ template <typename TPointSet, typename TOutput, typename TCoordRep>
 ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
 ::ManifoldParzenWindowsPointSetFunction() :
   m_PointsLocator( nullptr ),
-
   m_RegularizationSigma( 1.0 ),
   m_KernelSigma( 1.0 )
 

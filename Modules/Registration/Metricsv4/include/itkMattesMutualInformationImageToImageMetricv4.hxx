@@ -28,7 +28,6 @@ namespace itk
 template <typename TFixedImage, typename TMovingImage, typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::MattesMutualInformationImageToImageMetricv4() :
-
   m_MovingImageNormalizedMin(0.0),
   m_FixedImageNormalizedMin(0.0),
   m_FixedImageTrueMin(0.0),
@@ -37,16 +36,12 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
   m_MovingImageTrueMax(0.0),
   m_FixedImageBinSize(0.0),
   m_MovingImageBinSize(0.0),
-
   m_CubicBSplineKernel(nullptr),
   m_CubicBSplineDerivativeKernel(nullptr),
-
   m_PRatioArray(0),
-
   // Initialize memory
   m_MovingImageMarginalPDF(0),
   m_ThreaderFixedImageMarginalPDF(0),
-
   // For multi-threading the metric
   m_ThreaderJointPDF(0),
   m_JointPDFDerivatives(nullptr),

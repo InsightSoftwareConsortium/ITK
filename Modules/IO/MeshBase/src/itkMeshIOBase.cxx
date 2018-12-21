@@ -21,8 +21,7 @@
 namespace itk
 {
 MeshIOBase
-::MeshIOBase():
-
+::MeshIOBase() :
   m_NumberOfPoints(itk::NumericTraits< SizeValueType >::ZeroValue()),
   m_NumberOfCells(itk::NumericTraits< SizeValueType >::ZeroValue()),
   m_NumberOfPointPixels(itk::NumericTraits< SizeValueType >::ZeroValue()),

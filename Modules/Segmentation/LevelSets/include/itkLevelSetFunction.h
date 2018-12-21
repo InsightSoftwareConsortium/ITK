@@ -293,7 +293,6 @@ public:
 
 protected:
   LevelSetFunction() :
-
     m_EpsilonMagnitude(static_cast< ScalarValueType >( 1.0e-5 )),
     m_AdvectionWeight(NumericTraits< ScalarValueType >::ZeroValue()),
     m_PropagationWeight(NumericTraits< ScalarValueType >::ZeroValue()),

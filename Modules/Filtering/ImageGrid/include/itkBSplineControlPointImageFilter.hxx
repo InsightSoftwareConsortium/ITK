@@ -34,7 +34,6 @@ namespace itk
 template<typename TInputImage, typename TOutputImage>
 BSplineControlPointImageFilter<TInputImage, TOutputImage>
 ::BSplineControlPointImageFilter() :
-
   m_NumberOfLevels( 1 )
 
 {

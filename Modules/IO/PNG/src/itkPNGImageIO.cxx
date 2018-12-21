@@ -279,7 +279,6 @@ void PNGImageIO::Read(void *buffer)
 }
 
 PNGImageIO::PNGImageIO() :
-
   m_ColorPalette( 0 )// palette has no elements by default
 {
   this->SetNumberOfDimensions( 2 );

@@ -31,7 +31,6 @@ constexpr double DIFF_TOLERENCE = 0.001;
 
 template< typename TCoordRepType >
 VoronoiDiagram2DGenerator< TCoordRepType >::VoronoiDiagram2DGenerator() :
-
   m_OutputVD( Self::GetOutput() ),
   m_BottomSite( nullptr )
 

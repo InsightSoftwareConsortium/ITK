@@ -28,7 +28,6 @@ namespace itk
 template< typename TInputImage, typename TOutputMesh >
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 ::BinaryMask3DMeshSource() :
-
   m_ObjectValue(NumericTraits< InputPixelType >::OneValue()),
   m_OutputMesh(nullptr),
   m_InputImage(nullptr)

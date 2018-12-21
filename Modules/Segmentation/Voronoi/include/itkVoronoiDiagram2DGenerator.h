@@ -187,9 +187,7 @@ private:
       m_Left(nullptr),
       m_Right(nullptr),
       m_Edge(nullptr),
-
       m_Vert(nullptr),
-
       m_Next(nullptr)
     {}
 

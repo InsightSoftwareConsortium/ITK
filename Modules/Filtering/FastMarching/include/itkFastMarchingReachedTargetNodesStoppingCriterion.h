@@ -152,7 +152,6 @@ protected:
   FastMarchingReachedTargetNodesStoppingCriterion() :
     Superclass(),
     m_TargetCondition(AllTargets),
-
     m_TargetOffset(NumericTraits< OutputPixelType >::ZeroValue()),
     m_StoppingValue(NumericTraits< OutputPixelType >::ZeroValue())
 

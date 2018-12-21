@@ -84,7 +84,6 @@ public:
 
   AnnulusOperator():
     NeighborhoodOperator< TPixel, TDimension, TAllocator >(),
-
     m_InteriorValue(NumericTraits< PixelType >::ZeroValue()),
     m_AnnulusValue(NumericTraits< PixelType >::OneValue()),
     m_ExteriorValue(NumericTraits< PixelType >::ZeroValue()),

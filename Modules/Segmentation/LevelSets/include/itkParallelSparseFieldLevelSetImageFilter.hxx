@@ -131,10 +131,8 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::ParallelSparseFieldLevelSetImageFilter() :
-
   m_NumberOfLayers(ImageDimension),
   m_IsoSurfaceValue(m_ValueZero),
-
   m_Data(nullptr)
 
 {

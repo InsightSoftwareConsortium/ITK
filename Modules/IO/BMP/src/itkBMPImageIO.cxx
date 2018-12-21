@@ -24,7 +24,6 @@ namespace itk
 {
 /** Constructor */
 BMPImageIO::BMPImageIO() :
-
   m_ColorPalette( 0 ) // palette has no element by default
 {
   this->SetNumberOfDimensions( 2 );

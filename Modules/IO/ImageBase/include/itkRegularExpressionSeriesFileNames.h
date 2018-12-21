@@ -112,7 +112,6 @@ public:
 protected:
   RegularExpressionSeriesFileNames():
     m_Directory("."),
-
     m_RegularExpression(".*\\.([0-9]+)")
   {}
   ~RegularExpressionSeriesFileNames() override = default;

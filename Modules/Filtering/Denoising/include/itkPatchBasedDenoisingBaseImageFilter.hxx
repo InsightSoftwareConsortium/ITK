@@ -28,11 +28,8 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 ::PatchBasedDenoisingBaseImageFilter() :
-
   m_NoiseModel( NOMODEL ),
-
   m_ComponentSpace( EUCLIDEAN ),
-
   m_State( UNINITIALIZED )
 {
   m_InputImage  = nullptr;

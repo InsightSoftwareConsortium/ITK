@@ -30,8 +30,7 @@ namespace itk
 {
 template< typename TInputImage, typename TOutputImage >
 RegionalMaximaImageFilter< TInputImage, TOutputImage >
-::RegionalMaximaImageFilter():
-
+::RegionalMaximaImageFilter() :
   m_ForegroundValue( NumericTraits< OutputImagePixelType >::max() ),
   m_BackgroundValue( NumericTraits< OutputImagePixelType >::NonpositiveMin() )
 {

@@ -210,9 +210,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
   m_InputMask( nullptr ),
   m_OutputMask( nullptr ),
   m_InternalInput( InternalImageType::New() ),
-
   m_SlabBackgroundMinimumThreshold( NumericTraits< InputImagePixelType >::min() ),
-
   m_OptimizerShrinkFactor( std::pow(m_OptimizerGrowthFactor, -0.25) )
 {
   m_NormalVariateGenerator->Initialize( time(nullptr) );

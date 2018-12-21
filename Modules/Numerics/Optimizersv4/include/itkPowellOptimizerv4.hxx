@@ -24,8 +24,7 @@ namespace itk
 {
 template<typename TInternalComputationValueType>
 PowellOptimizerv4<TInternalComputationValueType>
-::PowellOptimizerv4():
-
+::PowellOptimizerv4() :
   m_CurrentCost(0)
 
 {

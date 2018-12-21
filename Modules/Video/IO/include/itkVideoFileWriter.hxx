@@ -33,7 +33,6 @@ VideoFileWriter< TInputVideoStream >
 ::VideoFileWriter() :
   m_FileName(""),
   m_VideoIO(nullptr),
-
   m_FourCC("MP42")
 
 {

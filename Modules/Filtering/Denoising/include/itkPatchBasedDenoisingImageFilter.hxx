@@ -39,16 +39,13 @@ template <typename TInputImage, typename TOutputImage>
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::PatchBasedDenoisingImageFilter() :
   m_UpdateBuffer( OutputImageType::New() ),
-
   m_ZeroPixel(),
   m_MinSigma( NumericTraits<RealValueType>::min() * 100 ), // to avoid divide by zero
   m_MinProbability( NumericTraits<RealValueType>::min() * 100 ), // to avoid divide by zero
   m_SigmaUpdateDecimationFactor( static_cast<unsigned int>
                                 ( Math::Round<double>( 1.0 / m_KernelBandwidthFractionPixelsForEstimation ) ) ),
-
   m_NoiseSigma( 0.0 ),
   m_NoiseSigmaSquared( 0.0 ),
-
   m_SearchSpaceList( ListAdaptorType::New() )
 {
   // By default, turn off automatic kernel bandwidth sigma estimation

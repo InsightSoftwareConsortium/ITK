@@ -35,16 +35,11 @@ namespace itk
 template <typename TFixedImage, typename TMovingImage>
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 ::MattesMutualInformationImageToImageMetric() :
-
-
   m_CubicBSplineKernel(nullptr),
   m_CubicBSplineDerivativeKernel(nullptr),
-
   m_PRatioArray(0,0),
-
   // Initialize memory
   m_MovingImageMarginalPDF(0),
-
   m_MMIMetricPerThreadVariables(nullptr)
 
 {

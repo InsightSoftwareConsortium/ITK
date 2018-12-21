@@ -49,7 +49,6 @@ public:
 template< typename TInput, typename TOutput >
 FastMarchingImageFilterBase< TInput, TOutput >::
 FastMarchingImageFilterBase() :
-
   m_LabelImage( LabelImageType::New() )
 {
   m_StartIndex.Fill(0);

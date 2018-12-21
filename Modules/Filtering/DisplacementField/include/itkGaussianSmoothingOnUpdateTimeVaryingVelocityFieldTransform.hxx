@@ -34,7 +34,6 @@ namespace itk
 template<typename TParametersValueType, unsigned int NDimensions>
 GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>
 ::GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform() :
-
   m_GaussianSpatialSmoothingVarianceForTheUpdateField(3.0),
   m_GaussianSpatialSmoothingVarianceForTheTotalField(0.5),
   m_GaussianTemporalSmoothingVarianceForTheUpdateField(0.25),

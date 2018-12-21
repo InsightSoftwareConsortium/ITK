@@ -30,9 +30,7 @@ namespace itk
 template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
 HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
 ::HoughTransform2DCirclesImageFilter() :
-
   m_GradientNormThreshold{ 1.0 },
-
   m_UseImageSpacing{ true }
 
 {
