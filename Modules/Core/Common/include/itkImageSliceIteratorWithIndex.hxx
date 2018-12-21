@@ -24,12 +24,6 @@ namespace itk
 {
 template< typename TImage >
 ImageSliceIteratorWithIndex< TImage >
-::ImageSliceIteratorWithIndex():
-  ImageSliceConstIteratorWithIndex< TImage >()
-{}
-
-template< typename TImage >
-ImageSliceIteratorWithIndex< TImage >
 ::ImageSliceIteratorWithIndex(ImageType *ptr, const RegionType & region):
   ImageSliceConstIteratorWithIndex< TImage >(ptr, region)
 {}

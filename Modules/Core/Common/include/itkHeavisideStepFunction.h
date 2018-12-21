@@ -82,7 +82,7 @@ public:
 
 protected:
   HeavisideStepFunction();
-  ~HeavisideStepFunction() override;
+  ~HeavisideStepFunction() override = default;
 };
 }
 

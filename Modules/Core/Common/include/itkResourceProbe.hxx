@@ -52,12 +52,6 @@ ResourceProbe< ValueType, MeanType >
   this->Reset();
 }
 
-
-template< typename ValueType, typename MeanType >
-ResourceProbe< ValueType, MeanType >
-::~ResourceProbe() = default;
-
-
 template< typename ValueType, typename MeanType >
 void
 ResourceProbe< ValueType, MeanType >

@@ -91,7 +91,7 @@ public:
 
   /** Default Constructor. Need to provide a default constructor since we
    * provide a copy constructor. */
-  ImageIterator();
+  ImageIterator() = default;
 
   /** Default Destructor */
   ~ImageIterator() override = default;

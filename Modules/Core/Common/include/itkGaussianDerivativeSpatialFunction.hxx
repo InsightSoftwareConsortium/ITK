@@ -36,10 +36,6 @@ GaussianDerivativeSpatialFunction< TOutput, VImageDimension, TInput >
 }
 
 template< typename TOutput, unsigned int VImageDimension, typename TInput >
-GaussianDerivativeSpatialFunction< TOutput, VImageDimension, TInput >
-::~GaussianDerivativeSpatialFunction() = default;
-
-template< typename TOutput, unsigned int VImageDimension, typename TInput >
 typename GaussianDerivativeSpatialFunction< TOutput, VImageDimension, TInput >::OutputType
 GaussianDerivativeSpatialFunction< TOutput, VImageDimension, TInput >
 ::Evaluate(const TInput & position) const

@@ -646,7 +646,7 @@ public:
 
 protected:
   ImageBase();
-  ~ImageBase() override;
+  ~ImageBase() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Calculate the offsets needed to move from one pixel to the next

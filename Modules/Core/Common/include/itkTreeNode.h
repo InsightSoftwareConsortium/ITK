@@ -120,11 +120,11 @@ public:
 
 protected:
 
-  TreeNode();
+  TreeNode() = default;
   ~TreeNode() override;
-  TValue m_Data;
 
-  Self *m_Parent;
+  TValue m_Data;
+  Self *m_Parent{nullptr};
 
   ChildrenListType m_Children;
 };

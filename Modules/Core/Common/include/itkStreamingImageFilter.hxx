@@ -42,13 +42,6 @@ StreamingImageFilter< TInputImage, TOutputImage >
  *
  */
 template< typename TInputImage, typename TOutputImage >
-StreamingImageFilter< TInputImage, TOutputImage >
-::~StreamingImageFilter() = default;
-
-/**
- *
- */
-template< typename TInputImage, typename TOutputImage >
 void
 StreamingImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

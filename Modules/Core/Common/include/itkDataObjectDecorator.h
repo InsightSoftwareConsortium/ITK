@@ -126,8 +126,8 @@ public:
     }
 
 protected:
-  DataObjectDecorator();
-  ~DataObjectDecorator() override;
+  DataObjectDecorator() = default;
+  ~DataObjectDecorator() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 protected:

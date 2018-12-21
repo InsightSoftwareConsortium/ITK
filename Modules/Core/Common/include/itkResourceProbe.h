@@ -54,7 +54,7 @@ public:
   ResourceProbe(std::string  type, std::string  unit);
 
   /** Destructor */
-  virtual ~ResourceProbe();
+  virtual ~ResourceProbe() = default;
 
   /** Returns the type probed value */
   std::string GetType() const;

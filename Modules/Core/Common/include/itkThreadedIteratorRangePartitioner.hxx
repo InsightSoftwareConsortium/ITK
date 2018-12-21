@@ -28,14 +28,6 @@ namespace itk
 {
 
 template< typename TIterator >
-ThreadedIteratorRangePartitioner< TIterator >
-::ThreadedIteratorRangePartitioner() = default;
-
-template< typename TIterator >
-ThreadedIteratorRangePartitioner< TIterator >
-::~ThreadedIteratorRangePartitioner() = default;
-
-template< typename TIterator >
 ThreadIdType
 ThreadedIteratorRangePartitioner< TIterator >
 ::PartitionDomain( const ThreadIdType threadId,

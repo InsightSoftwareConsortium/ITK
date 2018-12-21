@@ -95,7 +95,7 @@ public:
   using EigenVectorsMatrixType = typename Superclass::EigenVectorsMatrixType;
 
   /** Default Constructor. */
-  DiffusionTensor3D();
+  DiffusionTensor3D() = default;
 
   /** Constructor with initialization. */
   DiffusionTensor3D(const Superclass & r);

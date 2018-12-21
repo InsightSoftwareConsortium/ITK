@@ -92,7 +92,7 @@ public:
 
 protected:
   SimpleDataObjectDecorator();
-  ~SimpleDataObjectDecorator() override;
+  ~SimpleDataObjectDecorator() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 protected:

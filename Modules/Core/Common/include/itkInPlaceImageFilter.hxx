@@ -32,21 +32,6 @@
 
 namespace itk
 {
-/**
- *
- */
-template< typename TInputImage, typename TOutputImage >
-InPlaceImageFilter< TInputImage, TOutputImage >
-::InPlaceImageFilter()
-
-{}
-
-/**
- *
- */
-template< typename TInputImage, typename TOutputImage >
-InPlaceImageFilter< TInputImage, TOutputImage >
-::~InPlaceImageFilter() = default;
 
 template< typename TInputImage, typename TOutputImage >
 void

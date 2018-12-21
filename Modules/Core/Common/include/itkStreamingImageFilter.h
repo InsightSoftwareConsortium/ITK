@@ -114,7 +114,7 @@ public:
 
 protected:
   StreamingImageFilter();
-  ~StreamingImageFilter() override;
+  ~StreamingImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

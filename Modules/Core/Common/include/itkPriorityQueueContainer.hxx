@@ -26,19 +26,6 @@
 
 namespace itk
 {
-// -----------------------------------------------------------------------------
-// ElementWrapperInterface
-// -----------------------------------------------------------------------------
-template< typename TElement,
-          typename TElementIdentifier >
-ElementWrapperInterface< TElement, TElementIdentifier >::ElementWrapperInterface() = default;
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-template< typename TElement,
-          typename TElementIdentifier >
-ElementWrapperInterface< TElement, TElementIdentifier >::~ElementWrapperInterface() = default;
-// -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
 template< typename TElement,
@@ -50,24 +37,6 @@ ElementWrapperInterface< TElement, TElementIdentifier >::m_ElementNotFound
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
-
-
-// -----------------------------------------------------------------------------
-// ElementWrapperPointerInterface
-// -----------------------------------------------------------------------------
-template< typename TElementWrapperPointer,
-          typename TElementIdentifier >
-ElementWrapperPointerInterface< TElementWrapperPointer, TElementIdentifier >::
-ElementWrapperPointerInterface() = default;
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-template< typename TElementWrapperPointer,
-          typename TElementIdentifier >
-ElementWrapperPointerInterface< TElementWrapperPointer, TElementIdentifier >::
-~ElementWrapperPointerInterface() = default;
-// -----------------------------------------------------------------------------
-
 // -----------------------------------------------------------------------------
 template< typename TElementWrapperPointer,
           typename TElementIdentifier >

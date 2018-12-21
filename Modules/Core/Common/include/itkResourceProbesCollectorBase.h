@@ -42,7 +42,7 @@ public:
   using MapType = std::map< IdType, TProbe >;
 
   /** destructor */
-  virtual ~ResourceProbesCollectorBase();
+  virtual ~ResourceProbesCollectorBase() = default;
 
   /** Start a probe with a particular name. If the time probe does not
    * exist, it will be created */
