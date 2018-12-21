@@ -20,15 +20,15 @@ setup(
     package_dir={'itk': 'itk'},
     download_url=r'https://github.com/InsightSoftwareConsortium/ITKLabelErodeDilate',
     description=r'An ITK module for erode and dilate operations on label images',
-    long_description='ITKLabelErodeDilate provides classes for morphological math'
+    long_description='itk-labelerodedilate provides classes for morphological math '
                      'erode and dilate operations on label images.\n'
-                     'Please refer to:'
-                     'Beare, R. and Jackway, P.'
-                     '“Parallel Algorithms via Scaled Paraboloid Structuring'
-                     'Functions for Spatially-Variant and Label-Set Dilations'
-                     'and Erosions”, '
-                     '2011 International Conference on Digital Image Computing'
-                     'Techniques and Applications (DICTA). 180--185. 2011. IEEE.\n',
+                     'Please refer to:\n'
+                     'Beare, R. and Jackway, P. '
+                     '"Parallel Algorithms via Scaled Paraboloid Structuring '
+                     'Functions for Spatially-Variant and Label-Set Dilations '
+                     'and Erosions", '
+                     '2011 International Conference on Digital Image Computing '
+                     'Techniques and Applications (DICTA). 180--185. 2011. IEEE.',
     classifiers=[
         "License :: OSI Approved :: Apache Software License",
         "Programming Language :: Python",
@@ -49,7 +49,7 @@ setup(
         "Operating System :: MacOS"
         ],
     license='Apache',
-    keywords='ITK InsightToolkit',
+    keywords='ITK InsightToolkit Math-morphology Label-images',
     url=r'https://github.com/InsightSoftwareConsortium/ITKLabelErodeDilate',
     install_requires=[
         r'itk>=5.0b01'
