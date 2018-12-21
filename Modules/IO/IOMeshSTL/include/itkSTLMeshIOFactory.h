@@ -43,10 +43,10 @@ public:
 
   /** Class methods used to interface with the registered factories. */
   const char *
-  GetITKSourceVersion(void) const override;
+  GetITKSourceVersion() const override;
 
   const char *
-  GetDescription(void) const override;
+  GetDescription() const override;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -56,11 +56,11 @@ public:
 
   /** Register one factory of this type  */
   static void
-  RegisterOneFactory(void)
+  RegisterOneFactory()
   {
-    STLMeshIOFactory::Pointer vtkFactory = STLMeshIOFactory::New();
+    STLMeshIOFactory::Pointer meshFactory = STLMeshIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(vtkFactory);
+    ObjectFactoryBase::RegisterFactory(meshFactory);
   }
 
 protected:

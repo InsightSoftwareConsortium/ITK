@@ -12,6 +12,8 @@ itk_module(
   TEST_DEPENDS
     ITKTestKernel
     ITKQuadEdgeMesh
+  FACTORY_NAMES
+    MeshIO::STL
   DESCRIPTION "${DOCUMENTATION}"
   EXCLUDE_FROM_DEFAULT
 )
