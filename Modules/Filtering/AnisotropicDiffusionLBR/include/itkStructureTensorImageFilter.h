@@ -53,6 +53,8 @@ class StructureTensorImageFilter:
   public ImageToImageFilter< TImage, TTensorImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(StructureTensorImageFilter);
+
   using Self = StructureTensorImageFilter;
   using Superclass = ImageToImageFilter< TImage, TImage>;
   using Pointer = SmartPointer<Self>;
