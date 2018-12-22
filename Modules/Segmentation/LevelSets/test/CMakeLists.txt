@@ -145,4 +145,7 @@ if(ITK_WRAP_float AND wrap_2_index GREATER -1)
       ${ITK_TEST_OUTPUT_DIR}/PythonThresholdSegmentationLevelSetGrayMatterTest.png
       107 69 5 180 210
     )
+
+  itk_python_expression_add_test(NAME itkBinaryMaskToNarrowBandPointSetFilterPythonTest
+    EXPRESSION "filt = itk.BinaryMaskToNarrowBandPointSetFilter.New()")
 endif()
