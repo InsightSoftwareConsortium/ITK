@@ -23,7 +23,8 @@
 #define INCLUDE_CSTDIO
 #define INCLUDE_CSTRING
 
-#include "dcmtk/dcmdata/dcdict.h"             // For DcmDataDictionary
+#include "dcmtk/dcmdata/dcdict.h"          // For DcmDataDictionary
+#include "dcmtk/dcmdata/dcuid.h"           /* Included for OFFIS_DCMTK_VERSION_NUMBER */
 #include "dcmtk/dcmdata/dcsequen.h"        /* for DcmSequenceOfItems */
 #include "dcmtk/dcmdata/dcvrcs.h"          /* for DcmCodeString */
 #include "dcmtk/dcmdata/dcvrfd.h"          /* for DcmFloatingPointDouble */
@@ -42,6 +43,8 @@
 #include "dcmtk/dcmdata/dcvrpn.h"          /* for DcmPersonName */
 #include "dcmtk/dcmimgle/dcmimage.h"        /* fore DicomImage */
 #include "dcmtk/dcmimage/diregist.h"     /* include to support color images */
+
+
 #include "vnl/vnl_cross.h"
 #include "itkIntTypes.h"
 #include <algorithm>
@@ -1485,7 +1488,11 @@ DCMTKFileReader
 {
   DcmDataDictionary &dict = dcmDataDict.wrlock();
   dict.addEntry(entry);
+#if OFFIS_DCMTK_VERSION_NUMBER > 362
+  dcmDataDict.wrunlock();
+#else
   dcmDataDict.unlock();
+#endif
 }
 
 bool CompareDCMTKFileReaders(DCMTKFileReader *a, DCMTKFileReader *b)
