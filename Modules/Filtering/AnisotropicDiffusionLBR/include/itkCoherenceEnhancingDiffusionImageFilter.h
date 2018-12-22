@@ -65,6 +65,8 @@ class CoherenceEnhancingDiffusionImageFilter:
   public AnisotropicDiffusionLBRImageFilter< TImage, TScalar >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(CoherenceEnhancingDiffusionImageFilter);
+
   using Self = CoherenceEnhancingDiffusionImageFilter;
   using Superclass = AnisotropicDiffusionLBRImageFilter< TImage, TScalar >;
   using Pointer = SmartPointer< Self >;
@@ -74,7 +76,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CoherenceEnhancingDiffusionImageFilter, Superclass);
+  itkTypeMacro(CoherenceEnhancingDiffusionImageFilter, AnisotropicDiffusionLBRImageFilter);
 
   static const unsigned int Dimension = Superclass::Dimension;
 
@@ -106,6 +108,7 @@ protected:
   ScalarType g_EED(ScalarType s) const {return s<=0 ? 1 : 1 - (1-m_Alpha)*exp(-pow(m_Lambda/s,m_Exponent));}
 
   CoherenceEnhancingDiffusionImageFilter();
+  ~CoherenceEnhancingDiffusionImageFilter() override = default;
 };
 
 } // end namespace itk

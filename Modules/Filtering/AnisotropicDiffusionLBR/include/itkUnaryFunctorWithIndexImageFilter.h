@@ -42,6 +42,8 @@ class UnaryFunctorWithIndexImageFilter:
   public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(UnaryFunctorWithIndexImageFilter);
+
   using Self = UnaryFunctorWithIndexImageFilter;
   using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
   using Pointer = SmartPointer< Self >;

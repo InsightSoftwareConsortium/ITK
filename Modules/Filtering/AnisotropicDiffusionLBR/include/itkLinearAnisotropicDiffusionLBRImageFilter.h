@@ -65,7 +65,7 @@ public:
   using ImageType = TImage;
   using PixelType = typename ImageType::PixelType;
 
-  static const int Dimension = ImageType::ImageDimension;
+  static constexpr unsigned int Dimension = ImageType::ImageDimension;
 
   using ScalarType = TScalar;
   using TensorType = SymmetricSecondRankTensor< ScalarType, Dimension >;
@@ -89,7 +89,7 @@ public:
 
 protected:
   LinearAnisotropicDiffusionLBRImageFilter();
-  ~LinearAnisotropicDiffusionLBRImageFilter() override{}
+  ~LinearAnisotropicDiffusionLBRImageFilter() override = default;
 
   typename ImageType::ConstPointer GetInputImage();
   typename TensorImageType::ConstPointer GetInputTensor();

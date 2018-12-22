@@ -46,6 +46,8 @@ template< typename TImage, typename TScalar = typename NumericTraits< typename T
 class AnisotropicDiffusionLBRImageFilter : public ImageToImageFilter< TImage, TImage >
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AnisotropicDiffusionLBRImageFilter);
+
   using Self = AnisotropicDiffusionLBRImageFilter;
   using Superclass = ImageToImageFilter< TImage, TImage >;
   using Pointer = SmartPointer< Self >;
@@ -54,7 +56,7 @@ public:
   /// Method for creation through the object factory.
   itkNewMacro(Self);
   /// Run-time type information (and related methods).
-  itkTypeMacro(AnisotropicDiffusionLBRImageFilter, Superclass);
+  itkTypeMacro(AnisotropicDiffusionLBRImageFilter, ImageToImageFilter);
 
   using ImageType = TImage;
   using PixelType = typename ImageType::PixelType;
@@ -112,7 +114,7 @@ protected:
   int        m_MaxTimeStepsBetweenTensorUpdates;
 
   AnisotropicDiffusionLBRImageFilter();
-  ~AnisotropicDiffusionLBRImageFilter() override{}
+  ~AnisotropicDiffusionLBRImageFilter() override = default;
 
   typename TensorImageType::Pointer m_TensorImage;
 
