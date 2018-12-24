@@ -49,7 +49,6 @@ ResourceProbe< ValueType, MeanType >
 ::ResourceProbe(std::string  type, std::string  unit):
   m_TypeString(std::move(type)), m_UnitString(std::move(unit))
 {
-  this->GetSystemInformation();
   this->Reset();
 }
 
@@ -260,30 +259,35 @@ void
 ResourceProbe< ValueType, MeanType >
 ::PrintSystemInformation(std::ostream & os)
 {
-  os << "System:              " << m_SystemName << std::endl;
-  os << "Processor:           " << m_ProcessorName << std::endl;
-  os << "    Cache:           " << m_ProcessorCacheSize << std::endl;
-  os << "    Clock:           " << m_ProcessorClockFrequency << std::endl;
-  os << "    Physical CPUs:   " << m_NumberOfPhysicalCPU << std::endl;
-  os << "    Logical CPUs:    " << m_NumberOfLogicalCPU << std::endl;
+  itksys::SystemInformation systeminfo;
+  systeminfo.RunCPUCheck();
+  systeminfo.RunMemoryCheck();
+  systeminfo.RunOSCheck();
+
+  os << "System:              " << systeminfo.GetHostname() << std::endl;
+  os << "Processor:           " << systeminfo.GetExtendedProcessorName() << std::endl;
+  os << "    Cache:           " << systeminfo.GetProcessorCacheSize() << std::endl;
+  os << "    Clock:           " << systeminfo.GetProcessorClockFrequency() << std::endl;
+  os << "    Physical CPUs:   " << systeminfo.GetNumberOfPhysicalCPU() << std::endl;
+  os << "    Logical CPUs:    " << systeminfo.GetNumberOfLogicalCPU() << std::endl;
   // Retrieve memory information in mebibytes.
   os << "    Virtual Memory:  Total: "
-     << std::left << std::setw( tabwidth ) << m_TotalVirtualMemory
-     <<" Available: "<< m_AvailableVirtualMemory << std::endl;
+     << std::left << std::setw( tabwidth ) << systeminfo.GetTotalVirtualMemory()
+     <<" Available: "<< systeminfo.GetAvailableVirtualMemory() << std::endl;
   os << "    Physical Memory: Total: "
-     << std::left << std::setw( tabwidth ) << m_TotalPhysicalMemory
-     <<" Available: "<< m_AvailablePhysicalMemory << std::endl;
+     << std::left << std::setw( tabwidth ) << systeminfo.GetTotalPhysicalMemory()
+     <<" Available: "<< systeminfo.GetAvailablePhysicalMemory() << std::endl;
 
-  os << "OSName:              "<< m_OSName << std::endl;
-  os << "    Release:         "<< m_OSRelease << std::endl;
-  os << "    Version:         "<< m_OSVersion << std::endl;
-  os << "    Platform:        "<< m_OSPlatform << std::endl;
+  os << "OSName:              "<< systeminfo.GetOSName() << std::endl;
+  os << "    Release:         "<< systeminfo.GetOSRelease() << std::endl;
+  os << "    Version:         "<< systeminfo.GetOSVersion() << std::endl;
+  os << "    Platform:        "<< systeminfo.GetOSPlatform() << std::endl;
 
   os << "    Operating System is "
-     << (m_Is64Bits?"64 bit":"32 bit") << std::endl;
+     << (systeminfo.Is64Bits()?"64 bit":"32 bit") << std::endl;
 
   os << "ITK Version: "
-     << m_ITKVersion << std::endl;
+     << ITK_VERSION_STRING << "." << ITK_VERSION_PATCH << std::endl;
 }
 
 
@@ -573,66 +577,52 @@ void
 ResourceProbe< ValueType, MeanType >
 ::PrintJSONSystemInformation(std::ostream & os)
 {
-  os << "{\n";
-  PrintJSONvar(os, "System", m_SystemName);
-
-  os << "    \"Processor\" :{\n";
-  PrintJSONvar(os, "Name", m_ProcessorName, 6);
-  PrintJSONvar(os, "Cache", m_ProcessorCacheSize, 6);
-  PrintJSONvar(os, "Clock", m_ProcessorClockFrequency, 6);
-  PrintJSONvar(os, "Physical CPUs", m_NumberOfPhysicalCPU, 6);
-  PrintJSONvar(os, "Logical CPUs", m_NumberOfLogicalCPU, 6);
-  PrintJSONvar(os, "Virtual Memory Total", m_TotalVirtualMemory, 6);
-  PrintJSONvar(os, "Virtual Memory Available", m_AvailableVirtualMemory, 6);
-  PrintJSONvar(os, "Physical Memory Total", m_TotalPhysicalMemory, 6);
-  PrintJSONvar(os, "Physical Memory Available", m_AvailablePhysicalMemory, 6, false);
-  os << "    },\n";
-
-  os << "    \"OperatingSystem\" :{\n";
-  PrintJSONvar(os, "Name", m_OSName, 6);
-  PrintJSONvar(os, "Release", m_OSRelease, 6);
-  PrintJSONvar(os, "Version", m_OSVersion, 6);
-  PrintJSONvar(os, "Platform", m_OSPlatform, 6);
-  PrintJSONvar(os, "Bitness", (m_Is64Bits ? "64 bit" : "32 bit"), 6, false);
-  os << "    },\n";
-
-  PrintJSONvar(os, "ITKVersion", m_ITKVersion, 4, false);
-  os << "  }";
-}
-
-template< typename ValueType, typename MeanType >
-void
-ResourceProbe< ValueType, MeanType >
-::GetSystemInformation()
-{
   itksys::SystemInformation systeminfo;
   systeminfo.RunCPUCheck();
   systeminfo.RunMemoryCheck();
   systeminfo.RunOSCheck();
 
-  m_SystemName              = systeminfo.GetHostname();
-  m_ProcessorName           = systeminfo.GetExtendedProcessorName();
-  m_ProcessorCacheSize      = systeminfo.GetProcessorCacheSize();
-  m_ProcessorClockFrequency = systeminfo.GetProcessorClockFrequency();
-  m_NumberOfPhysicalCPU     = systeminfo.GetNumberOfPhysicalCPU();
-  m_NumberOfLogicalCPU      = systeminfo.GetNumberOfLogicalCPU();
+  os << "{\n";
+  PrintJSONvar(os, "System", systeminfo.GetHostname());
 
-  m_OSName                  = systeminfo.GetOSName();
-  m_OSRelease               = systeminfo.GetOSRelease();
-  m_OSVersion               = systeminfo.GetOSVersion();
-  m_OSPlatform              = systeminfo.GetOSPlatform();
+  os << "    \"Processor\" :{\n";
+  PrintJSONvar(os, "Name", systeminfo.GetExtendedProcessorName(), 6);
+  PrintJSONvar(os, "Cache", systeminfo.GetProcessorCacheSize(), 6);
+  PrintJSONvar(os, "Clock", systeminfo.GetProcessorClockFrequency(), 6);
+  PrintJSONvar(os, "Physical CPUs", systeminfo.GetNumberOfPhysicalCPU(), 6);
+  PrintJSONvar(os, "Logical CPUs", systeminfo.GetNumberOfLogicalCPU(), 6);
+  PrintJSONvar(os, "Virtual Memory Total", systeminfo.GetTotalVirtualMemory(), 6);
+  PrintJSONvar(os, "Virtual Memory Available", systeminfo.GetAvailableVirtualMemory(), 6);
+  PrintJSONvar(os, "Physical Memory Total", systeminfo.GetTotalPhysicalMemory(), 6);
+  PrintJSONvar(os, "Physical Memory Available", systeminfo.GetAvailablePhysicalMemory(), 6, false);
+  os << "    },\n";
 
-  m_Is64Bits                = systeminfo.Is64Bits();
-  std::ostringstream        itkversion;
-  itkversion << ITK_VERSION_MAJOR << "." << ITK_VERSION_MINOR << "." << ITK_VERSION_PATCH;
-  m_ITKVersion              = itkversion.str();
+  os << "    \"OperatingSystem\" :{\n";
+  PrintJSONvar(os, "Name", systeminfo.GetOSName(), 6);
+  PrintJSONvar(os, "Release", systeminfo.GetOSRelease(), 6);
+  PrintJSONvar(os, "Version", systeminfo.GetOSVersion(), 6);
+  PrintJSONvar(os, "Platform", systeminfo.GetOSPlatform(), 6);
+  PrintJSONvar(os, "Bitness", (systeminfo.Is64Bits() ? "64 bit" : "32 bit"), 6, false);
+  os << "    },\n";
 
- // Retrieve memory information in mebibytes.
-  m_TotalVirtualMemory      = systeminfo.GetTotalVirtualMemory();
-  m_AvailableVirtualMemory  = systeminfo.GetAvailableVirtualMemory();
-  m_TotalPhysicalMemory     = systeminfo.GetTotalPhysicalMemory();
-  m_AvailablePhysicalMemory = systeminfo.GetAvailablePhysicalMemory();
+  std::ostringstream itkVersionStringStream;
+  itkVersionStringStream << ITK_VERSION_STRING << "." << ITK_VERSION_PATCH;
+
+  PrintJSONvar(os, "ITKVersion", itkVersionStringStream.str(), 4, false);
+  os << "  }";
 }
+
+
+// This protected member function that was introduced with ITK 4.8 has been deprecated
+// as of ITK 5.0. Please do not call or override this member function.
+#if !defined(ITK_LEGACY_REMOVE)
+template< typename ValueType, typename MeanType >
+void
+ResourceProbe< ValueType, MeanType >
+::GetSystemInformation()
+{
+}
+#endif
 
 } // end namespace itk
 
