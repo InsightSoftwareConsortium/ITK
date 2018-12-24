@@ -37,7 +37,6 @@ endif()
 #set(ITK_TEST_DRIVER itkTestDriver)
 
 createtestdriver(${itk-module} "${${itk-module}-Test_LIBRARIES}" "${${itk-module}Tests}")
-set(TEST_DATA_ROOT "${${itk-module}_SOURCE_DIR}/Data")
 
 #Common tests for CPU and/or GPU
 itk_add_test(
@@ -45,7 +44,7 @@ itk_add_test(
   COMMAND
     ${itk-module}TestDriver
     itkCPURecursiveYvvGaussianImageFilterTest
-    ${TEST_DATA_ROOT}/512ex.jpg
+    DATA{Input/512ex.jpg}
     2
     12.0
     4
@@ -56,7 +55,7 @@ itk_add_test(
   COMMAND
     ${itk-module}TestDriver
     itkYvvBenchmark
-    ${TEST_DATA_ROOT}/512ex.jpg
+    DATA{Input/512ex.jpg}
     2
     12.0
     4
@@ -67,7 +66,7 @@ itk_add_test(
   COMMAND
     ${itk-module}TestDriver
     itkYvvBenchmark
-    ${TEST_DATA_ROOT}/256x256x64.tif
+    DATA{Input/256x256x64.tif}
     3
     12.0
     2
@@ -104,7 +103,7 @@ if(ITK_USE_GPU)
     COMMAND
       ${itk-module}TestDriver
       itkGPURecursiveYvvGaussianImageFilterTest
-      ${TEST_DATA_ROOT}/512ex.jpg
+      DATA{Input/512ex.jpg}
       2
       0.5
       1
@@ -115,7 +114,7 @@ if(ITK_USE_GPU)
     COMMAND
       ${itk-module}TestDriver
       itkGPURecursiveYvvGaussianImageFilterTest
-      ${TEST_DATA_ROOT}/512ex.jpg
+      DATA{Input/512ex.jpg}
       2
       20
       1
@@ -126,7 +125,7 @@ if(ITK_USE_GPU)
     COMMAND
       ${itk-module}TestDriver
       itkYvvGpuCpuSimilarityTest
-      ${TEST_DATA_ROOT}/512ex.jpg
+      DATA{Input/512ex.jpg}
       2
       14
   )
