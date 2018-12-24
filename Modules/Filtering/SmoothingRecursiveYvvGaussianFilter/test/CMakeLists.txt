@@ -106,7 +106,7 @@ if(ITK_USE_GPU)
       itkGPURecursiveYvvGaussianImageFilterTest
       ${TEST_DATA_ROOT}/512ex.jpg
       2
-      0.5 #Lower limit for sigma
+      0.5
       1
   )
 
