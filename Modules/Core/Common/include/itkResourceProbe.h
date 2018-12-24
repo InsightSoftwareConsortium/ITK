@@ -151,8 +151,8 @@ protected:
   void PrintJSONvar(std::ostream & os, const char* varName, T varValue,
       unsigned indent = 4, bool comma = true);
 
-  /** Get System information */
-  virtual void GetSystemInformation();
+  /** Obsolete member function from ITK 4.8 - 4.13. Does not do anything anymore. */
+  itkLegacyMacro(virtual void GetSystemInformation());
 
 private:
 
@@ -174,22 +174,6 @@ private:
   std::string                m_TypeString;
   std::string                m_UnitString;
 
-  std::string                m_SystemName;
-  std::string                m_ProcessorName;
-  int                        m_ProcessorCacheSize;
-  float                      m_ProcessorClockFrequency;
-  unsigned int               m_NumberOfPhysicalCPU;
-  unsigned int               m_NumberOfLogicalCPU;
-  std::string                m_OSName;
-  std::string                m_OSRelease;
-  std::string                m_OSVersion;
-  std::string                m_OSPlatform;
-  bool                       m_Is64Bits;
-  std::string                m_ITKVersion;
-  size_t                     m_TotalVirtualMemory;
-  size_t                     m_AvailableVirtualMemory;
-  size_t                     m_TotalPhysicalMemory;
-  size_t                     m_AvailablePhysicalMemory;
 
   static ITK_CONSTEXPR_VAR unsigned int  tabwidth  = 15;
 };
