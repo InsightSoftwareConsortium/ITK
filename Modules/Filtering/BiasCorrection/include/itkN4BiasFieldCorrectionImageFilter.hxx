@@ -132,6 +132,9 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   const ImageBufferRange<RealImageType> logInputImageBufferRange{ *logInputImage };
   const std::size_t numberOfPixels = logInputImageBufferRange.size();
 
+  // Number of pixels of the input image that are included with the filter.
+  std::size_t numberOfIncludedPixels = 0;
+
   for( std::size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue )
     {
     if( ( maskImageBufferRange.empty()
@@ -141,6 +144,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
         && ( confidenceImageBufferRange.empty() ||
              confidenceImageBufferRange[indexValue] > 0.0 ) )
       {
+      ++numberOfIncludedPixels;
       auto&& logInputPixel = logInputImageBufferRange[indexValue];
 
       if(logInputPixel > NumericTraits<typename InputImageType::PixelType>::ZeroValue() )
@@ -209,7 +213,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
       // Smooth the residual bias field estimate and add the resulting
       // control point grid to get the new total bias field estimate.
 
-      RealImagePointer newLogBiasField = this->UpdateBiasFieldEstimate( residualBiasField );
+      RealImagePointer newLogBiasField = this->UpdateBiasFieldEstimate( residualBiasField, numberOfIncludedPixels );
 
       this->m_CurrentConvergenceMeasurement =
         this->CalculateConvergenceMeasurement( logBiasField, newLogBiasField );
@@ -520,7 +524,7 @@ template<typename TInputImage, typename TMaskImage, typename TOutputImage>
 typename
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::RealImagePointer
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
-::UpdateBiasFieldEstimate( RealImageType* fieldEstimate )
+::UpdateBiasFieldEstimate( RealImageType* fieldEstimate, const std::size_t numberOfIncludedPixels )
 {
   using itk::Experimental::MakeImageBufferRange;
 
@@ -547,10 +551,16 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 
   PointSetPointer fieldPoints = PointSetType::New();
   fieldPoints->Initialize();
+  auto& pointSTLContainer = fieldPoints->GetPoints()->CastToSTLContainer();
+  pointSTLContainer.reserve(numberOfIncludedPixels);
+  auto& pointDataSTLContainer = fieldPoints->GetPointData()->CastToSTLContainer();
+  pointDataSTLContainer.reserve(numberOfIncludedPixels);
 
   typename BSplineFilterType::WeightsContainerType::Pointer weights =
     BSplineFilterType::WeightsContainerType::New();
   weights->Initialize();
+  auto& weightSTLContainer = weights->CastToSTLContainer();
+  weightSTLContainer.reserve(numberOfIncludedPixels);
 
   const auto maskImageBufferRange = MakeImageBufferRange(this->GetMaskImage());
   const auto confidenceImageBufferRange = MakeImageBufferRange(this->GetConfidenceImage());
@@ -560,7 +570,6 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   ImageRegionConstIteratorWithIndex<RealImageType>
     It( parametricFieldEstimate, parametricFieldEstimate->GetRequestedRegion() );
 
-  unsigned int index = 0;
   for (std::size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue, ++It)
     {
     if( (maskImageBufferRange.empty()
@@ -576,16 +585,15 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
       ScalarType scalar;
       scalar[0] = It.Get();
 
-      fieldPoints->SetPointData( index, scalar );
-      fieldPoints->SetPoint( index, point );
+      pointDataSTLContainer.push_back(scalar);
+      pointSTLContainer.push_back(point);
 
       RealType confidenceWeight = 1.0;
       if( !confidenceImageBufferRange.empty())
         {
         confidenceWeight = confidenceImageBufferRange[indexValue];
         }
-      weights->InsertElement( index, confidenceWeight );
-      index++;
+      weightSTLContainer.push_back(confidenceWeight);
       }
     }
 

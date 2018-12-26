@@ -389,7 +389,7 @@ private:
    * the estimate and adds the resulting control point values to the total
    * bias field estimate.
    */
-  RealImagePointer UpdateBiasFieldEstimate( RealImageType * );
+  RealImagePointer UpdateBiasFieldEstimate( RealImageType *, std::size_t );
 
   /**
    * Reconstruct bias field given the control point lattice.
