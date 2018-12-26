@@ -226,7 +226,6 @@ protected:
 
 private:
   DensityFunctionPointer                   m_MovingDensityFunction;
-  DensityFunctionPointer                   m_FixedDensityFunction;
 
   bool                                     m_UseAnisotropicCovariances{ false };
 

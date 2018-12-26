@@ -52,16 +52,6 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
 {
   Superclass::Initialize();
 
-  // Initialize the fixed density function
-  this->m_FixedDensityFunction = DensityFunctionType::New();
-  this->m_FixedDensityFunction->SetKernelSigma( this->m_KernelSigma );
-  this->m_FixedDensityFunction->SetRegularizationSigma( this->m_PointSetSigma );
-  this->m_FixedDensityFunction->SetNormalize( true );
-  this->m_FixedDensityFunction->SetUseAnisotropicCovariances( this->m_UseAnisotropicCovariances );
-  this->m_FixedDensityFunction->SetCovarianceKNeighborhood( this->m_CovarianceKNeighborhood );
-  this->m_FixedDensityFunction->SetEvaluationKNeighborhood( this->m_EvaluationKNeighborhood );
-  this->m_FixedDensityFunction->SetInputPointSet( this->m_FixedTransformedPointSet );
-
   // Initialize the moving density function
   this->m_MovingDensityFunction = DensityFunctionType::New();
   this->m_MovingDensityFunction->SetKernelSigma( this->m_KernelSigma );
