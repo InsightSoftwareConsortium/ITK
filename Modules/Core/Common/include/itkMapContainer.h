@@ -89,13 +89,15 @@ public:
   using STLContainerType = MapType;
 
   /** Cast the container to a STL container type */
-  STLContainerType & CastToSTLContainer()
-  { return dynamic_cast< STLContainerType & >( *this ); }
+  STLContainerType & CastToSTLContainer() ITK_NOEXCEPT
+  {
+    return *this;
+  }
 
   /** Cast the container to a const STL container type */
-  const STLContainerType & CastToSTLConstContainer() const
+  const STLContainerType & CastToSTLConstContainer() const ITK_NOEXCEPT
   {
-    return dynamic_cast< const STLContainerType & >( *this );
+    return *this;
   }
 
   using STLContainerType::begin;
