@@ -261,18 +261,14 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   this->m_OutputPointData->Initialize();
   if( inputPointSet->GetNumberOfPoints() > 0 )
     {
-    typename PointDataContainerType::ConstIterator It =
-      inputPointSet->GetPointData()->Begin();
-    while( It != inputPointSet->GetPointData()->End() )
+    const auto& pointData = inputPointSet->GetPointData()->CastToSTLConstContainer();
+
+    if( !m_UsePointWeights )
       {
-      if( !this->m_UsePointWeights )
-        {
-        this->m_PointWeights->InsertElement( It.Index(), 1.0 );
-        }
-      this->m_InputPointData->InsertElement( It.Index(), It.Value() );
-      this->m_OutputPointData->InsertElement( It.Index(), It.Value() );
-      ++It;
+      m_PointWeights->CastToSTLContainer().assign(pointData.size(), 1);
       }
+    m_InputPointData->CastToSTLContainer() = pointData;
+    m_OutputPointData->CastToSTLContainer() = pointData;
     }
 
   this->m_CurrentLevel = 0;
