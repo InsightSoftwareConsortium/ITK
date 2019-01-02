@@ -11,7 +11,7 @@ set(MontageTests
 
 CreateTestDriver(Montage "${Montage-Test_LIBRARIES}" "${MontageTests}")
 
-set(TESTING_OUTPUT_PATH "${CMAKE_CURRENT_BINARY_DIR}/../Testing/Temporary")
+set(TESTING_OUTPUT_PATH "${CMAKE_BINARY_DIR}/Testing/Temporary")
 
 itk_add_test(NAME itkMontageGenericTests
   COMMAND MontageTestDriver itkMontageGenericTests)
