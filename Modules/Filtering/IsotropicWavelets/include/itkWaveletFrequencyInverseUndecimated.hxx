@@ -300,13 +300,14 @@ WaveletFrequencyInverseUndecimated<TInputImage, TOutputImage, TWaveletFilterBank
       bandInputImage = const_cast<InputImageType *>(this->GetInput(nInput));
       reconstructed->SetSpacing(bandInputImage->GetSpacing());
       reconstructed->SetOrigin(bandInputImage->GetOrigin());
+      reconstructed->SetDirection(bandInputImage->GetDirection());
 
       auto changeWaveletHighInfoFilter = ChangeInformationFilterType::New();
       changeWaveletHighInfoFilter->SetInput(highPassMasks[band]);
       changeWaveletHighInfoFilter->UseReferenceImageOn();
       changeWaveletHighInfoFilter->SetReferenceImage(bandInputImage);
-      changeWaveletHighInfoFilter->ChangeDirectionOff();
       changeWaveletHighInfoFilter->ChangeRegionOff();
+      changeWaveletHighInfoFilter->ChangeDirectionOn();
       changeWaveletHighInfoFilter->ChangeSpacingOn();
       changeWaveletHighInfoFilter->ChangeOriginOn();
       changeWaveletHighInfoFilter->UpdateLargestPossibleRegion();

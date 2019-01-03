@@ -409,21 +409,25 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
   castFilter->Update();
   OutputImagePointer inputPerLevel = castFilter->GetOutput();
   using ChangeInformationFilterType = itk::ChangeInformationImageFilter<OutputImageType>;
-  auto                                 changeInputInfoFilter = ChangeInformationFilterType::New();
-  typename InputImageType::PointType   origin_old = inputPerLevel->GetOrigin();
-  typename InputImageType::SpacingType spacing_old = inputPerLevel->GetSpacing();
-  typename InputImageType::PointType   origin_new = origin_old;
+  auto                                   changeInputInfoFilter = ChangeInformationFilterType::New();
+  typename InputImageType::PointType     origin_old = inputPerLevel->GetOrigin();
+  typename InputImageType::SpacingType   spacing_old = inputPerLevel->GetSpacing();
+  typename InputImageType::DirectionType direction_old = inputPerLevel->GetDirection();
+  typename InputImageType::PointType     origin_new = origin_old;
   origin_new.Fill(0);
   typename InputImageType::SpacingType spacing_new = spacing_old;
   spacing_new.Fill(1);
+  typename InputImageType::DirectionType direction_new = direction_old;
+  direction_new.SetIdentity();
   changeInputInfoFilter->SetInput(inputPerLevel);
-  changeInputInfoFilter->ChangeDirectionOff();
   changeInputInfoFilter->ChangeRegionOff();
+  changeInputInfoFilter->ChangeDirectionOn();
   changeInputInfoFilter->ChangeSpacingOn();
   changeInputInfoFilter->ChangeOriginOn();
   changeInputInfoFilter->UseReferenceImageOff();
   changeInputInfoFilter->SetOutputOrigin(origin_new);
   changeInputInfoFilter->SetOutputSpacing(spacing_new);
+  changeInputInfoFilter->SetOutputDirection(direction_new);
   changeInputInfoFilter->Update();
 
   // Generate WaveletFilterBank.
