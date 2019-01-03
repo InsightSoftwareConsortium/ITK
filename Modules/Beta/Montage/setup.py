@@ -23,7 +23,7 @@ setup(
     long_description='itk-montage provides classes for montaging of '
                  'microscopy imaging files.\n'
                  'Please refer to:\n'
-                 'Bican, J. "Phase Correlation Method for ITK" ',
+                 'Bican, J. "Phase Correlation Method for ITK" '
                  'Insight Journal, July-December 2006, http://hdl.handle.net/1926/396.',
     classifiers=[
         "License :: OSI Approved :: Apache Software License",
