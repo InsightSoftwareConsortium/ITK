@@ -8,3 +8,5 @@ if(NOT ITK_SOURCE_DIR)
 else()
   itk_module_impl()
 endif()
+
+itk_module_examples()
