@@ -354,7 +354,6 @@ private:
     m_RelativeLocation(relativeLocation),
     m_CurrentOffset{offset}
     {
-      assert(m_ImageBufferPointer != nullptr);
     }
 
 
@@ -576,8 +575,10 @@ private:
   // Just the data from itk::ImageRegion (not the virtual table)
   struct RegionData
   {
-    IndexType m_Index;
-    ImageSizeType  m_Size;
+    IndexType m_Index{{}};
+    ImageSizeType  m_Size{{}};
+
+    RegionData() ITK_NOEXCEPT = default;
 
     explicit RegionData(const ImageRegionType& imageRegion)
       :
@@ -598,35 +599,38 @@ private:
 
   // ShapedImageNeighborhoodRange data members (strictly private):
 
-  // Pointer to the buffer of the image. Should not be null.
-  QualifiedInternalPixelType* m_ImageBufferPointer;
+  // Pointer to the buffer of the image.
+  QualifiedInternalPixelType* m_ImageBufferPointer{ nullptr };
 
   // Index and size of the buffered image region.
-  RegionData m_BufferedRegionData;
+  RegionData m_BufferedRegionData{};
 
   // A copy of the offset table of the image.
-  OffsetType m_OffsetTable;
+  OffsetType m_OffsetTable{{}};
 
-  NeighborhoodAccessorFunctorType m_NeighborhoodAccessor;
+  NeighborhoodAccessorFunctorType m_NeighborhoodAccessor{};
 
   // Index (pixel coordinates) of the location of the neighborhood relative
   // to the origin of the image. Typically it is the location of the
   // center pixel of the neighborhood. It may be outside the image boundaries.
-  IndexType m_RelativeLocation;
+  IndexType m_RelativeLocation{{}};
 
   // The offsets relative to m_RelativeLocation that specify the neighborhood shape.
-  const OffsetType* m_ShapeOffsets;
+  const OffsetType* m_ShapeOffsets{ nullptr };
 
   // The number of neighborhood pixels.
-  const std::size_t m_NumberOfNeighborhoodPixels;
+  const std::size_t m_NumberOfNeighborhoodPixels{ 0 };
 
-  const OptionalPixelAccessParameterType m_OptionalPixelAccessParameter;
+  const OptionalPixelAccessParameterType m_OptionalPixelAccessParameter{};
 
 public:
   using const_iterator = QualifiedIterator<true>;
   using iterator = QualifiedIterator<false>;
   using reverse_iterator = std::reverse_iterator<iterator>;
   using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+
+  /** Default-constructor. Constructs an empty range. */
+  ShapedImageNeighborhoodRange() = default;
 
   /** Specifies a range for the neighborhood of a pixel at the specified
    * location. The shape of the neighborhood is specified by a pointer to a
@@ -653,7 +657,6 @@ public:
   m_NumberOfNeighborhoodPixels{ numberOfNeigborhoodPixels },
   m_OptionalPixelAccessParameter(optionalPixelAccessParameter)
   {
-    assert(m_ImageBufferPointer != nullptr);
     const OffsetValueType* const offsetTable = image.GetOffsetTable();
     assert(offsetTable != nullptr);
 
@@ -693,7 +696,6 @@ public:
   /** Returns an iterator to the first neighborhood pixel. */
   iterator begin() const ITK_NOEXCEPT
   {
-    assert(m_ImageBufferPointer != nullptr);
     return iterator
     {
       m_ImageBufferPointer,
@@ -709,7 +711,6 @@ public:
   /** Returns an 'end iterator' for this range. */
   iterator end() const ITK_NOEXCEPT
   {
-    assert(m_ImageBufferPointer != nullptr);
     return iterator
     {
       m_ImageBufferPointer,
@@ -764,6 +765,13 @@ public:
   std::size_t size() const ITK_NOEXCEPT
   {
     return m_NumberOfNeighborhoodPixels;
+  }
+
+
+  /** Tells whether the range is empty. */
+  bool empty() const ITK_NOEXCEPT
+  {
+    return m_NumberOfNeighborhoodPixels == 0;
   }
 
 
