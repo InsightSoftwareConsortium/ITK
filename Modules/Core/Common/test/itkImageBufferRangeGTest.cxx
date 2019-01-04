@@ -35,6 +35,7 @@ template class itk::Experimental::ImageBufferRange<itk::Image<short, 3>>;
 template class itk::Experimental::ImageBufferRange<itk::Image<short, 4>>;
 template class itk::Experimental::ImageBufferRange<const itk::Image<short>>;
 template class itk::Experimental::ImageBufferRange<itk::VectorImage<short>>;
+template class itk::Experimental::ImageBufferRange<const itk::VectorImage<short, 4>>;
 
 using itk::Experimental::ImageBufferRange;
 using itk::Experimental::MakeImageBufferRange;
@@ -62,6 +63,27 @@ namespace
   static_assert(!DoesImageBufferRangeIteratorDereferenceOperatorReturnReference<const itk::VectorImage<int>>(),
     "ImageBufferRange::iterator::operator*() should not return a reference for a 'const' itk::VectorImage.");
 
+
+  // Tells whether or not ImageBufferRange<TImage>::iterator is the same type
+  // as ImageBufferRange<TImage>::const_iterator.
+  template <typename TImage>
+  constexpr bool IsIteratorTypeTheSameAsConstIteratorType()
+  {
+    using RangeType = ImageBufferRange<TImage>;
+
+    return std::is_same<
+      typename RangeType::iterator, typename RangeType::const_iterator>::value;
+  }
+
+
+  static_assert(
+    !IsIteratorTypeTheSameAsConstIteratorType<itk::Image<int>>() &&
+    !IsIteratorTypeTheSameAsConstIteratorType<itk::VectorImage<int>>(),
+    "For a non-const image, non-const iterator and const_iterator should be different types!");
+  static_assert(
+    IsIteratorTypeTheSameAsConstIteratorType<const itk::Image<int>>() &&
+    IsIteratorTypeTheSameAsConstIteratorType<const itk::VectorImage<int>>(),
+    "For a const image, non-const iterator and const_iterator should be the same type!");
 
   template<typename TImage>
   typename TImage::Pointer CreateImage(const unsigned sizeX, const unsigned sizeY)

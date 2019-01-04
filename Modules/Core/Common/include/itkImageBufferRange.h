@@ -539,9 +539,10 @@ private:
     }
 
     // Converts to a 'QualifiedIterator' object.
-    operator QualifiedIterator<false>() const ITK_NOEXCEPT
+    template <bool VIsConst>
+    operator QualifiedIterator<VIsConst>() const ITK_NOEXCEPT
     {
-      return QualifiedIterator<false>{m_OptionalAccessorFunctor, m_InternalPixelPointer};
+      return QualifiedIterator<VIsConst>{m_OptionalAccessorFunctor, m_InternalPixelPointer};
     }
 
     // Converts to a raw pixel pointer.
@@ -567,7 +568,7 @@ public:
   using const_iterator = typename std::conditional<UsingPointerAsIterator,
     const InternalPixelType*, QualifiedIterator<true>>::type;
   using iterator = typename std::conditional<UsingPointerAsIterator,
-    QualifiedInternalPixelType*, QualifiedIterator<false>>::type;
+    QualifiedInternalPixelType*, QualifiedIterator<IsImageTypeConst>>::type;
   using reverse_iterator = std::reverse_iterator<iterator>;
   using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
