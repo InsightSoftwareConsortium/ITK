@@ -579,7 +579,7 @@ int main( int argc, char *argv[] )
   WriterType::Pointer writer4 = WriterType::New();
 
   const std::string outputImageFilePrefix =
-    itksys::SystemTools::GetFilenameWithoutExtension( outputImageFilePrefix );
+    itksys::SystemTools::GetFilenameWithoutExtension( outputImageFile );
   caster1->SetInput( smoothing->GetOutput() );
   writer1->SetInput( caster1->GetOutput() );
   writer1->SetFileName( outputImageFilePrefix + "Smoothing.png" );
