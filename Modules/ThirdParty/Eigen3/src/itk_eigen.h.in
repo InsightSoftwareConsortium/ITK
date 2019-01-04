@@ -19,17 +19,49 @@
 #ifndef itk_eigen_h
 #define itk_eigen_h
 
-// ITK should only be using MPL2 Eigen code.
-#ifndef EIGEN_MPL2_ONLY
-#define EIGEN_MPL2_ONLY
-#endif
+/* Usage:
+ *  ITK_EIGEN(Eigenvalues)
+ *  If using a Eigen3 header containing non MPL2 code
+ *  It would generate errors when using internal Eigen, but not with system Eigen.
+ *  This prevents including non mpl2 code in internal code.
+ *  For example, the following contains non MPL2 code:
+ *  ITK_EIGEN(SparseCholesky)
+ */
+
+/* Re-using internal Eigen3 in other project:
+ * A project can re-use the internal Eigen3, not dealing with this header
+ * nor with the ITK_EIGEN macro (intended for internal usage only).
+ *
+\code{.cmake}
+find_package(ITK REQUIRED)
+include(${ITK_USE_FILE})
+set(_internal_cmake_eigen3)
+list(GET ITKEigen3_INCLUDE_DIRS 0 _internal_cmake_eigen3)
+set(Eigen3_DIR "${_internal_cmake_eigen3}/itkeigen")
+find_package(Eigen3 REQUIRED CONFIG)
+\endcode
+ *
+ * Then, the user can use Eigen3 as usual:
+ * #include "Eigen/Eigenvalues"
+ * This is intended to facilitate bridging third party libraries and algorithms
+ * which currently use Eigen3 internally.
+ * For an example check the module: https://github.com/phcerdan/ITKTotalVariation
+ */
+
+/* Helper macro to stringify
+ * dev: If not stringified, the macro cannot be used twice in the same header. */
+#define ITK_EIGEN_STR(x) #x
 
 /* Use the eigen library configured for ITK.  */
 #cmakedefine ITK_USE_SYSTEM_EIGEN
 #ifdef ITK_USE_SYSTEM_EIGEN
-# define ITK_EIGEN(x) <Eigen/x>
+#define ITK_EIGEN(x) ITK_EIGEN_STR(Eigen/x)
 #else
-# define ITK_EIGEN(x) <itkeigen/Eigen/x>
+// ITK should only be using MPL2 Eigen code internally.
+#ifndef EIGEN_MPL2_ONLY
+#define EIGEN_MPL2_ONLY
+#endif
+#define ITK_EIGEN(x) ITK_EIGEN_STR(itkeigen/Eigen/x)
 #endif
 
 #endif
