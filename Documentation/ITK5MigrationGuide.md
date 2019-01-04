@@ -258,19 +258,21 @@ AfterThreadedGenerateData()
 }
 ```
 
-`Get/SetGlobalMaximumNumberOfThreads()` and `GlobalDefaultNumberOfThreads()`
-now reside in `itk::MultiThreaderBase`. With a warning, they are still
-available in `itk::PlatformMultiThreader`. In image filters and other
-descendents of `itk::ProcessObject`, method `SetNumberOfThreads`
-has been renamed into `SetNumberOfWorkUnits`. For `itk::MultiThreaderBase`
-and descendents, `SetNumberOfThreads` has been split into
-`SetMaximumNumberOfThreads` and `SetNumberOfWorkUnits`.
-Load balancing is possible when `NumberOfWorkUnits` is greater
-than the number of threads. The common case of
-`innerFilter->SetNumberOfThreads(1);` should be replaced by
-`innerFilter->SetNumberOfWorkUnits(1);`. Generally, in most places
-where threads were being manipulated before, work units should be
-accessed or changed now.
+`Get/SetGlobalMaximumNumberOfThreads()`, and `GlobalDefaultNumberOfThreads()`
+now reside in `itk::MultiThreaderBase`.  With a warning, they are still
+available in `itk::PlatformMultiThreader`.
+`GetGlobalDefaultNumberOfThreadsByPlatform()` has also been moved from
+`itk::ThreadPool` to `itk::MultiThreaderBase`.  In image filters and other
+descendents of `itk::ProcessObject`, method `SetNumberOfThreads` has been
+renamed into `SetNumberOfWorkUnits`.  For `itk::MultiThreaderBase` and
+descendents, `SetNumberOfThreads` has been split into
+`SetMaximumNumberOfThreads` and `SetNumberOfWorkUnits`.  Load balancing is
+possible when `NumberOfWorkUnits` is greater than the number of threads. The
+common case of `innerFilter->SetNumberOfThreads(1);` should be replaced by
+`innerFilter->SetNumberOfWorkUnits(1);`. Generally, in most places where
+threads were being manipulated before, work units should be accessed or
+changed now.
+
 
 To transition to the new threading model, it is usually enough to rename
 `ThreadedGenerateData` into `DynamicThreadedGenerateData`, remove the
