@@ -121,7 +121,6 @@ TileLayout2D
 ParseTileConfiguration2D( const std::string pathToFile )
 {
   constexpr unsigned Dimension = 2;
-  using PointType = itk::Point< double, Dimension >;
 
   unsigned xMontageSize = 0;
   TileLayout2D tiles;
