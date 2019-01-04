@@ -52,7 +52,7 @@ namespace itk
  */
 
 template <typename TRealValueType = double>
-class ITK_EXPORT GaussianDistanceKernel : public KernelFunctionBase<TRealValueType>
+class ITK_TEMPLATE_EXPORT GaussianDistanceKernel : public KernelFunctionBase<TRealValueType>
 {
 public:
   /** Standard class type alias. */
@@ -81,8 +81,8 @@ public:
   /**
    * \brief Evaluate the function. Input is the squared distance
    */
-  inline double
-  Evaluate(const double & u) const override
+  inline TRealValueType
+  Evaluate(const TRealValueType & u) const override
   {
     return (std::exp(u * m_OneOverMinusTwoSigmaSqr));
   }
@@ -108,7 +108,7 @@ template <typename TVectorFieldElementType,
           typename KernelFunctionType = KernelFunctionBase<TPointSetCoordRepType>,
           class TPointSetType =
             PointSet<TPointSetPixelType, 3, DefaultStaticMeshTraits<TPointSetPixelType, 3, 3, TPointSetCoordRepType>>>
-class ITK_EXPORT VectorFieldPCA : public Object
+class ITK_TEMPLATE_EXPORT VectorFieldPCA : public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorFieldPCA);
