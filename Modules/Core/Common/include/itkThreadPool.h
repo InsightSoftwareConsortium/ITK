@@ -106,9 +106,6 @@ public:
   /** The approximate number of idle threads. */
   int GetNumberOfCurrentlyIdleThreads() const;
 
-  /** Platform specific number of threads. Deprecated! */
-  itkLegacyMacro( static ThreadIdType GetGlobalDefaultNumberOfThreadsByPlatform() );
-
   /** Set/Get wait for threads.
   This function should be used carefully, probably only during static
   initialization phase to disable waiting for threads when ITK is built as a
