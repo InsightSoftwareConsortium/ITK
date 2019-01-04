@@ -139,7 +139,7 @@ public:
 
 protected:
   PointSetToImageFilter();
-  ~PointSetToImageFilter() override;
+  ~PointSetToImageFilter() override = default;
 
   void GenerateOutputInformation() override {}  // do nothing
   void GenerateData() override;

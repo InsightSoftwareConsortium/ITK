@@ -84,7 +84,7 @@ public:
   using AccessorType = typename Superclass::AccessorType;
 
   /** Default constructor. Needed since we provide a cast constructor. */
-  ImageRandomIteratorWithIndex();
+  ImageRandomIteratorWithIndex() = default;
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */

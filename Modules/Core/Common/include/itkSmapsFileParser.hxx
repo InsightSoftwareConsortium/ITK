@@ -33,9 +33,6 @@
 
 namespace itk
 {
-template< typename TMapDataType >
-MapFileParser< TMapDataType >
-::~MapFileParser() = default;
 
 template< typename TMapDataType >
 bool

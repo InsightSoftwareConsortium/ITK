@@ -31,10 +31,6 @@ ThreadedImageRegionPartitioner<VDimension>
 }
 
 template <unsigned int VDimension>
-ThreadedImageRegionPartitioner<VDimension>
-::~ThreadedImageRegionPartitioner() = default;
-
-template <unsigned int VDimension>
 ThreadIdType
 ThreadedImageRegionPartitioner<VDimension>
 ::PartitionDomain( const ThreadIdType threadId,

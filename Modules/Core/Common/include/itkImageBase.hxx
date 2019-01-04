@@ -84,12 +84,6 @@ ImageBase< VImageDimension >
   this->InitializeBufferedRegion();
 }
 
-
-template< unsigned int VImageDimension >
-ImageBase< VImageDimension >
-::~ImageBase() = default;
-
-
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >

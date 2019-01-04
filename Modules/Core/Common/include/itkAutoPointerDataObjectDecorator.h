@@ -87,8 +87,8 @@ public:
   virtual const T * Get() const { return m_Component.get(); }
 
 protected:
-  AutoPointerDataObjectDecorator();
-  ~AutoPointerDataObjectDecorator() override;
+  AutoPointerDataObjectDecorator() = default;
+  ~AutoPointerDataObjectDecorator() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 protected:

@@ -97,10 +97,10 @@ public:
   virtual void operator++() = 0;
 
   /** Constructor */
-  ConditionalConstIterator();
+  ConditionalConstIterator() = default;
 
   /** Destructor */
-  virtual ~ConditionalConstIterator();
+  virtual ~ConditionalConstIterator() = default;
 
 protected: //made protected so other iterators can access
   /** Smart pointer to the source image. */
@@ -114,9 +114,5 @@ protected: //made protected so other iterators can access
   bool m_IsAtEnd{false};
 };
 } // end namespace itk
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkConditionalConstIterator.hxx"
-#endif
 
 #endif

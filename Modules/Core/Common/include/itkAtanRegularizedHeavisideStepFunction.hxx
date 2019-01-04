@@ -23,14 +23,6 @@
 
 namespace itk
 {
-template< typename TInput, typename TOutput >
-AtanRegularizedHeavisideStepFunction< TInput, TOutput >::
-AtanRegularizedHeavisideStepFunction() : Superclass()
-{}
-
-template< typename TInput, typename TOutput >
-AtanRegularizedHeavisideStepFunction< TInput, TOutput >::
-~AtanRegularizedHeavisideStepFunction() = default;
 
 template< typename TInput, typename TOutput >
 typename AtanRegularizedHeavisideStepFunction< TInput, TOutput >::OutputType

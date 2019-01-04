@@ -88,7 +88,7 @@ public:
 
 protected:
   ThreadedImageRegionPartitioner();
-  ~ThreadedImageRegionPartitioner() override;
+  ~ThreadedImageRegionPartitioner() override = default;
 
   using ImageRegionSplitterType = ImageRegionSplitterSlowDimension;
 

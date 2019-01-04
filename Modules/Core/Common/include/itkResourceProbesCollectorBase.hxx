@@ -25,11 +25,6 @@ namespace itk
 {
 
 template< typename TProbe >
-ResourceProbesCollectorBase< TProbe >
-::~ResourceProbesCollectorBase() = default;
-
-
-template< typename TProbe >
 void
 ResourceProbesCollectorBase< TProbe >
 ::Start(const char *id)

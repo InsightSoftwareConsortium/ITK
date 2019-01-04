@@ -32,10 +32,6 @@ ConicShellInteriorExteriorSpatialFunction< VDimension, TInput >
 }
 
 template< unsigned int VDimension, typename TInput >
-ConicShellInteriorExteriorSpatialFunction< VDimension, TInput >
-::~ConicShellInteriorExteriorSpatialFunction() = default;
-
-template< unsigned int VDimension, typename TInput >
 void
 ConicShellInteriorExteriorSpatialFunction< VDimension, TInput >
 ::SetOriginGradient(GradientType grad)

@@ -45,12 +45,6 @@ ImageToImageFilter< TInputImage, TOutputImage >
   this->SetNumberOfRequiredInputs(1);
 }
 
-
-template< typename TInputImage, typename TOutputImage >
-ImageToImageFilter< TInputImage, TOutputImage >
-::~ImageToImageFilter() = default;
-
-
 template< typename TInputImage, typename TOutputImage >
 void
 ImageToImageFilter< TInputImage, TOutputImage >

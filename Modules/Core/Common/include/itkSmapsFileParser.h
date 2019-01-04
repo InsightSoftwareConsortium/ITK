@@ -224,7 +224,7 @@ class ITK_TEMPLATE_EXPORT MapFileParser
 public:
   using MemoryLoadType = typename TMapData::MemoryLoadType;
 
-  virtual ~MapFileParser();
+  virtual ~MapFileParser() = default;
   /** Load and parse a Map file pointed by mapFileLocation.
    *  If mapFileLocation is empty, load the default file
    *  Throw an exception is the file can't be opened.

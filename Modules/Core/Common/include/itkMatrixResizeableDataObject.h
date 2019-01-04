@@ -53,15 +53,11 @@ public:
 protected:
 
   /** Default Constructor. */
-  MatrixResizeableDataObject();
+  MatrixResizeableDataObject() = default;
 
   /** Default Destructor. */
-  ~MatrixResizeableDataObject() override;
+  ~MatrixResizeableDataObject() override = default;
 };
 } // end namespace itk
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMatrixResizeableDataObject.hxx"
-#endif
 
 #endif

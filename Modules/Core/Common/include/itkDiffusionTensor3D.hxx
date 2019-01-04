@@ -24,13 +24,6 @@
 namespace itk
 {
 /**
- * Default Constructor
- */
-template< typename T >
-DiffusionTensor3D< T >
-::DiffusionTensor3D() = default;
-
-/**
  * Constructor with initialization
  */
 template< typename T >

@@ -24,12 +24,6 @@ namespace itk
 {
 template< typename TImage >
 ImageRegionExclusionIteratorWithIndex< TImage >
-::ImageRegionExclusionIteratorWithIndex():
-  ImageRegionExclusionConstIteratorWithIndex< TImage >()
-{}
-
-template< typename TImage >
-ImageRegionExclusionIteratorWithIndex< TImage >
 ::ImageRegionExclusionIteratorWithIndex(ImageType *ptr, const RegionType & region):
   ImageRegionExclusionConstIteratorWithIndex< TImage >(ptr, region)
 {}

@@ -47,13 +47,6 @@ ImportImageFilter< TPixel, VImageDimension >
  *
  */
 template< typename TPixel, unsigned int VImageDimension >
-ImportImageFilter< TPixel, VImageDimension >
-::~ImportImageFilter() = default;
-
-/**
- *
- */
-template< typename TPixel, unsigned int VImageDimension >
 void
 ImportImageFilter< TPixel, VImageDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -89,7 +89,7 @@ public:
   using DerivativeOperatorType = DerivativeOperator< TPixel, VDimension, TAllocator >;
 
   /** Constructor. */
-  GaussianDerivativeOperator();
+  GaussianDerivativeOperator() = default;
 
   /** Copy constructor */
   GaussianDerivativeOperator(const Self & other);

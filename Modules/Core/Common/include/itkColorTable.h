@@ -109,7 +109,7 @@ public:
   unsigned int GetClosestColorTableId(TPixel r, TPixel g, TPixel b);
 
 protected:
-  ColorTable();
+  ColorTable() = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

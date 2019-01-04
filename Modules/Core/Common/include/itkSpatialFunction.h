@@ -72,8 +72,8 @@ public:
   OutputType Evaluate(const InputType & input) const override = 0;
 
 protected:
-  SpatialFunction();
-  ~SpatialFunction() override;
+  SpatialFunction() = default;
+  ~SpatialFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end namespace itk

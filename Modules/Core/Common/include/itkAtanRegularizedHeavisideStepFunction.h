@@ -77,8 +77,8 @@ public:
 
 protected:
 
-  AtanRegularizedHeavisideStepFunction();
-  ~AtanRegularizedHeavisideStepFunction() override;
+  AtanRegularizedHeavisideStepFunction() = default;
+  ~AtanRegularizedHeavisideStepFunction() override = default;
 };
 }
 

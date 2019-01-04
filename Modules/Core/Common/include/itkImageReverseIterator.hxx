@@ -24,12 +24,6 @@ namespace itk
 {
 template< typename TImage >
 ImageReverseIterator< TImage >
-::ImageReverseIterator():
-  ImageRegionReverseConstIterator< TImage >()
-{}
-
-template< typename TImage >
-ImageReverseIterator< TImage >
 ::ImageReverseIterator(ImageType *ptr, const RegionType & region):
   ImageRegionReverseConstIterator< TImage >(ptr, region)
 {}

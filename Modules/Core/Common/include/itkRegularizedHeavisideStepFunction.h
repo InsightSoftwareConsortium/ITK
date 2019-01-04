@@ -73,7 +73,7 @@ public:
 
 protected:
   RegularizedHeavisideStepFunction();
-  ~RegularizedHeavisideStepFunction() override;
+  ~RegularizedHeavisideStepFunction() override = default;
 
 private:
   RealType m_Epsilon;

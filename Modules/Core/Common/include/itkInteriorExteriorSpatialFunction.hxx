@@ -23,14 +23,6 @@
 namespace itk
 {
 template< unsigned int VDimension, typename TInput >
-InteriorExteriorSpatialFunction< VDimension, TInput >
-::InteriorExteriorSpatialFunction() = default;
-
-template< unsigned int VDimension, typename TInput >
-InteriorExteriorSpatialFunction< VDimension, TInput >
-::~InteriorExteriorSpatialFunction() = default;
-
-template< unsigned int VDimension, typename TInput >
 void
 InteriorExteriorSpatialFunction< VDimension, TInput >
 ::PrintSelf(std::ostream & os, Indent indent) const

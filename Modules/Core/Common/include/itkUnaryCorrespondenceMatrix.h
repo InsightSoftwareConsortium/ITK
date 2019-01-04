@@ -52,15 +52,11 @@ public:
 protected:
 
   /** Default Constructor. */
-  UnaryCorrespondenceMatrix();
+  UnaryCorrespondenceMatrix() = default;
 
   /** Default Destructor. */
   ~UnaryCorrespondenceMatrix() override = default;
 };
 } // end namespace itk
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkUnaryCorrespondenceMatrix.hxx"
-#endif
 
 #endif

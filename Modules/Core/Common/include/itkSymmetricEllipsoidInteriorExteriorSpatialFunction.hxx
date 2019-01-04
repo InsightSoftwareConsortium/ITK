@@ -32,10 +32,6 @@ SymmetricEllipsoidInteriorExteriorSpatialFunction< VDimension, TInput >
 }
 
 template< unsigned int VDimension, typename TInput >
-SymmetricEllipsoidInteriorExteriorSpatialFunction< VDimension, TInput >
-::~SymmetricEllipsoidInteriorExteriorSpatialFunction() = default;
-
-template< unsigned int VDimension, typename TInput >
 typename SymmetricEllipsoidInteriorExteriorSpatialFunction< VDimension, TInput >::OutputType
 SymmetricEllipsoidInteriorExteriorSpatialFunction< VDimension, TInput >
 ::Evaluate(const InputType & position) const

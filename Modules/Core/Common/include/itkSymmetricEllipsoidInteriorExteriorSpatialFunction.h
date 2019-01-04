@@ -73,7 +73,7 @@ public:
 
 protected:
   SymmetricEllipsoidInteriorExteriorSpatialFunction();
-  ~SymmetricEllipsoidInteriorExteriorSpatialFunction() override;
+  ~SymmetricEllipsoidInteriorExteriorSpatialFunction() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

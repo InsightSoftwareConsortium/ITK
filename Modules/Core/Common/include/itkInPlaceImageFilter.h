@@ -120,8 +120,8 @@ public:
   virtual bool CanRunInPlace() const;
 
 protected:
-  InPlaceImageFilter();
-  ~InPlaceImageFilter() override;
+  InPlaceImageFilter() = default;
+  ~InPlaceImageFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

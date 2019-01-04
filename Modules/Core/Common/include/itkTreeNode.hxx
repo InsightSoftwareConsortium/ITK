@@ -24,11 +24,6 @@
 
 namespace itk
 {
-/** Constructor */
-template< typename TValue >
-TreeNode< TValue >
-::TreeNode():m_Parent(nullptr)
-{}
 
 /** Destructor */
 template< typename TValue >

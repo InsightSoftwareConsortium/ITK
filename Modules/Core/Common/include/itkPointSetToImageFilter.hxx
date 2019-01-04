@@ -42,10 +42,6 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
 }
 
 template< typename TInputPointSet, typename TOutputImage >
-PointSetToImageFilter< TInputPointSet, TOutputImage >
-::~PointSetToImageFilter() = default;
-
-template< typename TInputPointSet, typename TOutputImage >
 void
 PointSetToImageFilter< TInputPointSet, TOutputImage >
 ::SetInput(const InputPointSetType *input)

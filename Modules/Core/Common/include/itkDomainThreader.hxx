@@ -35,10 +35,6 @@ DomainThreader< TDomainPartitioner, TAssociate >
 }
 
 template< typename TDomainPartitioner, typename TAssociate >
-DomainThreader< TDomainPartitioner, TAssociate >
-::~DomainThreader() = default;
-
-template< typename TDomainPartitioner, typename TAssociate >
 MultiThreaderBase *
 DomainThreader< TDomainPartitioner, TAssociate >
 ::GetMultiThreader() const

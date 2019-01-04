@@ -119,7 +119,7 @@ public:
 
 protected:
   DomainThreader();
-  ~DomainThreader() override;
+  ~DomainThreader() override = default;
 
   /** This is evauated at the beginning of Execute() so that it can be used in
    * BeforeThreadedExecution(). */

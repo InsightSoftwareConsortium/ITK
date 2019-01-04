@@ -32,16 +32,6 @@
 
 namespace itk
 {
-/** Constructor */
-template< typename T >
-AutoPointerDataObjectDecorator< T >
-::AutoPointerDataObjectDecorator():m_Component()
-{}
-
-/** Destructor */
-template< typename T >
-AutoPointerDataObjectDecorator< T >
-::~AutoPointerDataObjectDecorator() = default;
 
 /** Set value */
 template< typename T >

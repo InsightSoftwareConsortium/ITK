@@ -22,10 +22,6 @@
 
 namespace itk
 {
-template< typename TImage >
-ImageRegionExclusionConstIteratorWithIndex< TImage >
-::ImageRegionExclusionConstIteratorWithIndex() : Superclass()
-{}
 
 template< typename TImage >
 ImageRegionExclusionConstIteratorWithIndex< TImage >
