@@ -269,11 +269,9 @@ merged. Use `-D` instead of `-d` to force the deletion of an unmerged topic
 branch (*warning*: you could lose commits).
 
 
-
-[README]: Documentation/README.md
 [download instructions]: Documentation/Download.md
 [GitHelp]: Documentation/GitHelp.md
-[UpdatingThirdParty]: Documentation/UpdatingThirdParty.md
+[UpdatingThirdParty]: Documentation/Maintenance/UpdatingThirdParty.md
 
 [`SetupForDevelopment.sh`]: https://github.com/InsightSoftwareConsortium/ITK/blob/master/Utilities/SetupForDevelopment.sh
 [`setup-git-aliases`]: https://github.com/InsightSoftwareConsortium/ITK/blob/master/Utilities/GitSetup/setup-git-aliases
