@@ -21,6 +21,7 @@
 #include "itkManifoldParzenWindowsPointSetFunction.h"
 
 #include "itkMath.h"
+#include "itkCompensatedSummation.h"
 
 namespace itk
 {
@@ -103,7 +104,7 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
       typename PointsLocatorType::NeighborsIdentifierType neighbors;
       this->m_PointsLocator->Search( point, this->m_CovarianceKNeighborhood, neighbors );
 
-      RealType denominator = 0.0;
+      CompensatedSummation< RealType > denominator;
       for( unsigned int j = 0; j < this->m_CovarianceKNeighborhood; j++ )
         {
         if( neighbors[j] != index
@@ -131,9 +132,9 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
           }
         }
 
-      if( this->m_Normalize && denominator > 0.0 )
+      if( this->m_Normalize && denominator.GetSum() > 0.0 )
         {
-        Cout /= denominator;
+        Cout /= denominator.GetSum();
         }
       else
         {
@@ -172,7 +173,7 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
     this->m_EvaluationKNeighborhood,
     static_cast<unsigned int>( this->m_Gaussians.size() ) );
 
-  OutputType sum = NumericTraits< OutputType>::ZeroValue();
+  CompensatedSummation< OutputType > sum;
 
   if( numberOfNeighbors == this->m_Gaussians.size() )
     {
@@ -194,7 +195,7 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
       }
     }
   return static_cast<OutputType>(
-    sum / static_cast<OutputType>( this->m_Gaussians.size() ) );
+    sum.GetSum() / static_cast<OutputType>( this->m_Gaussians.size() ) );
 }
 
 template <typename TPointSet, typename TOutput, typename TCoordRep>
@@ -223,15 +224,15 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
   Indent indent) const
 {
   os << indent << "Covariance neighborhood: "
-               << this->m_CovarianceKNeighborhood << std::endl;
+    << this->m_CovarianceKNeighborhood << std::endl;
   os << indent << "Evaluation neighborhood: "
-               << this->m_EvaluationKNeighborhood << std::endl;
+    << this->m_EvaluationKNeighborhood << std::endl;
   os << indent << "Regularization sigma: "
-               << this->m_RegularizationSigma << std::endl;
+    << this->m_RegularizationSigma << std::endl;
   os << indent << "Kernel sigma: "
-               << this->m_KernelSigma << std::endl;
+    << this->m_KernelSigma << std::endl;
   os << indent << "Normalize: "
-               << this->m_Normalize << std::endl;
+    << this->m_Normalize << std::endl;
   os << indent << "Use anisotropic covariances: "
                << this->m_UseAnisotropicCovariances << std::endl;
 }

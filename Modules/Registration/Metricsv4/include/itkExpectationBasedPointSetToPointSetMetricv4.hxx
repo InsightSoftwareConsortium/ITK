@@ -20,6 +20,7 @@
 
 #include "itkExpectationBasedPointSetToPointSetMetricv4.h"
 #include "itkArray.h"
+#include "itkCompensatedSummation.h"
 
 namespace itk {
 
@@ -60,7 +61,7 @@ typename ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPoint
 ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
 ::GetLocalNeighborhoodValue( const PointType & point, const PixelType & itkNotUsed( pixel ) ) const
 {
-  MeasureType localValue = NumericTraits<MeasureType>::ZeroValue();
+  CompensatedSummation< MeasureType > localValue;
 
   NeighborsIdentifierType neighborhood;
   this->m_MovingTransformedPointsLocator->FindClosestNPoints( point, this->m_EvaluationKNeighborhood, neighborhood );
@@ -72,7 +73,7 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
     localValue -= this->m_PreFactor * std::exp( -distance / this->m_Denominator );
     }
 
-  return localValue;
+  return localValue.GetSum();
 }
 
 template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
@@ -85,7 +86,7 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
   measureValues.SetSize( this->m_EvaluationKNeighborhood );
   measureValues.Fill( 0.0 );
 
-  measure = NumericTraits< MeasureType >::ZeroValue();
+  CompensatedSummation< MeasureType > measureSum;
 
   localDerivative.Fill( 0.0 );
 
@@ -101,9 +102,10 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
     PointType neighbor = this->m_MovingTransformedPointSet->GetPoint( *it );
     const MeasureType distance = point.SquaredEuclideanDistanceTo( neighbor );
     measureValues[it - neighborhood.begin()] = -this->m_PreFactor * std::exp( -distance / this->m_Denominator );
-    measure += measureValues[it - neighborhood.begin()];
+    measureSum += measureValues[it - neighborhood.begin()];
     }
 
+  measure = measureSum.GetSum();
   if ( std::fabs(measure) <= NumericTraits<MeasureType>::epsilon() )
     {
     return;
