@@ -42,7 +42,7 @@ endif()
     ${HDF5_INCLUDE_DIR_CPP}
     )
   list(APPEND ITKHDF5_LIBRARIES
-    ${HDF5_LIBRARIES}
+    ${HDF5_CXX_LIBRARY_NAMES}
     )
   set(ITKHDF5_NO_SRC 1)
 else()
