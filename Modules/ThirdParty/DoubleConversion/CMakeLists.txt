@@ -12,7 +12,7 @@ if(ITK_USE_SYSTEM_DOUBLECONVERSION)
   get_target_property(ITKDoubleConversion_LIBRARIES double-conversion::double-conversion LOCATION)
 else()
   set(ITKDoubleConversion_INCLUDE_DIRS
-    ${ITKDoubleConversion_SOURCE_DIR}/src/double-conversion
+    ${ITKDoubleConversion_SOURCE_DIR}/src
     ${ITKDoubleConversion_BINARY_DIR}/src/double-conversion)
   set(ITKDoubleConversion_LIBRARIES itkdouble-conversion)
 endif()
