@@ -151,7 +151,7 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
 
   // supress trivial zero solution
   const typename ImageType::IndexType oIndex = lpr.GetIndex();
-  const PixelType                     zeroDeemphasis1 = std::max< PixelType >( 1.0, m_ZeroSuppression / 2.0 );
+  const PixelType zeroDeemphasis1 = std::max< PixelType >( 1.0, m_ZeroSuppression / 2.0 );
   for ( i = 0; i < maxs.size(); i++ )
     {
     // calculate maximum distance along any dimension
@@ -180,7 +180,7 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
   {
     std::vector< unsigned > sIndices;
     sIndices.reserve( maxs.size() );
-    for ( unsigned i = 0; i < maxs.size(); i++ )
+    for ( i = 0; i < maxs.size(); i++ )
       {
       sIndices.push_back( i );
       }
@@ -189,7 +189,7 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
     // now apply sorted order
     typename MaxCalculatorType::ValueVector tMaxs( maxs.size() );
     typename MaxCalculatorType::IndexVector tIndices( maxs.size() );
-    for ( unsigned i = 0; i < maxs.size(); i++ )
+    for ( i = 0; i < maxs.size(); i++ )
       {
       tMaxs[i] = maxs[sIndices[i]];
       tIndices[i] = indices[sIndices[i]];
@@ -218,7 +218,7 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
       typename ImageType::PixelType y0, y1 = maxs[m], y2;
       typename ImageType::IndexType tempIndex = indices[m];
 
-      for ( unsigned int i = 0; i < ImageDimension; i++ )
+      for ( i = 0; i < ImageDimension; i++ )
         {
         tempIndex[i] = maxIndex[i] - 1;
         if ( !lpr.IsInside( tempIndex ) )
@@ -258,7 +258,7 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
     const typename ImageType::PointType   fixedOrigin = fixed->GetOrigin();
     const typename ImageType::PointType   movingOrigin = moving->GetOrigin();
 
-    for ( unsigned int i = 0; i < ImageDimension; ++i )
+    for ( i = 0; i < ImageDimension; ++i )
       {
       IndexValueType adjustedSize = IndexValueType( size[i] + oIndex[i] );
       OffsetScalarType directOffset = ( movingOrigin[i] - fixedOrigin[i] )
