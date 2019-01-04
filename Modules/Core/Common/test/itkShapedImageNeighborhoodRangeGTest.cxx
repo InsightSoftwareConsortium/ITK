@@ -27,7 +27,9 @@
 #include "itkVectorImage.h"
 
 #include <gtest/gtest.h>
+
 #include <algorithm>  // For std::reverse_copy, std::equal, etc.
+#include <array>
 #include <numeric>  // For std::inner_product
 
 // Test template instantiations for various ImageDimenion values, and const Image:
@@ -38,6 +40,8 @@ template class itk::Experimental::ShapedImageNeighborhoodRange<itk::Image<short,
 template class itk::Experimental::ShapedImageNeighborhoodRange<const itk::Image<short>>;
 template class itk::Experimental::ShapedImageNeighborhoodRange<itk::VectorImage<short>>;
 template class itk::Experimental::ShapedImageNeighborhoodRange<const itk::VectorImage<short>>;
+
+using itk::Experimental::ShapedImageNeighborhoodRange;
 
 namespace
 {
@@ -68,6 +72,96 @@ namespace
       bufferPointer[i] =  static_cast<typename TImage::PixelType>(i + 1);
     }
     return image;
+  }
+
+
+  template< typename TPixel, unsigned VImageDimension >
+  void SetVectorLengthIfImageIsVectorImage(
+    itk::VectorImage<TPixel, VImageDimension>& image,
+    const unsigned vectorLength)
+  {
+    image.SetVectorLength(vectorLength);
+  }
+
+
+  template< typename TPixel, unsigned VImageDimension >
+  void SetVectorLengthIfImageIsVectorImage(
+    itk::Image<TPixel, VImageDimension>& itkNotUsed(image),
+    const unsigned itkNotUsed(vectorLength))
+  {
+    // Do not set the VectorLength. The specified image is not a VectorImage.
+  }
+
+
+  template <typename TRange>
+  void ExpectBeginIsEndWhenRangeIsDefaultConstructed()
+  {
+    TRange defaultConstructedRange;
+    EXPECT_EQ(defaultConstructedRange.begin(), defaultConstructedRange.end());
+  }
+
+
+  template <typename TRange>
+  void ExpectZeroSizeWhenRangeIsDefaultConstructed()
+  {
+    TRange defaultConstructedRange;
+    EXPECT_EQ(defaultConstructedRange.size(), 0);
+  }
+
+
+  template <typename TRange>
+  void ExpectRangeIsEmptyWhenDefaultConstructed()
+  {
+    TRange defaultConstructedRange;
+    EXPECT_TRUE(defaultConstructedRange.empty());
+  }
+
+  template <typename TImage>
+  void ExpectRangeIsEmptyForAnEmptyContainerOfShapeOffsets()
+  {
+    const auto image = TImage::New();
+    typename TImage::SizeType imageSize;
+    imageSize.Fill(1);
+    image->SetRegions(imageSize);
+    SetVectorLengthIfImageIsVectorImage(*image, 1);
+    image->Allocate();
+
+    const typename TImage::IndexType location{ {} };
+
+    using OffsetType = typename TImage::OffsetType;
+
+    const std::array<OffsetType, 0> emptyArrayOfOffsets{};
+    const std::vector<OffsetType> emptyVectorOfOffsets{};
+
+    EXPECT_TRUE((
+      ShapedImageNeighborhoodRange<TImage>{ *image, location, emptyArrayOfOffsets }.empty()));
+    EXPECT_TRUE((
+      ShapedImageNeighborhoodRange<TImage>{ *image, location, emptyVectorOfOffsets }.empty()));
+  }
+
+
+  template <typename TImage>
+  void ExpectRangeIsNotEmptyForNonEmptyImageAndShapeOffsetContainer()
+  {
+    // First create a non-empty image:
+    const auto image = TImage::New();
+    typename TImage::SizeType imageSize;
+    imageSize.Fill(1);
+    image->SetRegions(imageSize);
+    SetVectorLengthIfImageIsVectorImage(*image, 1);
+    image->Allocate();
+
+    // Then create a non-empty vector of shape offsets:
+    const itk::Size<TImage::ImageDimension> radius{ {1} };
+    const std::vector<itk::Offset<TImage::ImageDimension>> shapeOffsets =
+      itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
+
+    // Sanity check: the container of shape offset is expected to be non-empty.
+    EXPECT_FALSE(shapeOffsets.empty());
+
+    const typename TImage::IndexType location{ {} };
+
+    EXPECT_FALSE((ShapedImageNeighborhoodRange<TImage>{ *image, location, shapeOffsets }.empty()));
   }
 
 }  // namespace
@@ -809,4 +903,45 @@ TEST(ShapedImageNeighborhoodRange, SupportsArbitraryBufferedRegionIndex)
   range.SetLocation(arbitraryIndex);
   neighborhoodIterator.SetLocation(arbitraryIndex);
   EXPECT_EQ(range[0], neighborhoodIterator.GetPixel(0));
+}
+
+
+// Tests that begin() == end() for a default-constructed range.
+TEST(ShapedImageNeighborhoodRange, BeginIsEndWhenDefaultConstructed)
+{
+  ExpectBeginIsEndWhenRangeIsDefaultConstructed<ShapedImageNeighborhoodRange<itk::Image<int>>>();
+  ExpectBeginIsEndWhenRangeIsDefaultConstructed<ShapedImageNeighborhoodRange<itk::VectorImage<int>>>();
+}
+
+
+// Tests that size() returns 0 for a default-constructed range.
+TEST(ShapedImageNeighborhoodRange, SizeIsZeroWhenDefaultConstructed)
+{
+  ExpectZeroSizeWhenRangeIsDefaultConstructed<ShapedImageNeighborhoodRange<itk::Image<int>>>();
+  ExpectZeroSizeWhenRangeIsDefaultConstructed<ShapedImageNeighborhoodRange<itk::VectorImage<int>>>();
+}
+
+
+// Tests empty() for a default-constructed range.
+TEST(ShapedImageNeighborhoodRange, IsEmptyWhenDefaultConstructed)
+{
+  ExpectRangeIsEmptyWhenDefaultConstructed<ShapedImageNeighborhoodRange<itk::Image<int>>>();
+  ExpectRangeIsEmptyWhenDefaultConstructed<ShapedImageNeighborhoodRange<itk::VectorImage<int>>>();
+}
+
+
+// Tests range.empty() for an empty container of shape offsets.
+TEST(ShapedImageNeighborhoodRange, IsEmptyForAnEmptyContainerOfShapeOffsets)
+{
+  ExpectRangeIsEmptyForAnEmptyContainerOfShapeOffsets<itk::Image<int>>();
+  ExpectRangeIsEmptyForAnEmptyContainerOfShapeOffsets<itk::VectorImage<int>>();
+}
+
+
+// Tests that range.empty() returns false for a non-empty image, with a
+// non-empty container of shape offsets.
+TEST(ShapedImageNeighborhoodRange, IsNotEmptyWhenImageAndShapeOffsetContainerAreNonEmpty)
+{
+  ExpectRangeIsNotEmptyForNonEmptyImageAndShapeOffsetContainer<itk::Image<int>>();
+  ExpectRangeIsNotEmptyForNonEmptyImageAndShapeOffsetContainer<itk::VectorImage<int>>();
 }
