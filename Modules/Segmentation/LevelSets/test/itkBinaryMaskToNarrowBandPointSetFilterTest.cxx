@@ -22,8 +22,6 @@
 
 int itkBinaryMaskToNarrowBandPointSetFilterTest(int , char *[] )
 {
-
-
   constexpr unsigned int Dimension = 2;
 
   using BinaryMaskPixelType = unsigned char;

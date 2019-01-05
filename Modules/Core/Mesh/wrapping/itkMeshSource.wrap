@@ -1,4 +1,5 @@
 itk_wrap_include("itkMesh.h")
+itk_wrap_include("itkPointSet.h")
 itk_wrap_include("itkDefaultStaticMeshTraits.h")
 itk_wrap_include("itkDefaultDynamicMeshTraits.h")
 
@@ -11,5 +12,10 @@ itk_wrap_class("itk::MeshSource" POINTER)
       itk_wrap_template("M${ITKM_${t}}${d}DT${ITKM_${t}}${d}${d}${ITKM_${t}}${ITKM_${t}}"
         "itk::Mesh< ${ITKT_${t}},${d},itk::DefaultDynamicMeshTraits< ${ITKT_${t}},${d},${d},${ITKT_${t}},${ITKT_${t}} > >")
     endforeach()
+  endforeach()
+  # For itkBinaryMaskToNarrowBandPointSetFilter
+  foreach(dim ${ITK_WRAP_IMAGE_DIMS})
+      itk_wrap_template("PS${ITKM_D}${dim}ST${ITKM_D}${dim}${dim}${ITKM_D}${ITKM_D}"
+      "itk::PointSet< ${ITKT_D},${dim},itk::DefaultStaticMeshTraits< ${ITKT_D},${dim},${dim},${ITKT_D},${ITKT_D} > >")
   endforeach()
 itk_end_wrap_class()
