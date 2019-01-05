@@ -619,9 +619,9 @@ private:
   const OffsetType* m_ShapeOffsets{ nullptr };
 
   // The number of neighborhood pixels.
-  const std::size_t m_NumberOfNeighborhoodPixels{ 0 };
+  std::size_t m_NumberOfNeighborhoodPixels{ 0 };
 
-  const OptionalPixelAccessParameterType m_OptionalPixelAccessParameter{};
+  OptionalPixelAccessParameterType m_OptionalPixelAccessParameter{};
 
 public:
   using const_iterator = QualifiedIterator<true>;
@@ -629,7 +629,11 @@ public:
   using reverse_iterator = std::reverse_iterator<iterator>;
   using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
-  /** Default-constructor. Constructs an empty range. */
+  /** Explicitly-defaulted default-constructor. Constructs an empty range.
+   * \note The other five "special member functions" (copy-constructor,
+   * copy-assignment operator, move-constructor, move-assignment operator,
+   * and destructor) are defaulted implicitly, following the C++ "Rule of Zero".
+   */
   ShapedImageNeighborhoodRange() = default;
 
   /** Specifies a range for the neighborhood of a pixel at the specified
@@ -797,10 +801,6 @@ public:
     m_RelativeLocation = location;
     SubtractIndex(m_RelativeLocation, m_BufferedRegionData.m_Index);
   }
-
-
-  /** Explicitly-defaulted destructor. */
-  ~ShapedImageNeighborhoodRange() = default;
 };
 
 

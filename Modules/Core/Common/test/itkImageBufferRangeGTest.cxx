@@ -21,6 +21,7 @@
 
 #include "itkImage.h"
 #include "itkMacro.h" // For itkNotUsed.
+#include "itkRangeGTestUtilities.h"
 #include "itkVectorImage.h"
 
 #include <gtest/gtest.h>
@@ -39,6 +40,7 @@ template class itk::Experimental::ImageBufferRange<const itk::VectorImage<short,
 
 using itk::Experimental::ImageBufferRange;
 using itk::Experimental::MakeImageBufferRange;
+using itk::Experimental::RangeGTestUtilities;
 
 
 namespace
@@ -133,6 +135,19 @@ namespace
   }
 
 
+  template<typename TImage>
+  typename TImage::Pointer CreateSmallImage()
+  {
+    const auto image = TImage::New();
+    typename TImage::SizeType imageSize;
+    imageSize.Fill(0);
+    image->SetRegions(imageSize);
+    SetVectorLengthIfImageIsVectorImage(*image, 1);
+    image->Allocate(true);
+    return image;
+  }
+
+
   template <typename TRange>
   void ExpectBeginIsEndWhenRangeIsDefaultConstructed()
   {
@@ -198,6 +213,46 @@ namespace
 
     EXPECT_EQ(actualRange.begin(), expectedRange.begin());
     EXPECT_EQ(actualRange.end(), expectedRange.end());
+  }
+
+
+  template <typename TImage>
+  void ExpectCopyConstructedRangeHasSameIteratorsAsOriginal()
+  {
+    const auto image = CreateSmallImage<TImage>();
+    const ImageBufferRange<TImage> originalRange{ *image };
+
+    RangeGTestUtilities::ExpectCopyConstructedRangeHasSameIteratorsAsOriginal(originalRange);
+  }
+
+
+  template <typename TImage>
+  void ExpectCopyAssignedRangeHasSameIteratorsAsOriginal()
+  {
+    const auto image = CreateSmallImage<TImage>();
+    const ImageBufferRange<TImage> originalRange{ *image };
+
+    RangeGTestUtilities::ExpectCopyAssignedRangeHasSameIteratorsAsOriginal(originalRange);
+  }
+
+
+  template <typename TImage>
+  void ExpectMoveConstructedRangeHasSameIteratorsAsOriginalBeforeMove()
+  {
+    const auto image = CreateSmallImage<TImage>();
+
+    RangeGTestUtilities::ExpectMoveConstructedRangeHasSameIteratorsAsOriginalBeforeMove(
+      ImageBufferRange<TImage>{ *image });
+  }
+
+
+  template <typename TImage>
+  void ExpectMoveAssignedRangeHasSameIteratorsAsOriginalBeforeMove()
+  {
+    const auto image = CreateSmallImage<TImage>();
+
+    RangeGTestUtilities::ExpectMoveAssignedRangeHasSameIteratorsAsOriginalBeforeMove(
+      ImageBufferRange<TImage>{ *image });
   }
 
 }  // namespace
@@ -799,4 +854,36 @@ TEST(ImageBufferRange, MakeImageBufferRangeReturnsCorrectRangeForNonEmptyImage)
 {
   ExpectMakeImageBufferRangeReturnsCorrectRangeForNonEmptyImage<itk::Image<int>>();
   ExpectMakeImageBufferRangeReturnsCorrectRangeForNonEmptyImage<itk::VectorImage<int>>();
+}
+
+
+// Tests that a copy-constructed range has the same iterators (begin and end) as the original.
+TEST(ImageBufferRange, CopyConstructedRangeHasSameIterators)
+{
+  ExpectCopyConstructedRangeHasSameIteratorsAsOriginal<itk::Image<int>>();
+  ExpectCopyConstructedRangeHasSameIteratorsAsOriginal<itk::VectorImage<int>>();
+}
+
+
+// Tests that a copy-assigned range has the same iterators (begin and end) as the original.
+TEST(ImageBufferRange, CopyAssignedRangeHasSameIterators)
+{
+  ExpectCopyAssignedRangeHasSameIteratorsAsOriginal<itk::Image<int>>();
+  ExpectCopyAssignedRangeHasSameIteratorsAsOriginal<itk::VectorImage<int>>();
+}
+
+
+// Tests that a move-constructed range has the same iterators as the original, before the move.
+TEST(ImageBufferRange, MoveConstructedRangeHasSameIterators)
+{
+  ExpectMoveConstructedRangeHasSameIteratorsAsOriginalBeforeMove<itk::Image<int>>();
+  ExpectMoveConstructedRangeHasSameIteratorsAsOriginalBeforeMove<itk::VectorImage<int>>();
+}
+
+
+// Tests that a move-assigned range has the same iterators as the original, before the move.
+TEST(ImageBufferRange, MoveAssignedRangeHasSameIterators)
+{
+  ExpectMoveConstructedRangeHasSameIteratorsAsOriginalBeforeMove<itk::Image<int>>();
+  ExpectMoveConstructedRangeHasSameIteratorsAsOriginalBeforeMove<itk::VectorImage<int>>();
 }

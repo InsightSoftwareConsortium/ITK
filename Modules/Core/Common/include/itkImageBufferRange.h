@@ -573,7 +573,10 @@ public:
   using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
 
-  /** Constructs an empty range
+  /** Explicitly-defaulted default-constructor. Constructs an empty range.
+   * \note The other five "special member functions" (copy-constructor,
+   * copy-assignment operator, move-constructor, move-assignment operator,
+   * and destructor) are defaulted implicitly, following the C++ "Rule of Zero".
    */
   ImageBufferRange() = default;
 
@@ -666,10 +669,6 @@ public:
 
     return this->begin()[static_cast<std::ptrdiff_t>(n)];
   }
-
-
-  /** Explicitly-defaulted destructor. */
-  ~ImageBufferRange() = default;
 };
 
 /** Creates a range to iterate over the pixels of the specified image.
