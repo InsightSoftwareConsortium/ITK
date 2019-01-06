@@ -274,8 +274,10 @@ int main( int argc, char *argv[] )
   const double finalTranslationX    = finalParameters[1];
   const double finalTranslationY    = finalParameters[2];
 
-  const double rotationCenterX = registration->GetOutput()->Get()->GetFixedParameters()[0];
-  const double rotationCenterY = registration->GetOutput()->Get()->GetFixedParameters()[1];
+  const double rotationCenterX =
+    registration->GetOutput()->Get()->GetFixedParameters()[0];
+  const double rotationCenterY =
+    registration->GetOutput()->Get()->GetFixedParameters()[1];
 
 
   const unsigned int numberOfIterations = optimizer->GetCurrentIteration();

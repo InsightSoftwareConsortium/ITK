@@ -120,7 +120,8 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using SampleType = itk::Statistics::PointSetToListSampleAdaptor<PointSetType>;
+  using SampleType =
+    itk::Statistics::PointSetToListSampleAdaptor<PointSetType>;
   SampleType::Pointer sample = SampleType::New();
   // Software Guide : EndCodeSnippet
 

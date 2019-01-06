@@ -163,7 +163,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using LaplacianSegmentationLevelSetImageFilterType = itk::LaplacianSegmentationLevelSetImageFilter< InternalImageType,
+  using LaplacianSegmentationLevelSetImageFilterType =
+    itk::LaplacianSegmentationLevelSetImageFilter< InternalImageType,
             InternalImageType >;
   LaplacianSegmentationLevelSetImageFilterType::Pointer laplacianSegmentation
             = LaplacianSegmentationLevelSetImageFilterType::New();

@@ -131,7 +131,8 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using CovarianceAlgorithmType = itk::Statistics::CovarianceSampleFilter<SampleType>;
+  using CovarianceAlgorithmType =
+    itk::Statistics::CovarianceSampleFilter<SampleType>;
   CovarianceAlgorithmType::Pointer covarianceAlgorithm =
     CovarianceAlgorithmType::New();
 

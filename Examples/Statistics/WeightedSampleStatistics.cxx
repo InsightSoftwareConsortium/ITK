@@ -151,7 +151,8 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using WeightedMeanAlgorithmType = itk::Statistics::WeightedMeanSampleFilter<SampleType>;
+  using WeightedMeanAlgorithmType =
+    itk::Statistics::WeightedMeanSampleFilter<SampleType>;
 
   WeightedMeanAlgorithmType::WeightArrayType weightArray( sample->Size() );
   weightArray.Fill( 0.5 );
@@ -168,7 +169,8 @@ int main()
   std::cout << "Sample weighted mean = "
             << weightedMeanAlgorithm->GetMean() << std::endl;
 
-  using WeightedCovarianceAlgorithmType = itk::Statistics::WeightedCovarianceSampleFilter<SampleType>;
+  using WeightedCovarianceAlgorithmType =
+    itk::Statistics::WeightedCovarianceSampleFilter<SampleType>;
 
   WeightedCovarianceAlgorithmType::Pointer weightedCovarianceAlgorithm =
                                         WeightedCovarianceAlgorithmType::New();
