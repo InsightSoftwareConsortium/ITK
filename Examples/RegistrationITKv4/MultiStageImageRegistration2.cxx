@@ -319,8 +319,10 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ATransformType = itk::AffineTransform< double, Dimension >;
-  using AOptimizerType = itk::ConjugateGradientLineSearchOptimizerv4Template<double>;
+  using ATransformType =
+    itk::AffineTransform< double, Dimension >;
+  using AOptimizerType =
+    itk::ConjugateGradientLineSearchOptimizerv4Template<double>;
   using ARegistrationType = itk::ImageRegistrationMethodv4<
     FixedImageType,
     MovingImageType >;

@@ -113,7 +113,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::VotingBinaryIterativeHoleFillingImageFilter<ImageType>;
+  using FilterType =
+    itk::VotingBinaryIterativeHoleFillingImageFilter<ImageType>;
 
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet

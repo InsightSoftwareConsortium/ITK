@@ -267,7 +267,8 @@ int main( int,  char *[])
   classifier->SetInput( sample );
   classifier->SetNumberOfClasses( 2 );
 
-  using ClassLabelVectorObjectType = ClassifierType::ClassLabelVectorObjectType;
+  using ClassLabelVectorObjectType =
+    ClassifierType::ClassLabelVectorObjectType;
   using ClassLabelVectorType = ClassifierType::ClassLabelVectorType;
 
   ClassLabelVectorObjectType::Pointer classLabelVectorObject =
