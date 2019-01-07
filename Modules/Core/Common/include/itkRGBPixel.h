@@ -78,9 +78,9 @@ public:
   /** Default constructors */
   RGBPixel() { this->Fill(0); }
   RGBPixel(const RGBPixel&) = default;
-  RGBPixel(RGBPixel&&) = default;
+  RGBPixel(RGBPixel&&) ITK_NOEXCEPT = default;
   RGBPixel & operator=(const RGBPixel &) = default;
-  RGBPixel & operator=(RGBPixel &&) = default;
+  RGBPixel & operator=(RGBPixel &&) ITK_NOEXCEPT = default;
   ~RGBPixel() = default;
 
   /** Constructor to fill Red=Blug=Green= r. */

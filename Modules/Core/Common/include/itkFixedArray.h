@@ -134,7 +134,7 @@ public:
   FixedArray() = default;
   FixedArray(const FixedArray &) = default;
   FixedArray & operator=(const FixedArray & ) = default;
-  FixedArray(FixedArray &&) = default;
+  FixedArray(FixedArray &&) ITK_NOEXCEPT = default;
   FixedArray & operator=(FixedArray && ) = default;
   ~FixedArray() = default;
 

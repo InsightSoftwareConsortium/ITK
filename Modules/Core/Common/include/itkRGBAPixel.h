@@ -80,8 +80,8 @@ public:
   RGBAPixel() { this->Fill(0); }
   RGBAPixel(const RGBAPixel &) = default;
   RGBAPixel & operator=(const RGBAPixel &) = default;
-  RGBAPixel( RGBAPixel &&) = default;
-  RGBAPixel & operator=(RGBAPixel &&) = default;
+  RGBAPixel( RGBAPixel &&) ITK_NOEXCEPT = default;
+  RGBAPixel & operator=(RGBAPixel &&) ITK_NOEXCEPT = default;
   ~RGBAPixel() = default;
 
   /** Pass-through constructor for the Array base class. */

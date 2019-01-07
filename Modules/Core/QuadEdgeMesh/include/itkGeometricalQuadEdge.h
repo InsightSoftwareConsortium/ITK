@@ -111,9 +111,9 @@ public:
 public:
   GeometricalQuadEdge();
   GeometricalQuadEdge(const GeometricalQuadEdge &) = default;
-  GeometricalQuadEdge(GeometricalQuadEdge &&) = default;
+  GeometricalQuadEdge(GeometricalQuadEdge &&) ITK_NOEXCEPT = default;
   GeometricalQuadEdge & operator=(const GeometricalQuadEdge &) = default;
-  GeometricalQuadEdge & operator=(GeometricalQuadEdge &&) = default;
+  GeometricalQuadEdge & operator=(GeometricalQuadEdge &&) ITK_NOEXCEPT = default;
   virtual ~GeometricalQuadEdge() override = default;
 
   /** Set methods. */

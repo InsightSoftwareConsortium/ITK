@@ -98,9 +98,9 @@ public:
   /** Default constructors, assignments and destructor */
   Vector() = default;
   Vector(const Vector&) = default;
-  Vector(Vector&&) = default;
+  Vector(Vector&&) ITK_NOEXCEPT = default;
   Vector & operator=(const Vector &) = default;
-  Vector & operator=(Vector &&) = default;
+  Vector & operator=(Vector &&) ITK_NOEXCEPT = default;
   ~Vector() = default;
 
 #if !defined( ITK_LEGACY_FUTURE_REMOVE )

@@ -81,9 +81,9 @@ public:
   /** Default constructor, assignments */
   Point() = default;
   Point(const Point &) = default;
-  Point(Point &&) = default;
+  Point(Point &&) ITK_NOEXCEPT = default;
   Point & operator=(const Point &) = default;
-  Point & operator=(Point &&) = default;
+  Point & operator=(Point &&) ITK_NOEXCEPT = default;
   ~Point() = default;
   /** Pass-through constructors for different type points. */
   template< typename TPointValueType >

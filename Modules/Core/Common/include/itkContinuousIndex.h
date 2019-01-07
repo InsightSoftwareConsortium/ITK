@@ -68,9 +68,9 @@ public:
   /** Constructors */
   ContinuousIndex() = default;
   ContinuousIndex(const ContinuousIndex &) = default;
-  ContinuousIndex(ContinuousIndex &&) = default;
+  ContinuousIndex(ContinuousIndex &&) ITK_NOEXCEPT = default;
   ContinuousIndex & operator=(const ContinuousIndex &) = default;
-  ContinuousIndex & operator=(ContinuousIndex &&) = default;
+  ContinuousIndex & operator=(ContinuousIndex &&) ITK_NOEXCEPT = default;
   ~ContinuousIndex() = default;
 
   /** Pass-through constructor to the Point base class. */

@@ -61,9 +61,9 @@ public:
 public:
   QuadEdgeMeshPoint();
   QuadEdgeMeshPoint(const Self &) = default;
-  QuadEdgeMeshPoint(QuadEdgeMeshPoint &&) = default;
+  QuadEdgeMeshPoint(QuadEdgeMeshPoint &&) ITK_NOEXCEPT = default;
   QuadEdgeMeshPoint & operator=(const QuadEdgeMeshPoint &) = default;
-  QuadEdgeMeshPoint & operator=(QuadEdgeMeshPoint &&) = default;
+  QuadEdgeMeshPoint & operator=(QuadEdgeMeshPoint &&) ITK_NOEXCEPT = default;
   ~QuadEdgeMeshPoint() = default;
 
   QuadEdgeMeshPoint(const Superclass & r);

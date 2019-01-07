@@ -104,9 +104,9 @@ public:
   /** Default constructor. */
   CovariantVector() = default;
   CovariantVector(const CovariantVector&) = default;
-  CovariantVector(CovariantVector&&) = default;
+  CovariantVector(CovariantVector&&) ITK_NOEXCEPT = default;
   CovariantVector & operator=(const CovariantVector &) = default;
-  CovariantVector & operator=(CovariantVector &&) = default;
+  CovariantVector & operator=(CovariantVector &&) ITK_NOEXCEPT = default;
   ~CovariantVector() = default;
 
   /**

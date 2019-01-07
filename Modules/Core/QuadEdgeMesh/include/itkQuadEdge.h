@@ -249,9 +249,9 @@ public:
   /** Object creation methods. */
   QuadEdge();
   QuadEdge(const QuadEdge &) = default;
-  QuadEdge(QuadEdge &&) = default;
+  QuadEdge(QuadEdge &&) ITK_NOEXCEPT = default;
   QuadEdge & operator=(const QuadEdge &) = default;
-  QuadEdge & operator=(QuadEdge &&) = default;
+  QuadEdge & operator=(QuadEdge &&) ITK_NOEXCEPT = default;
   virtual ~QuadEdge();
 
   /** Sub-algebra Set methods. */
