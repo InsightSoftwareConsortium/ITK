@@ -301,7 +301,8 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   using MembershipFunctionType =
-    itk::Statistics::DistanceToCentroidMembershipFunction<MeasurementVectorType>;
+    itk::Statistics::DistanceToCentroidMembershipFunction
+      <MeasurementVectorType>;
   using DecisionRuleType = itk::Statistics::MinimumDecisionRule;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
 
@@ -312,9 +313,12 @@ int main()
   classifier->SetInput( sample );
   classifier->SetNumberOfClasses( 2 );
 
-  using ClassLabelVectorObjectType = ClassifierType::ClassLabelVectorObjectType;
-  using ClassLabelVectorType = ClassifierType::ClassLabelVectorType;
-  using ClassLabelType = ClassifierType::ClassLabelType;
+  using ClassLabelVectorObjectType =
+    ClassifierType::ClassLabelVectorObjectType;
+  using ClassLabelVectorType =
+    ClassifierType::ClassLabelVectorType;
+  using ClassLabelType =
+    ClassifierType::ClassLabelType;
 
   ClassLabelVectorObjectType::Pointer classLabelsObject =
     ClassLabelVectorObjectType::New();
