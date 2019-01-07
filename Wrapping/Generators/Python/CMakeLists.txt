@@ -1,7 +1,7 @@
 ###############################################################################
 # configure python (find PythonInterp first, as of cmake 3.1)
 find_package(PythonInterp)
-find_package(ITKPythonLibs)
+find_package(PythonLibs)
 
 # require at least python 2.6
 if(PYTHON_VERSION_STRING VERSION_LESS 2.6)

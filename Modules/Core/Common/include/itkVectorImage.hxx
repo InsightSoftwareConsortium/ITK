@@ -37,8 +37,8 @@ namespace itk
  */
 template< typename TPixel, unsigned int VImageDimension >
 VectorImage< TPixel, VImageDimension >
-::VectorImage():
-  m_VectorLength(0)
+::VectorImage()
+
 {
   m_Buffer = PixelContainer::New();
 }

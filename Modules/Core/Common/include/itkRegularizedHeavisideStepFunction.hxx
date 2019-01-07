@@ -30,10 +30,6 @@ RegularizedHeavisideStepFunction< TInput, TOutput >
 {}
 
 template< typename TInput, typename TOutput >
-RegularizedHeavisideStepFunction< TInput, TOutput >
-::~RegularizedHeavisideStepFunction() = default;
-
-template< typename TInput, typename TOutput >
 void
 RegularizedHeavisideStepFunction< TInput, TOutput >
 ::SetEpsilon(const RealType & ieps)

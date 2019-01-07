@@ -153,8 +153,8 @@ protected:
   ParametersType  m_InitialPosition;
   MeasureType     m_CurrentValue;
   StepsType       m_NumberOfSteps;
-  bool            m_Stop;
-  double          m_StepLength;
+  bool            m_Stop{false};
+  double          m_StepLength{1.0};
   ParametersType  m_CurrentIndex;
   MeasureType     m_MaximumMetricValue;
   MeasureType     m_MinimumMetricValue;

@@ -94,9 +94,9 @@ public:
   class TileInfo
   {
 public:
-    int                   m_ImageNumber;
+    int                   m_ImageNumber{-1};
     OutputImageRegionType m_Region;
-    TileInfo():m_ImageNumber(-1) {}
+    TileInfo() {}
   };
 
   using TileImageType = Image< TileInfo, Self::OutputImageDimension >;

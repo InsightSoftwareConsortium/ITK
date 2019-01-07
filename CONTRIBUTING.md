@@ -88,8 +88,7 @@ For new development, start the topic from `upstream/master`:
    $ git checkout -b my-topic upstream/master
 ```
 
-For release branch fixes, start the topic from `upstream/release`, and by
-convention use a topic name starting in `release-`:
+For release branch fixes, start the topic from `upstream/release`:
 
 ```sh
    $ git checkout -b my-topic upstream/release
@@ -153,7 +152,8 @@ Push commits in your topic branch for review by the community:
    $ git review-push --force
 ```
 
-(*If the topic adds data see [this note](Documentation/Data.md#push).*)
+A URL will be provided in the terminal -- visit this url to review the topic
+and open a pull request.
 
 Optionally, discuss the change by opening a topic on [ITK's Discourse].
 
@@ -269,11 +269,9 @@ merged. Use `-D` instead of `-d` to force the deletion of an unmerged topic
 branch (*warning*: you could lose commits).
 
 
-
-[README]: Documentation/README.md
 [download instructions]: Documentation/Download.md
 [GitHelp]: Documentation/GitHelp.md
-[UpdatingThirdParty]: Documentation/UpdatingThirdParty.md
+[UpdatingThirdParty]: Documentation/Maintenance/UpdatingThirdParty.md
 
 [`SetupForDevelopment.sh`]: https://github.com/InsightSoftwareConsortium/ITK/blob/master/Utilities/SetupForDevelopment.sh
 [`setup-git-aliases`]: https://github.com/InsightSoftwareConsortium/ITK/blob/master/Utilities/GitSetup/setup-git-aliases

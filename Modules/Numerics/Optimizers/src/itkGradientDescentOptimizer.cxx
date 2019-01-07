@@ -26,14 +26,8 @@ namespace itk
  * Constructor
  */
 GradientDescentOptimizer
-::GradientDescentOptimizer() :
-  m_Maximize(false),
-  m_LearningRate(1.0),
-  m_Stop(false),
-  m_Value(0.0),
-  m_StopCondition(MaximumNumberOfIterations),
-  m_NumberOfIterations(100),
-  m_CurrentIteration(0)
+::GradientDescentOptimizer()
+
 {
   itkDebugMacro("Constructor");
 

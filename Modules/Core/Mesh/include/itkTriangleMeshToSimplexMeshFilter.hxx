@@ -184,7 +184,7 @@ void TriangleMeshToSimplexMeshFilter< TInputMesh, TOutputMesh >
     CreateEdgeForTrianglePair(idx, tp1, output);
     CreateEdgeForTrianglePair(idx, tp2, output);
 
-    points++;
+    ++points;
     }
 }
 
@@ -381,7 +381,7 @@ TriangleMeshToSimplexMeshFilter< TInputMesh, TOutputMesh >
         }
       featureId++;
       }
-    points++;
+    ++points;
     }
 }
 

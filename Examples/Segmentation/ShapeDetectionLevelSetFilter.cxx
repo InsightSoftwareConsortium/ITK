@@ -18,26 +18,39 @@
 
 //  Software Guide : BeginCommandLineArgs
 //    INPUTS:  {BrainProtonDensitySlice.png}
-//    OUTPUTS: {ShapeDetectionLevelSetFilterOutput5.png}
-//    ARGUMENTS:    81 114 5 1.0  -0.5  3.0   .05 1
-//  Software Guide : EndCommandLineArgs
-//  Software Guide : BeginCommandLineArgs
-//    INPUTS:  {BrainProtonDensitySlice.png}
-//    OUTPUTS: {ShapeDetectionLevelSetFilterOutput6.png}
-//    ARGUMENTS:    99 114 5 1.0  -0.5  3.0   .05 1
-//  Software Guide : EndCommandLineArgs
-//  Software Guide : BeginCommandLineArgs
-//    INPUTS:  {BrainProtonDensitySlice.png}
-//    OUTPUTS: {ShapeDetectionLevelSetFilterOutput7.png}
-//    ARGUMENTS:    56 92 5 1.0  -0.3  2.0   .05 1
-//  Software Guide : EndCommandLineArgs
-//  Software Guide : BeginCommandLineArgs
-//    INPUTS:  {BrainProtonDensitySlice.png}
-//    OUTPUTS: {ShapeDetectionLevelSetFilterOutput8.png}
 //    OUTPUTS: {ShapeDetectionLevelSetFilterOutput1.png}
+//    ARGUMENTS:    81 114 5 1.0  -0.5  3.0   .05 1
+//    OUTPUTS: {ShapeDetectionLevelSetFilterOutput1Smoothing.png}
+//    OUTPUTS: {ShapeDetectionLevelSetFilterOutput1GradientMagnitude.png}
+//    OUTPUTS: {ShapeDetectionLevelSetFilterOutput1Sigmoid.png}
+//    OUTPUTS: {ShapeDetectionLevelSetFilterOutput1FastMarching.png}
+//  Software Guide : EndCommandLineArgs
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {ShapeDetectionLevelSetFilterOutput2.png}
+//    ARGUMENTS:    99 114 5 1.0  -0.5  3.0   .05 1
+//    OUTPUTS: {ShapeDetectionLevelSetFilterOutput2Smoothing.png}
+//    OUTPUTS: {ShapeDetectionLevelSetFilterOutput2GradientMagnitude.png}
+//    OUTPUTS: {ShapeDetectionLevelSetFilterOutput2Sigmoid.png}
+//    OUTPUTS: {ShapeDetectionLevelSetFilterOutput2FastMarching.png}
+//  Software Guide : EndCommandLineArgs
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS:  {BrainProtonDensitySlice.png}
 //    OUTPUTS: {ShapeDetectionLevelSetFilterOutput3.png}
+//    ARGUMENTS:    56 92 5 1.0  -0.3  2.0   .05 1
+//    OUTPUTS: {ShapeDetectionLevelSetFilterOutput3Smoothing.png}
+//    OUTPUTS: {ShapeDetectionLevelSetFilterOutput3GradientMagnitude.png}
+//    OUTPUTS: {ShapeDetectionLevelSetFilterOutput3Sigmoid.png}
+//    OUTPUTS: {ShapeDetectionLevelSetFilterOutput3FastMarching.png}
+//  Software Guide : EndCommandLineArgs
+//  Software Guide : BeginCommandLineArgs
+//    INPUTS:  {BrainProtonDensitySlice.png}
+//    OUTPUTS: {ShapeDetectionLevelSetFilterOutput4.png}
 //    ARGUMENTS:    40 90 5 0.5  -0.3  2.0   .05 1
+//    OUTPUTS: {ShapeDetectionLevelSetFilterOutput4Smoothing.png}
+//    OUTPUTS: {ShapeDetectionLevelSetFilterOutput4GradientMagnitude.png}
+//    OUTPUTS: {ShapeDetectionLevelSetFilterOutput4Sigmoid.png}
+//    OUTPUTS: {ShapeDetectionLevelSetFilterOutput4FastMarching.png}
 //  Software Guide : EndCommandLineArgs
 
 // Software Guide : BeginLatex
@@ -146,6 +159,8 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
+#include "itksys/SystemTools.hxx"
+
 
 //  The RescaleIntensityImageFilter is used to renormailize the output
 //  of filters before sending them to files.
@@ -164,6 +179,8 @@ int main( int argc, char *argv[] )
     std::cerr << " curvatureScaling propagationScaling" << std::endl;
     return EXIT_FAILURE;
     }
+  const std::string inputImageFile( argv[1] );
+  const std::string outputImageFile( argv[2] );
 
 
   //  Software Guide : BeginLatex
@@ -234,8 +251,8 @@ int main( int argc, char *argv[] )
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
-  reader->SetFileName( argv[1] );
-  writer->SetFileName( argv[2] );
+  reader->SetFileName( inputImageFile );
+  writer->SetFileName( outputImageFile );
 
 
   //  The RescaleIntensityImageFilter type is declared below. This filter will
@@ -561,30 +578,32 @@ int main( int argc, char *argv[] )
   WriterType::Pointer writer3 = WriterType::New();
   WriterType::Pointer writer4 = WriterType::New();
 
+  const std::string outputImageFilePrefix =
+    itksys::SystemTools::GetFilenameWithoutExtension( outputImageFile );
   caster1->SetInput( smoothing->GetOutput() );
   writer1->SetInput( caster1->GetOutput() );
-  writer1->SetFileName("ShapeDetectionLevelSetFilterOutput1.png");
+  writer1->SetFileName( outputImageFilePrefix + "Smoothing.png" );
   caster1->SetOutputMinimum(   0 );
   caster1->SetOutputMaximum( 255 );
   writer1->Update();
 
   caster2->SetInput( gradientMagnitude->GetOutput() );
   writer2->SetInput( caster2->GetOutput() );
-  writer2->SetFileName("ShapeDetectionLevelSetFilterOutput2.png");
+  writer2->SetFileName( outputImageFilePrefix + "GradientMagnitude.png" );
   caster2->SetOutputMinimum(   0 );
   caster2->SetOutputMaximum( 255 );
   writer2->Update();
 
   caster3->SetInput( sigmoid->GetOutput() );
   writer3->SetInput( caster3->GetOutput() );
-  writer3->SetFileName("ShapeDetectionLevelSetFilterOutput3.png");
+  writer3->SetFileName( outputImageFilePrefix + "Sigmoid.png" );
   caster3->SetOutputMinimum(   0 );
   caster3->SetOutputMaximum( 255 );
   writer3->Update();
 
   caster4->SetInput( fastMarching->GetOutput() );
   writer4->SetInput( caster4->GetOutput() );
-  writer4->SetFileName("ShapeDetectionLevelSetFilterOutput4.png");
+  writer4->SetFileName( outputImageFilePrefix + "FastMarching.png" );
   caster4->SetOutputMinimum(   0 );
   caster4->SetOutputMaximum( 255 );
 
@@ -764,9 +783,9 @@ int main( int argc, char *argv[] )
   //
   // \begin{figure} \center
   // \includegraphics[height=0.40\textheight]{BrainProtonDensitySlice}
-  // \includegraphics[height=0.40\textheight]{ShapeDetectionLevelSetFilterOutput1}
-  // \includegraphics[height=0.40\textheight]{ShapeDetectionLevelSetFilterOutput2}
-  // \includegraphics[height=0.40\textheight]{ShapeDetectionLevelSetFilterOutput3}
+  // \includegraphics[height=0.40\textheight]{ShapeDetectionLevelSetFilterOutput1Smoothing}
+  // \includegraphics[height=0.40\textheight]{ShapeDetectionLevelSetFilterOutput1GradientMagnitude}
+  // \includegraphics[height=0.40\textheight]{ShapeDetectionLevelSetFilterOutput1Sigmoid}
   // \itkcaption[ShapeDetectionLevelSetImageFilter intermediate output]{Images generated by
   // the segmentation process based on the ShapeDetectionLevelSetImageFilter. From left
   // to right and top to bottom: input image to be segmented, image smoothed with an
@@ -786,10 +805,10 @@ int main( int argc, char *argv[] )
   //  structure.
   //
   // \begin{figure} \center
-  // \includegraphics[width=0.24\textwidth]{ShapeDetectionLevelSetFilterOutput5}
-  // \includegraphics[width=0.24\textwidth]{ShapeDetectionLevelSetFilterOutput6}
-  // \includegraphics[width=0.24\textwidth]{ShapeDetectionLevelSetFilterOutput7}
-  // \includegraphics[width=0.24\textwidth]{ShapeDetectionLevelSetFilterOutput8}
+  // \includegraphics[width=0.24\textwidth]{ShapeDetectionLevelSetFilterOutput1}
+  // \includegraphics[width=0.24\textwidth]{ShapeDetectionLevelSetFilterOutput2}
+  // \includegraphics[width=0.24\textwidth]{ShapeDetectionLevelSetFilterOutput3}
+  // \includegraphics[width=0.24\textwidth]{ShapeDetectionLevelSetFilterOutput4}
   // \itkcaption[ShapeDetectionLevelSetImageFilter segmentations]{Images generated by the
   // segmentation process based on the ShapeDetectionLevelSetImageFilter. From left to
   // right: segmentation of the left ventricle, segmentation of the right

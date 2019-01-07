@@ -96,12 +96,12 @@ public:
   }
 
 protected:
-  LoggerOutput():m_Logger(nullptr) {}
+  LoggerOutput() {}
   ~LoggerOutput() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  Logger *m_Logger;
+  Logger *m_Logger{nullptr};
 };
 } // end namespace itk
 

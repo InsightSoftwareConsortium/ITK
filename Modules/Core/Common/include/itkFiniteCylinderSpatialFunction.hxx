@@ -39,10 +39,6 @@ FiniteCylinderSpatialFunction< VDimension, TInput >
 }
 
 template< unsigned int VDimension, typename TInput >
-FiniteCylinderSpatialFunction< VDimension, TInput >
-::~FiniteCylinderSpatialFunction() = default;
-
-template< unsigned int VDimension, typename TInput >
 void
 FiniteCylinderSpatialFunction< VDimension, TInput >
 ::SetOrientation(const InputType _Orientation)

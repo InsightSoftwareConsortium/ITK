@@ -265,22 +265,22 @@ protected:
   void GenerateData() override;
 
 private:
-  bool                                         m_EstimateInverse;
-  bool                                         m_EnforceStationaryBoundary;
-  unsigned int                                 m_SplineOrder;
+  bool                                         m_EstimateInverse{ false };
+  bool                                         m_EnforceStationaryBoundary{ true };
+  unsigned int                                 m_SplineOrder{ 3 };
   ArrayType                                    m_NumberOfControlPoints;
   ArrayType                                    m_NumberOfFittingLevels;
 
   typename WeightsContainerType::Pointer       m_PointWeights;
-  bool                                         m_UsePointWeights;
+  bool                                         m_UsePointWeights{ false };
 
   OriginType                                   m_BSplineDomainOrigin;
   SpacingType                                  m_BSplineDomainSpacing;
   SizeType                                     m_BSplineDomainSize;
   DirectionType                                m_BSplineDomainDirection;
 
-  bool                                         m_BSplineDomainIsDefined;
-  bool                                         m_UseInputFieldToDefineTheBSplineDomain;
+  bool                                         m_BSplineDomainIsDefined{ true };
+  bool                                         m_UseInputFieldToDefineTheBSplineDomain{ false };
 };
 
 } // end namespace itk

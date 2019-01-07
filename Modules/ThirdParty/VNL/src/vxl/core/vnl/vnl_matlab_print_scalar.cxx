@@ -246,4 +246,3 @@ inst(long double);
 inst(std::complex<float>);
 inst(std::complex<double>);
 inst(std::complex<long double>);
-

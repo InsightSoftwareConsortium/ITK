@@ -192,7 +192,7 @@ private:
 
   SuperGridSizeType m_SuperGridSize;
   unsigned int      m_MaximumNumberOfIterations;
-  double            m_SpatialProximityWeight;
+  double            m_SpatialProximityWeight{ 10.0 };
 
   FixedArray<double,ImageDimension> m_DistanceScales;
   std::vector<ClusterComponentType> m_Clusters;
@@ -219,9 +219,9 @@ private:
   typename DistanceImageType::Pointer m_DistanceImage;
   typename MarkerImageType::Pointer   m_MarkerImage;
 
-  bool m_EnforceConnectivity;
+  bool m_EnforceConnectivity{true};
 
-  bool m_InitializationPerturbation;
+  bool m_InitializationPerturbation{true};
 
   double               m_AverageResidual;
   std::mutex m_Mutex;

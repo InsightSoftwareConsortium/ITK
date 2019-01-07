@@ -174,13 +174,13 @@ private:
   private:
     FunctorRealType m_Amount;
     FunctorRealType m_Threshold;
-    bool m_Clamp;
+    bool m_Clamp{false};
 
   public:
     UnsharpMaskingFunctor()
       : m_Amount(0.5),
-      m_Threshold(0.0),
-      m_Clamp(false)
+      m_Threshold(0.0)
+
     {
     }
 

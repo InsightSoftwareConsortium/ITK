@@ -94,7 +94,8 @@ int main()
   treeGenerator->SetBucketSize( 16 );
   treeGenerator->Update();
 
-  using CentroidTreeGeneratorType = itk::Statistics::WeightedCentroidKdTreeGenerator<SampleType>;
+  using CentroidTreeGeneratorType =
+    itk::Statistics::WeightedCentroidKdTreeGenerator<SampleType>;
 
   CentroidTreeGeneratorType::Pointer centroidTreeGenerator =
                                          CentroidTreeGeneratorType::New();
@@ -190,7 +191,8 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using DistanceMetricType = itk::Statistics::EuclideanDistanceMetric<MeasurementVectorType>;
+  using DistanceMetricType =
+    itk::Statistics::EuclideanDistanceMetric<MeasurementVectorType>;
   DistanceMetricType::Pointer distanceMetric = DistanceMetricType::New();
 
   DistanceMetricType::OriginType origin( 2 );

@@ -183,15 +183,15 @@ protected:
 
 private:
 
-  double             m_AngleResolution;
-  double             m_Threshold;
+  double             m_AngleResolution{ 500 };
+  double             m_Threshold{ 0 };
 
   OutputImagePointer m_SimplifyAccumulator;
   LinesListType      m_LinesList;
-  LinesListSizeType  m_NumberOfLines;
-  double             m_DiscRadius;
-  double             m_Variance;
-  ModifiedTimeType   m_OldModifiedTime;
+  LinesListSizeType  m_NumberOfLines{ 1 };
+  double             m_DiscRadius{ 10 };
+  double             m_Variance{ 5 };
+  ModifiedTimeType   m_OldModifiedTime{ 0 };
 };
 } // end namespace itk
 

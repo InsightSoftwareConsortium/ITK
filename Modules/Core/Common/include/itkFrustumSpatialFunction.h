@@ -105,11 +105,11 @@ protected:
 
 private:
   InputType                 m_Apex;
-  double                    m_AngleZ;
-  double                    m_ApertureAngleX;
-  double                    m_ApertureAngleY;
-  double                    m_TopPlane;
-  double                    m_BottomPlane;
+  double                    m_AngleZ{ 0.0f };
+  double                    m_ApertureAngleX{ 0.0f };
+  double                    m_ApertureAngleY{ 0.0f };
+  double                    m_TopPlane{ 0.0f };
+  double                    m_BottomPlane{ 0.0f };
   FrustumRotationPlaneType  m_RotationPlane;
 };
 } // end namespace itk

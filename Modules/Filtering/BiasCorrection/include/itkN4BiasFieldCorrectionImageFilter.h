@@ -137,21 +137,20 @@ public:
   using BiasFieldControlPointLatticeType = typename BSplineFilterType::PointDataImageType;
   using ArrayType = typename BSplineFilterType::ArrayType;
 
+  /** Ensures that this filter can compute the entire output at once.  */
+  void EnlargeOutputRequestedRegion(DataObject*) override;
+
   /**
    * The image expected for input for bias correction.
    */
   void SetInput1( const InputImageType *image ) { this->SetInput( image ); }
-
 
   /**
    * Set mask image function.  If a binary mask image is specified, only
    * those input image voxels inside the mask image values are used in
    * estimating the bias field.
    */
-  void SetMaskImage( const MaskImageType *mask )
-    {
-    this->SetNthInput( 1, const_cast<MaskImageType *>( mask ) );
-    }
+  itkSetInputMacro(MaskImage, MaskImageType);
   void SetInput2( const MaskImageType *mask ) { this->SetMaskImage( mask ); }
 
   /**
@@ -159,10 +158,7 @@ public:
    * those input image voxels inside the mask image values are used in
    * estimating the bias field.
    */
-  const MaskImageType* GetMaskImage() const
-    {
-    return static_cast<const MaskImageType*>( this->ProcessObject::GetInput( 1 ) );
-    }
+  itkGetInputMacro(MaskImage, MaskImageType);
 
   /**
    * Set/Get mask label value. If a binary mask image is specified and if
@@ -192,10 +188,7 @@ public:
    * been done in the literature) as an alternative strategy to estimating the
    * bias field.
    */
-  void SetConfidenceImage( const RealImageType *image )
-    {
-    this->SetNthInput( 2, const_cast<RealImageType *>( image ) );
-    }
+  itkSetInputMacro(ConfidenceImage, RealImageType);
   void SetInput3( const RealImageType *image ) { this->SetConfidenceImage( image ); }
 
   /**
@@ -208,10 +201,7 @@ public:
    * been done in the literature) as an alternative strategy to estimating the
    * bias field.
    */
-  const RealImageType* GetConfidenceImage() const
-    {
-    return static_cast<const RealImageType*>( this->ProcessObject::GetInput( 2 ) );
-    }
+  itkGetInputMacro(ConfidenceImage, RealImageType);
 
   // Sharpen histogram parameters: in estimating the bias field, the
   // first step is to sharpen the intensity histogram by Wiener deconvolution
@@ -399,7 +389,7 @@ private:
    * the estimate and adds the resulting control point values to the total
    * bias field estimate.
    */
-  RealImagePointer UpdateBiasFieldEstimate( RealImageType * );
+  RealImagePointer UpdateBiasFieldEstimate( RealImageType *, std::size_t );
 
   /**
    * Reconstruct bias field given the control point lattice.
@@ -413,28 +403,28 @@ private:
   RealType CalculateConvergenceMeasurement( const RealImageType *, const RealImageType * ) const;
 
   MaskPixelType m_MaskLabel;
-  bool          m_UseMaskLabel;
+  bool          m_UseMaskLabel{ false };
 
   // Parameters for deconvolution with Wiener filter
 
-  unsigned int m_NumberOfHistogramBins;
-  RealType     m_WienerFilterNoise;
-  RealType     m_BiasFieldFullWidthAtHalfMaximum;
+  unsigned int m_NumberOfHistogramBins{ 200 };
+  RealType     m_WienerFilterNoise{ static_cast< RealType >( 0.01 ) };
+  RealType     m_BiasFieldFullWidthAtHalfMaximum{ static_cast< RealType >( 0.15 ) };
 
   // Convergence parameters
 
   VariableSizeArrayType m_MaximumNumberOfIterations;
-  unsigned int          m_ElapsedIterations;
-  RealType              m_ConvergenceThreshold;
+  unsigned int          m_ElapsedIterations{ 0 };
+  RealType              m_ConvergenceThreshold{ static_cast< RealType >( 0.001 ) };
   RealType              m_CurrentConvergenceMeasurement;
-  unsigned int          m_CurrentLevel;
+  unsigned int          m_CurrentLevel{ 0 };
 
   // B-spline fitting parameters
 
   typename
   BiasFieldControlPointLatticeType::Pointer m_LogBiasFieldControlPointLattice;
 
-  unsigned int m_SplineOrder;
+  unsigned int m_SplineOrder{ 3 };
   ArrayType    m_NumberOfControlPoints;
   ArrayType    m_NumberOfFittingLevels;
 

@@ -37,20 +37,6 @@ namespace itk
  *
  */
 template< typename T >
-DataObjectDecorator< T >
-::DataObjectDecorator() = default;
-
-/**
- *
- */
-template< typename T >
-DataObjectDecorator< T >
-::~DataObjectDecorator() = default;
-
-/**
- *
- */
-template< typename T >
 void
 DataObjectDecorator< T >
 ::Set( const ComponentType *val)

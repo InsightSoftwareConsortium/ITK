@@ -28,23 +28,8 @@ namespace itk
  */
 template< typename TInputMesh >
 SimplexMeshVolumeCalculator< TInputMesh >
-::SimplexMeshVolumeCalculator() :
-  m_Volume(0.0),
-  m_VolumeX(0.0),
-  m_VolumeY(0.0),
-  m_VolumeZ(0.0),
-  m_Area(0.0),
-  m_Kx(0.0),
-  m_Ky(0.0),
-  m_Kz(0.0),
-  m_Wxyz(0.0),
-  m_Wxy(0.0),
-  m_Wxz(0.0),
-  m_Wyz(0.0),
-  m_Muncx(0),
-  m_Muncy(0),
-  m_Muncz(0),
-  m_NumberOfTriangles(0)
+::SimplexMeshVolumeCalculator()
+
 {
 }
 
@@ -263,7 +248,7 @@ void SimplexMeshVolumeCalculator< TInputMesh >
       {
       CalculateTriangleVolume(p1, p2, p3);
       }
-    pointsIt++;
+    ++pointsIt;
     }
   this->Finalize();
 }

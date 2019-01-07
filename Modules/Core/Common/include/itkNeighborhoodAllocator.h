@@ -53,7 +53,7 @@ public:
   using const_iterator = const TPixel *;
 
   /** Default constructor */
-  NeighborhoodAllocator():m_ElementCount(0), m_Data(nullptr)  {}
+  NeighborhoodAllocator(): m_Data(nullptr)  {}
 
   /** Default destructor */
   ~NeighborhoodAllocator()
@@ -124,7 +124,7 @@ public:
   }
 
 protected:
-  unsigned int m_ElementCount;
+  unsigned int m_ElementCount{0};
   TPixel *     m_Data;
 };
 

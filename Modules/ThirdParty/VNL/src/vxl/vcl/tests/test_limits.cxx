@@ -122,4 +122,3 @@ int test_limits_main(int /*argc*/, char* /*argv*/[])
   TEST("rnder",std::numeric_limits<float>::round_error() <= 1.0, true);
   return fail?1:0;
 }
-

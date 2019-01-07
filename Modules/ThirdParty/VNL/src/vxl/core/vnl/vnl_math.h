@@ -183,23 +183,26 @@ namespace vnl_math
 	  return std::isnormal(t);
   }
 #else
-	using std::isnan;
-	using std::isfinite;
-	using std::isnormal;
-# if defined(__GNUC__) // https://en.cppreference.com/w/cpp/numeric/math/isinf indicates taht isinf should return bool
-        // Ensure proper conversion to bool type.
-        // Return a signed integer type has been seen with the following
-        // compilers/libstdc++:
-        //  g++ (GCC) 7.2.1 20170829 (Red Hat 7.2.1-1)
-        //  g++ (GCC) 6.3.1 20170216 (Red Hat 6.3.1-3)
-        template <typename TArg>
-        bool isinf(TArg&& arg)
-          {
-          return bool(std::isinf(std::forward<TArg>(arg)));
-          }
-# else
-	using std::isinf;
-# endif
+  // https://en.cppreference.com/w/cpp/numeric/math/isinf indicates that isinf should return bool
+  // However, several compiler environments do not properly conform to the C++11 standard for
+  // returning bool from these functions.  Wrap them to ensure conformance, and
+  // rely on the compiler to optimize the overhead away.
+
+  // Return a signed integer type has been seen with the following
+  // compilers/libstdc++:
+  //  RHEL7-devtool-6-gcc6.3
+  //  RHEL7-devtool-6-gcc6.3-m32
+  //  RHEL7-devtool-7-gcc7.2
+  // 	RHEL7-devtool-7-gcc7.2-m32
+
+  template <typename TArg>
+  inline bool isinf(TArg arg) { return bool(std::isinf(arg)); }
+  template <typename TArg>
+  inline bool isnan(TArg arg) { return bool(std::isnan(arg)); }
+  template <typename TArg>
+  inline bool isfinite(TArg arg) { return bool(std::isfinite(arg)); }
+  template <typename TArg>
+  inline bool isnormal(TArg arg) { return bool(std::isnormal(arg)); }
 #endif
   using std::max;
   using std::min;

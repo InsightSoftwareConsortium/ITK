@@ -211,7 +211,7 @@ protected:
 
 private:
   /** The parent node that this node was placed into. */
-  DOMNode* m_Parent;
+  DOMNode* m_Parent{ nullptr };
 
   /** The XML tag of this node. */
   std::string m_Name;

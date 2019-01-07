@@ -31,6 +31,7 @@ itkConfig.ImportCallback = custom_callback
 
 import itk
 import sys
+import os
 
 # test the force load function
 itk.force_load()
@@ -153,6 +154,55 @@ assert obj.__class__ == itk.Object
 down_casted = itk.down_cast(obj)
 assert down_casted == reader
 assert down_casted.__class__ == ReaderType
+
+# test setting the IO manually
+png_io = itk.PNGImageIO.New()
+assert png_io.GetFileName() == ''
+reader=itk.ImageFileReader.New(FileName=fileName, ImageIO=png_io)
+reader.Update()
+assert png_io.GetFileName() == fileName
+
+# test reading image series
+series_reader = itk.ImageSeriesReader.New(FileNames=[fileName,fileName])
+series_reader.Update()
+assert series_reader.GetOutput().GetImageDimension() == 3
+assert series_reader.GetOutput().GetLargestPossibleRegion().GetSize()[2] == 2
+
+# test reading image series and check that dimension is not increased if
+# last dimension is 1.
+image_series = itk.Image[itk.UC, 3].New()
+image_series.SetRegions([10, 7, 1])
+image_series.Allocate()
+image_series.FillBuffer(0)
+image_series3d_filename = os.path.join(
+    sys.argv[3], "image_series_extras_py.mha")
+itk.imwrite(image_series, image_series3d_filename)
+series_reader = itk.ImageSeriesReader.New(
+    FileNames=[image_series3d_filename, image_series3d_filename])
+series_reader.Update()
+assert series_reader.GetOutput().GetImageDimension() == 3
+
+# test reading image series with itk.imread()
+image_series = itk.imread([fileName, fileName])
+assert image_series.GetImageDimension() == 3
+
+# Numeric series filename generation without any integer index. It is
+# only to produce an ITK object that users could set as an input to
+# `itk.ImageSeriesReader.New()` or `itk.imread()` and test that it works.
+numeric_series_filename = itk.NumericSeriesFileNames.New()
+numeric_series_filename.SetStartIndex(0)
+numeric_series_filename.SetEndIndex(3)
+numeric_series_filename.SetIncrementIndex(1)
+numeric_series_filename.SetSeriesFormat(fileName)
+image_series = itk.imread(numeric_series_filename.GetFileNames())
+number_of_files = len(numeric_series_filename.GetFileNames())
+assert image_series.GetImageDimension() == 3
+assert image_series.GetLargestPossibleRegion().GetSize()[2] == number_of_files
+
+# test reading image series with `itk.imread()` and check that dimension is
+# not increased if last dimension is 1.
+image_series = itk.imread([image_series3d_filename, image_series3d_filename])
+assert image_series.GetImageDimension() == 3
 
 # pipeline, auto_pipeline and templated class are tested in other files
 

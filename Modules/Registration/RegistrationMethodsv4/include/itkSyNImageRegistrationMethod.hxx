@@ -37,21 +37,14 @@ namespace itk
  */
 template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
 SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
-::SyNImageRegistrationMethod() :
-  m_LearningRate( 0.25 ),
-  m_ConvergenceThreshold( 1.0e-6 ),
-  m_ConvergenceWindowSize( 10 ),
-  m_GaussianSmoothingVarianceForTheUpdateField( 3.0 ),
-  m_GaussianSmoothingVarianceForTheTotalField( 0.5 )
+::SyNImageRegistrationMethod()
 {
   this->m_NumberOfIterationsPerLevel.SetSize( 3 );
   this->m_NumberOfIterationsPerLevel[0] = 20;
   this->m_NumberOfIterationsPerLevel[1] = 30;
   this->m_NumberOfIterationsPerLevel[2] = 40;
-  this->m_DownsampleImagesForMetricDerivatives = true;
-  this->m_AverageMidPointGradients = false;
-  this->m_FixedToMiddleTransform = nullptr;
-  this->m_MovingToMiddleTransform = nullptr;
+
+  // Note: the other data members are initialized by C++11 default member initializers.
 }
 
 template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>

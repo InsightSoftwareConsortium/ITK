@@ -97,12 +97,73 @@ public:
 private:
   CalculatorType m_Calculator;
 };
+
+template< unsigned int TMatrixDimension, typename TInput, typename TOutput >
+class SymmetricEigenAnalysisFixedDimensionFunction
+{
+public:
+  using RealValueType = typename TInput::RealValueType;
+  SymmetricEigenAnalysisFixedDimensionFunction() = default;
+  ~SymmetricEigenAnalysisFixedDimensionFunction() = default;
+  using CalculatorType = SymmetricEigenAnalysisFixedDimension< TMatrixDimension, TInput, TOutput >;
+  bool operator!=(const SymmetricEigenAnalysisFixedDimensionFunction &) const
+  {
+    return false;
+  }
+
+  bool operator==(const SymmetricEigenAnalysisFixedDimensionFunction & other) const
+  {
+    return !( *this != other );
+  }
+
+  inline TOutput operator()(const TInput & x) const
+  {
+    TOutput eigenValues;
+
+    m_Calculator.ComputeEigenValues(x, eigenValues);
+    return eigenValues;
+  }
+
+  /** Method to get the dimension of the matrix. Dimension is fixed, no SetDimension is provided */
+  unsigned int GetDimension() const
+  {
+    return m_Calculator.GetDimension();
+  }
+
+  /** Typdedefs to order eigen values.
+   * OrderByValue:      lambda_1 < lambda_2 < ....
+   * OrderByMagnitude:  |lambda_1| < |lambda_2| < .....
+   * DoNotOrder:        Default order of eigen values obtained after QL method
+   */
+  typedef enum {
+    OrderByValue = 1,
+    OrderByMagnitude,
+    DoNotOrder
+    } EigenValueOrderType;
+
+  /** Order eigen values. Default is to OrderByValue:  lambda_1 <
+   * lambda_2 < .... */
+  void OrderEigenValuesBy(EigenValueOrderType order)
+  {
+    if ( order == OrderByMagnitude )
+      {
+      m_Calculator.SetOrderEigenMagnitudes(true);
+      }
+    else if ( order == DoNotOrder )
+      {
+      m_Calculator.SetOrderEigenValues(false);
+      }
+  }
+
+private:
+  CalculatorType m_Calculator;
+};
 }  // end namespace Functor
 
 /** \class SymmetricEigenAnalysisImageFilter
  * \brief Computes the eigen-values of every input symmetric matrix pixel.
  *
- * SymmetricEigenAnalysisImageFilter applies pixel-wise the invokation for
+ * SymmetricEigenAnalysisImageFilter applies pixel-wise the invocation for
  * computing the eigen-values and eigen-vectors of the symmetric matrix
  * corresponding to every input pixel.
  *
@@ -192,6 +253,95 @@ public:
 protected:
   SymmetricEigenAnalysisImageFilter() = default;
   ~SymmetricEigenAnalysisImageFilter() override = default;
+};
+
+/** \class SymmetricEigenAnalysisFixedDimensionImageFilter
+ * \brief Computes the eigen-values of every input symmetric matrix pixel.
+ *
+ * SymmetricEigenAnalysisImageFilter applies pixel-wise the invokation for
+ * computing the eigen-values and eigen-vectors of the symmetric matrix
+ * corresponding to every input pixel.
+ *
+ * The OrderEigenValuesBy( .. ) method can be used to order eigen values
+ * in ascending order by value or magnitude or no ordering.
+ * OrderByValue:      lambda_1 < lambda_2 < ....
+ * OrderByMagnitude:  |lambda_1| < |lambda_2| < .....
+ * DoNotOrder:        Default order of eigen values obtained after QL method
+ *
+ * \ingroup IntensityImageFilters  MultiThreaded  TensorObjects
+ *
+ * \ingroup ITKImageIntensity
+ */
+template< unsigned int TMatrixDimension, typename  TInputImage, typename  TOutputImage = TInputImage >
+class SymmetricEigenAnalysisFixedDimensionImageFilter:
+  public
+  UnaryFunctorImageFilter< TInputImage, TOutputImage,
+                           Functor::SymmetricEigenAnalysisFixedDimensionFunction<
+                             TMatrixDimension,
+                             typename TInputImage::PixelType,
+                             typename TOutputImage::PixelType > >
+{
+public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SymmetricEigenAnalysisFixedDimensionImageFilter);
+
+  /** Standard class type aliases. */
+  using Self = SymmetricEigenAnalysisFixedDimensionImageFilter;
+  using Superclass = UnaryFunctorImageFilter<
+    TInputImage, TOutputImage,
+    Functor::SymmetricEigenAnalysisFixedDimensionFunction<
+      TMatrixDimension,
+      typename TInputImage::PixelType,
+      typename TOutputImage::PixelType > >;
+
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+
+  using OutputImageType = typename Superclass::OutputImageType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using InputValueType = typename InputPixelType::ValueType;
+  using FunctorType = typename Superclass::FunctorType;
+
+  /** Typdedefs to order eigen values.
+   * OrderByValue:      lambda_1 < lambda_2 < ....
+   * OrderByMagnitude:  |lambda_1| < |lambda_2| < .....
+   * DoNotOrder:        Default order of eigen values obtained after QL method
+   */
+  using EigenValueOrderType = typename FunctorType::EigenValueOrderType;
+
+  /** Order eigen values. Default is to OrderByValue:  lambda_1 <
+   * lambda_2 < .... */
+  void OrderEigenValuesBy(EigenValueOrderType order)
+  {
+    this->GetFunctor().OrderEigenValuesBy(order);
+  }
+
+  /** Run-time type information (and related methods).   */
+  itkTypeMacro(SymmetricEigenAnalysisFixedDimensionImageFilter, UnaryFunctorImageFilter);
+
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Print internal ivars */
+  void PrintSelf(std::ostream & os, Indent indent) const override
+  { this->Superclass::PrintSelf(os, indent); }
+
+  /** GetDimension of the matrix. Dimension is fixed by template parameter, no SetDimension. */
+  unsigned int GetDimension() const
+  {
+    return this->GetFunctor().GetDimension();
+  }
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  // Begin concept checking
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< InputValueType > ) );
+  // End concept checking
+#endif
+
+protected:
+  SymmetricEigenAnalysisFixedDimensionImageFilter() = default;
+  ~SymmetricEigenAnalysisFixedDimensionImageFilter() override = default;
 };
 } // end namespace itk
 

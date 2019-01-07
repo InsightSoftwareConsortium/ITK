@@ -34,7 +34,7 @@ bool DataObject:: m_GlobalReleaseDataFlag = false;
 
 DataObjectError
 ::DataObjectError() noexcept:
-  ExceptionObject(), m_DataObject(nullptr)
+  ExceptionObject()
 {}
 
 DataObjectError

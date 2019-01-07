@@ -35,28 +35,13 @@ namespace itk
 template <typename TFixedImage, typename TMovingImage>
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 ::MattesMutualInformationImageToImageMetric() :
-  m_NumberOfHistogramBins(50),
-  m_MovingImageNormalizedMin(0.0),
-  m_FixedImageNormalizedMin(0.0),
-  m_FixedImageTrueMin(0.0),
-  m_FixedImageTrueMax(0.0),
-  m_MovingImageTrueMin(0.0),
-  m_MovingImageTrueMax(0.0),
-  m_FixedImageBinSize(0.0),
-  m_MovingImageBinSize(0.0),
-
   m_CubicBSplineKernel(nullptr),
   m_CubicBSplineDerivativeKernel(nullptr),
-
   m_PRatioArray(0,0),
-
   // Initialize memory
   m_MovingImageMarginalPDF(0),
+  m_MMIMetricPerThreadVariables(nullptr)
 
-  m_MMIMetricPerThreadVariables(nullptr),
-
-  m_UseExplicitPDFDerivatives(true),
-  m_ImplicitDerivativesSecondPass(false)
 {
   this->SetComputeGradient(false); // don't use the default gradient for now
   this->m_WithinThreadPreProcess = true;

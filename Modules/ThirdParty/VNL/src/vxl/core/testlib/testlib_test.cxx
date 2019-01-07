@@ -167,4 +167,3 @@ void testlib_test_assert_equal(const std::string& msg, long expr, long target)
     std::cout << "difference " << diff << ", " << std::flush;
   testlib_test_perform(diff == 0);
 }
-

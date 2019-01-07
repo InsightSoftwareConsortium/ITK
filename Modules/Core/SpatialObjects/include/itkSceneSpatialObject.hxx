@@ -26,7 +26,7 @@ namespace itk
 /** Constructor */
 template< unsigned int TSpaceDimension >
 SceneSpatialObject< TSpaceDimension >
-::SceneSpatialObject() : m_ParentId(0)
+::SceneSpatialObject()
 {}
 
 /** Destructor */

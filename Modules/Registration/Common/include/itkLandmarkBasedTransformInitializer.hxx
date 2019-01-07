@@ -34,8 +34,8 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
   m_Transform(nullptr),
   m_FixedLandmarks(0),
   m_MovingLandmarks(0),
-  m_LandmarkWeight(0),
-  m_BSplineNumberOfControlPoints(4)
+  m_LandmarkWeight(0)
+
 {}
 
 /** default transform initializer, if transform type isn't
@@ -503,11 +503,12 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
     vnl_matrix< ParametersValueType > eigenVectors(4, 4);
     vnl_vector< ParametersValueType > eigenValues(4);
 
-    using SymmetricEigenAnalysisType = itk::SymmetricEigenAnalysis<
+    using SymmetricEigenAnalysisType = itk::SymmetricEigenAnalysisFixedDimension<
+      4,
       itk::Matrix< ParametersValueType, 4, 4 >,
       vnl_vector< ParametersValueType >,
       vnl_matrix< ParametersValueType > >;
-    SymmetricEigenAnalysisType symmetricEigenSystem(4);
+    SymmetricEigenAnalysisType symmetricEigenSystem;
 
     symmetricEigenSystem.ComputeEigenValuesAndVectors(N, eigenValues, eigenVectors);
 

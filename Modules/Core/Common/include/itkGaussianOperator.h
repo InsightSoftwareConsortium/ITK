@@ -75,7 +75,7 @@ public:
   itkTypeMacro(GaussianOperator, NeighborhoodOperator);
 
   /** Constructor. */
-  GaussianOperator():m_Variance(1), m_MaximumError(.01), m_MaximumKernelWidth(30) {}
+  GaussianOperator() {}
 
   /** Copy constructor */
   GaussianOperator(const Self & other):
@@ -177,16 +177,16 @@ protected:
 
 private:
   /** Desired variance of the discrete Gaussian function. */
-  double m_Variance;
+  double m_Variance{1};
 
   /** Difference between the areas under the curves of the continuous and
    * discrete Gaussian functions. */
-  double m_MaximumError;
+  double m_MaximumError{.01};
 
   /** Maximum kernel size allowed.  This value is used to truncate a kernel
    *  that has grown too large.  A warning is given when the specified maximum
    *  error causes the kernel to exceed this size. */
-  unsigned int m_MaximumKernelWidth;
+  unsigned int m_MaximumKernelWidth{30};
 
 };
 } // namespace itk

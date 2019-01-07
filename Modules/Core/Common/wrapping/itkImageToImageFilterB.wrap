@@ -1,6 +1,4 @@
 itk_wrap_class("itk::ImageToImageFilter" POINTER)
-  # complex types
-  itk_wrap_image_filter("${WRAP_ITK_COMPLEX_REAL}" 2)
 
   # scalar <-> RGB
   UNIQUE(stypes "${ITKM_IT};UL;${WRAP_ITK_SCALAR}")
@@ -25,6 +23,9 @@ itk_wrap_class("itk::ImageToImageFilter" POINTER)
   # *Vector <-> scalar
   itk_wrap_image_filter_combinations("${WRAP_ITK_VECTOR}" "${WRAP_ITK_SCALAR}")
   itk_wrap_image_filter_combinations("${WRAP_ITK_SCALAR}" "${WRAP_ITK_VECTOR}")
+
+  # complex types
+  itk_wrap_image_filter_combinations("${WRAP_ITK_COMPLEX_REAL}" "${WRAP_ITK_COMPLEX_REAL}")
 
   # complex <-> scalar
   itk_wrap_image_filter_combinations("${WRAP_ITK_SCALAR}" "${WRAP_ITK_COMPLEX_REAL}")
@@ -57,6 +58,8 @@ itk_wrap_class("itk::ImageToImageFilter" POINTER)
     foreach(d ${ITK_WRAP_IMAGE_DIMS})
       itk_wrap_template("I${ITKM_F}${d}ICV${ITKM_D}${d}${d}"
                         "itk::Image<${ITKT_F}, ${d}>, itk::Image<itk::CovariantVector<${ITKT_D}, ${d}>, ${d}>")
+      itk_wrap_template("I${ITKM_D}${d}ICV${ITKM_D}${d}${d}"
+                        "itk::Image<${ITKT_D}, ${d}>, itk::Image<itk::CovariantVector<${ITKT_D}, ${d}>, ${d}>")
     endforeach()
   endif()
 

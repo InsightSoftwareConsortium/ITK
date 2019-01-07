@@ -709,32 +709,32 @@ protected:
 
 protected:
   /** Big or Little Endian, and the type of the file. (May be ignored.) */
-  ByteOrder m_ByteOrder;
-  FileType  m_FileType;
+  ByteOrder m_ByteOrder{OrderNotApplicable};
+  FileType  m_FileType{ASCII};
 
   /** Filename to read */
   std::string m_FileName;
 
   /** Should we compress the data? */
-  bool m_UseCompression;
+  bool m_UseCompression{false};
 
   /** Used internally to keep track of the type of the component. */
-  IOComponentType m_PointComponentType;
-  IOComponentType m_CellComponentType;
-  IOComponentType m_PointPixelComponentType;
-  IOComponentType m_CellPixelComponentType;
+  IOComponentType m_PointComponentType{UNKNOWNCOMPONENTTYPE};
+  IOComponentType m_CellComponentType{UNKNOWNCOMPONENTTYPE};
+  IOComponentType m_PointPixelComponentType{UNKNOWNCOMPONENTTYPE};
+  IOComponentType m_CellPixelComponentType{UNKNOWNCOMPONENTTYPE};
 
   /** Used internally to keep track of the type of the pixel. */
-  IOPixelType m_PointPixelType;
-  IOPixelType m_CellPixelType;
+  IOPixelType m_PointPixelType{SCALAR};
+  IOPixelType m_CellPixelType{SCALAR};
 
   /** Stores the number of components per pixel. This will be 1 for
     * grayscale images, 3 for RGBPixel images, and 4 for RGBPixelA images. */
-  unsigned int m_NumberOfPointPixelComponents;
-  unsigned int m_NumberOfCellPixelComponents;
+  unsigned int m_NumberOfPointPixelComponents{0};
+  unsigned int m_NumberOfCellPixelComponents{0};
 
   /** The number of independent dimensions in the point. */
-  SizeValueType m_PointDimension;
+  SizeValueType m_PointDimension{0};
 
   /** The number of points and cells */
   SizeValueType m_NumberOfPoints;
@@ -747,10 +747,10 @@ protected:
 
   /** Flags indicate whether read or write points, cells, point data and cell
     data */
-  bool m_UpdatePoints;
-  bool m_UpdateCells;
-  bool m_UpdatePointData;
-  bool m_UpdateCellData;
+  bool m_UpdatePoints{false};
+  bool m_UpdateCells{false};
+  bool m_UpdatePointData{false};
+  bool m_UpdateCellData{false};
 
 private:
   ArrayOfExtensionsType m_SupportedReadExtensions;

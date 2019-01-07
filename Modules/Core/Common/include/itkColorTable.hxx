@@ -27,12 +27,6 @@
 
 namespace itk
 {
-template< typename TPixel >
-ColorTable< TPixel >
-::ColorTable() :
-  m_NumberOfColors( 0 )
-{
-}
 
 template< typename TPixel >
 void

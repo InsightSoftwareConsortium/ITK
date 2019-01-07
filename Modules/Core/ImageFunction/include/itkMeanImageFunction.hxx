@@ -26,8 +26,8 @@ namespace itk
 
 template< typename TInputImage, typename TCoordRep >
 MeanImageFunction< TInputImage, TCoordRep >
-::MeanImageFunction() :
-  m_NeighborhoodRadius( 1 )
+::MeanImageFunction()
+
 {
 }
 

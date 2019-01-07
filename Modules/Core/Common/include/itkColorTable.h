@@ -109,7 +109,7 @@ public:
   unsigned int GetClosestColorTableId(TPixel r, TPixel g, TPixel b);
 
 protected:
-  ColorTable();
+  ColorTable() = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
@@ -118,7 +118,7 @@ private:
 
   void DeleteColors();
 
-  unsigned int m_NumberOfColors;
+  unsigned int m_NumberOfColors{ 0 };
 
   ColorNameVectorType         m_ColorName;
   ColorVectorType             m_Color;

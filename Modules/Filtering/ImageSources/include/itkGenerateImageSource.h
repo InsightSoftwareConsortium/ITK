@@ -136,7 +136,7 @@ private:
   PointType     m_Origin;
   DirectionType m_Direction;
   IndexType     m_StartIndex;
-  bool          m_UseReferenceImage;
+  bool          m_UseReferenceImage{ false };
 
 };
 

@@ -1015,7 +1015,7 @@ void Segmenter< TInputImage >
   typename SegmentTableType::edge_list_t::iterator list_ptr;
   for ( edge_table_entry_ptr = edgeHash.begin();
         edge_table_entry_ptr != edgeHash.end();
-        edge_table_entry_ptr++ )
+        ++edge_table_entry_ptr )
     {
     // Lookup the corresponding segment entry
     segment_ptr = segments->Lookup( ( *edge_table_entry_ptr ).first );
@@ -1033,8 +1033,8 @@ void Segmenter< TInputImage >
       {
       list_ptr->label = ( *edge_ptr ).first;
       list_ptr->height = ( *edge_ptr ).second;
-      edge_ptr++;
-      list_ptr++;
+      ++edge_ptr;
+      ++list_ptr;
       }
 
     // Clean up memory as we go

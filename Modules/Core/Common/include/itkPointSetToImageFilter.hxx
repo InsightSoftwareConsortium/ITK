@@ -42,10 +42,6 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
 }
 
 template< typename TInputPointSet, typename TOutputImage >
-PointSetToImageFilter< TInputPointSet, TOutputImage >
-::~PointSetToImageFilter() = default;
-
-template< typename TInputPointSet, typename TOutputImage >
 void
 PointSetToImageFilter< TInputPointSet, TOutputImage >
 ::SetInput(const InputPointSetType *input)
@@ -249,7 +245,7 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
       {
       OutputImage->SetPixel(index, m_InsideValue);
       }
-    pointItr++;
+    ++pointItr;
     }
 
   itkDebugMacro(<< "PointSetToImageFilter::Update() finished");

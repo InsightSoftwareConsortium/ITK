@@ -141,6 +141,7 @@ int itkSampleToHistogramFilterTest2( int , char * [] )
       std::cerr << histogramItr.GetMeasurementVector() << std::endl;
       std::cerr << "Expected frequency = " << expectedFrequency1 << std::endl;
       std::cerr << "Computed frequency = " << histogramItr.GetFrequency() << std::endl;
+      return EXIT_FAILURE;
       }
     ++histogramItr;
     }
@@ -189,6 +190,7 @@ int itkSampleToHistogramFilterTest2( int , char * [] )
       std::cerr << histogramItr.GetMeasurementVector() << std::endl;
       std::cerr << "Expected frequency = " << expectedFrequency2 << std::endl;
       std::cerr << "Computed frequency = " << histogramItr.GetFrequency() << std::endl;
+      return EXIT_FAILURE;
       }
     ++histogramItr;
     }
@@ -237,6 +239,7 @@ int itkSampleToHistogramFilterTest2( int , char * [] )
       std::cerr << histogramItr.GetMeasurementVector() << std::endl;
       std::cerr << "Expected frequency = " << expectedFrequency3 << std::endl;
       std::cerr << "Computed frequency = " << histogramItr.GetFrequency() << std::endl;
+      return EXIT_FAILURE;
       }
     ++histogramItr;
     }
@@ -285,6 +288,7 @@ int itkSampleToHistogramFilterTest2( int , char * [] )
       std::cerr << histogramItr.GetMeasurementVector() << std::endl;
       std::cerr << "Expected frequency = " << expectedFrequency4 << std::endl;
       std::cerr << "Computed frequency = " << histogramItr.GetFrequency() << std::endl;
+      return EXIT_FAILURE;
       }
     ++histogramItr;
     }

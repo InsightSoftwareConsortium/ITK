@@ -134,4 +134,3 @@ vnl_matrix<double> vnl_cholesky::upper_triangle() const
   }
   return U;
 }
-

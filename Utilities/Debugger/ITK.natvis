@@ -4,22 +4,72 @@
 <AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
 
   <Type Name="itk::Size&lt;1&gt;">
-    <AlternativeType Name="itk::Index&lt;1&gt;"/>
-    <AlternativeType Name="itk::Offset&lt;1&gt;"/>
-    <DisplayString>[{m_InternalArray[0]}]</DisplayString>
+    <DisplayString>[{m_Size[0]}]</DisplayString>
   </Type>
   <Type Name="itk::Size&lt;2&gt;">
-    <AlternativeType Name="itk::Index&lt;2&gt;"/>
-    <AlternativeType Name="itk::Offset&lt;2&gt;"/>
+    <DisplayString>[{m_Size[0]}, {m_Size[1]}]</DisplayString>
+    <Expand>
+      <Item Name="i">m_Size[0]</Item>
+      <Item Name="j">m_Size[1]</Item>
+    </Expand>
+  </Type>
+  <Type Name="itk::Size&lt;3&gt;">
+    <DisplayString>[{m_Size[0]}, {m_Size[1]}, {m_Size[2]}]</DisplayString>
+    <Expand>
+      <Item Name="i">m_Size[0]</Item>
+      <Item Name="j">m_Size[1]</Item>
+      <Item Name="k">m_Size[2]</Item>
+    </Expand>
+  </Type>
+  <Type Name="itk::Size&lt;*&gt;">
+    <DisplayString>{m_Size}</DisplayString>
+    <Expand>
+      <ArrayItems>
+        <Size>$T1</Size>
+        <ValuePointer>m_Size</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+
+  <Type Name="itk::Index&lt;1&gt;">
+    <DisplayString>[{m_Index[0]}]</DisplayString>
+  </Type>
+  <Type Name="itk::Index&lt;2&gt;">
+    <DisplayString>[{m_Index[0]}, {m_Index[1]}]</DisplayString>
+    <Expand>
+      <Item Name="i">m_Index[0]</Item>
+      <Item Name="j">m_Index[1]</Item>
+    </Expand>
+  </Type>
+  <Type Name="itk::Index&lt;3&gt;">
+    <DisplayString>[{m_Index[0]}, {m_Index[1]}, {m_Index[2]}]</DisplayString>
+    <Expand>
+      <Item Name="i">m_Index[0]</Item>
+      <Item Name="j">m_Index[1]</Item>
+      <Item Name="k">m_Index[2]</Item>
+    </Expand>
+  </Type>
+  <Type Name="itk::Index&lt;*&gt;">
+    <DisplayString>{m_Index}</DisplayString>
+    <Expand>
+      <ArrayItems>
+        <Size>$T1</Size>
+        <ValuePointer>m_Index</ValuePointer>
+      </ArrayItems>
+    </Expand>
+  </Type>
+
+  <Type Name="itk::Offset&lt;1&gt;">
+    <DisplayString>[{m_InternalArray[0]}]</DisplayString>
+  </Type>
+  <Type Name="itk::Offset&lt;2&gt;">
     <DisplayString>[{m_InternalArray[0]}, {m_InternalArray[1]}]</DisplayString>
     <Expand>
       <Item Name="i">m_InternalArray[0]</Item>
       <Item Name="j">m_InternalArray[1]</Item>
     </Expand>
   </Type>
-  <Type Name="itk::Size&lt;3&gt;">
-    <AlternativeType Name="itk::Index&lt;3&gt;"/>
-    <AlternativeType Name="itk::Offset&lt;3&gt;"/>
+  <Type Name="itk::Offset&lt;3&gt;">
     <DisplayString>[{m_InternalArray[0]}, {m_InternalArray[1]}, {m_InternalArray[2]}]</DisplayString>
     <Expand>
       <Item Name="i">m_InternalArray[0]</Item>
@@ -27,9 +77,7 @@
       <Item Name="k">m_InternalArray[2]</Item>
     </Expand>
   </Type>
-  <Type Name="itk::Size&lt;*&gt;">
-    <AlternativeType Name="itk::Index&lt;*&gt;"/>
-    <AlternativeType Name="itk::Offset&lt;*&gt;"/>
+  <Type Name="itk::Offset&lt;*&gt;">
     <DisplayString>{m_InternalArray}</DisplayString>
     <Expand>
       <ArrayItems>

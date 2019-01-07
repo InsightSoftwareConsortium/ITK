@@ -32,13 +32,8 @@ namespace itk
 
 template< typename TInputImage, typename TOutputImage >
 HessianToObjectnessMeasureImageFilter< TInputImage, TOutputImage >
-::HessianToObjectnessMeasureImageFilter() :
-  m_Alpha(0.5),
-  m_Beta(0.5),
-  m_Gamma(5.0),
-  m_ObjectDimension(1),
-  m_BrightObject(true),
-  m_ScaleObjectnessMeasure(true)
+::HessianToObjectnessMeasureImageFilter()
+
 {
   this->DynamicMultiThreadingOn();
 }
@@ -64,8 +59,8 @@ HessianToObjectnessMeasureImageFilter< TInputImage, TOutputImage >
   const InputImageType* input = this->GetInput();
 
   // Calculator for computation of the eigen values
-  using CalculatorType = SymmetricEigenAnalysis< InputPixelType, EigenValueArrayType >;
-  CalculatorType eigenCalculator(ImageDimension);
+  using CalculatorType = SymmetricEigenAnalysisFixedDimension< ImageDimension, InputPixelType, EigenValueArrayType >;
+  CalculatorType eigenCalculator;
 
   // Walk the region of eigen values and get the objectness measure
   ImageRegionConstIterator< InputImageType > it(input, outputRegionForThread);

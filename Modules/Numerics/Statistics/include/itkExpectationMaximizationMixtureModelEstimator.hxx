@@ -30,8 +30,6 @@ template< typename TSample >
 ExpectationMaximizationMixtureModelEstimator< TSample >
 ::ExpectationMaximizationMixtureModelEstimator() :
   m_Sample(nullptr),
-  m_MaxIteration(100),
-  m_CurrentIteration(0),
   m_TerminationCode(NOT_CONVERGED),
   m_MembershipFunctionsObject           (MembershipFunctionVectorObjectType::New()),
   m_MembershipFunctionsWeightArrayObject(MembershipFunctionsWeightsArrayObjectType::New())

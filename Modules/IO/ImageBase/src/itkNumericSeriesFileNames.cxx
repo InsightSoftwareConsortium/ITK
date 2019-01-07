@@ -25,7 +25,7 @@ namespace itk
 {
 NumericSeriesFileNames
 ::NumericSeriesFileNames():
-  m_StartIndex(1), m_EndIndex(1), m_IncrementIndex(1), m_SeriesFormat("%d")
+   m_SeriesFormat("%d")
 {}
 
 #if defined(_MSC_VER)

@@ -30,9 +30,10 @@ itk_wrap_class("itk::NumericTraits" EXPLICIT_SPECIALIZATION)
     itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
   endforeach()
 
-#  foreach(t ${WRAP_ITK_COMPLEX_REAL})
-#    itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
-#  endforeach()
+  # complex
+  foreach(t ${WRAP_ITK_COMPLEX_REAL})
+    itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
+  endforeach()
 
   # the ITK types
 

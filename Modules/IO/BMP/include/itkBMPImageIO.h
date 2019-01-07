@@ -104,13 +104,13 @@ private:
 
   std::ifstream               m_Ifstream;
   std::ofstream               m_Ofstream;
-  long                        m_BitMapOffset;
-  bool                        m_FileLowerLeft;
-  short                       m_Depth;
-  unsigned short              m_NumberOfColors;
-  unsigned int                m_ColorPaletteSize;
-  long                        m_BMPCompression;
-  unsigned long               m_BMPDataSize;
+  long                        m_BitMapOffset{ 0 };
+  bool                        m_FileLowerLeft{ false };
+  short                       m_Depth{ 8 };
+  unsigned short              m_NumberOfColors{ 0 };
+  unsigned int                m_ColorPaletteSize{ 0 };
+  long                        m_BMPCompression{ 0 };
+  unsigned long               m_BMPDataSize{ 0 };
   PaletteType                 m_ColorPalette;
 };
 } // end namespace itk

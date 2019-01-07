@@ -33,9 +33,8 @@ VideoFileWriter< TInputVideoStream >
 ::VideoFileWriter() :
   m_FileName(""),
   m_VideoIO(nullptr),
-  m_FramesPerSecond(24),
-  m_FourCC("MP42"),
-  m_NumberOfComponents(0)
+  m_FourCC("MP42")
+
 {
   // TemporalProcessObject inherited members
   this->TemporalProcessObject::m_UnitInputNumberOfFrames = 1;

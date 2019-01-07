@@ -29,10 +29,8 @@ namespace itk
 // Constructor
 //
 TemporalProcessObject::TemporalProcessObject()
-  : m_UnitInputNumberOfFrames(1),
-    m_UnitOutputNumberOfFrames(1),
-    m_FrameSkipPerOutput(1),
-    m_InputStencilCurrentFrameIndex(0)
+
+
 {}
 
 //

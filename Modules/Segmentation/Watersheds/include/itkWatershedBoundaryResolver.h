@@ -119,7 +119,7 @@ public:
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 
 protected:
-  BoundaryResolver():m_Face(0)
+  BoundaryResolver()
   {
     EquivalencyTable::Pointer eq =
       static_cast< EquivalencyTable * >( this->MakeOutput(0).GetPointer() );
@@ -133,7 +133,7 @@ protected:
   void operator=(const Self &) {}
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  unsigned short m_Face;
+  unsigned short m_Face{0};
   void GenerateOutputRequestedRegion(DataObject *output) override;
 };
 } // end namespace watershed

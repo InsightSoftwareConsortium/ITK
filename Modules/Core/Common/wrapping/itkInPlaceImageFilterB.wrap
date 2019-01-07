@@ -20,7 +20,7 @@ itk_wrap_class("itk::InPlaceImageFilter" POINTER)
   endforeach()
 
   # complex types
-  itk_wrap_image_filter("${WRAP_ITK_COMPLEX_REAL}" 2)
+  itk_wrap_image_filter_combinations("${WRAP_ITK_COMPLEX_REAL}" "${WRAP_ITK_COMPLEX_REAL}")
 
   # complex <-> scalar
   itk_wrap_image_filter_combinations("${WRAP_ITK_SCALAR}" "${WRAP_ITK_COMPLEX_REAL}")

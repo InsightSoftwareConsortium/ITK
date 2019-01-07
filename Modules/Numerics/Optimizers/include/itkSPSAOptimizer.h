@@ -213,7 +213,7 @@ protected:
 
   DerivativeType m_Delta;
 
-  bool m_Stop;
+  bool m_Stop{false};
 
   StopConditionType m_StopCondition;
 

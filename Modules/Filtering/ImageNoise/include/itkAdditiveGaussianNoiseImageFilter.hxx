@@ -28,9 +28,8 @@ namespace itk
 
 template <class TInputImage, class TOutputImage>
 AdditiveGaussianNoiseImageFilter<TInputImage, TOutputImage>
-::AdditiveGaussianNoiseImageFilter() :
-  m_Mean( 0.0 ),
-  m_StandardDeviation( 1.0 )
+::AdditiveGaussianNoiseImageFilter()
+
 {
   this->DynamicMultiThreadingOn();
 }

@@ -354,7 +354,7 @@ private:
   OriginPointType m_OutputOrigin;         // output image origin
   DirectionType   m_OutputDirection;      // output image direction cosines
   IndexType       m_OutputStartIndex;     // output image start index
-  bool            m_UseReferenceImage;
+  bool            m_UseReferenceImage{ false };
 
 };
 } // end namespace itk

@@ -29,8 +29,8 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
 ::ExpectationBasedPointSetToPointSetMetricv4() :
   m_PointSetSigma( 1.0 ),
   m_PreFactor( 0.0 ),
-  m_Denominator( 0.0 ),
-  m_EvaluationKNeighborhood( 50 )
+  m_Denominator( 0.0 )
+
 {
 }
 

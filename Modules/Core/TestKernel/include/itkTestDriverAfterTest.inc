@@ -28,6 +28,8 @@ if (redirectOutputParameters.redirect)
   redirectStream.close();
   }
 
+std::vector< HashPairType >& hashTestList = GetHashTestList();
+
 // before the image to image compare we first check md5 hashes
 for(auto & li : hashTestList)
   {
@@ -39,6 +41,8 @@ for(auto & li : hashTestList)
     result = EXIT_FAILURE; //Nonzero indicates failure
     }
   }
+
+RegressionTestParameters& regressionTestParameters = GetRegressionTestParameters();
 
 // Make a list of possible baselines
 for ( int ii = 0;

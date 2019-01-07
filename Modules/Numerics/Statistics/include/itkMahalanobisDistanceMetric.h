@@ -122,8 +122,8 @@ private:
   // when covariace matirx is set.  This speed up the GetProbability()
   CovarianceMatrixType m_InverseCovariance;
 
-  double m_Epsilon;
-  double m_DoubleMax;
+  double m_Epsilon{1e-100};
+  double m_DoubleMax{1e+20};
 
   void CalculateInverseCovariance();
 };

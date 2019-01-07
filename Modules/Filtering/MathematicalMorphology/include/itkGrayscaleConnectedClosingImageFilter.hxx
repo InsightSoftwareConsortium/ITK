@@ -28,8 +28,8 @@ namespace itk
 {
 template< typename TInputImage, typename TOutputImage >
 GrayscaleConnectedClosingImageFilter< TInputImage, TOutputImage >
-::GrayscaleConnectedClosingImageFilter():
-  m_NumberOfIterationsUsed(1)
+::GrayscaleConnectedClosingImageFilter()
+
 {
   m_Seed.Fill(NumericTraits< typename InputImageIndexType::OffsetValueType >::ZeroValue());
   m_FullyConnected = false;

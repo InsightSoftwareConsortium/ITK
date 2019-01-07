@@ -93,7 +93,7 @@ public:
 protected:
 
   FiniteCylinderSpatialFunction();
-  ~FiniteCylinderSpatialFunction() override;
+  ~FiniteCylinderSpatialFunction() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

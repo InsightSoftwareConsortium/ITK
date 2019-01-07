@@ -193,9 +193,9 @@ protected:
                           const THistogramMeasurement maxValue);
 
 private:
-  SizeValueType m_NumberOfHistogramLevels;
-  SizeValueType m_NumberOfMatchPoints;
-  bool          m_ThresholdAtMeanIntensity;
+  SizeValueType m_NumberOfHistogramLevels{256};
+  SizeValueType m_NumberOfMatchPoints{1};
+  bool          m_ThresholdAtMeanIntensity{true};
 
   InputPixelType  m_SourceIntensityThreshold;
   InputPixelType  m_ReferenceIntensityThreshold;
@@ -220,8 +220,8 @@ private:
 
   using GradientArrayType = vnl_vector< double >;
   GradientArrayType m_Gradients;
-  double            m_LowerGradient;
-  double            m_UpperGradient;
+  double            m_LowerGradient{0.0};
+  double            m_UpperGradient{0.0};
 };
 } // end namespace itk
 

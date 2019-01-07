@@ -115,22 +115,22 @@ protected:
 private:
   /** The number of samples will be precalcualted and saved in the
    * cache table. */
-  SizeValueType m_NumberOfSamples;
+  SizeValueType m_NumberOfSamples{0};
 
   /** Storage for the precalcualted function values. */
   MeasureArrayType m_CacheTable;
 
   /** The upper-bound of domain that is used for filling the cache table. */
-  double m_CacheUpperBound;
+  double m_CacheUpperBound{0.0};
 
   /** The lower-bound of domain that is used for filling the cache table. */
-  double m_CacheLowerBound;
+  double m_CacheLowerBound{0.0};
 
   /** Sampling interval for function evaluation. */
-  double m_TableInc;
+  double m_TableInc{0.0};
 
   /** Is the cache available?   */
-  bool m_CacheAvailable;
+  bool m_CacheAvailable{false};
 }; // end of class
 } // end of namespace itk
 #endif

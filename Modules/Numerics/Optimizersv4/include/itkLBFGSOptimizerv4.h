@@ -143,9 +143,9 @@ protected:
   using InternalOptimizerType = vnl_lbfgs;
 
 private:
-  bool         m_Verbose;
-  double       m_LineSearchAccuracy;
-  double       m_DefaultStepLength;
+  bool         m_Verbose{false};
+  double       m_LineSearchAccuracy{0.9};
+  double       m_DefaultStepLength{1.0};
 };
 } // end namespace itk
 #endif

@@ -76,7 +76,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  double m_BorderLength;
+  double m_BorderLength{0};
 };
 } // end namespace itk
 

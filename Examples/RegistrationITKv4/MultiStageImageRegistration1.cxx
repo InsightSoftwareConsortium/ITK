@@ -135,7 +135,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate(): m_CumulativeIterationIndex(0) {};
+  CommandIterationUpdate() {};
 
 public:
   using OptimizerType = itk::GradientDescentOptimizerv4Template<double>;
@@ -160,7 +160,7 @@ public:
     }
 
 private:
-  unsigned int m_CumulativeIterationIndex;
+  unsigned int m_CumulativeIterationIndex{0};
 };
 
 int main( int argc, char *argv[] )
@@ -433,7 +433,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using AOptimizerType = itk::ConjugateGradientLineSearchOptimizerv4Template<double>;
+  using AOptimizerType =
+    itk::ConjugateGradientLineSearchOptimizerv4Template<double>;
   using ARegistrationType = itk::ImageRegistrationMethodv4<
     FixedImageType,
     MovingImageType,
@@ -646,7 +647,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ScalesEstimatorType = itk::RegistrationParameterScalesFromPhysicalShift<MetricType>;
+  using ScalesEstimatorType =
+    itk::RegistrationParameterScalesFromPhysicalShift<MetricType>;
   ScalesEstimatorType::Pointer scalesEstimator =
     ScalesEstimatorType::New();
   scalesEstimator->SetMetric( affineMetric );

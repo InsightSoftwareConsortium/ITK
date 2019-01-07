@@ -150,7 +150,7 @@ private:
   OutputPointer m_DOMNodeXML;
 
   /** Variable to keep the current context during XML parsing. */
-  OutputType* m_Context;
+  OutputType* m_Context{nullptr};
 };
 
 } // namespace itk

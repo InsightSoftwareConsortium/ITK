@@ -225,7 +225,7 @@ protected:
   OffsetValueType ComputeSingleFixedImageParzenWindowIndex( const FixedImagePixelType & value ) const;
 
   /** Variables to define the marginal and joint histograms. */
-  SizeValueType m_NumberOfHistogramBins;
+  SizeValueType m_NumberOfHistogramBins{50};
   PDFValueType  m_MovingImageNormalizedMin;
   PDFValueType  m_FixedImageNormalizedMin;
   PDFValueType  m_FixedImageTrueMin;
@@ -281,7 +281,6 @@ public:
     void DoubleBufferSize();
 
     DerivativeBufferManager() :
-      m_CurrentFillSize(0),
       m_MemoryBlock(0)
     {
     }
@@ -321,7 +320,7 @@ public:
 
 private:
     // How many AccumlatorElements used
-    size_t                       m_CurrentFillSize;
+    size_t                       m_CurrentFillSize{0};
     // Continguous chunk of memory for efficiency
     std::vector<PDFValueType>    m_MemoryBlock;
     // The (number of lines in the buffer) * (cells per line)

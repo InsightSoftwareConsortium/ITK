@@ -77,7 +77,7 @@ public:
   using PixelRealType = typename Superclass::PixelRealType;
 
   /** Constructor. */
-  DerivativeOperator():m_Order(1) {}
+  DerivativeOperator() {}
 
   /** Copy constructor. */
   DerivativeOperator(const Self & other):
@@ -126,7 +126,7 @@ protected:
 
 private:
   /** Order of the derivative. */
-  unsigned int m_Order;
+  unsigned int m_Order{1};
 };
 } // namespace itk
 

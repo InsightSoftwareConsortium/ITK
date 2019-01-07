@@ -39,9 +39,8 @@ namespace itk
 template< typename TInputImage, typename TOutputImage >
 ImageSeriesWriter< TInputImage, TOutputImage >
 ::ImageSeriesWriter():
-  m_ImageIO(nullptr), m_UserSpecifiedImageIO(false),
-  m_SeriesFormat("%d"),
-  m_StartIndex(1), m_IncrementIndex(1), m_MetaDataDictionaryArray(nullptr)
+  m_ImageIO(nullptr),
+  m_SeriesFormat("%d")
 {
   m_UseCompression = false;
 }

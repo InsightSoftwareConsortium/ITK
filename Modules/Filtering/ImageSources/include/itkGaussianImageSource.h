@@ -138,9 +138,9 @@ private:
 
   ArrayType m_Mean;
 
-  double m_Scale;
+  double m_Scale{ 255.0 };
 
-  bool m_Normalized;
+  bool m_Normalized{ false };
 };
 } // end namespace itk
 

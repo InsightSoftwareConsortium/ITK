@@ -228,10 +228,10 @@ protected:
 
 private:
   TimeProbe                   m_TimeProbe;
-  int                         m_Steps;
-  int                         m_Iterations;
-  bool                        m_Quiet;
-  bool                        m_TestAbort;
+  int                         m_Steps{0};
+  int                         m_Iterations{0};
+  bool                        m_Quiet{false};
+  bool                        m_TestAbort{false};
   std::string                 m_Comment;
   itk::ProcessObject::Pointer m_Process;
 
@@ -242,11 +242,11 @@ private:
   CommandType::Pointer m_IterationFilterCommand;
   CommandType::Pointer m_AbortFilterCommand;
 
-  unsigned long m_StartTag;
-  unsigned long m_EndTag;
-  unsigned long m_ProgressTag;
-  unsigned long m_IterationTag;
-  unsigned long m_AbortTag;
+  unsigned long m_StartTag{0};
+  unsigned long m_EndTag{0};
+  unsigned long m_ProgressTag{0};
+  unsigned long m_IterationTag{0};
+  unsigned long m_AbortTag{0};
 };
 } // end namespace itk
 

@@ -259,7 +259,7 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
       }
     pnt->m_Id = ( *it_points )->Index();
     metamesh->GetPoints().push_back(pnt);
-    it_points++;
+    ++it_points;
     }
 
   // Add Cells
@@ -318,7 +318,7 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
       default:
         metamesh->GetCells(MET_VERTEX_CELL).push_back(cell);
       }
-    it_cells++;
+    ++it_cells;
     }
 
   // Add cell links
@@ -342,7 +342,7 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
         it++;
         }
       metamesh->GetCellLinks().push_back(link);
-      it_celllinks++;
+      ++it_celllinks;
       }
     }
 
@@ -360,7 +360,7 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
       data->m_Id = ( *it_pd )->Index();
       data->m_Data = ( *it_pd )->Value();
       metamesh->GetPointData().push_back(data);
-      it_pd++;
+      ++it_pd;
       }
     }
 
@@ -380,7 +380,7 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
       data->m_Id = ( *it_cd )->Index();
       data->m_Data = ( *it_cd )->Value();
       metamesh->GetCellData().push_back(data);
-      it_cd++;
+      ++it_cd;
       }
     }
   return metamesh;

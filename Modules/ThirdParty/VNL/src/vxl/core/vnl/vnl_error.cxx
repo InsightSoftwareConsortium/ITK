@@ -15,6 +15,8 @@
 
 #include <iostream>
 
+#include "vnl/vnl_error.h"
+
 //: Raise exception for invalid index.
 void vnl_error_vector_index (char const* fcn, int index)
 {

@@ -559,5 +559,3 @@ void vnl_sparse_lst_sqr_function::trace(int /* iteration */,
 {
   // This default implementation is empty; overloaded in derived class.
 }
-
-

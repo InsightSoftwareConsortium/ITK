@@ -33,8 +33,8 @@ namespace itk
  */
 template<typename TParametersValueType, unsigned int NDimensions>
 BSplineExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>
-::BSplineExponentialDiffeomorphicTransform() :
-  m_SplineOrder( 3 )
+::BSplineExponentialDiffeomorphicTransform()
+
 {
   this->m_NumberOfControlPointsForTheConstantVelocityField.Fill( 4 );
   this->m_NumberOfControlPointsForTheUpdateField.Fill( 4 );

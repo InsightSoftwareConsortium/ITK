@@ -117,7 +117,8 @@ int main( int argc, char * argv [] )
 
 
   // Software Guide : BeginCodeSnippet
-  using HistogramFilterType = itk::Statistics::ImageToHistogramFilter<RGBImageType>;
+  using HistogramFilterType =
+    itk::Statistics::ImageToHistogramFilter<RGBImageType>;
 
   HistogramFilterType::Pointer histogramFilter =
                                            HistogramFilterType::New();
@@ -157,7 +158,8 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatexex
 
   // Software Guide : BeginCodeSnippet
-  using HistogramMeasurementVectorType = HistogramFilterType::HistogramMeasurementVectorType;
+  using HistogramMeasurementVectorType =
+    HistogramFilterType::HistogramMeasurementVectorType;
 
   HistogramMeasurementVectorType binMinimum( 3 );
   HistogramMeasurementVectorType binMaximum( 3 );

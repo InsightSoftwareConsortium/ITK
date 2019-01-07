@@ -46,8 +46,8 @@ public:
   //Intensity function returns pixels of SizeValueType.
   using OutputPixelType = TOutput;
 
-  HistogramIntensityFunction():
-    m_TotalFrequency(1) {}
+  HistogramIntensityFunction()
+    {}
 
   ~HistogramIntensityFunction() = default;
 
@@ -67,7 +67,7 @@ public:
   }
 
 private:
-  SizeValueType m_TotalFrequency;
+  SizeValueType m_TotalFrequency{1};
 };
 }
 

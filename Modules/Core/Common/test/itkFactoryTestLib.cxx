@@ -54,7 +54,7 @@ public:
     }
   TestImportImageContainer()
      : m_TotalSize(0)
-     ,m_MemoryAllocatedByAllocator(false)
+
     {
     }
 
@@ -137,7 +137,7 @@ private:
   mutable TElementIdentifier m_TotalSize;
 
   mutable Allocator          m_Allocator;
-  mutable bool               m_MemoryAllocatedByAllocator;
+  mutable bool               m_MemoryAllocatedByAllocator{false};
 };
 
 class ImportImageContainerFactory : public itk::ObjectFactoryBase

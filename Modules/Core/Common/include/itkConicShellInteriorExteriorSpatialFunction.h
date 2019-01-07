@@ -118,16 +118,16 @@ public:
 
 protected:
   ConicShellInteriorExteriorSpatialFunction();
-  ~ConicShellInteriorExteriorSpatialFunction() override;
+  ~ConicShellInteriorExteriorSpatialFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   InputType     m_Origin;
   GradientType  m_OriginGradient;
-  double        m_DistanceMin;
-  double        m_DistanceMax;
-  double        m_Epsilon;
-  bool          m_Polarity;
+  double        m_DistanceMin{ 0.0 };
+  double        m_DistanceMax{ 0.0 };
+  double        m_Epsilon{ 0.0 };
+  bool          m_Polarity{ false };
 };
 } // end namespace itk
 

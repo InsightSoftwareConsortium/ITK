@@ -198,14 +198,14 @@ protected:
 
   ConstantVelocityFieldPointer              m_ConstantVelocityField;
 
-  bool                                      m_CalculateNumberOfIntegrationStepsAutomatically;
+  bool                                      m_CalculateNumberOfIntegrationStepsAutomatically{ false };
 
   /** The interpolator. */
   ConstantVelocityFieldInterpolatorPointer  m_ConstantVelocityFieldInterpolator;
 
   /** Track when the VELOCITY field was last set/assigned, as
    * distinct from when it may have had its contents modified. */
-  ModifiedTimeType m_ConstantVelocityFieldSetTime;
+  ModifiedTimeType m_ConstantVelocityFieldSetTime{ 0 };
 
   ScalarType                                m_LowerTimeBound;
   ScalarType                                m_UpperTimeBound;

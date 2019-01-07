@@ -209,7 +209,7 @@ protected:
   typename DomainThreader<ThreadedIndexedContainerPartitioner, Self>::Pointer m_ModifyGradientByLearningRateThreader;
 
   /* Common variables for optimization control and reporting */
-  bool                          m_Stop;
+  bool                          m_Stop{false};
   StopConditionType             m_StopCondition;
   StopConditionDescriptionType  m_StopConditionDescription;
 

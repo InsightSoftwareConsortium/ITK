@@ -3,7 +3,7 @@ IO modules.")
 
 itk_module(ITKIOIPL
   ENABLE_SHARED
-  PRIVATE_DEPENDS
+  DEPENDS
     ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel

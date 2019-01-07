@@ -188,7 +188,7 @@ void CopyMeshToMeshPointData(const TInputMesh *in, TOutputMesh *out)
     {
     typename OutputPointDataContainer::Element point( inIt.Value() );
     outputPointData->SetElement( inIt.Index(), point );
-    inIt++;
+    ++inIt;
     }
 
   out->SetPointData(outputPointData);

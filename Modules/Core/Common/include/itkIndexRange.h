@@ -95,7 +95,10 @@ public:
     using iterator_category = std::bidirectional_iterator_tag;
 
     /** Default-constructor, as required for any C++11 Forward Iterator.
-      */
+     * \note The other five "special member functions" (copy-constructor,
+     * copy-assignment operator, move-constructor, move-assignment operator,
+     * and destructor) are defaulted implicitly, following the C++ "Rule of Zero".
+     */
     const_iterator() = default;
 
 

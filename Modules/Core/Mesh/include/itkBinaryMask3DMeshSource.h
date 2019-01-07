@@ -154,7 +154,7 @@ protected:
   void GenerateData() override;
 
 
-  bool       m_RegionOfInterestProvidedByUser;
+  bool       m_RegionOfInterestProvidedByUser{false};
   RegionType m_RegionOfInterest;
 
   void GenerateOutputInformation() override {}  // do nothing override
@@ -200,37 +200,37 @@ private:
   IdentifierType m_LastVoxel[14];
   IdentifierType m_CurrentVoxel[14];
 
-  IdentifierType **m_LastRow;
-  IdentifierType **m_LastFrame;
-  IdentifierType **m_CurrentRow;
-  IdentifierType **m_CurrentFrame;
+  IdentifierType **m_LastRow{nullptr};
+  IdentifierType **m_LastFrame{nullptr};
+  IdentifierType **m_CurrentRow{nullptr};
+  IdentifierType **m_CurrentFrame{nullptr};
 
-  unsigned short m_CurrentRowIndex;
-  unsigned short m_CurrentFrameIndex;
-  unsigned short m_LastRowNum;
-  unsigned short m_LastFrameNum;
-  unsigned short m_CurrentRowNum;
-  unsigned short m_CurrentFrameNum;
+  unsigned short m_CurrentRowIndex{0};
+  unsigned short m_CurrentFrameIndex{0};
+  unsigned short m_LastRowNum{0};
+  unsigned short m_LastFrameNum{0};
+  unsigned short m_CurrentRowNum{200};
+  unsigned short m_CurrentFrameNum{2000};
   unsigned char  m_AvailableNodes[14];
 
   double m_LocationOffset[14][3];
 
-  SizeValueType m_NumberOfNodes;
-  SizeValueType m_NumberOfCells;
+  SizeValueType m_NumberOfNodes{0};
+  SizeValueType m_NumberOfCells{0};
 
-  int m_NodeLimit;
-  int m_CellLimit;
-  int m_ImageWidth;
-  int m_ImageHeight;
-  int m_ImageDepth;
-  int m_ColFlag;
-  int m_RowFlag;
-  int m_FrameFlag;
-  int m_LastRowIndex;
-  int m_LastVoxelIndex;
-  int m_LastFrameIndex;
+  int m_NodeLimit{2000};
+  int m_CellLimit{4000};
+  int m_ImageWidth{0};
+  int m_ImageHeight{0};
+  int m_ImageDepth{0};
+  int m_ColFlag{0};
+  int m_RowFlag{0};
+  int m_FrameFlag{0};
+  int m_LastRowIndex{0};
+  int m_LastVoxelIndex{0};
+  int m_LastFrameIndex{0};
 
-  unsigned char  m_PointFound;
+  unsigned char  m_PointFound{0};
   InputPixelType m_ObjectValue;
 
   /** temporary variables used in CreateMesh to avoid thousands of

@@ -94,7 +94,7 @@ protected:
   /** Set the current position. */
   virtual void SetCurrentPosition(const ParametersType & param);
 
-  bool m_ScalesInitialized;
+  bool m_ScalesInitialized{ false };
 
   // Keep m_CurrentPosition as a protected var so that subclasses can
   // have fast access.  This is important when optimizing high-dimensional

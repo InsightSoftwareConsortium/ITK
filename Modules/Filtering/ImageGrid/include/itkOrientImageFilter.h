@@ -295,9 +295,9 @@ protected:
 private:
   std::string GetMajorAxisFromPatientRelativeDirectionCosine(double x, double y, double z);
 
-  CoordinateOrientationCode m_GivenCoordinateOrientation;
-  CoordinateOrientationCode m_DesiredCoordinateOrientation;
-  bool                      m_UseImageDirection;
+  CoordinateOrientationCode m_GivenCoordinateOrientation{SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP};
+  CoordinateOrientationCode m_DesiredCoordinateOrientation{SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP};
+  bool                      m_UseImageDirection{false};
 
   PermuteOrderArrayType m_PermuteOrder;
   FlipAxesArrayType     m_FlipAxes;

@@ -32,10 +32,6 @@ SphereSpatialFunction< VImageDimension, TInput >
 }
 
 template< unsigned int VImageDimension, typename TInput >
-SphereSpatialFunction< VImageDimension, TInput >
-::~SphereSpatialFunction() = default;
-
-template< unsigned int VImageDimension, typename TInput >
 typename SphereSpatialFunction< VImageDimension, TInput >::OutputType
 SphereSpatialFunction< VImageDimension, TInput >
 ::Evaluate(const InputType & position) const

@@ -431,7 +431,7 @@ protected:
       }
   }
 
-  typename EnclosingFilter::Pointer m_EnclosingFilter;
+  WeakPointer<EnclosingFilter> m_EnclosingFilter;
 
   struct WorkUnitData
   {

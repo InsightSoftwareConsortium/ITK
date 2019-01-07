@@ -72,13 +72,8 @@ LBFGSOptimizerBaseHelperv4<TInternalVnlOptimizerType>
 
 template<typename TInternalVnlOptimizerType>
 LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
-::LBFGSOptimizerBasev4():
-  m_OptimizerInitialized(false),
-  m_Trace(false),
-  m_MaximumNumberOfFunctionEvaluations(2000),
-  m_GradientConvergenceTolerance(1e-5),
-  m_InfinityNormOfProjectedGradient(0.0),
-  m_CostFunctionConvergenceFactor(1e+7)
+::LBFGSOptimizerBasev4()
+
 {
   Superclass::SetNumberOfIterations(500);
 }

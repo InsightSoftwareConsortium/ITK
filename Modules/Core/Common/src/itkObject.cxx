@@ -55,7 +55,7 @@ Observer::~Observer() { delete m_Event; }
 class ITKCommon_HIDDEN SubjectImplementation
 {
 public:
-  SubjectImplementation() : m_ListModified(false) { m_Count = 0; }
+  SubjectImplementation()  { m_Count = 0; }
   ~SubjectImplementation();
 
   unsigned long AddObserver(const EventObject & event, Command *cmd);
@@ -76,7 +76,7 @@ public:
 
   bool PrintObservers(std::ostream & os, Indent indent) const;
 
-  bool m_ListModified;
+  bool m_ListModified{false};
 
 protected:
 
@@ -593,9 +593,6 @@ Object
 Object
 ::Object():
   LightObject(),
-  m_Debug(false),
-  m_SubjectImplementation(nullptr),
-  m_MetaDataDictionary(nullptr),
   m_ObjectName()
 {
   this->Modified();

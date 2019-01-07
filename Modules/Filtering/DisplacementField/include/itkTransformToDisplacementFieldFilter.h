@@ -186,7 +186,7 @@ private:
   SpacingType          m_OutputSpacing;   // output image spacing
   OriginType           m_OutputOrigin;    // output image origin
   DirectionType        m_OutputDirection; // output image direction cosines
-  bool                 m_UseReferenceImage;
+  bool                 m_UseReferenceImage{ false };
 
 };
 } // end namespace itk

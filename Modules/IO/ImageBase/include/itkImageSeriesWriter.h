@@ -214,7 +214,7 @@ protected:
   ImageIOBase::Pointer m_ImageIO;
 
   //track whether the ImageIO is user specified
-  bool m_UserSpecifiedImageIO;
+  bool m_UserSpecifiedImageIO{false};
 
 private:
   /** A list of filenames to be processed. */
@@ -226,13 +226,13 @@ private:
    * to use additional SeriesFileNames such as the DICOM filenames generators.
    * */
   std::string   m_SeriesFormat;
-  SizeValueType m_StartIndex;
-  SizeValueType m_IncrementIndex;
+  SizeValueType m_StartIndex{1};
+  SizeValueType m_IncrementIndex{1};
 
   bool m_UseCompression;
 
   /** Array of MetaDataDictionary used for passing information to each slice */
-  DictionaryArrayRawPointer m_MetaDataDictionaryArray;
+  DictionaryArrayRawPointer m_MetaDataDictionaryArray{nullptr};
 
   // These two methods provide now a common implementation for the
   // GenerateNumericFileNamesAndWrite() and avoid the duplication of code that

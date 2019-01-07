@@ -60,8 +60,7 @@ LBFGSBOptimizerHelperv4
 //-------------------------------------------------------------------------
 
 LBFGSBOptimizerv4
-  ::LBFGSBOptimizerv4():
-  m_MaximumNumberOfCorrections(5),
+  ::LBFGSBOptimizerv4() :
   m_InitialPosition(0),
   m_LowerBound(0),
   m_UpperBound(0),

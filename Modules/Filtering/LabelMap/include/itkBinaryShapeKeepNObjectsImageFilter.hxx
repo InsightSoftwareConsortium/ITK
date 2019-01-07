@@ -26,11 +26,8 @@ namespace itk
 template< typename TInputImage >
 BinaryShapeKeepNObjectsImageFilter< TInputImage >
 ::BinaryShapeKeepNObjectsImageFilter() :
-  m_FullyConnected(false),
   m_BackgroundValue(NumericTraits< OutputImagePixelType >::NonpositiveMin()),
   m_ForegroundValue(NumericTraits< OutputImagePixelType >::max()),
-  m_NumberOfObjects(0),
-  m_ReverseOrdering(false),
   m_Attribute(LabelObjectType::NUMBER_OF_PIXELS)
 {
 }

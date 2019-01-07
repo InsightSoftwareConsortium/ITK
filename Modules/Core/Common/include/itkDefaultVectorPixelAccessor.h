@@ -92,7 +92,7 @@ public:
   /** Get Vector lengths */
   VectorLengthType GetVectorLength() const { return m_VectorLength; }
 
-  DefaultVectorPixelAccessor() : m_VectorLength(0), m_OffsetMultiplier(0) {}
+  DefaultVectorPixelAccessor()  {}
 
   /** Constructor to initialize VectorLength at construction time */
   DefaultVectorPixelAccessor(VectorLengthType l)
@@ -101,11 +101,11 @@ public:
     m_OffsetMultiplier = l - 1;
   }
 
-  virtual ~DefaultVectorPixelAccessor() = default;
+  ~DefaultVectorPixelAccessor() = default;
 
 private:
-  VectorLengthType m_VectorLength;
-  VectorLengthType m_OffsetMultiplier;
+  VectorLengthType m_VectorLength{0};
+  VectorLengthType m_OffsetMultiplier{0};
 };
 } // end namespace itk
 

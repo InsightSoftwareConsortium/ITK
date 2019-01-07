@@ -101,8 +101,8 @@ public:
   using AccumulateValueType = typename NumericTraits< ValueType >::RealType;
   using RealValueType = typename NumericTraits< ValueType >::RealType;
 
-  using SymmetricEigenAnalysisType = SymmetricEigenAnalysis< MatrixType,
-                                  EigenValuesArrayType, EigenVectorsMatrixType >;
+  using SymmetricEigenAnalysisType = SymmetricEigenAnalysisFixedDimension<
+    Dimension, MatrixType, EigenValuesArrayType, EigenVectorsMatrixType >;
 
   /** Constructors */
   SymmetricSecondRankTensor() { this->Fill(0); }

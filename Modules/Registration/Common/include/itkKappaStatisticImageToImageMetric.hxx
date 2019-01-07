@@ -28,8 +28,8 @@ namespace itk
 template <typename TFixedImage, typename TMovingImage>
 KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
 ::KappaStatisticImageToImageMetric() :
-  m_ForegroundValue( 255 ),
-  m_Complement( false )
+  m_ForegroundValue( 255 )
+
 {
   this->SetComputeGradient(true);
 }

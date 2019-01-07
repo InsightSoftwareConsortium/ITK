@@ -193,9 +193,8 @@ bool MRCHeaderObject::IsOriginalHeaderBigEndian() const
 }
 
 MRCHeaderObject::MRCHeaderObject()
-  : m_ExtendedHeaderSize(0),
-    m_ExtendedHeader(nullptr),
-    m_ExtendedFeiHeader(nullptr)
+
+
 {
   memset( &this->m_Header, 0, sizeof( Header ) );
   this->m_BigEndianHeader = ByteSwapper< void * >::SystemIsBE();

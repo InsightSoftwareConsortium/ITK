@@ -30,64 +30,31 @@ namespace itk
 template< typename TFixedImage, typename TMovingImage >
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::ImageToImageMetric():
-  m_UseFixedImageIndexes(false),
   m_FixedImageIndexes(0),
-
-  m_UseFixedImageSamplesIntensityThreshold(false),
   m_FixedImageSamplesIntensityThreshold(0),
-
   m_FixedImageSamples(0),
-  m_NumberOfParameters(0),
-
-  m_NumberOfFixedImageSamples(50000),
-
-  m_NumberOfPixelsCounted(0),
-
   m_FixedImage(nullptr), // has to be provided by the user.
   m_MovingImage(nullptr), // has to be provided by the user.
-
   m_Transform(nullptr), // has to be provided by the user.
   m_ThreaderTransform(nullptr), // constructed at initialization.
-
-  m_Interpolator(nullptr), // has to be provided by the user.
-
-  m_ComputeGradient(true), // metric computes gradient by default
+  m_Interpolator(nullptr),  // metric computes gradient by default
   m_GradientImage(nullptr),   // computed at initialization
-
   m_FixedImageMask(nullptr),
   m_MovingImageMask(nullptr),
-
-  m_NumberOfWorkUnits(1),
-
-  m_UseAllPixels(false),
-  m_UseSequentialSampling(false),
-  m_ReseedIterator(false),
   m_RandomSeed(Statistics::MersenneTwisterRandomVariateGenerator::GetNextSeed()),
-
-  m_TransformIsBSpline(false),
-  m_NumBSplineWeights(0),
-
   m_BSplineTransform(nullptr),
   m_BSplineTransformWeightsArray(),
   m_BSplineTransformIndicesArray(),
   m_BSplinePreTransformPointsArray(0),
   m_WithinBSplineSupportRegionArray(0),
   m_BSplineParametersOffset(),
-
-  m_UseCachingOfBSplineWeights(true),
   m_BSplineTransformWeights(),
   m_BSplineTransformIndices(),
   m_ThreaderBSplineTransformWeights(nullptr),
   m_ThreaderBSplineTransformIndices(nullptr),
-
-  m_InterpolatorIsBSpline(false),
   m_BSplineInterpolator(nullptr),
   m_DerivativeCalculator(nullptr),
-
-  m_Threader(MultiThreaderType::New()),
-  m_ThreaderNumberOfMovingImageSamples(nullptr),
-  m_WithinThreadPreProcess(false),
-  m_WithinThreadPostProcess(false)
+  m_Threader(MultiThreaderType::New())
 {
   this->m_ThreaderParameter.metric = this;
   this->m_NumberOfWorkUnits = this->m_Threader->GetNumberOfWorkUnits();

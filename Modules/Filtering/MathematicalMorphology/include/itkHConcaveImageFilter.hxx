@@ -28,9 +28,8 @@ namespace itk
 template< typename TInputImage, typename TOutputImage >
 HConcaveImageFilter< TInputImage, TOutputImage >
 ::HConcaveImageFilter() :
-  m_Height( 2 ),
-  m_NumberOfIterationsUsed( 1 ),
-  m_FullyConnected( false )
+  m_Height( 2 )
+
 {
 }
 

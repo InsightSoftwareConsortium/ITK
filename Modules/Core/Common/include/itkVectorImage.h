@@ -346,7 +346,7 @@ protected:
   using Superclass::Graft;
 private:
   /** Length of the "vector pixel" */
-  VectorLengthType m_VectorLength;
+  VectorLengthType m_VectorLength{0};
 
   /** Memory for the current buffer. */
   PixelContainerPointer m_Buffer;

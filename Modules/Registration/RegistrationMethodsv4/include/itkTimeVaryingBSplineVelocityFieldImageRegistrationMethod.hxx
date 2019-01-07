@@ -43,8 +43,6 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
 ::TimeVaryingBSplineVelocityFieldImageRegistrationMethod() :
   m_LearningRate( 0.25 ),
   m_ConvergenceThreshold( 1.0e-7 ),
-  m_ConvergenceWindowSize( 10 ),
-  m_NumberOfTimePointSamples( 4 ),
   m_BoundaryWeight( 1e10 )
 {
   this->m_NumberOfIterationsPerLevel.SetSize( 3 );

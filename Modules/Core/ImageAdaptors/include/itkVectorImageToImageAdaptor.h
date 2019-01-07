@@ -104,7 +104,7 @@ public:
   VectorLengthType GetVectorLength() const { return Superclass::GetVectorLength(); }
 
   VectorImageToImagePixelAccessor( unsigned int length = 1)
-    :m_ComponentIdx(0)
+
     {
     Superclass::SetVectorLength( length );
     }
@@ -113,7 +113,7 @@ protected:
   using Superclass = DefaultVectorPixelAccessor< TType >;
 
 private:
-  VectorLengthType m_ComponentIdx;
+  VectorLengthType m_ComponentIdx{0};
 };
 } // end namespace Accessor
 

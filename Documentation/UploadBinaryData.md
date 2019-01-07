@@ -76,25 +76,27 @@ references in the [ITK collection] and other redundant storage locations.
 
 ### Upload via the shell script
 
-The script will authenticate to [data.kitware.com], upload the file to your
-user account's *Public* folder, and create a `*.sha512` [CMake] `ExternalData`
-content link file. After the content link has been created, you will need to
-add the `*.sha512` file to your commit.
+The [UploadBinaryData.sh] script will authenticate to [data.kitware.com],
+upload the file to your user account's *Public* folder, and create a
+`*.sha512` [CMake] `ExternalData` content link file. After the content link
+has been created, you will need to add the `*.sha512` file to your commit.
 
-To use the script:
+When `./Utilities/SetupForDevelopment.sh` is executed, as described in
+[CONTRIBUTING.md], authentication to Girder is configured in Git. If the Git
+`girder.api-key` config or `GIRDER_API_KEY` environmental variable is not set,
+a prompt will appear for your username and password. The API key can be
+created in the data.kitware.com user account web browser interface.
 
-  1. Sign up for an account at [data.kitware.com].
-  2. Place the binary file at the desired location in the Git repository.
-  3. Run this script, and pass in the binary file(s) as arguments to script.
-  4. In the corresponding `test/CMakeLists.txt` file, use the
-     `itk_add_test macro` and reference the file path with \`DATA\` and braces,
-     e.g.: DATA{<Relative/Path/To/Source/Tree/File>}.
-  5. Re-build ITK, and the testing data will be downloaded into the build tree.
+To upload new binary testing data:
 
-
-If a `GIRDER_API_KEY` environmental variable is not set, a prompt will appear
-for your username and password. The API key can be created from the
-[data.kitware.com] user account web browser interace.
+  1. Place the binary file at the desired location in the Git repository.
+  2. Run the `git data-upload` alias, and pass in the binary file(s) as arguments. E.g.
+     `cd ITK; git data-upload ./Modules/Core/Common/test/Input/cthead1.png`.
+  3. In the corresponding `test/CMakeLists.txt` file, use the
+     `itk_add_test` macro and reference the relative file path with `DATA` and braces.
+     E.g.: `DATA{Input/cthead1.png}`.
+  4. Re-build ITK, the `ITKData` target specifically, and the testing data will be
+     downloaded into the build tree. The path in the build tree is used in test execution.
 
 
 ### Upload via the web interface
@@ -171,6 +173,7 @@ actual file is desired in the build tree. Stage the new file to your commit:
 [ITK Software Guide]: https://itk.org/ItkSoftwareGuide.pdf
 [solution to this problem]: https://blog.kitware.com/cmake-externaldata-using-large-files-with-distributed-version-control/
 [UploadBinaryData.sh]: ../Utilities/UploadBinaryData.sh
+[CONTRIBUTING.md]: ../../CONTRIBUTING.md
 
 [Analyze format]: http://www.grahamwideman.com/gw/brain/analyze/formatdoc.htm
 [MD5 hash]: https://en.wikipedia.org/wiki/MD5

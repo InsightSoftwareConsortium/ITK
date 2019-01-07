@@ -19,9 +19,98 @@
 #define itkSymmetricEigenAnalysis_h
 
 #include "itkMacro.h"
+#include "itk_eigen.h"
+#include ITK_EIGEN(Eigenvalues)
+#include <numeric>
+#include <vector>
+// For GetPointerToMatrixData
+#include "vnl/vnl_matrix.h"
+#include "vnl/vnl_matrix_fixed.h"
+#include "itkMatrix.h"
 
 namespace itk
 {
+namespace detail
+{
+  /* Helper functions returning pointer to matrix data for different types.  */
+  template<typename TValueType, unsigned int NRows, unsigned int NCols>
+    const TValueType* GetPointerToMatrixData(const vnl_matrix_fixed<TValueType, NRows, NCols> & inputMatrix)
+    {
+      return inputMatrix.data_block();
+    };
+  template<typename TValueType>
+    const TValueType* GetPointerToMatrixData(const vnl_matrix<TValueType> & inputMatrix)
+    {
+      return inputMatrix.data_block();
+    };
+
+  template<typename TValueType, unsigned int NRows, unsigned int NCols>
+    const TValueType* GetPointerToMatrixData(const itk::Matrix<TValueType, NRows, NCols> & inputMatrix)
+    {
+      return inputMatrix.GetVnlMatrix().data_block();
+    };
+
+  /** Sort input to be ordered by magnitude, and returns container with the
+   * permutations required for the sorting.
+   *
+   * For example, if input eigenValues = {10, 0, 40}, the output would be: {2,0,1}
+   * and the eigenValues would be modified in-place: {40, 10, 0}.
+   *
+   * The permutations indices is used to order the matrix of eigenVectors.
+   * \sa permuteEigenVectorsWithSortPermutations
+   *
+   * @tparam TArray  array type with operator []
+   * @param eigenValues input array, requires operator []
+   * @param numberOfElements size of array
+   *
+   * @return the permutations needed to sort the input array
+   */
+  template<typename TArray>
+    std::vector<int> sortEigenValuesByMagnitude(TArray & eigenValues, const unsigned int numberOfElements)
+    {
+      std::vector<int> indicesSortPermutations(numberOfElements, 0);
+      std::iota(std::begin(indicesSortPermutations), std::end(indicesSortPermutations), 0);
+
+      std::sort(
+          std::begin(indicesSortPermutations),
+          std::end(indicesSortPermutations),
+          [&eigenValues](unsigned int a, unsigned int b)
+          { return std::abs(eigenValues[a]) < std::abs(eigenValues[b]); }
+          );
+      auto tmpCopy = eigenValues;
+      for (unsigned int i = 0; i < numberOfElements; ++i)
+      {
+        eigenValues[i] = tmpCopy[indicesSortPermutations[i]];
+      }
+      return indicesSortPermutations;
+    }
+
+  /** Permute a eigenVectors matrix according to the permutation indices
+   * computed from the output of a sort function like \sa detail::sortEigenValuesByMagnitude
+   *
+   * @tparam QMatrix a Eigen3 matrix
+   * @param eigenVectors stored in columns
+   * @param indicesSortPermutations container with the permutations from the output of
+   * a sort function.
+   */
+  template<typename QMatrix>
+    void permuteColumnsWithSortIndices( QMatrix & eigenVectors,
+        const std::vector<int> & indicesSortPermutations)
+    {
+      using EigenLibPermutationMatrix =
+        Eigen::PermutationMatrix<Eigen::Dynamic, Eigen::Dynamic>;
+      auto numberOfElements = indicesSortPermutations.size();
+      // Creates a NxN permutation matrix copying our permutation to the matrix indices.
+      // Which holds the 1D array representation of a permutation.
+      EigenLibPermutationMatrix perm(numberOfElements);
+      perm.setIdentity();
+      std::copy(indicesSortPermutations.begin(), indicesSortPermutations.end(),
+          perm.indices().data());
+      // Apply it
+      eigenVectors = eigenVectors * perm;
+    }
+} // end namespace detail
+
 /** \class SymmetricEigenAnalysis
  * \brief Find Eigen values of a real 2D symmetric matrix. It
  * serves as a thread-safe alternative to the class:
@@ -69,12 +158,11 @@ public:
   }
   EigenValueOrderType;
 
-  SymmetricEigenAnalysis():
-  m_Dimension(0),
-  m_Order(0),
+  SymmetricEigenAnalysis() :
   m_OrderEigenValues(OrderByValue) {}
 
   SymmetricEigenAnalysis(const unsigned int dimension):
+  m_UseEigenLibrary(false),
   m_Dimension(dimension),
   m_Order(dimension),
   m_OrderEigenValues(OrderByValue) {}
@@ -108,7 +196,7 @@ public:
    * matrix will be accessed. (Both itk::Matrix and vnl_matrix
    * overload [][] operator.)
    *
-   * 'EigenValues' is any type that overloads the [][] operator and will contain
+   * 'EigenValues' is any type that overloads the [] operator and will contain
    * the eigen values.
    *
    * 'EigenVectors' is any type that provides access to its elements with the
@@ -126,6 +214,7 @@ public:
     const TMatrix  & A,
     TVector        & EigenValues,
     TEigenMatrix   & EigenVectors) const;
+
 
   /** Matrix order. Defaults to matrix dimension if not set */
   void SetOrder(const unsigned int n)
@@ -175,9 +264,24 @@ public:
    * call to SetDimension. */
   unsigned int GetDimension() const { return m_Dimension; }
 
+  /** Set/Get to use Eigen library instead of vnl/netlib. */
+  void SetUseEigenLibrary(const bool input)
+  {
+    m_UseEigenLibrary = input;
+  }
+  void SetUseEigenLibraryOn()
+  {
+    m_UseEigenLibrary = true;
+  }
+  void SetUseEigenLibraryOff()
+  {
+    m_UseEigenLibrary = false;
+  }
+  bool GetUseEigenLibrary() const { return m_UseEigenLibrary; }
 private:
-  unsigned int        m_Dimension;
-  unsigned int        m_Order;
+  bool                m_UseEigenLibrary{false};
+  unsigned int        m_Dimension{0};
+  unsigned int        m_Order{0};
   EigenValueOrderType m_OrderEigenValues;
 
   /** Reduces a real symmetric matrix to a symmetric tridiagonal matrix using
@@ -296,6 +400,264 @@ private:
    *            Use vnl routines as necessary]
    */
   unsigned int ComputeEigenValuesAndVectorsUsingQL(double *d, double *e, double *z) const;
+
+  /* Legacy algorithms using thread-safe netlib.
+   * \sa ComputeEigenValues and \sa ComputeEigenValuesAndVectors
+   */
+  unsigned int ComputeEigenValuesLegacy(
+    const TMatrix  & A,
+    TVector        & EigenValues) const;
+
+  unsigned int ComputeEigenValuesAndVectorsLegacy(
+    const TMatrix  & A,
+    TVector        & EigenValues,
+    TEigenMatrix   & EigenVectors) const;
+
+  /* Helper to get the matrix value type for EigenLibMatrix typename.
+   *
+   * If the TMatrix is vnl, the type is in element_type.
+   * In TMatrix is itk::Matrix, or any itk::FixedArray is in ValueType.
+   *
+   * To use this function:
+   * using ValueType = decltype(this->GetMatrixType(true));
+   */
+  template<typename QMatrix = TMatrix >
+  auto GetMatrixValueType(bool) const
+  -> typename QMatrix::element_type
+    {
+    return QMatrix::element_type();
+    }
+  template<typename QMatrix = TMatrix >
+  auto GetMatrixValueType(bool) const
+  -> typename QMatrix::ValueType
+    {
+    return QMatrix::ValueType();
+    }
+
+  /* Wrapper that call the right implementation for the type of matrix.  */
+  unsigned int ComputeEigenValuesAndVectorsWithEigenLibrary(
+    const TMatrix & A,
+    TVector       & EigenValues,
+    TEigenMatrix  & EigenVectors) const
+    {
+    return ComputeEigenValuesAndVectorsWithEigenLibraryImpl(
+      A, EigenValues, EigenVectors, true);
+    }
+
+  /* Implementation detail using EigenLib that performs a copy of the input matrix.
+   *
+   * @param (long) implementation detail argument making this implementation less favourable
+   *   to be chosen if alternatives are available.
+   *
+   * @return an unsigned int with no information value (no error code in EigenLib) */
+  template<typename QMatrix >
+  auto ComputeEigenValuesAndVectorsWithEigenLibraryImpl(
+    const QMatrix & A,
+    TVector       & EigenValues,
+    TEigenMatrix  & EigenVectors,
+    long) const
+  -> decltype(static_cast<unsigned int>(1))
+  {
+  using ValueType = decltype(GetMatrixValueType(true));
+  using EigenLibMatrixType =
+    Eigen::Matrix< ValueType, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>;
+  EigenLibMatrixType inputMatrix( m_Dimension, m_Dimension);
+  for (unsigned int row = 0; row < m_Dimension; ++row)
+    {
+    for (unsigned int col = 0; col < m_Dimension; ++col)
+      {
+      inputMatrix(row, col) = A(row, col);
+      }
+    }
+  using EigenSolverType = Eigen::SelfAdjointEigenSolver<EigenLibMatrixType>;
+  EigenSolverType solver(inputMatrix); // Computes EigenValues and EigenVectors
+  const auto &eigenValues = solver.eigenvalues();
+  /* Column  k  of the returned matrix is an eigenvector corresponding to
+   * eigenvalue number $ k $ as returned by eigenvalues().
+   * The eigenvectors are normalized to have (Euclidean) norm equal to one. */
+  const auto &eigenVectors = solver.eigenvectors();
+
+  if(m_OrderEigenValues == OrderByMagnitude)
+    {
+    auto copyEigenValues = eigenValues;
+    auto copyEigenVectors = eigenVectors;
+    auto indicesSortPermutations = detail::sortEigenValuesByMagnitude(copyEigenValues, m_Dimension);
+    detail::permuteColumnsWithSortIndices(copyEigenVectors, indicesSortPermutations);
+
+    for (unsigned int row = 0; row < m_Dimension; ++row)
+      {
+      EigenValues[row] = copyEigenValues[row];
+      for (unsigned int col = 0; col < m_Dimension; ++col)
+        {
+        EigenVectors[row][col] = copyEigenVectors(col, row);
+        }
+      }
+    }
+  else
+    {
+    for (unsigned int row = 0; row < m_Dimension; ++row)
+      {
+      EigenValues[row] = eigenValues[row];
+      for (unsigned int col = 0; col < m_Dimension; ++col)
+        {
+        EigenVectors[row][col] = eigenVectors(col, row);
+        }
+      }
+    }
+  // No error code
+  return 1;
+  }
+
+
+  /* Implementation detail using EigenLib that do not peform a copy.
+   * It needs the existence of a pointer to matrix data. \sa GetPointerToMatrixData
+   * If new types want to use this method, an appropiate overload of GetPointerToMatrixData
+   * should be included.
+   *
+   * @param (bool) implementation detail argument making this implementation the most favourable
+   *   to be chosen from all the alternative implementations.
+   *
+   * @return an unsigned int with no information value (no error code in EigenLib) */
+  template<typename QMatrix >
+  auto ComputeEigenValuesAndVectorsWithEigenLibraryImpl(
+    const QMatrix & A,
+    TVector       & EigenValues,
+    TEigenMatrix  & EigenVectors,
+    bool) const
+  -> decltype(GetPointerToMatrixData(A), static_cast<unsigned int>(1))
+    {
+    auto pointerToData = GetPointerToMatrixData(A);
+    using PointerType = decltype(pointerToData);
+    using ValueTypeCV = typename std::remove_pointer<PointerType>::type;
+    using ValueType = typename std::remove_cv<ValueTypeCV>::type;
+    using EigenLibMatrixType =
+      Eigen::Matrix< ValueType, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>;
+    using EigenConstMatrixMap = Eigen::Map<const EigenLibMatrixType>;
+    EigenConstMatrixMap inputMatrix(pointerToData, m_Dimension, m_Dimension);
+    using EigenSolverType = Eigen::SelfAdjointEigenSolver<EigenLibMatrixType>;
+    EigenSolverType solver(inputMatrix); // Computes EigenValues and EigenVectors
+    const auto & eigenValues = solver.eigenvalues();
+    /* Column  k  of the returned matrix is an eigenvector corresponding to
+     * eigenvalue number $ k $ as returned by eigenvalues().
+     * The eigenvectors are normalized to have (Euclidean) norm equal to one. */
+    const auto & eigenVectors = solver.eigenvectors();
+    if(m_OrderEigenValues == OrderByMagnitude)
+      {
+      auto copyEigenValues = eigenValues;
+      auto copyEigenVectors = eigenVectors;
+      auto indicesSortPermutations = detail::sortEigenValuesByMagnitude(copyEigenValues, m_Dimension);
+      detail::permuteColumnsWithSortIndices(copyEigenVectors, indicesSortPermutations);
+      for (unsigned int row = 0; row < m_Dimension; ++row)
+        {
+        EigenValues[row] = copyEigenValues[row];
+        for (unsigned int col = 0; col < m_Dimension; ++col)
+          {
+          EigenVectors[row][col] = copyEigenVectors(col, row);
+          }
+        }
+      }
+    else
+      {
+      for (unsigned int row = 0; row < m_Dimension; ++row)
+        {
+        EigenValues[row] = eigenValues[row];
+        for (unsigned int col = 0; col < m_Dimension; ++col)
+          {
+          EigenVectors[row][col] = eigenVectors(col, row);
+          }
+        }
+      }
+    // No error code
+    return 1;
+    }
+
+  /* Wrapper that call the right implementation for the type of matrix.  */
+  unsigned int ComputeEigenValuesWithEigenLibrary(
+    const TMatrix & A,
+    TVector       & EigenValues) const
+    {
+    return ComputeEigenValuesWithEigenLibraryImpl(
+      A, EigenValues, true);
+    }
+
+  /* Implementation detail using EigenLib that performs a copy of the input matrix.
+   *
+   * @param (long) implementation detail argument making this implementation less favourable
+   *   to be chosen if alternatives are available.
+   *
+   * @return an unsigned int with no information value (no error code in EigenLib) */
+  template<typename QMatrix >
+  auto ComputeEigenValuesWithEigenLibraryImpl(
+    const QMatrix & A,
+    TVector       & EigenValues,
+    long) const
+  -> decltype(static_cast<unsigned int>(1))
+    {
+    using ValueType = decltype(GetMatrixValueType(true));
+    using EigenLibMatrixType =
+      Eigen::Matrix< ValueType, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>;
+    EigenLibMatrixType inputMatrix(m_Dimension, m_Dimension);
+    for (unsigned int row = 0; row < m_Dimension; ++row)
+      {
+      for (unsigned int col = 0; col < m_Dimension; ++col)
+        {
+        inputMatrix(row, col) = A(row, col);
+        }
+      }
+    using EigenSolverType = Eigen::SelfAdjointEigenSolver<EigenLibMatrixType>;
+    EigenSolverType solver(inputMatrix, Eigen::EigenvaluesOnly);
+    auto eigenValues = solver.eigenvalues();
+    if(m_OrderEigenValues == OrderByMagnitude)
+      {
+      detail::sortEigenValuesByMagnitude(eigenValues, m_Dimension);
+      }
+    for (unsigned int i = 0; i < m_Dimension; ++i)
+      {
+      EigenValues[i] = eigenValues[i];
+      }
+
+    // No error code
+    return 1;
+    }
+
+  /* Implementation detail using EigenLib that do not peform a copy.
+   * It needs the existence of a pointer to matrix data. \sa GetPointerToMatrixData
+   * If new types want to use this method, an appropiate overload of GetPointerToMatrixData
+   * should be included.
+   *
+   * @param (bool) implementation detail argument making this implementation the most favourable
+   *   to be chosen from all the alternative implementations.
+   *
+   * @return an unsigned int with no information value (no error code in EigenLib) */
+  template<typename QMatrix >
+  auto ComputeEigenValuesWithEigenLibraryImpl(
+    const QMatrix & A,
+    TVector       & EigenValues,
+    bool) const
+  -> decltype(GetPointerToMatrixData(A), static_cast<unsigned int>(1))
+    {
+    auto pointerToData = GetPointerToMatrixData(A);
+    using PointerType = decltype(pointerToData);
+    using ValueTypeCV = typename std::remove_pointer<PointerType>::type;
+    using ValueType = typename std::remove_cv<ValueTypeCV>::type;
+    using EigenLibMatrixType =
+      Eigen::Matrix< ValueType, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>;
+    using EigenConstMatrixMap = Eigen::Map<const EigenLibMatrixType>;
+    EigenConstMatrixMap inputMatrix(pointerToData, m_Dimension, m_Dimension);
+    using EigenSolverType = Eigen::SelfAdjointEigenSolver<EigenLibMatrixType>;
+    EigenSolverType solver(inputMatrix, Eigen::EigenvaluesOnly);
+    auto eigenValues = solver.eigenvalues();
+    if(m_OrderEigenValues == OrderByMagnitude)
+      {
+      detail::sortEigenValuesByMagnitude(eigenValues, m_Dimension);
+      }
+    for (unsigned int i = 0; i < m_Dimension; ++i)
+      {
+      EigenValues[i] = eigenValues[i];
+      }
+    // No error code
+    return 1;
+    }
 };
 
 template< typename TMatrix, typename TVector, typename TEigenMatrix >
@@ -307,6 +669,332 @@ std::ostream & operator<<(std::ostream & os,
   os << "  Order : " << s.GetOrder() << std::endl;
   os << "  OrderEigenValues: " << s.GetOrderEigenValues() << std::endl;
   os << "  OrderEigenMagnitudes: " << s.GetOrderEigenMagnitudes() << std::endl;
+  os << "  UseEigenLibrary: " << s.GetUseEigenLibrary() << std::endl;
+  return os;
+}
+
+template< unsigned int VDimension, typename TMatrix, typename TVector, typename TEigenMatrix = TMatrix >
+class ITK_TEMPLATE_EXPORT SymmetricEigenAnalysisFixedDimension
+{
+public:
+  typedef enum
+  {
+    OrderByValue = 1,
+    OrderByMagnitude,
+    DoNotOrder
+  }
+  EigenValueOrderType;
+
+  SymmetricEigenAnalysisFixedDimension(): m_OrderEigenValues(OrderByValue) {}
+  ~SymmetricEigenAnalysisFixedDimension() = default;
+
+  using MatrixType = TMatrix;
+  using EigenMatrixType = TEigenMatrix;
+  using VectorType = TVector;
+
+  /** Compute Eigen values of A
+   * A is any type that overloads the [][] operator and contains the
+   * symmetric matrix. In practice only the upper triangle of the
+   * matrix will be accessed. (Both itk::Matrix and vnl_matrix
+   * overload [][] operator.)
+   *
+   * 'EigenValues' is any type that overloads the [] operator and will contain
+   * the eigen values.
+   *
+   * No size checking is performed. A is expected to be a square matrix of size
+   * VDimension.  'EigenValues' is expected to be of length VDimension.
+   * The matrix is not checked to see if it is symmetric.
+   */
+  unsigned int ComputeEigenValues(
+    const TMatrix  & A,
+    TVector        & EigenValues) const
+  {
+    return ComputeEigenValuesWithEigenLibraryImpl(
+      A, EigenValues, true);
+  }
+
+  /** Compute Eigen values and vectors of A
+   * A is any type that overloads the [][] operator and contains the
+   * symmetric matrix. In practice only the upper triangle of the
+   * matrix will be accessed. (Both itk::Matrix and vnl_matrix
+   * overload [][] operator.)
+   *
+   * 'EigenValues' is any type that overloads the [] operator and will contain
+   * the eigen values.
+   *
+   * 'EigenVectors' is any type that provides access to its elements with the
+   * [][] operator. It is expected be of size VDimension * VDimension.
+   *
+   * No size checking is performed. A is expected to be a square matrix of size
+   * VDimension.  'EigenValues' is expected to be of length VDimension.
+   * The matrix is not checked to see if it is symmetric.
+   *
+   * Each row of the matrix 'EigenVectors' represents an eigen vector. (unlike MATLAB
+   * where the columns of the [EigenVectors, EigenValues] = eig(A) contains the
+   * eigenvectors).
+   */
+  unsigned int ComputeEigenValuesAndVectors(
+    const TMatrix  & A,
+    TVector        & EigenValues,
+    TEigenMatrix   & EigenVectors) const
+  {
+    return ComputeEigenValuesAndVectorsWithEigenLibraryImpl(
+      A, EigenValues, EigenVectors, true);
+  }
+
+  void SetOrderEigenValues(const bool b)
+  {
+    if ( b ) { m_OrderEigenValues = OrderByValue;     }
+    else   { m_OrderEigenValues = DoNotOrder;       }
+  }
+  bool GetOrderEigenValues() const { return ( m_OrderEigenValues == OrderByValue ); }
+  void SetOrderEigenMagnitudes(const bool b)
+  {
+    if ( b ) { m_OrderEigenValues = OrderByMagnitude; }
+    else   { m_OrderEigenValues = DoNotOrder;       }
+  }
+  bool GetOrderEigenMagnitudes() const { return ( m_OrderEigenValues == OrderByMagnitude ); }
+  constexpr unsigned int GetOrder() const { return VDimension; }
+  constexpr unsigned int GetDimension() const { return VDimension; }
+  constexpr bool GetUseEigenLibrary() const { return true; }
+
+private:
+  EigenValueOrderType m_OrderEigenValues;
+
+  /* Helper to get the matrix value type for EigenLibMatrix typename.
+   *
+   * If the TMatrix is vnl, the type is in element_type.
+   * In TMatrix is itk::Matrix, or any itk::FixedArray is in ValueType.
+   *
+   * To use this function:
+   * using ValueType = decltype(this->GetMatrixType(true));
+   */
+  template<typename QMatrix = TMatrix >
+  auto GetMatrixValueType(bool) const
+  -> typename QMatrix::element_type
+    {
+    return QMatrix::element_type();
+    }
+  template<typename QMatrix = TMatrix >
+  auto GetMatrixValueType(bool) const
+  -> typename QMatrix::ValueType
+    {
+    return QMatrix::ValueType();
+    }
+
+  /* Implementation detail using EigenLib that do not peform a copy.
+   * It needs the existence of a pointer to matrix data. \sa GetPointerToMatrixData
+   * If new types want to use this method, an appropiate overload of GetPointerToMatrixData
+   * should be included.
+   *
+   * @param (bool) implementation detail argument making this implementation the most favourable
+   *   to be chosen from all the alternative implementations.
+   *
+   * @return an unsigned int with no information value (no error code in EigenLib) */
+  template<typename QMatrix >
+  auto ComputeEigenValuesAndVectorsWithEigenLibraryImpl(
+    const QMatrix & A,
+    TVector       & EigenValues,
+    TEigenMatrix  & EigenVectors,
+    bool) const
+  -> decltype(GetPointerToMatrixData(A), static_cast<unsigned int>(1))
+    {
+    auto pointerToData = GetPointerToMatrixData(A);
+    using PointerType = decltype(pointerToData);
+    using ValueTypeCV = typename std::remove_pointer<PointerType>::type;
+    using ValueType = typename std::remove_cv<ValueTypeCV>::type;
+    using EigenLibMatrixType = Eigen::Matrix< ValueType, VDimension, VDimension, Eigen::RowMajor>;
+    using EigenConstMatrixMap = Eigen::Map<const EigenLibMatrixType>;
+    EigenConstMatrixMap inputMatrix(pointerToData);
+    using EigenSolverType = Eigen::SelfAdjointEigenSolver<EigenLibMatrixType>;
+    EigenSolverType solver(inputMatrix); // Computes EigenValues and EigenVectors
+    const auto & eigenValues = solver.eigenvalues();
+    /* Column  k  of the returned matrix is an eigenvector corresponding to
+     * eigenvalue number $ k $ as returned by eigenvalues().
+     * The eigenvectors are normalized to have (Euclidean) norm equal to one. */
+    const auto & eigenVectors = solver.eigenvectors();
+    if(m_OrderEigenValues == OrderByMagnitude)
+      {
+      auto copyEigenValues = eigenValues;
+      auto copyEigenVectors = eigenVectors;
+      auto indicesSortPermutations = detail::sortEigenValuesByMagnitude(copyEigenValues, VDimension);
+      detail::permuteColumnsWithSortIndices(copyEigenVectors, indicesSortPermutations);
+      for (unsigned int row = 0; row < VDimension; ++row)
+        {
+        EigenValues[row] = copyEigenValues[row];
+        for (unsigned int col = 0; col < VDimension; ++col)
+          {
+          EigenVectors[row][col] = copyEigenVectors(col, row);
+          }
+        }
+      }
+    else
+      {
+      for (unsigned int row = 0; row < VDimension; ++row)
+        {
+        EigenValues[row] = eigenValues[row];
+        for (unsigned int col = 0; col < VDimension; ++col)
+          {
+          EigenVectors[row][col] = eigenVectors(col, row);
+          }
+        }
+      }
+    // No error code
+    return 1;
+    }
+
+  /* Implementation detail using EigenLib that performs a copy of the input matrix.
+   *
+   * @param (long) implementation detail argument making this implementation less favourable
+   *   to be chosen if alternatives are available.
+   *
+   * @return an unsigned int with no information value (no error code in EigenLib) */
+  template<typename QMatrix >
+  auto ComputeEigenValuesAndVectorsWithEigenLibraryImpl(
+    const QMatrix & A,
+    TVector       & EigenValues,
+    TEigenMatrix  & EigenVectors,
+    long) const
+  -> decltype(static_cast<unsigned int>(1))
+  {
+  using ValueType = decltype(GetMatrixValueType(true));
+  using EigenLibMatrixType = Eigen::Matrix< ValueType, VDimension, VDimension, Eigen::RowMajor>;
+  EigenLibMatrixType inputMatrix;
+  for (unsigned int row = 0; row < VDimension; ++row)
+    {
+    for (unsigned int col = 0; col < VDimension; ++col)
+      {
+      inputMatrix(row, col) = A(row, col);
+      }
+    }
+  using EigenSolverType = Eigen::SelfAdjointEigenSolver<EigenLibMatrixType>;
+  EigenSolverType solver(inputMatrix); // Computes EigenValues and EigenVectors
+  const auto &eigenValues = solver.eigenvalues();
+  /* Column  k  of the returned matrix is an eigenvector corresponding to
+   * eigenvalue number $ k $ as returned by eigenvalues().
+   * The eigenvectors are normalized to have (Euclidean) norm equal to one. */
+  const auto &eigenVectors = solver.eigenvectors();
+
+  if(m_OrderEigenValues == OrderByMagnitude)
+    {
+    auto copyEigenValues = eigenValues;
+    auto copyEigenVectors = eigenVectors;
+    auto indicesSortPermutations = detail::sortEigenValuesByMagnitude(copyEigenValues, VDimension);
+    detail::permuteColumnsWithSortIndices(copyEigenVectors, indicesSortPermutations);
+
+    for (unsigned int row = 0; row < VDimension; ++row)
+      {
+      EigenValues[row] = copyEigenValues[row];
+      for (unsigned int col = 0; col < VDimension; ++col)
+        {
+        EigenVectors[row][col] = copyEigenVectors(col, row);
+        }
+      }
+    }
+  else
+    {
+    for (unsigned int row = 0; row < VDimension; ++row)
+      {
+      EigenValues[row] = eigenValues[row];
+      for (unsigned int col = 0; col < VDimension; ++col)
+        {
+        EigenVectors[row][col] = eigenVectors(col, row);
+        }
+      }
+    }
+  // No error code
+  return 1;
+  }
+
+  /* Implementation detail using EigenLib that performs a copy of the input matrix.
+   *
+   * @param (long) implementation detail argument making this implementation less favourable
+   *   to be chosen if alternatives are available.
+   *
+   * @return an unsigned int with no information value (no error code in EigenLib) */
+  template<typename QMatrix >
+  auto ComputeEigenValuesWithEigenLibraryImpl(
+    const QMatrix & A,
+    TVector       & EigenValues,
+    long) const
+  -> decltype(static_cast<unsigned int>(1))
+    {
+    using ValueType = decltype(GetMatrixValueType(true));
+    using EigenLibMatrixType = Eigen::Matrix< ValueType, VDimension, VDimension, Eigen::RowMajor>;
+    EigenLibMatrixType inputMatrix;
+    for (unsigned int row = 0; row < VDimension; ++row)
+      {
+      for (unsigned int col = 0; col < VDimension; ++col)
+        {
+        inputMatrix(row, col) = A(row, col);
+        }
+      }
+    using EigenSolverType = Eigen::SelfAdjointEigenSolver<EigenLibMatrixType>;
+    EigenSolverType solver(inputMatrix, Eigen::EigenvaluesOnly);
+    auto eigenValues = solver.eigenvalues();
+    if(m_OrderEigenValues == OrderByMagnitude)
+      {
+      detail::sortEigenValuesByMagnitude(eigenValues, VDimension);
+      }
+    for (unsigned int i = 0; i < VDimension; ++i)
+      {
+      EigenValues[i] = eigenValues[i];
+      }
+
+    // No error code
+    return 1;
+    }
+
+  /* Implementation detail using EigenLib that do not peform a copy.
+   * It needs the existence of a pointer to matrix data. \sa GetPointerToMatrixData
+   * If new types want to use this method, an appropiate overload of GetPointerToMatrixData
+   * should be included.
+   *
+   * @param (bool) implementation detail argument making this implementation the most favourable
+   *   to be chosen from all the alternative implementations.
+   *
+   * @return an unsigned int with no information value (no error code in EigenLib) */
+  template<typename QMatrix >
+  auto ComputeEigenValuesWithEigenLibraryImpl(
+    const QMatrix & A,
+    TVector       & EigenValues,
+    bool) const
+  -> decltype(GetPointerToMatrixData(A), static_cast<unsigned int>(1))
+    {
+    auto pointerToData = GetPointerToMatrixData(A);
+    using PointerType = decltype(pointerToData);
+    using ValueTypeCV = typename std::remove_pointer<PointerType>::type;
+    using ValueType = typename std::remove_cv<ValueTypeCV>::type;
+    using EigenLibMatrixType = Eigen::Matrix< ValueType, VDimension, VDimension, Eigen::RowMajor>;
+    using EigenConstMatrixMap = Eigen::Map<const EigenLibMatrixType>;
+    EigenConstMatrixMap inputMatrix(pointerToData);
+    using EigenSolverType = Eigen::SelfAdjointEigenSolver<EigenLibMatrixType>;
+    EigenSolverType solver(inputMatrix, Eigen::EigenvaluesOnly);
+    auto eigenValues = solver.eigenvalues();
+    if(m_OrderEigenValues == OrderByMagnitude)
+      {
+      detail::sortEigenValuesByMagnitude(eigenValues, VDimension);
+      }
+    for (unsigned int i = 0; i < VDimension; ++i)
+      {
+      EigenValues[i] = eigenValues[i];
+      }
+    // No error code
+    return 1;
+    }
+};
+
+template< unsigned int VDimension, typename TMatrix, typename TVector, typename TEigenMatrix >
+std::ostream & operator<<(std::ostream & os,
+                          const SymmetricEigenAnalysisFixedDimension<VDimension,
+                          TMatrix, TVector, TEigenMatrix > & s)
+{
+  os << "[ClassType: SymmetricEigenAnalysisFixedDimension]" << std::endl;
+  os << "  Dimension : " << s.GetDimension() << std::endl;
+  os << "  Order : " << s.GetOrder() << std::endl;
+  os << "  OrderEigenValues: " << s.GetOrderEigenValues() << std::endl;
+  os << "  OrderEigenMagnitudes: " << s.GetOrderEigenMagnitudes() << std::endl;
+  os << "  UseEigenLibrary: " << s.GetUseEigenLibrary() << std::endl;
   return os;
 }
 } // end namespace itk

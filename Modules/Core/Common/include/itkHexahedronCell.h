@@ -24,9 +24,9 @@
 namespace itk
 {
 /** \class HexahedronCell
- *  \brief Represents a hexahedron for a Mesh.
+ *  \brief Represents a hexahedron (cuboid) for a Mesh.
  *
- * HexahedronCell represents a hexahedron for a Mesh.
+ * HexahedronCell represents a hexahedron, more precisely, a cuboid, for a Mesh.
  *
  * \tparam TPixelType The type associated with a point, cell, or boundary
  * for use in storing its data.
@@ -123,10 +123,14 @@ protected:
   /** Store the number of points needed for a hexahedron. */
   PointIdentifier m_PointIds[NumberOfPoints];
 
-  void InterpolationDerivs(CoordRepType pcoords[3], CoordRepType derivs[24]);
-  void InterpolationFunctions(CoordRepType pcoords[3], InterpolationWeightType sf[8]);
-  void EvaluateLocation(int &itkNotUsed(subId), PointsContainer * points, CoordRepType pcoords[3],
-                        CoordRepType x[3], InterpolationWeightType * weights);
+  void
+  InterpolationDerivs( CoordRepType pcoords[Self::CellDimension],
+                       CoordRepType derivs[Self::CellDimension * Self::NumberOfPoints] );
+  void
+  InterpolationFunctions( CoordRepType pcoords[Self::CellDimension], InterpolationWeightType sf[Self::NumberOfPoints] );
+  void
+  EvaluateLocation( int& itkNotUsed( subId ), PointsContainer* points, CoordRepType pcoords[Self::CellDimension],
+                    CoordRepType x[Self::CellDimension], InterpolationWeightType* weights );
 
 public:
   HexahedronCell()

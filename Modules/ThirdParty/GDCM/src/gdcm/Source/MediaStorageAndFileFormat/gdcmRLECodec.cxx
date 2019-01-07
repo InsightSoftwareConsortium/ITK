@@ -847,7 +847,7 @@ bool RLECodec::DecodeByStreams(std::istream &is, std::ostream &os)
         }
       //assert( numberOfReadBytes + frame.Header.Offset[i] - is.tellg() + start == 0);
       }
-    assert( numOutBytes == length );
+    if( numOutBytes != length ) return false;
     }
 
   return ImageCodec::DecodeByStreams(tmpos,os);
@@ -855,7 +855,25 @@ bool RLECodec::DecodeByStreams(std::istream &is, std::ostream &os)
 
 bool RLECodec::GetHeaderInfo(std::istream &is, TransferSyntax &ts)
 {
-  (void)is;
+  RLEFrame frame;
+  if( !frame.Read(is) )
+     return false;
+  // numsegments = num_comp * bpp / 8;
+  // numsegments >0 && numsegments <= 12
+  uint32_t bytespercomp = frame.Header.NumSegments;
+  if( frame.Header.NumSegments % 3 == 0 )
+  {
+    PI = PhotometricInterpretation::RGB;
+    PlanarConfiguration = 1;
+    this->PF.SetSamplesPerPixel( 3 );
+    bytespercomp /= 3;
+  }
+  else
+  {
+    PI = PhotometricInterpretation::MONOCHROME2;
+    this->PF.SetSamplesPerPixel( 1 );
+  }
+  this->PF.SetBitsAllocated( bytespercomp * 8 );
   ts = TransferSyntax::RLELossless;
   return true;
 }

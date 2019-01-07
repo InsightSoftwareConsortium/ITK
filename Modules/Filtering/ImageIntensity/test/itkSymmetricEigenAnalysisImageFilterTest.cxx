@@ -162,18 +162,153 @@ public:
 
 };
 
+template< unsigned int TMatrixDimension, typename TInputImage,
+  typename TInternalImage, typename TOutputImage >
+class SymmetricEigenAnalysisFixedDimensionImageFilterHelper :
+  public SymmetricEigenAnalysisFixedDimensionImageFilter< TMatrixDimension, TInputImage, TInternalImage >
+{
+public:
+  using Self = SymmetricEigenAnalysisFixedDimensionImageFilterHelper;
+  using Superclass =
+      SymmetricEigenAnalysisFixedDimensionImageFilter< TMatrixDimension, TInputImage, TInternalImage >;
+
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+
+
+  using InputImageType = TInputImage;
+  using InternalImageType = TInternalImage;
+  using OutputImageType = TOutputImage;
+
+
+  itkTypeMacro( SymmetricEigenAnalysisFixedDimensionImageFilterHelper,
+    SymmetricEigenAnalysisFixedDimensionImageFilter );
+
+  itkNewMacro( Self );
+
+  static int Exercise( typename Superclass::FunctorType::EigenValueOrderType order,
+    std::string outputFilename )
+  {
+
+    using SymmetricEigenAnalysisFixedDimensionImageFilterType =
+      SymmetricEigenAnalysisFixedDimensionImageFilter<
+      TMatrixDimension, InputImageType, InternalImageType >;
+
+    // Declare the type of the index to access images
+    using IndexType = itk::Index< InputImageType::ImageDimension >;
+
+    // Declare the type of the size
+    using SizeType = itk::Size< InputImageType::ImageDimension >;
+
+    // Declare the type of the Region
+    using RegionType = itk::ImageRegion< InputImageType::ImageDimension >;
+
+    // Create the input image
+    typename InputImageType::Pointer inputImage = InputImageType::New();
+
+    // Define its size, and start index
+    SizeType size;
+    size[0] = 8;
+    size[1] = 8;
+    size[2] = 8;
+
+    IndexType start;
+    start.Fill(0);
+
+    RegionType region;
+    region.SetIndex( start );
+    region.SetSize( size );
+
+    // Initialize the input image
+    inputImage->SetLargestPossibleRegion( region );
+    inputImage->SetBufferedRegion( region );
+    inputImage->SetRequestedRegion( region );
+    inputImage->Allocate();
+
+    // Declare Iterator type for the input image
+    using IteratorType = itk::ImageRegionIteratorWithIndex< InputImageType >;
+
+    // Create one iterator for the input image (this is a light object)
+    IteratorType it( inputImage, inputImage->GetRequestedRegion() );
+
+    typename InputImageType::PixelType tensorValue;
+
+    tensorValue(0,0) = 19.0;
+    tensorValue(0,1) = 23.0;
+    tensorValue(0,2) = 29.0;
+    tensorValue(1,1) = 31.0;
+    tensorValue(1,2) = 37.0;
+    tensorValue(2,2) = 39.0;
+
+    it.GoToBegin();
+
+    // Initialize the content of the input image
+    while( !it.IsAtEnd() )
+      {
+      it.Set( tensorValue );
+      ++it;
+      }
+
+    // Create the filter
+    typename SymmetricEigenAnalysisFixedDimensionImageFilterType::Pointer filter =
+      SymmetricEigenAnalysisFixedDimensionImageFilterType::New();
+
+    // Set the input image
+    filter->SetInput( inputImage );
+
+    filter->SetFunctor( filter->GetFunctor() );
+
+    filter->OrderEigenValuesBy( order );
+
+    // Execute the filter
+    TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+
+    // Get the filter output
+    // It is important to do it AFTER the filter is Updated
+    // Because the object connected to the output may be changed
+    // by another during GenerateData() call
+    typename InternalImageType::Pointer internalImage = filter->GetOutput();
+
+    // Get the output image to a writable format
+    using CastImageFilterType =
+        itk::CastImageFilter< InternalImageType, OutputImageType >;
+
+    typename CastImageFilterType::Pointer roundImageFilter =
+      CastImageFilterType::New();
+
+    roundImageFilter->SetInput( internalImage );
+
+    TRY_EXPECT_NO_EXCEPTION( roundImageFilter->Update() );
+
+    // Write the result image
+    using WriterType = itk::ImageFileWriter< OutputImageType >;
+
+    typename WriterType::Pointer writer = WriterType::New();
+
+    writer->SetFileName( outputFilename );
+
+    writer->SetInput( roundImageFilter->GetOutput() );
+
+    TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+
+    std::cout << "Test succeeded." << std::endl;
+    return EXIT_SUCCESS;
+  }
+
+};
 } // end namespace itk
 
 
 int itkSymmetricEigenAnalysisImageFilterTest( int argc, char* argv[] )
 {
 
-  if ( argc < 3 )
+  if ( argc < 4 )
   {
   std::cout << "Usage: " << argv[0]
-    << "outputImage order " << std::endl;
+    << "outputImage order outputImageFixedDimension" << std::endl;
   return EXIT_FAILURE;
   }
+  bool testPassed = true;
 
   // Define the dimension of the images
   constexpr unsigned int Dimension = 3;
@@ -219,7 +354,41 @@ int itkSymmetricEigenAnalysisImageFilterTest( int argc, char* argv[] )
   int testResult = itk::SymmetricEigenAnalysisImageFilterHelper< InputImageType,
     InternalImageType, OutputImageType >::Exercise( order, outputFilename );
 
+  if (testResult != EXIT_SUCCESS)
+    {
+    std::cout << "test SymmetricEigenAnalysisImageFilter failed" << std::endl;
+    testPassed = false;
+    }
+
+  // Test the fixed dimension filter
+  using FilterFixedDimensionType = itk::SymmetricEigenAnalysisFixedDimensionImageFilter<
+                                     Dimension,
+                                     InputImageType,
+                                     InternalImageType >;
+
+  auto orderFixedDimension = static_cast< FilterFixedDimensionType::FunctorType::EigenValueOrderType >( std::stoi( argv[2] ) );
+  std::string outputFilenameFixedDimension = argv[3];
+  // Create an instance to exercise basic object methods
+  auto filterFixedDimension = FilterFixedDimensionType::New();
+  EXERCISE_BASIC_OBJECT_METHODS( filterFixedDimension, SymmetricEigenAnalysisFixedDimensionImageFilter,
+    UnaryFunctorImageFilter );
+
+  int testFixedDimensionResult = itk::SymmetricEigenAnalysisFixedDimensionImageFilterHelper<
+    Dimension, InputImageType, InternalImageType, OutputImageType >::Exercise( orderFixedDimension, outputFilenameFixedDimension );
+
+  if (testFixedDimensionResult != EXIT_SUCCESS)
+    {
+    std::cout << "test SymmetricEigenAnalysisFixedImageImageFilter failed" << std::endl;
+    testPassed = false;
+    }
 
   // All objects should be automatically destroyed at this point
-  return testResult;
+  if(testPassed)
+    {
+    return EXIT_SUCCESS;
+    }
+  else
+    {
+    return EXIT_FAILURE;
+    }
 }

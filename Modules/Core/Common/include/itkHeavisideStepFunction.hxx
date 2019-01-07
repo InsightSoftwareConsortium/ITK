@@ -29,10 +29,6 @@ HeavisideStepFunction< TInput, TOutput >
 {}
 
 template< typename TInput, typename TOutput >
-HeavisideStepFunction< TInput, TOutput >
-::~HeavisideStepFunction() = default;
-
-template< typename TInput, typename TOutput >
 typename HeavisideStepFunction< TInput, TOutput >::OutputType
 HeavisideStepFunction< TInput, TOutput >
 ::Evaluate(const InputType & input) const

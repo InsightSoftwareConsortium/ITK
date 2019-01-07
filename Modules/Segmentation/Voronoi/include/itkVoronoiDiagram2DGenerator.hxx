@@ -31,22 +31,9 @@ constexpr double DIFF_TOLERENCE = 0.001;
 
 template< typename TCoordRepType >
 VoronoiDiagram2DGenerator< TCoordRepType >::VoronoiDiagram2DGenerator() :
-  m_NumberOfSeeds( 0 ),
-  m_OutputVD( Self::GetOutput() ), // Note: this line is suspicious
-  m_Pxmin( 0.0 ),
-  m_Pxmax( 0.0 ),
-  m_Pymin( 0.0 ),
-  m_Pymax( 0.0 ),
-  m_Deltax( 0.0 ),
-  m_Deltay( 0.0 ),
-  m_SqrtNSites( 0.0 ),
-  m_PQcount( 0 ),
-  m_PQmin( 0 ),
-  m_PQhashsize( 0 ),
-  m_Nedges( 0 ),
-  m_Nvert( 0 ),
-  m_BottomSite( nullptr ),
-  m_ELhashsize( 0 )
+  m_OutputVD( Self::GetOutput() ),
+  m_BottomSite( nullptr )
+
 {
   m_VorBoundary.Fill( 0.0 );
 }

@@ -99,7 +99,7 @@ protected:
 
   /** Determines the level of compression for written files.
    *  Range 0-9; 0 = none, 9 = maximum , default = 4 */
-  int m_CompressionLevel;
+  int m_CompressionLevel{ 4 };
 
   PaletteType m_ColorPalette;
 };

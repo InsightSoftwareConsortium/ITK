@@ -105,4 +105,3 @@ extern "C" void test_solve_qp()
 }
 
 TESTMAIN(test_solve_qp);
-

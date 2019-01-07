@@ -29,18 +29,6 @@ namespace itk
 
 template< typename TPixel, unsigned int VDimension, typename TAllocator >
 GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
-::GaussianDerivativeOperator() :
-  m_NormalizeAcrossScale(true),
-  m_Variance(1.0),
-  m_MaximumError(0.005),
-  m_MaximumKernelWidth(30),
-  m_Order(1),
-  m_Spacing(1.0)
-{
-}
-
-template< typename TPixel, unsigned int VDimension, typename TAllocator >
-GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
 ::GaussianDerivativeOperator(const Self & other)
   : NeighborhoodOperator< TPixel, VDimension, TAllocator >(other),
   m_NormalizeAcrossScale(other.m_NormalizeAcrossScale),

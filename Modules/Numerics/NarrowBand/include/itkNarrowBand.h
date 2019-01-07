@@ -37,9 +37,9 @@ class ITK_TEMPLATE_EXPORT BandNode
 public:
   TDataType   m_Data;
   TIndexType  m_Index;
-  signed char m_NodeState;
+  signed char m_NodeState{0};
   BandNode() :
-    m_Data(NumericTraits<TDataType>::ZeroValue()), m_NodeState(0)
+    m_Data(NumericTraits<TDataType>::ZeroValue())
   {}
 };
 
@@ -164,10 +164,10 @@ public:
   float GetInnerRadius() const { return m_InnerRadius; }
 
 protected:
-  NarrowBand() : m_TotalRadius( 0.0 ), m_InnerRadius( 0.0 ) {}
+  NarrowBand()  {}
 
-  float m_TotalRadius;
-  float m_InnerRadius;
+  float m_TotalRadius{ 0.0 };
+  float m_InnerRadius{ 0.0 };
 
 private:
   NodeContainerType m_NodeContainer;

@@ -134,10 +134,10 @@ private:
   TemporalRegion     m_OutputTemporalRegion;
 
   /** Parameters for writing. */
-  TemporalRatioType            m_FramesPerSecond;
+  TemporalRatioType            m_FramesPerSecond{24};
   std::string                  m_FourCC;
   std::vector<SizeValueType>   m_Dimensions;
-  SizeValueType                m_NumberOfComponents;
+  SizeValueType                m_NumberOfComponents{0};
   ImageIOBase::IOComponentType m_ComponentType;
 };
 

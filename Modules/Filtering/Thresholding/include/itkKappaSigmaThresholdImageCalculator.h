@@ -115,10 +115,10 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  bool           m_Valid;             // Have moments been computed yet?
+  bool           m_Valid{ false };             // Have moments been computed yet?
   MaskPixelType  m_MaskValue;
-  double         m_SigmaFactor;
-  unsigned int   m_NumberOfIterations;
+  double         m_SigmaFactor{ 2 };
+  unsigned int   m_NumberOfIterations{ 2 };
   InputPixelType m_Output;
 
   InputImageConstPointer m_Image;

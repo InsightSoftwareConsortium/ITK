@@ -19,10 +19,7 @@
 
 namespace itk
 {
-Barrier::Barrier() :
-  m_NumberArrived(0),
-  m_NumberExpected(0),
-  m_Generation(0)
+Barrier::Barrier()
 {
 }
 

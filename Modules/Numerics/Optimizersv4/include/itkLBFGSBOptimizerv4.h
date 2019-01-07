@@ -171,7 +171,7 @@ protected:
   friend class LBFGSBOptimizerHelperv4;
 
 private:
-  unsigned int m_MaximumNumberOfCorrections;
+  unsigned int m_MaximumNumberOfCorrections{5};
 
   ParametersType          m_InitialPosition;
   BoundValueType          m_LowerBound;

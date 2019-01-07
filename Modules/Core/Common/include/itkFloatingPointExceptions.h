@@ -49,8 +49,6 @@ public:
 
   /** Disable floating point exceptions.
    *
-   * \copydetails Enable
-   *
    * \sa Enable, SetEnabled, GetEnabled
    */
   static void Disable();
@@ -59,8 +57,6 @@ public:
   static bool GetEnabled();
 
   /** Set the state to specified value.
-   *
-   * \copydetails Enable
    *
    * \sa Enable, Disable, GetEnabled
    */

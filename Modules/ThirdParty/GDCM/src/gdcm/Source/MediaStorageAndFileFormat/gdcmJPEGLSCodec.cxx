@@ -109,6 +109,7 @@ bool JPEGLSCodec::GetHeaderInfo(std::istream &is, TransferSyntax &ts)
   else if( metadata.components == 3 )
     {
     PI = PhotometricInterpretation::RGB;
+    PlanarConfiguration = 1;
     this->PF.SetSamplesPerPixel( 3 );
     }
   else assert(0);

@@ -144,7 +144,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  StreamOffsetType m_FilePosition;
+  StreamOffsetType m_FilePosition{0};
   SizeValueType    m_PartId;
   SizeValueType    m_FirstCellId;
   SizeValueType    m_LastCellId;

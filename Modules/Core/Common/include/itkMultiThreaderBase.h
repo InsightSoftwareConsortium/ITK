@@ -416,6 +416,10 @@ private:
    * ProcessObject is a friend so that it can call PrintSelf() on its
    * Multithreader. */
   friend class ProcessObject;
+
+  /** Platform specific number of threads */
+  static ThreadIdType GetGlobalDefaultNumberOfThreadsByPlatform();
+
 };
 
 ITKCommon_EXPORT std::ostream& operator << (std::ostream& os,

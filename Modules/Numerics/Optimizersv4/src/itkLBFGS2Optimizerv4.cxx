@@ -156,8 +156,7 @@ LBFGS2Optimizerv4::EvaluateCost( const LBFGS2Optimizerv4::PrecisionType *x,
                                  const LBFGS2Optimizerv4::PrecisionType
                                )
 {
-
-  static ParametersType xItk(n);
+  ParametersType xItk(n);
   std::memcpy(xItk.data_block(), x, n * sizeof(LBFGS2Optimizerv4::PrecisionType) );
 
   DerivativeType gItk(n);
@@ -226,21 +225,21 @@ LBFGS2Optimizerv4::GetStopConditionDescription() const{
     case LBFGS_ALREADY_MINIMIZED:
       return "Already minimized";
     case LBFGSERR_UNKNOWNERROR:
-      return "Unknown errer";
+      return "Unknown error";
     case LBFGSERR_LOGICERROR:
       return "Logic error";
     case LBFGSERR_OUTOFMEMORY:
-      return "Out of memmory";
+      return "Out of memory";
     case LBFGSERR_CANCELED:
-      return "Optmization canceled";
+      return "Optimization canceled";
     case LBFGSERR_INVALID_N:
-      return "Invlaid number of variables";
+      return "Invalid number of variables";
     case LBFGSERR_INVALID_N_SSE:
       return "Invalid number of variables for SSE";
     case LBFGSERR_INVALID_X_SSE:
       return "Invalid alignment of variables for SSE";
     case LBFGSERR_INVALID_EPSILON:
-      return "Invalid solution accuracy paramater";
+      return "Invalid solution accuracy parameter";
     case LBFGSERR_INVALID_TESTPERIOD:
       return "Invalid delta convergence distance";
     case LBFGSERR_INVALID_DELTA:
@@ -260,7 +259,7 @@ LBFGS2Optimizerv4::GetStopConditionDescription() const{
     case LBFGSERR_INVALID_XTOL:
       return "Invalid machine precision tolerance";
     case LBFGSERR_INVALID_MAXLINESEARCH:
-      return "Invalid maximum linesearch iterastions";
+      return "Invalid maximum linesearch iterations";
     case LBFGSERR_INVALID_ORTHANTWISE:
       return "Invalid orthantwise coefficient";
     case LBFGSERR_INVALID_ORTHANTWISE_START:
@@ -270,23 +269,23 @@ LBFGS2Optimizerv4::GetStopConditionDescription() const{
     case LBFGSERR_OUTOFINTERVAL:
       return "LineSearch went outside of the uncertainty interval";
     case LBFGSERR_INCORRECT_TMINMAX:
-      return "Interval of uncretainty beecame too small";
+      return "Interval of uncertainty became too small";
     case LBFGSERR_ROUNDING_ERROR:
-      return "A roundng error occured";
+      return "A rounding error occurred";
     case LBFGSERR_MINIMUMSTEP:
       return "LineSearch became smaller than the minimum linesearch step size";
     case LBFGSERR_MAXIMUMSTEP:
       return "LineSearch became bigger than the maximum linesearch step size";
     case LBFGSERR_MAXIMUMLINESEARCH:
-      return "LineSearch reched maximum umber of iterations";
+      return "LineSearch reached maximum umber of iterations";
     case LBFGSERR_MAXIMUMITERATION:
       return "Reached maximum number of iterations";
     case LBFGSERR_WIDTHTOOSMALL:
       return "Relative width of the interval became too small (less than machine tolerance)";
     case LBFGSERR_INVALIDPARAMETERS:
-      return "Negative line search step occured";
+      return "Negative line search step occurred";
     case LBFGSERR_INCREASEGRADIENT:
-      return "Current search direction increases objective funuction";
+      return "Current search direction increases objective function";
   }
   return "Unknown status";
 }

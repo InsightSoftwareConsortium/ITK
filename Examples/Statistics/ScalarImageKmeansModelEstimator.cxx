@@ -88,7 +88,8 @@ int main( int argc, char * argv [] )
   adaptor->SetImage(  reader->GetOutput() );
 
   // Create the K-d tree structure
-  using TreeGeneratorType = itk::Statistics::WeightedCentroidKdTreeGenerator<AdaptorType>;
+  using TreeGeneratorType =
+    itk::Statistics::WeightedCentroidKdTreeGenerator<AdaptorType>;
   TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
 
   treeGenerator->SetSample( adaptor );

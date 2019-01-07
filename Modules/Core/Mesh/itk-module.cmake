@@ -7,7 +7,7 @@ representing the outcome of image segmentation.")
 
 itk_module(ITKMesh
   ENABLE_SHARED
-  PRIVATE_DEPENDS
+  DEPENDS
     ITKTransform
   TEST_DEPENDS
     ITKTestKernel

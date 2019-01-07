@@ -39,12 +39,7 @@
 #include "itkFloatTypes.h"
 
 #include <vxl_version.h>
-#if VXL_VERSION_DATE_FULL < 20160229
-#include "vnl/vnl_matrix_fixed.txx" // Get the templates
-#else
 #include "vnl/vnl_matrix_fixed.hxx" // Get the templates
-#endif
-
 
 namespace itk
 {
@@ -651,7 +646,7 @@ public:
 
 protected:
   ImageBase();
-  ~ImageBase() override;
+  ~ImageBase() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Calculate the offsets needed to move from one pixel to the next

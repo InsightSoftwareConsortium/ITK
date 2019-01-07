@@ -30,9 +30,7 @@ namespace itk
 
 template< typename TInputImage, typename TOutputImage >
 MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
-::MorphologicalWatershedImageFilter():
-  m_FullyConnected( false ),
-  m_MarkWatershedLine( true ),
+::MorphologicalWatershedImageFilter() :
   m_Level( NumericTraits< InputImagePixelType >::ZeroValue() )
 {
 }

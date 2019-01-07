@@ -42,8 +42,8 @@ public:
 
   static const ElementIdentifierType m_ElementNotFound;
 
-  ElementWrapperInterface();
-  virtual ~ElementWrapperInterface();
+  ElementWrapperInterface() = default;
+  virtual ~ElementWrapperInterface() = default;
 
   virtual ElementIdentifierType GetLocation(const ElementType & element) const = 0;
 
@@ -74,8 +74,8 @@ public:
 
   static const ElementIdentifierType m_ElementNotFound;
 
-  ElementWrapperPointerInterface();
-  virtual ~ElementWrapperPointerInterface();
+  ElementWrapperPointerInterface() = default;
+  virtual ~ElementWrapperPointerInterface() = default;
 
   TElementIdentifier GetLocation(const ElementWrapperPointerType & element) const;
 

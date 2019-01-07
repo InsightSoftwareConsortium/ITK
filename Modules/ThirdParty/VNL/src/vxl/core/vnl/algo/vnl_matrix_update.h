@@ -38,4 +38,3 @@ inline void vnl_matrix_update(vnl_matrix<T>& M,
 }
 
 #endif // vnl_matrix_update_h_
-

@@ -26,8 +26,8 @@ namespace itk
 
 template< typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap >
 EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
-::EuclideanDistancePointMetric() :
-  m_ComputeSquaredDistance( false )
+::EuclideanDistancePointMetric()
+
 {
 
 }

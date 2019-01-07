@@ -19,13 +19,18 @@
  // First include the header file to be tested:
 #include "itkShapedImageNeighborhoodRange.h"
 
+#include "itkConstantBoundaryCondition.h"
+#include "itkConstantBoundaryImageNeighborhoodPixelAccessPolicy.h"
 #include "itkConstNeighborhoodIterator.h"
 #include "itkImage.h"
 #include "itkImageNeighborhoodOffsets.h"
+#include "itkRangeGTestUtilities.h"
 #include "itkVectorImage.h"
 
 #include <gtest/gtest.h>
+
 #include <algorithm>  // For std::reverse_copy, std::equal, etc.
+#include <array>
 #include <numeric>  // For std::inner_product
 
 // Test template instantiations for various ImageDimenion values, and const Image:
@@ -36,6 +41,9 @@ template class itk::Experimental::ShapedImageNeighborhoodRange<itk::Image<short,
 template class itk::Experimental::ShapedImageNeighborhoodRange<const itk::Image<short>>;
 template class itk::Experimental::ShapedImageNeighborhoodRange<itk::VectorImage<short>>;
 template class itk::Experimental::ShapedImageNeighborhoodRange<const itk::VectorImage<short>>;
+
+using itk::Experimental::ShapedImageNeighborhoodRange;
+using itk::Experimental::RangeGTestUtilities;
 
 namespace
 {
@@ -66,6 +74,165 @@ namespace
       bufferPointer[i] =  static_cast<typename TImage::PixelType>(i + 1);
     }
     return image;
+  }
+
+
+  template< typename TPixel, unsigned VImageDimension >
+  void SetVectorLengthIfImageIsVectorImage(
+    itk::VectorImage<TPixel, VImageDimension>& image,
+    const unsigned vectorLength)
+  {
+    image.SetVectorLength(vectorLength);
+  }
+
+
+  template< typename TPixel, unsigned VImageDimension >
+  void SetVectorLengthIfImageIsVectorImage(
+    itk::Image<TPixel, VImageDimension>& itkNotUsed(image),
+    const unsigned itkNotUsed(vectorLength))
+  {
+    // Do not set the VectorLength. The specified image is not a VectorImage.
+  }
+
+
+  template<typename TImage>
+  typename TImage::Pointer CreateSmallImage()
+  {
+    const auto image = TImage::New();
+    typename TImage::SizeType imageSize;
+    imageSize.Fill(0);
+    image->SetRegions(imageSize);
+    SetVectorLengthIfImageIsVectorImage(*image, 1);
+    image->Allocate(true);
+    return image;
+  }
+
+
+  template <typename TRange>
+  void ExpectBeginIsEndWhenRangeIsDefaultConstructed()
+  {
+    TRange defaultConstructedRange;
+    EXPECT_EQ(defaultConstructedRange.begin(), defaultConstructedRange.end());
+  }
+
+
+  template <typename TRange>
+  void ExpectZeroSizeWhenRangeIsDefaultConstructed()
+  {
+    TRange defaultConstructedRange;
+    EXPECT_EQ(defaultConstructedRange.size(), 0);
+  }
+
+
+  template <typename TRange>
+  void ExpectRangeIsEmptyWhenDefaultConstructed()
+  {
+    TRange defaultConstructedRange;
+    EXPECT_TRUE(defaultConstructedRange.empty());
+  }
+
+  template <typename TImage>
+  void ExpectRangeIsEmptyForAnEmptyContainerOfShapeOffsets()
+  {
+    const auto image = TImage::New();
+    typename TImage::SizeType imageSize;
+    imageSize.Fill(1);
+    image->SetRegions(imageSize);
+    SetVectorLengthIfImageIsVectorImage(*image, 1);
+    image->Allocate();
+
+    const typename TImage::IndexType location{ {} };
+
+    using OffsetType = typename TImage::OffsetType;
+
+    const std::array<OffsetType, 0> emptyArrayOfOffsets{};
+    const std::vector<OffsetType> emptyVectorOfOffsets{};
+
+    EXPECT_TRUE((
+      ShapedImageNeighborhoodRange<TImage>{ *image, location, emptyArrayOfOffsets }.empty()));
+    EXPECT_TRUE((
+      ShapedImageNeighborhoodRange<TImage>{ *image, location, emptyVectorOfOffsets }.empty()));
+  }
+
+
+  template <typename TImage>
+  void ExpectRangeIsNotEmptyForNonEmptyImageAndShapeOffsetContainer()
+  {
+    // First create a non-empty image:
+    const auto image = TImage::New();
+    typename TImage::SizeType imageSize;
+    imageSize.Fill(1);
+    image->SetRegions(imageSize);
+    SetVectorLengthIfImageIsVectorImage(*image, 1);
+    image->Allocate();
+
+    // Then create a non-empty vector of shape offsets:
+    const itk::Size<TImage::ImageDimension> radius{ {1} };
+    const std::vector<itk::Offset<TImage::ImageDimension>> shapeOffsets =
+      itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
+
+    // Sanity check: the container of shape offset is expected to be non-empty.
+    EXPECT_FALSE(shapeOffsets.empty());
+
+    const typename TImage::IndexType location{ {} };
+
+    EXPECT_FALSE((ShapedImageNeighborhoodRange<TImage>{ *image, location, shapeOffsets }.empty()));
+  }
+
+
+  template <typename TImage>
+  void ExpectCopyConstructedRangeHasSameIteratorsAsOriginal()
+  {
+    const auto image = CreateSmallImage<TImage>();
+    const itk::Size<TImage::ImageDimension> radius{ {1} };
+    const std::vector<itk::Offset<TImage::ImageDimension>> shapeOffsets =
+      itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
+    const typename TImage::IndexType location{ {} };
+    const ShapedImageNeighborhoodRange<TImage> originalRange{ *image, location, shapeOffsets };
+
+    RangeGTestUtilities::ExpectCopyConstructedRangeHasSameIteratorsAsOriginal(originalRange);
+  }
+
+
+  template <typename TImage>
+  void ExpectCopyAssignedRangeHasSameIteratorsAsOriginal()
+  {
+    const auto image = CreateSmallImage<TImage>();
+    const itk::Size<TImage::ImageDimension> radius{ {1} };
+    const std::vector<itk::Offset<TImage::ImageDimension>> shapeOffsets =
+      itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
+    const typename TImage::IndexType location{ {} };
+    const ShapedImageNeighborhoodRange<TImage> originalRange{ *image, location, shapeOffsets };
+
+    RangeGTestUtilities::ExpectCopyAssignedRangeHasSameIteratorsAsOriginal(originalRange);
+  }
+
+
+  template <typename TImage>
+  void ExpectMoveConstructedRangeHasSameIteratorsAsOriginalBeforeMove()
+  {
+    const auto image = CreateSmallImage<TImage>();
+    const itk::Size<TImage::ImageDimension> radius{ {1} };
+    const std::vector<itk::Offset<TImage::ImageDimension>> shapeOffsets =
+      itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
+    const typename TImage::IndexType location{ {} };
+
+    RangeGTestUtilities::ExpectMoveConstructedRangeHasSameIteratorsAsOriginalBeforeMove(
+      ShapedImageNeighborhoodRange<TImage>{ *image, location, shapeOffsets });
+  }
+
+
+  template <typename TImage>
+  void ExpectMoveAssignedRangeHasSameIteratorsAsOriginalBeforeMove()
+  {
+    const auto image = CreateSmallImage<TImage>();
+    const itk::Size<TImage::ImageDimension> radius{ {1} };
+    const std::vector<itk::Offset<TImage::ImageDimension>> shapeOffsets =
+      itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
+    const typename TImage::IndexType location{ {} };
+
+    RangeGTestUtilities::ExpectMoveConstructedRangeHasSameIteratorsAsOriginalBeforeMove(
+      ShapedImageNeighborhoodRange<TImage>{ *image, location, shapeOffsets });
   }
 
 }  // namespace
@@ -726,4 +893,158 @@ TEST(ShapedImageNeighborhoodRange, ProvidesReverseIterators)
   // The real tests:
   EXPECT_EQ(reversedStdVector1, reversedStdVector2);
   EXPECT_EQ(reversedStdVector1, reversedStdVector3);
+}
+
+
+TEST(ShapedImageNeighborhoodRange, ConstructorSupportsRValueShapeOffsets)
+{
+  using ImageType = itk::Image<unsigned char>;
+  using RangeType = itk::Experimental::ShapedImageNeighborhoodRange<ImageType>;
+  using OffsetType = ImageType::OffsetType;
+
+  const auto image = CreateImage<ImageType>(1, 2);
+  const ImageType::IndexType location{ { 1, 1 } };
+
+  // Note that the expression 'std::vector<OffsetType>{1}' is an rvalue.
+  // The code is carefully written so that this rvalue remains alive while
+  // the range 'RangeType{...}' is being used.
+  ASSERT_EQ(
+    (RangeType{ *image, location, std::vector<OffsetType>{1} }).size(), 1);
+}
+
+
+// Tests that an arbitrary (possibly non-zero) index of the buffered region is supported.
+TEST(ShapedImageNeighborhoodRange, SupportsArbitraryBufferedRegionIndex)
+{
+  using ImageType = itk::Image<int>;
+
+  // Do zero-padding for neighborhood pixels outside the image:
+  using PolicyType = itk::Experimental::ConstantBoundaryImageNeighborhoodPixelAccessPolicy<ImageType>;
+  using RangeType = itk::Experimental::ShapedImageNeighborhoodRange<ImageType, PolicyType>;
+
+  // A minimal radius, and trivial shape offsets (n = 1), just for the test.
+  const itk::Size<ImageType::ImageDimension> radius = { {0} };
+  const auto offsets = itk::Experimental::GenerateRectangularImageNeighborhoodOffsets(radius);
+
+  const ImageType::IndexType zeroIndex{ {0} };
+  const ImageType::IndexType arbitraryIndex{ {10, -1} };
+  const ImageType::SizeType imageSize{ {2, 3} };
+
+  const ImageType::RegionType bufferedRegion{ arbitraryIndex, imageSize };
+
+  const auto image = ImageType::New();
+  image->SetRegions(bufferedRegion);
+  image->Allocate(true);
+
+  // Set a 'magic value' at the begin of the buffered region.
+  const ImageType::PixelType magicPixelValue = 42;
+  ImageType::PixelType* const bufferPointer = image->GetBufferPointer();
+  *bufferPointer = magicPixelValue;
+
+  RangeType range{ *image, zeroIndex, offsets };
+
+  // Expect zero, because zeroIndex is outside the buffered region.
+  EXPECT_EQ(range[0], 0);
+
+  range.SetLocation(arbitraryIndex);
+
+  // Expect the magic value as the first range value, because the range is now
+  // located at the arbitrary index, which corresponds to the begin of the
+  // image buffer.
+  EXPECT_EQ(range[0], magicPixelValue);
+
+  // Expect the magic value also when a range is constructed with
+  // the arbitrary index as its location.
+  EXPECT_EQ((RangeType{ *image, arbitraryIndex, offsets })[0], magicPixelValue);
+
+  // Check to see that this range yields the same pixel value as an
+  // itk::ConstNeighborhoodIterator with this arbitrary buffered region index.
+  using ConstNeighborhoodIteratorType =
+    itk::ConstNeighborhoodIterator<ImageType, itk::ConstantBoundaryCondition<ImageType>>;
+  ConstNeighborhoodIteratorType neighborhoodIterator(radius, image, image->GetRequestedRegion());
+
+  // Note: Set NeedToUseBoundaryCondition, to ensure that 'neighborhoodIterator'
+  // also supports any arbitrary buffered region index at any location!
+  neighborhoodIterator.NeedToUseBoundaryConditionOn();
+
+  range.SetLocation(zeroIndex);
+  neighborhoodIterator.SetLocation(zeroIndex);
+  EXPECT_EQ(range[0], neighborhoodIterator.GetPixel(0));
+
+  range.SetLocation(arbitraryIndex);
+  neighborhoodIterator.SetLocation(arbitraryIndex);
+  EXPECT_EQ(range[0], neighborhoodIterator.GetPixel(0));
+}
+
+
+// Tests that begin() == end() for a default-constructed range.
+TEST(ShapedImageNeighborhoodRange, BeginIsEndWhenDefaultConstructed)
+{
+  ExpectBeginIsEndWhenRangeIsDefaultConstructed<ShapedImageNeighborhoodRange<itk::Image<int>>>();
+  ExpectBeginIsEndWhenRangeIsDefaultConstructed<ShapedImageNeighborhoodRange<itk::VectorImage<int>>>();
+}
+
+
+// Tests that size() returns 0 for a default-constructed range.
+TEST(ShapedImageNeighborhoodRange, SizeIsZeroWhenDefaultConstructed)
+{
+  ExpectZeroSizeWhenRangeIsDefaultConstructed<ShapedImageNeighborhoodRange<itk::Image<int>>>();
+  ExpectZeroSizeWhenRangeIsDefaultConstructed<ShapedImageNeighborhoodRange<itk::VectorImage<int>>>();
+}
+
+
+// Tests empty() for a default-constructed range.
+TEST(ShapedImageNeighborhoodRange, IsEmptyWhenDefaultConstructed)
+{
+  ExpectRangeIsEmptyWhenDefaultConstructed<ShapedImageNeighborhoodRange<itk::Image<int>>>();
+  ExpectRangeIsEmptyWhenDefaultConstructed<ShapedImageNeighborhoodRange<itk::VectorImage<int>>>();
+}
+
+
+// Tests range.empty() for an empty container of shape offsets.
+TEST(ShapedImageNeighborhoodRange, IsEmptyForAnEmptyContainerOfShapeOffsets)
+{
+  ExpectRangeIsEmptyForAnEmptyContainerOfShapeOffsets<itk::Image<int>>();
+  ExpectRangeIsEmptyForAnEmptyContainerOfShapeOffsets<itk::VectorImage<int>>();
+}
+
+
+// Tests that range.empty() returns false for a non-empty image, with a
+// non-empty container of shape offsets.
+TEST(ShapedImageNeighborhoodRange, IsNotEmptyWhenImageAndShapeOffsetContainerAreNonEmpty)
+{
+  ExpectRangeIsNotEmptyForNonEmptyImageAndShapeOffsetContainer<itk::Image<int>>();
+  ExpectRangeIsNotEmptyForNonEmptyImageAndShapeOffsetContainer<itk::VectorImage<int>>();
+}
+
+
+// Tests that a copy-constructed range has the same iterators (begin and end) as the original.
+TEST(ShapedImageNeighborhoodRange, CopyConstructedRangeHasSameIterators)
+{
+  ExpectCopyConstructedRangeHasSameIteratorsAsOriginal<itk::Image<int>>();
+  ExpectCopyConstructedRangeHasSameIteratorsAsOriginal<itk::VectorImage<int>>();
+}
+
+
+// Tests that a copy-assigned range has the same iterators (begin and end) as the original.
+TEST(ShapedImageNeighborhoodRange, CopyAssignedRangeHasSameIterators)
+{
+  ExpectCopyAssignedRangeHasSameIteratorsAsOriginal<itk::Image<int>>();
+  ExpectCopyAssignedRangeHasSameIteratorsAsOriginal<itk::VectorImage<int>>();
+}
+
+
+// Tests that a move-constructed range has the same iterators as the original, before the move.
+TEST(ShapedImageNeighborhoodRange, MoveConstructedRangeHasSameIterators)
+{
+  ExpectMoveConstructedRangeHasSameIteratorsAsOriginalBeforeMove<itk::Image<int>>();
+  ExpectMoveConstructedRangeHasSameIteratorsAsOriginalBeforeMove<itk::VectorImage<int>>();
+}
+
+
+// Tests that a move-assigned range has the same iterators as the original, before the move.
+TEST(ShapedImageNeighborhoodRange, MoveAssignedRangeHasSameIterators)
+{
+  ExpectMoveConstructedRangeHasSameIteratorsAsOriginalBeforeMove<itk::Image<int>>();
+  ExpectMoveConstructedRangeHasSameIteratorsAsOriginalBeforeMove<itk::VectorImage<int>>();
 }

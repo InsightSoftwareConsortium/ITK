@@ -159,8 +159,8 @@ protected:
 private:
   typename TInputImage::PixelType m_MarkerValue;
 
-  bool m_FullyConnected;
-  bool m_Flat;
+  bool m_FullyConnected{ false };
+  bool m_Flat{ false };
 
   using OutIndexType = typename OutputImageType::IndexType;
   using InIndexType = typename InputImageType::IndexType;

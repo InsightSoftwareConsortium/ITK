@@ -27,11 +27,15 @@
  *=========================================================================*/
 #include "itkMultiThreaderBase.h"
 #include "itkPlatformMultiThreader.h"
+#if defined( ITK_USE_PTHREADS ) || defined( ITK_USE_WIN32_THREADS )
+#define POOL_MULTI_THREADER_AVAILABLE 1
 #include "itkPoolMultiThreader.h"
+#endif
 #include "itkNumericTraits.h"
 #include <mutex>
-#include <mutex>
+
 #include "itksys/SystemTools.hxx"
+#include "itksys/SystemInformation.hxx"
 #include "itkImageSourceCommon.h"
 #include "itkProcessObject.h"
 #include <iostream>
@@ -49,15 +53,7 @@ namespace itk
   struct MultiThreaderBaseGlobals
   {
     // Initialize static members.
-    MultiThreaderBaseGlobals():GlobalDefaultThreaderTypeIsInitialized(false),
-#if defined(ITK_USE_TBB)
-    m_GlobalDefaultThreader(MultiThreaderBase::ThreaderType::TBB),
-#else
-    m_GlobalDefaultThreader(MultiThreaderBase::ThreaderType::Pool),
-#endif
-    m_GlobalMaximumNumberOfThreads(ITK_MAX_THREADS),
-    // Global default number of threads : 0 => Not initialized.
-    m_GlobalDefaultNumberOfThreads(0)
+    MultiThreaderBaseGlobals()
     {};
     // GlobalDefaultThreaderTypeIsInitialized is used only in this
     // file to ensure that the ITK_GLOBAL_DEFAULT_THREADER or
@@ -65,26 +61,35 @@ namespace itk
     // only used as a fall back option.  If the SetGlobalDefaultThreaderType
     // API is ever used by the developer, the developers choice is
     // respected over the environmental variable.
-    bool GlobalDefaultThreaderTypeIsInitialized;
+    bool GlobalDefaultThreaderTypeIsInitialized{false};
     std::mutex globalDefaultInitializerLock;
 
     // Global value to control weather the threadpool implementation should
     // be used. This defaults to the environmental variable
     // ITK_GLOBAL_DEFAULT_THREADER. If that is not present, then
     // ITK_USE_THREADPOOL is examined.
-    MultiThreaderBase::ThreaderType m_GlobalDefaultThreader;
+    MultiThreaderBase::ThreaderType m_GlobalDefaultThreader{
+#if defined(ITK_USE_TBB)
+    MultiThreaderBase::ThreaderType::TBB
+#elif defined(POOL_MULTI_THREADER_AVAILABLE)
+    MultiThreaderBase::ThreaderType::Pool
+#else
+    MultiThreaderBase::ThreaderType::Platform
+#endif
+};
 
     // Global variable defining the maximum number of threads that can be used.
     //  The m_GlobalMaximumNumberOfThreads must always be less than or equal to
     //  ITK_MAX_THREADS and greater than zero. */
-    ThreadIdType m_GlobalMaximumNumberOfThreads;
+    ThreadIdType m_GlobalMaximumNumberOfThreads{ITK_MAX_THREADS};
 
     //  Global variable defining the default number of threads to set at
     //  construction time of a MultiThreaderBase instance.  The
     //  m_GlobalDefaultNumberOfThreads must always be less than or equal to the
     //  m_GlobalMaximumNumberOfThreads and larger or equal to 1 once it has been
     //  initialized in the constructor of the first MultiThreaderBase instantiation.
-    ThreadIdType m_GlobalDefaultNumberOfThreads;
+    // Global default number of threads : 0 => Not initialized.
+    ThreadIdType m_GlobalDefaultNumberOfThreads{0};
   };
 }//end of itk namespace
 
@@ -370,7 +375,7 @@ void MultiThreaderBase::SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits)
 
   // clamp between 1 and m_MultiThreaderBaseGlobals->m_GlobalMaximumNumberOfThreads
   m_NumberOfWorkUnits  = std::min( m_NumberOfWorkUnits,
-                                   m_MultiThreaderBaseGlobals->m_GlobalMaximumNumberOfThreads );
+                                 m_MultiThreaderBaseGlobals->m_GlobalMaximumNumberOfThreads );
   m_NumberOfWorkUnits  = std::max( m_NumberOfWorkUnits, NumericTraits<ThreadIdType>::OneValue() );
 
 }
@@ -385,9 +390,116 @@ ThreadIdType MultiThreaderBase::GetGlobalDefaultNumberOfThreads()
 
   if( m_MultiThreaderBaseGlobals->m_GlobalDefaultNumberOfThreads == 0 ) //need to initialize
     {
-    m_MultiThreaderBaseGlobals->m_GlobalDefaultNumberOfThreads = ThreadPool::GetGlobalDefaultNumberOfThreads();
+    ThreadIdType threadCount = 0;
+    /* The ITK_NUMBER_OF_THREADS_ENV_LIST contains is an
+     * environmental variable that holds a ':' separated
+     * list of environmental variables that whould be
+     * queried in order for setting the m_GlobalMaximumNumberOfThreads.
+     *
+     * This is intended to be a mechanism suitable to easy
+     * runtime modification to ease using the proper number
+     * of threads for load balancing batch processing
+     * systems where the number of threads
+     * authorized for use may be less than the number
+     * of physical processors on the computer.
+     *
+     * This list contains the Sun|Oracle Grid Engine
+     * environmental variable "NSLOTS" by default
+     */
+    std::vector<std::string> ITK_NUMBER_OF_THREADS_ENV_LIST;
+    std::string itkNumberOfThreadsEvnListString = "";
+    if( itksys::SystemTools::GetEnv("ITK_NUMBER_OF_THREADS_ENV_LIST",
+                                    itkNumberOfThreadsEvnListString) )
+      {
+      // NOTE: We always put "ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS" at the end
+      // unconditionally.
+      itkNumberOfThreadsEvnListString += ":ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS";
+      }
+    else
+      {
+      itkNumberOfThreadsEvnListString = "NSLOTS:ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS";
+      }
+      {
+      std::stringstream numberOfThreadsEnvListStream(itkNumberOfThreadsEvnListString);
+      std::string item;
+      while( std::getline(numberOfThreadsEnvListStream, item, ':') )
+        {
+        if( item.size() > 0 ) // Do not add empty items.
+          {
+          ITK_NUMBER_OF_THREADS_ENV_LIST.push_back(item);
+          }
+        }
+      }
+    // first, check for environment variable
+    std::string itkGlobalDefaultNumberOfThreadsEnv = "0";
+    for( std::vector<std::string>::const_iterator lit = ITK_NUMBER_OF_THREADS_ENV_LIST.begin();
+         lit != ITK_NUMBER_OF_THREADS_ENV_LIST.end();
+         ++lit )
+      {
+      if( itksys::SystemTools::GetEnv(lit->c_str(), itkGlobalDefaultNumberOfThreadsEnv) )
+        {
+        threadCount = static_cast<ThreadIdType>( atoi( itkGlobalDefaultNumberOfThreadsEnv.c_str() ) );
+        }
+      }
+
+    // otherwise, set number of threads based on system information
+    if( threadCount <= 0 )
+      {
+      threadCount = GetGlobalDefaultNumberOfThreadsByPlatform();
+      }
+
+    // limit the number of threads to m_GlobalMaximumNumberOfThreads
+    threadCount  = std::min( threadCount, ThreadIdType(ITK_MAX_THREADS) );
+
+    // verify that the default number of threads is larger than zero
+    threadCount  = std::max( threadCount, NumericTraits<ThreadIdType>::OneValue() );
+
+    m_MultiThreaderBaseGlobals->m_GlobalDefaultNumberOfThreads = threadCount;
     }
   return m_MultiThreaderBaseGlobals->m_GlobalDefaultNumberOfThreads;
+}
+
+ThreadIdType
+MultiThreaderBase
+::GetGlobalDefaultNumberOfThreadsByPlatform()
+{
+#if defined( ITK_LEGACY_REMOVE )
+  return std::thread::hardware_concurrency();
+#endif
+
+#if defined(ITK_USE_PTHREADS)
+  ThreadIdType num;
+
+  // Default the number of threads to be the number of available
+  // processors if we are using pthreads()
+#ifdef _SC_NPROCESSORS_ONLN
+  num = static_cast<ThreadIdType>( sysconf(_SC_NPROCESSORS_ONLN) );
+#elif defined( _SC_NPROC_ONLN )
+  num = static_cast<ThreadIdType>( sysconf(_SC_NPROC_ONLN) );
+#else
+  num = 1;
+#endif
+#if defined( __SVR4 ) && defined( sun ) && defined( PTHREAD_MUTEX_NORMAL )
+  pthread_setconcurrency(num);
+#endif
+
+  itksys::SystemInformation mySys;
+  mySys.RunCPUCheck();
+  int result = mySys.GetNumberOfPhysicalCPU(); // Avoid using hyperthreading cores.
+  if( result == -1 )
+    {
+    num = 1;
+    }
+  return num;
+#elif defined(ITK_USE_WIN32_THREADS)
+  SYSTEM_INFO sysInfo;
+
+  GetSystemInfo(&sysInfo);
+  ThreadIdType num = sysInfo.dwNumberOfProcessors;
+  return num;
+#else
+  return 1;
+#endif
 }
 
 MultiThreaderBase::Pointer MultiThreaderBase::New()
@@ -401,7 +513,11 @@ MultiThreaderBase::Pointer MultiThreaderBase::New()
       case ThreaderType::Platform:
         return PlatformMultiThreader::New();
       case ThreaderType::Pool:
+#if defined(POOL_MULTI_THREADER_AVAILABLE)
         return PoolMultiThreader::New();
+#else
+        itkGenericExceptionMacro("ITK has been built without PoolMultiThreader support!");
+#endif
       case ThreaderType::TBB:
 #if defined(ITK_USE_TBB)
         return TBBMultiThreader::New();

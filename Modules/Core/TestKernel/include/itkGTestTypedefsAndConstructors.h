@@ -51,7 +51,7 @@ using IndexType = ImageBaseType::IndexType;
 using PointType = ImageBaseType::PointType;
 using DirectionType = ImageBaseType::DirectionType;
 using VectorType = ImageBaseType::SpacingType;
-
+using RegionType = ImageBaseType::RegionType;
 
 inline static PointType MakePoint(PointType::ValueType p1,
                            PointType::ValueType p2)
@@ -103,7 +103,7 @@ using IndexType = ImageBaseType::IndexType;
 using PointType = ImageBaseType::PointType;
 using DirectionType = ImageBaseType::DirectionType;
 using VectorType = ImageBaseType::SpacingType;
-
+using RegionType = ImageBaseType::RegionType;
 
 inline static PointType MakePoint(PointType::ValueType p1,
                                   PointType::ValueType p2,

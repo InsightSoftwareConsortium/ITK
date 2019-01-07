@@ -79,7 +79,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate(): m_CumulativeIterationIndex(0) {};
+  CommandIterationUpdate() {};
 
 public:
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
@@ -105,7 +105,7 @@ public:
     }
 
 private:
-  unsigned int m_CumulativeIterationIndex;
+  unsigned int m_CumulativeIterationIndex{0};
 };
 
 //  The following section of code implements a Command observer

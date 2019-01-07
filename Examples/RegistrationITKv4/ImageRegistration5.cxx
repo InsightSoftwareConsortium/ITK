@@ -37,14 +37,14 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of the \doxygen{CenteredRigid2DTransform}
+// This example illustrates the use of the \doxygen{Euler2DTransform}
 // for performing rigid registration in $2D$. The example code is for the
 // most part identical to that presented in Section
 // \ref{sec:IntroductionImageRegistration}.  The main difference is the use
-// of the CenteredRigid2DTransform here instead of the
+// of the Euler2DTransform here instead of the
 // \doxygen{TranslationTransform}.
 //
-// \index{itk::CenteredRigid2DTransform}
+// \index{itk::Euler2DTransform}
 //
 // Software Guide : EndLatex
 
@@ -58,12 +58,12 @@
 //  In addition to the headers included in previous examples, the
 //  following header must also be included.
 //
-//  \index{itk::CenteredRigid2DTransform!header}
+//  \index{itk::Euler2DTransform!header}
 //
 //  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-#include "itkCenteredRigid2DTransform.h"
+#include "itkEuler2DTransform.h"
 // Software Guide : EndCodeSnippet
 
 
@@ -138,12 +138,12 @@ int main( int argc, char *argv[] )
   //  template parameter for this class is the representation type of the
   //  space coordinates.
   //
-  //  \index{itk::CenteredRigid2DTransform!Instantiation}
+  //  \index{itk::Euler2DTransform!Instantiation}
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using TransformType = itk::CenteredRigid2DTransform< double >;
+  using TransformType = itk::Euler2DTransform< double >;
   // Software Guide : EndCodeSnippet
 
 
@@ -230,8 +230,8 @@ int main( int argc, char *argv[] )
   //  This transform will be initialized, and its initial parameters will be
   //  used when the registration process starts.
   //
-  //  \index{itk::CenteredRigid2DTransform!New()}
-  //  \index{itk::CenteredRigid2DTransform!Pointer}
+  //  \index{itk::Euler2DTransform!New()}
+  //  \index{itk::Euler2DTransform!Pointer}
   //
   //  Software Guide : EndLatex
 
@@ -365,8 +365,7 @@ int main( int argc, char *argv[] )
   //  Keep in mind that the scale of units in rotation and translation is
   //  quite different. For example, here we know that the first element of the
   //  parameters array corresponds to the angle that is measured in radians, while
-  //  the other parameters correspond to the translations and the center point
-  //  coordinates that are measured in millimeters,
+  //  the other parameters correspond to the translations that are measured in millimeters,
   //  so a naive application of gradient descent optimizer will not produce a smooth
   //  change of parameters, because a similar change of $\delta$
   //  to each parameter will produce a different magnitude of impact on the transform.
@@ -375,11 +374,11 @@ int main( int argc, char *argv[] )
   //  by the optimizers.
   //
   //  In this example we use small factors in the scales associated with
-  //  translations and the coordinates of the rotation center.
-  //  However, for the transforms with larger parameters sets, it is not intuitive for a user to
-  //  set the scales. Fortunately, a framework for automated estimation of
-  //  parameter scales is provided by ITKv4 that will be discussed later in the example of
-  //  section \ref{sec:MultiStageRegistration}.
+  //  translations. However, for the transforms with larger parameters
+  //  sets, it is not intuitive for a user to  set the
+  //  scales. Fortunately, a framework for automated estimation of
+  //  parameter scales is provided by ITKv4 that will be discussed
+  //  later in the example of section \ref{sec:MultiStageRegistration}.
   //
   //  Software Guide : EndLatex
 
@@ -392,8 +391,6 @@ int main( int argc, char *argv[] )
   optimizerScales[0] = 1.0;
   optimizerScales[1] = translationScale;
   optimizerScales[2] = translationScale;
-  optimizerScales[3] = translationScale;
-  optimizerScales[4] = translationScale;
 
   optimizer->SetScales( optimizerScales );
   // Software Guide : EndCodeSnippet
@@ -470,10 +467,11 @@ int main( int argc, char *argv[] )
                             registration->GetOutput()->Get()->GetParameters();
 
   const double finalAngle           = finalParameters[0];
-  const double finalRotationCenterX = finalParameters[1];
-  const double finalRotationCenterY = finalParameters[2];
-  const double finalTranslationX    = finalParameters[3];
-  const double finalTranslationY    = finalParameters[4];
+  const double finalTranslationX    = finalParameters[1];
+  const double finalTranslationY    = finalParameters[2];
+
+  const double rotationCenterX = registration->GetOutput()->Get()->GetCenter()[0];
+  const double rotationCenterY = registration->GetOutput()->Get()->GetCenter()[1];
 
   const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
 
@@ -485,14 +483,14 @@ int main( int argc, char *argv[] )
   const double finalAngleInDegrees = finalAngle * 180.0 / itk::Math::pi;
 
   std::cout << "Result = " << std::endl;
-  std::cout << " Angle (radians)   = " << finalAngle  << std::endl;
-  std::cout << " Angle (degrees)   = " << finalAngleInDegrees  << std::endl;
-  std::cout << " Center X      = " << finalRotationCenterX  << std::endl;
-  std::cout << " Center Y      = " << finalRotationCenterY  << std::endl;
-  std::cout << " Translation X = " << finalTranslationX  << std::endl;
-  std::cout << " Translation Y = " << finalTranslationY  << std::endl;
-  std::cout << " Iterations    = " << numberOfIterations << std::endl;
-  std::cout << " Metric value  = " << bestValue          << std::endl;
+  std::cout << " Angle (radians) = " << finalAngle  << std::endl;
+  std::cout << " Angle (degrees) = " << finalAngleInDegrees  << std::endl;
+  std::cout << " Translation X   = " << finalTranslationX  << std::endl;
+  std::cout << " Translation Y   = " << finalTranslationY  << std::endl;
+  std::cout << " Fixed Center X  = " << rotationCenterX  << std::endl;
+  std::cout << " Fixed Center Y  = " << rotationCenterY  << std::endl;
+  std::cout << " Iterations      = " << numberOfIterations << std::endl;
+  std::cout << " Metric value    = " << bestValue          << std::endl;
 
 
   //  Software Guide : BeginLatex
@@ -508,21 +506,20 @@ int main( int argc, char *argv[] )
   //  The second image is the result of intentionally rotating the first image
   //  by $10$ degrees around the geometrical center of the image. Both images
   //  have unit-spacing and are shown in Figure
-  //  \ref{fig:FixedMovingImageRegistration5}. The registration takes $20$
+  //  \ref{fig:FixedMovingImageRegistration5}. The registration takes $17$
   //  iterations and produces the results:
   //
   //  \begin{center}
   //  \begin{verbatim}
-  //  [0.17762, 110.489, 128.487, 0.00925022, 0.00140223]
+  //  [0.177612, 0.00681015, 0.00396471]
   //  \end{verbatim}
   //  \end{center}
   //
   //  These results are interpreted as
   //
   //  \begin{itemize}
-  //  \item Angle         =                  $0.17762$     radians
-  //  \item Center        = $( 110.489    , 128.487      )$ millimeters
-  //  \item Translation   = $(   0.00925022,   0.00140223 )$ millimeters
+  //  \item Angle         =                  $0.177612$     radians
+  //  \item Translation   = $( 0.00681015, 0.00396471 )$ millimeters
   //  \end{itemize}
   //
   //  As expected, these values match the misalignment intentionally introduced
@@ -547,7 +544,7 @@ int main( int argc, char *argv[] )
   // \includegraphics[width=0.32\textwidth]{ImageRegistration5DifferenceAfter}
   // \itkcaption[Rigid2D Registration output images]{Resampled moving image
   // (left). Differences between the fixed and moving images, before (center)
-  // and after (right) registration using the CenteredRigid2D transform.}
+  // and after (right) registration using the Euler2D transform.}
   // \label{fig:ImageRegistration5Outputs}
   // \end{figure}
   //
@@ -564,7 +561,7 @@ int main( int argc, char *argv[] )
   // \includegraphics[height=0.32\textwidth]{ImageRegistration5TraceAngle1}
   // \includegraphics[height=0.32\textwidth]{ImageRegistration5TraceTranslations1}
   // \itkcaption[Rigid2D Registration output plots]{Metric values, rotation
-  // angle and translations during registration with the CenteredRigid2D
+  // angle and translations during registration with the Euler2D
   // transform.}
   // \label{fig:ImageRegistration5Plots}
   // \end{figure}
@@ -700,21 +697,20 @@ int main( int argc, char *argv[] )
   //
   //  \code{optimizer->SetMaximumStepLength( 1.3 );}
   //
-  //  The registration now takes $35$ iterations and produces the following
+  //  The registration now takes $37$ iterations and produces the following
   //  results:
   //
   //  \begin{center}
   //  \begin{verbatim}
-  //  [0.174552, 110.041, 128.917, 12.9339, 15.9149]
+  //  [0.174582, 13.0002, 16.0007]
   //  \end{verbatim}
   //  \end{center}
   //
   //  These parameters are interpreted as
   //
   //  \begin{itemize}
-  //  \item Angle         =                     $0.17452$   radians
-  //  \item Center        = $( 110.041     , 128.917      )$ millimeters
-  //  \item Translation   = $(  12.9339     ,  15.9149     )$ millimeters
+  //  \item Angle         =                     $0.174582$   radians
+  //  \item Translation   = $( 13.0002,  16.0007 )$ millimeters
   //  \end{itemize}
   //
   //  These values approximately match the initial misalignment intentionally
@@ -754,7 +750,7 @@ int main( int argc, char *argv[] )
   // \includegraphics[height=0.32\textwidth]{ImageRegistration5TraceAngle2}
   // \includegraphics[height=0.32\textwidth]{ImageRegistration5TraceTranslations2}
   // \itkcaption[Rigid2D Registration output plots]{Metric values, rotation
-  // angle and translations during the registration using the CenteredRigid2D
+  // angle and translations during the registration using the Euler2D
   // transform on an image with rotation and translation mis-registration.}
   // \label{fig:ImageRegistration5Plots2}
   // \end{figure}

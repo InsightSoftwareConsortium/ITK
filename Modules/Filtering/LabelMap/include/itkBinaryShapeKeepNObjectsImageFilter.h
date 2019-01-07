@@ -171,11 +171,11 @@ protected:
   void GenerateData() override;
 
 private:
-  bool                 m_FullyConnected;
+  bool                 m_FullyConnected{false};
   OutputImagePixelType m_BackgroundValue;
   OutputImagePixelType m_ForegroundValue;
-  SizeValueType        m_NumberOfObjects;
-  bool                 m_ReverseOrdering;
+  SizeValueType        m_NumberOfObjects{0};
+  bool                 m_ReverseOrdering{false};
   AttributeType        m_Attribute;
 }; // end of class
 } // end namespace itk

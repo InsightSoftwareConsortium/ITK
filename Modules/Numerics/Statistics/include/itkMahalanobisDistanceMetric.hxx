@@ -26,9 +26,8 @@ namespace Statistics
 {
 template< typename TVector >
 MahalanobisDistanceMetric< TVector >
-::MahalanobisDistanceMetric():
-  m_Epsilon(1e-100),
-  m_DoubleMax(1e+20)
+::MahalanobisDistanceMetric()
+
 {
   MeasurementVectorSizeType size;
 

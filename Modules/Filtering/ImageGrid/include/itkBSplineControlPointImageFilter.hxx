@@ -34,10 +34,8 @@ namespace itk
 template<typename TInputImage, typename TOutputImage>
 BSplineControlPointImageFilter<TInputImage, TOutputImage>
 ::BSplineControlPointImageFilter() :
-  m_DoMultilevel( false ),
-  m_MaximumNumberOfLevels( 1 ),
-  m_NumberOfLevels( 1 ),
-  m_BSplineEpsilon( 1e-3 )
+  m_NumberOfLevels( 1 )
+
 {
   this->m_Size.Fill( 0 );
   this->m_Spacing.Fill( 1.0 );

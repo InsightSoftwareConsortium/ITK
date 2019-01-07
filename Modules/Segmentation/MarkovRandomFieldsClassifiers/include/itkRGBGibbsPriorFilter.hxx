@@ -35,33 +35,10 @@ RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
   m_InputImage(nullptr),
   m_TrainingImage(nullptr),
   m_LabelledImage(nullptr),
-  m_NumberOfClasses(0),
-  m_MaximumNumberOfIterations(10),
   m_ClassifierPtr(nullptr),
-  m_BoundaryGradient(7),
-  m_BoundaryWeight(1),
-  m_GibbsPriorWeight(1),
-  m_StartRadius(10),
-  m_RecursiveNumber(0),
-  m_LabelStatus(nullptr),
   m_MediumImage(nullptr),
-  m_Temp(0),
-  m_ImageWidth(0),
-  m_ImageHeight(0),
-  m_ImageDepth(0),
-  m_ClusterSize(10),
-  m_ObjectLabel(1),
-  m_VecDim(0),
-  m_LowPoint(),
-  m_Region(nullptr),
-  m_RegionCount(nullptr),
-  m_CliqueWeight_1(0.0),
-  m_CliqueWeight_2(0.0),
-  m_CliqueWeight_3(0.0),
-  m_CliqueWeight_4(0.0),
-  m_CliqueWeight_5(0.0),
-  m_CliqueWeight_6(0.0),
-  m_ObjectThreshold(5.0)
+  m_LowPoint()
+
 {
   m_StartPoint.Fill(0);
 }

@@ -208,7 +208,8 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using TreeGeneratorType = itk::Statistics::WeightedCentroidKdTreeGenerator<SampleType>;
+  using TreeGeneratorType =
+    itk::Statistics::WeightedCentroidKdTreeGenerator<SampleType>;
   TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
 
   treeGenerator->SetSample( sample );
@@ -299,7 +300,9 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using MembershipFunctionType = itk::Statistics::DistanceToCentroidMembershipFunction<MeasurementVectorType>;
+  using MembershipFunctionType =
+    itk::Statistics::DistanceToCentroidMembershipFunction
+      <MeasurementVectorType>;
   using DecisionRuleType = itk::Statistics::MinimumDecisionRule;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
 
@@ -310,9 +313,12 @@ int main()
   classifier->SetInput( sample );
   classifier->SetNumberOfClasses( 2 );
 
-  using ClassLabelVectorObjectType = ClassifierType::ClassLabelVectorObjectType;
-  using ClassLabelVectorType = ClassifierType::ClassLabelVectorType;
-  using ClassLabelType = ClassifierType::ClassLabelType;
+  using ClassLabelVectorObjectType =
+    ClassifierType::ClassLabelVectorObjectType;
+  using ClassLabelVectorType =
+    ClassifierType::ClassLabelVectorType;
+  using ClassLabelType =
+    ClassifierType::ClassLabelType;
 
   ClassLabelVectorObjectType::Pointer classLabelsObject =
     ClassLabelVectorObjectType::New();
@@ -344,8 +350,10 @@ int main()
 
   // Software Guide : BeginCodeSnippet
 
-  using MembershipFunctionVectorObjectType = ClassifierType::MembershipFunctionVectorObjectType;
-  using MembershipFunctionVectorType = ClassifierType::MembershipFunctionVectorType;
+  using MembershipFunctionVectorObjectType =
+    ClassifierType::MembershipFunctionVectorObjectType;
+  using MembershipFunctionVectorType =
+    ClassifierType::MembershipFunctionVectorType;
 
   MembershipFunctionVectorObjectType::Pointer membershipFunctionVectorObject =
     MembershipFunctionVectorObjectType::New();

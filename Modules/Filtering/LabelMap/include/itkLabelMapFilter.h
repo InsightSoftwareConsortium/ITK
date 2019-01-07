@@ -130,8 +130,8 @@ protected:
 
 private:
   typename InputImageType::Iterator m_LabelObjectIterator;
-  float                             m_InverseNumberOfLabelObjects;
-  SizeValueType                     m_NumberOfLabelObjectsProcessed;
+  float                             m_InverseNumberOfLabelObjects{ 1.0f };
+  SizeValueType                     m_NumberOfLabelObjectsProcessed{ 1 };
 };
 } // end namespace itk
 

@@ -94,10 +94,52 @@ template<typename TImage,
 class ShapedImageNeighborhoodRange final
 {
 private:
+
+  // Empty struct, used internally to denote that there is no pixel access parameter specified.
+  struct EmptyPixelAccessParameter {};
+
+
+  // Helper class to estimate whether the policy has nested type PixelAccessParameterType.
+  class CheckPolicy
+  {
+  private:
+    // The Test function has two overloads whose return type is different.
+    // One of the overloads is only available for overload resolution when
+    // the policy T has a nested type PixelAccessParameterType (using SFINAE).
+
+    template <typename T>
+    static int Test(typename T::PixelAccessParameterType*);
+
+    template <typename T>
+    static void Test(...);
+
+  public:
+    // This constant tells whether the policy has a PixelAccessParameterType:
+    static constexpr bool HasPixelAccessParameterType = ! std::is_same<
+      decltype(Test<TImageNeighborhoodPixelAccessPolicy>(nullptr)),
+      decltype(Test<TImageNeighborhoodPixelAccessPolicy>())>::value;
+  };
+
+
+  template <typename TPolicy, bool VPolicyHasPixelAccessParameterType = CheckPolicy::HasPixelAccessParameterType>
+  struct OptionalPixelAccessParameter
+  {
+    using Type = typename TPolicy::PixelAccessParameterType;
+  };
+
+  // Specialization for when the policy does not have PixelAccessParameterType.
+  template <typename TPolicy>
+  struct OptionalPixelAccessParameter<TPolicy, false>
+  {
+    using Type = EmptyPixelAccessParameter;
+  };
+
+
   using ImageType = TImage;
   using ImageDimensionType = typename TImage::ImageDimensionType;
   using ImageSizeType = typename TImage::SizeType;
   using ImageSizeValueType = typename TImage::SizeValueType;
+  using ImageRegionType = typename TImage::RegionType;
   using PixelType = typename TImage::PixelType;
   using InternalPixelType = typename TImage::InternalPixelType;
   using NeighborhoodAccessorFunctorType = typename TImage::NeighborhoodAccessorFunctorType;
@@ -105,6 +147,9 @@ private:
   using IndexType = typename TImage::IndexType;
   using IndexValueType = typename TImage::IndexValueType;
   using OffsetType = Offset<ImageDimension>;
+  using OptionalPixelAccessParameterType =
+    typename OptionalPixelAccessParameter<TImageNeighborhoodPixelAccessPolicy>::Type;
+
 
   // PixelProxy: internal class that aims to act like a reference to a pixel:
   // It acts either like 'PixelType &' or like 'const PixelType &', depending
@@ -139,13 +184,10 @@ private:
     // Constructor, called directly by operator*() of the iterator class.
     PixelProxy(
       const InternalPixelType* const imageBufferPointer,
-      const ImageSizeType& imageSize,
-      const OffsetType& offsetTable,
-      const NeighborhoodAccessorFunctorType& neighborhoodAccessor,
-      const IndexType& pixelIndex) ITK_NOEXCEPT
+      const TImageNeighborhoodPixelAccessPolicy& pixelAccessPolicy) ITK_NOEXCEPT
       :
     m_ImageBufferPointer{imageBufferPointer},
-    m_PixelAccessPolicy{ imageSize, offsetTable, neighborhoodAccessor, pixelIndex }
+    m_PixelAccessPolicy{pixelAccessPolicy}
     {
     }
 
@@ -192,13 +234,10 @@ private:
     // Constructor, called directly by operator*() of the iterator class.
     PixelProxy(
       InternalPixelType* const imageBufferPointer,
-      const ImageSizeType& imageSize,
-      const OffsetType& offsetTable,
-      const NeighborhoodAccessorFunctorType& neighborhoodAccessor,
-      const IndexType& pixelIndex) ITK_NOEXCEPT
+      const TImageNeighborhoodPixelAccessPolicy& pixelAccessPolicy) ITK_NOEXCEPT
       :
     m_ImageBufferPointer{imageBufferPointer},
-    m_PixelAccessPolicy{ imageSize, offsetTable, neighborhoodAccessor, pixelIndex }
+    m_PixelAccessPolicy{pixelAccessPolicy}
     {
     }
 
@@ -284,9 +323,13 @@ private:
     // The accessor of the image.
     NeighborhoodAccessorFunctorType m_NeighborhoodAccessor;
 
-    // The pixel coordinates of the location of the neighborhood.
-    // May be outside the image!
-    IndexType m_Location = { {} };
+    OptionalPixelAccessParameterType m_OptionalPixelAccessParameter;
+
+    // The pixel coordinates of the location of the neighborhood, relative to
+    // the index of the first pixel of the buffered region. Note that this
+    // location does not have to be within buffered region. It may also be
+    // outside the image.
+    IndexType m_RelativeLocation = { {} };
 
     const OffsetType* m_CurrentOffset = nullptr;
 
@@ -297,7 +340,8 @@ private:
       const ImageSizeType& imageSize,
       const OffsetType& offsetTable,
       const NeighborhoodAccessorFunctorType& neighborhoodAccessor,
-      const IndexType& location,
+      const OptionalPixelAccessParameterType optionalPixelAccessParameter,
+      const IndexType& relativeLocation,
       const OffsetType* const offset) ITK_NOEXCEPT
       :
     m_ImageBufferPointer{ imageBufferPointer },
@@ -306,10 +350,26 @@ private:
     m_ImageSize(imageSize),
     m_OffsetTable(offsetTable),
     m_NeighborhoodAccessor(neighborhoodAccessor),
-    m_Location(location),
+    m_OptionalPixelAccessParameter(optionalPixelAccessParameter),
+    m_RelativeLocation(relativeLocation),
     m_CurrentOffset{offset}
     {
-      assert(m_ImageBufferPointer != nullptr);
+    }
+
+
+    TImageNeighborhoodPixelAccessPolicy CreatePixelAccessPolicy(EmptyPixelAccessParameter) const
+    {
+      return TImageNeighborhoodPixelAccessPolicy{ m_ImageSize, m_OffsetTable, m_NeighborhoodAccessor, m_RelativeLocation + *m_CurrentOffset };
+    }
+
+    template <typename TPixelAccessParameter>
+    TImageNeighborhoodPixelAccessPolicy CreatePixelAccessPolicy(const TPixelAccessParameter pixelAccessParameter) const
+    {
+      static_assert(std::is_same< TPixelAccessParameter, OptionalPixelAccessParameterType>::value,
+        "This helper function should only be used for OptionalPixelAccessParameterType!");
+      static_assert(!std::is_same< TPixelAccessParameter, EmptyPixelAccessParameter>::value,
+        "EmptyPixelAccessParameter indicates that there is no pixel access parameter specified!");
+      return TImageNeighborhoodPixelAccessPolicy{ m_ImageSize, m_OffsetTable, m_NeighborhoodAccessor, m_RelativeLocation + *m_CurrentOffset, pixelAccessParameter };
     }
 
   public:
@@ -325,6 +385,11 @@ private:
      * the guarantee added to the C++14 Standard: "value-initialized iterators
      * may be compared and shall compare equal to other value-initialized
      * iterators of the same type."
+     * \note `QualifiedIterator<VIsConst>` follows the C++ "Rule of Zero" when
+     * VIsConst is true: The other five "special member functions" of the class
+     * are then implicitly defaulted. When VIsConst is false, its
+     * copy-constructor is provided explicitly, but it still behaves the same as
+     * a default implementation.
      */
     QualifiedIterator() = default;
 
@@ -338,7 +403,8 @@ private:
       m_ImageSize(arg.m_ImageSize),
       m_OffsetTable(arg.m_OffsetTable),
       m_NeighborhoodAccessor(arg.m_NeighborhoodAccessor),
-      m_Location(arg.m_Location),
+      m_OptionalPixelAccessParameter(arg.m_OptionalPixelAccessParameter),
+      m_RelativeLocation(arg.m_RelativeLocation),
       m_CurrentOffset{arg.m_CurrentOffset}
     {
     }
@@ -347,7 +413,7 @@ private:
     /**  Returns a reference to the current pixel. */
     reference operator*() const ITK_NOEXCEPT
     {
-      return reference{m_ImageBufferPointer, m_ImageSize, m_OffsetTable, m_NeighborhoodAccessor, m_Location + *m_CurrentOffset};
+      return reference{m_ImageBufferPointer, CreatePixelAccessPolicy(m_OptionalPixelAccessParameter)};
     }
 
 
@@ -500,10 +566,6 @@ private:
 
     /** Explicitly-defaulted assignment operator. */
     QualifiedIterator& operator=(const QualifiedIterator&) ITK_NOEXCEPT = default;
-
-
-    /** Explicitly-defaulted destructor. */
-    ~QualifiedIterator() = default;
   };
 
   static constexpr bool IsImageTypeConst = std::is_const<TImage>::value;
@@ -511,29 +573,56 @@ private:
   using QualifiedInternalPixelType = typename std::conditional<IsImageTypeConst, const InternalPixelType, InternalPixelType>::type;
 
 
+  // Just the data from itk::ImageRegion (not the virtual table)
+  struct RegionData
+  {
+    IndexType m_Index{{}};
+    ImageSizeType  m_Size{{}};
+
+    RegionData() ITK_NOEXCEPT = default;
+
+    explicit RegionData(const ImageRegionType& imageRegion)
+      :
+      m_Index(imageRegion.GetIndex()),
+      m_Size(imageRegion.GetSize())
+    {
+    }
+  };
+
+
+  void SubtractIndex(IndexType& index1, const IndexType& index2)
+  {
+    for (unsigned i = 0; i < ImageDimension; ++i)
+    {
+      index1[i] -= index2[i];
+    }
+  }
+
   // ShapedImageNeighborhoodRange data members (strictly private):
 
-  // Pointer to the buffer of the image. Should not be null.
-  QualifiedInternalPixelType* m_ImageBufferPointer;
+  // Pointer to the buffer of the image.
+  QualifiedInternalPixelType* m_ImageBufferPointer{ nullptr };
 
-  // Image size.
-  ImageSizeType m_ImageSize;
+  // Index and size of the buffered image region.
+  RegionData m_BufferedRegionData{};
 
   // A copy of the offset table of the image.
-  OffsetType m_OffsetTable;
+  OffsetType m_OffsetTable{{}};
 
-  NeighborhoodAccessorFunctorType m_NeighborhoodAccessor;
+  NeighborhoodAccessorFunctorType m_NeighborhoodAccessor{};
 
   // Index (pixel coordinates) of the location of the neighborhood relative
   // to the origin of the image. Typically it is the location of the
   // center pixel of the neighborhood. It may be outside the image boundaries.
-  IndexType m_Location;
+  IndexType m_RelativeLocation{{}};
 
-  // The offsets relative to m_Location that specify the neighborhood shape.
-  const OffsetType* m_ShapeOffsets;
+  // The offsets relative to m_RelativeLocation that specify the neighborhood shape.
+  const OffsetType* m_ShapeOffsets{ nullptr };
 
   // The number of neighborhood pixels.
-  const std::size_t m_NumberOfNeighborhoodPixels;
+  std::size_t m_NumberOfNeighborhoodPixels{ 0 };
+
+  OptionalPixelAccessParameterType m_OptionalPixelAccessParameter{};
 
 public:
   using const_iterator = QualifiedIterator<true>;
@@ -541,32 +630,44 @@ public:
   using reverse_iterator = std::reverse_iterator<iterator>;
   using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
+  /** Explicitly-defaulted default-constructor. Constructs an empty range.
+   * \note The other five "special member functions" (copy-constructor,
+   * copy-assignment operator, move-constructor, move-assignment operator,
+   * and destructor) are defaulted implicitly, following the C++ "Rule of Zero".
+   */
+  ShapedImageNeighborhoodRange() = default;
+
   /** Specifies a range for the neighborhood of a pixel at the specified
    * location. The shape of the neighborhood is specified by a pointer to a
    * contiguous sequence of offsets, relative to the location index.
+   * \note The caller (the client code) should ensure that both the specified
+   * image and the specified shape offsets remain alive while the range (or one
+   * of its iterators) is being used.
    */
   ShapedImageNeighborhoodRange(
     ImageType& image,
     const IndexType& location,
     const OffsetType* const shapeOffsets,
-    const std::size_t numberOfNeigborhoodPixels)
+    const std::size_t numberOfNeigborhoodPixels,
+    const OptionalPixelAccessParameterType optionalPixelAccessParameter = {})
     :
   m_ImageBufferPointer{image.ImageType::GetBufferPointer()},
   // Note: Use parentheses instead of curly braces to initialize data members,
   // to avoid AppleClang 6.0.0.6000056 compile errors, "no viable conversion..."
   // and "excess elements in struct initializer".
-  m_ImageSize(image.GetBufferedRegion().GetSize()),
+  m_BufferedRegionData(image.ImageType::GetBufferedRegion()),
   m_NeighborhoodAccessor(image.GetNeighborhoodAccessor()),
-  m_Location(location),
+  m_RelativeLocation(location),
   m_ShapeOffsets{ shapeOffsets },
-  m_NumberOfNeighborhoodPixels{ numberOfNeigborhoodPixels }
+  m_NumberOfNeighborhoodPixels{ numberOfNeigborhoodPixels },
+  m_OptionalPixelAccessParameter(optionalPixelAccessParameter)
   {
-    assert(m_ImageBufferPointer != nullptr);
     const OffsetValueType* const offsetTable = image.GetOffsetTable();
     assert(offsetTable != nullptr);
 
     std::copy_n(offsetTable, ImageDimension, m_OffsetTable.begin());
 
+    SubtractIndex(m_RelativeLocation, m_BufferedRegionData.m_Index);
     m_NeighborhoodAccessor.SetBegin(m_ImageBufferPointer);
   }
 
@@ -575,35 +676,56 @@ public:
    * offsets, relative to the location index. This container of offsets must be
    * a contiguous container, for example std::vector<OffsetType> or
    * std::array<OffsetType>.
+   * \note The caller (the client code) should ensure that both the specified
+   * image and the specified shape offsets remain alive while the range (or one
+   * of its iterators) is being used.
    */
   template <typename TContainerOfOffsets>
   ShapedImageNeighborhoodRange(
     ImageType& image,
     const IndexType& location,
-    TContainerOfOffsets&& shapeOffsets)
+    const TContainerOfOffsets& shapeOffsets,
+    const OptionalPixelAccessParameterType optionalPixelAccessParameter = {})
     :
-  ShapedImageNeighborhoodRange{
+  ShapedImageNeighborhoodRange
+  {
     image,
     location,
     shapeOffsets.data(),
-    shapeOffsets.size()}
+    shapeOffsets.size(),
+    optionalPixelAccessParameter
+  }
   {
-    static_assert(!std::is_rvalue_reference<decltype(shapeOffsets)>::value,
-      "The container of offsets should not be a temporary (rvalue) object!");
   }
 
   /** Returns an iterator to the first neighborhood pixel. */
   iterator begin() const ITK_NOEXCEPT
   {
-    assert(m_ImageBufferPointer != nullptr);
-    return iterator(m_ImageBufferPointer, m_ImageSize, m_OffsetTable, m_NeighborhoodAccessor, m_Location, m_ShapeOffsets);
+    return iterator
+    {
+      m_ImageBufferPointer,
+      m_BufferedRegionData.m_Size,
+      m_OffsetTable,
+      m_NeighborhoodAccessor,
+      m_OptionalPixelAccessParameter,
+      m_RelativeLocation,
+      m_ShapeOffsets
+    };
   }
 
   /** Returns an 'end iterator' for this range. */
   iterator end() const ITK_NOEXCEPT
   {
-    assert(m_ImageBufferPointer != nullptr);
-    return iterator(m_ImageBufferPointer, m_ImageSize, m_OffsetTable, m_NeighborhoodAccessor, m_Location, m_ShapeOffsets + m_NumberOfNeighborhoodPixels);
+    return iterator
+    {
+      m_ImageBufferPointer,
+      m_BufferedRegionData.m_Size,
+      m_OffsetTable,
+      m_NeighborhoodAccessor,
+      m_OptionalPixelAccessParameter,
+      m_RelativeLocation,
+      m_ShapeOffsets + m_NumberOfNeighborhoodPixels
+    };
   }
 
   /** Returns a const iterator to the first neighborhood pixel.
@@ -651,6 +773,13 @@ public:
   }
 
 
+  /** Tells whether the range is empty. */
+  bool empty() const ITK_NOEXCEPT
+  {
+    return m_NumberOfNeighborhoodPixels == 0;
+  }
+
+
   /** Subscript operator. Allows random access, to the nth neighbor pixel.
   * \note The return type QualifiedIterator<false>::reference is equivalent to
   * iterator::reference. The return value is a proxy object that behaves like a
@@ -670,12 +799,9 @@ public:
    */
   void SetLocation(const IndexType& location) ITK_NOEXCEPT
   {
-    m_Location = location;
+    m_RelativeLocation = location;
+    SubtractIndex(m_RelativeLocation, m_BufferedRegionData.m_Index);
   }
-
-
-  /** Explicitly-defaulted destructor. */
-  ~ShapedImageNeighborhoodRange() = default;
 };
 
 

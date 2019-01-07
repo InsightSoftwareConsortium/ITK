@@ -76,8 +76,8 @@ public:
   OutputType EvaluateDerivative(const InputType & input) const override;
 
 protected:
-  SinRegularizedHeavisideStepFunction();
-  ~SinRegularizedHeavisideStepFunction() override;
+  SinRegularizedHeavisideStepFunction() = default;
+  ~SinRegularizedHeavisideStepFunction() override = default;
 };
 }
 

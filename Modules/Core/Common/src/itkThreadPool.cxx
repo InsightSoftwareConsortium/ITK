@@ -21,6 +21,7 @@
 #include "itksys/SystemTools.hxx"
 #include "itkThreadSupport.h"
 #include "itkNumericTraits.h"
+#include "itkMultiThreaderBase.h"
 
 #include <algorithm>
 
@@ -28,11 +29,11 @@ namespace itk
 {
   struct ThreadPoolGlobals
   {
-    ThreadPoolGlobals():m_DoNotWaitForThreads(false){};
+    ThreadPoolGlobals(){};
     // To lock on the internal variables.
     std::mutex          m_Mutex;
     ThreadPool::Pointer m_ThreadPoolInstance;
-    bool                m_DoNotWaitForThreads;
+    bool                m_DoNotWaitForThreads{false};
   };
 }//end of itk namespace
 
@@ -173,96 +174,15 @@ ThreadPool
 
 ThreadPool
 ::ThreadPool()
-  : m_Stopping( false )
 {
   m_ThreadPoolGlobals->m_ThreadPoolInstance = this; //threads need this
   m_ThreadPoolGlobals->m_ThreadPoolInstance->UnRegister(); // Remove extra reference
-  ThreadIdType threadCount = ThreadPool::GetGlobalDefaultNumberOfThreads();
+  ThreadIdType threadCount = MultiThreaderBase::GetGlobalDefaultNumberOfThreads();
   m_Threads.reserve( threadCount );
   for ( unsigned int i = 0; i < threadCount; ++i )
     {
-      m_Threads.emplace_back( &ThreadPool::ThreadExecute );
+    m_Threads.emplace_back( &ThreadPool::ThreadExecute );
     }
-}
-
-#if !defined( ITK_LEGACY_REMOVE )
-ThreadIdType
-ThreadPool
-::GetGlobalDefaultNumberOfThreadsByPlatform()
-{
-  return std::thread::hardware_concurrency();
-}
-#endif
-
-ThreadIdType
-ThreadPool
-::GetGlobalDefaultNumberOfThreads()
-{
-  ThreadIdType threadCount = 0;
-  /* The ITK_NUMBER_OF_THREADS_ENV_LIST contains is an
-   * environmental variable that holds a ':' separated
-   * list of environmental variables that whould be
-   * queried in order for setting the m_GlobalMaximumNumberOfThreads.
-   *
-   * This is intended to be a mechanism suitable to easy
-   * runtime modification to ease using the proper number
-   * of threads for load balancing batch processing
-   * systems where the number of threads
-   * authorized for use may be less than the number
-   * of physical processors on the computer.
-   *
-   * This list contains the Sun|Oracle Grid Engine
-   * environmental variable "NSLOTS" by default
-   */
-  std::vector<std::string> ITK_NUMBER_OF_THREADS_ENV_LIST;
-  std::string       itkNumberOfThreadsEvnListString = "";
-  if( itksys::SystemTools::GetEnv("ITK_NUMBER_OF_THREADS_ENV_LIST",
-                                  itkNumberOfThreadsEvnListString) )
-    {
-    // NOTE: We always put "ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS" at the end
-    // unconditionally.
-    itkNumberOfThreadsEvnListString += ":ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS";
-    }
-  else
-    {
-    itkNumberOfThreadsEvnListString = "NSLOTS:ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS";
-    }
-    {
-    std::stringstream numberOfThreadsEnvListStream(itkNumberOfThreadsEvnListString);
-    std::string       item;
-    while( std::getline(numberOfThreadsEnvListStream, item, ':') )
-      {
-      if( item.size() > 0 ) // Do not add empty items.
-        {
-        ITK_NUMBER_OF_THREADS_ENV_LIST.push_back(item);
-        }
-      }
-    }
-  // first, check for environment variable
-  std::string itkGlobalDefaultNumberOfThreadsEnv = "0";
-  for( std::vector<std::string>::const_iterator lit = ITK_NUMBER_OF_THREADS_ENV_LIST.begin();
-       lit != ITK_NUMBER_OF_THREADS_ENV_LIST.end();
-       ++lit )
-    {
-    if( itksys::SystemTools::GetEnv(lit->c_str(), itkGlobalDefaultNumberOfThreadsEnv) )
-      {
-      threadCount = static_cast<ThreadIdType>( std::stoi( itkGlobalDefaultNumberOfThreadsEnv.c_str() ) );
-      }
-    }
-
-  // otherwise, set number of threads based on system information
-  if( threadCount <= 0 )
-    {
-    threadCount = std::thread::hardware_concurrency();
-    }
-
-  // limit the number of threads to m_GlobalMaximumNumberOfThreads
-  threadCount  = std::min( threadCount, ThreadIdType(ITK_MAX_THREADS) );
-
-  // verify that the default number of threads is larger than zero
-  threadCount  = std::max( threadCount, NumericTraits<ThreadIdType>::OneValue() );
-
-  return threadCount;
 }
 
 void
@@ -310,10 +230,10 @@ ThreadPool
     }
 #endif
 
-  {
+    {
     std::unique_lock< std::mutex > mutexHolder( m_ThreadPoolGlobals->m_Mutex );
     this->m_Stopping = true;
-  }
+    }
 
   if (waitForThreads)
     {
@@ -345,14 +265,14 @@ ThreadPool
         std::unique_lock<std::mutex> mutexHolder( m_ThreadPoolGlobals->m_Mutex );
         threadPool->m_Condition.wait( mutexHolder,
           [threadPool]
-          {
+        {
             return threadPool->m_Stopping || !threadPool->m_WorkQueue.empty();
-          }
+        }
         );
         if ( threadPool->m_Stopping && threadPool->m_WorkQueue.empty() )
-          {
+        {
             return;
-          }
+        }
         task = std::move( threadPool->m_WorkQueue.front() );
         threadPool->m_WorkQueue.pop_front();
       }

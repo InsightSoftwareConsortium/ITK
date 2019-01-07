@@ -64,7 +64,7 @@ public:
   CorrespondenceDataStructureIterator(TStructureType *StructurePtr);
 
   /** Destructor */
-  virtual ~CorrespondenceDataStructureIterator();
+  virtual ~CorrespondenceDataStructureIterator() = default;
 
   using CorrespondingListType = typename TStructureType::CorrespondingListType;
   using ItemType = typename TStructureType::ItemType;

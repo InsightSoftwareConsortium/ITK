@@ -140,4 +140,3 @@ void vnl_bracket_minimum(vnl_cost_function& fn,
     swap(a,c); swap(fa,fc);
   }
 }
-

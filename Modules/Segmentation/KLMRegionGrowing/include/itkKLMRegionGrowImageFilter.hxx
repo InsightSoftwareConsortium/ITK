@@ -23,14 +23,8 @@ namespace itk
 {
 template< typename TInputImage, typename TOutputImage >
 KLMRegionGrowImageFilter< TInputImage, TOutputImage >
-::KLMRegionGrowImageFilter(void):
-  m_MaximumLambda(1000),
-  m_NumberOfRegions(0),
-  m_InternalLambda(0),
-  m_InitialNumberOfRegions(0),
-  m_TotalBorderLength(0.0),
-  m_BorderCandidate(nullptr),
-  m_InitialRegionArea(0)
+::KLMRegionGrowImageFilter(void)
+
 {
   m_InitialRegionMean.set_size(InputImageVectorDimension);
   m_InitialRegionMean.fill(0);

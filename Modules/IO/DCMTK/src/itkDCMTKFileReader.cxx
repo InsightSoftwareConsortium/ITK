@@ -23,7 +23,8 @@
 #define INCLUDE_CSTDIO
 #define INCLUDE_CSTRING
 
-#include "dcmtk/dcmdata/dcdict.h"             // For DcmDataDictionary
+#include "dcmtk/dcmdata/dcdict.h"          // For DcmDataDictionary
+#include "dcmtk/dcmdata/dcuid.h"           /* Included for OFFIS_DCMTK_VERSION_NUMBER */
 #include "dcmtk/dcmdata/dcsequen.h"        /* for DcmSequenceOfItems */
 #include "dcmtk/dcmdata/dcvrcs.h"          /* for DcmCodeString */
 #include "dcmtk/dcmdata/dcvrfd.h"          /* for DcmFloatingPointDouble */
@@ -42,6 +43,8 @@
 #include "dcmtk/dcmdata/dcvrpn.h"          /* for DcmPersonName */
 #include "dcmtk/dcmimgle/dcmimage.h"        /* fore DicomImage */
 #include "dcmtk/dcmimage/diregist.h"     /* include to support color images */
+
+
 #include "vnl/vnl_cross.h"
 #include "itkIntTypes.h"
 #include <algorithm>
@@ -1326,7 +1329,15 @@ DCMTKFileReader
     // slice thickness
     spacing[0] = _spacing[1];
     spacing[1] = _spacing[0];
-    if(this->GetElementDS<double>(0x0018,0x0050,1,&_spacing[2],false) == EXIT_SUCCESS)
+    /*
+     * According Dicom standard (DICOM PS3.6 2016b - Data Dictionary)
+     * (0028, 0030) indicates physical X,Y spacing inside a slice;
+     * (0018, 0088) indicates physical Z spacing between slices;
+     *  which above are also consistent with Dcom2iix software.
+     *  when we can not get (0018, 0088),we will revert to previous
+     *  behavior and use (0018, 0050) thickness as a proxy to spacing.
+     * */
+    if(GetElementDS<double>(0x0018,0x0088,1,&_spacing[2], false) == EXIT_SUCCESS)
       {
       spacing[2] = _spacing[2];
       }
@@ -1341,8 +1352,8 @@ DCMTKFileReader
   // functional group, and then the per-frame functional group
   unsigned short candidateSequences[2] =
     {
-      0x9229, // check for Shared Functional Group Sequence first
-      0x9230, // check the Per-frame Functional Groups Sequence
+    0x9229, // check for Shared Functional Group Sequence first
+    0x9230, // check the Per-frame Functional Groups Sequence
     };
   for(unsigned short candidateSequence : candidateSequences)
     {
@@ -1359,12 +1370,27 @@ DCMTKFileReader
         rval = item.GetElementSQ(0x0028,0x9110,subSequence,false);
         if(rval == EXIT_SUCCESS)
           {
-          if(subSequence.GetElementDS<double>(0x0028,0x0030,2,_spacing,false) == EXIT_SUCCESS
-             && subSequence.GetElementDS<double>(0x0018,0x0050,1,&_spacing[2]) == EXIT_SUCCESS)
+          /*
+           * According Dicom standard (DICOM PS3.6 2016b - Data Dictionary)
+           * (0028, 0030) indicates physical X,Y spacing inside a slice;
+           * (0018, 0088) indicates physical Z spacing between slices;
+           *  which above are also consistent with Dcom2iix software.
+           *  when we can not get (0018, 0088),we will revert to previous
+           *  behavior and use (0018, 0050) thickness as a proxy to spacing.
+           * */
+          if(subSequence.GetElementDS<double>(0x0028,0x0030,2,_spacing,false) == EXIT_SUCCESS)
             {
             spacing[0] = _spacing[1];
             spacing[1] = _spacing[0];
-            spacing[2] = _spacing[2];
+            if (subSequence.GetElementDS<double>(0x0018,0x0088,1,&_spacing[2], false) == EXIT_SUCCESS)
+              {
+              spacing[2] = _spacing[2];
+              }
+            else
+              {
+              // punt, zSpace of 1
+              spacing[2] = 1.0;
+              }
             break;
             }
           }
@@ -1462,7 +1488,11 @@ DCMTKFileReader
 {
   DcmDataDictionary &dict = dcmDataDict.wrlock();
   dict.addEntry(entry);
+#if OFFIS_DCMTK_VERSION_NUMBER > 362
+  dcmDataDict.wrunlock();
+#else
   dcmDataDict.unlock();
+#endif
 }
 
 bool CompareDCMTKFileReaders(DCMTKFileReader *a, DCMTKFileReader *b)

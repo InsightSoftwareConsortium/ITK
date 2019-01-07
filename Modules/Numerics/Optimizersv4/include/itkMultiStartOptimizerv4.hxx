@@ -26,8 +26,8 @@ namespace itk
 //-------------------------------------------------------------------
 template<typename TInternalComputationValueType>
 MultiStartOptimizerv4Template<TInternalComputationValueType>
-::MultiStartOptimizerv4Template():
-  m_Stop(false)
+::MultiStartOptimizerv4Template()
+
 {
   this->m_NumberOfIterations = static_cast<SizeValueType>(0);
   this->m_StopCondition      = MAXIMUM_NUMBER_OF_ITERATIONS;

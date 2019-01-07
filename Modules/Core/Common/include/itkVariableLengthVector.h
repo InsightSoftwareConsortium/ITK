@@ -915,10 +915,10 @@ public:
   bool IsAProxy() const { return ! m_LetArrayManageMemory;}
 
 private:
-  bool              m_LetArrayManageMemory; // if true, the array is responsible
+  bool              m_LetArrayManageMemory{true}; // if true, the array is responsible
                                             // for memory of data
   TValue *          m_Data;                 // Array to hold data
-  ElementIdentifier m_NumElements;
+  ElementIdentifier m_NumElements{0};
 };
 
 /// \cond HIDE_META_PROGRAMMING

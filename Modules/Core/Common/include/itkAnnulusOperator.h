@@ -84,10 +84,6 @@ public:
 
   AnnulusOperator():
     NeighborhoodOperator< TPixel, TDimension, TAllocator >(),
-    m_InnerRadius(1.0),
-    m_Thickness( 1.0 ),
-    m_Normalize(false),
-    m_BrightCenter(false),
     m_InteriorValue(NumericTraits< PixelType >::ZeroValue()),
     m_AnnulusValue(NumericTraits< PixelType >::OneValue()),
     m_ExteriorValue(NumericTraits< PixelType >::ZeroValue()),
@@ -220,10 +216,10 @@ protected:
 
 private:
 
-  double      m_InnerRadius;
-  double      m_Thickness;
-  bool        m_Normalize;
-  bool        m_BrightCenter;
+  double      m_InnerRadius{1.0};
+  double      m_Thickness{ 1.0 };
+  bool        m_Normalize{false};
+  bool        m_BrightCenter{false};
   PixelType   m_InteriorValue;
   PixelType   m_AnnulusValue;
   PixelType   m_ExteriorValue;

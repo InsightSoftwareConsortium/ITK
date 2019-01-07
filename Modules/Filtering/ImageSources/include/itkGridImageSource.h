@@ -144,7 +144,7 @@ private:
 
   BoolArrayType m_WhichDimensions;
 
-  RealType m_Scale;
+  RealType m_Scale{ 255.0 };
 };
 } // end namespace itk
 

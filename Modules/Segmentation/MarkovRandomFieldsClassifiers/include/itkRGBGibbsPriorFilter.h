@@ -215,51 +215,51 @@ private:
   TrainingImageType      m_TrainingImage;             /** image to train the
                                                         filter. */
   LabelledImageType      m_LabelledImage;             /** output */
-  unsigned int           m_NumberOfClasses;           /** the number of class
+  unsigned int           m_NumberOfClasses{0};           /** the number of class
                                                         need to be classified.
                                                         */
-  unsigned int           m_MaximumNumberOfIterations; /** number of the
+  unsigned int           m_MaximumNumberOfIterations{10}; /** number of the
                                                         iteration. */
 
   typename ClassifierType::Pointer m_ClassifierPtr;
 
-  unsigned int m_BoundaryGradient; /** the threshold for the existence of a
+  unsigned int m_BoundaryGradient{7}; /** the threshold for the existence of a
                                      boundary. */
-  double       m_BoundaryWeight;   /** weight for H_1 */
-  double       m_GibbsPriorWeight; /** weight for H_2 */
-  int          m_StartRadius;      /** define the start region of the object. */
-  int          m_RecursiveNumber;  /** number of SA iterations. */
-  LabelType *  m_LabelStatus;      /** array for the state of each pixel. */
+  double       m_BoundaryWeight{1};   /** weight for H_1 */
+  double       m_GibbsPriorWeight{1}; /** weight for H_2 */
+  int          m_StartRadius{10};      /** define the start region of the object. */
+  int          m_RecursiveNumber{0};  /** number of SA iterations. */
+  LabelType *  m_LabelStatus{nullptr};      /** array for the state of each pixel. */
 
   InputImagePointer m_MediumImage;    /** the medium image to store intermedium
                                         result */
 
-  unsigned int m_Temp;            /** for SA algo. */
+  unsigned int m_Temp{0};            /** for SA algo. */
   IndexType    m_StartPoint;      /** the seed of object */
 
-  unsigned int   m_ImageWidth;    /** image size. */
-  unsigned int   m_ImageHeight;
-  unsigned int   m_ImageDepth;
-  unsigned int   m_ClusterSize;  /** region size smaller than the threshold will
+  unsigned int   m_ImageWidth{0};    /** image size. */
+  unsigned int   m_ImageHeight{0};
+  unsigned int   m_ImageDepth{0};
+  unsigned int   m_ClusterSize{10};  /** region size smaller than the threshold will
                                    be erased. */
-  LabelType      m_ObjectLabel;  /** the label for object region. */
-  unsigned int   m_VecDim;       /** the channel number in the image. */
+  LabelType      m_ObjectLabel{1};  /** the label for object region. */
+  unsigned int   m_VecDim{0};       /** the channel number in the image. */
   InputPixelType m_LowPoint;     /** the point give lowest value of H-1 in
                                    neighbor. */
 
-  unsigned short *m_Region;      /** for region erase. */
-  unsigned short *m_RegionCount; /** for region erase. */
+  unsigned short *m_Region{nullptr};      /** for region erase. */
+  unsigned short *m_RegionCount{nullptr}; /** for region erase. */
 
   /** weights for different clique configuration. */
-  double m_CliqueWeight_1;  /** weight for cliques that v/h smooth boundayr */
-  double m_CliqueWeight_2;  /** weight for clique that has an intermadiate
+  double m_CliqueWeight_1{0.0};  /** weight for cliques that v/h smooth boundayr */
+  double m_CliqueWeight_2{0.0};  /** weight for clique that has an intermadiate
                               smooth boundary */
-  double m_CliqueWeight_3;  /** weight for clique that has a diagonal smooth
+  double m_CliqueWeight_3{0.0};  /** weight for clique that has a diagonal smooth
                               boundary */
-  double m_CliqueWeight_4;  /** weight for clique consists only object pixels */
-  double m_CliqueWeight_5;  /** weight for clique consists only background
+  double m_CliqueWeight_4{0.0};  /** weight for clique consists only object pixels */
+  double m_CliqueWeight_5{0.0};  /** weight for clique consists only background
                               pixels */
-  double m_CliqueWeight_6;  /** weight for clique other than these */
+  double m_CliqueWeight_6{0.0};  /** weight for clique other than these */
 
   /** calculate H_2. */
   void  GibbsTotalEnergy(int i);
@@ -280,7 +280,7 @@ private:
   void  GreyScalarBoundary(LabelledImageIndexType Index3D); /** calculate H_1.
                                                               */
 
-  double m_ObjectThreshold;
+  double m_ObjectThreshold{5.0};
 };
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION

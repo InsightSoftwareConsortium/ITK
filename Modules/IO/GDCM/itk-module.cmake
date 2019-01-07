@@ -6,7 +6,6 @@ itk_module(ITKIOGDCM
   ENABLE_SHARED
   DEPENDS
     ITKGDCM
-  PRIVATE_DEPENDS
     ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel

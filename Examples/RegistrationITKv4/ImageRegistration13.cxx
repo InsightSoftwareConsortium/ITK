@@ -26,7 +26,7 @@
 
 #include "itkImageRegistrationMethodv4.h"
 
-#include "itkCenteredRigid2DTransform.h"
+#include "itkEuler2DTransform.h"
 #include "itkCenteredTransformInitializer.h"
 
 // Software Guide : BeginCodeSnippet
@@ -101,12 +101,12 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginLatex
   //
-  // The CenteredRigid2DTransform applies a rigid transform in 2D space.
+  // The Euler2DTransform applies a rigid transform in 2D space.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using TransformType = itk::CenteredRigid2DTransform< double >;
+  using TransformType = itk::Euler2DTransform< double >;
   // Software Guide : EndCodeSnippet
 
   using OptimizerType = itk::RegularStepGradientDescentOptimizerv4<double>;
@@ -163,11 +163,12 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginLatex
   //
-  // The \doxygen{CenteredRigid2DTransform} is initialized with 5 parameters,
-  // indicating the angle of rotation, the center coordinates and the
+  // The \doxygen{Euler2DTransform} is initialized with 3 parameters,
+  // indicating the angle of rotation and the
   // translation to be applied after rotation. The initialization is done
   // by the \doxygen{CenteredTransformInitializer}.
-  // The transform can operate in two modes, the first of which assumes that the
+  // The transform initializer can operate in two modes, the first of
+  // which assumes that the
   // anatomical objects to be registered are centered in their respective
   // images. Hence the best initial guess for the registration is the one
   // that superimposes those two centers.
@@ -203,8 +204,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginLatex
   //
   // The optimizer scales the metrics (the gradient in this case) by the
-  // scales during each iteration. Therefore, a large value of the center scale
-  // will prevent movement along the center during optimization. Here we
+  // scales during each iteration. Here we
   // assume that the fixed and moving images are likely to be related by
   // a translation.
   //
@@ -215,13 +215,10 @@ int main( int argc, char *argv[] )
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
 
   const double translationScale = 1.0 / 128.0;
-  constexpr double centerScale = 1000.0; // prevents it from moving
-                                            // during the optimization
+
   optimizerScales[0] = 1.0;
-  optimizerScales[1] = centerScale;
-  optimizerScales[2] = centerScale;
-  optimizerScales[3] = translationScale;
-  optimizerScales[4] = translationScale;
+  optimizerScales[1] = translationScale;
+  optimizerScales[2] = translationScale;
 
   optimizer->SetScales( optimizerScales );
 
@@ -270,10 +267,11 @@ int main( int argc, char *argv[] )
   ParametersType finalParameters = transform->GetParameters();
 
   const double finalAngle           = finalParameters[0];
-  const double finalRotationCenterX = finalParameters[1];
-  const double finalRotationCenterY = finalParameters[2];
-  const double finalTranslationX    = finalParameters[3];
-  const double finalTranslationY    = finalParameters[4];
+  const double finalTranslationX    = finalParameters[1];
+  const double finalTranslationY    = finalParameters[2];
+
+  const double rotationCenterX = registration->GetOutput()->Get()->GetFixedParameters()[0];
+  const double rotationCenterY = registration->GetOutput()->Get()->GetFixedParameters()[1];
 
   unsigned int numberOfIterations = optimizer->GetCurrentIteration();
 
@@ -287,12 +285,12 @@ int main( int argc, char *argv[] )
   std::cout << "Result = " << std::endl;
   std::cout << " Angle (radians) " << finalAngle  << std::endl;
   std::cout << " Angle (degrees) " << finalAngleInDegrees  << std::endl;
-  std::cout << " Center X      = " << finalRotationCenterX  << std::endl;
-  std::cout << " Center Y      = " << finalRotationCenterY  << std::endl;
-  std::cout << " Translation X = " << finalTranslationX  << std::endl;
-  std::cout << " Translation Y = " << finalTranslationY  << std::endl;
-  std::cout << " Iterations    = " << numberOfIterations << std::endl;
-  std::cout << " Metric value  = " << bestValue          << std::endl;
+  std::cout << " Translation X  = " << finalTranslationX  << std::endl;
+  std::cout << " Translation Y  = " << finalTranslationY  << std::endl;
+  std::cout << " Fixed Center X = " << rotationCenterX  << std::endl;
+  std::cout << " Fixed Center Y = " << rotationCenterY  << std::endl;
+  std::cout << " Iterations     = " << numberOfIterations << std::endl;
+  std::cout << " Metric value   = " << bestValue          << std::endl;
 
 
   using ResampleFilterType = itk::ResampleImageFilter<
@@ -352,12 +350,10 @@ int main( int argc, char *argv[] )
 //
 //  \begin{verbatim}
 //
-//  Angle (radians) 0.174585
-//  Angle (degrees) 10.003
-//  Center X      = 110
-//  Center Y      = 128
-//  Translation X = 13.09
-//  Translation Y = 15.91
+//  Angle (radians) 0.174569
+//  Angle (degrees) 10.0021
+//  Translation X = 13.0958
+//  Translation Y = 15.9156
 //
 //  \end{verbatim}
 //

@@ -26,7 +26,7 @@ namespace itk
 template< unsigned int TPointDimension >
 SpatialObjectPoint< TPointDimension >
 ::SpatialObjectPoint()
-: m_ID(-1), m_X(0.0)
+:  m_X(0.0)
 {
   m_Color.SetRed(1.0); // red by default
   m_Color.SetGreen(0);

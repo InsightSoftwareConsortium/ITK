@@ -52,7 +52,7 @@ static void itkXMLParserCharacterDataHandler( void* parser, const char* data, in
   static_cast<DOMNodeXMLReader*>(parser)->CharacterDataHandler( data, length );
 }
 
-DOMNodeXMLReader::DOMNodeXMLReader() : m_Context(nullptr)
+DOMNodeXMLReader::DOMNodeXMLReader()
 {
 }
 

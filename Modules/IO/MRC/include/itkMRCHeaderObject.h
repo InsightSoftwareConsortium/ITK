@@ -273,10 +273,10 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  SizeValueType m_ExtendedHeaderSize;
-  void *        m_ExtendedHeader;
+  SizeValueType m_ExtendedHeaderSize{0};
+  void *        m_ExtendedHeader{nullptr};
 
-  FeiExtendedHeader *m_ExtendedFeiHeader;
+  FeiExtendedHeader *m_ExtendedFeiHeader{nullptr};
 
   bool m_BigEndianHeader;
 };

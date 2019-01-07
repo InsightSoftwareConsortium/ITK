@@ -157,7 +157,7 @@ private:
   /** The interpolator. */
   typename InterpolatorType::Pointer m_Interpolator;
 
-  unsigned int m_MaximumNumberOfIterations;
+  unsigned int m_MaximumNumberOfIterations{20};
 
   RealType m_MaxErrorToleranceThreshold;
   RealType m_MeanErrorToleranceThreshold;
@@ -171,8 +171,8 @@ private:
   RealType    m_MeanErrorNorm;
   RealType    m_Epsilon;
   SpacingType m_DisplacementFieldSpacing;
-  bool        m_DoThreadedEstimateInverse;
-  bool        m_EnforceBoundaryCondition;
+  bool        m_DoThreadedEstimateInverse{false};
+  bool        m_EnforceBoundaryCondition{true};
   std::mutex  m_Mutex;
 
 };

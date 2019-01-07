@@ -624,10 +624,12 @@ itk_python_expression_add_test(NAME itkObjectPythonTest EXPRESSION "itkObject = 
 itk_python_add_test(NAME itkIndexOffsetPythonTest COMMAND itkIndexOffsetTest.py)
 
 set(ITKCommonGTests
-      itkAggregateTypesTest.cxx
-      itkBuildInformationTest.cxx
+      itkAggregateTypesGTest.cxx
+      itkBuildInformationGTest.cxx
       itkConnectedImageNeighborhoodShapeGTest.cxx
+      itkConstantBoundaryImageNeighborhoodPixelAccessPolicyGTest.cxx
       itkImageNeighborhoodOffsetsGTest.cxx
+      itkImageBufferRangeGTest.cxx
       itkIndexRangeGTest.cxx
       itkShapedImageNeighborhoodRangeGTest.cxx
       itkSmartPointerGTest.cxx

@@ -54,48 +54,44 @@ namespace itk
  * in the buffer; the N arrays are then concatentated together on form
  * a single array.
  *
- * For efficiency, this transform does not make a copy of the parameters.
- * It only keeps a pointer to the input parameters and assumes that the memory
- * is managed by the caller.
- *
  * The following illustrates the typical usage of this class:
- * \verbatim
- * using TransformType = BSplineTransform<double,2,3>;
- * TransformType::Pointer transform = TransformType::New();
- *
- * transform->SetTransformDomainOrigin( origin );
- * transform->SetTransformDomainPhysicalDimensions( physicalDimensions );
- * transform->SetTransformDomainDirection( direction );
- * transform->SetTransformDomainMeshSize( meshSize );
- *
- * // NB: the region must be set first before setting the parameters
- *
- * TransformType::ParametersType parameters( transform->GetNumberOfParameters() );
- *
- * // Fill the parameters with values
- *
- * transform->SetParameters( parameters )
- *
- * outputPoint = transform->TransformPoint( inputPoint );
- *
- * \endverbatim
+ * \code
+   using TransformType = BSplineTransform<double,2,3>;
+   TransformType::Pointer transform = TransformType::New();
+
+   transform->SetTransformDomainOrigin( origin );
+   transform->SetTransformDomainPhysicalDimensions( physicalDimensions );
+   transform->SetTransformDomainDirection( direction );
+   transform->SetTransformDomainMeshSize( meshSize );
+
+   // NB: The region must be set first before setting the parameters
+
+   TransformType::ParametersType parameters( transform->GetNumberOfParameters() );
+
+   // Fill the parameters with values
+
+   transform->SetParameters( parameters )
+
+   outputPoint = transform->TransformPoint( inputPoint );
+
+   \endcode
  *
  * An alternative way to set the B-spline coefficients is via array of
  * images. The fixed parameters of the transform are taken
  * directly from the first image. It is assumed that the subsequent images
  * are the same buffered region. The following illustrates the API:
- * \verbatim
+ * \code
+
+   TransformType::ImageConstPointer images[2];
+
+   // Fill the images up with values
+
+   transform->SetCoefficientImages( images );
+   outputPoint = transform->TransformPoint( inputPoint );
+
+   \endcode
  *
- * TransformType::ImageConstPointer images[2];
- *
- * // Fill the images up with values
- *
- * transform->SetCoefficientImages( images );
- * outputPoint = transform->TransformPoint( inputPoint );
- *
- * \endverbatim
- *
- * Warning: use either the SetParameters() or SetCoefficientImages()
+ * \warning Use either the SetParameters() or SetCoefficientImages()
  * API. Mixing the two modes may results in unexpected results.
  *
  * The class is templated coordinate representation type (float or double),
@@ -258,25 +254,25 @@ public:
   virtual void SetTransformDomainOrigin( const OriginType & );
 
   /** Function to retrieve the transform domain origin. */
-  itkGetConstMacro( TransformDomainOrigin, OriginType );
+  virtual OriginType GetTransformDomainOrigin( void ) const;
 
   /** Function to specify the transform domain physical dimensions. */
   virtual void SetTransformDomainPhysicalDimensions( const PhysicalDimensionsType & );
 
   /** Function to retrieve the transform domain physical dimensions. */
-  itkGetConstMacro( TransformDomainPhysicalDimensions, PhysicalDimensionsType );
+  virtual PhysicalDimensionsType GetTransformDomainPhysicalDimensions(void) const;
 
   /** Function to specify the transform domain direction. */
   virtual void SetTransformDomainDirection( const DirectionType & );
 
   /** Function to retrieve the transform domain direction. */
-  itkGetConstMacro( TransformDomainDirection, DirectionType );
+  virtual DirectionType GetTransformDomainDirection( void ) const;
 
   /** Function to specify the transform domain mesh size. */
   virtual void SetTransformDomainMeshSize( const MeshSizeType & );
 
   /** Function to retrieve the transform domain mesh size. */
-  itkGetConstMacro( TransformDomainMeshSize, MeshSizeType );
+  virtual MeshSizeType GetTransformDomainMeshSize( void ) const;
 
 protected:
   /** Print contents of an BSplineTransform. */
@@ -287,32 +283,25 @@ protected:
 
 private:
 
-  /** Construct control point grid size from transform domain information. */
-  void SetFixedParametersGridSizeFromTransformDomainInformation() const override;
-
-  /** Construct control point grid origin from transform domain information. */
-  void SetFixedParametersGridOriginFromTransformDomainInformation() const override;
-
-  /** Construct control point grid spacing from transform domain information. */
-  void SetFixedParametersGridSpacingFromTransformDomainInformation() const override;
-
-  /** Construct control point grid direction from transform domain information. */
-  void SetFixedParametersGridDirectionFromTransformDomainInformation() const override;
-
-  /** Construct control point grid size from transform domain information. */
+  /** Construct control point grid size from transform domain information in the fixed parameters. */
   void SetCoefficientImageInformationFromFixedParameters() override;
+
+  /** Methods have empty implementations */
+  virtual void SetFixedParametersGridSizeFromTransformDomainInformation() const override { };
+  virtual void SetFixedParametersGridOriginFromTransformDomainInformation() const override { };
+  virtual void SetFixedParametersGridSpacingFromTransformDomainInformation() const override { }
+  virtual void SetFixedParametersGridDirectionFromTransformDomainInformation() const override { };
 
   /** Check if a continuous index is inside the valid region. */
   bool InsideValidRegion( ContinuousIndexType & ) const override;
 
-private:
+  void SetFixedParametersFromCoefficientImageInformation();
 
-  OriginType             m_TransformDomainOrigin;
-  PhysicalDimensionsType m_TransformDomainPhysicalDimensions;
-  DirectionType          m_TransformDomainDirection;
-  DirectionType          m_TransformDomainDirectionInverse;
+  void SetFixedParametersFromTransformDomainInformation( const OriginType &meshOrigin,
+                                                         const PhysicalDimensionsType & meshPhysical,
+                                                         const DirectionType &meshDirection,
+                                                         const MeshSizeType &meshSize);
 
-  MeshSizeType m_TransformDomainMeshSize;
 }; // class BSplineTransform
 }  // namespace itk
 

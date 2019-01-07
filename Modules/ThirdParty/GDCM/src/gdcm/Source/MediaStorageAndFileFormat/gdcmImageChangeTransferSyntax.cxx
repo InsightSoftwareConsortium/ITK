@@ -271,11 +271,19 @@ bool ImageChangeTransferSyntax::TryJPEGLSCodec(const DataElement &pixelde, Bitma
       r = codec->Code(pixelde, out);
       }
     if(!r) return false;
-    output.SetPlanarConfiguration( 0 );
 
     DataElement &de = output.GetDataElement();
     de.SetValue( out.GetValue() );
     UpdatePhotometricInterpretation( input, output );
+    if( input.GetPixelFormat().GetSamplesPerPixel() == 3 )
+    {
+      if( input.GetPlanarConfiguration() == 0 )
+      {
+        // http://dicom.nema.org/medical/dicom/current/output/chtml/part05/sect_8.2.3.html#table_8.2.3-1
+        output.SetPlanarConfiguration(1);
+      }
+    }
+
     return r;
     }
   return false;

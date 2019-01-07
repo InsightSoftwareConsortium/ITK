@@ -184,17 +184,17 @@ private:
   typename TInputImage::SizeType m_DataLength;
 
   /** User specified spline order (3rd or cubic is the default). */
-  unsigned int m_SplineOrder;
+  unsigned int m_SplineOrder{ 0 };
 
   SplinePolesVectorType m_SplinePoles;
 
   int m_NumberOfPoles;
 
   /** Tolerance used for determining initial causal coefficient. Default is 1e-10.*/
-  double m_Tolerance;
+  double m_Tolerance{ 1e-10 };
 
   /** Direction for iterator incrementing. Default is 0. */
-  unsigned int m_IteratorDirection;
+  unsigned int m_IteratorDirection{ 0 };
 };
 } // namespace itk
 

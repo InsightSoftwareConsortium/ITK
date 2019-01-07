@@ -35,12 +35,6 @@ endif()
 set( BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS} )
 mark_as_advanced(BUILD_SHARED_LIBS)
 
-set( SOLARIS 0 )
-if( CMAKE_SYSTEM MATCHES "SunOS.*" )
-  set( SOLARIS 1 )
-endif()
-
-
 option( WARN_DEPRECATED "Enable runtime warnings for deprecated functions?" ON )
 option( WARN_DEPRECATED_ONCE "Only warn once per function (if runtime warnings are enabled)?" ON )
 option( WARN_DEPRECATED_ABORT "Abort on executing a deprecated function (if runtime warnings are enabled)?" OFF )

@@ -137,7 +137,7 @@ protected:
   void GenerateData() override;
 
 private:
-  unsigned long m_NumberOfIterationsUsed;
+  unsigned long m_NumberOfIterationsUsed{1};
 
   bool m_FullyConnected;
 }; // end of class

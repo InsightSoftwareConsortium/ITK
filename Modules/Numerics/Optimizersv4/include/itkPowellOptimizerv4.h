@@ -202,26 +202,26 @@ protected:
   itkSetMacro(Stop, bool);
 
 private:
-  unsigned int m_SpaceDimension;
+  unsigned int m_SpaceDimension{0};
 
   /** Current iteration */
-  unsigned int m_CurrentLineIteration;
+  unsigned int m_CurrentLineIteration{0};
 
   /** Maximum iteration limit. */
-  unsigned int m_MaximumIteration;
-  unsigned int m_MaximumLineIteration;
+  unsigned int m_MaximumIteration{100};
+  unsigned int m_MaximumLineIteration{100};
 
-  bool   m_CatchGetValueException;
-  double m_MetricWorstPossibleValue;
+  bool   m_CatchGetValueException{false};
+  double m_MetricWorstPossibleValue{0};
 
   /** The minimal size of search */
-  double m_StepLength;
-  double m_StepTolerance;
+  double m_StepLength{0};
+  double m_StepTolerance{0};
 
   ParametersType       m_LineOrigin;
   vnl_vector< double > m_LineDirection;
 
-  double m_ValueTolerance;
+  double m_ValueTolerance{0};
 
   /** Internal storage for the value type / used as a cache  */
   MeasureType m_CurrentCost;
@@ -230,7 +230,7 @@ private:
    * when users call StartOptimization, this value will be set false.
    * By calling StopOptimization, this flag will be set true, and
    * optimization will stop at the next iteration. */
-  bool m_Stop;
+  bool m_Stop{false};
 
   ParametersType m_CurrentPosition;
 

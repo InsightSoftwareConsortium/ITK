@@ -21,11 +21,9 @@ namespace itk
 {
 MetaArrayWriter
 ::MetaArrayWriter() :
-  m_Binary( false ),
-  m_Precision( 6 ),
   m_FileName( "" ),
-  m_DataFileName( "" ),
-  m_Buffer( nullptr )
+  m_DataFileName( "" )
+
 {
 }
 

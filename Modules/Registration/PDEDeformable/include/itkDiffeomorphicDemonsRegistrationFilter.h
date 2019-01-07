@@ -204,7 +204,7 @@ private:
   FieldExponentiatorPointer m_Exponentiator;
   VectorWarperPointer       m_Warper;
   AdderPointer              m_Adder;
-  bool                      m_UseFirstOrderExp;
+  bool                      m_UseFirstOrderExp{false};
 };
 } // end namespace itk
 

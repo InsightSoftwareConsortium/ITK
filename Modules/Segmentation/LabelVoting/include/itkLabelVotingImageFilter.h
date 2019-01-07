@@ -180,8 +180,8 @@ protected:
 
 private:
   OutputPixelType m_LabelForUndecidedPixels;
-  bool            m_HasLabelForUndecidedPixels;
-  size_t          m_TotalLabelCount;
+  bool            m_HasLabelForUndecidedPixels{ false };
+  size_t          m_TotalLabelCount{ 0 };
 };
 } // end namespace itk
 

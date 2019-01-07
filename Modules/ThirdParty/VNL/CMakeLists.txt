@@ -5,7 +5,7 @@ option(ITK_USE_SYSTEM_VXL "Use an outside build of VXL." OFF)
 mark_as_advanced(ITK_USE_SYSTEM_VXL)
 
 if(ITK_USE_SYSTEM_VXL)
-  find_package(VXL 2.0.0 REQUIRED)
+  find_package(VXL 2.0.2 REQUIRED)
   set(ITKVNL_SYSTEM_INCLUDE_DIRS
     ${VXL_NETLIB_INCLUDE_DIR}
     ${VXL_VCL_INCLUDE_DIRS}
@@ -47,7 +47,11 @@ else()
   set(VXL_FORCE_V3P_TIFF        OFF CACHE BOOL "VXL configuration for ITK" FORCE)
   set(VXL_FORCE_V3P_ZLIB        OFF CACHE BOOL "VXL configuration for ITK" FORCE)
 
-  mark_as_advanced(FORCE BUILD_CONTRIB
+  mark_as_advanced(FORCE
+    VXL_BUILD_CONTRIB
+    VXL_FORCE_B3P_EXPAT
+    VXL_FORCE_B3P_SHAPELIB
+    VXL_BUILD_CONTRIB
     VXL_BUILD_CORE_GEOMETRY
     VXL_BUILD_CORE_IMAGING
     VXL_BUILD_CORE_NUMERICS

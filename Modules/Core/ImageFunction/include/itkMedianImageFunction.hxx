@@ -31,7 +31,7 @@ namespace itk
  */
 template< typename TInputImage, typename TCoordRep >
 MedianImageFunction< TInputImage, TCoordRep >
-::MedianImageFunction() : m_NeighborhoodRadius(1)
+::MedianImageFunction()
 {
 }
 

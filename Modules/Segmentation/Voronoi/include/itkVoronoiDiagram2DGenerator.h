@@ -115,7 +115,7 @@ protected:
   void GenerateData() override;
 
 private:
-  unsigned int m_NumberOfSeeds;
+  unsigned int m_NumberOfSeeds{ 0 };
   PointType    m_VorBoundary;
   OutputType   m_OutputVD;
   SeedsType    m_Seeds;
@@ -158,16 +158,13 @@ private:
   class FortuneEdge
   {
   public:
-    float        m_A, m_B, m_C;    // explicit line function: Ax + By = C;
+    float        m_A{0.0}, m_B{0.0}, m_C{0.0};    // explicit line function: Ax + By = C;
     FortuneSite *m_Ep[2];
     FortuneSite *m_Reg[2];
-    int          m_Edgenbr;
+    int          m_Edgenbr{0};
 
-    FortuneEdge() :
-      m_A(0.0),
-      m_B(0.0),
-      m_C(0.0),
-      m_Edgenbr(0)
+    FortuneEdge()
+
     {
       m_Ep[0] = m_Ep[1] = m_Reg[0] = m_Reg[1] = nullptr;
     }
@@ -181,18 +178,16 @@ private:
     FortuneHalfEdge *m_Left;
     FortuneHalfEdge *m_Right;
     FortuneEdge *    m_Edge;
-    bool             m_RorL;
+    bool             m_RorL{false};
     FortuneSite *    m_Vert;
-    double           m_Ystar;
+    double           m_Ystar{0.0};
     FortuneHalfEdge *m_Next;
 
     FortuneHalfEdge() :
       m_Left(nullptr),
       m_Right(nullptr),
       m_Edge(nullptr),
-      m_RorL(false),
       m_Vert(nullptr),
-      m_Ystar(0.0),
       m_Next(nullptr)
     {}
 
@@ -209,23 +204,23 @@ private:
     ~FortuneHalfEdge() = default;
   };
 
-  double m_Pxmin;
-  double m_Pxmax;
-  double m_Pymin;
-  double m_Pymax;
-  double m_Deltax;
-  double m_Deltay;
-  double m_SqrtNSites;
+  double m_Pxmin{ 0.0 };
+  double m_Pxmax{ 0.0 };
+  double m_Pymin{ 0.0 };
+  double m_Pymax{ 0.0 };
+  double m_Deltax{ 0.0 };
+  double m_Deltay{ 0.0 };
+  double m_SqrtNSites{ 0.0 };
 
-  unsigned int                   m_PQcount;
-  int                            m_PQmin;
-  unsigned int                   m_PQhashsize;
-  unsigned int                   m_Nedges;
-  unsigned int                   m_Nvert;
+  unsigned int                   m_PQcount{ 0 };
+  int                            m_PQmin{ 0 };
+  unsigned int                   m_PQhashsize{ 0 };
+  unsigned int                   m_Nedges{ 0 };
+  unsigned int                   m_Nvert{ 0 };
   FortuneSite *                  m_BottomSite;
   std::vector< FortuneHalfEdge > m_PQHash;
 
-  unsigned int                     m_ELhashsize;
+  unsigned int                     m_ELhashsize{ 0 };
   FortuneHalfEdge                  m_ELleftend;
   FortuneHalfEdge                  m_ELrightend;
   std::vector< FortuneHalfEdge * > m_ELHash;

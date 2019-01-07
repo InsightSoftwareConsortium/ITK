@@ -22,11 +22,6 @@
 
 namespace itk
 {
-/** Default constructor  */
-template< typename TValue >
-Array2D< TValue >
-::Array2D():vnl_matrix< TValue >()
-{}
 
 /** Constructor with number of rows and columns as arguments */
 template< typename TValue >

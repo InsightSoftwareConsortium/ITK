@@ -351,6 +351,20 @@ ImageTransformer< TInputImage >
   if ( threadId < total )
     {
     str->Filter->ThreadedGenerateData(splitRegion, threadId);
+#if defined( ITKV4_COMPATIBILITY )
+    if ( str->Filter->GetAbortGenerateData() )
+      {
+      std::string msg;
+      ProcessAborted e( __FILE__, __LINE__ );
+      msg += "Object " + std::string( str->Filter->GetNameOfClass() ) + ": AbortGenerateData was set!";
+      e.SetDescription( msg );
+      throw e;
+      }
+    else if ( str->Filter->GetProgress() == 0.0f ) // progress was not set after at least the first chunk finished
+      {
+      str->Filter->UpdateProgress( float( threadId + 1 ) / total ); // this will be the only progress update
+      }
+#endif
     }
   // else
   //   {

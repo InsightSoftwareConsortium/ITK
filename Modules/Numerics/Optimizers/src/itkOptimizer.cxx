@@ -27,8 +27,8 @@ namespace itk
  */
 
 Optimizer
-::Optimizer() :
-  m_ScalesInitialized( false )
+::Optimizer()
+
 {
 }
 

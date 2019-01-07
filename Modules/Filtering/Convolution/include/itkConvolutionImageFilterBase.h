@@ -123,7 +123,7 @@ protected:
   void VerifyInputInformation() ITKv5_CONST override {};
 
 private:
-  bool m_Normalize;
+  bool m_Normalize{ false };
 
   DefaultBoundaryConditionType m_DefaultBoundaryCondition;
   BoundaryConditionPointerType m_BoundaryCondition;

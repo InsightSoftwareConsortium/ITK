@@ -23,7 +23,8 @@ itk_add_test(NAME itkGradientAnisotropicDiffusionImageFilterTest2
               ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilterTest2.png
     itkGradientAnisotropicDiffusionImageFilterTest2 DATA{${ITK_DATA_ROOT}/Input/cake_easy.png} ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilterTest2.png)
 
-if(ITK_WRAP_float AND WRAP_2)
+list(FIND ITK_WRAP_IMAGE_DIMS 2 wrap_2_index)
+if(ITK_WRAP_float AND wrap_2_index GREATER -1)
   itk_python_add_test(NAME PythonCurvatureAnisotropicDiffusionImageFilterTest
     COMMAND CurvatureAnisotropicDiffusionImageFilterTest.py
       DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
@@ -31,7 +32,7 @@ if(ITK_WRAP_float AND WRAP_2)
       5 0.125 3
     )
   itk_python_add_test(NAME PythonSmoothingRecursiveGaussianImageFilterTest
-    COMMAND SmoothingRecursiveGaussianImageFilter.py
+    COMMAND SmoothingRecursiveGaussianImageFilterTest.py
       DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
       ${ITK_TEST_OUTPUT_DIR}/SmoothingRecursiveGaussianImageFilterTest.png
       3
@@ -41,8 +42,8 @@ if(ITK_WRAP_float AND WRAP_2)
       --compare ${ITK_TEST_OUTPUT_DIR}/PythonGradientAnisotropicDiffusionImageFilterTest.png
                 DATA{Baseline/PythonGradientAnisotropicDiffusionImageFilterTest.png}
     COMMAND GradientAnisotropicDiffusionImageFilterTest.py
-      DATA{${WrapITK_SOURCE_DIR}/images/BrainProtonDensitySlice.png}
-      ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilter.png
+      DATA{Input/BrainProtonDensitySlice.png}
+      ${ITK_TEST_OUTPUT_DIR}/PythonGradientAnisotropicDiffusionImageFilterTest.png
       5 0.125 1.0
     )
 endif()

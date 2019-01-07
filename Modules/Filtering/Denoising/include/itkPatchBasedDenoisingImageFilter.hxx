@@ -39,24 +39,13 @@ template <typename TInputImage, typename TOutputImage>
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::PatchBasedDenoisingImageFilter() :
   m_UpdateBuffer( OutputImageType::New() ),
-  m_NumPixelComponents( 0 ),       // not valid until Initialize()
-  m_NumIndependentComponents( 0 ), // not valid until Initialize()
-  m_TotalNumberPixels( 0 ),        // not valid until an image is provided
-  m_UseSmoothDiscPatchWeights( true ),
-  m_UseFastTensorComputations( true ),
-  m_KernelBandwidthSigmaIsSet( false ),
-  m_ZeroPixel(),                 // not valid until Initialize()
-  m_KernelBandwidthFractionPixelsForEstimation( 0.20 ),
-  m_ComputeConditionalDerivatives( false ),
+  m_ZeroPixel(),
   m_MinSigma( NumericTraits<RealValueType>::min() * 100 ), // to avoid divide by zero
   m_MinProbability( NumericTraits<RealValueType>::min() * 100 ), // to avoid divide by zero
   m_SigmaUpdateDecimationFactor( static_cast<unsigned int>
                                 ( Math::Round<double>( 1.0 / m_KernelBandwidthFractionPixelsForEstimation ) ) ),
-  m_SigmaUpdateConvergenceTolerance( 0.01 ),   // desired accuracy of Newton-Raphson sigma estimation
-  m_KernelBandwidthMultiplicationFactor( 1.0 ),
   m_NoiseSigma( 0.0 ),
   m_NoiseSigmaSquared( 0.0 ),
-  m_NoiseSigmaIsSet( false ),
   m_SearchSpaceList( ListAdaptorType::New() )
 {
   // By default, turn off automatic kernel bandwidth sigma estimation

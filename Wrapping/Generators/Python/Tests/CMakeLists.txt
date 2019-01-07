@@ -50,7 +50,7 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
     if(_have_numpy_return_code EQUAL 0)
       itk_python_add_test(NAME PythonExtrasTest
         COMMAND extras.py
-          DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/out.png
+          DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/out.png ${ITK_TEST_OUTPUT_DIR}
         )
     endif()
   endif()

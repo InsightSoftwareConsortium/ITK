@@ -190,8 +190,8 @@ protected:
    DisplacementFieldPointer BSplineSmoothDisplacementField( const DisplacementFieldType *, const ArrayType & );
 
 private:
-  SplineOrderType             m_SplineOrder;
-  bool                        m_EnforceStationaryBoundary;
+  SplineOrderType             m_SplineOrder{ 3 };
+  bool                        m_EnforceStationaryBoundary{ true };
   ArrayType                   m_NumberOfControlPointsForTheUpdateField;
   ArrayType                   m_NumberOfControlPointsForTheTotalField;
 };

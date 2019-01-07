@@ -52,17 +52,8 @@ private:
  * Constructor
  */
 LBFGSBOptimizer
-::LBFGSBOptimizer():
-  m_Trace(false),
-  m_OptimizerInitialized(false),
-  m_CostFunctionConvergenceFactor(1e+7),
-  m_ProjectedGradientTolerance(1e-5),
-  m_MaximumNumberOfIterations(500),
-  m_MaximumNumberOfEvaluations(500),
-  m_MaximumNumberOfCorrections(5),
-  m_CurrentIteration(0),
-  m_InfinityNormOfProjectedGradient(0.0),
-  m_VnlOptimizer(nullptr)
+::LBFGSBOptimizer()
+
 {
   m_LowerBound       = InternalBoundValueType(0);
   m_UpperBound       = InternalBoundValueType(0);

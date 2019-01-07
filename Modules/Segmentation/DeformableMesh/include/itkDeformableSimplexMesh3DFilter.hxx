@@ -35,12 +35,7 @@
 #include <set>
 
 #include "vxl_version.h"
-#if VXL_VERSION_DATE_FULL > 20040406
 #include "vnl/vnl_cross.h"
-#define itk_cross_3d vnl_cross_3d
-#else
-#define itk_cross_3d cross_3d
-#endif
 
 namespace itk
 {
@@ -151,7 +146,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
     data = this->m_Data->GetElement(idx);
     delete data->neighborSet;
     data->neighborSet = nullptr;
-    pointItr++;
+    ++pointItr;
     }
 
   this->ComputeOutput();
@@ -229,7 +224,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
     delete neighborsList;
     data->neighborSet =  neighborSet;
 
-    pointItr++;
+    ++pointItr;
     }
 
 }
@@ -287,7 +282,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
     // compute normal
     normal.Fill(0.0);
 
-    z.SetVnlVector( itk_cross_3d( ( data->neighbors[1] - data->neighbors[0] ).GetVnlVector(),
+    z.SetVnlVector( vnl_cross_3d( ( data->neighbors[1] - data->neighbors[0] ).GetVnlVector(),
                                     ( data->neighbors[2] - data->neighbors[0] ).GetVnlVector() ) );
     z.Normalize();
     normal += z;
@@ -322,7 +317,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
 
     data->eps = ComputeBarycentricCoordinates(Foot, data);
     dataIt.Value() = data;
-    dataIt++;
+    ++dataIt;
     }
 }
 
@@ -358,7 +353,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
     data->pos += displacement;
     nonConstPoints->InsertElement(dataIt.Index(), data->pos);
 
-    dataIt++;
+    ++dataIt;
     }
 }
 
@@ -573,7 +568,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
     nonConstInputMesh->SetPointData(dataIt->Index(), H);
     dataIt.Value() = data;
     //      m_Data->InsertElement(dataIt->Index(),data);
-    dataIt++;
+    ++dataIt;
     }
 }
 
@@ -615,10 +610,10 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
   const PointType c = data->neighbors[2];
 
   VectorType n, na, nb, nc;
-  n.SetVnlVector( itk_cross_3d( ( b - a ).GetVnlVector(), ( c - a ).GetVnlVector() ) );
-  na.SetVnlVector( itk_cross_3d( ( c - b ).GetVnlVector(), ( p - b ).GetVnlVector() ) );
-  nb.SetVnlVector( itk_cross_3d( ( a - c ).GetVnlVector(), ( p - c ).GetVnlVector() ) );
-  nc.SetVnlVector( itk_cross_3d( ( b - a ).GetVnlVector(), ( p - a ).GetVnlVector() ) );
+  n.SetVnlVector( vnl_cross_3d( ( b - a ).GetVnlVector(), ( c - a ).GetVnlVector() ) );
+  na.SetVnlVector( vnl_cross_3d( ( c - b ).GetVnlVector(), ( p - b ).GetVnlVector() ) );
+  nb.SetVnlVector( vnl_cross_3d( ( a - c ).GetVnlVector(), ( p - c ).GetVnlVector() ) );
+  nc.SetVnlVector( vnl_cross_3d( ( b - a ).GetVnlVector(), ( p - a ).GetVnlVector() ) );
 
   PointType eps;
   eps[0] = dot_product( n.GetVnlVector(), na.GetVnlVector() ) / n.GetSquaredNorm();

@@ -39,10 +39,9 @@ To use the script:
 5. Re-build ITK, and the testing data will be downloaded into the build tree.
 
 
-If a GIRDER_API_KEY environmental variable is not set, a prompt will appear
-for your username and password. The API key can be created in the
-data.kitware.com user account web browser interface.
-
+If the Git `girder.api-key` config or `GIRDER_API_KEY` environmental variable
+is not set, a prompt will appear for your username and password. The API key
+can be created in the data.kitware.com user account web browser interface.
 
 The script will authenticate to data.kitware.com, upload the file to your
 user account's Public folder, and create a *.sha512 CMake ExternalData
@@ -102,7 +101,12 @@ fi
 
 # Authenticate
 token=""
-if test -n "${GIRDER_API_KEY}"; then
+git_config_api_key=$(git config --get girder.api-key || echo '')
+if test -n "${git_config_api_key}"; then
+  token_response=$(curl -s -X POST --header 'Content-Length: 0' --header 'Content-Type: application/json' --header 'Accept: application/json' "https://data.kitware.com/api/v1/api_key/token?key=${git_config_api_key}&duration=1" || die "Could not retrieve token from API key.")
+  token=$(json_field "token" "${token_response}")
+fi
+if test -z "${token}" -a -n "${GIRDER_API_KEY}"; then
   token_response=$(curl -s -X POST --header 'Content-Length: 0' --header 'Content-Type: application/json' --header 'Accept: application/json' "https://data.kitware.com/api/v1/api_key/token?key=${GIRDER_API_KEY}&duration=1" || die "Could not retrieve token from API key.")
   token=$(json_field "token" "${token_response}")
 fi

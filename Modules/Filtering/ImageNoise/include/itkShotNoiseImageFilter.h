@@ -146,7 +146,7 @@ protected:
 
 
 private:
-  double m_Scale;
+  double m_Scale{ 1.0 };
 
 };
 } // end namespace itk

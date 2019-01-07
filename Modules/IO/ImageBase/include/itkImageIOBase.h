@@ -560,16 +560,16 @@ protected:
   virtual bool HasSupportedWriteExtension( const char * fileName, bool ignoreCase = true );
 
   /** Used internally to keep track of the type of the pixel. */
-  IOPixelType m_PixelType;
+  IOPixelType m_PixelType{SCALAR};
 
   /** Used internally to keep track of the type of the component. It is set
    * when ComputeStrides() is invoked. */
-  IOComponentType m_ComponentType;
+  IOComponentType m_ComponentType{UNKNOWNCOMPONENTTYPE};
 
   /** Big or Little Endian, and the type of the file. (May be ignored.) */
-  ByteOrder m_ByteOrder;
+  ByteOrder m_ByteOrder{OrderNotApplicable};
 
-  FileType m_FileType;
+  FileType m_FileType{TypeNotApplicable};
 
   /** Does the ImageIOBase object have enough info to be of use? */
   bool m_Initialized;
@@ -582,7 +582,7 @@ protected:
   unsigned int m_NumberOfComponents;
 
   /** The number of independent dimensions in the image. */
-  unsigned int m_NumberOfDimensions;
+  unsigned int m_NumberOfDimensions{0};
 
   /** Should we compress the data? */
   bool m_UseCompression;

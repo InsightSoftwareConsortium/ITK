@@ -13,7 +13,7 @@ itk_add_test(NAME itkAntiAliasBinaryImageFilterTest
   ${ITK_TEST_OUTPUT_DIR}/itkAntiAliasBinaryImageFilterTest.mha
   )
 
-list(FIND "${ITK_WRAP_IMAGE_DIMS}" 3 wrap_3_index)
+list(FIND ITK_WRAP_IMAGE_DIMS 3 wrap_3_index)
 if(ITK_WRAP_float AND wrap_3_index GREATER -1)
   itk_python_add_test(NAME PythonAntiAliasBinaryImageFilterTest
     TEST_DRIVER_ARGS

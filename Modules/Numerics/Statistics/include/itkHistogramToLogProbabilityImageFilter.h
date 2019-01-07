@@ -57,8 +57,8 @@ public:
   // Returns pixels of float..
   using OutputPixelType = TOutput;
 
-  HistogramLogProbabilityFunction():
-    m_TotalFrequency(1) {}
+  HistogramLogProbabilityFunction()
+    {}
 
   ~HistogramLogProbabilityFunction() = default;
 
@@ -89,7 +89,7 @@ public:
   }
 
 private:
-  SizeValueType m_TotalFrequency;
+  SizeValueType m_TotalFrequency{1};
 };
 }
 

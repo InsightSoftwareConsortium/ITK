@@ -28,15 +28,8 @@ namespace Statistics
 template< typename TKdTree >
 KdTreeBasedKmeansEstimator< TKdTree >
 ::KdTreeBasedKmeansEstimator() :
-  m_CurrentIteration(0),
-  m_MaximumIteration(100),
-  m_CentroidPositionChanges(0.0),
-  m_CentroidPositionChangesThreshold(0.0),
   m_KdTree(nullptr),
   m_DistanceMetric(EuclideanDistanceMetric< ParameterType >::New()),
-  m_UseClusterLabels(false),
-  m_GenerateClusterLabels(false),
-  m_MeasurementVectorSize(0),
   m_MembershipFunctionsObject(MembershipFunctionVectorObjectType::New())
 {
   m_TempVertex.Fill(0.0);

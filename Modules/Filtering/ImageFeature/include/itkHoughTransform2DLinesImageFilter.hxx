@@ -31,13 +31,8 @@ namespace itk
 template< typename TInputPixelType, typename TOutputPixelType >
 HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType >
 ::HoughTransform2DLinesImageFilter() :
-  m_AngleResolution( 500 ),
-  m_Threshold( 0 ),
-  m_LinesList(),
-  m_NumberOfLines( 1 ),
-  m_DiscRadius( 10 ),
-  m_Variance( 5 ),
-  m_OldModifiedTime( 0 )
+  m_LinesList()
+
 {
 }
 

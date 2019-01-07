@@ -37,20 +37,20 @@ namespace itk
  * frequency layout of the input image.
  *
  * Images in the dual space can be acquired experimentally, from scattering experiments or other techniques.
- * In that case use \ref FrequencyImageRegionIteratorWithIndex because
+ * In that case use FrequencyImageRegionIteratorWithIndex because
  * the layout of dual space images is the same as spatial domain images.
  *
  * Frequency-domain images can be computed from any spatial-domain applying a Fourier Transform.
- * If \ref ForwardFFTImageFilter was used, template this filter with
- * the \ref FrequencyFFTLayoutImageRegionIteratorWithIndex.
- * Please note that \ref FrequencyFFTLayoutImageRegionIteratorWithIndex requires a full FFT,
+ * If ForwardFFTImageFilter was used, template this filter with
+ * the FrequencyFFTLayoutImageRegionIteratorWithIndex.
+ * Please note that FrequencyFFTLayoutImageRegionIteratorWithIndex requires a full FFT,
  * and is not compatible with the Hermitian optimization.
  *
  * To use this filter with Hermitian (halved-frequency) FFTs, use
- * \ref FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex or its const version.
+ * FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex or its const version.
  *
- * If the output of the FFT is shifted, for example after applying \ref FFTShiftImageFilter,
- * use \ref FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex.
+ * If the output of the FFT is shifted, for example after applying FFTShiftImageFilter,
+ * use FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex.
  *
  * \sa UnaryGeneratorImageFilter
  *
@@ -194,7 +194,7 @@ protected:
 private:
   std::function< void( const ImageRegionType& ) > m_DynamicThreadedGenerateDataFunction;
 
-  bool m_ActualXDimensionIsOdd;
+  bool m_ActualXDimensionIsOdd{false};
 };
 } // end namespace itk
 

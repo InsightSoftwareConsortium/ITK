@@ -38,9 +38,6 @@ namespace itk
  * \ingroup SingleThreaded
  * \ingroup ITKImageFeature
  */
-// NOTE that the typename macro has to be used here in lieu
-// of "typename" because VC++ doesn't like the typename keyword
-// on the defaults of template parameters
 template< typename TInputImage,
           typename TOutputImage = Image< SymmetricSecondRankTensor<
                                            typename NumericTraits< typename TInputImage::PixelType >::RealType,

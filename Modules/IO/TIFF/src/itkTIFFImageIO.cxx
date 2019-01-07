@@ -208,11 +208,8 @@ void TIFFImageIO::Read(void *buffer)
 }
 
 TIFFImageIO::TIFFImageIO() :
-  m_Compression( TIFFImageIO::PackBits ),
-  m_JPEGQuality( 75 ),
-  m_ColorPalette( 0 ), // palette has no element by default
-  m_TotalColors( -1 ),
-  m_ImageFormat( TIFFImageIO::NOFORMAT )
+  m_ColorPalette( 0 )
+
 {
   this->SetNumberOfDimensions( 2 );
 

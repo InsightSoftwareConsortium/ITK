@@ -1,4 +1,5 @@
 itk_wrap_include("itkMesh.h")
+itk_wrap_include("itkPointSet.h")
 
 itk_wrap_class("itk::ImageToMeshFilter" POINTER)
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
@@ -6,11 +7,13 @@ itk_wrap_class("itk::ImageToMeshFilter" POINTER)
       itk_wrap_template("${ITKM_I${t}${d}}M${ITKM_${t}}${d}ST${ITKM_${t}}${d}${d}${ITKM_${t}}${ITKM_${t}}" "${ITKT_I${t}${d}}, itk::Mesh< ${ITKT_${t}},${d},itk::DefaultStaticMeshTraits< ${ITKT_${t}},${d},${d},${ITKT_${t}},${ITKT_${t}} > >")
     endforeach()
   endforeach()
-  # For BinaryMask3DMeshSource
-  itk_wrap_filter_dims(has_d_3 3)
-  if(has_d_3)
+  # For BinaryMask3DMeshSource and itkBinaryMaskToNarrowBandPointSetFilter
+  foreach(dim ${ITK_WRAP_IMAGE_DIMS})
     foreach(t ${WRAP_ITK_INT})
-      itk_wrap_template("${ITKM_I${t}3}M${ITKM_D}3ST${ITKM_D}33${ITKM_D}${ITKM_D}" "${ITKT_I${t}3}, itk::Mesh< ${ITKT_D},3,itk::DefaultStaticMeshTraits< ${ITKT_D},3,3,${ITKT_D},${ITKT_D} > >")
+      itk_wrap_template("${ITKM_I${t}${dim}}M${ITKM_D}${dim}ST${ITKM_D}${dim}${dim}${ITKM_D}${ITKM_D}"
+        "${ITKT_I${t}${dim}}, itk::Mesh< ${ITKT_D},${dim},itk::DefaultStaticMeshTraits< ${ITKT_D},${dim},${dim},${ITKT_D},${ITKT_D} > >")
+      itk_wrap_template("${ITKM_I${t}${dim}}PS${ITKM_D}${dim}ST${ITKM_D}${dim}${dim}${ITKM_D}${ITKM_D}"
+        "${ITKT_I${t}${dim}}, itk::PointSet< ${ITKT_D},${dim},itk::DefaultStaticMeshTraits< ${ITKT_D},${dim},${dim},${ITKT_D},${ITKT_D} > >")
     endforeach()
-  endif()
+  endforeach()
 itk_end_wrap_class()

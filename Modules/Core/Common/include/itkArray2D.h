@@ -51,7 +51,7 @@ public:
   using Self = Array2D;
   using VnlMatrixType = vnl_matrix< TValue >;
 
-  Array2D();
+  Array2D() = default;
   Array2D(unsigned int rows, unsigned int cols);
   Array2D(const Self & array);
   Array2D(const VnlMatrixType & matrix);

@@ -131,9 +131,8 @@ public:
 
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageLinearConstIteratorWithIndex() :
-    ImageConstIteratorWithIndex< TImage >(),
-    m_Jump(0),
-    m_Direction(0)
+    ImageConstIteratorWithIndex< TImage >()
+
   {}
 
   /** Constructor establishes an iterator to walk a particular image and a
@@ -218,8 +217,8 @@ public:
   }
 
 private:
-  OffsetValueType m_Jump;
-  unsigned int    m_Direction;
+  OffsetValueType m_Jump{0};
+  unsigned int    m_Direction{0};
 };
 
 //----------------------------------------------------------------------

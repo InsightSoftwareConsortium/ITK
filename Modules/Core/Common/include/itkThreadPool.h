@@ -106,12 +106,6 @@ public:
   /** The approximate number of idle threads. */
   int GetNumberOfCurrentlyIdleThreads() const;
 
-  /** Platform specific number of threads. Deprecated! */
-  itkLegacyMacro( static ThreadIdType GetGlobalDefaultNumberOfThreadsByPlatform() );
-
-  /** Examines environment variables and falls back to hyper-threaded core count */
-  static ThreadIdType GetGlobalDefaultNumberOfThreads();
-
   /** Set/Get wait for threads.
   This function should be used carefully, probably only during static
   initialization phase to disable waiting for threads when ITK is built as a
@@ -149,7 +143,7 @@ private:
   std::vector< std::thread > m_Threads;
 
   /* Has destruction started? */
-  bool m_Stopping;
+  bool m_Stopping{ false };
 
   /** To lock on the internal variables */
   static ThreadPoolGlobals * m_ThreadPoolGlobals;

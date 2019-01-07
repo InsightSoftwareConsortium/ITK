@@ -27,7 +27,7 @@
 // Software Guide : BeginCodeSnippet
 #include "itkImageRegistrationMethod.h"
 
-#include "itkCenteredRigid2DTransform.h"
+#include "itkEuler2DTransform.h"
 #include "itkCenteredTransformInitializer.h"
 
 #include "itkNormalizedMutualInformationHistogramImageToImageMetric.h"
@@ -111,7 +111,7 @@ int main( int argc, char *argv[] )
   using FixedImageType = itk::Image< PixelType, Dimension >;
   using MovingImageType = itk::Image< PixelType, Dimension >;
 
-  using TransformType = itk::CenteredRigid2DTransform< double >;
+  using TransformType = itk::Euler2DTransform< double >;
 
   using OptimizerType = itk::OnePlusOneEvolutionaryOptimizer;
   using InterpolatorType = itk::LinearInterpolateImageFunction<
@@ -223,10 +223,8 @@ int main( int argc, char *argv[] )
   FixedImageType::SpacingType spacing = fixedImage->GetSpacing();
 
   optimizerScales[0] = 1.0 / 0.1;  // make angle move slowly
-  optimizerScales[1] = 10000.0;    // prevent the center from moving
-  optimizerScales[2] = 10000.0;    // prevent the center from moving
-  optimizerScales[3] = 1.0 / ( 0.1 * size[0] * spacing[0] );
-  optimizerScales[4] = 1.0 / ( 0.1 * size[1] * spacing[1] );
+  optimizerScales[1] = 1.0 / ( 0.1 * size[0] * spacing[0] );
+  optimizerScales[2] = 1.0 / ( 0.1 * size[1] * spacing[1] );
   std::cout << "optimizerScales = " << optimizerScales << std::endl;
   optimizer->SetScales( optimizerScales );
 
@@ -273,10 +271,14 @@ int main( int argc, char *argv[] )
   using ParametersType = RegistrationType::ParametersType;
   ParametersType finalParameters = registration->GetLastTransformParameters();
   const double finalAngle           = finalParameters[0];
-  const double finalRotationCenterX = finalParameters[1];
-  const double finalRotationCenterY = finalParameters[2];
-  const double finalTranslationX    = finalParameters[3];
-  const double finalTranslationY    = finalParameters[4];
+  const double finalTranslationX    = finalParameters[1];
+  const double finalTranslationY    = finalParameters[2];
+
+  const double rotationCenterX =
+    registration->GetOutput()->Get()->GetFixedParameters()[0];
+  const double rotationCenterY =
+    registration->GetOutput()->Get()->GetFixedParameters()[1];
+
 
   const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
   const double bestValue = optimizer->GetValue();
@@ -286,12 +288,12 @@ int main( int argc, char *argv[] )
   std::cout << " Result = " << std::endl;
   std::cout << " Angle (radians) " << finalAngle  << std::endl;
   std::cout << " Angle (degrees) " << finalAngleInDegrees  << std::endl;
-  std::cout << " Center X      = " << finalRotationCenterX  << std::endl;
-  std::cout << " Center Y      = " << finalRotationCenterY  << std::endl;
-  std::cout << " Translation X = " << finalTranslationX  << std::endl;
-  std::cout << " Translation Y = " << finalTranslationY  << std::endl;
-  std::cout << " Iterations    = " << numberOfIterations << std::endl;
-  std::cout << " Metric value  = " << bestValue          << std::endl;
+  std::cout << " Translation X  = " << finalTranslationX  << std::endl;
+  std::cout << " Translation Y  = " << finalTranslationY  << std::endl;
+  std::cout << " Fixed Center X = " << rotationCenterX  << std::endl;
+  std::cout << " Fixed Center Y = " << rotationCenterY  << std::endl;
+  std::cout << " Iterations     = " << numberOfIterations << std::endl;
+  std::cout << " Metric value   = " << bestValue          << std::endl;
 
   using ResampleFilterType = itk::ResampleImageFilter<
             MovingImageType, FixedImageType >;

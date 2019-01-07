@@ -1,5 +1,41 @@
-cmake_minimum_required(VERSION 3.10.2 FATAL_ERROR)
+# ==== Define cmake build policies that affect compilation and linkage default behaviors
+#
+# Set the ITK_NEWEST_VALIDATED_POLICIES_VERSION string to the newest cmake version
+# policies that provide successful builds. By setting ITK_NEWEST_VALIDATED_POLICIES_VERSION
+# to a value greater than the oldest policies, all policies between
+# ITK_OLDEST_VALIDATED_POLICIES_VERSION and CMAKE_VERSION (used for this build)
+# are set to their NEW behaivor, thereby suppressing policy warnings related to policies
+# between the ITK_OLDEST_VALIDATED_POLICIES_VERSION and CMAKE_VERSION.
+#
+# CMake versions greater than the ITK_NEWEST_VALIDATED_POLICIES_VERSION policies will
+# continue to generate policy warnings "CMake Warning (dev)...Policy CMP0XXX is not set:"
+#
+set(ITK_OLDEST_VALIDATED_POLICIES_VERSION "3.10.2")
+set(ITK_NEWEST_VALIDATED_POLICIES_VERSION "3.13.1")
+cmake_minimum_required(VERSION ${ITK_OLDEST_VALIDATED_POLICIES_VERSION} FATAL_ERROR)
+if("${CMAKE_VERSION}" VERSION_LESS_EQUAL "${ITK_NEWEST_VALIDATED_POLICIES_VERSION}")
+  #Set and use the newest available cmake policies that are validated to work
+  set(ITK_CMAKE_POLICY_VERSION "${CMAKE_VERSION}")
+else()
+  set(ITK_CMAKE_POLICY_VERSION "${ITK_NEWEST_VALIDATED_POLICIES_VERSION}")
+endif()
+cmake_policy(VERSION ${ITK_CMAKE_POLICY_VERSION})
+#
+# Now enumerate specific policies newer than ITK_NEWEST_VALIDATED_POLICIES_VERSION
+# that may need to be individually set to NEW/OLD
+#
+foreach(pnew "") # Currently Empty
+  if(POLICY ${pnew})
+    cmake_policy(SET ${pnew} NEW)
+  endif()
+endforeach()
+foreach(pold "") # Currently Empty
+  if(POLICY ${pold})
+    cmake_policy(SET ${pold} OLD)
+  endif()
+endforeach()
 
+# ==== Define language standard configurations requiring at least c++11 standard
 if(CMAKE_CXX_STANDARD EQUAL "98" )
    message(FATAL_ERROR "CMAKE_CXX_STANDARD:STRING=98 is not supported in ITK version 5 and greater.")
 endif()
@@ -16,18 +52,7 @@ if(NOT CMAKE_CXX_EXTENSIONS)
   set(CMAKE_CXX_EXTENSIONS OFF)
 endif()
 
-foreach(p
-    ## Only policies introduced after the cmake_minimum_required
-    ## version need to explicitly be set to NEW.
-    CMP0070 #3.10.0 Define ``file(GENERATE)`` behavior for relative paths.
-    CMP0071 #3.10.0 Let ``AUTOMOC`` and ``AUTOUIC`` process ``GENERATED`` files.
-    CMP0074 #3.12.0 `find_package()`` uses ``<PackageName>_ROOT`` variables.
-    )
-  if(POLICY ${p})
-    cmake_policy(SET ${p} NEW)
-  endif()
-endforeach()
-
+# ====
 include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/ITKInitializeBuildType.cmake)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
@@ -196,26 +221,8 @@ mark_as_advanced(ITK_DYNAMIC_LOADING)
 
 #-----------------------------------------------------------------------------
 # Wrapping options
-option(ITK_WRAP_PYTHON "Build Python support" OFF)
-option(ITK_WRAP_JAVA "Build Java support (Currently not supported)" OFF)
-option(ITK_WRAP_RUBY "Build Ruby support (Currently not supported)" OFF)
-option(ITK_WRAP_PERL "Build Perl support (Currently not supported)" OFF)
-option(ITK_WRAP_TCL "Build Tcl support (Currently not supported)" OFF)
-mark_as_advanced(ITK_WRAP_JAVA)
-mark_as_advanced(ITK_WRAP_RUBY)
-mark_as_advanced(ITK_WRAP_PERL)
-mark_as_advanced(ITK_WRAP_TCL)
-
-if(ITK_WRAP_PYTHON OR ITK_WRAP_JAVA OR ITK_WRAP_RUBY OR ITK_WRAP_PERL OR ITK_WRAP_TCL)
-  if(NOT ITK_DYNAMIC_LOADING)
-    message(FATAL_ERROR "Wrapping requires ITK_DYNAMIC_LOADING to be ON")
-  endif()
-  # ITK_WRAPPING is an internal variable
-  set(ITK_WRAPPING ON CACHE INTERNAL "Build external languages support" FORCE)
-else()
-  set(ITK_WRAPPING OFF CACHE INTERNAL "Build external languages support" FORCE)
-endif()
-
+include(Wrapping/CMakeUtilityFunctions.cmake)
+include(Wrapping/WrappingOptions.cmake)
 include(ITKSetStandardCompilerFlags)
 #---------------------------------------------------------------
 

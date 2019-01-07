@@ -105,7 +105,8 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using HistogramFilterType = itk::Statistics::ImageToHistogramFilter<RGBImageType>;
+  using HistogramFilterType =
+    itk::Statistics::ImageToHistogramFilter<RGBImageType>;
 
   HistogramFilterType::Pointer histogramFilter =
                                              HistogramFilterType::New();

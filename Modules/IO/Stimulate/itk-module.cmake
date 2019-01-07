@@ -4,7 +4,7 @@ Stimulate (SDT/SPR)</a> images.")
 
 itk_module(ITKIOStimulate
   ENABLE_SHARED
-  PRIVATE_DEPENDS
+  DEPENDS
     ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel

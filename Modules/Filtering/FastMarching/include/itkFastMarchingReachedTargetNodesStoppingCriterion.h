@@ -152,11 +152,9 @@ protected:
   FastMarchingReachedTargetNodesStoppingCriterion() :
     Superclass(),
     m_TargetCondition(AllTargets),
-    m_NumberOfTargetsToBeReached(0),
     m_TargetOffset(NumericTraits< OutputPixelType >::ZeroValue()),
-    m_StoppingValue(NumericTraits< OutputPixelType >::ZeroValue()),
-    m_Satisfied(false),
-    m_Initialized(false)
+    m_StoppingValue(NumericTraits< OutputPixelType >::ZeroValue())
+
   {
   }
 
@@ -166,11 +164,11 @@ protected:
   TargetConditionType     m_TargetCondition;
   std::vector< NodeType > m_TargetNodes;
   std::vector< NodeType > m_ReachedTargetNodes;
-  size_t                  m_NumberOfTargetsToBeReached;
+  size_t                  m_NumberOfTargetsToBeReached{0};
   OutputPixelType         m_TargetOffset;
   OutputPixelType         m_StoppingValue;
-  bool                    m_Satisfied;
-  bool                    m_Initialized;
+  bool                    m_Satisfied{false};
+  bool                    m_Initialized{false};
 
   void Reset() override
   {

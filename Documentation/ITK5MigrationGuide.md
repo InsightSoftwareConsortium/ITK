@@ -33,7 +33,8 @@ and/or warnings should be addressed.  Once dependent code builds and passes
 tests without legacy options, migration to v5 is complete.
 
 Support for for pre-20160229 `VXL_VERSION_DATE_FULL` system installed
-versions of VXL has been removed.
+versions of VXL has been removed.  VXL now supports more common Semantic Versioning
+conventions with the minimum supported version for ITKv5 being 2.0.2 (as of 2018-11-30).
 
 C++11
 -----
@@ -55,6 +56,15 @@ as well as [range-based loops](https://github.com/InsightSoftwareConsortium/ITK/
 are also now used in ITK. As a consequence, due to limitations in C++11 support
 Visual Studio 2013 (MSVC 12.0) and other older C++ complilers cannot be used to build ITK from 5.0 and forward.
 
+Errors similar to `error: conversion from 'int' to 'typename InterpolatorType::Pointer'` are a result of further
+type safty for dealing with pointers. Enhancements in nullptr behavior in ITKv5 provide more clear
+type checking and respect the nullptr identifier.  The 'long 0' value
+known as NULL causes an abiguity for overload compilations of the ITKv5 smartpointers. To be backwards compatible
+with pre C++11 compilers use the `ITK_NULLPTR` designation, otherwise replace NULL and 0 initialization of
+`itk::SmartPointer` with nullptr.
+
+
+
 Availability of the C++11 standard allows use of many Standard Library
 features. These were previously implemented as portable ITK classes.
 The standard library classes are preferred over ITK's implementations.
@@ -64,6 +74,12 @@ The most notable examples of this are:
 and related classes should be replaced by the similarly named classes from
 [<mutex>](https://en.cppreference.com/w/cpp/header/mutex) header.
  * itksys::hash_map should be replaced by [std::unordered_map](https://en.cppreference.com/w/cpp/container/unordered_map).
+
+To modernize your code base, replace:
+  * `SimpleFastMutexLock` with `std::mutex`, and `#include "itkSimpleFastMutexLock.h"`  with `#include <mutex>`.
+  * `FastMutexLock` with `std::mutex`, and `#include "itkFastMutexLock.h"`  with `#include <mutex>`.
+  * `MutexLock` with `std::mutex`, and `#include "itkMutexLock.h"`  with `#include <mutex>`.
+
 
 Modern CMake requirement
 ------------------------
@@ -140,6 +156,34 @@ if (threadId==0)
   //code2 single-threaded
 //code3 (parallel)
 }
+
+-  ITK_THREAD_RETURN_TYPE is now in the itk:: namespace
+```
+#if ITK_VERSION_MAJOR >= 5
+  static itk::ITK_THREAD_RETURN_TYPE NetworkingThreaderCallback( void * );
+#else
+  static ITK_THREAD_RETURN_TYPE NetworkingThreaderCallback( void * );
+#endif
+```
+
+- ITK_THREAD_RETURN_VALUE is named itk::ITK_THREAD_RETURN_DEFAULT_VALUE
+```
+#if ITK_VERSION_MAJOR >= 5
+  return itk::ITK_THREAD_RETURN_DEFAULT_VALUE;
+#else
+  return ITK_THREAD_RETURN_VALUE;
+#endif
+```
+
+- ThreadInfoStruct is renamed to WorkUnitInfo
+```
+#if ITK_VERSION_MAJOR >= 5
+    (((itk::PlatformMultiThreader::WorkUnitInfo *)(arg))->UserData);
+#else
+    (((itk::MultiThreader::ThreadInfoStruct *)(arg))->UserData);
+#endif
+```
+
 ```
 after refactoring to not use barrier:
 ```C++
@@ -189,6 +233,7 @@ AfterThreadedGenerateData()
     numVoxelsInsideMask += m_NumVoxelsInsideMask[i];
     }
 }
+
 ```
 After, using `std::atomic`:
 ```C++
@@ -213,19 +258,21 @@ AfterThreadedGenerateData()
 }
 ```
 
-`Get/SetGlobalMaximumNumberOfThreads()` and `GlobalDefaultNumberOfThreads()`
-now reside in `itk::MultiThreaderBase`. With a warning, they are still
-available in `itk::PlatformMultiThreader`. In image filters and other
-descendents of `itk::ProcessObject`, method `SetNumberOfThreads`
-has been renamed into `SetNumberOfWorkUnits`. For `itk::MultiThreaderBase`
-and descendents, `SetNumberOfThreads` has been split into
-`SetMaximumNumberOfThreads` and `SetNumberOfWorkUnits`.
-Load balancing is possible when `NumberOfWorkUnits` is greater
-than the number of threads. The common case of
-`innerFilter->SetNumberOfThreads(1);` should be replaced by
-`innerFilter->SetNumberOfWorkUnits(1);`. Generally, in most places
-where threads were being manipulated before, work units should be
-accessed or changed now.
+`Get/SetGlobalMaximumNumberOfThreads()`, and `GlobalDefaultNumberOfThreads()`
+now reside in `itk::MultiThreaderBase`.  With a warning, they are still
+available in `itk::PlatformMultiThreader`.
+`GetGlobalDefaultNumberOfThreadsByPlatform()` has also been moved from
+`itk::ThreadPool` to `itk::MultiThreaderBase`.  In image filters and other
+descendents of `itk::ProcessObject`, method `SetNumberOfThreads` has been
+renamed into `SetNumberOfWorkUnits`.  For `itk::MultiThreaderBase` and
+descendents, `SetNumberOfThreads` has been split into
+`SetMaximumNumberOfThreads` and `SetNumberOfWorkUnits`.  Load balancing is
+possible when `NumberOfWorkUnits` is greater than the number of threads. The
+common case of `innerFilter->SetNumberOfThreads(1);` should be replaced by
+`innerFilter->SetNumberOfWorkUnits(1);`. Generally, in most places where
+threads were being manipulated before, work units should be accessed or
+changed now.
+
 
 To transition to the new threading model, it is usually enough to rename
 `ThreadedGenerateData` into `DynamicThreadedGenerateData`, remove the
@@ -264,12 +311,20 @@ Otsu filters now return correct threshold (bin's maximum value instead of mid-po
 To keep old behavior, use `filter->SetReturnBinMidpoint( true );`.
 This change should be relevant only in tests.
 
+`HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPixelType>` no longer
+has a default argument for its last template parameter. Instead, users of the filter should now
+explicitly specify all three template arguments. Earlier versions of ITK assumed that the radius
+pixel type should be the same as `TOutputPixelType`. However, it appears that for the radius pixel
+type (`TRadiusPixelType`), a floating point type is often preferred, whereas for the accumulator
+output pixel type (`TOutputPixelType`), an unsigned integer type is often more appropriate.
+
 With ITK 5.0, `itk::ProcessObject::VerifyPreconditions()`  and
 `itk::ProcessObject::VerifyInputInformation` are now declared `const`,
 so if you have overridden these virtual member function, make sure that you
 also add `const`. If your application needs to compile with both ITKv4 and ITKv5,
 you should use macro `ITKv5_CONST` instead of `const` keyword.
-This macro is present in ITKv4 since [TODO commit link].
+This macro is present in ITKv4 since commit
+b40f74e07d74614c75be4aceac63b87e80e589d1 on 2018-11-14.
 
 Update scripts
 --------------

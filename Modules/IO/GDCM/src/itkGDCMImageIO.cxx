@@ -61,12 +61,12 @@ namespace itk
 class InternalHeader
 {
 public:
-  InternalHeader():m_Header(nullptr) {}
+  InternalHeader() {}
   ~InternalHeader()
   {
     delete m_Header;
   }
-  gdcm::File *m_Header;
+  gdcm::File *m_Header{nullptr};
 };
 
 GDCMImageIO::GDCMImageIO()

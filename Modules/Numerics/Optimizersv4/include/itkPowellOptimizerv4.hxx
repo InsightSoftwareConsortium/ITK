@@ -24,18 +24,9 @@ namespace itk
 {
 template<typename TInternalComputationValueType>
 PowellOptimizerv4<TInternalComputationValueType>
-::PowellOptimizerv4():
-  m_SpaceDimension(0),
-  m_CurrentLineIteration(0),
-  m_MaximumIteration(100),
-  m_MaximumLineIteration(100),
-  m_CatchGetValueException(false),
-  m_MetricWorstPossibleValue(0),
-  m_StepLength(0),
-  m_StepTolerance(0),
-  m_ValueTolerance(0),
-  m_CurrentCost(0),
-  m_Stop(false)
+::PowellOptimizerv4() :
+  m_CurrentCost(0)
+
 {
   m_StopConditionDescription << this->GetNameOfClass() << ": ";
 }

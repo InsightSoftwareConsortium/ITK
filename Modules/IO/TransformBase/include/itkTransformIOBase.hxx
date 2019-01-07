@@ -30,8 +30,7 @@ namespace itk
 template<typename TParametersValueType>
 TransformIOBaseTemplate<TParametersValueType>
 ::TransformIOBaseTemplate()
- : m_AppendMode(false)
- , m_UseCompression(false)
+
 {
 }
 

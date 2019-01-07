@@ -27,7 +27,6 @@ namespace itk {
 template<typename TPointSet, class TInternalComputationValueType>
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputationValueType>
 ::JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4() :
-  m_UseAnisotropicCovariances( false ),
   m_PointSetSigma( static_cast<RealType>( 1.0 ) ),
   m_KernelSigma( static_cast<RealType>( 10.0 ) ),
   m_CovarianceKNeighborhood( static_cast<unsigned int>( 5 ) ),

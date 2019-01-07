@@ -27,11 +27,8 @@ namespace itk
 template< typename TInputImage, typename TOutputImage >
 OtsuMultipleThresholdsImageFilter< TInputImage, TOutputImage >
 ::OtsuMultipleThresholdsImageFilter() :
-  m_NumberOfHistogramBins( 128 ),
-  m_NumberOfThresholds( 1 ),
-  m_LabelOffset( NumericTraits< OutputPixelType >::ZeroValue() ),
-  m_ValleyEmphasis( false ),
-  m_ReturnBinMidpoint( false )
+  m_LabelOffset( NumericTraits< OutputPixelType >::ZeroValue() )
+
 {
   m_Thresholds.clear();
 }

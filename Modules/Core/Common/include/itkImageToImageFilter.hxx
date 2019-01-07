@@ -45,12 +45,6 @@ ImageToImageFilter< TInputImage, TOutputImage >
   this->SetNumberOfRequiredInputs(1);
 }
 
-
-template< typename TInputImage, typename TOutputImage >
-ImageToImageFilter< TInputImage, TOutputImage >
-::~ImageToImageFilter() = default;
-
-
 template< typename TInputImage, typename TOutputImage >
 void
 ImageToImageFilter< TInputImage, TOutputImage >
@@ -105,7 +99,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
 {
   Superclass::GenerateInputRequestedRegion();
 
-  for( InputDataObjectIterator it( this ); !it.IsAtEnd(); it++ )
+  for( InputDataObjectIterator it( this ); !it.IsAtEnd(); ++it )
     {
     // Check whether the input is an image of the appropriate dimension
     using ImageBaseType = ImageBase< InputImageDimension >;

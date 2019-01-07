@@ -325,7 +325,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using CenterFilterType = itk::ChangeInformationImageFilter<InternalImageType>;
+  using CenterFilterType =
+    itk::ChangeInformationImageFilter<InternalImageType>;
 
   CenterFilterType::Pointer center = CenterFilterType::New();
   center->CenterImageOn();

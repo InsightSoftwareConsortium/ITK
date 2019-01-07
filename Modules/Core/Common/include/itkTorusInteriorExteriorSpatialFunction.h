@@ -85,8 +85,8 @@ protected:
 
 private:
   InputType m_Origin;
-  double    m_MajorRadius;
-  double    m_MinorRadius;
+  double    m_MajorRadius{ 3.0 };
+  double    m_MinorRadius{ 1.0 };
 };
 } // end namespace itk
 

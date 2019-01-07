@@ -49,21 +49,9 @@ SimpleFilterWatcher
 
 SimpleFilterWatcher
 ::SimpleFilterWatcher() :
-  m_Steps(0),
-  m_Iterations(0),
-#if defined( _COMPILER_VERSION ) && ( _COMPILER_VERSION == 730 )
-  m_Quiet(true),
-#else
-  m_Quiet(false),
-#endif
-  m_TestAbort(false),
   m_Comment("Not watching an object"),
-  m_Process(nullptr),
-  m_StartTag(0),
-  m_EndTag(0),
-  m_ProgressTag(0),
-  m_IterationTag(0),
-  m_AbortTag(0)
+  m_Process(nullptr)
+
 {
 }
 

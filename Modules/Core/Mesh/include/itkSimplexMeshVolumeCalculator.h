@@ -199,24 +199,24 @@ private:
 
   InputMeshPointer m_SimplexMesh;
 
-  double m_Volume;
-  double m_VolumeX;
-  double m_VolumeY;
-  double m_VolumeZ;
-  double m_Area;
-  double m_Kx;
-  double m_Ky;
-  double m_Kz;
-  double m_Wxyz;
-  double m_Wxy;
-  double m_Wxz;
-  double m_Wyz;
+  double m_Volume{0.0};
+  double m_VolumeX{0.0};
+  double m_VolumeY{0.0};
+  double m_VolumeZ{0.0};
+  double m_Area{0.0};
+  double m_Kx{0.0};
+  double m_Ky{0.0};
+  double m_Kz{0.0};
+  double m_Wxyz{0.0};
+  double m_Wxy{0.0};
+  double m_Wxz{0.0};
+  double m_Wyz{0.0};
 
-  IndexValueType   m_Muncx;
-  IndexValueType   m_Muncy;
-  IndexValueType   m_Muncz;
+  IndexValueType   m_Muncx{0};
+  IndexValueType   m_Muncy{0};
+  IndexValueType   m_Muncz{0};
 
-  SizeValueType m_NumberOfTriangles;
+  SizeValueType m_NumberOfTriangles{0};
 };
 } //end of namespace
 

@@ -29,9 +29,6 @@ namespace itk
 template< typename TInputImage, typename TOutputImage, typename THistogramMeasurement >
 HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 ::HistogramMatchingImageFilter() :
-  m_NumberOfHistogramLevels(256),
-  m_NumberOfMatchPoints(1),
-  m_ThresholdAtMeanIntensity(true),
   m_SourceIntensityThreshold(NumericTraits<InputPixelType>::ZeroValue()),
   m_ReferenceIntensityThreshold(NumericTraits<InputPixelType>::ZeroValue()),
   m_OutputIntensityThreshold(NumericTraits<OutputPixelType>::ZeroValue()),
@@ -46,9 +43,8 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
   m_OutputMeanValue(NumericTraits<THistogramMeasurement>::ZeroValue()),
   m_SourceHistogram(HistogramType::New()),
   m_ReferenceHistogram(HistogramType::New()),
-  m_OutputHistogram(HistogramType::New()),
-  m_LowerGradient(0.0),
-  m_UpperGradient(0.0)
+  m_OutputHistogram(HistogramType::New())
+
 {
   this->SetNumberOfRequiredInputs(2);
 

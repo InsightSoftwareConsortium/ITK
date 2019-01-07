@@ -24,16 +24,6 @@
 namespace itk
 {
 template< typename TInput, typename TOutput >
-SinRegularizedHeavisideStepFunction< TInput, TOutput >
-::SinRegularizedHeavisideStepFunction() : Superclass()
-{}
-
-template< typename TInput, typename TOutput >
-SinRegularizedHeavisideStepFunction< TInput, TOutput >
-::~SinRegularizedHeavisideStepFunction() = default;
-
-
-template< typename TInput, typename TOutput >
 typename SinRegularizedHeavisideStepFunction< TInput, TOutput >::OutputType
 SinRegularizedHeavisideStepFunction< TInput, TOutput >
 ::Evaluate( const InputType& input ) const

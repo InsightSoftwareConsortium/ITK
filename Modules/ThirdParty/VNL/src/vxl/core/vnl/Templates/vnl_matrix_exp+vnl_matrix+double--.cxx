@@ -3,4 +3,3 @@
 
 typedef vnl_matrix<double> T;
 VNL_MATRIX_EXP_INSTANTIATE( T );
-

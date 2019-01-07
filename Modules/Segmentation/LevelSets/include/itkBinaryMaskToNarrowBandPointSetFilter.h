@@ -119,12 +119,6 @@ public:
   /** The dimension of the output mesh. */
   static constexpr unsigned int PointDimension = TOutputMesh::PointDimension;
 
-  /** Some type alias associated with the output mesh. */
-  void GenerateData() override;
-
-  /** Some type alias associated with the output mesh. */
-  void GenerateOutputInformation() override;
-
   /** accept the input image */
   using Superclass::SetInput;
   void SetInput(const InputImageType *inputImage);
@@ -140,6 +134,12 @@ protected:
   BinaryMaskToNarrowBandPointSetFilter();
   ~BinaryMaskToNarrowBandPointSetFilter() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
+
+  /** Some type alias associated with the output mesh. */
+  void GenerateData() override;
+
+  /** Some type alias associated with the output mesh. */
+  void GenerateOutputInformation() override;
 
 private:
   DistanceFilterPointer m_DistanceFilter;

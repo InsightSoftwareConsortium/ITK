@@ -101,9 +101,9 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  SizeValueType m_StartIndex;
-  SizeValueType m_EndIndex;
-  SizeValueType m_IncrementIndex;
+  SizeValueType m_StartIndex{1};
+  SizeValueType m_EndIndex{1};
+  SizeValueType m_IncrementIndex{1};
 
   /** A string for formatting the names of files in the series. */
   std::string m_SeriesFormat;

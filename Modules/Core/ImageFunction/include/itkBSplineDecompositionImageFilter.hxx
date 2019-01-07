@@ -28,8 +28,7 @@
 #ifndef itkBSplineDecompositionImageFilter_hxx
 #define itkBSplineDecompositionImageFilter_hxx
 #include "itkBSplineDecompositionImageFilter.h"
-#include "itkImageRegionConstIteratorWithIndex.h"
-#include "itkImageRegionIterator.h"
+#include "itkImageAlgorithm.h"
 #include "itkProgressReporter.h"
 #include "itkVector.h"
 
@@ -38,10 +37,8 @@ namespace itk
 
 template< typename TInputImage, typename TOutputImage >
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >
-::BSplineDecompositionImageFilter() :
-  m_SplineOrder( 0 ),
-  m_Tolerance( 1e-10 ),   // Need some guidance on this one...what is reasonable?
-  m_IteratorDirection( 0 )
+::BSplineDecompositionImageFilter()
+
 {
   this->SetSplineOrder( 3 );
 
@@ -296,22 +293,10 @@ void
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 ::CopyImageToImage()
 {
-  using InputIterator = ImageRegionConstIteratorWithIndex< TInputImage >;
-  using OutputIterator = ImageRegionIterator< TOutputImage >;
-  using OutputPixelType = typename TOutputImage::PixelType;
-
-  InputIterator  inIt( this->GetInput(), this->GetInput()->GetBufferedRegion() );
-  OutputIterator outIt( this->GetOutput(), this->GetOutput()->GetBufferedRegion() );
-
-  inIt.GoToBegin();
-  outIt.GoToBegin();
-
-  while ( !outIt.IsAtEnd() )
-    {
-    outIt.Set( static_cast< OutputPixelType >( inIt.Get() ) );
-    ++inIt;
-    ++outIt;
-    }
+  const TInputImage* const inputImage = this->GetInput();
+  TOutputImage* const outputImage = this->GetOutput();
+  ImageAlgorithm::Copy(inputImage, outputImage,
+    inputImage->GetBufferedRegion(), outputImage->GetBufferedRegion());
 }
 
 template< typename TInputImage, typename TOutputImage >

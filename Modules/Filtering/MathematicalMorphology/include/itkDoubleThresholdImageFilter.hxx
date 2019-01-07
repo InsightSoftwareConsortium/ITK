@@ -27,8 +27,8 @@ namespace itk
 {
 template< typename TInputImage, typename TOutputImage >
 DoubleThresholdImageFilter< TInputImage, TOutputImage >
-::DoubleThresholdImageFilter():
-  m_NumberOfIterationsUsed(1)
+::DoubleThresholdImageFilter()
+
 {
   m_Threshold1 = NumericTraits< InputPixelType >::NonpositiveMin();
   m_Threshold2 = NumericTraits< InputPixelType >::NonpositiveMin();

@@ -218,20 +218,20 @@ protected:
 
   /** Members to indicate the number of input frames and output frames required
    * to perform a single pass through the processing. */
-  SizeValueType  m_UnitInputNumberOfFrames;
-  SizeValueType  m_UnitOutputNumberOfFrames;
+  SizeValueType  m_UnitInputNumberOfFrames{1};
+  SizeValueType  m_UnitOutputNumberOfFrames{1};
 
   /** Number of frames to move in order to produce each set of output frames.
    * There is no public API for this member, but subclasses can set it
    * internally (or provide access to it) if they wish. */
-  OffsetValueType  m_FrameSkipPerOutput;
+  OffsetValueType  m_FrameSkipPerOutput{1};
 
   /** Member to indicate the location of the "current frame" in the minimum set
    * of input frames. For example, if the unit number of input frames is 6 and
    * m_InputStencilCurrentFrameIndex = 4, this indicates that for output frame
    * n, frames n-4 through n+1 are required, whereas if
    * m_InputStencilCurrentFrameIndex = 0, frames n through n+5 are required. */
-  SizeValueType  m_InputStencilCurrentFrameIndex;
+  SizeValueType  m_InputStencilCurrentFrameIndex{0};
 };  // end class TemporalProcessObject
 
 } // end namespace itk

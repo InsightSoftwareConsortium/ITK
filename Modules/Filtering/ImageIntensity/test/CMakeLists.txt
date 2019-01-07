@@ -132,17 +132,35 @@ itk_add_test(NAME itkSymmetricEigenAnalysisImageFilterTestOrderByValue
       COMMAND ITKImageIntensityTestDriver
     --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestOrderByValue.png
               941cdbc107bea093a564a83ed5993d6d
-    itkSymmetricEigenAnalysisImageFilterTest ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestOrderByValue.png 1)
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisFixedDimensionImageFilterTestOrderByValue.png
+              941cdbc107bea093a564a83ed5993d6d
+    itkSymmetricEigenAnalysisImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestOrderByValue.png
+    1
+    ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisFixedDimensionImageFilterTestOrderByValue.png)
 itk_add_test(NAME itkSymmetricEigenAnalysisImageFilterTestOrderByMagnitude
       COMMAND ITKImageIntensityTestDriver
     --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestOrderByMagnitude.png
               dbff47eae29f458759de12b3dee95176
-    itkSymmetricEigenAnalysisImageFilterTest ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestOrderByMagnitude.png 2)
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisFixedDimensionImageFilterTestOrderByMagnitude.png
+              dbff47eae29f458759de12b3dee95176
+    itkSymmetricEigenAnalysisImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestOrderByMagnitude.png
+    2
+    ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisFixedDimensionImageFilterTestOrderByMagnitude.png
+    )
+  # FixedDimension (with Eigen3) orders by value by default.
 itk_add_test(NAME itkSymmetricEigenAnalysisImageFilterTestDoNotOrder
       COMMAND ITKImageIntensityTestDriver
     --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestDoNotOrder.png
               dbff47eae29f458759de12b3dee95176
-    itkSymmetricEigenAnalysisImageFilterTest ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestDoNotOrder.png 3)
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisFixedDimensionImageFilterTestDoNotOrder.png
+              941cdbc107bea093a564a83ed5993d6d
+    itkSymmetricEigenAnalysisImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestDoNotOrder.png
+    3
+    ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisFixedDimensionImageFilterTestDoNotOrder.png
+    )
 itk_add_test(NAME itkEdgePotentialImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkEdgePotentialImageFilterTest)
 itk_add_test(NAME itkComplexToModulusFilterAndAdaptorTest
@@ -339,7 +357,7 @@ endif()
 CreateGoogleTestDriver(ITKImageIntensity "${ITKImageIntensity-Test_LIBRARIES}" "${ITKImageIntensityGTests}")
 
 # some tests will fail if dim=2 and unsigned short are not wrapped
-list(FIND "${ITK_WRAP_IMAGE_DIMS}" 2 wrap_2_index)
+list(FIND ITK_WRAP_IMAGE_DIMS 2 wrap_2_index)
 if(ITK_WRAP_unsigned_char AND wrap_2_index GREATER -1)
   itk_python_add_test(NAME PythonSigmoidImageFilterTest
     TEST_DRIVER_ARGS
@@ -350,4 +368,8 @@ if(ITK_WRAP_unsigned_char AND wrap_2_index GREATER -1)
       ${ITK_TEST_OUTPUT_DIR}/PythonSigmoidImageFilterTest.png
       10 240 10 170
     )
+    itk_python_add_test(NAME PythonIntensityWindowingImageFilterTest
+      COMMAND itkIntensityWindowingImageFilterTest.py
+      DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+      )
 endif()

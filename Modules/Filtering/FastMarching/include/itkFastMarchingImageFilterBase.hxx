@@ -34,11 +34,11 @@ FastMarchingImageFilterBase< TInput, TOutput >:: InternalNodeStructure
 {
 public:
   InternalNodeStructure( ) :
-    m_Value( NumericTraits< OutputPixelType >::max() ), m_Axis( 0 ) {}
+    m_Value( NumericTraits< OutputPixelType >::max() ) {}
 
   NodeType        m_Node;
   OutputPixelType m_Value;
-  unsigned int    m_Axis;
+  unsigned int    m_Axis{ 0 };
 
   bool operator< ( const InternalNodeStructure& iRight ) const
     {
@@ -49,7 +49,6 @@ public:
 template< typename TInput, typename TOutput >
 FastMarchingImageFilterBase< TInput, TOutput >::
 FastMarchingImageFilterBase() :
-  m_OverrideOutputInformation( false ),
   m_LabelImage( LabelImageType::New() )
 {
   m_StartIndex.Fill(0);

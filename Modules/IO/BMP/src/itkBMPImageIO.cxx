@@ -24,13 +24,6 @@ namespace itk
 {
 /** Constructor */
 BMPImageIO::BMPImageIO() :
-  m_BitMapOffset( 0 ),
-  m_FileLowerLeft( false ),
-  m_Depth( 8 ),
-  m_NumberOfColors( 0 ),
-  m_ColorPaletteSize( 0 ),
-  m_BMPCompression( 0 ),
-  m_BMPDataSize( 0 ),
   m_ColorPalette( 0 ) // palette has no element by default
 {
   this->SetNumberOfDimensions( 2 );

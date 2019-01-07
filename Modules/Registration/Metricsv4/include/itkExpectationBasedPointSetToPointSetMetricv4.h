@@ -124,7 +124,7 @@ private:
   CoordRepType                               m_PointSetSigma;
   MeasureType                                m_PreFactor;
   MeasureType                                m_Denominator;
-  unsigned int                               m_EvaluationKNeighborhood;
+  unsigned int                               m_EvaluationKNeighborhood{ 50 };
 
 };
 } // end namespace itk

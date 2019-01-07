@@ -138,7 +138,7 @@ protected:
 
 private:
 
-  unsigned int m_NumberOfModels;
+  unsigned int m_NumberOfModels{0};
 
   /** Container to hold the membership functions */
   MembershipFunctionPointerVector m_MembershipFunctions;

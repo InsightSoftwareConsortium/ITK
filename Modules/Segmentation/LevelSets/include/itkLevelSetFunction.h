@@ -293,8 +293,6 @@ public:
 
 protected:
   LevelSetFunction() :
-    m_Center(0),
-    m_UseMinimalCurvature(false),
     m_EpsilonMagnitude(static_cast< ScalarValueType >( 1.0e-5 )),
     m_AdvectionWeight(NumericTraits< ScalarValueType >::ZeroValue()),
     m_PropagationWeight(NumericTraits< ScalarValueType >::ZeroValue()),
@@ -314,12 +312,12 @@ protected:
   std::slice x_slice[Self::ImageDimension];
 
   /** The offset of the center pixel in the neighborhood. */
-  OffsetValueType m_Center;
+  OffsetValueType m_Center{0};
 
   /** Stride length along the y-dimension. */
   OffsetValueType m_xStride[Self::ImageDimension];
 
-  bool m_UseMinimalCurvature;
+  bool m_UseMinimalCurvature{false};
 
   /** This method's only purpose is to initialize the zero vector
    * constant. */

@@ -30,7 +30,6 @@ StatisticsImageFilter< TInputImage >
 ::StatisticsImageFilter()
   :m_ThreadSum(1),
    m_SumOfSquares(1),
-   m_Count(1),
    m_ThreadMin(1),
    m_ThreadMax(1)
 {

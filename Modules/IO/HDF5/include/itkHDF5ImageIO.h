@@ -193,9 +193,9 @@ private:
   void CloseH5File();
   void CloseDataSet();
 
-  H5::H5File  *m_H5File;
-  H5::DataSet *m_VoxelDataSet;
-  bool         m_ImageInformationWritten;
+  H5::H5File  *m_H5File{nullptr};
+  H5::DataSet *m_VoxelDataSet{nullptr};
+  bool         m_ImageInformationWritten{false};
 };
 } // end namespace itk
 

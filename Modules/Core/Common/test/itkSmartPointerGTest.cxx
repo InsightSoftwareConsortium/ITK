@@ -53,11 +53,11 @@ public:
     { return m_RegisterCount;}
 
 protected:
-  Derived1() : m_RegisterCount(0) {}
+  Derived1()  {}
 
   ~Derived1() override = default;
 
-  mutable unsigned int m_RegisterCount;
+  mutable unsigned int m_RegisterCount{0};
  };
 
 

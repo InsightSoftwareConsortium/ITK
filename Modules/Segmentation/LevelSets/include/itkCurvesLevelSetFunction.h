@@ -114,9 +114,8 @@ public:
   void Initialize(const RadiusType & r) override;
 
 protected:
-  CurvesLevelSetFunction() :
-    m_Center(0),
-    m_DerivativeSigma(1.0)
+  CurvesLevelSetFunction()
+
   {
     //Curvature term is the minimal curvature.
     this->UseMinimalCurvatureOn();
@@ -139,12 +138,12 @@ private:
   std::slice x_slice[ImageDimension];
 
   /** The offset of the center pixel in the neighborhood. */
-  OffsetValueType m_Center;
+  OffsetValueType m_Center{0};
 
   /** Stride length along the y-dimension. */
   OffsetValueType m_xStride[ImageDimension];
 
-  double m_DerivativeSigma;
+  double m_DerivativeSigma{1.0};
 };
 } // end namespace itk
 

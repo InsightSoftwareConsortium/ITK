@@ -147,8 +147,8 @@ public:
                            DomainType& subDomain) const override;
 
 protected:
-  ThreadedIteratorRangePartitioner();
-  ~ThreadedIteratorRangePartitioner() override;
+  ThreadedIteratorRangePartitioner() = default;
+  ~ThreadedIteratorRangePartitioner() override = default;
 };
 
 } // end namespace itk

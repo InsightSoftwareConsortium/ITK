@@ -132,7 +132,7 @@ static void dnorcdf_(doublereal *x, doublereal *cdf);
         return;
     }
     amean = anu;
-    sd = (float)sqrt(anu * 2.f);
+    sd = (float)sqrtf(anu * 2.f);
     z = (*x - amean) / sd;
     if (*nu < 10 && z < -200.f) {
         *cdf = 0.f;
@@ -304,7 +304,7 @@ static void norcdf_(real *x, real *cdf)
         z = -z;
     t = 1.f / (p * z + 1.f);
     tt = t*t;
-    *cdf = 1.f - (float)exp(z * -.5f * z) * .39894228040143f * (b1 * t + b2 * tt + b3 * t*tt + b4 * tt*tt + b5 * t*tt*tt);
+    *cdf = 1.f - (float)expf(z * -.5f * z) * .39894228040143f * (b1 * t + b2 * tt + b3 * t*tt + b4 * tt*tt + b5 * t*tt*tt);
     if (*x < 0.f) {
         *cdf = 1.f - *cdf;
     }

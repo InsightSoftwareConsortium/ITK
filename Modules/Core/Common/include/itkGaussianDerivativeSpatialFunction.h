@@ -92,7 +92,7 @@ public:
 
 protected:
   GaussianDerivativeSpatialFunction();
-  ~GaussianDerivativeSpatialFunction() override;
+  ~GaussianDerivativeSpatialFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

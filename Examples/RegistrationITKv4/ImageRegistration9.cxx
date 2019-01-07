@@ -31,7 +31,7 @@
 // for performing registration in $2D$. The example code is, for the most part,
 // identical to that in \ref{sec:InitializingRegistrationWithMoments}.
 // The main difference is the use of the AffineTransform here instead of the
-// \doxygen{CenteredRigid2DTransform}. We will focus on the most
+// \doxygen{Euler2DTransform}. We will focus on the most
 // relevant changes in the current code and skip the basic elements already
 // explained in previous examples.
 //

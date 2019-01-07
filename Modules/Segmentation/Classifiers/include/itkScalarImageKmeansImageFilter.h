@@ -174,11 +174,11 @@ private:
 
   ParametersType m_FinalMeans;
 
-  bool m_UseNonContiguousLabels;
+  bool m_UseNonContiguousLabels{ false };
 
   ImageRegionType m_ImageRegion;
 
-  bool m_ImageRegionDefined;
+  bool m_ImageRegionDefined{ false };
 };
 } // end namespace itk
 

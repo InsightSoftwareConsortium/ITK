@@ -138,7 +138,7 @@ protected:
   OutputPixelType m_AliveValue;
   OutputPixelType m_TrialValue;
 
-  bool m_IsForbiddenImageBinaryMask;
+  bool m_IsForbiddenImageBinaryMask{ false };
 
   virtual void GenerateData();
 

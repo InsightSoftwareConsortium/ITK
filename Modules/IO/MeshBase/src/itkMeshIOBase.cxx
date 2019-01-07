@@ -21,28 +21,13 @@
 namespace itk
 {
 MeshIOBase
-::MeshIOBase():
-  m_ByteOrder(OrderNotApplicable),
-  m_FileType(ASCII),
-  m_UseCompression(false),
-  m_PointComponentType(UNKNOWNCOMPONENTTYPE),
-  m_CellComponentType(UNKNOWNCOMPONENTTYPE),
-  m_PointPixelComponentType(UNKNOWNCOMPONENTTYPE),
-  m_CellPixelComponentType(UNKNOWNCOMPONENTTYPE),
-  m_PointPixelType(SCALAR),
-  m_CellPixelType(SCALAR),
-  m_NumberOfPointPixelComponents(0),
-  m_NumberOfCellPixelComponents(0),
-  m_PointDimension(0),
+::MeshIOBase() :
   m_NumberOfPoints(itk::NumericTraits< SizeValueType >::ZeroValue()),
   m_NumberOfCells(itk::NumericTraits< SizeValueType >::ZeroValue()),
   m_NumberOfPointPixels(itk::NumericTraits< SizeValueType >::ZeroValue()),
   m_NumberOfCellPixels(itk::NumericTraits< SizeValueType >::ZeroValue()),
-  m_CellBufferSize(itk::NumericTraits< SizeValueType >::ZeroValue()),
-  m_UpdatePoints(false),
-  m_UpdateCells(false),
-  m_UpdatePointData(false),
-  m_UpdateCellData(false)
+  m_CellBufferSize(itk::NumericTraits< SizeValueType >::ZeroValue())
+
 {}
 
 const MeshIOBase::ArrayOfExtensionsType &

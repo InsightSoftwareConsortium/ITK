@@ -416,8 +416,8 @@ SmapsData_2_6::GetStackUsage()
 /**              ---            VMMapData               ---              **/
 
 VMMapData_10_2
-::VMMapData_10_2():
-  m_UsingSummary(false)
+::VMMapData_10_2()
+
 {}
 
 VMMapData_10_2

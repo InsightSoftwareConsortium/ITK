@@ -141,9 +141,9 @@ protected:
   std::string            m_FileName;
   TransformListType      m_ReadTransformList;
   ConstTransformListType m_WriteTransformList;
-  bool                   m_AppendMode;
+  bool                   m_AppendMode{false};
   /** Should we compress the data? */
-  bool                   m_UseCompression;
+  bool                   m_UseCompression{false};
 
   /* The following struct returns the string name of computation type */
   /* default implementation */

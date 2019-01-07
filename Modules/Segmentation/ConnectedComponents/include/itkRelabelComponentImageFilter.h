@@ -248,10 +248,8 @@ public:
 
 protected:
 
-  RelabelComponentImageFilter():
-    m_NumberOfObjects(0), m_NumberOfObjectsToPrint(10),
-    m_OriginalNumberOfObjects(0), m_MinimumObjectSize(0),
-    m_SortByObjectSize(true)
+  RelabelComponentImageFilter()
+
   { this->InPlaceOff(); }
   ~RelabelComponentImageFilter() override = default;
 
@@ -304,11 +302,11 @@ protected:
 
 private:
 
-  LabelType      m_NumberOfObjects;
-  LabelType      m_NumberOfObjectsToPrint;
-  LabelType      m_OriginalNumberOfObjects;
-  ObjectSizeType m_MinimumObjectSize;
-  bool           m_SortByObjectSize;
+  LabelType      m_NumberOfObjects{0};
+  LabelType      m_NumberOfObjectsToPrint{10};
+  LabelType      m_OriginalNumberOfObjects{0};
+  ObjectSizeType m_MinimumObjectSize{0};
+  bool           m_SortByObjectSize{true};
 
   ObjectSizeInPixelsContainerType         m_SizeOfObjectsInPixels;
   ObjectSizeInPhysicalUnitsContainerType  m_SizeOfObjectsInPhysicalUnits;

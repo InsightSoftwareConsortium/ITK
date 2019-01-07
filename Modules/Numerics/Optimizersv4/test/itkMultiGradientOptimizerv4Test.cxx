@@ -61,8 +61,8 @@ public:
   using DerivativeType = Superclass::DerivativeType;
   using MeasureType = Superclass::MeasureType;
 
-  MultiGradientOptimizerv4TestMetric() :
-    m_Parameters(nullptr)
+  MultiGradientOptimizerv4TestMetric()
+
   {}
 
   void Initialize() throw ( itk::ExceptionObject ) override {}
@@ -142,7 +142,7 @@ public:
 
 private:
 
-  ParametersPointer m_Parameters;
+  ParametersPointer m_Parameters{nullptr};
 };
 
 /** A second test metric with slightly different optimum */
@@ -166,8 +166,8 @@ public:
   using DerivativeType = Superclass::DerivativeType;
   using MeasureType = Superclass::MeasureType;
 
-  MultiGradientOptimizerv4TestMetric2() :
-    m_Parameters(nullptr)
+  MultiGradientOptimizerv4TestMetric2()
+
   {}
 
   void Initialize() throw ( itk::ExceptionObject ) override {}
@@ -247,7 +247,7 @@ public:
 
 private:
 
-  ParametersPointer m_Parameters;
+  ParametersPointer m_Parameters{nullptr};
 };
 
 ///////////////////////////////////////////////////////////

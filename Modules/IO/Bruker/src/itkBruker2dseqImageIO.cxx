@@ -35,6 +35,8 @@ namespace itk
 
 namespace
 {
+using SizeType = ImageIOBase::SizeType;
+
 // Internal function to throw an exception if a needed parameter does not exist
 template<typename T>
 T GetParameter(const itk::MetaDataDictionary &dict, const std::string &name)
@@ -51,12 +53,12 @@ T GetParameter(const itk::MetaDataDictionary &dict, const std::string &name)
 template<typename T>
 void
 Rescale(T *buffer, const std::vector<double> &slopes, const std::vector<double> &offsets,
-  const int frameSize, const int frameCount)
+  const SizeType frameSize, const SizeType frameCount)
 {
-  int i = 0;
-  for (int f = 0; f < frameCount; ++f)
+  SizeType i = 0;
+  for (SizeType f = 0; f < frameCount; ++f)
     {
-    for (int v = 0; v < frameSize; ++v, ++i)
+    for (SizeType v = 0; v < frameSize; ++v, ++i)
       {
       double tmp = static_cast<double>(buffer[i]) * slopes[f] + offsets[f];
       buffer[i] = static_cast<T>(tmp);
@@ -67,23 +69,24 @@ Rescale(T *buffer, const std::vector<double> &slopes, const std::vector<double> 
 // Internal function to swap slices and volumes
 template< typename T >
 void
-SwapSlicesAndVolumes(T *buffer, const int sizeX, const int sizeY, const int sizeZ,
-                     const int sizeToSwap, const int sizeNoSwap)
+SwapSlicesAndVolumes(T *buffer,
+                     const SizeType sizeX, const SizeType sizeY, const SizeType sizeZ,
+                     const SizeType sizeToSwap, const SizeType sizeNoSwap)
 {
-  const int szSlice = sizeX*sizeY;
+  const SizeType szSlice = sizeX*sizeY;
   std::vector<T> tempBuffer(szSlice*sizeZ*sizeToSwap*sizeNoSwap);
   T *toPixel = &(tempBuffer[0]);
   T *fromNoSwapVol = buffer;
-  for (int n = 0; n < sizeNoSwap; ++n)
+  for (SizeType n = 0; n < sizeNoSwap; ++n)
     {
     T *fromSwapVol = fromNoSwapVol;
-    for (int v = 0; v < sizeToSwap; ++v)
+    for (SizeType v = 0; v < sizeToSwap; ++v)
       {
       T *fromSlice = fromSwapVol;
-      for (int z = 0; z < sizeZ; ++z)
+      for (SizeType z = 0; z < sizeZ; ++z)
         {
         T *fromPixel = fromSlice;
-        for (int p = 0; p < szSlice; ++p)
+        for (SizeType p = 0; p < szSlice; ++p)
           {
           *toPixel = *fromPixel;
           toPixel++;
@@ -107,20 +110,22 @@ SwapSlicesAndVolumes(T *buffer, const int sizeX, const int sizeY, const int size
 // Internal function to reverse slice order
 template< typename T >
 void
-ReverseSliceOrder(T *buffer, const int sizeX, const int sizeY, const int sz, const int sizeToSwap)
+ReverseSliceOrder(T *buffer,
+                  const SizeType sizeX, const SizeType sizeY, const SizeType sz,
+                  const SizeType sizeToSwap)
 {
-  const int ss = sizeX*sizeY;
+  const SizeType ss = sizeX*sizeY;
   T *fromVol = buffer;
   T temp;
-  for (int v = 0; v < sizeToSwap; ++v)
+  for (SizeType v = 0; v < sizeToSwap; ++v)
     {
     T *fromSlice = fromVol;
     T *toSlice = fromVol + (ss*(sz-1));
-    for (int z = 0; z < sz/2; ++z)
+    for (SizeType z = 0; z < sz/2; ++z)
       {
       T *fromPixel = fromSlice;
       T *toPixel = toSlice;
-      for (int p = 0; p < ss; ++p)
+      for (SizeType p = 0; p < ss; ++p)
         {
         temp = *toPixel;
         *toPixel = *fromPixel;
@@ -316,8 +321,8 @@ void ReadJCAMPDX(const std::string &filename, MetaDataDictionary &dict)
 }
 }
 
-Bruker2dseqImageIO::Bruker2dseqImageIO() :
-  m_OnDiskComponentType( UCHAR )
+Bruker2dseqImageIO::Bruker2dseqImageIO()
+
 {
   // By default, only have 3 dimensions
   this->SetNumberOfDimensions(3);
@@ -426,7 +431,7 @@ void Bruker2dseqImageIO::SwapBytesIfNecessary(void *buff, SizeValueType componen
 
 void Bruker2dseqImageIO::Read(void *buffer)
 {
-  const int numberOfComponents = this->GetImageSizeInComponents();
+  const auto numberOfComponents = this->GetImageSizeInComponents();
 
   std::string path2Dseq = itksys::SystemTools::CollapseFullPath(this->m_FileName);
   itksys::SystemTools::ConvertToUnixSlashes(path2Dseq);
@@ -435,7 +440,7 @@ void Bruker2dseqImageIO::Read(void *buffer)
 
   if (m_ComponentType != m_OnDiskComponentType)
     {
-    int numberOfBytesOnDisk = numberOfComponents;
+    SizeType numberOfBytesOnDisk = numberOfComponents;
     switch ( m_OnDiskComponentType )
       {
       case UCHAR:
@@ -521,7 +526,7 @@ void Bruker2dseqImageIO::Read(void *buffer)
     }
   else
     {
-      const int numberOfBytesOnDisk = this->GetImageSizeInBytes();
+      const auto numberOfBytesOnDisk = this->GetImageSizeInBytes();
       auto * charBuffer = static_cast<char *>(buffer);
       stream2Dseq.read(charBuffer, numberOfBytesOnDisk);
       if (stream2Dseq.fail())
@@ -534,9 +539,9 @@ void Bruker2dseqImageIO::Read(void *buffer)
   MetaDataDictionary &dict = this->GetMetaDataDictionary();
   const std::vector<double> slopes = GetParameter<std::vector<double> >(dict, "VisuCoreDataSlope");
   const std::vector<double> offsets = GetParameter<std::vector<double> >(dict, "VisuCoreDataOffs");
-  const int frameCount = static_cast<int>(GetParameter<double>(dict, "VisuCoreFrameCount"));
-  const int frameDim = static_cast<int>(GetParameter<double>(dict, "VisuCoreDim"));
-  int frameSize = this->GetDimensions(0) * this->GetDimensions(1);
+  const SizeType frameCount = static_cast<SizeType>(GetParameter<double>(dict, "VisuCoreFrameCount"));
+  const SizeType frameDim = static_cast<SizeType>(GetParameter<double>(dict, "VisuCoreDim"));
+  SizeType frameSize = this->GetDimensions(0) * this->GetDimensions(1);
 
   if (frameDim == 3)
     {
@@ -773,8 +778,8 @@ void Bruker2dseqImageIO::ReadImageInformation()
     itkExceptionMacro("VisuCoreByteOrder parameter is invalid: " << byteOrder);
     }
 
-  const int brukerDim = static_cast<int>(GetParameter<double>(dict, "VisuCoreDim"));
-  const int frames = static_cast<int>(GetParameter<double>(dict, "VisuCoreFrameCount"));
+  const SizeType brukerDim = static_cast<SizeType>(GetParameter<double>(dict, "VisuCoreDim"));
+  const SizeType frames = static_cast<SizeType>(GetParameter<double>(dict, "VisuCoreFrameCount"));
   const std::vector<double> size = GetParameter<std::vector<double> >(dict, "VisuCoreSize");
   const std::vector<double> FoV = GetParameter<std::vector<double> >(dict, "VisuCoreExtent");
 
@@ -796,8 +801,8 @@ void Bruker2dseqImageIO::ReadImageInformation()
     vnl_vector<double> halfStep(3);
     halfStep[0] = FoV[0] / (2*size[0]);
     halfStep[1] = FoV[1] / (2*size[1]);
-    int sizeZ = 1;
-    int sizeT = 1;
+    SizeType sizeZ = 1;
+    SizeType sizeT = 1;
     double spacingZ = 1;
     double reverseZ = 1;
     if (brukerDim == 2)

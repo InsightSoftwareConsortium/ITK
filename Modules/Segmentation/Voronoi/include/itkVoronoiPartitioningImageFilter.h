@@ -105,7 +105,7 @@ protected:
   bool TestHomogeneity(IndexList & Plist) override;
 
   // Threshold for homogeneity criterion
-  double m_SigmaThreshold;
+  double m_SigmaThreshold{10};
 };
 } //end namespace
 

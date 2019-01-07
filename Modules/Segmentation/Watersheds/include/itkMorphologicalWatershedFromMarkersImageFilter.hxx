@@ -35,9 +35,8 @@ namespace itk
 
 template< typename TInputImage, typename TLabelImage >
 MorphologicalWatershedFromMarkersImageFilter< TInputImage, TLabelImage >
-::MorphologicalWatershedFromMarkersImageFilter():
-  m_FullyConnected( false ),
-  m_MarkWatershedLine( true )
+::MorphologicalWatershedFromMarkersImageFilter()
+
 
 {
   this->SetNumberOfRequiredInputs(2);

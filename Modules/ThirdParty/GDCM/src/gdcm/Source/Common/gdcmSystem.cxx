@@ -159,7 +159,7 @@ bool System::MakeDirectory(const char *path)
   while(ok && (pos = dir.find('/', pos)) != std::string::npos)
     {
     topdir = dir.substr(0, pos);
-    ok = ok && Mkdir(topdir.c_str());
+    ok = ok && (System::FileIsDirectory(topdir.c_str()) || 0 == Mkdir(topdir.c_str()));
     pos++;
     }
   if( !ok ) return false;

@@ -121,7 +121,7 @@ protected:
   void GenerateData() override;
 
 private:
-  unsigned long       m_NumberOfIterationsUsed;
+  unsigned long       m_NumberOfIterationsUsed{1};
   InputImageIndexType m_Seed;
 
   bool m_FullyConnected;

@@ -427,7 +427,7 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
     OutputImage->TransformPhysicalPointToContinuousIndex(p, ind);
     NewPoints->InsertElement(pointId++, ind);
 
-    points++;
+    ++points;
     }
   NewPointSet->SetPoints(NewPoints);
 
@@ -475,7 +475,7 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
       default:
         itkExceptionMacro(<< "Need Triangle or Polygon cells ONLY");
       }
-    cellIt++;
+    ++cellIt;
     }
 
   //create the equivalent of vtkStencilData from our zymatrix

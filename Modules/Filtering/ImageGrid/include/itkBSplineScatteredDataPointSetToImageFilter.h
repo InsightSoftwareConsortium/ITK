@@ -328,11 +328,11 @@ private:
    * the local control point neighborhoods. */
   IndexType NumberToIndex( const unsigned int, const SizeType );
 
-  bool                                         m_DoMultilevel;
-  bool                                         m_GenerateOutputImage;
-  bool                                         m_UsePointWeights;
-  unsigned int                                 m_MaximumNumberOfLevels;
-  unsigned int                                 m_CurrentLevel;
+  bool                                         m_DoMultilevel{ false };
+  bool                                         m_GenerateOutputImage{ true };
+  bool                                         m_UsePointWeights{ false };
+  unsigned int                                 m_MaximumNumberOfLevels{ 1 };
+  unsigned int                                 m_CurrentLevel{ 0 };
   ArrayType                                    m_NumberOfControlPoints;
   ArrayType                                    m_CurrentNumberOfControlPoints;
   ArrayType                                    m_CloseDimension;
@@ -359,8 +359,8 @@ private:
   std::vector<RealImagePointer>                m_OmegaLatticePerThread;
   std::vector<PointDataImagePointer>           m_DeltaLatticePerThread;
 
-  RealType                                     m_BSplineEpsilon;
-  bool                                         m_IsFittingComplete;
+  RealType                                     m_BSplineEpsilon{ static_cast< RealType >( 1e-3 ) };
+  bool                                         m_IsFittingComplete{ false };
 };
 } // end namespace itk
 

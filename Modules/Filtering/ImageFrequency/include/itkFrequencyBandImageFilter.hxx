@@ -31,13 +31,8 @@ template< typename TImageType, typename TFrequencyIterator >
 FrequencyBandImageFilter< TImageType, TFrequencyIterator >
 ::FrequencyBandImageFilter()
   : m_LowFrequencyThreshold(0),
-  m_HighFrequencyThreshold(0.5), // Nyquist in hertz
-  m_PassBand(true),
-  m_PassLowFrequencyThreshold(true),
-  m_PassHighFrequencyThreshold(true),
-  m_RadialBand(true),
-  m_PassNegativeLowFrequencyThreshold(true),
-  m_PassNegativeHighFrequencyThreshold(true)
+  m_HighFrequencyThreshold(0.5)
+
 {
   this->InPlaceOff();
   this->DynamicMultiThreadingOn();

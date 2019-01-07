@@ -92,6 +92,9 @@ macro( vxl_add_library )
   list(LENGTH lib_srcs num_src_files)
   if( ${num_src_files} GREATER 0 )
     add_library(${lib_name} ${lib_srcs} )
+    if(MSVC) # This enables object-level build parallelism in VNL libraries for MSVC
+      target_compile_definitions(${lib_name} PRIVATE " /MP ")
+    endif()
 
     set_property(GLOBAL APPEND PROPERTY VXLTargets_MODULES ${lib_name})
     if(VXL_LIBRARY_PROPERTIES)

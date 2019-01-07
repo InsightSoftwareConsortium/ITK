@@ -75,11 +75,11 @@ public:
 protected:
   /** Creator for specific metaObject, defined in subclass */
   virtual MetaObjectType *CreateMetaObject() = 0;
-  MetaConverterBase() : m_WriteImagesInSeparateFile(false)
+  MetaConverterBase()
     {}
 
 private:
-  bool m_WriteImagesInSeparateFile;
+  bool m_WriteImagesInSeparateFile{false};
 };
 
 }

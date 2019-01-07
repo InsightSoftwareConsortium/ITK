@@ -24,12 +24,7 @@
 #include <algorithm>
 
 #include "vxl_version.h"
-#if VXL_VERSION_DATE_FULL > 20040406
 #include "vnl/vnl_cross.h"
-#define itk_cross_3d vnl_cross_3d
-#else
-#define itk_cross_3d cross_3d
-#endif
 
 namespace itk
 {
@@ -64,7 +59,7 @@ SimplexMesh< TPixelType, VDimension, TMeshTraits >
     {
     SimplexMeshGeometry *geometry = pointDataIterator->Value();
     delete geometry;
-    pointDataIterator++;
+    ++pointDataIterator;
     }
   // clear the map
   geometryMap->Initialize();
@@ -421,7 +416,7 @@ SimplexMesh< TPixelType, VDimension, TMeshTraits >
   CovariantVectorType normal;
   normal.Fill(0.0);
   CovariantVectorType z;
-  z.SetVnlVector( itk_cross_3d( ( n2 - n1 ).GetVnlVector(), ( n3 - n1 ).GetVnlVector() ) );
+  z.SetVnlVector( vnl_cross_3d( ( n2 - n1 ).GetVnlVector(), ( n3 - n1 ).GetVnlVector() ) );
   z.Normalize();
   normal += z;
 

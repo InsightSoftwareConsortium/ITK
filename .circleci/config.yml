@@ -58,7 +58,7 @@ jobs:
       - run:
           name: Build and Testing with CTest
           environment:
-            ITK_GLOBAL_DEFAULT_NUMBER_OF_THREAD: 2
+            ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS: 2
             CTEST_OUTPUT_ON_FAILURE: 1
             CTEST_CONFIGURATION_TYPE: "Release"
             CTEST_BUILD_FLAGS: "-j 5"

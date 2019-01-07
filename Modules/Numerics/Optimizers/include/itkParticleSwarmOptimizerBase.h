@@ -228,10 +228,10 @@ protected:
   double                                       m_PercentageParticlesConverged;
   CostFunctionType::MeasureType                m_FunctionConvergenceTolerance;
   std::vector<ParticleData>                    m_Particles;
-  CostFunctionType::MeasureType                m_FunctionBestValue;
+  CostFunctionType::MeasureType                m_FunctionBestValue{0};
   std::vector<MeasureType>                     m_FunctionBestValueMemory;
   ParametersType                               m_ParametersBestValue;
-  NumberOfIterationsType                       m_IterationIndex;
+  NumberOfIterationsType                       m_IterationIndex{0};
   RandomVariateGeneratorType::IntegerType      m_Seed;
   bool                                         m_UseSeed;
 };

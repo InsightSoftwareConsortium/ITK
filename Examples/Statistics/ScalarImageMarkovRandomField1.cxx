@@ -269,7 +269,8 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using MembershipFunctionType = itk::Statistics::DistanceToCentroidMembershipFunction<ArrayPixelType>;
+  using MembershipFunctionType =
+    itk::Statistics::DistanceToCentroidMembershipFunction<ArrayPixelType>;
 
   using MembershipFunctionPointer = MembershipFunctionType::Pointer;
 
@@ -379,7 +380,8 @@ int main( int argc, char * argv [] )
     }
   for(double & weight : weights)
     {
-    weight = static_cast< double > ( weight * meanDistance / (2 * totalWeight));
+    weight =
+      static_cast< double > ( weight * meanDistance / (2 * totalWeight));
     }
 
   mrfFilter->SetMRFNeighborhoodWeight( weights );

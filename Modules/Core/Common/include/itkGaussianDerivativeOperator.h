@@ -89,7 +89,7 @@ public:
   using DerivativeOperatorType = DerivativeOperator< TPixel, VDimension, TAllocator >;
 
   /** Constructor. */
-  GaussianDerivativeOperator();
+  GaussianDerivativeOperator() = default;
 
   /** Copy constructor */
   GaussianDerivativeOperator(const Self & other);
@@ -185,25 +185,25 @@ private:
   }
 
   /** Normalize derivatives across scale space */
-  bool m_NormalizeAcrossScale;
+  bool m_NormalizeAcrossScale{true};
 
   /** Desired variance of the discrete Gaussian function. */
-  double m_Variance;
+  double m_Variance{1.0};
 
   /** Difference between the areas under the curves of the continuous and
    * discrete Gaussian functions. */
-  double m_MaximumError;
+  double m_MaximumError{0.005};
 
   /** Maximum kernel size allowed.  This value is used to truncate a kernel
    *  that has grown too large.  A warning is given when the specified maximum
    *  error causes the kernel to exceed this size. */
-  unsigned int m_MaximumKernelWidth;
+  unsigned int m_MaximumKernelWidth{30};
 
   /** Order of the derivative. */
-  unsigned int m_Order;
+  unsigned int m_Order{1};
 
   /** Spacing in the direction of this kernel. */
-  double m_Spacing;
+  double m_Spacing{1.0};
 };
 } // namespace itk
 

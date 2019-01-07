@@ -44,7 +44,7 @@ public:
   using RealType = float;
 
   AdaptiveEqualizationHistogram()
-    : m_BoundaryCount(0)
+
     {
     }
 
@@ -128,7 +128,7 @@ private:
 
 
   MapType       m_Map;
-  size_t        m_BoundaryCount;
+  size_t        m_BoundaryCount{0};
 
 };
 

@@ -105,12 +105,12 @@ protected:
   void GenerateData() override;
 
 private:
-  bool m_CalculateImaginaryPart;
+  bool m_CalculateImaginaryPart{ false };
 
-  double m_Frequency;
+  double m_Frequency{ 0.4 };
 
   /** Evaluate using a stretched gabor filter (ensure zero dc response) */
-  double m_PhaseOffset;
+  double m_PhaseOffset{ 0.0 };
 
   ArrayType m_Sigma;
 

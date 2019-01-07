@@ -33,15 +33,12 @@ namespace itk
 template< typename TLevelSet >
 LevelSetNeighborhoodExtractor< TLevelSet >
 ::LevelSetNeighborhoodExtractor() :
-  m_LevelSetValue(0.0),
   m_InsidePoints(nullptr),
   m_OutsidePoints(nullptr),
   m_InputLevelSet(nullptr),
-  m_NarrowBanding(false),
-  m_NarrowBandwidth(12.0),
   m_InputNarrowBand(nullptr),
-  m_LargeValue(NumericTraits< PixelType >::max()),
-  m_LastPointIsInside(false)
+  m_LargeValue(NumericTraits< PixelType >::max())
+
 {
   m_NodesUsed.resize(SetDimension);
 }

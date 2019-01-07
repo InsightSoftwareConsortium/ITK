@@ -26,13 +26,8 @@ namespace itk
 
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 VoronoiSegmentationImageFilter< TInputImage, TOutputImage, TBinaryPriorImage >
-::VoronoiSegmentationImageFilter() :
-  m_Mean( 0.0 ),
-  m_STD( 0.0 ),
-  m_MeanTolerance( 0.0 ),
-  m_STDTolerance( 0.0 ),
-  m_MeanPercentError( 0.10 ),
-  m_STDPercentError( 1.5 )
+::VoronoiSegmentationImageFilter()
+
 {
 }
 

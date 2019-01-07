@@ -31,9 +31,9 @@ namespace itk
 /** Default constructor  */
 template< typename TValue >
 VariableLengthVector< TValue >
-::VariableLengthVector():m_LetArrayManageMemory(true),
-  m_Data(nullptr),
-  m_NumElements(0)
+::VariableLengthVector():
+  m_Data(nullptr)
+
 {}
 
 /** Constructor with size */

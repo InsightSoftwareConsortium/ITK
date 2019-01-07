@@ -27,8 +27,8 @@ namespace itk
 
 template< typename TInputImage, typename TCoordRep >
 CovarianceImageFunction< TInputImage, TCoordRep >
-::CovarianceImageFunction() :
-  m_NeighborhoodRadius( 1 )
+::CovarianceImageFunction()
+
 {
 }
 

@@ -245,8 +245,8 @@ private:
   OriginType                                   m_Origin;
   DirectionType                                m_Direction;
 
-  bool                                         m_DoMultilevel;
-  unsigned int                                 m_MaximumNumberOfLevels;
+  bool                                         m_DoMultilevel{ false };
+  unsigned int                                 m_MaximumNumberOfLevels{ 1 };
   ArrayType                                    m_NumberOfControlPoints;
   ArrayType                                    m_CloseDimension;
   ArrayType                                    m_SplineOrder;
@@ -260,7 +260,7 @@ private:
   typename KernelOrder2Type::Pointer           m_KernelOrder2;
   typename KernelOrder3Type::Pointer           m_KernelOrder3;
 
-  RealType                                     m_BSplineEpsilon;
+  RealType                                     m_BSplineEpsilon{ static_cast< RealType >( 1e-3 ) };
 
   inline typename RealImageType::IndexType
   NumberToIndex( unsigned int number, typename RealImageType::SizeType size )

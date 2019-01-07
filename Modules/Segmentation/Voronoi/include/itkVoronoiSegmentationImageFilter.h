@@ -128,12 +128,12 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  double m_Mean;
-  double m_STD;
-  double m_MeanTolerance;
-  double m_STDTolerance;
-  double m_MeanPercentError;
-  double m_STDPercentError;
+  double m_Mean{ 0.0 };
+  double m_STD{ 0.0 };
+  double m_MeanTolerance{ 0.0 };
+  double m_STDTolerance{ 0.0 };
+  double m_MeanPercentError{ 0.10 };
+  double m_STDPercentError{ 1.5 };
 
   bool TestHomogeneity(IndexList & Plist) override;
 };

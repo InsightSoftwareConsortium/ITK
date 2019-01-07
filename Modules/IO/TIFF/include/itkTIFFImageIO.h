@@ -176,8 +176,8 @@ protected:
 
   void ReadTIFFTags();
 
-  int m_Compression;
-  int m_JPEGQuality;
+  int m_Compression{ TIFFImageIO::PackBits };
+  int m_JPEGQuality{ 75 };
 
   PaletteType m_ColorPalette;
 
@@ -221,8 +221,8 @@ private:
   unsigned short *m_ColorRed;
   unsigned short *m_ColorGreen;
   unsigned short *m_ColorBlue;
-  int             m_TotalColors;
-  unsigned int    m_ImageFormat;
+  int             m_TotalColors{ -1 };
+  unsigned int    m_ImageFormat{ TIFFImageIO::NOFORMAT };
 };
 } // end namespace itk
 

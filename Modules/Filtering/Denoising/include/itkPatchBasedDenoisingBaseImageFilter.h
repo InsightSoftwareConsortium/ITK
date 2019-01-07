@@ -323,29 +323,29 @@ protected:
 
 private:
   /** Parameters that define patch size and patch weights (mask). */
-  unsigned int     m_PatchRadius;
+  unsigned int     m_PatchRadius{ 4 };
   PatchWeightsType m_PatchWeights;
 
   /** Parameters that define the strategy for kernel-bandwidth estimation. */
-  bool         m_KernelBandwidthEstimation;
-  unsigned int m_KernelBandwidthUpdateFrequency;
+  bool         m_KernelBandwidthEstimation{ false };
+  unsigned int m_KernelBandwidthUpdateFrequency{ 3 };
 
   /** Parameters that define the total number of denoising iterations to perform
    *  and those completed so far. */
-  unsigned int m_NumberOfIterations;
-  unsigned int m_ElapsedIterations;
+  unsigned int m_NumberOfIterations{ 1 };
+  unsigned int m_ElapsedIterations{ 0 };
 
   /** Parameters defining the usage of a specific noise model, if desired. */
   NoiseModelType m_NoiseModel;
-  double         m_SmoothingWeight;
-  double         m_NoiseModelFidelityWeight;
+  double         m_SmoothingWeight{ 1.0 };
+  double         m_NoiseModelFidelityWeight{ 0.0 };
 
   /** Parameter indicating whether components should be treated as if they are in
       Euclidean space regardless of pixel type. */
-  bool               m_AlwaysTreatComponentsAsEuclidean;
+  bool               m_AlwaysTreatComponentsAsEuclidean{ false };
   ComponentSpaceType m_ComponentSpace;
 
-  bool m_ManualReinitialization;
+  bool m_ManualReinitialization{ false };
 
   FilterStateType m_State;
 };

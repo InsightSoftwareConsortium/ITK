@@ -24,9 +24,8 @@ namespace itk
 {
 template< unsigned int VDimension, typename TInput >
 TorusInteriorExteriorSpatialFunction< VDimension, TInput >
-::TorusInteriorExteriorSpatialFunction() :
-  m_MajorRadius( 3.0 ),
-  m_MinorRadius( 1.0 )
+::TorusInteriorExteriorSpatialFunction()
+
 {
   m_Origin.Fill(0.0);
 }

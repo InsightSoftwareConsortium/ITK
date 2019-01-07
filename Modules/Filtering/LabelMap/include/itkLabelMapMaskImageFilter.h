@@ -176,8 +176,8 @@ protected:
 private:
   InputImagePixelType       m_Label;
   OutputImagePixelType      m_BackgroundValue;
-  bool                      m_Negated;
-  bool                      m_Crop;
+  bool                      m_Negated{ false };
+  bool                      m_Crop{ false };
   SizeType                  m_CropBorder;
 
   TimeStamp                 m_CropTimeStamp;

@@ -156,7 +156,7 @@ ScalarImageToCooccurrenceMatrixFilter< TImageType,
   // Next, find the minimum radius that encloses all the offsets.
   unsigned int minRadius = 0;
   typename OffsetVector::ConstIterator offsets;
-  for ( offsets = m_Offsets->Begin(); offsets != m_Offsets->End(); offsets++ )
+  for ( offsets = m_Offsets->Begin(); offsets != m_Offsets->End(); ++offsets )
     {
     for ( unsigned int i = 0; i < offsets.Value().GetOffsetDimension(); i++ )
       {
@@ -228,7 +228,7 @@ ScalarImageToCooccurrenceMatrixFilter< TImageType,
 
     typename OffsetVector::ConstIterator offsets;
     typename HistogramType::IndexType index;
-    for ( offsets = m_Offsets->Begin(); offsets != m_Offsets->End(); offsets++ )
+    for ( offsets = m_Offsets->Begin(); offsets != m_Offsets->End(); ++offsets )
       {
       bool            pixelInBounds;
       const PixelType pixelIntensity =
@@ -303,7 +303,7 @@ ScalarImageToCooccurrenceMatrixFilter< TImageType,
       }
 
     typename OffsetVector::ConstIterator offsets;
-    for ( offsets = this->GetOffsets()->Begin(); offsets != this->GetOffsets()->End(); offsets++ )
+    for ( offsets = this->GetOffsets()->Begin(); offsets != this->GetOffsets()->End(); ++offsets )
       {
       if ( maskNeighborIt.GetPixel( offsets.Value() ) != m_InsidePixelValue )
         {

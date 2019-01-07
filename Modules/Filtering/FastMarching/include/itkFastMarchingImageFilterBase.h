@@ -171,7 +171,7 @@ protected:
   OutputPointType     m_OutputOrigin;
   OutputSpacingType   m_OutputSpacing;
   OutputDirectionType m_OutputDirection;
-  bool                m_OverrideOutputInformation;
+  bool                m_OverrideOutputInformation{ false };
 
   /** Generate the output image meta information. */
   void GenerateOutputInformation() override;

@@ -26,9 +26,8 @@ namespace itk
 {
 template< typename TInputImage, typename TOutputImage >
 JoinSeriesImageFilter< TInputImage, TOutputImage >
-::JoinSeriesImageFilter() :
-  m_Spacing( 1.0 ),
-  m_Origin( 0.0 )
+::JoinSeriesImageFilter()
+
 {
   this->DynamicMultiThreadingOn();
 }

@@ -26,17 +26,13 @@ namespace itk
 template< typename TDomainPartitioner, typename TAssociate >
 DomainThreader< TDomainPartitioner, TAssociate >
 ::DomainThreader()
-  : m_Associate(nullptr),
-    m_NumberOfWorkUnitsUsed(0)
+  : m_Associate(nullptr)
+
 {
   this->m_DomainPartitioner = DomainPartitionerType::New();
   this->m_MultiThreader = MultiThreaderBase::New();
   this->m_NumberOfWorkUnits = this->m_MultiThreader->GetNumberOfWorkUnits();
 }
-
-template< typename TDomainPartitioner, typename TAssociate >
-DomainThreader< TDomainPartitioner, TAssociate >
-::~DomainThreader() = default;
 
 template< typename TDomainPartitioner, typename TAssociate >
 MultiThreaderBase *

@@ -134,4 +134,3 @@ void test_levenberg_marquardt()
 }
 
 TESTMAIN(test_levenberg_marquardt);
-

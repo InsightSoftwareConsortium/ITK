@@ -269,13 +269,7 @@ public:
 
 protected:
   MultiLabelSTAPLEImageFilter() :
-    m_TotalLabelCount(0),
     m_LabelForUndecidedPixels(NumericTraits<OutputPixelType>::ZeroValue()),
-    m_HasLabelForUndecidedPixels(false),
-    m_HasPriorProbabilities(false),
-    m_HasMaximumNumberOfIterations(false),
-    m_MaximumNumberOfIterations(0),
-    m_ElapsedNumberOfIterations(0u),
     m_TerminationUpdateThreshold(1e-5)
   {
   }
@@ -295,12 +289,12 @@ protected:
   void EnlargeOutputRequestedRegion( DataObject * ) override;
 
 private:
-  size_t m_TotalLabelCount;
+  size_t m_TotalLabelCount{0};
 
   OutputPixelType    m_LabelForUndecidedPixels;
-  bool               m_HasLabelForUndecidedPixels;
+  bool               m_HasLabelForUndecidedPixels{false};
 
-  bool                   m_HasPriorProbabilities;
+  bool                   m_HasPriorProbabilities{false};
   PriorProbabilitiesType m_PriorProbabilities;
 
   void InitializePriorProbabilities();
@@ -311,9 +305,9 @@ private:
   void AllocateConfusionMatrixArray();
   void InitializeConfusionMatrixArrayFromVoting();
 
-  bool         m_HasMaximumNumberOfIterations;
-  unsigned int m_MaximumNumberOfIterations;
-  unsigned int m_ElapsedNumberOfIterations;
+  bool         m_HasMaximumNumberOfIterations{false};
+  unsigned int m_MaximumNumberOfIterations{0};
+  unsigned int m_ElapsedNumberOfIterations{0u};
 
   TWeights m_TerminationUpdateThreshold;
 };

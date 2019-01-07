@@ -246,8 +246,8 @@ private:
   std::vector< OffsetValueType > m_Visited;
   SizeValueType                  m_NumberOfCellsInRegion;
   IdentifierType                 m_RegionNumber;
-  std::vector< IdentifierType > *m_Wave;
-  std::vector< IdentifierType > *m_Wave2;
+  std::vector< IdentifierType > *m_Wave{nullptr};
+  std::vector< IdentifierType > *m_Wave2{nullptr};
 }; // class declaration
 } // end namespace itk
 

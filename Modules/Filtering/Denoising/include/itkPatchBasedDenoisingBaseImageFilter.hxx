@@ -28,17 +28,8 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 ::PatchBasedDenoisingBaseImageFilter() :
-  m_PatchRadius( 4 ),
-  m_KernelBandwidthEstimation( false ),
-  m_KernelBandwidthUpdateFrequency( 3 ),
-  m_NumberOfIterations( 1 ),
-  m_ElapsedIterations( 0 ),
   m_NoiseModel( NOMODEL ),
-  m_SmoothingWeight( 1.0 ),
-  m_NoiseModelFidelityWeight( 0.0 ),
-  m_AlwaysTreatComponentsAsEuclidean( false ),
   m_ComponentSpace( EUCLIDEAN ),
-  m_ManualReinitialization( false ),
   m_State( UNINITIALIZED )
 {
   m_InputImage  = nullptr;

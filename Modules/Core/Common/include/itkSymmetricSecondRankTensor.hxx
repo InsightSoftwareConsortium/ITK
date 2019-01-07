@@ -271,7 +271,7 @@ void
 SymmetricSecondRankTensor< T, NDimension >
 ::ComputeEigenValues(EigenValuesArrayType & eigenValues) const
 {
-  SymmetricEigenAnalysisType symmetricEigenSystem = SymmetricEigenAnalysisType(Dimension);
+  SymmetricEigenAnalysisType symmetricEigenSystem;
 
   MatrixType tensorMatrix;
 
@@ -296,7 +296,7 @@ SymmetricSecondRankTensor< T, NDimension >
 ::ComputeEigenAnalysis(EigenValuesArrayType & eigenValues,
                        EigenVectorsMatrixType & eigenVectors) const
 {
-  SymmetricEigenAnalysisType symmetricEigenSystem = SymmetricEigenAnalysisType(Dimension);
+  SymmetricEigenAnalysisType symmetricEigenSystem;
 
   MatrixType tensorMatrix;
 

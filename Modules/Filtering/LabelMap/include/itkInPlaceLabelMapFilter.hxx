@@ -47,7 +47,7 @@ namespace itk
  */
 template< typename TInputImage >
 InPlaceLabelMapFilter< TInputImage >
-::InPlaceLabelMapFilter():m_InPlace(true)
+::InPlaceLabelMapFilter()
 {}
 
 /**

@@ -26,7 +26,7 @@ namespace itk
 namespace watershed
 {
 template< typename TScalar, unsigned int TImageDimension >
-Relabeler< TScalar, TImageDimension >::Relabeler():m_FloodLevel(0.0)
+Relabeler< TScalar, TImageDimension >::Relabeler()
 {
   typename ImageType::Pointer img =
     static_cast< ImageType * >( this->MakeOutput(0).GetPointer() );

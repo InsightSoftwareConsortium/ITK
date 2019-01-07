@@ -120,16 +120,16 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Member Variables */
-  ReadType           m_ReadType;
-  TemporalRatioType  m_FramesPerSecond;
+  ReadType           m_ReadType{ReadFromFile};
+  TemporalRatioType  m_FramesPerSecond{0.0};
   FrameOffsetType    m_FrameTotal;
   FrameOffsetType    m_CurrentFrame;
   FrameOffsetType    m_IFrameInterval;
   FrameOffsetType    m_LastIFrame;
-  TemporalRatioType  m_Ratio;
-  TemporalOffsetType m_PositionInMSec;
-  bool               m_WriterOpen;
-  bool               m_ReaderOpen;
+  TemporalRatioType  m_Ratio{0.0};
+  TemporalOffsetType m_PositionInMSec{0.0};
+  bool               m_WriterOpen{false};
+  bool               m_ReaderOpen{false};
 };
 
 } // end namespace itk

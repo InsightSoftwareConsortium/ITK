@@ -23,11 +23,53 @@
 
 namespace itk
 {
-
 template< typename TMatrix, typename TVector, typename TEigenMatrix >
 unsigned int
 SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValues(const TMatrix  & A,
                                                                              TVector  & D) const
+{
+  if(m_UseEigenLibrary && m_OrderEigenValues != DoNotOrder)
+    {
+    return ComputeEigenValuesWithEigenLibrary(A, D);
+    }
+  else
+    {
+    return ComputeEigenValuesLegacy(A, D);
+    }
+
+#ifndef NDEBUG
+  if(m_UseEigenLibrary && m_OrderEigenValues == DoNotOrder)
+    {
+    std::cout << "Options UseEigenLibrary=true and OrderEigenValues = DoNotOrder are incompatible." << std::endl;
+    std::cout << "The Eigen library always order eigen values as in the default option OrderByValue." << std::endl;
+    std::cout << "To disable this warning use SetUseEigenLibraryOff(), or remove the DoNotOrder option" << std::endl;
+    std::cout << "Disabling the computation with EigenLibrary for reproducibility reasons." << std::endl;
+    }
+#endif
+}
+
+template< typename TMatrix, typename TVector, typename TEigenMatrix >
+unsigned int
+SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndVectors(
+  const TMatrix  & A,
+  TVector        & EigenValues,
+  TEigenMatrix   & EigenVectors) const
+{
+  if(m_UseEigenLibrary)
+    {
+    return ComputeEigenValuesAndVectorsWithEigenLibrary(A, EigenValues, EigenVectors);
+    }
+  else
+    {
+    return ComputeEigenValuesAndVectorsLegacy(A, EigenValues, EigenVectors);
+    }
+}
+
+template< typename TMatrix, typename TVector, typename TEigenMatrix >
+unsigned int
+SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesLegacy(
+  const TMatrix  & A,
+  TVector  & D) const
 {
   auto * workArea1 = new double[m_Dimension];
 
@@ -66,7 +108,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValues(con
 
 template< typename TMatrix, typename TVector, typename TEigenMatrix >
 unsigned int
-SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndVectors(
+SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndVectorsLegacy(
   const TMatrix  & A,
   TVector        & EigenValues,
   TEigenMatrix   & EigenVectors) const

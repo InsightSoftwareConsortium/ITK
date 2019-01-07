@@ -28,4 +28,3 @@ extern "C" void test_matrix_update()
 }
 
 TESTMAIN(test_matrix_update);
-

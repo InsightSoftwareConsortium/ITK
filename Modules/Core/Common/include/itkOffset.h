@@ -66,6 +66,9 @@ template <unsigned int VDimension = 2>
 struct ITK_TEMPLATE_EXPORT Offset final
 {
 public:
+  // Using the `rule of zero` to this aggregate type
+  // C++20 changes the definition of aggregate such that classes with any user-declared ctors are no longer aggregates.
+
   /** Standard class type aliases. */
   using Self = Offset;
 
@@ -223,13 +226,6 @@ public:
    */
   static_assert( VDimension > 0, "Error: Only positive value sized VDimension allowed" );
   alignas(OffsetValueType) OffsetValueType m_InternalArray[VDimension];
-
-  // Explicitly require constructors
-  Offset() = default;
-  Offset( const Self & ) = default;
-  Offset( Self && ) = default;
-  Self & operator=( const Self & ) = default;
-  Self & operator=( Self && ) = default;
 
   /** Copy values from a FixedArray by rounding each one of the components */
   template <typename TCoordRep>

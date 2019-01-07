@@ -25,18 +25,11 @@ namespace itk
 {
 template< unsigned int VDimension, typename TInput >
 SymmetricEllipsoidInteriorExteriorSpatialFunction< VDimension, TInput >
-::SymmetricEllipsoidInteriorExteriorSpatialFunction() :
-  m_UniqueAxis(10),       // Length of unique axis
-  m_SymmetricAxes(5),     // Length of symmetric axes
-  m_VectorRatio(0.0)      // Vector ratio
+::SymmetricEllipsoidInteriorExteriorSpatialFunction()
 {
   m_Center.Fill(0.0);      // Origin of ellipsoid
   m_Orientation.Fill(1.0); // Orientation of unique axis
 }
-
-template< unsigned int VDimension, typename TInput >
-SymmetricEllipsoidInteriorExteriorSpatialFunction< VDimension, TInput >
-::~SymmetricEllipsoidInteriorExteriorSpatialFunction() = default;
 
 template< unsigned int VDimension, typename TInput >
 typename SymmetricEllipsoidInteriorExteriorSpatialFunction< VDimension, TInput >::OutputType

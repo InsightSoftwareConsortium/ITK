@@ -23,7 +23,7 @@
 class MetaDummy : public MetaObject
 {
 public:
-  MetaDummy(unsigned int dims = 3) : m_Value(0.0)
+  MetaDummy(unsigned int dims = 3)
     {
       strcpy(m_ObjectTypeName,"Dummy");
       m_NDims = dims;
@@ -65,7 +65,7 @@ protected:
     }
 
 private:
-  float m_Value;
+  float m_Value{0.0};
 };
 
 namespace itk
@@ -98,7 +98,7 @@ public:
     }
 
 protected:
-  DummySpatialObject() : m_Value(0.0)
+  DummySpatialObject()
     {
       this->SetDimension(TDimension);
       this->SetTypeName ("DummySpatialObject");
@@ -110,7 +110,7 @@ protected:
   ~DummySpatialObject() override = default;
 
 private:
-  float m_Value;
+  float m_Value{0.0};
 };
 
 /** \class MetaConverterBase

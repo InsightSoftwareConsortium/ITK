@@ -129,9 +129,6 @@
      sizeof(int) = sizeof(float) = 4 ;  sizeof(short) = 2
 -----------------------------------------------------------------------------*/
 
-// Name mangling, specific to the version of niftilib included with ITK.
-#include "itk_nifti_mangle.h"
-
 /*=================*/
 #ifdef  __cplusplus
 extern "C" {

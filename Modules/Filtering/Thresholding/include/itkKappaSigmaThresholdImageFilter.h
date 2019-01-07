@@ -165,8 +165,8 @@ protected:
 
 private:
   MaskPixelType   m_MaskValue;
-  double          m_SigmaFactor;
-  unsigned int    m_NumberOfIterations;
+  double          m_SigmaFactor{ 2 };
+  unsigned int    m_NumberOfIterations{ 2 };
   InputPixelType  m_Threshold;
   OutputPixelType m_InsideValue;
   OutputPixelType m_OutsideValue;

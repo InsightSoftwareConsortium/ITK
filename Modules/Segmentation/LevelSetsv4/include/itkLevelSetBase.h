@@ -227,11 +227,11 @@ protected:
   // RequestedRegion are used to define the currently requested
   // region. The LargestPossibleRegion is always requested region = 0
   // and number of regions = 1;
-  RegionType m_MaximumNumberOfRegions;
-  RegionType m_NumberOfRegions;
-  RegionType m_RequestedNumberOfRegions;
-  RegionType m_BufferedRegion;
-  RegionType m_RequestedRegion;
+  RegionType m_MaximumNumberOfRegions{0};
+  RegionType m_NumberOfRegions{0};
+  RegionType m_RequestedNumberOfRegions{0};
+  RegionType m_BufferedRegion{0};
+  RegionType m_RequestedRegion{0};
 };
 }
 

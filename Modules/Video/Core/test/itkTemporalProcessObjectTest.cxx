@@ -414,7 +414,7 @@ protected:
 
   /** Constructor */
   DummyTemporalProcessObject()
-    : m_IdNumber(0)
+
   {
     DummyTemporalDataObject::Pointer po = DummyTemporalDataObject::New();
 
@@ -424,7 +424,7 @@ protected:
 private:
 
   /** ID number used for debugging */
-  SizeValueType m_IdNumber;
+  SizeValueType m_IdNumber{0};
 
 };
 

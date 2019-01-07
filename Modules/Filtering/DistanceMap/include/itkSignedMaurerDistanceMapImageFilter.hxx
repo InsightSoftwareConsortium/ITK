@@ -36,10 +36,6 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
 ::SignedMaurerDistanceMapImageFilter():
   m_BackgroundValue( NumericTraits< InputPixelType >::ZeroValue() ),
   m_Spacing(0.0),
-  m_CurrentDimension(0),
-  m_InsideIsPositive(false),
-  m_UseImageSpacing(true),
-  m_SquaredDistance(false),
   m_InputCache(nullptr)
 {
   this->DynamicMultiThreadingOff();

@@ -130,7 +130,7 @@ protected:
 private:
   void SwapBytesIfNecessary(void *buffer, SizeValueType numberOfPixels);
 
-  ImageIOBase::IOComponentType  m_OnDiskComponentType;
+  ImageIOBase::IOComponentType  m_OnDiskComponentType{ UCHAR };
   ImageIOBase::ByteOrder        m_MachineByteOrder;
 };
 

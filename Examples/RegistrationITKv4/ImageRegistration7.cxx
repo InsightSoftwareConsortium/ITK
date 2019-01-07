@@ -27,12 +27,12 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of the \doxygen{CenteredSimilarity2DTransform}
+// This example illustrates the use of the \doxygen{Simularity2DTransform}
 // class for performing registration in $2D$. The example code is for
 // the most part identical to the code presented in Section
 // \ref{sec:InitializingRegistrationWithMoments}.  The main difference is the
-// use of \doxygen{CenteredSimilarity2DTransform} here rather than the
-// \doxygen{CenteredRigid2DTransform} class.
+// use of \doxygen{Simularity2DTransform} here rather than the
+// \doxygen{Euler2DTransform} class.
 //
 // A similarity transform can be seen as a composition of rotations,
 // translations and uniform $\left(\text{isotropic}\right)$ scaling. It
@@ -49,7 +49,7 @@
 // specific center. This center is used both for rotation and scaling.
 //
 //
-// \index{itk::CenteredSimilarity2DTransform}
+// \index{itk::Simularity2DTransform}
 //
 // Software Guide : EndLatex
 
@@ -66,12 +66,12 @@
 //  In addition to the headers included in previous examples, here the
 //  following header must be included.
 //
-//  \index{itk::CenteredSimilarity2DTransform!header}
+//  \index{itk::Simularity2DTransform!header}
 //
 //  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-#include "itkCenteredSimilarity2DTransform.h"
+#include "itkSimilarity2DTransform.h"
 // Software Guide : EndCodeSnippet
 
 
@@ -150,12 +150,12 @@ int main( int argc, char *argv[] )
   //  template parameter of this class is the representation type of the
   //  space coordinates.
   //
-  //  \index{itk::CenteredSimilarity2DTransform!Instantiation}
+  //  \index{itk::Simularity2DTransform!Instantiation}
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using TransformType = itk::CenteredSimilarity2DTransform< double >;
+  using TransformType = itk::Similarity2DTransform< double >;
   // Software Guide : EndCodeSnippet
 
 
@@ -179,7 +179,7 @@ int main( int argc, char *argv[] )
   //  As before, the transform object is constructed and initialized before it
   //  is passed to the registration filter.
   //
-  //  \index{itk::CenteredSimilarity2DTransform!Pointer}
+  //  \index{itk::Simularity2DTransform!Pointer}
   //
   //  Software Guide : EndLatex
 
@@ -206,7 +206,8 @@ int main( int argc, char *argv[] )
   //
   //  In this example, we again use the helper class
   //  \doxygen{CenteredTransformInitializer} to compute a reasonable
-  //  value for the initial center of rotation and the translation.
+  //  value for the initial center of rotation and scaling along with
+  //  an initial translation.
   //
   //  Software Guide : EndLatex
 
@@ -235,8 +236,8 @@ int main( int argc, char *argv[] )
   //
   //  The remaining parameters of the transform are initialized below.
   //
-  //  \index{itk::CenteredSimilarity2DTransform!SetScale()}
-  //  \index{itk::CenteredSimilarity2DTransform!SetAngle()}
+  //  \index{itk::Simularity2DTransform!SetScale()}
+  //  \index{itk::Simularity2DTransform!SetAngle()}
   //
   //  Software Guide : EndLatex
 
@@ -282,10 +283,9 @@ int main( int argc, char *argv[] )
   //  translation are quite different, we take advantage of the scaling
   //  functionality provided by the optimizers. We know that the first element
   //  of the parameters array corresponds to the scale factor, the second
-  //  corresponds to the angle, third and fourth are the center of rotation and
-  //  fifth and sixth are the remaining translation. We use henceforth small
-  //  factors in the scales associated with translations and the rotation
-  //  center.
+  //  corresponds to the angle, third and fourth are the remaining
+  //  translation. We use henceforth small factors in the scales
+  //  associated with translations.
   //
   //  Software Guide : EndLatex
 
@@ -298,8 +298,6 @@ int main( int argc, char *argv[] )
   optimizerScales[1] =  1.0;
   optimizerScales[2] =  translationScale;
   optimizerScales[3] =  translationScale;
-  optimizerScales[4] =  translationScale;
-  optimizerScales[5] =  translationScale;
 
   optimizer->SetScales( optimizerScales );
   // Software Guide : EndCodeSnippet
@@ -372,10 +370,11 @@ int main( int argc, char *argv[] )
 
   const double finalScale           = finalParameters[0];
   const double finalAngle           = finalParameters[1];
-  const double finalRotationCenterX = finalParameters[2];
-  const double finalRotationCenterY = finalParameters[3];
-  const double finalTranslationX    = finalParameters[4];
-  const double finalTranslationY    = finalParameters[5];
+  const double finalTranslationX    = finalParameters[2];
+  const double finalTranslationY    = finalParameters[3];
+
+  const double rotationCenterX = registration->GetOutput()->Get()->GetFixedParameters()[0];
+  const double rotationCenterY = registration->GetOutput()->Get()->GetFixedParameters()[1];
 
   const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
 
@@ -388,15 +387,15 @@ int main( int argc, char *argv[] )
 
   std::cout << std::endl;
   std::cout << "Result = " << std::endl;
-  std::cout << " Scale         = " << finalScale  << std::endl;
-  std::cout << " Angle (radians) " << finalAngle  << std::endl;
-  std::cout << " Angle (degrees) " << finalAngleInDegrees  << std::endl;
-  std::cout << " Center X      = " << finalRotationCenterX  << std::endl;
-  std::cout << " Center Y      = " << finalRotationCenterY  << std::endl;
-  std::cout << " Translation X = " << finalTranslationX  << std::endl;
-  std::cout << " Translation Y = " << finalTranslationY  << std::endl;
-  std::cout << " Iterations    = " << numberOfIterations << std::endl;
-  std::cout << " Metric value  = " << bestValue          << std::endl;
+  std::cout << " Scale           = " << finalScale  << std::endl;
+  std::cout << " Angle (radians) = " << finalAngle  << std::endl;
+  std::cout << " Angle (degrees) =  " << finalAngleInDegrees  << std::endl;
+  std::cout << " Translation X   = " << finalTranslationX  << std::endl;
+  std::cout << " Translation Y   = " << finalTranslationY  << std::endl;
+  std::cout << " Fixed Center X  = " << rotationCenterX  << std::endl;
+  std::cout << " Fixed Center Y  = " << rotationCenterY  << std::endl;
+  std::cout << " Iterations      = " << numberOfIterations << std::endl;
+  std::cout << " Metric value    = " << bestValue          << std::endl;
 
 
   //  Software Guide : BeginLatex
@@ -412,22 +411,21 @@ int main( int argc, char *argv[] )
   //  The second image is the result of intentionally rotating the first image
   //  by $10$ degrees, scaling by $1/1.2$ and then translating by $(-13,-17)$.
   //  Both images have unit-spacing and are shown in Figure
-  //  \ref{fig:FixedMovingImageRegistration7}. The registration takes $60$
+  //  \ref{fig:FixedMovingImageRegistration7}. The registration takes $53$
   //  iterations and produces:
   //
   //  \begin{center}
   //  \begin{verbatim}
-  //  [0.833193, -0.174514, 111.025, 131.92, -12.7267, -12.757]
+  //  [0.833237, -0.174511, -12.8065, -12.7244 ]
   //  \end{verbatim}
   //  \end{center}
   //
   //  That are interpreted as
   //
   //  \begin{itemize}
-  //  \item Scale factor  =                     $0.833193$
-  //  \item Angle         =                     $-0.174514$   radians
-  //  \item Center        = $( 111.025     , 131.92     )$ millimeters
-  //  \item Translation   = $( -12.7267    , -12.757    )$ millimeters
+  //  \item Scale factor  =                     $0.833237$
+  //  \item Angle         =                     $-0.174511$   radians
+  //  \item Translation   = $( -12.8065, -12.7244 )$ millimeters
   //  \end{itemize}
   //
   //
@@ -439,7 +437,7 @@ int main( int argc, char *argv[] )
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20}
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceR10X13Y17S12}
   // \itkcaption[Fixed and Moving image registered with
-  // CenteredSimilarity2DTransform]{Fixed and Moving image provided as input to the
+  // Simularity2DTransform]{Fixed and Moving image provided as input to the
   // registration method using the Similarity2D transform.}
   // \label{fig:FixedMovingImageRegistration7}
   // \end{figure}
@@ -450,7 +448,7 @@ int main( int argc, char *argv[] )
   // \includegraphics[width=0.32\textwidth]{ImageRegistration7Output}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration7DifferenceBefore}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration7DifferenceAfter}
-  // \itkcaption[Output of the CenteredSimilarity2DTransform registration]{Resampled
+  // \itkcaption[Output of the Simularity2DTransform registration]{Resampled
   // moving image (left). Differences between fixed and
   // moving images, before (center) and after (right) registration with the
   // Similarity2D transform.}
@@ -467,7 +465,7 @@ int main( int argc, char *argv[] )
   // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceAngle}
   // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceScale}
   // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceTranslations}
-  // \itkcaption[CenteredSimilarity2DTransform registration plots]{Plots of the Metric,
+  // \itkcaption[Simularity2DTransform registration plots]{Plots of the Metric,
   // rotation angle, scale factor, and translations during
   // the registration using
   // Similarity2D transform.}
