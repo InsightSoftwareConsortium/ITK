@@ -113,8 +113,14 @@ public:
   /** Copy constructor. */
   Neighborhood(const Self & other);
 
+  /** Move-constructor. */
+  Neighborhood(Self &&) = default;
+
   /** Assignment operator. */
   Self & operator=(const Self & other);
+
+  /** Move-assignment. */
+  Self & operator=(Self&&) = default;
 
   /** Comparison operator. */
   bool
