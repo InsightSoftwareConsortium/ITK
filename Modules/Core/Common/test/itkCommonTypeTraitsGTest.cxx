@@ -84,3 +84,30 @@ TEST(CommonTypeTraits, ContinuousIndexIsPOD) {
   EXPECT_EQ(std::is_trivial<T>::value, true);
   EXPECT_EQ(std::is_standard_layout<T>::value, true);
 }
+
+/************ FixedArray: noexcept move checks *************/
+
+/* Dummy class without noexcept move contructors. */
+struct NotNoexceptMove
+{
+    NotNoexceptMove() {}
+    NotNoexceptMove(NotNoexceptMove&&) {}
+    NotNoexceptMove(const NotNoexceptMove&) {}
+};
+
+/* Check that move-constructing a FixedArray works as move-constructing an aggregate.
+ * Move constructors are noexcept when the contained class has a noexcept move constructor.
+ * And when the contained class might throw at move, the qualifer automatically
+ * propagates it to FixedArray.
+ * This is the same behaviour as std::array. It proves there is no need to
+ * add noexcept (ITK_NOEXCEPT) to the container. This would disallow using it
+ * with might-throw-objects.
+ */
+TEST(CommonTypeTraits, FixedArrayIsNoExceptMovable) {
+  using IntArrayType = itk::FixedArray<int, 3>;
+  EXPECT_TRUE(std::is_nothrow_move_constructible<IntArrayType>::value);
+  EXPECT_TRUE(std::is_copy_constructible<IntArrayType>::value);
+  using NotNoexceptMoveArrayType = itk::FixedArray<NotNoexceptMove, 3>;
+  EXPECT_FALSE(std::is_nothrow_move_constructible<NotNoexceptMoveArrayType>::value);
+  EXPECT_TRUE(std::is_copy_constructible<NotNoexceptMoveArrayType>::value);
+}
