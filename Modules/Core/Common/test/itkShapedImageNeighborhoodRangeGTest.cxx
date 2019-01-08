@@ -145,7 +145,7 @@ namespace
 
     using OffsetType = typename TImage::OffsetType;
 
-    const std::array<OffsetType, 0> emptyArrayOfOffsets{};
+    const std::array<OffsetType, 0> emptyArrayOfOffsets{ {} };
     const std::vector<OffsetType> emptyVectorOfOffsets{};
 
     EXPECT_TRUE((
