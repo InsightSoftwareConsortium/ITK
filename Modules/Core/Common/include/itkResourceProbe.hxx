@@ -60,7 +60,7 @@ ResourceProbe< ValueType, MeanType >
   this->m_TotalValue        = NumericTraits< ValueType >::ZeroValue();
   this->m_StartValue        = NumericTraits< ValueType >::ZeroValue();
   this->m_MinimumValue      = NumericTraits< ValueType >::max();
-  this->m_MaximumValue      = NumericTraits< ValueType >::min();
+  this->m_MaximumValue      = NumericTraits< ValueType >::NonpositiveMin();
   this->m_StandardDeviation = NumericTraits< ValueType >::ZeroValue();
 
   this->m_NumberOfStarts    = NumericTraits< CountType >::ZeroValue();
