@@ -1045,6 +1045,6 @@ TEST(ShapedImageNeighborhoodRange, MoveConstructedRangeHasSameIterators)
 // Tests that a move-assigned range has the same iterators as the original, before the move.
 TEST(ShapedImageNeighborhoodRange, MoveAssignedRangeHasSameIterators)
 {
-  ExpectMoveConstructedRangeHasSameIteratorsAsOriginalBeforeMove<itk::Image<int>>();
-  ExpectMoveConstructedRangeHasSameIteratorsAsOriginalBeforeMove<itk::VectorImage<int>>();
+  ExpectMoveAssignedRangeHasSameIteratorsAsOriginalBeforeMove<itk::Image<int>>();
+  ExpectMoveAssignedRangeHasSameIteratorsAsOriginalBeforeMove<itk::VectorImage<int>>();
 }
