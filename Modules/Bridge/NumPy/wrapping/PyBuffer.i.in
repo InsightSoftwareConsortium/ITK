@@ -139,15 +139,14 @@
         *numpy.reshape*.
         """
 
-        # perform deep copy of the array buffer
-        array_copy = numpy.array(ndarr)
+        # Create a temporary image view of the array
+        imageView = itkPyBuffer@PyBufferTypes@.GetImageViewFromArray(ndarr, is_vector)
 
-        image = itkPyBuffer@PyBufferTypes@.GetImageViewFromArray(array_copy, is_vector)
-
-        # attaches the copy of the array to the image to avoid releasing memory
-        # when leaving current scope.
-        image._ndarr = array_copy
-        return image
+        # Duplicate the image to let it manage its own memory buffer
+        duplicator = itkImageDuplicator@PyBufferTypes@.New()
+        duplicator.SetInputImage(imageView)
+        duplicator.Update()
+        return duplicator.GetOutput()
 
     GetImageFromArray = staticmethod(GetImageFromArray)
 

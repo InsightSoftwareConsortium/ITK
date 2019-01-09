@@ -201,6 +201,14 @@ try:
     assert arr.shape[0] == 2
     assert arr.shape[1] == 3
     assert arr[1,1] == 5
+    arr = arr.copy()
+    image = itk.GetImageFromArray(arr)
+    image2 = type(image).New()
+    image2.Graft(image)
+    del image # Delete image but pixel data should be kept in img2
+    image = itk.GetImageFromArray(arr+1) # Fill former memory if wrongly released
+    assert np.array_equal(arr, itk.GetArrayViewFromImage(image2))
+    image2.SetPixel([0]*image2.GetImageDimension(), 3) # For mem check in dynamic analysis
     # VNL Vectors
     v1 = itk.vnl_vector.D(2)
     v1.fill(1)
