@@ -34,55 +34,55 @@
 
 TEST(CommonTypeTraits, FixedArrayIsPOD) {
   using T = itk::FixedArray<float, 3>;
-  EXPECT_EQ(std::is_trivial<T>::value, true);
-  EXPECT_EQ(std::is_standard_layout<T>::value, true);
+  EXPECT_TRUE(std::is_trivial<T>::value);
+  EXPECT_TRUE(std::is_standard_layout<T>::value);
 }
 /************ First Generation FixedArray *************/
 TEST(CommonTypeTraits, VectorIsPOD) {
   using T = itk::Vector<float, 3>;
-  EXPECT_EQ(std::is_trivial<T>::value, true);
-  EXPECT_EQ(std::is_standard_layout<T>::value, true);
+  EXPECT_TRUE(std::is_trivial<T>::value);
+  EXPECT_TRUE(std::is_standard_layout<T>::value);
 }
 
 TEST(CommonTypeTraits, CovariantVectorIsPOD) {
   using T = itk::CovariantVector<float, 3>;
-  EXPECT_EQ(std::is_trivial<T>::value, true);
-  EXPECT_EQ(std::is_standard_layout<T>::value, true);
+  EXPECT_TRUE(std::is_trivial<T>::value);
+  EXPECT_TRUE(std::is_standard_layout<T>::value);
 }
 
 TEST(CommonTypeTraits, PointIsPOD) {
   using T = itk::Point<float>;
-  EXPECT_EQ(std::is_trivial<T>::value, true);
-  EXPECT_EQ(std::is_standard_layout<T>::value, true);
+  EXPECT_TRUE(std::is_trivial<T>::value);
+  EXPECT_TRUE(std::is_standard_layout<T>::value);
 }
 
 TEST(CommonTypeTraits, RGBAPixelIsNotPOD) {
   using T = itk::RGBAPixel<unsigned int>;
   // Because initialized to zero
-  EXPECT_EQ(std::is_trivial<T>::value, false);
-  EXPECT_EQ(std::is_standard_layout<T>::value, true);
+  EXPECT_FALSE(std::is_trivial<T>::value);
+  EXPECT_TRUE(std::is_standard_layout<T>::value);
 }
 
 TEST(CommonTypeTraits, RGBPixelIsNotPOD) {
   using T = itk::RGBPixel<unsigned int>;
   // Because initialized to zero
-  EXPECT_EQ(std::is_trivial<T>::value, false);
-  EXPECT_EQ(std::is_standard_layout<T>::value, true);
+  EXPECT_FALSE(std::is_trivial<T>::value);
+  EXPECT_TRUE(std::is_standard_layout<T>::value);
 }
 
 TEST(CommonTypeTraits, SymmetricSecondRankTensorIsNotPOD) {
   using T = itk::SymmetricSecondRankTensor<float, 3>;
   // Because initialized to zero
-  EXPECT_EQ(std::is_trivial<T>::value, false);
-  EXPECT_EQ(std::is_standard_layout<T>::value, true);
+  EXPECT_FALSE(std::is_trivial<T>::value);
+  EXPECT_TRUE(std::is_standard_layout<T>::value);
 }
 
 /************ Second Generation FixedArray *************/
 /* Derived from Point */
 TEST(CommonTypeTraits, ContinuousIndexIsPOD) {
   using T = itk::ContinuousIndex<float, 2>;
-  EXPECT_EQ(std::is_trivial<T>::value, true);
-  EXPECT_EQ(std::is_standard_layout<T>::value, true);
+  EXPECT_TRUE(std::is_trivial<T>::value);
+  EXPECT_TRUE(std::is_standard_layout<T>::value);
 }
 
 /************ FixedArray: noexcept move checks *************/
