@@ -348,14 +348,14 @@ INTEL_PRAGMA_WARN_POP
   static MultiThreaderBaseGlobals *GetMultiThreaderBaseGlobals();
   static void SetMultiThreaderBaseGlobals(MultiThreaderBaseGlobals * multiThreaderBaseGlobals);
 
+  /** Updates progress if progress is non-negative and checks for abort.
+   * If "abort generate data" is set, throws the ProcessAborted exception. */
+  static void HandleFilterProgress(ProcessObject *filter, float progress = -1.0f);
+
 protected:
   MultiThreaderBase();
   ~MultiThreaderBase() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-  /** Updates progress if progress is non-negative and checks for abort.
-   * If "abort generate data" is set, throws the ProcessAborted exception. */
-  static void HandleFilterProgress(ProcessObject *filter, float progress = -1.0f);
 
   struct ArrayCallback
   {
