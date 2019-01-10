@@ -81,8 +81,20 @@ public:
     std::copy(other.m_Data, other.m_Data + m_ElementCount, m_Data);
   }
 
+
+  /** Move-constructor. */
+  NeighborhoodAllocator(Self&& other) ITK_NOEXCEPT
+    :
+  m_ElementCount{ other.m_ElementCount },
+  m_Data{ other.m_Data }
+  {
+    other.m_ElementCount = 0;
+    other.m_Data = nullptr;
+  }
+
+
   /** Assignment operator. */
-  const Self & operator=(const Self & other)
+  Self & operator=(const Self & other)
   {
     if(this != &other)
       {
@@ -91,6 +103,22 @@ public:
     }
     return *this;
   }
+
+
+  /** Move-assignment. */
+  Self& operator=(Self&& other) ITK_NOEXCEPT
+  {
+    if (this != &other)
+    {
+      this->Deallocate();
+      m_ElementCount = other.m_ElementCount;
+      m_Data = other.m_Data;
+      other.m_ElementCount = 0;
+      other.m_Data = nullptr;
+    }
+    return *this;
+  }
+
 
   /** STL-style iterator support for the memory buffer. */
   iterator begin()

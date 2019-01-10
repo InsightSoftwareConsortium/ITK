@@ -34,6 +34,29 @@ namespace Experimental
 class RangeGTestUtilities
 {
 public:
+  template <typename TRange>
+  static void ExpectBeginIsEndWhenRangeIsDefaultConstructed()
+  {
+    TRange defaultConstructedRange;
+    EXPECT_EQ(std::begin(defaultConstructedRange), std::end(defaultConstructedRange));
+  }
+
+
+  template <typename TRange>
+  static void ExpectZeroSizeWhenRangeIsDefaultConstructed()
+  {
+    TRange defaultConstructedRange;
+    EXPECT_EQ(defaultConstructedRange.size(), 0);
+  }
+
+
+  template <typename TRange>
+  static void ExpectRangeIsEmptyWhenDefaultConstructed()
+  {
+    TRange defaultConstructedRange;
+    EXPECT_TRUE(defaultConstructedRange.empty());
+  }
+
 
   template <typename TRange>
   static void ExpectCopyConstructedRangeHasSameIteratorsAsOriginal(const TRange& originalRange)
