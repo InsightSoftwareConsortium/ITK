@@ -108,29 +108,6 @@ namespace
   }
 
 
-  template <typename TRange>
-  void ExpectBeginIsEndWhenRangeIsDefaultConstructed()
-  {
-    TRange defaultConstructedRange;
-    EXPECT_EQ(defaultConstructedRange.begin(), defaultConstructedRange.end());
-  }
-
-
-  template <typename TRange>
-  void ExpectZeroSizeWhenRangeIsDefaultConstructed()
-  {
-    TRange defaultConstructedRange;
-    EXPECT_EQ(defaultConstructedRange.size(), 0);
-  }
-
-
-  template <typename TRange>
-  void ExpectRangeIsEmptyWhenDefaultConstructed()
-  {
-    TRange defaultConstructedRange;
-    EXPECT_TRUE(defaultConstructedRange.empty());
-  }
-
   template <typename TImage>
   void ExpectRangeIsEmptyForAnEmptyContainerOfShapeOffsets()
   {
@@ -980,24 +957,30 @@ TEST(ShapedImageNeighborhoodRange, SupportsArbitraryBufferedRegionIndex)
 // Tests that begin() == end() for a default-constructed range.
 TEST(ShapedImageNeighborhoodRange, BeginIsEndWhenDefaultConstructed)
 {
-  ExpectBeginIsEndWhenRangeIsDefaultConstructed<ShapedImageNeighborhoodRange<itk::Image<int>>>();
-  ExpectBeginIsEndWhenRangeIsDefaultConstructed<ShapedImageNeighborhoodRange<itk::VectorImage<int>>>();
+  RangeGTestUtilities::ExpectBeginIsEndWhenRangeIsDefaultConstructed<
+    ShapedImageNeighborhoodRange<itk::Image<int>>>();
+  RangeGTestUtilities::ExpectBeginIsEndWhenRangeIsDefaultConstructed<
+    ShapedImageNeighborhoodRange<itk::VectorImage<int>>>();
 }
 
 
 // Tests that size() returns 0 for a default-constructed range.
 TEST(ShapedImageNeighborhoodRange, SizeIsZeroWhenDefaultConstructed)
 {
-  ExpectZeroSizeWhenRangeIsDefaultConstructed<ShapedImageNeighborhoodRange<itk::Image<int>>>();
-  ExpectZeroSizeWhenRangeIsDefaultConstructed<ShapedImageNeighborhoodRange<itk::VectorImage<int>>>();
+  RangeGTestUtilities::ExpectZeroSizeWhenRangeIsDefaultConstructed<
+    ShapedImageNeighborhoodRange<itk::Image<int>>>();
+  RangeGTestUtilities::ExpectZeroSizeWhenRangeIsDefaultConstructed<
+    ShapedImageNeighborhoodRange<itk::VectorImage<int>>>();
 }
 
 
 // Tests empty() for a default-constructed range.
 TEST(ShapedImageNeighborhoodRange, IsEmptyWhenDefaultConstructed)
 {
-  ExpectRangeIsEmptyWhenDefaultConstructed<ShapedImageNeighborhoodRange<itk::Image<int>>>();
-  ExpectRangeIsEmptyWhenDefaultConstructed<ShapedImageNeighborhoodRange<itk::VectorImage<int>>>();
+  RangeGTestUtilities::ExpectRangeIsEmptyWhenDefaultConstructed<
+    ShapedImageNeighborhoodRange<itk::Image<int>>>();
+  RangeGTestUtilities::ExpectRangeIsEmptyWhenDefaultConstructed<
+    ShapedImageNeighborhoodRange<itk::VectorImage<int>>>();
 }
 
 

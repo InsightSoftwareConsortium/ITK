@@ -148,30 +148,6 @@ namespace
   }
 
 
-  template <typename TRange>
-  void ExpectBeginIsEndWhenRangeIsDefaultConstructed()
-  {
-    TRange defaultConstructedRange;
-    EXPECT_EQ(defaultConstructedRange.begin(), defaultConstructedRange.end());
-  }
-
-
-  template <typename TRange>
-  void ExpectZeroSizeWhenRangeIsDefaultConstructed()
-  {
-    TRange defaultConstructedRange;
-    EXPECT_EQ(defaultConstructedRange.size(), 0);
-  }
-
-
-  template <typename TRange>
-  void ExpectRangeIsEmptyWhenDefaultConstructed()
-  {
-    TRange defaultConstructedRange;
-    EXPECT_TRUE(defaultConstructedRange.empty());
-  }
-
-
   template <typename TImage>
   void ExpectRangeIsNotEmptyForNonEmptyImage()
   {
@@ -811,24 +787,30 @@ TEST(ImageBufferRange, ProvidesReverseIterators)
 // Tests that begin() == end() for a default-constructed range.
 TEST(ImageBufferRange, BeginIsEndWhenDefaultConstructed)
 {
-  ExpectBeginIsEndWhenRangeIsDefaultConstructed<ImageBufferRange<itk::Image<int>>>();
-  ExpectBeginIsEndWhenRangeIsDefaultConstructed<ImageBufferRange<itk::VectorImage<int>>>();
+  RangeGTestUtilities::ExpectBeginIsEndWhenRangeIsDefaultConstructed<
+    ImageBufferRange<itk::Image<int>>>();
+  RangeGTestUtilities::ExpectBeginIsEndWhenRangeIsDefaultConstructed<
+    ImageBufferRange<itk::VectorImage<int>>>();
 }
 
 
 // Tests that size() returns 0 for a default-constructed range.
 TEST(ImageBufferRange, SizeIsZeroWhenDefaultConstructed)
 {
-  ExpectZeroSizeWhenRangeIsDefaultConstructed<ImageBufferRange<itk::Image<int>>>();
-  ExpectZeroSizeWhenRangeIsDefaultConstructed<ImageBufferRange<itk::VectorImage<int>>>();
+  RangeGTestUtilities::ExpectZeroSizeWhenRangeIsDefaultConstructed<
+    ImageBufferRange<itk::Image<int>>>();
+  RangeGTestUtilities::ExpectZeroSizeWhenRangeIsDefaultConstructed<
+    ImageBufferRange<itk::VectorImage<int>>>();
 }
 
 
 // Tests empty() for a default-constructed range.
 TEST(ImageBufferRange, IsEmptyWhenDefaultConstructed)
 {
-  ExpectRangeIsEmptyWhenDefaultConstructed<ImageBufferRange<itk::Image<int>>>();
-  ExpectRangeIsEmptyWhenDefaultConstructed<ImageBufferRange<itk::VectorImage<int>>>();
+  RangeGTestUtilities::ExpectRangeIsEmptyWhenDefaultConstructed<
+    ImageBufferRange<itk::Image<int>>>();
+  RangeGTestUtilities::ExpectRangeIsEmptyWhenDefaultConstructed<
+    ImageBufferRange<itk::VectorImage<int>>>();
 }
 
 
