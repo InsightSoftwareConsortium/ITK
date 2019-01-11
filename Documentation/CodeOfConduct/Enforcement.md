@@ -21,8 +21,11 @@ In order to make sure that the response to any incident, issue, violation or
 breach of this Code of Conduct issue is consistent and fair, all responses to
 reports of conduct violations will be managed by the [ISC Code of Conduct
 Committee](http://www.insightsoftwareconsortium.org/) ("the Committee"
-hereafter) [note: still working the process; this will be filled in as they
-become available and prior to final upload into the rendered site].
+hereafter). The Committee is currently composed by:
+
+  * [Matthew McCormick](mailto:mmatt.mccormick@kitware.com), the ISC President
+  * [Bradley Lowekamp](mailto:brad@lowekamp.net), the ISC Vice President
+  * [Nick Tustison](mailto:ntustison@virginia.edu), the ISC Secretary
 
 The ISC Officers will approve the members of this three person committee. The
 members will be drawn from our entire community, and we intend that it not be
@@ -99,10 +102,8 @@ If any Code of Conduct violation or breach report involves any members of the
 Committee, or if they feel they have a conflict of interest in handling it,
 then they will recuse themselves from considering your report. Alternatively,
 if for any reason you feel uncomfortable making a report to the committee, then
-you can contact
+you can contact any member of the Board of Directors.
 
-  * [Matthew McCormick](mailto:matt.mccormick@kitware.com), the ISC President
-  * [Nick Tustison](mailto:ntustison@virginia.edu), the ISC Secretary
 
 Mediation
 ---------
