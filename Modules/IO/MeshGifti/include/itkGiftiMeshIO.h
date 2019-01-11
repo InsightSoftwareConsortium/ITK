@@ -17,7 +17,7 @@
  *=========================================================================*/
 #ifndef itkGiftiMeshIO_h
 #define itkGiftiMeshIO_h
-#include "ITKIOMeshExport.h"
+#include "ITKIOMeshGiftiExport.h"
 
 #include <memory>
 #include "itkMapContainer.h"
@@ -33,10 +33,10 @@ namespace itk
 /** \class GiftiMeshIO
  * \brief This class defines how to read and write Gifti file format.
  * \ingroup IOFilters
- * \ingroup ITKIOMesh
+ * \ingroup ITKIOMeshGifti
  */
 
-class ITKIOMesh_EXPORT GiftiMeshIO:public MeshIOBase
+class ITKIOMeshGifti_EXPORT GiftiMeshIO:public MeshIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(GiftiMeshIO);

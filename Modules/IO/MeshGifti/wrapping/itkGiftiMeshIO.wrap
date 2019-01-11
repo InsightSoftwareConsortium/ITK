@@ -1,0 +1,10 @@
+itk_wrap_simple_class("itk::GiftiMeshIO" POINTER)
+itk_wrap_simple_class("itk::GiftiMeshIOFactory" POINTER)
+
+itk_wrap_include("itkMapContainer.h")
+itk_wrap_include("itkRGBPixel.h")
+
+itk_wrap_class("itk::MapContainer" POINTER)
+  itk_wrap_template("Istring" "int, std::string")
+  itk_wrap_template("IRGBAF" "int, itk::RGBAPixel< float >")
+itk_end_wrap_class()

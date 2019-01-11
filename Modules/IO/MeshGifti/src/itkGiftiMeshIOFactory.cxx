@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "ITKIOMeshExport.h"
+#include "ITKIOMeshGiftiExport.h"
 
 #include "itkGiftiMeshIO.h"
 #include "itkGiftiMeshIOFactory.h"
@@ -59,7 +59,7 @@ GiftiMeshIOFactory
 // DO NOT CALL DIRECTLY.
 static bool GiftiMeshIOFactoryHasBeenRegistered;
 
-void ITKIOMesh_EXPORT GiftiMeshIOFactoryRegister__Private()
+void ITKIOMeshGifti_EXPORT GiftiMeshIOFactoryRegister__Private()
 {
   if( ! GiftiMeshIOFactoryHasBeenRegistered )
     {
