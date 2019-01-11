@@ -326,6 +326,14 @@ you should use macro `ITKv5_CONST` instead of `const` keyword.
 This macro is present in ITKv4 since commit
 b40f74e07d74614c75be4aceac63b87e80e589d1 on 2018-11-14.
 
+Python changes
+--------------
+
+Mesh-related class wrapping has been simplified, made more consistent, and
+expanded, but previous template parameters may not be available.
+
+Arguments to functions in `itkExtras` were cleaned up and now use snake case.
+
 Update scripts
 --------------
 
