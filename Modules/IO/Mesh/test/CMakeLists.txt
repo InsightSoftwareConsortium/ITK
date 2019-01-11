@@ -37,13 +37,3 @@ itk_add_test(NAME itkMeshFileReadWriteTest10
       DATA{Baseline/box.obj}
       ${ITK_TEST_OUTPUT_DIR}/box.obj
 )
-itk_add_test(NAME itkMeshFileReadWriteTest11
-      COMMAND ITKIOMeshTestDriver itkMeshFileReadWriteTest
-      DATA{Baseline/white.gii}
-      ${ITK_TEST_OUTPUT_DIR}/white.gii
-)
-itk_add_test(NAME itkMeshFileReadWriteTest12
-      COMMAND ITKIOMeshTestDriver itkMeshFileReadWriteTest
-      DATA{Baseline/aparc.gii}
-      ${ITK_TEST_OUTPUT_DIR}/aparc.gii
-)
