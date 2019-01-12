@@ -22,6 +22,7 @@
 #include "itkImageFileReader.h"
 #include "itkMaxPhaseCorrelationOptimizer.h"
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
+
 #include <vector>
 
 namespace itk
@@ -192,8 +193,13 @@ protected:
   /** For reading if only filename was given. */
   using ReaderType = itk::ImageFileReader< ImageType >;
 
+  template <typename TImageToRead>
+  typename TImageToRead::Pointer
+  GetImageHelper( TileIndexType nDIndex, bool metadataOnly, RegionType region,
+                  ImageFileReader< TImageToRead >* reader = nullptr );
+
   /** Just get image pointer if the image is present, otherwise read it from file. */
-  ImageType* GetImage( TileIndexType nDIndex, bool metadataOnly );
+  typename ImageType::Pointer GetImage( TileIndexType nDIndex, bool metadataOnly );
 
   DataObjectPointerArraySizeType nDIndexToLinearIndex( TileIndexType nDIndex ) const;
   TileIndexType LinearIndexTonDIndex( DataObjectPointerArraySizeType linearIndex ) const;

@@ -19,9 +19,11 @@
 #ifndef itkTileMergeImageFilter_h
 #define itkTileMergeImageFilter_h
 
+#include "itkTileMontage.h"
+
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkNumericTraits.h"
-#include "itkTileMontage.h"
+
 #include <deque>
 #include <mutex>
 
