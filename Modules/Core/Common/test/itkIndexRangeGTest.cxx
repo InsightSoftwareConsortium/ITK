@@ -19,6 +19,8 @@
  // First include the header file to be tested:
 #include "itkIndexRange.h"
 
+#include "itkRangeGTestUtilities.h"
+
 #include <gtest/gtest.h>
 
 // Test template instantiations for various template arguments:
@@ -31,10 +33,73 @@ template class itk::Experimental::IndexRange<2, false>;
 using itk::Experimental::IndexRange;
 using itk::Experimental::ImageRegionIndexRange;
 using itk::Experimental::ZeroBasedIndexRange;
+using itk::Experimental::RangeGTestUtilities;
 
 
 static_assert(sizeof(ZeroBasedIndexRange<3>) < sizeof(ImageRegionIndexRange<3>),
   "ZeroBasedIndexRange does not need to store the index of a region, so it should take less memory.");
+
+namespace
+{
+  template <unsigned VDimension>
+  itk::Index<VDimension> GenerateRandomIndex()
+  {
+    itk::Index<VDimension> index;
+
+    for (itk::IndexValueType& indexValue: index)
+    {
+      indexValue = std::rand();
+    }
+    return index;
+  }
+
+
+  template <bool VBeginAtZero>
+  void ExpectBeginIsEndWhenRangeIsDefaultConstructed()
+  {
+    // Test the most commonly used dimensionalities (1-D, 2-D, 3-D):
+    RangeGTestUtilities::ExpectBeginIsEndWhenRangeIsDefaultConstructed<IndexRange<1, VBeginAtZero>>();
+    RangeGTestUtilities::ExpectBeginIsEndWhenRangeIsDefaultConstructed<IndexRange<2, VBeginAtZero>>();
+    RangeGTestUtilities::ExpectBeginIsEndWhenRangeIsDefaultConstructed<IndexRange<3, VBeginAtZero>>();
+  }
+
+
+  template <bool VBeginAtZero>
+  void ExpectZeroSizeWhenRangeIsDefaultConstructed()
+  {
+    // Test the most commonly used dimensionalities (1-D, 2-D, 3-D):
+    RangeGTestUtilities::ExpectZeroSizeWhenRangeIsDefaultConstructed<IndexRange<1, VBeginAtZero>>();
+    RangeGTestUtilities::ExpectZeroSizeWhenRangeIsDefaultConstructed<IndexRange<2, VBeginAtZero>>();
+    RangeGTestUtilities::ExpectZeroSizeWhenRangeIsDefaultConstructed<IndexRange<3, VBeginAtZero>>();
+  }
+
+
+  template <bool VBeginAtZero>
+  void ExpectRangeIsEmptyWhenDefaultConstructed()
+  {
+    // Test the most commonly used dimensionalities (1-D, 2-D, 3-D):
+    RangeGTestUtilities::ExpectRangeIsEmptyWhenDefaultConstructed<IndexRange<1, VBeginAtZero>>();
+    RangeGTestUtilities::ExpectRangeIsEmptyWhenDefaultConstructed<IndexRange<2, VBeginAtZero>>();
+    RangeGTestUtilities::ExpectRangeIsEmptyWhenDefaultConstructed<IndexRange<3, VBeginAtZero>>();
+  }
+
+  template <unsigned VDimension>
+  void ExpectRangeIsEmptyWhenRegionSizeIsZero()
+  {
+    const itk::Size<VDimension> zeroSize{ {0} };
+
+    // Test when both the region index and the region size are zero:
+    EXPECT_TRUE(ZeroBasedIndexRange<VDimension>{zeroSize}.empty());
+    EXPECT_TRUE(ImageRegionIndexRange<VDimension>{zeroSize}.empty());
+
+    // Now do the test for an arbitrary (random) region index:
+    const itk::Index<VDimension> randomRegionIndex = GenerateRandomIndex<VDimension>();
+    const itk::ImageRegion<VDimension> zeroSizedImageRegion{ randomRegionIndex, zeroSize };
+
+    EXPECT_TRUE(ImageRegionIndexRange<VDimension>{zeroSizedImageRegion}.empty());
+  }
+
+}  // namespace
 
 
 // Tests that a begin iterator compares equal to another begin iterator of the
@@ -78,6 +143,7 @@ TEST(IndexRange, BeginAndEndDoNotCompareEqualWhenSizeIsGreaterThanZero)
   RangeType range(RangeType::SizeType{ {1, 2} });
 
   EXPECT_TRUE(range.size() > 0);
+  EXPECT_FALSE(range.empty());
 
   EXPECT_FALSE(range.begin() == range.end());
   EXPECT_NE(range.begin(), range.end());
@@ -192,4 +258,37 @@ TEST(IndexRange, SupportsImageRegion)
     EXPECT_EQ(imageRegionIndex, *indexIterator + offset);
     ++indexIterator;
   }
+}
+
+
+// Tests that begin() == end() for a default-constructed range.
+TEST(IndexRange, BeginIsEndWhenDefaultConstructed)
+{
+  ExpectBeginIsEndWhenRangeIsDefaultConstructed<false>();
+  ExpectBeginIsEndWhenRangeIsDefaultConstructed<true>();
+}
+
+
+// Tests that size() returns 0 for a default-constructed range.
+TEST(IndexRange, SizeIsZeroWhenDefaultConstructed)
+{
+  ExpectZeroSizeWhenRangeIsDefaultConstructed<false>();
+  ExpectZeroSizeWhenRangeIsDefaultConstructed<true>();
+}
+
+
+// Tests empty() for a default-constructed range.
+TEST(IndexRange, IsEmptyWhenDefaultConstructed)
+{
+  ExpectRangeIsEmptyWhenDefaultConstructed<false>();
+  ExpectRangeIsEmptyWhenDefaultConstructed<true>();
+}
+
+
+// Tests empty() for a range that has a region size of zero.
+TEST(IndexRange, IsEmptyWhenRegionSizeIsZero)
+{
+  ExpectRangeIsEmptyWhenRegionSizeIsZero<1>();
+  ExpectRangeIsEmptyWhenRegionSizeIsZero<2>();
+  ExpectRangeIsEmptyWhenRegionSizeIsZero<3>();
 }
