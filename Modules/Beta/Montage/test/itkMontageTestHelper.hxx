@@ -61,6 +61,17 @@ WriteTransform( const TransformType* transform, std::string filename )
   tWriter->Update();
 }
 
+template< typename TImage >
+typename TImage::Pointer
+ReadImage( const char* filename )
+{
+  using ReaderType = itk::ImageFileReader< TImage >;
+  typename ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName( filename );
+  reader->Update();
+  return reader->GetOutput();
+}
+
 // do the registrations and calculate registration errors
 // negative peakMethodToUse means to try them all
 // streamSubdivisions of 1 disables streaming (higher memory useage, less cluttered debug output)
@@ -68,7 +79,7 @@ template< typename PixelType, typename AccumulatePixelType >
 int
 montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actualTiles,
              const std::string& inputPath, const std::string& outFilename, bool varyPaddingMethods,
-             int peakMethodToUse, bool setMontageDirectly, unsigned streamSubdivisions )
+             int peakMethodToUse, bool loadIntoMemory, unsigned streamSubdivisions )
 {
   int result = EXIT_SUCCESS;
   using ScalarPixelType = typename itk::NumericTraits< PixelType >::ValueType;
@@ -95,18 +106,18 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
     {
     if ( !varyPaddingMethods ) // go straight to the last, best method
       {
-        padMethod = static_cast< PadMethodUnderlying >( PCMType::PaddingMethod::Last );
+      padMethod = static_cast< PadMethodUnderlying >( PCMType::PaddingMethod::Last );
       }
     std::ofstream registrationErrors( outFilename + std::to_string( padMethod ) + ".tsv" );
     std::cout << "Padding method " << padMethod << std::endl;
     registrationErrors << "PeakInterpolationMethod";
     for ( unsigned d = 0; d < Dimension; d++ )
       {
-        registrationErrors << '\t' << char( 'x' + d ) << "Tile";
+      registrationErrors << '\t' << char( 'x' + d ) << "Tile";
       }
     for ( unsigned d = 0; d < Dimension; d++ )
       {
-        registrationErrors << '\t' << char( 'x' + d ) << "Error";
+      registrationErrors << '\t' << char( 'x' + d ) << "Error";
       }
     registrationErrors << std::endl;
 
@@ -122,12 +133,20 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
     typename MontageType::TileIndexType ind;
     for ( unsigned y = 0; y < yMontageSize; y++ )
       {
-        ind[1] = y;
-        for ( unsigned x = 0; x < xMontageSize; x++ )
+      ind[1] = y;
+      for ( unsigned x = 0; x < xMontageSize; x++ )
+        {
+        ind[0] = x;
+        std::string filename = inputPath + stageTiles[y][x].FileName;
+        if (loadIntoMemory)
           {
-            ind[0] = x;
-            montage->SetInputTile( ind, inputPath + stageTiles[y][x].FileName );
+          montage->SetInputTile( ind, ReadImage< typename MontageType::ImageType >( filename.c_str() ) );
           }
+        else
+          {
+          montage->SetInputTile( ind, filename );
+          }
+        }
       }
 
     for ( auto peakMethod = static_cast< PeakFinderUnderlying >( PeakInterpolationType::None );
@@ -200,7 +219,15 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
         for ( unsigned x = 0; x < xMontageSize; x++ )
           {
           ind[0] = x;
-          resampleF->SetInputTile( ind, inputPath + stageTiles[y][x].FileName );
+          std::string filename = inputPath + stageTiles[y][x].FileName;
+          if ( loadIntoMemory )
+            {
+            resampleF->SetInputTile( ind, ReadImage< typename Resampler::ImageType >( filename.c_str() ) );
+            }
+          else
+            {
+            resampleF->SetInputTile( ind, filename );
+            }
           resampleF->SetTileTransform( ind, montage->GetOutputTransform( ind ) );
           }
         }

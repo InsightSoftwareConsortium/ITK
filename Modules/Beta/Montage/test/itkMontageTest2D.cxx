@@ -26,7 +26,7 @@ int itkMontageTest2D(int argc, char* argv[])
   if ( argc < 4 )
     {
     std::cerr << "Usage: " << argv[0] << " <directoryWtihInputData> <montageTSV> <mockTSV>";
-    std::cerr << " [ varyPaddingMethods peakMethod setMontageDirectly streamSubdivisions ]" << std::endl;
+    std::cerr << " [ varyPaddingMethods peakMethod loadIntoMemory streamSubdivisions ]" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -40,10 +40,10 @@ int itkMontageTest2D(int argc, char* argv[])
     {
     peakMethod = std::stoi( argv[5] );
     }
-  bool setMontageDirectly = true;
+  bool loadIntoMemory = false;
   if ( argc > 6 )
     {
-    setMontageDirectly = std::stoi( argv[6] );
+    loadIntoMemory = std::stoi( argv[6] );
     }
   unsigned streamSubdivisions = 1;
   if ( argc > 7 )
@@ -72,7 +72,7 @@ int itkMontageTest2D(int argc, char* argv[])
     {
     r1 = montageTest< itk::RGBPixel< unsigned char >, itk::RGBPixel< unsigned int > >(
       stageTiles, actualTiles, inputPath, argv[2],
-      varyPaddingMethods, peakMethod, setMontageDirectly, streamSubdivisions );
+      varyPaddingMethods, peakMethod, loadIntoMemory, streamSubdivisions );
     r2 = mockMontageTest< unsigned char >(
         stageTiles, actualTiles, inputPath, argv[3], varyPaddingMethods );
     }
@@ -80,7 +80,7 @@ int itkMontageTest2D(int argc, char* argv[])
     {
     r1 = montageTest< unsigned short, double >(
       stageTiles, actualTiles, inputPath, argv[2],
-      varyPaddingMethods, peakMethod, setMontageDirectly, streamSubdivisions );
+      varyPaddingMethods, peakMethod, loadIntoMemory, streamSubdivisions );
     r2 = mockMontageTest< unsigned short >(
         stageTiles, actualTiles, inputPath, argv[3], varyPaddingMethods );
     }
