@@ -127,7 +127,8 @@ public:
   void SetInputTile( TileIndexType position, ImageType* image )
   {
     const SizeValueType linearIndex = this->nDIndexToLinearIndex( position );
-    Superclass::SetInputTile( position, image );
+    // image will be cast into DataObject* so this casting is not a problem
+    Superclass::SetInputTile( position, reinterpret_cast< typename Superclass::ImageType* >( image ) );
     m_Transforms[linearIndex] = nullptr;
     m_Tiles[linearIndex] = nullptr;
   }

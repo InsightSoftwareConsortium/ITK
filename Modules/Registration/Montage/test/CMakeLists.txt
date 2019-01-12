@@ -147,7 +147,7 @@ itk_add_test(NAME itkMontageTestRGB
     DATA{${CMAKE_CURRENT_LIST_DIR}/Input/VisibleHumanRGB/,REGEX:.*}
     ${TESTING_OUTPUT_PATH}/itkMontageTestRGB
     ${TESTING_OUTPUT_PATH}/itkMockMontageTestRGB
-    1 -1 0 1
+    1 -1 1 1
   )
 
 if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/FlatFielded/36/1000.tif)
