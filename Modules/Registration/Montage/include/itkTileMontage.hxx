@@ -113,42 +113,73 @@ TileMontage< TImageType, TCoordinate >
 }
 
 template< typename TImageType, typename TCoordinate >
-typename TileMontage< TImageType, TCoordinate >::ImageType*
+template< typename TImageToRead >
+typename TImageToRead::Pointer
+TileMontage< TImageType, TCoordinate >
+::GetImageHelper( TileIndexType nDIndex, bool metadataOnly, RegionType region, ImageFileReader< TImageToRead >* reader)
+{
+  DataObjectPointerArraySizeType linearIndex = nDIndexToLinearIndex( nDIndex );
+  const auto cInput = static_cast< TImageToRead* >( this->GetInput( linearIndex ) );
+  typename TImageToRead::Pointer input = const_cast< TImageToRead* >( cInput );
+  typename TImageToRead::Pointer result = nullptr;
+  if ( input.GetPointer() != reinterpret_cast< TImageToRead* >( this->m_Dummy.GetPointer() ) )
+    {
+    // construct new metadata so adjustments do not modify the original input
+    RegionType region = input->GetBufferedRegion();
+    result = TImageToRead::New();
+    result->SetRegions( region );
+    result->SetOrigin( input->GetOrigin() );
+    result->SetSpacing( input->GetSpacing() );
+    result->SetDirection( input->GetDirection() );
+    result->SetPixelContainer( input->GetPixelContainer() );
+    }
+  else // examine cache and read from file if necessary
+    {
+    using ImageReaderType = ImageFileReader< TImageToRead >;
+    typename ImageReaderType::Pointer iReader = reader;
+    if ( iReader == nullptr )
+      {
+      iReader = ImageReaderType::New();
+      }
+    iReader->SetFileName( this->m_Filenames[linearIndex] );
+    iReader->UpdateOutputInformation();
+    result = iReader->GetOutput();
+
+    if ( !metadataOnly )
+      {
+      RegionType regionToRead = result->GetLargestPossibleRegion();
+      if ( region.GetNumberOfPixels() > 0 )
+        {
+        regionToRead.Crop( region );
+        result->SetRequestedRegion( regionToRead );
+        }
+      iReader->Update();
+      }
+    result->DisconnectPipeline();
+    }
+
+  //adjust origin and spacing
+  PointType origin = result->GetOrigin();
+  for ( unsigned d = 0; d < ImageDimension; d++ )
+    {
+    origin[d] += this->m_OriginAdjustment[d] * nDIndex[d];
+    }
+  result->SetOrigin( origin );
+  if ( this->m_ForcedSpacing[0] != 0 )
+    {
+    result->SetSpacing( this->m_ForcedSpacing );
+    }
+
+  return result;
+}
+
+template< typename TImageType, typename TCoordinate >
+typename TileMontage< TImageType, TCoordinate >::ImageType::Pointer
 TileMontage< TImageType, TCoordinate >
 ::GetImage( TileIndexType nDIndex, bool metadataOnly )
 {
-  DataObjectPointerArraySizeType linearIndex = nDIndexToLinearIndex( nDIndex );
-  auto imagePtr = static_cast< ImageType* >( this->GetInput( linearIndex ) );
-  if ( imagePtr == m_Dummy.GetPointer() // filename given, we have to read it
-       || ( !metadataOnly && imagePtr->GetBufferedRegion().GetNumberOfPixels() == 0 ) )
-    {
-    m_Reader->SetFileName( m_Filenames[linearIndex] );
-    if ( metadataOnly )
-      {
-      m_Reader->UpdateOutputInformation();
-      }
-    else
-      {
-      m_Reader->Update();
-      }
-    typename ImageType::Pointer image = m_Reader->GetOutput();
-    image->DisconnectPipeline();
-
-    PointType origin = image->GetOrigin();
-    for ( unsigned d = 0; d < ImageDimension; d++ )
-      {
-      origin[d] += m_OriginAdjustment[d] * nDIndex[d];
-      }
-    image->SetOrigin( origin );
-    if ( m_ForcedSpacing[0] != 0 )
-      {
-      image->SetSpacing( m_ForcedSpacing );
-      }
-
-    this->SetNthInput( linearIndex, image );
-    imagePtr = image.GetPointer();
-    }
-  return imagePtr;
+  RegionType reg0; // default-initialized to zeroes
+  return GetImageHelper< ImageType >( nDIndex, metadataOnly, reg0, m_Reader );
 }
 
 template< typename TImageType, typename TCoordinate >
@@ -381,7 +412,7 @@ TileMontage< TImageType, TCoordinate >
       }
     // the rest of this code determines average and maximum tile sizes
     TileIndexType nDIndex = this->LinearIndexTonDIndex( i );
-    ImageType* input = this->GetImage( nDIndex, true );
+    typename ImageType::Pointer input = this->GetImage( nDIndex, true );
     RegionType reg = input->GetLargestPossibleRegion();
     for ( unsigned d = 0; d < ImageDimension; d++ )
       {

@@ -249,55 +249,22 @@ TileMergeImageFilter< TImageType, TPixelAccumulateType, TInterpolator >
 ::GetImage( TileIndexType nDIndex, RegionType wantedRegion )
 {
   SizeValueType linearIndex = this->nDIndexToLinearIndex( nDIndex );
-  const auto    cInput = static_cast< ImageType* >( this->GetInput( linearIndex ) );
-  ImagePointer  input = const_cast< ImageType* >( cInput );
 
-  if ( input.GetPointer() == reinterpret_cast< ImageType* >( this->m_Dummy.GetPointer() ) ||
-       wantedRegion.GetNumberOfPixels() > 0 )
+  ImagePointer outputImage = this->GetOutput();
+  RegionType reqR = outputImage->GetRequestedRegion();
+  std::lock_guard< std::mutex > lockGuard( m_TileReadLocks[linearIndex] );
+  if ( m_Tiles[linearIndex].IsNotNull() )
     {
-    ImagePointer outputImage = this->GetOutput();
-    RegionType reqR = outputImage->GetRequestedRegion();
-    bool mustRead = true;
-    std::lock_guard< std::mutex > lockGuard( m_TileReadLocks[linearIndex] );
-    if ( m_Tiles[linearIndex].IsNotNull() )
+    RegionType r = m_Tiles[linearIndex]->GetBufferedRegion();
+    if ( r.Crop( reqR ) && r.IsInside( wantedRegion ) )
       {
-      RegionType r = m_Tiles[linearIndex]->GetBufferedRegion();
-      if ( r.Crop( reqR ) && r.IsInside( wantedRegion ) )
-        {
-        mustRead = false;
-        }
+      return m_Tiles[linearIndex];
       }
-
-    if ( mustRead )
-      {
-      typename ReaderType::Pointer reader = ReaderType::New();
-      reader->SetFileName( this->m_Filenames[linearIndex] );
-      reader->UpdateOutputInformation();
-      m_Tiles[linearIndex] = reader->GetOutput();
-      if ( wantedRegion.GetNumberOfPixels() > 0 )
-        {
-        RegionType regionToRead = m_Tiles[linearIndex]->GetLargestPossibleRegion();
-        regionToRead.Crop( reqR );
-        m_Tiles[linearIndex]->SetRequestedRegion( regionToRead );
-        reader->Update();
-        }
-      m_Tiles[linearIndex]->DisconnectPipeline();
-
-      PointType origin = m_Tiles[linearIndex]->GetOrigin();
-      for ( unsigned d = 0; d < ImageDimension; d++ )
-        {
-        origin[d] += this->m_OriginAdjustment[d] * nDIndex[d];
-        }
-      m_Tiles[linearIndex]->SetOrigin( origin );
-      if ( this->m_ForcedSpacing[0] != 0 )
-        {
-        m_Tiles[linearIndex]->SetSpacing( this->m_ForcedSpacing );
-        }
-      }
-    return m_Tiles[linearIndex];
     }
 
-  return input;
+  bool onlyMetadata = ( wantedRegion.GetNumberOfPixels() == 0 );
+  m_Tiles[linearIndex] = Superclass::template GetImageHelper< ImageType >( nDIndex, onlyMetadata, reqR, nullptr );
+  return m_Tiles[linearIndex];
 }
 
 template< typename TImageType, typename TPixelAccumulateType, typename TInterpolator >
