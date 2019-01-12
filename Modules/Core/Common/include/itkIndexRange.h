@@ -295,6 +295,22 @@ public:
   using reverse_iterator = std::reverse_iterator<iterator>;
   using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
+  /** Default-constructor. Constructs an empty range.
+   * \note The other five "special member functions" (copy-constructor,
+   * copy-assignment operator, move-constructor, move-assignment operator,
+   * and destructor) are implicitly defaulted, following the C++ "Rule of Zero".
+   */
+  IndexRange() ITK_NOEXCEPT
+    :
+  m_MinIndex(),
+  m_MaxIndex()
+  {
+    // m_MinIndex and m_MaxIndex are "inclusive" boundaries of the index, so
+    // in order to construct an empty range, m_MaxIndex must take one step back.
+    m_MaxIndex.back() = -1;
+  }
+
+
   /** Constructs a range of indices for the specified grid size.
    */
   explicit IndexRange(const SizeType& gridSize)
@@ -393,6 +409,21 @@ public:
     }
     return result;
   }
+
+
+  /** Tells whether the range is empty. */
+  bool empty() const ITK_NOEXCEPT
+  {
+    for (unsigned i = 0; i < VDimension; ++i)
+    {
+      if (m_MaxIndex[i] == (m_MinIndex[i] - 1))
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+
 
 private:
 
