@@ -18,7 +18,12 @@ itk_module(ITKTestKernel
     ITKIOPNG
     ITKIOTIFF
     ITKIOVTK
-    ITKIOMesh
+    ITKIOMeshVTK
+    ITKIOMeshBYU
+    ITKIOMeshFreeSurfer
+    ITKIOMeshGifti
+    ITKIOMeshOBJ
+    ITKIOMeshOFF
   COMPILE_DEPENDS
     ITKKWSys
     ITKDoubleConversion

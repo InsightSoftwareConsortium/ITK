@@ -18,7 +18,7 @@
 
 #ifndef itkOFFMeshIO_h
 #define itkOFFMeshIO_h
-#include "ITKIOMeshExport.h"
+#include "ITKIOMeshOFFExport.h"
 
 #include "itkMeshIOBase.h"
 
@@ -29,10 +29,10 @@ namespace itk
 /** \class OFFMeshIO
  * \brief this class defines how to read and write Object file format.
  * \ingroup IOFilters
- * \ingroup ITKIOMesh
+ * \ingroup ITKIOMeshOFF
  */
 
-class ITKIOMesh_EXPORT OFFMeshIO:public MeshIOBase
+class ITKIOMeshOFF_EXPORT OFFMeshIO:public MeshIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(OFFMeshIO);
