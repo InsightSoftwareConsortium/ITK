@@ -18,7 +18,7 @@
 
 #ifndef itkOBJMeshIO_h
 #define itkOBJMeshIO_h
-#include "ITKIOMeshExport.h"
+#include "ITKIOMeshOBJExport.h"
 
 #include "itkMeshIOBase.h"
 #include "itkNumberToString.h"
@@ -29,10 +29,10 @@ namespace itk
 /** \class OBJMeshIO
  * \brief This class defines how to read and write Object file format.
  * \ingroup IOFilters
- * \ingroup ITKIOMesh
+ * \ingroup ITKIOMeshOBJ
  */
 
-class ITKIOMesh_EXPORT OBJMeshIO:public MeshIOBase
+class ITKIOMeshOBJ_EXPORT OBJMeshIO:public MeshIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(OBJMeshIO);

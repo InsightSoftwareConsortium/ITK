@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "ITKIOMeshExport.h"
+#include "ITKIOMeshOBJExport.h"
 
 #include "itkOBJMeshIO.h"
 #include "itkOBJMeshIOFactory.h"
@@ -59,7 +59,7 @@ OBJMeshIOFactory
 // DO NOT CALL DIRECTLY.
 static bool OBJMeshIOFactoryHasBeenRegistered;
 
-void ITKIOMesh_EXPORT OBJMeshIOFactoryRegister__Private()
+void ITKIOMeshOBJ_EXPORT OBJMeshIOFactoryRegister__Private()
 {
   if( ! OBJMeshIOFactoryHasBeenRegistered )
     {

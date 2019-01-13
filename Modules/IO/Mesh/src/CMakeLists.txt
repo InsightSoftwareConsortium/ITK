@@ -1,6 +1,4 @@
 set(ITKIOMesh_SRCS
-  itkOBJMeshIO.cxx
-  itkOBJMeshIOFactory.cxx
   itkOFFMeshIO.cxx
   itkOFFMeshIOFactory.cxx
   )
