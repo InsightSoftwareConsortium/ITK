@@ -1,5 +1,4 @@
 itk_wrap_include("itkDefaultStaticMeshTraits.h")
-itk_wrap_include("itkDefaultDynamicMeshTraits.h")
 itk_wrap_include("itkMesh.h")
 
 UNIQUE(types "${WRAP_ITK_REAL};D")
@@ -7,20 +6,7 @@ UNIQUE(types "${WRAP_ITK_REAL};D")
 itk_wrap_class("itk::VTKPolyDataWriter" POINTER_WITH_SUPERCLASS)
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
     foreach(t ${types})
-      itk_wrap_template("M${ITKM_${t}}${d}ST${ITKM_${t}}${d}${d}${ITKM_${t}}${ITKM_${t}}"
-        "itk::Mesh<${ITKT_${t}},${d},itk::DefaultStaticMeshTraits< ${ITKT_${t}},${d},${d},${ITKT_${t}},${ITKT_${t}} > >")
-      itk_wrap_template("M${ITKM_${t}}${d}DT${ITKM_${t}}${d}${d}${ITKM_${t}}${ITKM_${t}}"
-        "itk::Mesh<${ITKT_${t}},${d},itk::DefaultDynamicMeshTraits< ${ITKT_${t}},${d},${d},${ITKT_${t}},${ITKT_${t}} > >")
-      itk_wrap_template("M${ITKM_${t}}${d}ST${ITKM_${t}}${d}${d}${ITKM_${t}}"
-        "itk::Mesh<${ITKT_${t}},${d},itk::DefaultStaticMeshTraits< ${ITKT_${t}},${d},${d},${ITKT_${t}} > >")
-      itk_wrap_template("M${ITKM_${t}}${d}DT${ITKM_${t}}${d}${d}${ITKM_${t}}"
-        "itk::Mesh<${ITKT_${t}},${d},itk::DefaultDynamicMeshTraits< ${ITKT_${t}},${d},${d},${ITKT_${t}} > >")
+      itk_wrap_template("M${ITKM_${t}}${d}" "itk::Mesh<${ITKT_${t}},${d} >")
     endforeach()
-  endforeach()
-  foreach(d ${ITK_WRAP_IMAGE_DIMS})
-    itk_wrap_template("M${ITKM_D}${d}DT${ITKM_D}${d}${d}${ITKM_D}${ITKM_F}${ITKM_D}"
-      "itk::Mesh < ${ITKT_D},${d},itk::DefaultDynamicMeshTraits< ${ITKT_D},${d},${d},${ITKT_D},${ITKT_F},${ITKT_D} > >")
-    itk_wrap_template("M${ITKM_D}${d}ST${ITKM_D}${d}${d}${ITKM_D}${ITKM_F}${ITKM_D}"
-      "itk::Mesh < ${ITKT_D},${d},itk::DefaultStaticMeshTraits< ${ITKT_D},${d},${d},${ITKT_D},${ITKT_F},${ITKT_D} > >")
   endforeach()
 itk_end_wrap_class()

@@ -1,17 +1,21 @@
 itk_wrap_include("itkPointSet.h")
 itk_wrap_include("itkDefaultStaticMeshTraits.h")
-itk_wrap_include("itkDefaultDynamicMeshTraits.h")
+
+UNIQUE(types "${WRAP_ITK_INT}")
 
 itk_wrap_class("itk::LabeledPointSetToPointSetMetricv4" POINTER)
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
-    itk_wrap_template("PS${ITKM_UI}${d}DSM${ITKM_UI}${d}${d}${ITKM_F}${ITKM_F}${ITKM_UI}"
-      "itk::PointSet < ${ITKT_UI},${d},itk::DefaultStaticMeshTraits<${ITKT_UI},${d},${d},${ITKT_F},${ITKT_F},${ITKT_UI} > >")
+    foreach(t ${types})
+      itk_wrap_template("PS${ITKM_${t}}${d}" "itk::PointSet< ${ITKT_${t}},${d} >")
+    endforeach()
   endforeach()
 itk_end_wrap_class()
 
 itk_wrap_class("itk::RegistrationParameterScalesFromPhysicalShift" POINTER_WITH_2_SUPERCLASSES)
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
-    itk_wrap_template("LPSTPSMPS${ITKM_UI}${d}DSM${ITKM_UI}${d}${d}${ITKM_F}${ITKM_F}${ITKM_UI}"
-      "itk::LabeledPointSetToPointSetMetricv4 < itk::PointSet < ${ITKT_UI},${d},itk::DefaultStaticMeshTraits<${ITKT_UI},${d},${d},${ITKT_F},${ITKT_F},${ITKT_UI} > > >")
+    foreach(t ${types})
+      itk_wrap_template("LPSTPSMPS${ITKM_${t}}${d}"
+        "itk::LabeledPointSetToPointSetMetricv4< itk::PointSet< ${ITKT_${t}},${d} > >")
+    endforeach()
   endforeach()
 itk_end_wrap_class()
