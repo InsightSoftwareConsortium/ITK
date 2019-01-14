@@ -66,6 +66,7 @@ itkFFTPadPositiveIndexImageFilterTest(int argc, char * argv[])
   {
     fftpad->SetBoundaryCondition(&constantBoundaryCondition);
     TEST_SET_GET_VALUE(&constantBoundaryCondition, fftpad->GetBoundaryCondition());
+    fftpad->SetBoundaryConditionToConstant(0);
   }
   else if (boundaryCondition == "PERIODIC")
   {
@@ -98,6 +99,23 @@ itkFFTPadPositiveIndexImageFilterTest(int argc, char * argv[])
     {
       std::cerr << "Test failed!" << std::endl;
       std::cerr << "Negative index found." << std::endl;
+      return EXIT_FAILURE;
+    }
+  }
+  auto inOrigin = reader->GetOutput()->GetOrigin();
+  auto outOrigin = fftpad->GetOutput()->GetOrigin();
+  std::cout << "InputOrigin: " << inOrigin << ". OutputOrigin: " << outOrigin << std::endl;
+
+  auto expectedOrigin = reader->GetOutput()->GetOrigin();
+  auto computedIndex = reader->GetOutput()->GetLargestPossibleRegion().GetIndex() - fftpad->GetHalfPadSize();
+  reader->GetOutput()->TransformIndexToPhysicalPoint(computedIndex, expectedOrigin);
+  for (unsigned int i = 0; i < Dimension; ++i)
+  {
+    if (expectedOrigin[i] != outOrigin[i])
+    {
+      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Origin is not updated." << std::endl;
+      std::cerr << "Dim: " << i << ". Expected: " << expectedOrigin[i] << ". Output: " << outOrigin[i] << std::endl;
       return EXIT_FAILURE;
     }
   }
