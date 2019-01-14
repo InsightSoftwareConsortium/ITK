@@ -215,7 +215,7 @@ ThreadPool
 ThreadPool
 ::~ThreadPool()
 {
-  bool waitForThreads = m_Threads.size() > 0;
+  bool waitForThreads = !m_Threads.empty();
 #if defined(_WIN32) && defined(ITKCommon_EXPORTS)
   //This destructor is called during DllMain's DLL_PROCESS_DETACH.
   //Because ITKCommon-4.X.dll is usually being detached due to process termination,

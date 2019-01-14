@@ -117,7 +117,7 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
     found = true;
     unsigned int value=0;
 
-    if(dtiTube_copy->GetPoints().size() == 0)
+    if(dtiTube_copy->GetPoints().empty())
       {
       std::cout<<" [FAILED] : Size of the point list is zero" <<std::endl;
       return EXIT_FAILURE;

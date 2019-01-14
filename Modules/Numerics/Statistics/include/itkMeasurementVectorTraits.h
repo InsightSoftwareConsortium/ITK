@@ -236,11 +236,11 @@ public:
   static MeasurementVectorLength Assert(const FixedArray< TValue1, VLength > &,
                                         const std::vector< TValue2 > & b, const char *errMsg = "Length Mismatch")
   {
-    if ( b.size() == 0 )
+    if ( b.empty() )
       {
       return VLength;
       }
-    if ( b.size() != 0 )
+    if ( !b.empty() )
       {
       if ( b.size() != VLength )
         {
@@ -359,7 +359,7 @@ public:
   static MeasurementVectorLength Assert(const std::vector< TValue > & a,
                                         const MeasurementVectorLength l, const char *errMsg = "Length Mismatch")
   {
-    if ( ( ( l != 0 ) && ( a.size() != l ) ) || ( a.size() == 0 ) )
+    if ( ( ( l != 0 ) && ( a.size() != l ) ) || ( a.empty() ) )
       {
       itkGenericExceptionMacro(<< errMsg);
       }

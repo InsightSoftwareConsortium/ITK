@@ -92,7 +92,7 @@ bool JPEGImageIO::CanReadFile(const char *file)
   // First check the extension
   std::string filename = file;
 
-  if (  filename == "" )
+  if (  filename.empty() )
     {
     itkDebugMacro(<< "No filename specified.");
     return false;
@@ -374,7 +374,7 @@ bool JPEGImageIO::CanWriteFile(const char *name)
 {
   std::string filename = name;
 
-  if ( filename == "" )
+  if ( filename.empty() )
     {
     return false;
     }

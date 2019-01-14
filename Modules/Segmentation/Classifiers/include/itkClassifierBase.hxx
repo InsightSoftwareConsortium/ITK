@@ -72,7 +72,7 @@ ClassifierBase< TDataContainer >
     return;
     }
 
-  if ( m_MembershipFunctions.size() == 0 )
+  if ( m_MembershipFunctions.empty() )
     {
     itkExceptionMacro("No membership function");
     return;

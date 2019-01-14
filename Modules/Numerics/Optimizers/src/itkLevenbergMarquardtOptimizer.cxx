@@ -232,7 +232,7 @@ LevenbergMarquardtOptimizer
     {
     GetOptimizer()->diagnose_outcome(outcome);
     }
-  reason << this->GetNameOfClass() << ": " << ( ( outcome.str().size() > 0 ) ? outcome.str().c_str() : "" );
+  reason << this->GetNameOfClass() << ": " << ( ( !outcome.str().empty() ) ? outcome.str().c_str() : "" );
   return reason.str();
 }
 } // end namespace itk

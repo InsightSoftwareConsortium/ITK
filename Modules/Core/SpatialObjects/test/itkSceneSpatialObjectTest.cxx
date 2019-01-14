@@ -75,7 +75,7 @@ int itkSceneSpatialObjectTest(int, char* [])
   std::cout << "[PASSED]" << std::endl;
 
   std::cout << "Testing BoundingBoxChildrenName: ";
-  if(object->GetBoundingBoxChildrenName() != "")
+  if(!object->GetBoundingBoxChildrenName().empty())
   {
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;

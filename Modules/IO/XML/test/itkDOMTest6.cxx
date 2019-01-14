@@ -346,7 +346,7 @@ void testStringToolsForStringOperations()
       throw "testStringToolsForStringOperations: failed [not] trimming both sides";
     }
   s = "    ";
-  if ( itk::StringTools::Trim(s) != "" )
+  if ( !itk::StringTools::Trim(s).empty() )
     {
       throw "testStringToolsForStringOperations: failed trimming entire string";
     }

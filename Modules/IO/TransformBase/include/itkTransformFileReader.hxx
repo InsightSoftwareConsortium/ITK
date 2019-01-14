@@ -86,7 +86,7 @@ template<typename TParametersValueType>
 void TransformFileReaderTemplate<TParametersValueType>
 ::Update()
 {
-  if ( m_FileName == "" )
+  if ( m_FileName.empty() )
     {
     itkExceptionMacro ("No file name given");
     }
@@ -107,7 +107,7 @@ void TransformFileReaderTemplate<TParametersValueType>
 
       std::list< LightObject::Pointer > allobjects =  ObjectFactoryBase::CreateAllInstance("itkTransformIOBaseTemplate");
 
-      if (allobjects.size() > 0)
+      if (!allobjects.empty())
         {
         msg << "  Tried to create one of the following:" << std::endl;
         for (auto & allobject : allobjects)

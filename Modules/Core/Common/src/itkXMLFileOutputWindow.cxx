@@ -44,7 +44,7 @@ XMLFileOutputWindow
 {
   if ( !m_Stream )
     {
-    if ( m_FileName == "" )
+    if ( m_FileName.empty() )
       {
       m_FileName = "itkMessageLog.xml";
       }

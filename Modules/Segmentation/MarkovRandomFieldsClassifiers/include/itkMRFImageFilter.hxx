@@ -341,7 +341,7 @@ void
 MRFImageFilter< TInputImage, TClassifiedImage >
 ::SetMRFNeighborhoodWeight(std::vector< double > betaMatrix)
 {
-  if ( betaMatrix.size() == 0 )
+  if ( betaMatrix.empty() )
     {
     //Call a the function to set the default neighborhood
     this->SetDefaultMRFNeighborhoodWeight();

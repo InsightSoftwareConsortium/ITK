@@ -124,7 +124,7 @@ void
 StringTools::Split( const std::string& s, std::vector<std::string>& result, const std::string& delims )
 {
   std::string str = s;
-  while ( str.size() )
+  while ( !str.empty() )
     {
     std::string::size_type pos = str.find_first_of( delims );
     if ( pos != std::string::npos )

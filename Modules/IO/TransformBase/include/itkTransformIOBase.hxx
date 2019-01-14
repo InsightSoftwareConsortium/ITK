@@ -109,7 +109,7 @@ Superclass::PrintSelf(os, indent);
 os << indent << "FileName: " << m_FileName << std::endl;
 os << indent << "AppendMode: "
 << ( m_AppendMode ? "true" : "false" ) << std::endl;
-if ( m_ReadTransformList.size() > 0 )
+if ( !m_ReadTransformList.empty() )
   {
   os << indent << "ReadTransformList: " << std::endl;
   auto it = m_ReadTransformList.begin();
@@ -119,7 +119,7 @@ if ( m_ReadTransformList.size() > 0 )
     ++it;
     }
   }
-if ( m_WriteTransformList.size() > 0 )
+if ( !m_WriteTransformList.empty() )
   {
   os << indent << "WriteTransformList: " << std::endl;
 

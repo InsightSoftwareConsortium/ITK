@@ -27,7 +27,7 @@ MinimumDecisionRule
 {
   ClassIdentifierType minIndex = 0;
 
-  if (discriminantScores.size() > 0)
+  if (!discriminantScores.empty())
     {
     MembershipValueType  min = discriminantScores[0];
     ClassIdentifierType i;

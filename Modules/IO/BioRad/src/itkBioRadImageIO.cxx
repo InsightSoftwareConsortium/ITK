@@ -132,7 +132,7 @@ bool BioRadImageIO::CanReadFile(const char *filename)
   std::ifstream file;
   std::string   fname(filename);
 
-  if ( fname == "" )
+  if ( fname.empty() )
     {
     itkDebugMacro(<< "No filename specified.");
     return false;
@@ -389,7 +389,7 @@ bool BioRadImageIO::CanWriteFile(const char *name)
 {
   std::string filename = name;
 
-  if ( filename == "" )
+  if ( filename.empty() )
     {
     itkDebugMacro(<< "No filename specified.");
     return false;

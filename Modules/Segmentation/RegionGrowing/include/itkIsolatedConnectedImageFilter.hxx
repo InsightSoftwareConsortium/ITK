@@ -130,7 +130,7 @@ void
 IsolatedConnectedImageFilter< TInputImage, TOutputImage >
 ::ClearSeeds1()
 {
-  if ( this->m_Seeds1.size() > 0 )
+  if ( !this->m_Seeds1.empty() )
     {
     this->m_Seeds1.clear();
     this->Modified();
@@ -165,7 +165,7 @@ void
 IsolatedConnectedImageFilter< TInputImage, TOutputImage >
 ::ClearSeeds2()
 {
-  if ( this->m_Seeds2.size() > 0 )
+  if ( !this->m_Seeds2.empty() )
     {
     this->m_Seeds2.clear();
     this->Modified();

@@ -114,7 +114,7 @@ void TransformFileWriterTemplate<TParametersValueType>
   const std::string transformName = transform->GetNameOfClass();
   if( transformName.find("CompositeTransform") != std::string::npos )
     {
-    if(this->m_TransformList.size() > 0)
+    if(!this->m_TransformList.empty())
       {
       itkExceptionMacro("Can only write a transform of type CompositeTransform "
                         "as the first transform in the file.");
@@ -128,7 +128,7 @@ template<typename TParametersValueType>
 void TransformFileWriterTemplate<TParametersValueType>
 ::Update()
 {
-  if ( m_FileName == "" )
+  if ( m_FileName.empty() )
     {
     itkExceptionMacro ("No file name given");
     }
@@ -145,7 +145,7 @@ void TransformFileWriterTemplate<TParametersValueType>
 
       std::list< LightObject::Pointer > allobjects =  ObjectFactoryBase::CreateAllInstance("itkTransformIOBaseTemplate");
 
-      if (allobjects.size() > 0)
+      if (!allobjects.empty())
         {
         msg << "  Tried to create one of the following:" << std::endl;
         for (auto & allobject : allobjects)

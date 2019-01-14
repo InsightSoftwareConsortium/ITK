@@ -173,7 +173,7 @@ public:
   {
     // NOTE ALEX: should update the array on the fly to make it faster
     MakePointIds();
-    if ( m_PointIds.size() == 0 )
+    if ( m_PointIds.empty() )
       {
       return ( static_cast< PointIdIterator >( nullptr ) );
       }
@@ -186,7 +186,7 @@ public:
   PointIdIterator PointIdsEnd() override
   {
     // NOTE ALEX: should update the array on the fly to make it faster
-    if ( m_PointIds.size() == 0 )
+    if ( m_PointIds.empty() )
       {
       return ( static_cast< PointIdIterator >( nullptr ) );
       }
@@ -200,7 +200,7 @@ public:
   {
     // NOTE ALEX: should update the array on the fly to make it faster
     MakePointIds();
-    if ( m_PointIds.size() == 0 )
+    if ( m_PointIds.empty() )
       {
       return ( static_cast< PointIdIterator >( nullptr ) );
       }
@@ -213,7 +213,7 @@ public:
   PointIdConstIterator PointIdsEnd() const override
   {
     // NOTE ALEX: should update the array on the fly to make it faster
-    if ( m_PointIds.size() == 0 )
+    if ( m_PointIds.empty() )
       {
       return ( static_cast< PointIdIterator >( nullptr ) );
       }

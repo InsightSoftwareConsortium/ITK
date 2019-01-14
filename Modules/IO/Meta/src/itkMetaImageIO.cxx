@@ -73,7 +73,7 @@ bool MetaImageIO::CanReadFile(const char *filename)
   // First check the extension
   std::string fname = filename;
 
-  if (  fname == "" )
+  if (  fname.empty() )
     {
     itkDebugMacro(<< "No filename specified.");
     return false;
@@ -504,7 +504,7 @@ bool MetaImageIO::CanWriteFile(const char *name)
 {
   std::string filename = name;
 
-  if (  filename == "" )
+  if (  filename.empty() )
     {
     return false;
     }
@@ -647,7 +647,7 @@ MetaImageIO
 
     value = strs.str();
 
-    if (value == "" )
+    if (value.empty() )
       {
       // if the value is an empty string then the resulting entry in
       // the header will not be able to be read the the metaIO
@@ -1214,7 +1214,7 @@ MetaImageIO::GetActualNumberOfSplitsForWriting(unsigned int numberOfRequestedSpl
     // 5)direction cosines
     //
 
-    if ( errorMessage.size() )
+    if ( !errorMessage.empty() )
       {
       // 0) Can't read file
       }
@@ -1261,7 +1261,7 @@ MetaImageIO::GetActualNumberOfSplitsForWriting(unsigned int numberOfRequestedSpl
         }
       }
 
-    if ( errorMessage.size() )
+    if ( !errorMessage.empty() )
       {
       itkExceptionMacro("Unable to paste because pasting file exists and is different. " << errorMessage);
       }

@@ -289,7 +289,7 @@ FreeSurferBinaryMeshIO
 ::WriteMeshInformation()
 {
   // Check file name
-  if ( this->m_FileName == "" )
+  if ( this->m_FileName.empty() )
     {
     itkExceptionMacro("No Input FileName");
     }
@@ -344,7 +344,7 @@ FreeSurferBinaryMeshIO
 ::WritePoints(void *buffer)
 {
   // check file name
-  if ( this->m_FileName == "" )
+  if ( this->m_FileName.empty() )
     {
     itkExceptionMacro("No Input FileName");
     }
@@ -452,7 +452,7 @@ FreeSurferBinaryMeshIO
 ::WriteCells(void *buffer)
 {
   // Check file name
-  if ( this->m_FileName == "" )
+  if ( this->m_FileName.empty() )
     {
     itkExceptionMacro("No Input FileName");
     }
@@ -548,7 +548,7 @@ FreeSurferBinaryMeshIO
 ::WritePointData(void *buffer)
 {
   // check file name
-  if ( this->m_FileName == "" )
+  if ( this->m_FileName.empty() )
     {
     itkExceptionMacro("No Input FileName");
     }
