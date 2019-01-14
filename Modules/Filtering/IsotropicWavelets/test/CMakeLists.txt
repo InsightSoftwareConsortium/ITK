@@ -604,16 +604,7 @@ itk_add_test(
     2
 )
 ##FFTPad
-itk_add_test(
-  NAME itkFFTPadPositiveIndexImageFilterTestZeroFluxNeumann
-  COMMAND
-    IsotropicWaveletsTestDriver
-    itkFFTPadPositiveIndexImageFilterTest
-    DATA{Input/checkershadow_Lch_512x512.tiff}
-    ${ITK_TEST_OUTPUT_DIR}/itkFFTPadPositiveIndexImageFilterTestZeroFluxNeumann.tiff
-    2
-    ZEROFLUXNEUMANN
-)
+# TODO: Add 2D Odd Data, current 512x512 input does not cover the class well. Other boundary conditions have been removed.
 itk_add_test(
   NAME itkFFTPadPositiveIndexImageFilterTestConstant
   COMMAND
@@ -623,16 +614,6 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkFFTPadPositiveIndexImageFilterTestConstant.tiff
     2
     CONSTANT
-)
-itk_add_test(
-  NAME itkFFTPadPositiveIndexImageFilterTestPeriodic
-  COMMAND
-    IsotropicWaveletsTestDriver
-    itkFFTPadPositiveIndexImageFilterTest
-    DATA{Input/checkershadow_Lch_512x512.tiff}
-    ${ITK_TEST_OUTPUT_DIR}/itkFFTPadPositiveIndexImageFilterTestPeriodic.tiff
-    2
-    PERIODIC
 )
 ## ZeroDC
 itk_add_test(

@@ -36,6 +36,7 @@ FFTPadPositiveIndexImageFilter<TInputImage, TOutputImage>::FFTPadPositiveIndexIm
   m_BoundaryCondition = m_FFTPadFilter->GetBoundaryCondition();
   m_ChangeInfoFilter = ChangeInfoFilterType::New();
   m_ChangeInfoFilter->ChangeRegionOn();
+  m_ChangeInfoFilter->ChangeOriginOn();
 }
 
 template <class TInputImage, class TOutputImage>
@@ -100,11 +101,14 @@ FFTPadPositiveIndexImageFilter<TInputImage, TOutputImage>::GenerateOutputInforma
       // make sure the total size is even
       padSize += (inputRegion.GetSize()[i] + padSize) % 2;
     }
+    m_HalfPadSize[i] = padSize / 2;
     index[i] = inputRegion.GetIndex()[i];
     size[i] = inputRegion.GetSize()[i] + padSize;
   }
   RegionType region(index, size);
   outputPtr->SetLargestPossibleRegion(region);
+  // In GenerateData the output will be grafted from a ChangeInformationFilter.
+  // That will set the correct Origin.
 }
 
 template <class TInputImage, class TOutputImage>
@@ -140,8 +144,13 @@ FFTPadPositiveIndexImageFilter<TInputImage, TOutputImage>::GenerateData()
   typename OutputImageType::IndexType negativeIndex =
     m_FFTPadFilter->GetOutput()->GetLargestPossibleRegion().GetIndex();
 
+  auto outputNewOrigin = this->GetInput()->GetOrigin();
+  auto fakeOriginIndex = this->GetInput()->GetLargestPossibleRegion().GetIndex() - m_HalfPadSize;
+  this->GetInput()->TransformIndexToPhysicalPoint(fakeOriginIndex, outputNewOrigin);
+
   m_ChangeInfoFilter->SetOutputOffset(outputIndex - negativeIndex);
   itkDebugMacro(<< "Offset difference: " << outputIndex - negativeIndex);
+  m_ChangeInfoFilter->SetOutputOrigin(outputNewOrigin);
   m_ChangeInfoFilter->SetInput(m_FFTPadFilter->GetOutput());
   m_ChangeInfoFilter->GraftOutput(output);
   m_ChangeInfoFilter->Update();

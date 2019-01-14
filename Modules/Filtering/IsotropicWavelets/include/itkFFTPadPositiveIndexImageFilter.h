@@ -21,6 +21,8 @@
 
 #include "itkFFTPadImageFilter.h"
 #include "itkImageBoundaryCondition.h"
+#include "itkConstantBoundaryCondition.h"
+#include "itkPeriodicBoundaryCondition.h"
 #include "itkChangeInformationImageFilter.h"
 
 namespace itk
@@ -101,6 +103,22 @@ public:
       this->Modified();
     }
   }
+  itkGetConstMacro(HalfPadSize, SizeType);
+  void
+  SetBoundaryConditionToConstant(const OutputImagePixelType & boundaryValue)
+  {
+    using BoundaryCondition = itk::ConstantBoundaryCondition<InputImageType, OutputImageType>;
+    static BoundaryCondition boundaryCondition;
+    boundaryCondition.SetConstant(boundaryValue);
+    this->SetBoundaryCondition(&boundaryCondition);
+  }
+  void
+  SetBoundaryConditionToPeriodic()
+  {
+    using BoundaryCondition = itk::PeriodicBoundaryCondition<InputImageType, OutputImageType>;
+    static BoundaryCondition boundaryCondition;
+    this->SetBoundaryCondition(&boundaryCondition);
+  }
 
 protected:
   FFTPadPositiveIndexImageFilter();
@@ -122,6 +140,7 @@ private:
   typename ChangeInfoFilterType::Pointer m_ChangeInfoFilter;
   SizeValueType                          m_SizeGreatestPrimeFactor;
   BoundaryConditionPointerType           m_BoundaryCondition;
+  SizeType                               m_HalfPadSize;
 }; // end of class
 } // end namespace itk
 
