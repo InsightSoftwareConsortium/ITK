@@ -84,6 +84,8 @@ public:
   /** Get the computed offset. */
   itkGetConstReferenceMacro( Offsets, OffsetVector );
 
+  using Superclass::SetInput;
+
   /** Sets the input image to the optimizer. */
   void SetInput( const ImageType* image );
 
@@ -108,9 +110,11 @@ public:
     return m_Offsets.size();
   }
 
+  using Superclass::MakeOutput;
+
   /** Make a DataObject of the correct type to be used as the specified
    *  output. */
-  DataObjectPointer MakeOutput( DataObjectPointerArraySizeType idx ) override
+  DataObjectPointer MakeOutput( DataObjectPointerArraySizeType itkNotUsed(idx) ) override
   {
     return static_cast< DataObject* >( OffsetOutputType::New().GetPointer() );
   }

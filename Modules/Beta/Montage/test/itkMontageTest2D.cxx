@@ -51,7 +51,6 @@ int itkMontageTest2D(int argc, char* argv[])
     streamSubdivisions = std::stoul( argv[7] );
     }
 
-  constexpr unsigned Dimension = 2;
   std::string inputPath = argv[1];
   if ( inputPath.back() != '/' && inputPath.back() != '\\' )
     {

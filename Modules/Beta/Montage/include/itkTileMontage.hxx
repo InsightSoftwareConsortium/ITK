@@ -125,9 +125,8 @@ TileMontage< TImageType, TCoordinate >
   if ( input.GetPointer() != reinterpret_cast< TImageToRead* >( this->m_Dummy.GetPointer() ) )
     {
     // construct new metadata so adjustments do not modify the original input
-    RegionType region = input->GetBufferedRegion();
     result = TImageToRead::New();
-    result->SetRegions( region );
+    result->SetRegions( input->GetBufferedRegion() );
     result->SetOrigin( input->GetOrigin() );
     result->SetSpacing( input->GetSpacing() );
     result->SetDirection( input->GetDirection() );

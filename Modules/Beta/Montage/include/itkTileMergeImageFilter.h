@@ -172,8 +172,10 @@ protected:
   /** Method invoked by the pipeline to determine the output information. */
   void GenerateOutputInformation() override;
 
+  using Superclass::MakeOutput;
+
   /** Make a DataObject of the correct type to be used as the specified output. */
-  typename DataObject::Pointer MakeOutput( typename Superclass::DataObjectPointerArraySizeType idx ) override
+  typename DataObject::Pointer MakeOutput( typename Superclass::DataObjectPointerArraySizeType ) override
   {
     return ImageType::New();
   }
