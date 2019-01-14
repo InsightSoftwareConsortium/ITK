@@ -173,15 +173,17 @@ itkWaveletUtilitiesTest(int, char *[])
     unsigned int bands = 1;
     unsigned int expectedLevel = 0;
     unsigned int expectedBand = 1;
-    testOutputIndexToLevelBandPassed = IndexToLevelBandTest(linearIndex, levels, bands, expectedLevel, expectedBand);
+    testOutputIndexToLevelBandPassed =
+      testOutputIndexToLevelBandPassed && IndexToLevelBandTest(linearIndex, levels, bands, expectedLevel, expectedBand);
   }
   {
     unsigned int linearIndex = 1;
     unsigned int levels = 1;
     unsigned int bands = 1;
-    unsigned int expectedLevel = 0;
+    unsigned int expectedLevel = levels;
     unsigned int expectedBand = 0;
-    testOutputIndexToLevelBandPassed = IndexToLevelBandTest(linearIndex, levels, bands, expectedLevel, expectedBand);
+    testOutputIndexToLevelBandPassed =
+      testOutputIndexToLevelBandPassed && IndexToLevelBandTest(linearIndex, levels, bands, expectedLevel, expectedBand);
   }
   {
     unsigned int linearIndex = 4;
@@ -195,7 +197,8 @@ itkWaveletUtilitiesTest(int, char *[])
     unsigned int bands = 2;
     unsigned int expectedLevel = 0;
     unsigned int expectedBand = 1;
-    testOutputIndexToLevelBandPassed = IndexToLevelBandTest(linearIndex, levels, bands, expectedLevel, expectedBand);
+    testOutputIndexToLevelBandPassed =
+      testOutputIndexToLevelBandPassed && IndexToLevelBandTest(linearIndex, levels, bands, expectedLevel, expectedBand);
   }
   {
     unsigned int linearIndex = 1;
@@ -203,7 +206,8 @@ itkWaveletUtilitiesTest(int, char *[])
     unsigned int bands = 2;
     unsigned int expectedLevel = 0;
     unsigned int expectedBand = 2;
-    testOutputIndexToLevelBandPassed = IndexToLevelBandTest(linearIndex, levels, bands, expectedLevel, expectedBand);
+    testOutputIndexToLevelBandPassed =
+      testOutputIndexToLevelBandPassed && IndexToLevelBandTest(linearIndex, levels, bands, expectedLevel, expectedBand);
   }
   {
     unsigned int linearIndex = 2;
@@ -211,7 +215,8 @@ itkWaveletUtilitiesTest(int, char *[])
     unsigned int bands = 2;
     unsigned int expectedLevel = 1;
     unsigned int expectedBand = 1;
-    testOutputIndexToLevelBandPassed = IndexToLevelBandTest(linearIndex, levels, bands, expectedLevel, expectedBand);
+    testOutputIndexToLevelBandPassed =
+      testOutputIndexToLevelBandPassed && IndexToLevelBandTest(linearIndex, levels, bands, expectedLevel, expectedBand);
   }
   {
     unsigned int linearIndex = 3;
@@ -219,15 +224,17 @@ itkWaveletUtilitiesTest(int, char *[])
     unsigned int bands = 2;
     unsigned int expectedLevel = 1;
     unsigned int expectedBand = 2;
-    testOutputIndexToLevelBandPassed = IndexToLevelBandTest(linearIndex, levels, bands, expectedLevel, expectedBand);
+    testOutputIndexToLevelBandPassed =
+      testOutputIndexToLevelBandPassed && IndexToLevelBandTest(linearIndex, levels, bands, expectedLevel, expectedBand);
   }
   {
     unsigned int linearIndex = 4;
     unsigned int levels = 2;
     unsigned int bands = 2;
-    unsigned int expectedLevel = 1;
+    unsigned int expectedLevel = levels;
     unsigned int expectedBand = 0;
-    testOutputIndexToLevelBandPassed = IndexToLevelBandTest(linearIndex, levels, bands, expectedLevel, expectedBand);
+    testOutputIndexToLevelBandPassed =
+      testOutputIndexToLevelBandPassed && IndexToLevelBandTest(linearIndex, levels, bands, expectedLevel, expectedBand);
   }
   {
     unsigned int linearIndex = 5;
@@ -238,18 +245,18 @@ itkWaveletUtilitiesTest(int, char *[])
 
   if (!testOutputIndexToLevelBandPassed)
   {
-    std::cerr << "Error in OutputIndexToLevelBand" << std::endl;
-    testPassed = false;
+    std::cerr << "Test failed in OutputIndexToLevelBand." << std::endl;
   }
 
   // Test ComputeMaxNumberOfLevels
   bool testComputeMaxNumberOfLevelsPassed = testComputeMaxNumberOfLevels();
   if (!testComputeMaxNumberOfLevelsPassed)
   {
-    testPassed = false;
+    std::cerr << "Test failed in ComputerMaxNumberOfLevels." << std::endl;
   }
 
 
+  testPassed = testOutputIndexToLevelBandPassed && testComputeMaxNumberOfLevelsPassed;
   if (testPassed)
   {
     return EXIT_SUCCESS;
