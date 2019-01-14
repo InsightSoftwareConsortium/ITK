@@ -9,6 +9,7 @@
 %include <typemaps.i>
 
 %include <std_string.i>
+%include <std_pair.i>
 %include <std_vector.i>
 %include <std_map.i>
 %include <std_list.i>
@@ -711,12 +712,11 @@ str = str
 
 // some code from stl
 
-%template(vectorstring)   std::vector< std::string >;
-%template(liststring)     std::list< std::string >;
-
 %template(mapULD)         std::map< unsigned long, double >;
 %template(mapBB)          std::map< bool, bool >;
+%template(mapII)          std::map< int, int >;
 %template(mapUCUC)        std::map< unsigned char, unsigned char >;
+%template(mapUIUI)        std::map< unsigned int, unsigned int >;
 %template(mapUSUS)        std::map< unsigned short, unsigned short >;
 %template(mapULUL)        std::map< unsigned long, unsigned long >;
 %template(mapSCSC)        std::map< signed char, signed char >;
@@ -725,12 +725,19 @@ str = str
 %template(mapFF)          std::map< float, float >;
 %template(mapDD)          std::map< double, double >;
 
+%template(pairI)          std::pair< int, int >;
+%template(pairUI)         std::pair< unsigned int, unsigned int >;
+
 %template(vectorB)        std::vector< bool >;
 %template(vectorvectorB)  std::vector< std::vector< bool > >;
+%template(vectorI)        std::vector< int >;
+%template(vectorvectorI)  std::vector< std::vector< int > >;
 %template(vectorUC)       std::vector< unsigned char >;
 %template(vectorvectorUC) std::vector< std::vector< unsigned char > >;
 %template(vectorUS)       std::vector< unsigned short >;
 %template(vectorvectorUS) std::vector< std::vector< unsigned short > >;
+%template(vectorUI)       std::vector< unsigned int >;
+%template(vectorvectorUI) std::vector< std::vector< unsigned int > >;
 %template(vectorUL)       std::vector< unsigned long >;
 %template(vectorvectorUL) std::vector< std::vector< unsigned long > >;
 %template(vectorSC)       std::vector< signed char >;
@@ -743,20 +750,26 @@ str = str
 %template(vectorvectorF)  std::vector< std::vector< float > >;
 %template(vectorD)        std::vector< double >;
 %template(vectorvectorD)  std::vector< std::vector< double > >;
+%template(vectorstring)   std::vector< std::string >;
 
 %template(listB)          std::list< bool >;
+%template(listI)          std::list< int >;
 %template(listUC)         std::list< unsigned char >;
 %template(listUS)         std::list< unsigned short >;
+%template(listUI)         std::list< unsigned int >;
 %template(listUL)         std::list< unsigned long >;
 %template(listSC)         std::list< signed char >;
 %template(listSS)         std::list< signed short >;
 %template(listSL)         std::list< signed long >;
 %template(listF)          std::list< float >;
 %template(listD)          std::list< double >;
+%template(liststring)     std::list< std::string >;
 
 %template(setB)          std::set< bool, std::less< bool > >;
+%template(setI)          std::set< int, std::less< int > >;
 %template(setUC)         std::set< unsigned char, std::less< unsigned char > >;
 %template(setUS)         std::set< unsigned short, std::less< unsigned short > >;
+%template(setUI)         std::set< unsigned int, std::less< unsigned int > >;
 %template(setUL)         std::set< unsigned long, std::less< unsigned long > >;
 %template(setULL)        std::set< unsigned long long, std::less< unsigned long long > >;
 %template(setSC)         std::set< signed char, std::less< signed char > >;
