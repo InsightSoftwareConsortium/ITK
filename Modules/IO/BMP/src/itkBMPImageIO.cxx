@@ -58,7 +58,7 @@ bool BMPImageIO::CanReadFile(const char *filename)
   // First check the filename
   std::string fname = filename;
 
-  if ( fname == "" )
+  if ( fname.empty() )
     {
     itkDebugMacro(<< "No filename specified.");
     }
@@ -152,7 +152,7 @@ bool BMPImageIO::CanWriteFile(const char *name)
 {
   std::string filename = name;
 
-  if ( filename == "" )
+  if ( filename.empty() )
     {
     itkDebugMacro(<< "No filename specified.");
     }
@@ -971,7 +971,7 @@ void BMPImageIO::PrintSelf(std::ostream & os, Indent indent) const
     {
     os << "Read as Scalar Image plus palette" << "\n";
     }
-  if( m_ColorPalette.size() > 0  )
+  if( !m_ColorPalette.empty()  )
     {
     os << indent << "ColorPalette:" << std::endl;
     for( unsigned int i = 0; i < m_ColorPalette.size(); ++i )

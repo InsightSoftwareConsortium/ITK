@@ -67,7 +67,7 @@ void
 ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 ::ClearSeeds()
 {
-  if ( m_Seeds.size() > 0 )
+  if ( !m_Seeds.empty() )
     {
     this->m_Seeds.clear();
     this->Modified();

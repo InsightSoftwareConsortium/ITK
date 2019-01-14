@@ -49,7 +49,7 @@ RegularExpressionSeriesFileNames
 ::GetFileNames()
 {
   // Validate the ivars
-  if ( m_Directory == "" )
+  if ( m_Directory.empty() )
     {
     itkExceptionMacro (<< "No directory defined!");
     }

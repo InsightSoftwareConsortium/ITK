@@ -405,7 +405,7 @@ void FileListVideoIO::OpenWriter()
     }
 
   // Make sure FileNames have been specified
-  if (m_FileNames.size() == 0)
+  if (m_FileNames.empty())
     {
     itkExceptionMacro("Cannot open reader without file names set");
     }

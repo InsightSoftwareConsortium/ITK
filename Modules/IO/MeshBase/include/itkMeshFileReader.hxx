@@ -481,7 +481,7 @@ void
 MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
 ::GenerateOutputInformation()
 {
-  if ( m_FileName == "" )
+  if ( m_FileName.empty() )
     {
     throw MeshFileReaderException(__FILE__, __LINE__, "FileName must be specified", ITK_LOCATION);
     }
@@ -505,7 +505,7 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
     {
     std::ostringstream msg;
     msg << " Could not create IO object for file " << m_FileName.c_str() << std::endl;
-    if ( m_ExceptionMessage.size() )
+    if ( !m_ExceptionMessage.empty() )
       {
       msg << m_ExceptionMessage;
       }

@@ -111,7 +111,7 @@ DTITubeSpatialObjectPoint< TPointDimension >
 {
   std::string charname = this->TranslateEnumToChar(name);
 
-  if ( charname.size() > 0 )
+  if ( !charname.empty() )
     {
     this->SetField(charname.c_str(), value);
     }
@@ -130,7 +130,7 @@ DTITubeSpatialObjectPoint< TPointDimension >
 {
   std::string charname = this->TranslateEnumToChar(name);
 
-  if ( charname.size() > 0 )
+  if ( !charname.empty() )
     {
     FieldType field(itksys::SystemTools::LowerCase(charname).c_str(), value);
     m_Fields.push_back(field);
@@ -169,7 +169,7 @@ DTITubeSpatialObjectPoint< TPointDimension >
 ::GetField(FieldEnumType name) const
 {
   std::string charname = this->TranslateEnumToChar(name);
-  if ( charname.size() > 0 )
+  if ( !charname.empty() )
     {
     return this->GetField( itksys::SystemTools::LowerCase(charname).c_str() );
     }

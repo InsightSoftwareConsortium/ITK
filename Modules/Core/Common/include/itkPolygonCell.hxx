@@ -168,7 +168,7 @@ void
 PolygonCell< TCellInterface >
 ::BuildEdges()
 {
-  if ( m_PointIds.size() > 0 )
+  if ( !m_PointIds.empty() )
     {
     m_Edges.resize( m_PointIds.size() );
     const auto numberOfPoints = static_cast< unsigned int >( m_PointIds.size() );
@@ -291,7 +291,7 @@ typename PolygonCell< TCellInterface >::PointIdIterator
 PolygonCell< TCellInterface >
 ::PointIdsBegin()
 {
-  if ( m_PointIds.size() > 0 )
+  if ( !m_PointIds.empty() )
     {
     return &*( m_PointIds.begin() );
     }
@@ -311,7 +311,7 @@ typename PolygonCell< TCellInterface >::PointIdConstIterator
 PolygonCell< TCellInterface >
 ::PointIdsBegin() const
 {
-  if ( m_PointIds.size() > 0 )
+  if ( !m_PointIds.empty() )
     {
     return &*( m_PointIds.begin() );
     }
@@ -330,7 +330,7 @@ typename PolygonCell< TCellInterface >::PointIdIterator
 PolygonCell< TCellInterface >
 ::PointIdsEnd()
 {
-  if ( m_PointIds.size() > 0 )
+  if ( !m_PointIds.empty() )
     {
     return &m_PointIds[m_PointIds.size() - 1] + 1;
     }
@@ -350,7 +350,7 @@ typename PolygonCell< TCellInterface >::PointIdConstIterator
 PolygonCell< TCellInterface >
 ::PointIdsEnd() const
 {
-  if ( m_PointIds.size() > 0 )
+  if ( !m_PointIds.empty() )
     {
     return &m_PointIds[m_PointIds.size() - 1] + 1;
     }

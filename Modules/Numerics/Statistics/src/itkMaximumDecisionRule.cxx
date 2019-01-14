@@ -27,7 +27,7 @@ MaximumDecisionRule
 {
   ClassIdentifierType maxIndex = 0;
 
-  if (discriminantScores.size() > 0)
+  if (!discriminantScores.empty())
     {
     MembershipValueType  max = discriminantScores[0];
     ClassIdentifierType i;

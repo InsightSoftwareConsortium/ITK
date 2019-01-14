@@ -167,7 +167,7 @@ MetaImageConverter< NDimensions, PixelType, TSpatialObjectType >
   if ( this->GetWriteImagesInSeparateFile())
     {
     std::string filename = imageSO->GetProperty()->GetName();
-    if ( filename.size() == 0 )
+    if ( filename.empty() )
       {
       std::cout << "Error: you should set the image name when using"
                 << " WriteImagesInSeparateFile." << std::endl;

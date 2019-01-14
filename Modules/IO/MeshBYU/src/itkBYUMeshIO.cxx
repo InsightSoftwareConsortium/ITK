@@ -293,7 +293,7 @@ BYUMeshIO
 ::WriteMeshInformation()
 {
   // Check file name
-  if ( this->m_FileName == "" )
+  if ( this->m_FileName.empty() )
     {
     itkExceptionMacro("No Input FileName");
     }
@@ -324,7 +324,7 @@ BYUMeshIO
 ::WritePoints(void *buffer)
 {
   // check file name
-  if ( this->m_FileName == "" )
+  if ( this->m_FileName.empty() )
     {
     itkExceptionMacro("No Input FileName");
     }
@@ -432,7 +432,7 @@ BYUMeshIO
 ::WriteCells(void *buffer)
 {
   // Check file name
-  if ( this->m_FileName == "" )
+  if ( this->m_FileName.empty() )
     {
     itkExceptionMacro("No Input FileName");
     }

@@ -35,7 +35,7 @@ ImageSeriesReader< TOutputImage >
 ::~ImageSeriesReader()
 {
   // Clear the eventual previous content of the MetaDictionary array
-  if ( m_MetaDataDictionaryArray.size() )
+  if ( !m_MetaDataDictionaryArray.empty() )
     {
     for ( unsigned int i = 0; i < m_MetaDataDictionaryArray.size(); i++ )
       {
@@ -104,7 +104,7 @@ void ImageSeriesReader< TOutputImage >
   std::string key("ITK_ImageOrigin");
 
   // Clear the previous content of the MetaDictionary array
-  if ( m_MetaDataDictionaryArray.size() )
+  if ( !m_MetaDataDictionaryArray.empty() )
     {
     for ( unsigned int i = 0; i < m_MetaDataDictionaryArray.size(); i++ )
       {

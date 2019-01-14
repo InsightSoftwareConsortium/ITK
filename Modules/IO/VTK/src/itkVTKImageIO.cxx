@@ -60,7 +60,7 @@ int VTKImageIO::GetNextLine(std::ifstream& ifs, std::string& line, bool lowerCas
     }
 
   // Check an empty line with the size of a read line from *.vtk file
-  if(line.size() < 1)
+  if(line.empty())
     {
     return GetNextLine(ifs, line, lowerCase, ++count);
     }

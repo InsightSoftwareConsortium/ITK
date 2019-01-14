@@ -40,7 +40,7 @@ bool ImageBoundaryFaceCalculatorTest(TImage * image, typename TImage::RegionType
       }
     }
 
-  if( !faceList.size() )
+  if( faceList.empty() )
     return true;
 
   image->FillBuffer(0);

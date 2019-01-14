@@ -57,7 +57,7 @@ void
 CSVFileReaderBase
 ::PrepareForParsing()
 {
-  if ( this->m_FileName == "" )
+  if ( this->m_FileName.empty() )
     {
     itkExceptionMacro( << "There is no file name provided!"
                        << "Please provide a filename." );

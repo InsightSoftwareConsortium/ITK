@@ -46,7 +46,7 @@ MaximumRatioDecisionRule
       os << ", ";
       }
     }
-  if (m_PriorProbabilities.size() > 0 && m_PriorProbabilities.size() < N)
+  if (!m_PriorProbabilities.empty() && m_PriorProbabilities.size() < N)
     {
     os << ", ...";
     }

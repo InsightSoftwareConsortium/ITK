@@ -126,7 +126,7 @@ ArchetypeSeriesFileNames
   // If there is no "/" in the name, the directory is not specified.
   // In that case, use the default ".".  This is necessary for the
   // RegularExpressionSeriesFileNames.
-  if ( fileNamePath == "" )
+  if ( fileNamePath.empty() )
     {
     fileNamePath = ".";
     pathPrefix = "./";
@@ -215,7 +215,7 @@ ArchetypeSeriesFileNames
 
   // If the group list is empty, create a single group containing the
   // archetype.
-  if ( m_Groupings.size() == 0 && itksys::SystemTools::FileExists( unixArchetype.c_str() ) )
+  if ( m_Groupings.empty() && itksys::SystemTools::FileExists( unixArchetype.c_str() ) )
     {
     std::vector< std::string > tlist;
 

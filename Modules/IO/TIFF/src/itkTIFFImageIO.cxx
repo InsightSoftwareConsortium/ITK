@@ -31,7 +31,7 @@ bool TIFFImageIO::CanReadFile(const char *file)
   // First check the filename
   std::string filename = file;
 
-  if ( filename == "" )
+  if ( filename.empty() )
     {
     itkDebugMacro(<< "No filename specified.");
     return false;
@@ -252,7 +252,7 @@ void TIFFImageIO::PrintSelf(std::ostream & os, Indent indent) const
 
   os << indent << "Compression: " << m_Compression << std::endl;
   os << indent << "JPEGQuality: " << m_JPEGQuality << std::endl;
-  if( m_ColorPalette.size() > 0  )
+  if( !m_ColorPalette.empty()  )
     {
     os << indent << "Image RGB palette:" << "\n";
     for (size_t i=0; i< m_ColorPalette.size(); ++i)
@@ -493,7 +493,7 @@ bool TIFFImageIO::CanWriteFile(const char *name)
 {
   std::string filename = name;
 
-  if ( filename == "" )
+  if ( filename.empty() )
     {
     return false;
     }

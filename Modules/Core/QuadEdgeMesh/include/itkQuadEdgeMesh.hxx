@@ -472,7 +472,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 {
 
   // sanity check
-  if( m_FreePointIndexes.size() == 0 )
+  if( m_FreePointIndexes.empty() )
     {
     return;
     }
@@ -499,7 +499,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   QEType* EdgeRingIter;
 
   // for all the free indexes and while there is any gap
-  while( ( m_FreePointIndexes.size() != 0 )
+  while( ( !m_FreePointIndexes.empty() )
     && ( last.Index() >= this->GetNumberOfPoints() ) )
     {
 
@@ -622,7 +622,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 {
   CellIdentifier cid;
 
-  if ( m_FreeCellIndexes.size() == 0 )
+  if ( m_FreeCellIndexes.empty() )
     {
     cid = this->GetNumberOfCells();
 
@@ -757,7 +757,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 {
   CellIdentifier eid = 0;
 
-  if ( this->GetEdgeCells()->size() > 0 )
+  if ( !this->GetEdgeCells()->empty() )
     {
     CellsContainerConstIterator last = this->GetEdgeCells()->End();
     --last;
@@ -1110,7 +1110,7 @@ typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal *
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::GetEdge() const
 {
-  if ( this->GetEdgeCells()->size() == 0 )
+  if ( this->GetEdgeCells()->empty() )
     {
     return ( (QEPrimal *)nullptr );
     }

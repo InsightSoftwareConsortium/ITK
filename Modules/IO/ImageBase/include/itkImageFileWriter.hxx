@@ -117,7 +117,7 @@ ImageFileWriter< TInputImage >
 
   // Make sure that we can write the file given the name
   //
-  if ( m_FileName == "" )
+  if ( m_FileName.empty() )
     {
     itkExceptionMacro(<< "No filename was specified");
     }
@@ -151,7 +151,7 @@ ImageFileWriter< TInputImage >
       ObjectFactoryBase::CreateAllInstance("itkImageIOBase");
     msg << " Could not create IO object for writing file "
         << m_FileName.c_str() << std::endl;
-    if (allobjects.size() > 0)
+    if (!allobjects.empty())
       {
       msg << "  Tried to create one of the following:" << std::endl;
       for (auto & allobject : allobjects)

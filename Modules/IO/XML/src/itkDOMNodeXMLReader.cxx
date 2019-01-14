@@ -179,7 +179,7 @@ DOMNodeXMLReader::CharacterDataHandler( const char* text, int len )
   std::string s( text, len );
 
   StringTools::Trim( s );
-  if ( s.size() == 0 )
+  if ( s.empty() )
     {
     return;
     }

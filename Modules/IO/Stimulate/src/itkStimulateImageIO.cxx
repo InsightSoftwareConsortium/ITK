@@ -63,7 +63,7 @@ bool StimulateImageIO::CanReadFile(const char *filename)
   char          buffer[256];
   std::string   fname(filename);
 
-  if ( fname == "" )
+  if ( fname.empty() )
     {
     itkDebugMacro(<< "No filename specified.");
     return false;
@@ -113,7 +113,7 @@ void StimulateImageIO::Read(void *buffer)
   //read data file
   std::ifstream file_data;
 
-  if ( m_DataFileName == "" )
+  if ( m_DataFileName.empty() )
     {
     //if no data filename was specified try to guess one:
     //based on filename.spr , options are:
@@ -409,7 +409,7 @@ void StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       //otherwise prepend the path of the .spr file.
       std::string datafilenamePath =
         ::itksys::SystemTools::GetFilenamePath (datafilename);
-      if ( datafilenamePath == "" )
+      if ( datafilenamePath.empty() )
         {
         std::string fileNamePath = ::itksys::SystemTools::GetFilenamePath ( m_FileName.c_str() );
         m_DataFileName = fileNamePath + "/" + datafilename;
@@ -459,7 +459,7 @@ bool StimulateImageIO::CanWriteFile(const char *name)
 {
   std::string filename = name;
 
-  if ( filename == "" )
+  if ( filename.empty() )
     {
     itkDebugMacro(<< "No filename specified.");
     return false;

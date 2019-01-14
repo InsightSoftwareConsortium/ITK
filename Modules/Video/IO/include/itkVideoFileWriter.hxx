@@ -96,7 +96,7 @@ VideoFileWriter< TInputVideoStream >
     }
 
   // Make sure FileName is specified
-  if (m_FileName == "")
+  if (m_FileName.empty())
     {
     itkExceptionMacro("No FileName set for writer");
     }

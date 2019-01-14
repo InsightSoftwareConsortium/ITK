@@ -87,7 +87,7 @@ bool CheckFileNameParsing(const std::string & fileName,
   bool nameMatches;
   if ( strlen(nameOnly) == 0 )
     {
-    nameMatches = correctNameOnly.size() == 0;
+    nameMatches = correctNameOnly.empty();
     }
   else
     {
@@ -98,7 +98,7 @@ bool CheckFileNameParsing(const std::string & fileName,
   bool extensionMatches;
   if ( strlen(extension) == 0 )
     {
-    extensionMatches = correctExtension.size() == 0;
+    extensionMatches = correctExtension.empty();
     }
   else
     {
@@ -109,7 +109,7 @@ bool CheckFileNameParsing(const std::string & fileName,
   bool pathMatches;
   if ( strlen(path) == 0 )
     {
-    pathMatches = correctPath.size() == 0;
+    pathMatches = correctPath.empty();
     }
   else
     {

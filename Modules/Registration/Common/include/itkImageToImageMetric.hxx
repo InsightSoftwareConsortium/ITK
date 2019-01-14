@@ -298,7 +298,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
   //are mutually exclusive, so they should not both be checked.
   if ( this->m_UseFixedImageIndexes  == true )
     {
-    if( this->m_FixedImageIndexes.size() == 0 )
+    if( this->m_FixedImageIndexes.empty() )
       {
       itkExceptionMacro(<< "FixedImageIndexes list is empty");
       }

@@ -168,7 +168,7 @@ void IPLCommonImageIO::ReadImageInformation()
   itk::EncapsulateMetaData< std::string >( thisDic, ITK_PatientID, std::string(m_ImageHeader->patientId) );
   itk::EncapsulateMetaData< std::string >( thisDic, ITK_ExperimentDate, std::string(m_ImageHeader->date) );
 
-  if ( _imagePath == "" )
+  if ( _imagePath.empty() )
     {
     RAISE_EXCEPTION();
     }

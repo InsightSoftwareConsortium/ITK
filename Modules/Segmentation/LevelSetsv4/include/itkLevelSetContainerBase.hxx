@@ -165,7 +165,7 @@ bool
 LevelSetContainerBase< TIdentifier, TLevelSet >
 ::HasDomainMap() const
 {
-  if( !this->m_DomainMapFilter.IsNull() && this->m_DomainMapFilter->GetDomainMap().size() > 0 )
+  if( !this->m_DomainMapFilter.IsNull() && !this->m_DomainMapFilter->GetDomainMap().empty() )
     {
     return true;
     }

@@ -720,7 +720,7 @@ bool GDCMImageIO::CanWriteFile(const char *name)
 {
   std::string filename = name;
 
-  if (  filename == "" )
+  if (  filename.empty() )
     {
     itkDebugMacro(<< "No filename specified.");
     return false;
@@ -1008,7 +1008,7 @@ void GDCMImageIO::Write(const void *buffer)
   ExposeMetaData< std::string >(dict, "0028|1052", rescaleintercept);
   std::string rescaleslope;
   ExposeMetaData< std::string >(dict, "0028|1053", rescaleslope);
-  if ( rescaleintercept != "" && rescaleslope != "" )
+  if ( !rescaleintercept.empty() && !rescaleslope.empty() )
     {
     std::stringstream sstr1;
     sstr1 << rescaleintercept;
@@ -1024,7 +1024,7 @@ void GDCMImageIO::Write(const void *buffer)
       }
     // header->InsertValEntry( "US", 0x0028, 0x1054 ); // Rescale Type
     }
-  else if ( rescaleintercept != "" || rescaleslope != "" ) // xor
+  else if ( !rescaleintercept.empty() || !rescaleslope.empty() ) // xor
     {
     itkExceptionMacro("Both RescaleSlope & RescaleIntercept need to be present");
     }
@@ -1093,7 +1093,7 @@ void GDCMImageIO::Write(const void *buffer)
   gdcm::PixelFormat outpixeltype = gdcm::PixelFormat::UNKNOWN;
   if ( pixeltype == gdcm::PixelFormat::FLOAT32 || pixeltype == gdcm::PixelFormat::FLOAT64 )
     {
-    if ( bitsAllocated != "" && bitsStored != "" && highBit != "" && pixelRep != "" )
+    if ( !bitsAllocated.empty() && !bitsStored.empty() && !highBit.empty() && !pixelRep.empty() )
       {
       outpixeltype.SetBitsAllocated( static_cast<unsigned short int>(std::stoi( bitsAllocated.c_str() ) ));
       outpixeltype.SetBitsStored( static_cast<unsigned short int>(std::stoi( bitsStored.c_str() )) );

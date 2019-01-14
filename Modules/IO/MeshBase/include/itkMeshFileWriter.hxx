@@ -89,7 +89,7 @@ MeshFileWriter< TInputMesh >
     }
 
   // Make sure that we can write the file given the name
-  if ( m_FileName == "" )
+  if ( m_FileName.empty() )
     {
     throw MeshFileWriterException(__FILE__, __LINE__, "FileName must be specified", ITK_LOCATION);
     }

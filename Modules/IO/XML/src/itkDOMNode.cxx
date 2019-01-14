@@ -224,7 +224,7 @@ DOMNode::RemoveAllChildren()
 void
 DOMNode::AddChild( DOMNode* node, IdentifierType i )
 {
-  if ( this->m_Children.size() == 0 )
+  if ( this->m_Children.empty() )
     {
     this->AddChildAtEnd( node );
     return;
@@ -494,7 +494,7 @@ DOMNode::Find( const std::string& path )
   DOMNode* node = nullptr;
 
   // /<rpath>
-  if ( s == "" )
+  if ( s.empty() )
     {
     node = this->GetRoot();
     }
@@ -592,7 +592,7 @@ DOMNode::Find( const std::string& path )
       }
     }
 
-  if ( rpath == "" || node == nullptr )
+  if ( rpath.empty() || node == nullptr )
     {
     return node;
     }

@@ -53,15 +53,15 @@ int itkScalarImageKmeansImageFilter3DTest (int argc, char *argv[])
     }
 
   bool violated=false;
-  if (inputVolume.size() == 0)
+  if (inputVolume.empty())
     {
     violated = true; std::cout << "  --inputVolume Required! "  << std::endl;
     }
-  if (input3DSkullStripVolume.size() == 0)
+  if (input3DSkullStripVolume.empty())
     {
     violated = true; std::cout << "  --input3DSkullStripVolume Required! "  << std::endl;
     }
-  if (outputLabelMapVolume.size() == 0)
+  if (outputLabelMapVolume.empty())
     {
     violated = true; std::cout << "  --outputLabelMapVolume Required! "  << std::endl;
     }

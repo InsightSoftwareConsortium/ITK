@@ -180,7 +180,7 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
     }
 
   ot.GoToBegin();
-  if ( m_Seeds.size() == 0 )
+  if ( m_Seeds.empty() )
     {
     for (; !ot.IsAtEnd(); ++ot )
       {

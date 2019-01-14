@@ -111,7 +111,7 @@ bool LSMImageIO::CanReadFile(const char *filename)
 {
   std::string   fname(filename);
 
-  if ( fname == "" )
+  if ( fname.empty() )
     {
     itkDebugMacro(<< "No filename specified.");
     return false;
@@ -196,7 +196,7 @@ bool LSMImageIO::CanWriteFile(const char *name)
 {
   std::string filename = name;
 
-  if ( filename == "" )
+  if ( filename.empty() )
     {
     return false;
     }

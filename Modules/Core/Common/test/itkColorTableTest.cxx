@@ -101,7 +101,7 @@ int ColorTableTestSpecialConditionChecker(
     }
 
   std::string name = colors->GetColorName( numberOfColors );
-  if( name != "" )
+  if( !name.empty() )
     {
     std::cerr << "Test failed!" << std::endl;
     std::cerr << "Error in itk::ColorTable::GetColorName" << std::endl;

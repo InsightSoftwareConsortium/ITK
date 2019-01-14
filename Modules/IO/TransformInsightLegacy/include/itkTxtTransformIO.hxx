@@ -295,7 +295,7 @@ inline void print_vector(std::ofstream& s, vnl_vector<TParametersValueType> cons
     {
     s << convert(v[i]) << ' ';
     }
-  if (v.size() > 0)
+  if (!v.empty())
     {
     s << convert(v[v.size()-1]);
     }
