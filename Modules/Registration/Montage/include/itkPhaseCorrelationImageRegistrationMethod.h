@@ -341,6 +341,8 @@ protected:
   virtual ~PhaseCorrelationImageRegistrationMethod(){};
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 
+  using Superclass::MakeOutput;
+
   /** Make a DataObject of the correct type to be used as the specified
    * output. */
   DataObjectPointer MakeOutput( DataObjectPointerArraySizeType idx ) override;

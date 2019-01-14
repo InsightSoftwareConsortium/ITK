@@ -38,7 +38,9 @@ int PhaseCorrelationRegistrationFiles( int argc, char* argv[] )
   using FixedPixelType = TFixedImagePixel;
   using MovingPixelType = TMovingImagePixel;
   using FixedImageType = itk::Image< FixedPixelType, Dimension >;
-  using MovingImageType = itk::Image< TMovingImagePixel, Dimension >;
+  using MovingImageType = itk::Image< MovingPixelType, Dimension >;
+
+  itkAssertOrThrowMacro( argc == 4 + 2*Dimension, "Not enough parameters" );
 
   using FixedReaderType = itk::ImageFileReader< FixedImageType >;
   typename FixedReaderType::Pointer fixedReader = FixedReaderType::New();

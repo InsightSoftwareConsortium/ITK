@@ -75,7 +75,7 @@ public:
         }
       else
         {
-        value = value = itk::NumericTraits< TPixel >::OneValue();
+        value = itk::NumericTraits< TPixel >::OneValue();
         }
       it.Set( value );
       ++it;

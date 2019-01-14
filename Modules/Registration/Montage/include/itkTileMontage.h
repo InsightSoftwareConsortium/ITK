@@ -184,8 +184,10 @@ protected:
   /** Method invoked by the pipeline to determine the output information. */
   void GenerateOutputInformation() override;
 
+  using Superclass::MakeOutput;
+
   /** Make a DataObject of the correct type to be used as the specified output. */
-  DataObjectPointer MakeOutput( DataObjectPointerArraySizeType idx ) override
+  DataObjectPointer MakeOutput( DataObjectPointerArraySizeType ) override
   {
     return TransformOutputType::New();
   }

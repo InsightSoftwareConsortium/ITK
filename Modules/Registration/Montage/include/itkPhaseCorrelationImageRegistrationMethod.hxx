@@ -52,7 +52,7 @@ void WriteDebug(const TImage* out, const char *filename)
 namespace
 {
 template< typename TImage >
-void WriteDebug(TImage* out, const char *filename) {}
+void WriteDebug(TImage*, const char *) {}
 }
 #endif
 
