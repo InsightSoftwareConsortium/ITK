@@ -15,56 +15,56 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "ITKIOMeshExport.h"
+#include "ITKIOMeshOBJExport.h"
 
-#include "itkGiftiMeshIO.h"
-#include "itkGiftiMeshIOFactory.h"
+#include "itkOBJMeshIO.h"
+#include "itkOBJMeshIOFactory.h"
 #include "itkVersion.h"
 
 namespace itk
 {
 void
-GiftiMeshIOFactory
+OBJMeshIOFactory
 ::PrintSelf(std::ostream &, Indent) const
 {}
 
-GiftiMeshIOFactory
-::GiftiMeshIOFactory()
+OBJMeshIOFactory
+::OBJMeshIOFactory()
 {
   this->RegisterOverride( "itkMeshIOBase",
-                         "itkGiftiMeshIO",
-                         "Gifti Mesh IO",
+                         "itkOBJMeshIO",
+                         "OBJ Mesh IO",
                          true,
-                         CreateObjectFunction< GiftiMeshIO >::New() );
+                         CreateObjectFunction< OBJMeshIO >::New() );
 }
 
-GiftiMeshIOFactory
-::~GiftiMeshIOFactory() = default;
+OBJMeshIOFactory
+::~OBJMeshIOFactory() = default;
 
 const char *
-GiftiMeshIOFactory
+OBJMeshIOFactory
 ::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
 
 const char *
-GiftiMeshIOFactory
+OBJMeshIOFactory
 ::GetDescription() const
 {
-  return "Gifti MeshIO Factory, allows the loading of Gifti meshs into insight";
+  return "OBJ Mesh IO Factory, allows the loading of OBJ mesh into insight";
 }
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-static bool GiftiMeshIOFactoryHasBeenRegistered;
+static bool OBJMeshIOFactoryHasBeenRegistered;
 
-void ITKIOMesh_EXPORT GiftiMeshIOFactoryRegister__Private()
+void ITKIOMeshOBJ_EXPORT OBJMeshIOFactoryRegister__Private()
 {
-  if( ! GiftiMeshIOFactoryHasBeenRegistered )
+  if( ! OBJMeshIOFactoryHasBeenRegistered )
     {
-    GiftiMeshIOFactoryHasBeenRegistered = true;
-    GiftiMeshIOFactory::RegisterOneFactory();
+    OBJMeshIOFactoryHasBeenRegistered = true;
+    OBJMeshIOFactory::RegisterOneFactory();
     }
 }
 

@@ -15,26 +15,26 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkOBJMeshIOFactory_h
-#define itkOBJMeshIOFactory_h
-#include "ITKIOMeshExport.h"
+#ifndef itkGiftiMeshIOFactory_h
+#define itkGiftiMeshIOFactory_h
+#include "ITKIOMeshGiftiExport.h"
 
-#include "itkObjectFactoryBase.h"
 #include "itkMeshIOBase.h"
+#include "itkObjectFactoryBase.h"
 
 namespace itk
 {
-/** \class OBJMeshIOFactory
-   * \brief Create instances of OBJMeshIO objects using an object factory.
-   * \ingroup ITKIOMesh
+/** \class GiftiMeshIOFactory
+   * \brief Create instances of GiftiMeshIO objects using an object factory.
+   * \ingroup ITKIOMeshGifti
    */
-class ITKIOMesh_EXPORT OBJMeshIOFactory:public ObjectFactoryBase
+class ITKIOMeshGifti_EXPORT GiftiMeshIOFactory:public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(OBJMeshIOFactory);
+  ITK_DISALLOW_COPY_AND_ASSIGN(GiftiMeshIOFactory);
 
   /** Standard class type aliases. */
-  using Self = OBJMeshIOFactory;
+  using Self = GiftiMeshIOFactory;
   using Superclass = ObjectFactoryBase;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -48,22 +48,23 @@ public:
   itkFactorylessNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(OBJMeshIOFactory, ObjectFactoryBase);
+  itkTypeMacro(GiftiMeshIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
   static void RegisterOneFactory()
-    {
-    OBJMeshIOFactory::Pointer objFactory = OBJMeshIOFactory::New();
+  {
+    GiftiMeshIOFactory::Pointer giftiFactory = GiftiMeshIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactoryInternal(objFactory);
-    }
+    ObjectFactoryBase::RegisterFactoryInternal(giftiFactory);
+  }
 
 protected:
-  OBJMeshIOFactory();
-  ~OBJMeshIOFactory() override;
+  GiftiMeshIOFactory();
+  ~GiftiMeshIOFactory() override;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 };
+// /////////////////////////////////////////////////////////////////////
 } // end namespace itk
 
 #endif

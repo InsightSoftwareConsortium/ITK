@@ -1,19 +1,17 @@
 itk_wrap_include("itkMesh.h")
 itk_wrap_include("itkPointSet.h")
+itk_wrap_include("itkDefaultStaticMeshTraits.h")
 
 itk_wrap_class("itk::ImageToMeshFilter" POINTER)
+  UNIQUE(mesh_types "${WRAP_ITK_SCALAR};D")
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
-    foreach(t ${WRAP_ITK_REAL})
-      itk_wrap_template("${ITKM_I${t}${d}}M${ITKM_${t}}${d}ST${ITKM_${t}}${d}${d}${ITKM_${t}}${ITKM_${t}}" "${ITKT_I${t}${d}}, itk::Mesh< ${ITKT_${t}},${d},itk::DefaultStaticMeshTraits< ${ITKT_${t}},${d},${d},${ITKT_${t}},${ITKT_${t}} > >")
-    endforeach()
-  endforeach()
-  # For BinaryMask3DMeshSource and itkBinaryMaskToNarrowBandPointSetFilter
-  foreach(dim ${ITK_WRAP_IMAGE_DIMS})
-    foreach(t ${WRAP_ITK_INT})
-      itk_wrap_template("${ITKM_I${t}${dim}}M${ITKM_D}${dim}ST${ITKM_D}${dim}${dim}${ITKM_D}${ITKM_D}"
-        "${ITKT_I${t}${dim}}, itk::Mesh< ${ITKT_D},${dim},itk::DefaultStaticMeshTraits< ${ITKT_D},${dim},${dim},${ITKT_D},${ITKT_D} > >")
-      itk_wrap_template("${ITKM_I${t}${dim}}PS${ITKM_D}${dim}ST${ITKM_D}${dim}${dim}${ITKM_D}${ITKM_D}"
-        "${ITKT_I${t}${dim}}, itk::PointSet< ${ITKT_D},${dim},itk::DefaultStaticMeshTraits< ${ITKT_D},${dim},${dim},${ITKT_D},${ITKT_D} > >")
+    foreach(t ${WRAP_ITK_SCALAR})
+      foreach(t2 ${mesh_types})
+        itk_wrap_template("${ITKM_I${t}${d}}M${ITKM_${t2}}${d}"
+          "${ITKT_I${t}${d}}, itk::Mesh< ${ITKT_${t2}},${d} >")
+        itk_wrap_template("${ITKM_I${t}${d}}PS${ITKM_${t2}}${d}"
+          "${ITKT_I${t}${d}}, itk::PointSet< ${ITKT_${t2}},${d} >")
+      endforeach()
     endforeach()
   endforeach()
 itk_end_wrap_class()

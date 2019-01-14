@@ -41,9 +41,16 @@ int itkGDCMImageIONoCrashTest(int ac, char* av[])
   using ImageIOType = itk::GDCMImageIO;
   ImageIOType::Pointer gdcmImageIO = ImageIOType::New();
 
+  const std::string inputFile{ av[1] };
+
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( av[1] );
+  reader->SetFileName( inputFile );
   reader->SetImageIO( gdcmImageIO );
+  if ( ! gdcmImageIO->CanReadFile( inputFile.c_str() ) )
+    {
+    std::cerr << "exception in file reader " << inputFile << " not supported by itk::GDCMImageIO." << std::endl;
+    return EXIT_FAILURE;
+    }
 
   try
     {

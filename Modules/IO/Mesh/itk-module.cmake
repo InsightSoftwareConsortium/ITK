@@ -8,10 +8,11 @@ itk_module(ITKIOMesh
     ITKIOMeshVTK
     ITKIOMeshBYU
     ITKIOMeshFreeSurfer
+    ITKIOMeshGifti
+    ITKIOMeshOBJ
   PRIVATE_DEPENDS
     ITKIOImageBase
     ITKDoubleConversion
-    ITKGIFTI
   COMPILE_DEPENDS
     ITKMesh
   TEST_DEPENDS
@@ -19,6 +20,8 @@ itk_module(ITKIOMesh
     ITKQuadEdgeMesh
     ITKIOMeshVTK
     ITKIOMeshFreeSurfer
+    ITKIOMeshGifti
+    ITKIOMeshOBJ
   FACTORY_NAMES
     MeshIO::BYU
     MeshIO::FreeSurferAscii

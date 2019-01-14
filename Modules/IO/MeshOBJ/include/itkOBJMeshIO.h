@@ -15,64 +15,41 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkGiftiMeshIO_h
-#define itkGiftiMeshIO_h
-#include "ITKIOMeshExport.h"
 
-#include <memory>
-#include "itkMapContainer.h"
-#include "itkMatrix.h"
+#ifndef itkOBJMeshIO_h
+#define itkOBJMeshIO_h
+#include "ITKIOMeshOBJExport.h"
+
 #include "itkMeshIOBase.h"
-#include "itkRGBAPixel.h"
-
+#include "itkNumberToString.h"
 #include <fstream>
-#include <string>
 
 namespace itk
 {
-/** \class GiftiMeshIO
- * \brief This class defines how to read and write Gifti file format.
+/** \class OBJMeshIO
+ * \brief This class defines how to read and write Object file format.
  * \ingroup IOFilters
- * \ingroup ITKIOMesh
+ * \ingroup ITKIOMeshOBJ
  */
 
-class ITKIOMesh_EXPORT GiftiMeshIO:public MeshIOBase
+class ITKIOMeshOBJ_EXPORT OBJMeshIO:public MeshIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GiftiMeshIO);
+  ITK_DISALLOW_COPY_AND_ASSIGN(OBJMeshIO);
 
   /** Standard class type aliases. */
-  using Self = GiftiMeshIO;
+  using Self = OBJMeshIO;
   using Superclass = MeshIOBase;
   using ConstPointer = SmartPointer< const Self >;
   using Pointer = SmartPointer< Self >;
 
   using SizeValueType = Superclass::SizeValueType;
-  using DirectionType = Matrix< double, 4, 4 >;
-  using RGBAPixelType = RGBAPixel<float>;
-  using LabelColorContainer = MapContainer<int, RGBAPixelType>;
-  using LabelNameContainer = MapContainer<int, std::string>;
-  using LabelColorContainerPointer = LabelColorContainer::Pointer;
-  using LabelNameContainerPointer = LabelNameContainer::Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GiftiMeshIO, MeshIOBase);
-
-  itkGetConstMacro(ReadPointData, bool);
-  itkSetMacro(ReadPointData, bool);
-  itkBooleanMacro(ReadPointData);
-
-  void SetDirection(const DirectionType & direction);
-
-  itkGetConstReferenceMacro(Direction, DirectionType);
-
-  LabelColorContainerPointer GetLabelColorTable();
-  LabelNameContainerPointer  GetLabelNameTable();
-  void SetLabelColorTable(const LabelColorContainer * colorMap);
-  void SetLabelNameTable(const LabelNameContainer * labelMap);
+  itkTypeMacro(OBJMeshIO, MeshIOBase);
 
   /*-------- This part of the interfaces deals with reading data. ----- */
 
@@ -120,36 +97,78 @@ public:
   void Write() override;
 
 protected:
-  GiftiMeshIO();
-  ~GiftiMeshIO() override;
-
-  void PrintSelf(std::ostream & os, Indent indent) const override;
-
-  template< typename TInput, typename TOutput >
-  void ConvertBuffer(TInput *input, TOutput *output, SizeValueType numberOfElements)
+  /** Write points to output stream */
+  template< typename T >
+  void WritePoints(T *buffer, std::ofstream & outputFile)
   {
-    if ( input && output )
+    NumberToString<T> convert;
+    SizeValueType index = itk::NumericTraits< SizeValueType >::ZeroValue();
+
+    for ( SizeValueType ii = 0; ii < this->m_NumberOfPoints; ii++ )
       {
-      for ( SizeValueType ii = 0; ii < numberOfElements; ii++ )
+      outputFile << "v ";
+      for ( unsigned int jj = 0; jj < this->m_PointDimension; jj++ )
         {
-        output[ii] = static_cast< TOutput >( input[ii] );
+        outputFile << convert(buffer[index++]) << "  ";
         }
+      outputFile << '\n';
       }
   }
 
+  template< typename T >
+  void WriteCells(T *buffer, std::ofstream & outputFile)
+  {
+    SizeValueType index = itk::NumericTraits< SizeValueType >::ZeroValue();
+
+    for ( SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++ )
+      {
+      outputFile << "f ";
+      index++;
+      auto numberOfCellPoints = static_cast< unsigned int >( buffer[index++] );
+
+      for ( unsigned int jj = 0; jj < numberOfCellPoints; jj++ )
+        {
+        outputFile << buffer[index++] + 1 << "  ";
+        }
+      outputFile << '\n';
+      }
+  }
+
+  /** Write point data to output stream */
+  template< typename T >
+  void WritePointData(T *buffer, std::ofstream & outputFile)
+  {
+    NumberToString<T> convert;
+    SizeValueType index = itk::NumericTraits< SizeValueType >::ZeroValue();
+
+    for ( SizeValueType ii = 0; ii < this->m_NumberOfPointPixels; ii++ )
+      {
+      outputFile << "vn ";
+      for ( unsigned int jj = 0; jj < this->m_PointDimension; jj++ )
+        {
+        outputFile << convert(buffer[index++]) << "  ";
+        }
+
+      outputFile << '\n';
+      }
+  }
+
+  static bool SplitLine(const std::string& line, std::string& type, std::string& content);
+
+protected:
+  OBJMeshIO();
+  ~OBJMeshIO() override;
+
+  void PrintSelf(std::ostream & os, Indent indent) const override;
+
+  void OpenFile();
+
+  void CloseFile();
+
 private:
-  //This proxy class provides a gifti_image pointer interface to the internal implementation
-  //of itk::GiftiImageIO, while hiding the gifticlib interface from the external ITK interface.
-  class GiftiImageProxy;
-
-  //Note that it is essential that m_GiftiImageHolder is defined before m_GiftiImage, to ensure that
-  //m_GiftiImage can directly get a proxy from m_GiftiImageHolder during GiftiImageIO construction.
-  const std::unique_ptr<GiftiImageProxy> m_GiftiImageHolder;
-
-  GiftiImageProxy& m_GiftiImage;
-
-  bool          m_ReadPointData;
-  DirectionType m_Direction;
+  std::ifstream  m_InputFile;
+  std::streampos m_PointsStartPosition;  // file position for points rlative to
+                                         // std::ios::beg
 };
 } // end namespace itk
 
