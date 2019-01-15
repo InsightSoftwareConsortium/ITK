@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkProxTV.h"
+#include "itkProxTVImageFilter.h"
 
 #include "itkImageFileWriter.h"
 #include "itkTestingMacros.h"
@@ -86,7 +86,7 @@ Create3DImage()
 }
 
 int
-itkProxTVTest(int argc, char * argv[])
+itkProxTVImageFilterTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
@@ -102,10 +102,10 @@ itkProxTVTest(int argc, char * argv[])
   using PixelType = float;
   using ImageType = itk::Image<PixelType, Dimension>;
 
-  using FilterType = itk::ProxTV<ImageType, ImageType>;
+  using FilterType = itk::ProxTVImageFilter<ImageType, ImageType>;
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(filter, ProxTV, ImageToImageFilter);
+  EXERCISE_BASIC_OBJECT_METHODS(filter, ProxTVImageFilter, ImageToImageFilter);
 
   auto image = Create2DImage<ImageType>();
   filter->SetInput(image);
@@ -128,9 +128,9 @@ itkProxTVTest(int argc, char * argv[])
 
   /************ 3D *************/
   using Image3DType = itk::Image<PixelType, 3>;
-  using Filter3DType = itk::ProxTV<Image3DType, Image3DType>;
+  using Filter3DType = itk::ProxTVImageFilter<Image3DType, Image3DType>;
   Filter3DType::Pointer filter3D = Filter3DType::New();
-  EXERCISE_BASIC_OBJECT_METHODS(filter3D, ProxTV, ImageToImageFilter);
+  EXERCISE_BASIC_OBJECT_METHODS(filter3D, ProxTVImageFilter, ImageToImageFilter);
   auto image3D = Create3DImage<Image3DType>();
   filter3D->SetInput(image3D);
   filter3D->Update();

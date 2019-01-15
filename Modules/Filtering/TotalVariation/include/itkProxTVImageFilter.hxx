@@ -15,10 +15,10 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkProxTV_hxx
-#define itkProxTV_hxx
+#ifndef itkProxTVImageFilter_hxx
+#define itkProxTVImageFilter_hxx
 
-#include "itkProxTV.h"
+#include "itkProxTVImageFilter.h"
 
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
@@ -28,7 +28,7 @@ namespace itk
 {
 
 template <typename TInputImage, typename TOutputImage>
-ProxTV<TInputImage, TOutputImage>::ProxTV()
+ProxTVImageFilter<TInputImage, TOutputImage>::ProxTVImageFilter()
   : m_MaximumNumberOfIterations(10)
   , m_Weights(1.0)
   , m_Norms(1.0)
@@ -37,7 +37,7 @@ ProxTV<TInputImage, TOutputImage>::ProxTV()
 
 template <typename TInputImage, typename TOutputImage>
 void
-ProxTV<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
+ProxTVImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "MaximumNumberOfIterations: " << m_MaximumNumberOfIterations << std::endl;
@@ -48,7 +48,7 @@ ProxTV<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) c
 
 template <typename TInputImage, typename TOutputImage>
 void
-ProxTV<TInputImage, TOutputImage>::GenerateData()
+ProxTVImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   this->AllocateOutputs();
   OutputImageType *      output = this->GetOutput();
@@ -129,4 +129,4 @@ ProxTV<TInputImage, TOutputImage>::GenerateData()
 
 } // end namespace itk
 
-#endif // itkProxTV_hxx
+#endif // itkProxTVImageFilter_hxx

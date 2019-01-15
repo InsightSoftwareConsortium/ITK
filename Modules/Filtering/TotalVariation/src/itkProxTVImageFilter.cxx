@@ -16,4 +16,4 @@
  *
  *=========================================================================*/
 
-#include "itkProxTV.h"
+#include "itkProxTVImageFilter.h"

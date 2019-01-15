@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkProxTV_h
-#define itkProxTV_h
+#ifndef itkProxTVImageFilter_h
+#define itkProxTVImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "TVopt.h"
@@ -24,7 +24,7 @@
 namespace itk
 {
 
-/** \class ProxTV
+/** \class ProxTVImageFilter
  *
  * \brief Filters a image by iterating over its pixels.
  *
@@ -35,10 +35,10 @@ namespace itk
  *
  */
 template <typename TInputImage, typename TOutputImage>
-class ProxTV : public ImageToImageFilter<TInputImage, TOutputImage>
+class ProxTVImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ProxTV);
+  ITK_DISALLOW_COPY_AND_ASSIGN(ProxTVImageFilter);
 
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
@@ -50,13 +50,13 @@ public:
   using ArrayType = itk::FixedArray<double, ImageDimension>;
 
   /** Standard class typedefs. */
-  using Self = ProxTV<InputImageType, OutputImageType>;
+  using Self = ProxTVImageFilter<InputImageType, OutputImageType>;
   using Superclass = ImageToImageFilter<InputImageType, OutputImageType>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information. */
-  itkTypeMacro(ProxTV, ImageToImageFilter);
+  itkTypeMacro(ProxTVImageFilter, ImageToImageFilter);
 
   /** Standard New macro. */
   itkNewMacro(Self);
@@ -74,8 +74,8 @@ public:
   itkGetConstMacro(Norms, ArrayType);
 
 protected:
-  ProxTV();
-  virtual ~ProxTV() override {}
+  ProxTVImageFilter();
+  virtual ~ProxTVImageFilter() override {}
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -101,7 +101,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkProxTV.hxx"
+#  include "itkProxTVImageFilter.hxx"
 #endif
 
-#endif // itkProxTV
+#endif // itkProxTVImageFilter
