@@ -23,6 +23,7 @@
  *  ITK_EIGEN(Eigenvalues)
  *  If using a Eigen3 header containing non MPL2 code
  *  It would generate errors when using internal Eigen, but not with system Eigen.
+ *  And only if ITK_USE_EIGEN_MPL2_ONLY is ON (enabled in CI and Dashboards).
  *  This prevents including non mpl2 code in internal code.
  *  For example, the following contains non MPL2 code:
  *  ITK_EIGEN(SparseCholesky)
@@ -33,12 +34,19 @@
  * nor with the ITK_EIGEN macro (intended for internal usage only).
  *
 \code{.cmake}
-find_package(ITK REQUIRED)
+find_package(ITK REQUIRED COMPONENTS
+  ITKCommon
+  ITKEigen3
+  )
 include(${ITK_USE_FILE})
-set(_internal_cmake_eigen3)
-list(GET ITKEigen3_INCLUDE_DIRS 0 _internal_cmake_eigen3)
-set(Eigen3_DIR "${_internal_cmake_eigen3}/itkeigen")
+if(DEFINED ITKInternalEigen3_DIR)
+  set(Eigen3_DIR ${ITKInternalEigen3_DIR})
+endif()
+message(STATUS "From ITK: Eigen3_DIR: ${Eigen3_DIR}")
 find_package(Eigen3 REQUIRED CONFIG)
+add_executable(main main.cpp)
+target_link_libraries(main PUBLIC ${ITK_LIBRARIES})
+target_link_libraries(main PUBLIC Eigen3::Eigen)
 \endcode
  *
  * Then, the user can use Eigen3 as usual:
@@ -58,8 +66,11 @@ find_package(Eigen3 REQUIRED CONFIG)
 #define ITK_EIGEN(x) ITK_EIGEN_STR(Eigen/x)
 #else
 // ITK should only be using MPL2 Eigen code internally.
+#cmakedefine ITK_USE_EIGEN_MPL2_ONLY
+#ifdef ITK_USE_EIGEN_MPL2_ONLY
 #ifndef EIGEN_MPL2_ONLY
 #define EIGEN_MPL2_ONLY
+#endif
 #endif
 #define ITK_EIGEN(x) ITK_EIGEN_STR(itkeigen/Eigen/x)
 #endif
