@@ -31,4 +31,6 @@ def _get_numpy_pixelid(itk_Image_type):
         return _np_itk[itk_Image_type]
     except KeyError as e:
         raise e
+
+from itkImageDuplicatorPython import *
 %}
