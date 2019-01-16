@@ -81,7 +81,7 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
 
   // Check to see if we can read the file given the name or prefix
   //
-  if ( this->GetFileName() == "" )
+  if ( this->GetFileName().empty() )
     {
     throw ImageFileReaderException(__FILE__, __LINE__, "FileName must be specified", ITK_LOCATION);
     }
@@ -111,7 +111,7 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
     std::ostringstream msg;
     msg << " Could not create IO object for reading file "
         << this->GetFileName().c_str() << std::endl;
-    if ( m_ExceptionMessage.size() )
+    if ( !m_ExceptionMessage.empty() )
       {
       msg << m_ExceptionMessage;
       }
@@ -119,7 +119,7 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
       {
       std::list< LightObject::Pointer > allobjects =
         ObjectFactoryBase::CreateAllInstance("itkImageIOBase");
-      if (allobjects.size() > 0)
+      if (!allobjects.empty())
         {
         msg << "  Tried to create one of the following:" << std::endl;
         for (auto & allobject : allobjects)

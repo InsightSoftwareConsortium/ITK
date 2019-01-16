@@ -64,7 +64,7 @@ SizeValueType RawImageIO< TPixel, VImageDimension >::GetHeaderSize()
 {
   std::ifstream file;
 
-  if ( m_FileName == "" )
+  if ( m_FileName.empty() )
     {
     itkExceptionMacro(<< "A FileName must be specified.");
     }
@@ -179,7 +179,7 @@ bool RawImageIO< TPixel, VImageDimension >
 {
   std::string filename(fname);
 
-  if ( filename == "" )
+  if ( filename.empty() )
     {
     return false;
     }

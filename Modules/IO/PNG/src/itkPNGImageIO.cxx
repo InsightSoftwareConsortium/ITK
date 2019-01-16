@@ -80,7 +80,7 @@ bool PNGImageIO::CanReadFile(const char *file)
   // First check the filename
   std::string filename = file;
 
-  if ( filename == "" )
+  if ( filename.empty() )
     {
     itkDebugMacro(<< "No filename specified.");
     return false;
@@ -313,7 +313,7 @@ void PNGImageIO::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 
   os << indent << "CompressionLevel: " << m_CompressionLevel << std::endl;
-  if( m_ColorPalette.size() > 0  )
+  if( !m_ColorPalette.empty()  )
     {
     os << indent << "ColorPalette:" << std::endl;
     for( unsigned int i = 0; i < m_ColorPalette.size(); ++i )
@@ -501,7 +501,7 @@ bool PNGImageIO::CanWriteFile(const char *name)
 {
   std::string filename = name;
 
-  if ( filename == "" )
+  if ( filename.empty() )
     {
     return false;
     }

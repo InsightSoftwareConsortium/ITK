@@ -51,7 +51,7 @@ VTKPolyDataReader< TOutputMesh >
   outputMesh->SetCellsAllocationMethod(
     OutputMeshType::CellsAllocatedDynamicallyCellByCell);
 
-  if ( m_FileName == "" )
+  if ( m_FileName.empty() )
     {
     itkExceptionMacro(<< "No input FileName");
     }

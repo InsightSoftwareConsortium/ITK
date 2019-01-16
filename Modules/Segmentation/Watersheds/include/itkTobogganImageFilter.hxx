@@ -187,7 +187,7 @@ TobogganImageFilter< TInputImage, TOutputImage >
         itkDebugMacro (<< "\tFinished slide at: " << CurrentPositionIndex
                        << " Value: " << MinimumNeighborValue
                        << " Class: " << MinimumNeighborClass);
-        while ( OpenList.size() )
+        while ( !OpenList.empty() )
           {
           // Pop the last one off
           IndexType SeedIndex = OpenList.back();

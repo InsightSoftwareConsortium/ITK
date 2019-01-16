@@ -832,7 +832,7 @@ bool NrrdImageIO::CanWriteFile(const char *name)
 {
   std::string filename = name;
 
-  if (  filename == "" )
+  if (  filename.empty() )
     {
     return false;
     }

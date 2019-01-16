@@ -52,7 +52,7 @@ void GDCMSeriesFileNames::SetInputDirectory(const char *name)
 
 void GDCMSeriesFileNames::SetInputDirectory(std::string const & name)
 {
-  if ( name == "" )
+  if ( name.empty() )
     {
     itkWarningMacro(<< "You need to specify a directory where "
                        "the DICOM files are located");
@@ -84,7 +84,7 @@ const GDCMSeriesFileNames::SeriesUIDContainerType & GDCMSeriesFileNames::GetSeri
   gdcm::FileList *flist = m_SerieHelper->GetFirstSingleSerieUIDFileSet();
   while ( flist )
     {
-    if ( flist->size() ) //make sure we have at leat one serie
+    if ( !flist->empty() ) //make sure we have at leat one serie
       {
       gdcm::File *file = ( *flist )[0]; //for example take the first one
 
@@ -96,7 +96,7 @@ const GDCMSeriesFileNames::SeriesUIDContainerType & GDCMSeriesFileNames::GetSeri
       }
     flist = m_SerieHelper->GetNextSingleSerieUIDFileSet();
     }
-  if ( !m_SeriesUIDs.size() )
+  if ( m_SeriesUIDs.empty() )
     {
     itkWarningMacro(<< "No Series were found");
     }
@@ -114,12 +114,12 @@ const GDCMSeriesFileNames::FileNamesContainerType & GDCMSeriesFileNames::GetFile
       << "No Series can be found, make sure your restrictions are not too strong");
     return m_InputFileNames;
     }
-  if ( serie != "" ) // user did not specify any sub selection based on UID
+  if ( !serie.empty() ) // user did not specify any sub selection based on UID
     {
     bool found = false;
     while ( flist && !found )
       {
-      if ( flist->size() ) //make sure we have at leat one serie
+      if ( !flist->empty() ) //make sure we have at leat one serie
         {
         gdcm::File *file = ( *flist )[0]; //for example take the first one
         std::string id = m_SerieHelper->
@@ -142,7 +142,7 @@ const GDCMSeriesFileNames::FileNamesContainerType & GDCMSeriesFileNames::GetFile
   m_SerieHelper->OrderFileList(flist);
 
   gdcm::FileList::iterator it;
-  if ( flist->size() )
+  if ( !flist->empty() )
     {
     ProgressReporter progress(this, 0,
       static_cast<itk::SizeValueType>(flist->size()), 10);
@@ -209,7 +209,7 @@ const GDCMSeriesFileNames::FileNamesContainerType & GDCMSeriesFileNames::GetOutp
     m_OutputDirectory += '/';
     }
 
-  if ( m_InputFileNames.size() )
+  if ( !m_InputFileNames.empty() )
     {
     bool hasExtension = false;
     for ( std::vector< std::string >::const_iterator it = m_InputFileNames.begin();

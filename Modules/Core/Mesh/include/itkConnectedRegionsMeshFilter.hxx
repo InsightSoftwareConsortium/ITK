@@ -310,7 +310,7 @@ ConnectedRegionsMeshFilter< TInputMesh, TOutputMesh >
   CellsContainerConstIterator    cell;
   CellDataContainerConstIterator cellData;
   bool                           CellDataPresent = (   nullptr != inCellData
-                                                    && 0 != inCellData->size() );
+                                                    && !inCellData->empty() );
   InputMeshCellPointer           cellCopy; // need an autopointer to duplicate
                                            // a cell
 
@@ -443,7 +443,7 @@ ConnectedRegionsMeshFilter< TInputMesh, TOutputMesh >
   std::vector< IdentifierType > *         tmpWave;
   typename std::set< InputMeshCellIdentifier >::iterator citer;
 
-  while ( m_Wave->size() > 0 )
+  while ( !m_Wave->empty() )
     {
     for ( i = m_Wave->begin(); i != m_Wave->end(); ++i )
       {

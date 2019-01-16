@@ -49,7 +49,7 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
 {
   this->Superclass::VerifyPreconditions();
 
-  if ( this->m_InitialMeans.size() == 0 )
+  if ( this->m_InitialMeans.empty() )
     {
     itkExceptionMacro("Atleast One InialMean is required.");
     }

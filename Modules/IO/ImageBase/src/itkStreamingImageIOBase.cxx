@@ -296,7 +296,7 @@ StreamingImageIOBase::GetActualNumberOfSplitsForWriting(unsigned int numberOfReq
     //
     // todo check for byte order
 
-    if ( errorMessage.size() )
+    if ( !errorMessage.empty() )
       {
       // 0) Can't read file
       }
@@ -338,7 +338,7 @@ StreamingImageIOBase::GetActualNumberOfSplitsForWriting(unsigned int numberOfReq
         }
       }
 
-    if ( errorMessage.size() )
+    if ( !errorMessage.empty() )
       {
       itkExceptionMacro("Unable to paste because pasting file exists and is different. " << errorMessage);
       }

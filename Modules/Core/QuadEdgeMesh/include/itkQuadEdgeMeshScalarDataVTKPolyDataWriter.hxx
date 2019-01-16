@@ -66,7 +66,7 @@ QuadEdgeMeshScalarDataVTKPolyDataWriter< TMesh >
       outputFile << "CELL_DATA " << this->m_Input->GetNumberOfFaces() << std::endl;
       outputFile << "SCALARS ";
 
-      if ( m_CellDataName != "" )
+      if ( !m_CellDataName.empty() )
         {
         outputFile << m_CellDataName << " " << m_CellDataName << std::endl;
         }
@@ -119,7 +119,7 @@ QuadEdgeMeshScalarDataVTKPolyDataWriter< TMesh >
     outputFile << "POINT_DATA " << this->m_Input->GetNumberOfPoints() << std::endl;
     outputFile << "SCALARS ";
 
-    if ( m_PointDataName != "" )
+    if ( !m_PointDataName.empty() )
       {
       outputFile << m_PointDataName << " " << m_PointDataName << std::endl;
       }

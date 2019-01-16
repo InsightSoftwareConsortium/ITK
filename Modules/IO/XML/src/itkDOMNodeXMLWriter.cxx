@@ -53,7 +53,7 @@ DOMNodeXMLWriter::Update( std::ostream& os, std::string indent )
 
   // write the "id" attribute if it is present
   std::string id = input->GetID();
-  if ( id != "" )
+  if ( !id.empty() )
     {
     os << " id=\"" << id << "\"";
     }
@@ -71,7 +71,7 @@ DOMNodeXMLWriter::Update( std::ostream& os, std::string indent )
   using ConstChildrenListType = InputType::ConstChildrenListType;
   ConstChildrenListType children;
   input->GetAllChildren( children );
-  if ( children.size() )
+  if ( !children.empty() )
     {
     // write the closing bracket for the start tag
     os << ">" << std::endl;

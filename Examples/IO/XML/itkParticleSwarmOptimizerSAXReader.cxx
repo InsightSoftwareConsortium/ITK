@@ -278,7 +278,7 @@ bool ParticleSwarmOptimizerSAXReader::ContextIs( const char* test ) const
     {
     s += "/" + std::string(currentTag);
     }
-  if ( s.size() == 0 )
+  if ( s.empty() )
     {
     s = "/";
     }

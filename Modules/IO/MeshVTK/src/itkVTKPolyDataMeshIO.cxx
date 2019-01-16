@@ -1044,7 +1044,7 @@ VTKPolyDataMeshIO
 ::WriteMeshInformation()
 {
   // Check file name
-  if ( this->m_FileName == "" )
+  if ( this->m_FileName.empty() )
     {
     itkExceptionMacro("No Input FileName");
     }
@@ -1159,7 +1159,7 @@ VTKPolyDataMeshIO
 ::WritePoints(void *buffer)
 {
   // Check file name
-  if ( this->m_FileName == "" )
+  if ( this->m_FileName.empty() )
     {
     itkExceptionMacro("No Input FileName");
     }
@@ -1293,7 +1293,7 @@ void
 VTKPolyDataMeshIO
 ::WriteCells(void *buffer)
 {
-  if ( this->m_FileName == "" )
+  if ( this->m_FileName.empty() )
     {
     itkExceptionMacro("No Input FileName");
     }
@@ -1348,7 +1348,7 @@ VTKPolyDataMeshIO
 ::WritePointData(void *buffer)
 {
   // check file name
-  if ( this->m_FileName == "" )
+  if ( this->m_FileName.empty() )
     {
     itkExceptionMacro("No Input FileName");
     }
@@ -1402,7 +1402,7 @@ void
 VTKPolyDataMeshIO
 ::WriteCellData(void *buffer)
 {
-  if ( this->m_FileName == "" )
+  if ( this->m_FileName.empty() )
     {
     itkExceptionMacro("No Input FileName");
     }

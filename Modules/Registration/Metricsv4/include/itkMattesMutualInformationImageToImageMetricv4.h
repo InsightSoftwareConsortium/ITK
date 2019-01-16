@@ -172,7 +172,7 @@ public:
    */
   const typename JointPDFType::Pointer GetJointPDF () const
     {
-    if( this->m_ThreaderJointPDF.size() == 0 )
+    if( this->m_ThreaderJointPDF.empty() )
       {
       return typename JointPDFType::Pointer(nullptr);
       }

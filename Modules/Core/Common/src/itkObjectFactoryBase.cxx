@@ -356,7 +356,7 @@ ObjectFactoryBase
     {
     return;
     }
-  if ( LoadPath.size() == 0 )
+  if ( LoadPath.empty() )
     {
     return;
     }

@@ -1,6 +1,11 @@
 project(ITKEigen3)
 set(ITKEigen3_THIRD_PARTY 1)
-set(ITKEigen3_LIBRARIES Eigen3::Eigen)
+if(ITK_USE_SYSTEM_EIGEN)
+  set(_eigen_itk_target Eigen3::Eigen)
+else()
+  set(_eigen_itk_target ITKInternalEigen3::Eigen)
+endif()
+set(ITKEigen3_LIBRARIES ${_eigen_itk_target})
 # Assume that Eigen generates a Eigen3Config.cmake
 set(_Eigen3_min_version 3.3)
 
@@ -8,7 +13,14 @@ option(ITK_USE_SYSTEM_EIGEN "Use an outside build of Eigen3." ${ITK_USE_SYSTEM_L
 mark_as_advanced(ITK_USE_SYSTEM_EIGEN)
 
 if(ITK_USE_SYSTEM_EIGEN)
-  find_package(Eigen3 ${_Eigen3_min_version} REQUIRED CONFIG)
+  set(_Eigen3_SYSTEM_OR_INTERNAL "Eigen3")
+else()
+  set(_Eigen3_SYSTEM_OR_INTERNAL "ITKInternalEigen3")
+endif()
+
+if(ITK_USE_SYSTEM_EIGEN)
+  message(STATUS "_Eigen3_SYSTEM_OR_INTERNAL: ${_Eigen3_SYSTEM_OR_INTERNAL}")
+  find_package(${_Eigen3_SYSTEM_OR_INTERNAL} ${_Eigen3_min_version} REQUIRED CONFIG)
   set(Eigen3_DIR_INSTALL ${Eigen3_DIR})
   set(Eigen3_DIR_BUILD ${Eigen3_DIR})
 else()
@@ -33,20 +45,21 @@ if(ITK_USE_SYSTEM_EIGEN)
 endif()
 
 # When this module is loaded by an app, load Eigen too.
+# Load ITKInternalEigen3 or Eigen3 depending on ITK_USE_SYSTEM_EIGEN
 set(ITKEigen3_EXPORT_CODE_INSTALL "
-set(Eigen3_DIR \"${Eigen3_DIR_INSTALL}\")
-find_package(Eigen3 ${_Eigen3_min_version} REQUIRED CONFIG)
+set(${_Eigen3_SYSTEM_OR_INTERNAL}_DIR \"${Eigen3_DIR_INSTALL}\")
+find_package(${_Eigen3_SYSTEM_OR_INTERNAL} ${_Eigen3_min_version} REQUIRED CONFIG)
 ")
 set(ITKEigen3_EXPORT_CODE_BUILD "
 if(NOT ITK_BINARY_DIR)
-  set(Eigen3_DIR \"${Eigen3_DIR_BUILD}\")
-  find_package(Eigen3 ${_Eigen3_min_version} REQUIRED CONFIG)
+  set(${_Eigen3_SYSTEM_OR_INTERNAL}_DIR \"${Eigen3_DIR_BUILD}\")
+  find_package(${_Eigen3_SYSTEM_OR_INTERNAL} ${_Eigen3_min_version} REQUIRED CONFIG)
 endif()
 ")
 
-configure_file(src/itk_eigen.h.in src/itk_eigen.h)
 itk_module_impl()
 
+configure_file(src/itk_eigen.h.in src/itk_eigen.h)
 install(FILES ${ITKEigen3_BINARY_DIR}/src/itk_eigen.h
   DESTINATION ${ITKEigen3_INSTALL_INCLUDE_DIR}
   COMPONENT Development

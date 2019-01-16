@@ -424,7 +424,7 @@ ThreadIdType MultiThreaderBase::GetGlobalDefaultNumberOfThreads()
       std::string item;
       while( std::getline(numberOfThreadsEnvListStream, item, ':') )
         {
-        if( item.size() > 0 ) // Do not add empty items.
+        if( !item.empty() ) // Do not add empty items.
           {
           ITK_NUMBER_OF_THREADS_ENV_LIST.push_back(item);
           }

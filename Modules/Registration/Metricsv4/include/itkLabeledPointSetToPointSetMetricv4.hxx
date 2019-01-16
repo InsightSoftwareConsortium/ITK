@@ -227,7 +227,7 @@ LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComp
       }
     }
 
-  if( uncommonLabelSet.size() > 0 )
+  if( !uncommonLabelSet.empty() )
     {
     itkWarningMacro( "The label sets are not bijective." );
     }

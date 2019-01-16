@@ -180,7 +180,7 @@ bool GiplImageIO::CanWriteFile(const char *name)
 {
   std::string filename = name;
 
-  if ( filename == "" )
+  if ( filename.empty() )
     {
     itkDebugMacro(<< "No filename specified.");
     }
@@ -1107,7 +1107,7 @@ bool GiplImageIO::CheckExtension(const char *filename)
 {
   std::string fname = filename;
 
-  if ( fname == "" )
+  if ( fname.empty() )
     {
     itkDebugMacro(<< "No filename specified.");
     return false;

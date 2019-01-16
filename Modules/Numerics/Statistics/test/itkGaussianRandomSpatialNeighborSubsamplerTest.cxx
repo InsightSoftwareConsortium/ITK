@@ -124,7 +124,7 @@ int itkGaussianRandomSpatialNeighborSubsamplerTest(int argc, char* argv[] )
     inImage->SetPixel(index, 255);
     }
 
-  if (outFile != "")
+  if (!outFile.empty())
     {
     WriterType::Pointer writer = WriterType::New();
     writer->SetFileName( outFile );

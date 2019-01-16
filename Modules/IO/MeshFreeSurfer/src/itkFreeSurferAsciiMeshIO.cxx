@@ -210,7 +210,7 @@ FreeSurferAsciiMeshIO
 ::WriteMeshInformation()
 {
   // Check file name
-  if ( this->m_FileName == "" )
+  if ( this->m_FileName.empty() )
     {
     itkExceptionMacro("No Input FileName");
     }
@@ -238,7 +238,7 @@ FreeSurferAsciiMeshIO
 ::WritePoints(void *buffer)
 {
   // check file name
-  if ( this->m_FileName == "" )
+  if ( this->m_FileName.empty() )
     {
     itkExceptionMacro("No Input FileName");
     }
@@ -347,7 +347,7 @@ FreeSurferAsciiMeshIO
 ::WriteCells(void *buffer)
 {
   // Check file name
-  if ( this->m_FileName == "" )
+  if ( this->m_FileName.empty() )
     {
     itkExceptionMacro("No Input FileName");
     }

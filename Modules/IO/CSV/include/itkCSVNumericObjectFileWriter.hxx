@@ -104,7 +104,7 @@ CSVNumericObjectFileWriter<TValue,NRows,NColumns>
 ::PrepareForWriting()
 {
   // throw an exception if no filename is provided
-  if ( this->m_FileName == "" )
+  if ( this->m_FileName.empty() )
     {
     itkExceptionMacro( << "A filename for writing was not specified!" );
     }

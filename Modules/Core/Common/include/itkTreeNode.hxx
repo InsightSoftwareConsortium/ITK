@@ -125,7 +125,7 @@ bool
 TreeNode< TValue >
 ::HasChildren() const
 {
-  return ( m_Children.size() > 0 ) ? true : false;
+  return ( !m_Children.empty() ) ? true : false;
 }
 
 /** Return the number of children */

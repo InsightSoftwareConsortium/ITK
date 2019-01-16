@@ -77,7 +77,7 @@ int itkConnectedThresholdImageFilterTest( int argc, char* argv[] )
 
   connectedThresholdFilter->ClearSeeds();
   seedContainer = connectedThresholdFilter->GetSeeds();
-  if( seedContainer.size() != 0 )
+  if( !seedContainer.empty() )
     {
     std::cerr << "Test FAILED !" << std::endl;
     std::cerr << "Seed container not empty after clearing filter seed container !" << std::endl;

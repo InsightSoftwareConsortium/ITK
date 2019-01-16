@@ -356,7 +356,7 @@ OBJMeshIO
 ::WriteMeshInformation()
 {
   // Check file name
-  if ( this->m_FileName == "" )
+  if ( this->m_FileName.empty() )
     {
     itkExceptionMacro("No Input FileName");
     }
@@ -386,7 +386,7 @@ OBJMeshIO::
 WritePoints(void *buffer)
 {
   // Check file name
-  if ( this->m_FileName == "" )
+  if ( this->m_FileName.empty() )
     {
     itkExceptionMacro("No Input FileName");
     }
@@ -496,7 +496,7 @@ OBJMeshIO
 ::WriteCells(void *buffer)
 {
   // check file name
-  if ( this->m_FileName == "" )
+  if ( this->m_FileName.empty() )
     {
     itkExceptionMacro("No Input FileName");
     }
@@ -599,7 +599,7 @@ OBJMeshIO
     }
 
   // Check file name
-  if ( this->m_FileName == "" )
+  if ( this->m_FileName.empty() )
     {
     itkExceptionMacro("No Input FileName");
     }

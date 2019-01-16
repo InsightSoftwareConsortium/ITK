@@ -43,7 +43,7 @@ void
 NeighborhoodConnectedImageFilter< TInputImage, TOutputImage >
 ::ClearSeeds()
 {
-  if ( this->m_Seeds.size() > 0 )
+  if ( !this->m_Seeds.empty() )
     {
     this->m_Seeds.clear();
     this->Modified();

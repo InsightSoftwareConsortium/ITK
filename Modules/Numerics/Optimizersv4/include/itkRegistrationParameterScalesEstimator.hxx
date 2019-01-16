@@ -363,7 +363,7 @@ RegistrationParameterScalesEstimator< TMetric >
     }
 
   // Sanity check
-  if( this->m_SamplePoints.size() == 0 )
+  if( this->m_SamplePoints.empty() )
     {
     itkExceptionMacro("No sample points were created.");
     }

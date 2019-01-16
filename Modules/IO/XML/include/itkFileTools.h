@@ -62,7 +62,7 @@ FileTools::CreateDirectory( const std::string &dir )
     }
 
   // do nothing if it already exists
-  if ( "" == dir || "." == dir || itksys::SystemTools::FileIsDirectory(dir.c_str()) )
+  if ( dir.empty() || "." == dir || itksys::SystemTools::FileIsDirectory(dir.c_str()) )
     {
     return;
     }
