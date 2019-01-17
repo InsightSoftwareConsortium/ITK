@@ -226,6 +226,7 @@ bool DCMTKImageIO::CanReadFile(const char *filename)
     itkDebugMacro(<< "No filename specified.");
     }
 
+#if !defined(__EMSCRIPTEN__)
     {
     std::ifstream file;
     try
@@ -243,6 +244,7 @@ bool DCMTKImageIO::CanReadFile(const char *filename)
        return false;
       }
     }
+#endif
   return DCMTKFileReader::IsImageFile(filename);
 }
 
