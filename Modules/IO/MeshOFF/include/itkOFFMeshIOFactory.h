@@ -17,7 +17,7 @@
  *=========================================================================*/
 #ifndef itkOFFMeshIOFactory_h
 #define itkOFFMeshIOFactory_h
-#include "ITKIOMeshExport.h"
+#include "ITKIOMeshOFFExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkMeshIOBase.h"
@@ -26,9 +26,9 @@ namespace itk
 {
 /** \class OFFMeshIOFactory
    * \brief Create instances of OFFMeshIO objects using an object factory.
-   * \ingroup ITKIOMesh
+   * \ingroup ITKIOMeshOFF
    */
-class ITKIOMesh_EXPORT OFFMeshIOFactory:public ObjectFactoryBase
+class ITKIOMeshOFF_EXPORT OFFMeshIOFactory:public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(OFFMeshIOFactory);

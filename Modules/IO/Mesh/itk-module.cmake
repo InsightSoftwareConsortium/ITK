@@ -1,7 +1,11 @@
 set(DOCUMENTATION "This module contains classes for reading and writing
-Meshes as opposed to general images.")
+Meshes as opposed to general images.
+
+This module is present for backwards compatibility and should not be used -
+for support for a specific mesh file format, depend on the specific
+module, instead.")
+
 itk_module(ITKIOMesh
-  ENABLE_SHARED
   DEPENDS
     ITKCommon
     ITKIOMeshBase
@@ -10,11 +14,7 @@ itk_module(ITKIOMesh
     ITKIOMeshFreeSurfer
     ITKIOMeshGifti
     ITKIOMeshOBJ
-  PRIVATE_DEPENDS
-    ITKIOImageBase
-    ITKDoubleConversion
-  COMPILE_DEPENDS
-    ITKMesh
+    ITKIOMeshOFF
   TEST_DEPENDS
     ITKTestKernel
     ITKQuadEdgeMesh
@@ -22,6 +22,7 @@ itk_module(ITKIOMesh
     ITKIOMeshFreeSurfer
     ITKIOMeshGifti
     ITKIOMeshOBJ
+    ITKIOMeshOFF
   FACTORY_NAMES
     MeshIO::BYU
     MeshIO::FreeSurferAscii
