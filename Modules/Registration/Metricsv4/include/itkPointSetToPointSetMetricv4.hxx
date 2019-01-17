@@ -20,6 +20,7 @@
 
 #include "itkPointSetToPointSetMetricv4.h"
 #include "itkIdentityTransform.h"
+#include "itkCompensatedSummation.h"
 
 namespace itk
 {
@@ -165,7 +166,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
 {
   this->InitializeForIteration();
 
-  MeasureType value = 0.0;
+  CompensatedSummation< MeasureType > value;
 
   PointsConstIterator It = this->m_FixedTransformedPointSet->GetPoints()->Begin();
   // Virtual point set will be the same size as fixed point set as long as it's
@@ -205,13 +206,14 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
     }
 
   DerivativeType derivative;
-  if( this->VerifyNumberOfValidPoints( value, derivative ) )
+  MeasureType valueSum = value.GetSum();
+  if( this->VerifyNumberOfValidPoints( valueSum, derivative ) )
     {
-    value /= static_cast<MeasureType>( this->m_NumberOfValidPoints );
+    valueSum /= static_cast<MeasureType>( this->m_NumberOfValidPoints );
     }
-  this->m_Value = value;
+  this->m_Value = valueSum;
 
-  return value;
+  return valueSum;
 }
 
 template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
@@ -234,7 +236,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
 template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::CalculateValueAndDerivative( MeasureType & value, DerivativeType & derivative, bool calculateValue ) const
+::CalculateValueAndDerivative( MeasureType & calculatedValue, DerivativeType & derivative, bool calculateValue ) const
 {
   this->InitializeForIteration();
 
@@ -245,7 +247,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
     }
   derivative.Fill( NumericTraits<DerivativeValueType>::ZeroValue() );
 
-  value = NumericTraits<MeasureType>::ZeroValue();
+  CompensatedSummation<MeasureType> value;
   MovingTransformJacobianType  jacobian( MovingPointDimension, this->GetNumberOfLocalParameters() );
   MovingTransformJacobianType  jacobianCache;
 
@@ -349,7 +351,8 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
     ++virtualIt;
     }
 
-  if( this->VerifyNumberOfValidPoints( value, derivative ) )
+  MeasureType valueSum = value.GetSum();
+  if( this->VerifyNumberOfValidPoints( valueSum, derivative ) )
     {
     // For global-support transforms, average the accumulated derivative result
     if( ! this->HasLocalSupport() && ! this->m_CalculateValueAndDerivativeInTangentSpace )
@@ -357,9 +360,10 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
       derivative = localTransformDerivative / static_cast<DerivativeValueType>( this->m_NumberOfValidPoints );
       }
 
-    value /= static_cast<MeasureType>( this->m_NumberOfValidPoints );
+    valueSum /= static_cast<MeasureType>( this->m_NumberOfValidPoints );
     }
-  this->m_Value = value;
+  calculatedValue = valueSum;
+  this->m_Value = valueSum;
 }
 
 template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
