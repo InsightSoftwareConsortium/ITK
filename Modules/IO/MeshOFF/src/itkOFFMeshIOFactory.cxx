@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "ITKIOMeshExport.h"
+#include "ITKIOMeshOFFExport.h"
 
 #include "itkOFFMeshIO.h"
 #include "itkOFFMeshIOFactory.h"
@@ -59,7 +59,7 @@ OFFMeshIOFactory
 // DO NOT CALL DIRECTLY.
 static bool OFFMeshIOFactoryHasBeenRegistered;
 
-void ITKIOMesh_EXPORT OFFMeshIOFactoryRegister__Private()
+void ITKIOMeshOFF_EXPORT OFFMeshIOFactoryRegister__Private()
 {
   if( ! OFFMeshIOFactoryHasBeenRegistered )
     {

@@ -21,6 +21,7 @@
 #include "itkManifoldParzenWindowsPointSetFunction.h"
 
 #include "itkMath.h"
+#include "itkCompensatedSummation.h"
 
 namespace itk
 {
@@ -33,6 +34,7 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
   m_KernelSigma( 1.0 )
 
 {
+  m_MultiThreader = MultiThreaderBase::New();
 }
 
 template <typename TPointSet, typename TOutput, typename TCoordRep>
@@ -55,25 +57,21 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
 
   const PointsContainer * points = this->GetInputPointSet()->GetPoints();
 
-  IdentifierType count = NumericTraits< IdentifierType >::ZeroValue();
+  m_MultiThreader->ParallelizeArray(0, points->Size(),
+    [&]( SizeValueType index )
+      {
+      CovarianceMatrixType covariance( PointDimension, PointDimension );
 
-  typename PointSetType::PointsContainerConstIterator It = points->Begin();
+      covariance.SetIdentity();
+      covariance *= this->m_KernelSigma;
 
-  while( It != points->End() )
-    {
-    CovarianceMatrixType covariance( PointDimension, PointDimension );
-
-    covariance.SetIdentity();
-    covariance *= this->m_KernelSigma;
-
-    inputGaussians[count] = GaussianType::New();
-    inputGaussians[count]->SetMeasurementVectorSize( PointDimension );
-    inputGaussians[count]->SetMean( It.Value() );
-    inputGaussians[count]->SetCovariance( covariance );
-
-    count++;
-    ++It;
-    }
+      inputGaussians[index] = GaussianType::New();
+      inputGaussians[index]->SetMeasurementVectorSize( PointDimension );
+      inputGaussians[index]->SetMean( points->ElementAt( index ) );
+      inputGaussians[index]->SetCovariance( covariance );
+      },
+    nullptr
+  );
 
   this->m_PointsLocator = PointsLocatorType::New();
   this->m_PointsLocator->SetPoints( const_cast<PointsContainer *>( points ) );
@@ -82,79 +80,78 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
   /**
    * Calculate covariance matrices
    */
-
-  It = points->Begin();
-  while( It != points->End() )
-    {
-    PointType point = It.Value();
-    unsigned long index = It.Index();
-
-    this->m_Gaussians[index] = GaussianType::New();
-    this->m_Gaussians[index]->SetMeasurementVectorSize( PointDimension );
-    this->m_Gaussians[index]->SetMean( inputGaussians[index]->GetMean() );
-
-    if( this->m_CovarianceKNeighborhood > 0
-      && this->m_UseAnisotropicCovariances )
+  m_MultiThreader->ParallelizeArray(0, points->Size(),
+    [&]( SizeValueType index )
       {
-      CovarianceMatrixType Cout( PointDimension, PointDimension );
-      Cout.Fill( 0 );
+      PointType point = points->ElementAt( index );
 
-      typename PointsLocatorType::NeighborsIdentifierType neighbors;
-      this->m_PointsLocator->Search( point, this->m_CovarianceKNeighborhood, neighbors );
+      this->m_Gaussians[index] = GaussianType::New();
+      this->m_Gaussians[index]->SetMeasurementVectorSize( PointDimension );
+      this->m_Gaussians[index]->SetMean( inputGaussians[index]->GetMean() );
 
-      RealType denominator = 0.0;
-      for( unsigned int j = 0; j < this->m_CovarianceKNeighborhood; j++ )
+      if( this->m_CovarianceKNeighborhood > 0
+        && this->m_UseAnisotropicCovariances )
         {
-        if( neighbors[j] != index
-          && neighbors[j] < this->GetInputPointSet()->GetNumberOfPoints() )
+        CovarianceMatrixType Cout( PointDimension, PointDimension );
+        Cout.Fill( 0 );
+
+        typename PointsLocatorType::NeighborsIdentifierType neighbors;
+        this->m_PointsLocator->Search( point, this->m_CovarianceKNeighborhood, neighbors );
+
+        CompensatedSummation< RealType > denominator;
+        for( unsigned int j = 0; j < this->m_CovarianceKNeighborhood; j++ )
           {
-          PointType neighbor =
-            this->GetInputPointSet()->GetPoint( neighbors[j] );
-
-          RealType kernelValue = inputGaussians[index]->Evaluate( neighbor );
-
-          denominator += kernelValue;
-          if( kernelValue > 0.0 )
+          if( neighbors[j] != index
+            && neighbors[j] < this->GetInputPointSet()->GetNumberOfPoints() )
             {
-            for( unsigned int m = 0; m < PointDimension; m++ )
+            PointType neighbor =
+              this->GetInputPointSet()->GetPoint( neighbors[j] );
+
+            RealType kernelValue = inputGaussians[index]->Evaluate( neighbor );
+
+            denominator += kernelValue;
+            if( kernelValue > 0.0 )
               {
-              for( unsigned int n = m; n < PointDimension; n++ )
+              for( unsigned int m = 0; m < PointDimension; m++ )
                 {
-                RealType covariance = kernelValue * ( neighbor[m] - point[m] ) *
-                  ( neighbor[n] - point[n] );
-                Cout(m, n) += covariance;
-                Cout(n, m) += covariance;
+                for( unsigned int n = m; n < PointDimension; n++ )
+                  {
+                  RealType covariance = kernelValue * ( neighbor[m] - point[m] ) *
+                    ( neighbor[n] - point[n] );
+                  Cout(m, n) += covariance;
+                  Cout(n, m) += covariance;
+                  }
                 }
               }
             }
           }
-        }
 
-      if( this->m_Normalize && denominator > 0.0 )
-        {
-        Cout /= denominator;
+        if( this->m_Normalize && denominator.GetSum() > 0.0 )
+          {
+          Cout /= denominator.GetSum();
+          }
+        else
+          {
+          Cout /= static_cast<RealType>( this->m_CovarianceKNeighborhood );
+          }
+        for( unsigned int m = 0; m < PointDimension; m++ )
+          {
+          Cout(m, m) += Math::sqr( this->m_RegularizationSigma );
+          }
+
+        this->m_Gaussians[index]->SetCovariance( Cout );
         }
       else
         {
-        Cout /= static_cast<RealType>( this->m_CovarianceKNeighborhood );
+        typename GaussianType::CovarianceMatrixType covariance
+          ( PointDimension, PointDimension );
+        covariance.SetIdentity();
+        covariance *= Math::sqr( this->m_RegularizationSigma );
+        this->m_Gaussians[index]->SetCovariance( covariance );
         }
-      for( unsigned int m = 0; m < PointDimension; m++ )
-        {
-        Cout(m, m) += itk::Math::sqr( this->m_RegularizationSigma );
-        }
-
-      this->m_Gaussians[index]->SetCovariance( Cout );
-      }
-    else
-      {
-      typename GaussianType::CovarianceMatrixType covariance
-        ( PointDimension, PointDimension );
-      covariance.SetIdentity();
-      covariance *= itk::Math::sqr( this->m_RegularizationSigma );
-      this->m_Gaussians[index]->SetCovariance( covariance );
-      }
-    ++It;
-    }
+      },
+    nullptr
+  );
 }
 
 template <typename TPointSet, typename TOutput, typename TCoordRep>
@@ -171,7 +168,7 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
     this->m_EvaluationKNeighborhood,
     static_cast<unsigned int>( this->m_Gaussians.size() ) );
 
-  OutputType sum = NumericTraits< OutputType>::ZeroValue();
+  CompensatedSummation< OutputType > sum;
 
   if( numberOfNeighbors == this->m_Gaussians.size() )
     {
@@ -193,7 +190,7 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
       }
     }
   return static_cast<OutputType>(
-    sum / static_cast<OutputType>( this->m_Gaussians.size() ) );
+    sum.GetSum() / static_cast<OutputType>( this->m_Gaussians.size() ) );
 }
 
 template <typename TPointSet, typename TOutput, typename TCoordRep>
@@ -222,15 +219,15 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
   Indent indent) const
 {
   os << indent << "Covariance neighborhood: "
-               << this->m_CovarianceKNeighborhood << std::endl;
+    << this->m_CovarianceKNeighborhood << std::endl;
   os << indent << "Evaluation neighborhood: "
-               << this->m_EvaluationKNeighborhood << std::endl;
+    << this->m_EvaluationKNeighborhood << std::endl;
   os << indent << "Regularization sigma: "
-               << this->m_RegularizationSigma << std::endl;
+    << this->m_RegularizationSigma << std::endl;
   os << indent << "Kernel sigma: "
-               << this->m_KernelSigma << std::endl;
+    << this->m_KernelSigma << std::endl;
   os << indent << "Normalize: "
-               << this->m_Normalize << std::endl;
+    << this->m_Normalize << std::endl;
   os << indent << "Use anisotropic covariances: "
                << this->m_UseAnisotropicCovariances << std::endl;
 }

@@ -25,6 +25,7 @@
 #include "itkPointSet.h"
 #include "itkPointsLocator.h"
 #include "itkVector.h"
+#include "itkMultiThreaderBase.h"
 
 #include <vector>
 
@@ -194,6 +195,8 @@ private:
   GaussianContainerType                         m_Gaussians;
   bool                                          m_Normalize{ true };
   bool                                          m_UseAnisotropicCovariances{ true };
+
+  MultiThreaderBase::Pointer                    m_MultiThreader;
 };
 
 } // end namespace itk

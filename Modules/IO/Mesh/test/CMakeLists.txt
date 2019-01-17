@@ -27,8 +27,3 @@ itk_add_test(NAME itkMeshFileReadWriteTest07
       ${ITK_TEST_OUTPUT_DIR}/sphere_curv_07.vtk
       1
 )
-itk_add_test(NAME itkMeshFileReadWriteTest09
-      COMMAND ITKIOMeshTestDriver itkMeshFileReadWriteTest
-      DATA{Baseline/octa.off}
-      ${ITK_TEST_OUTPUT_DIR}/octa.off
-)
