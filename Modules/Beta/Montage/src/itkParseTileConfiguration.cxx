@@ -39,6 +39,11 @@ getNextNonCommentLine( std::istream& in )
       break;
       }
     }
+
+  if ( temp[temp.size() - 1] == '\r' )
+  {
+    temp.erase(temp.size() - 1, 1);
+  }
   return temp;
 }
 
