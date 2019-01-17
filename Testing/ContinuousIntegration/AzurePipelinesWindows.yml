@@ -12,7 +12,14 @@ jobs:
   pool:
     vmImage: 'vs2017-win2016'
   steps:
+    - checkout: self
+      clean: true
+      fetchDepth: 5
     - script: |
+        if NOT "$(System.PullRequest.SourceCommitId)"=="" git checkout $(System.PullRequest.SourceCommitId)
+      displayName: Checkout pull request HEAD
+    - script: |
+
         pip3 install ninja
 
       displayName: Install dependencies
