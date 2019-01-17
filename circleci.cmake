@@ -48,20 +48,20 @@ set_from_env(dashboard_git_branch "CIRCLE_BRANCH")
 set_from_env(dashboard_model "DASHBOARD_MODEL" DEFAULT "Continuous" )
 set(dashboard_loop 0)
 
-if ( EXISTS "${CTEST_SOURCE_DIRECTORY}/circle.yml")
+if( EXISTS "${CTEST_SOURCE_DIRECTORY}/circle.yml")
   list(APPEND CTEST_NOTES_FILES
     "${CTEST_SOURCE_DIRECTORY}/circle.yml"
     )
 endif()
 
-if ( EXISTS  "${CTEST_SOURCE_DIRECTORY}/.circleci/config.yml")
+if( EXISTS  "${CTEST_SOURCE_DIRECTORY}/.circleci/config.yml")
   list(APPEND CTEST_NOTES_FILES
     "${CTEST_SOURCE_DIRECTORY}/.circleci/config.yml"
     )
 endif()
 
 
-SET (dashboard_cache "
+set(dashboard_cache "
     BUILD_DOCUMENTATION:BOOL=OFF
     BUILD_EXAMPLES:BOOL=ON
     BUILD_SHARED_LIBS:BOOL=ON
@@ -71,8 +71,8 @@ SET (dashboard_cache "
 " )
 
 
-if (DEFINED ENV{DISTCC_DIR})
-  SET (dashboard_cache "${dashboard_cache}
+if(DEFINED ENV{DISTCC_DIR})
+  set(dashboard_cache "${dashboard_cache}
     CMAKE_CXX_COMPILER_LAUNCHER:STRING=distcc
     CMAKE_C_COMPILER_LAUNCHER:STRING=distcc
 ")
