@@ -140,7 +140,9 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   void
-  GenerateData() override;
+  BeforeThreadedGenerateData() override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & threadRegion) override;
 
 private:
   unsigned int           m_HighPassSubBands;

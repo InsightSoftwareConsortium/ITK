@@ -127,33 +127,41 @@ WaveletFrequencyFilterBankGenerator<TOutputImage, TWaveletFunction, TFrequencyRe
 
 template <typename TOutputImage, typename TWaveletFunction, typename TFrequencyRegionIterator>
 void
-WaveletFrequencyFilterBankGenerator<TOutputImage, TWaveletFunction, TFrequencyRegionIterator>::GenerateData()
+WaveletFrequencyFilterBankGenerator<TOutputImage, TWaveletFunction, TFrequencyRegionIterator>::
+  BeforeThreadedGenerateData()
+{
+  /***************** Allocate Outputs *****************/
+  OutputImageType * firstOutput = this->GetOutput(0);
+  for (unsigned int comp = 0; comp < this->GetNumberOfOutputs(); ++comp)
+  {
+    OutputImageType * outputPtr = this->GetOutput(comp);
+    outputPtr->SetRegions(firstOutput->GetLargestPossibleRegion());
+    outputPtr->Allocate();
+    outputPtr->FillBuffer(0);
+  }
+}
+
+template <typename TOutputImage, typename TWaveletFunction, typename TFrequencyRegionIterator>
+void
+WaveletFrequencyFilterBankGenerator<TOutputImage, TWaveletFunction, TFrequencyRegionIterator>::
+  DynamicThreadedGenerateData(const OutputImageRegionType & threadRegion)
 {
   this->m_WaveletFunction->SetHighPassSubBands(this->m_HighPassSubBands);
 
-  /***************** Allocate Outputs *****************/
-  std::vector<OutputImagePointer>   outputList;
+  // Init iterators for all outputs.
   std::vector<OutputRegionIterator> outputItList;
-  for (unsigned int band = 0; band < this->m_HighPassSubBands + 1; ++band)
+  for (unsigned int comp = 0; comp < this->GetNumberOfOutputs(); ++comp)
   {
-    outputList.push_back(this->GetOutput(band));
-    OutputImagePointer & outputPtr = outputList.back();
-    // TODO maybe you need a GenerateOutputInformation instead of setting here metadata.
-    // outputPtr->SetOrigin(this->GetOrigin());
-    // outputPtr->SetSpacing(this->GetSpacing());
-    // outputPtr->SetDirection(this->GetDirection());
-    // GenerateImageSource superclass allocates primary output, so use its region.
-    outputPtr->SetRegions(outputList[0]->GetLargestPossibleRegion());
-    outputPtr->Allocate();
-    outputPtr->FillBuffer(0);
-    outputItList.push_back(OutputRegionIterator(outputPtr, outputPtr->GetRequestedRegion()));
+    OutputImageType * outputPtr = this->GetOutput(comp);
+    outputItList.push_back(OutputRegionIterator(outputPtr, threadRegion));
     outputItList.back().GoToBegin();
   }
 
   /***************** Set Outputs *****************/
+  OutputImageType * firstOutput = this->GetOutput(0);
   FunctionValueType w(0);
   // Iterator to calculate frequency modulo only once (optimization)
-  OutputRegionIterator frequencyIt(outputList[0], outputList[0]->GetRequestedRegion());
+  OutputRegionIterator frequencyIt(firstOutput, threadRegion);
   for (frequencyIt.GoToBegin(); !frequencyIt.IsAtEnd(); ++frequencyIt)
   {
     w = static_cast<FunctionValueType>(sqrt(frequencyIt.GetFrequencyModuloSquare()));
