@@ -16,7 +16,7 @@ jobs:
       clean: true
       fetchDepth: 5
     - script: |
-        if NOT "$(System.PullRequest.SourceCommitId)"=="" git checkout $(System.PullRequest.SourceCommitId)
+        if DEFINED SYSTEM_PULLREQUEST_SOURCECOMMITID git checkout $(System.PullRequest.SourceCommitId)
       displayName: Checkout pull request HEAD
     - script: |
         pip3 install ninja numpy
