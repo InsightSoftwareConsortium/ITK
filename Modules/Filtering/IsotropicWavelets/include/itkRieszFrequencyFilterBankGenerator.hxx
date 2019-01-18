@@ -57,25 +57,36 @@ RieszFrequencyFilterBankGenerator<TOutputImage, TRieszFunction, TFrequencyRegion
 
 template <typename TOutputImage, typename TRieszFunction, typename TFrequencyRegionIterator>
 void
-RieszFrequencyFilterBankGenerator<TOutputImage, TRieszFunction, TFrequencyRegionIterator>::GenerateData()
+RieszFrequencyFilterBankGenerator<TOutputImage, TRieszFunction, TFrequencyRegionIterator>::BeforeThreadedGenerateData()
 {
   /***************** Allocate Outputs *****************/
-  std::vector<OutputImagePointer>   outputList;
+  OutputImageType * firstOutput = this->GetOutput(0);
+  for (unsigned int comp = 0; comp < this->GetNumberOfOutputs(); ++comp)
+  {
+    OutputImageType * outputPtr = this->GetOutput(comp);
+    outputPtr->SetRegions(firstOutput->GetLargestPossibleRegion());
+    outputPtr->Allocate();
+    outputPtr->FillBuffer(0);
+  }
+}
+
+template <typename TOutputImage, typename TRieszFunction, typename TFrequencyRegionIterator>
+void
+RieszFrequencyFilterBankGenerator<TOutputImage, TRieszFunction, TFrequencyRegionIterator>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & threadRegion)
+{
+  // Init iterators for all outputs.
   std::vector<OutputRegionIterator> outputItList;
   for (unsigned int comp = 0; comp < this->GetNumberOfOutputs(); ++comp)
   {
-    outputList.push_back(this->GetOutput(comp));
-    OutputImagePointer & outputPtr = outputList.back();
-    // GenerateImageSource superclass allocates primary output, so use its region.
-    outputPtr->SetRegions(outputList[0]->GetLargestPossibleRegion());
-    outputPtr->Allocate();
-    outputPtr->FillBuffer(0);
-    outputItList.push_back(OutputRegionIterator(outputPtr, outputPtr->GetRequestedRegion()));
+    OutputImageType * outputPtr = this->GetOutput(comp);
+    outputItList.push_back(OutputRegionIterator(outputPtr, threadRegion));
     outputItList.back().GoToBegin();
   }
 
   /***************** Set Outputs *****************/
-  OutputRegionIterator frequencyIt(outputList[0], outputList[0]->GetRequestedRegion());
+  OutputImageType *    firstOutput = this->GetOutput(0);
+  OutputRegionIterator frequencyIt(firstOutput, threadRegion);
   for (frequencyIt.GoToBegin(); !frequencyIt.IsAtEnd(); ++frequencyIt)
   {
     typename TRieszFunction::OutputComponentsType evaluatedArray =

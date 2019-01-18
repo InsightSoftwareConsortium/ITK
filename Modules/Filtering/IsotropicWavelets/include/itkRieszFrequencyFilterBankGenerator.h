@@ -119,7 +119,9 @@ protected:
 
   /** Generate data */
   void
-  GenerateData() override;
+  BeforeThreadedGenerateData() override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & threadRegion) override;
 
 private:
   unsigned int         m_Order;
