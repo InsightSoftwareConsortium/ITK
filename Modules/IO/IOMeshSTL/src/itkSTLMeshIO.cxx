@@ -38,6 +38,8 @@ STLMeshIO ::STLMeshIO()
   // STL uses UINT32 to store the number of points,
   // hence the point Ids are of the same UINT32 type.
   this->SetCellComponentType(UINT);
+
+  this->SetPointDimension(3);
 }
 
 bool
