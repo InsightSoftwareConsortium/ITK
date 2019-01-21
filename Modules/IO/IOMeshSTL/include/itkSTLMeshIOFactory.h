@@ -18,7 +18,7 @@
 #ifndef itkSTLMeshIOFactory_h
 #define itkSTLMeshIOFactory_h
 
-#include "IOSTLExport.h"
+#include "IOMeshSTLExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkMeshIOBase.h"
@@ -28,9 +28,9 @@ namespace itk
 /** \class STLMeshIOFactory
  * \brief Create instances of STLMeshIO objects using an object factory.
  *
- * \ingroup IOSTL
+ * \ingroup IOMeshSTL
  */
-class IOSTL_EXPORT STLMeshIOFactory : public ObjectFactoryBase
+class IOMeshSTL_EXPORT STLMeshIOFactory : public ObjectFactoryBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(STLMeshIOFactory);

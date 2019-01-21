@@ -18,7 +18,7 @@
 #ifndef itkSTLMeshIO_h
 #define itkSTLMeshIO_h
 
-#include "IOSTLExport.h"
+#include "IOMeshSTLExport.h"
 
 #include "itkMeshIOBase.h"
 
@@ -33,9 +33,9 @@ namespace itk
  * \author Luis Ibanez, Kitware Inc.
  *
  * \ingroup IOFilters
- * \ingroup IOSTL
+ * \ingroup IOMeshSTL
  */
-class IOSTL_EXPORT STLMeshIO : public MeshIOBase
+class IOMeshSTL_EXPORT STLMeshIO : public MeshIOBase
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(STLMeshIO);
