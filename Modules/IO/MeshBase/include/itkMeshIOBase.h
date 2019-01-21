@@ -734,7 +734,7 @@ protected:
   unsigned int m_NumberOfCellPixelComponents{0};
 
   /** The number of independent dimensions in the point. */
-  SizeValueType m_PointDimension{0};
+  SizeValueType m_PointDimension{3};
 
   /** The number of points and cells */
   SizeValueType m_NumberOfPoints;

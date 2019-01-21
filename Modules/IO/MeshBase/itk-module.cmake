@@ -13,6 +13,8 @@ itk_module(ITKIOMeshBase
     ITKQuadEdgeMesh
     ITKMesh
     ITKVoronoi
+  TEST_DEPENDS
+    ITKTestKernel
   DESCRIPTION
     "${DOCUMENTATION}"
 )

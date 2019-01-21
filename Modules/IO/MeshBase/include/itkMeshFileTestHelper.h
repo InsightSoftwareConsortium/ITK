@@ -271,6 +271,13 @@ test(char *INfilename, char *OUTfilename, bool IsBinary)
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
     }
+  reader->GetMeshIO()->Print( std::cout );
+
+  if( TMesh::PointDimension != reader->GetMeshIO()->GetPointDimension() )
+    {
+    std::cerr << "Unexpected PointDimension" << std::endl;
+    return EXIT_FAILURE;
+    }
 
   MeshFileWriterPointer writer = MeshFileWriterType::New();
   if( itksys::SystemTools::GetFilenameLastExtension(INfilename) ==
