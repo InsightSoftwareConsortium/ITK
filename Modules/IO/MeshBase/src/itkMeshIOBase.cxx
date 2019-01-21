@@ -165,11 +165,11 @@ MeshIOBase
     case LDOUBLE:
       return std::string( "long_double" );
     case UNKNOWNCOMPONENTTYPE:
-      break;
+      return std::string( "unknown" );
     default:
       break;
     }
-  return std::string( "unknown" );
+  itkExceptionMacro ("Unknown component type: " << t);
 }
 
 std::string
@@ -198,8 +198,18 @@ MeshIOBase
       return std::string( "diffusion_tensor_3D" );
     case COMPLEX:
       return std::string( "complex" );
+    case FIXEDARRAY:
+      return std::string( "fixed_array" );
+    case ARRAY:
+      return std::string( "array" );
+    case MATRIX:
+      return std::string( "matrix" );
+    case VARIABLELENGTHVECTOR:
+      return std::string( "variable_length_vector" );
+    case VARIABLESIZEMATRIX:
+      return std::string( "variable_size_matrix" );
     case UNKNOWNPIXELTYPE:
-      break;
+      return std::string( "unknown" );
     default:
       break;
     }
