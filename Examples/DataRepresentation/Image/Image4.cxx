@@ -356,14 +356,63 @@ int main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // For a given index $I_{3X1}$, the physical location $P_{3X1}$ is calculated
+  // For a given index $\vec{I}$ in 3D, the physical location $\vec{P}$ is calculated
   // as following:
   //
   // \begin{equation}
-  //   P_{3X1} = O_{3X1} + D_{3X3} * diag( S_{3X1} )_{3x3} * I_{3X1}
+  // \begin{pmatrix}
+  //   P_1\\
+  //   P_2\\
+  //   P_3
+  // \end{pmatrix}
+  // =
+  // \begin{pmatrix}
+  //   O_1\\
+  //   O_2\\
+  //   O_3
+  // \end{pmatrix}
+  // +
+  // \begin{pmatrix}
+  //   D_{1,1}     & D_{1,2} & D_{1,3}\\
+  //   D_{2,1}     & D_{2,2} & D_{2,3}\\
+  //   D_{3,1}     & D_{3,2} & D_{3,3}
+  // \end{pmatrix}
+  // *
+  // \begin{pmatrix}
+  //   S_1 & 0   & 0  \\
+  //   0   & S_2 & 0  \\
+  //   0   & 0   & S_3\\
+  // \end{pmatrix}
+  // *
+  // \begin{pmatrix}
+  //   I_1\\
+  //   I_2\\
+  //   I_3
+  // \end{pmatrix}
   // \end{equation}
-  // where $D$ is an orthonormal direction cosines matrix and
-  // $S$ is the image spacing diagonal matrix.
+  // Where:\newline
+  // $\vec{I}$: image space index.\newline
+  // $\vec{P}$: resulting physical space position of the image index $\vec{I}$.\newline
+  // $\vec{O}$: physical space origin of the first image index.\newline
+  // $\mathcal{D}$: direction cosines matrix (orthonormal). It represents the orientation
+  // relationship between the image and the physical space coordinate system.\newline
+  // $\vec{S}$: physical spacing between pixels of the same axis.
+  // \newline
+  //
+  // \noindent The operation can be thought as a particular case of the linear transform:
+  // \begin{equation}
+  // \vec{P} = \vec{O} + \mathcal{A} \cdot \vec{I}
+  // \end{equation}
+  // \noindent where $\mathcal{A}$:
+  // \begin{equation}
+  // \mathcal{A}
+  // =
+  // \begin{pmatrix}
+  //   D_{1,1}\cdot S_1     & D_{1,2}\cdot S_2  & D_{1,3}\cdot S_3\\
+  //   D_{2,1}\cdot S_1     & D_{2,2}\cdot S_2  & D_{2,3}\cdot S_3\\
+  //   D_{3,1}\cdot S_1     & D_{3,2}\cdot S_2  & D_{3,3}\cdot S_3
+  // \end{pmatrix}
+  // \end{equation}
   //
   // In matlab syntax the conversions are:
   //
