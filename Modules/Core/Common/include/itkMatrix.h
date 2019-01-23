@@ -247,7 +247,7 @@ public:
   /** Return the inverse matrix. */
   inline vnl_matrix_fixed< T, NColumns, NRows > GetInverse() const
   {
-    if ( vnl_determinant(m_Matrix) == 0.0 )
+    if ( vnl_determinant(m_Matrix) == NumericTraits<T>::ZeroValue() )
       {
       itkGenericExceptionMacro(<< "Singular matrix. Determinant is 0.");
       }
