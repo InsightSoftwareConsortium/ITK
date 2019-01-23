@@ -17,10 +17,12 @@
  *=========================================================================*/
 #ifndef itkRieszRotationMatrix_h
 #define itkRieszRotationMatrix_h
-#include "itkVariableSizeMatrix.h"
 #include <vector>
+#include "itkImage.h"
 #include "itkMatrix.h"
 #include "itkRieszUtilities.h"
+#include "itkVariableSizeMatrix.h"
+#include "itkVectorContainer.h"
 
 namespace itk
 {
@@ -35,7 +37,7 @@ namespace itk
  *
  * \f[ M := p(N,d) = \frac{(N+d-1)!}{(d-1)! N!} \f]
  *
- * The rotation matrix is a dxd matrix.
+ * The rotation matrix is a dxd matrix of real type.
  *
  * \sa RieszFrequencyFunction
  * \sa RieszFrequencyFilterBankGenerator
@@ -43,18 +45,20 @@ namespace itk
  * \ingroup IsotropicWavelets
  */
 
-template <typename T = double, unsigned int VImageDimension = 3>
-class RieszRotationMatrix : public itk::VariableSizeMatrix<T>
+template <unsigned int VImageDimension>
+class RieszRotationMatrix : public itk::VariableSizeMatrix<std::complex<double>>
 {
 public:
   /** Standard type alias */
   using Self = RieszRotationMatrix;
-  using Superclass = itk::VariableSizeMatrix<T>;
+  using ValueType = std::complex<double>;
+  using Superclass = itk::VariableSizeMatrix<ValueType>;
 
   /** Component value type */
-  using ValueType = typename Superclass::ValueType;
+  using RealType = typename ValueType::value_type;
   using InternalMatrixType = typename Superclass::InternalMatrixType;
-  using SpatialRotationMatrixType = itk::Matrix<T, VImageDimension, VImageDimension>;
+  using SpatialRotationMatrixType = itk::Matrix<RealType, VImageDimension, VImageDimension>;
+  using ComplexImageType = itk::Image<ValueType, VImageDimension>;
 
   /** Matrix by std::vector<TImage> multiplication.
    * To perform the rotation with the output of
@@ -194,7 +198,7 @@ public:
     return this->m_MaxAbsoluteDifferenceCloseToZero;
   }
   inline void
-  SetMaxAbsoluteDifferenceCloseToZero(const ValueType & maxAbsoluteDifference)
+  SetMaxAbsoluteDifferenceCloseToZero(const RealType & maxAbsoluteDifference)
   {
     this->m_MaxAbsoluteDifferenceCloseToZero = maxAbsoluteDifference;
   }
@@ -228,10 +232,11 @@ public:
 #endif
 
 private:
+  using ResultValueType = std::complex<long double>;
   SpatialRotationMatrixType m_SpatialRotationMatrix;
   unsigned int              m_Order{ 0 };
   unsigned int              m_Components{ 0 };
-  ValueType                 m_MaxAbsoluteDifferenceCloseToZero;
+  RealType                  m_MaxAbsoluteDifferenceCloseToZero;
   bool                      m_Debug{ false };
 
 }; // end of class

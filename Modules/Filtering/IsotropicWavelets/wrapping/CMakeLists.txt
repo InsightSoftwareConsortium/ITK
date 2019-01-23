@@ -1,6 +1,8 @@
 itk_wrap_module(IsotropicWavelets)
 set(
   WRAPPER_SUBMODULE_ORDER
+  itkMatrixComplex
+  itkVariableSizeMatrixComplex
   itkStructureTensor
   itkMonogenicSignalFrequencyImageFilter
   itkVectorInverseFFTImageFilter

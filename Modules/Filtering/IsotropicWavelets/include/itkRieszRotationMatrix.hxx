@@ -25,42 +25,42 @@
 
 namespace itk
 {
-template <typename T, unsigned int VImageDimension>
-RieszRotationMatrix<T, VImageDimension>::RieszRotationMatrix()
+template <unsigned int VImageDimension>
+RieszRotationMatrix<VImageDimension>::RieszRotationMatrix()
   : Superclass()
   , m_SpatialRotationMatrix()
   ,
 
-  m_MaxAbsoluteDifferenceCloseToZero(1 * itk::NumericTraits<ValueType>::epsilon())
+  m_MaxAbsoluteDifferenceCloseToZero(1 * itk::NumericTraits<RealType>::epsilon())
 
 {}
 
-template <typename T, unsigned int VImageDimension>
-RieszRotationMatrix<T, VImageDimension>::RieszRotationMatrix(const Self & rieszMatrix)
+template <unsigned int VImageDimension>
+RieszRotationMatrix<VImageDimension>::RieszRotationMatrix(const Self & rieszMatrix)
   : Superclass(rieszMatrix)
   , m_SpatialRotationMatrix(rieszMatrix.GetSpatialRotationMatrix())
   , m_Order(rieszMatrix.GetOrder())
   , m_Components(rieszMatrix.GetComponents())
-  , m_MaxAbsoluteDifferenceCloseToZero(1 * itk::NumericTraits<ValueType>::epsilon())
+  , m_MaxAbsoluteDifferenceCloseToZero(1 * itk::NumericTraits<RealType>::epsilon())
 
 {}
 
-template <typename T, unsigned int VImageDimension>
-RieszRotationMatrix<T, VImageDimension>::RieszRotationMatrix(const SpatialRotationMatrixType & spatialRotationMatrix,
-                                                             const unsigned int &              order)
+template <unsigned int VImageDimension>
+RieszRotationMatrix<VImageDimension>::RieszRotationMatrix(const SpatialRotationMatrixType & spatialRotationMatrix,
+                                                          const unsigned int &              order)
   : Superclass()
   , m_SpatialRotationMatrix(spatialRotationMatrix)
-  , m_MaxAbsoluteDifferenceCloseToZero(1 * itk::NumericTraits<ValueType>::epsilon())
+  , m_MaxAbsoluteDifferenceCloseToZero(1 * itk::NumericTraits<RealType>::epsilon())
 
 {
   this->SetOrder(order);
   this->ComputeSteerableMatrix();
 }
 
-template <typename T, unsigned int VImageDimension>
+template <unsigned int VImageDimension>
 template <typename TInputValue>
 std::vector<TInputValue>
-RieszRotationMatrix<T, VImageDimension>::MultiplyWithVector(const std::vector<TInputValue> & vect) const
+RieszRotationMatrix<VImageDimension>::MultiplyWithVector(const std::vector<TInputValue> & vect) const
 {
   unsigned int rows = this->Rows();
   unsigned int cols = this->Cols();
@@ -76,10 +76,10 @@ RieszRotationMatrix<T, VImageDimension>::MultiplyWithVector(const std::vector<TI
   return resultVector;
 }
 
-template <typename T, unsigned int VImageDimension>
+template <unsigned int VImageDimension>
 template <typename TInputValue>
 itk::VariableSizeMatrix<TInputValue>
-RieszRotationMatrix<T, VImageDimension>::MultiplyWithColumnMatrix(
+RieszRotationMatrix<VImageDimension>::MultiplyWithColumnMatrix(
   const itk::VariableSizeMatrix<TInputValue> & inputColumn) const
 {
   unsigned int rows = this->Rows();
@@ -100,10 +100,10 @@ RieszRotationMatrix<T, VImageDimension>::MultiplyWithColumnMatrix(
   return columnMatrix;
 }
 
-template <typename T, unsigned int VImageDimension>
+template <unsigned int VImageDimension>
 template <typename TImage>
 std::vector<typename TImage::Pointer>
-RieszRotationMatrix<T, VImageDimension>::MultiplyWithVectorOfImages(
+RieszRotationMatrix<VImageDimension>::MultiplyWithVectorOfImages(
   const std::vector<typename TImage::Pointer> & vect) const
 {
   unsigned int rows = this->Rows();
@@ -148,9 +148,9 @@ RieszRotationMatrix<T, VImageDimension>::MultiplyWithVectorOfImages(
   return result;
 }
 
-template <typename T, unsigned int VImageDimension>
-typename RieszRotationMatrix<T, VImageDimension>::IndicesMatrix
-RieszRotationMatrix<T, VImageDimension>::GenerateIndicesMatrix()
+template <unsigned int VImageDimension>
+typename RieszRotationMatrix<VImageDimension>::IndicesMatrix
+RieszRotationMatrix<VImageDimension>::GenerateIndicesMatrix()
 {
   using LocalIndicesArrayType = std::vector<unsigned int>;
   using LocalIndicesVector = std::vector<LocalIndicesArrayType>;
@@ -185,9 +185,9 @@ RieszRotationMatrix<T, VImageDimension>::GenerateIndicesMatrix()
   return allIndicesPairs;
 }
 
-template <typename T, unsigned int VImageDimension>
-const typename RieszRotationMatrix<T, VImageDimension>::InternalMatrixType &
-RieszRotationMatrix<T, VImageDimension>::ComputeSteerableMatrix()
+template <unsigned int VImageDimension>
+const typename RieszRotationMatrix<VImageDimension>::InternalMatrixType &
+RieszRotationMatrix<VImageDimension>::ComputeSteerableMatrix()
 {
   // precondition
   if (this->m_Order == 0)
@@ -198,7 +198,13 @@ RieszRotationMatrix<T, VImageDimension>::ComputeSteerableMatrix()
   InternalMatrixType & S = this->GetVnlMatrix();
   if (this->m_Order == 1)
   {
-    S = this->GetSpatialRotationMatrix().GetVnlMatrix().as_matrix();
+    for (unsigned int i = 0; i < this->m_Components; ++i)
+    {
+      for (unsigned int j = 0; j < this->m_Components; ++j)
+      {
+        S.put(i, j, static_cast<ValueType>(m_SpatialRotationMatrix.GetVnlMatrix().get(i, j)));
+      }
+    }
     return this->GetVnlMatrix();
   }
 
@@ -291,19 +297,19 @@ RieszRotationMatrix<T, VImageDimension>::ComputeSteerableMatrix()
       // matrix R = [r1,...,rd], where r_i are columns of the rotation matrix.
       // we sum and normalize them.
       S[i][j] = 0;
-      long double result = 0;
-      long        nFactorial = 1;
-      long        mFactorial = 1;
+      ResultValueType result = 0;
+      long            nFactorial = 1;
+      long            mFactorial = 1;
       for (unsigned int dim = 0; dim < VImageDimension; ++dim)
       {
         nFactorial *= itk::utils::Factorial(n[dim]);
         mFactorial *= itk::utils::Factorial(m[dim]);
       }
-      auto nFactorialReal = static_cast<double>(nFactorial);
+      auto nFactorialReal = static_cast<RealType>(nFactorial);
       for (auto & kValidIndex : kValidIndices)
       {
-        long double rotationFactor = 1;
-        long        kFactorialMultiplication = 1;
+        ValueType rotationFactor = 1;
+        long      kFactorialMultiplication = 1;
         // There are always VImageDimension indices. (k1,k2,...,kd)
         for (unsigned int kIndex = 0; kIndex < VImageDimension; ++kIndex)
         {
@@ -335,12 +341,19 @@ RieszRotationMatrix<T, VImageDimension>::ComputeSteerableMatrix()
       result *= sqrt(mFactorial / nFactorialReal);
       S[i][j] = static_cast<ValueType>(result);
       // Try to fix close to zero float errors
-      if (itk::Math::FloatAlmostEqual(S[i][j],
-                                      static_cast<ValueType>(0),
+      if (itk::Math::FloatAlmostEqual(S[i][j].real(),
+                                      static_cast<typename ValueType::value_type>(0),
                                       4, // default maxULPS from Math::AlmostFloatEqual
                                       this->m_MaxAbsoluteDifferenceCloseToZero))
       {
-        S[i][j] = 0;
+        S[i][j].real(0);
+      }
+      if (itk::Math::FloatAlmostEqual(S[i][j].imag(),
+                                      static_cast<typename ValueType::value_type>(0),
+                                      4, // default maxULPS from Math::AlmostFloatEqual
+                                      this->m_MaxAbsoluteDifferenceCloseToZero))
+      {
+        S[i][j].imag(0);
       }
 
       if (this->GetDebug())
