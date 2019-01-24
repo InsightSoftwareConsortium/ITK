@@ -86,8 +86,11 @@ protected:
 
 private:
   typename OtsuMultipleThresholdsCalculator<THistogram>::Pointer m_OtsuMultipleThresholdsCalculator;
-
-  bool m_ReturnBinMidpoint{ false };
+#if defined(ITKV4_COMPATIBILITY)
+  bool                m_ReturnBinMidpoint{ true };
+#else
+  bool                m_ReturnBinMidpoint{ false };
+#endif
 };
 
 } // end namespace itk

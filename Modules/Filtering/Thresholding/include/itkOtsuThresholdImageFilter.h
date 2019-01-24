@@ -121,7 +121,13 @@ protected:
     calc->SetReturnBinMidpoint(m_ReturnBinMidpoint);
     this->Superclass::GenerateData();
   }
-  bool m_ReturnBinMidpoint{ false };
+private:
+
+#if defined(ITKV4_COMPATIBILITY)
+  bool                m_ReturnBinMidpoint{ true };
+#else
+  bool                m_ReturnBinMidpoint{ false };
+#endif
 };
 
 } // end namespace itk
