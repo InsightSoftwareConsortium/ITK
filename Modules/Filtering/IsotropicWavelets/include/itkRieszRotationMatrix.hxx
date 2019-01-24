@@ -58,6 +58,49 @@ RieszRotationMatrix<T, VImageDimension>::RieszRotationMatrix(const SpatialRotati
 }
 
 template <typename T, unsigned int VImageDimension>
+template <typename TInputValue>
+std::vector<TInputValue>
+RieszRotationMatrix<T, VImageDimension>::MultiplyWithVector(const std::vector<TInputValue> & vect) const
+{
+  unsigned int rows = this->Rows();
+  unsigned int cols = this->Cols();
+  auto         resultVector = std::vector<TInputValue>(rows, NumericTraits<TInputValue>::ZeroValue());
+
+  for (unsigned int r = 0; r < rows; r++)
+  {
+    for (unsigned int c = 0; c < cols; c++)
+    {
+      resultVector[r] += this->GetVnlMatrix()(r, c) * vect[c];
+    }
+  }
+  return resultVector;
+}
+
+template <typename T, unsigned int VImageDimension>
+template <typename TInputValue>
+itk::VariableSizeMatrix<TInputValue>
+RieszRotationMatrix<T, VImageDimension>::MultiplyWithColumnMatrix(
+  const itk::VariableSizeMatrix<TInputValue> & inputColumn) const
+{
+  unsigned int rows = this->Rows();
+  unsigned int cols = this->Cols();
+  using ColumnMatrix = VariableSizeMatrix<TInputValue>;
+  ColumnMatrix columnMatrix(rows, 1);
+  columnMatrix.Fill(NumericTraits<TInputValue>::ZeroValue());
+
+  for (unsigned int r = 0; r < rows; r++)
+  {
+    TInputValue sum = NumericTraits<TInputValue>::ZeroValue();
+    for (unsigned int c = 0; c < cols; c++)
+    {
+      sum += this->GetVnlMatrix()(r, c) * inputColumn.GetVnlMatrix()(c, 0);
+    }
+    columnMatrix.GetVnlMatrix()(r, 0) = sum;
+  }
+  return columnMatrix;
+}
+
+template <typename T, unsigned int VImageDimension>
 template <typename TImage>
 std::vector<typename TImage::Pointer>
 RieszRotationMatrix<T, VImageDimension>::MultiplyWithVectorOfImages(
