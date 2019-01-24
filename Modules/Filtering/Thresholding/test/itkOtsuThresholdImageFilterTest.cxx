@@ -52,6 +52,12 @@ int itkOtsuThresholdImageFilterTest(int argc, char* argv[] )
 
   itk::SimpleFilterWatcher watcher(filter);
 
+#if defined(ITKV4_COMPATIBILITY)
+  TEST_EXPECT_TRUE( filter->GetReturnBinMidpoint() );
+#else
+  TEST_EXPECT_TRUE( !filter->GetReturnBinMidpoint() );
+#endif
+
   reader->SetFileName( argv[1] );
   filter->SetInput( reader->GetOutput() );
   if( argc > 3 )
