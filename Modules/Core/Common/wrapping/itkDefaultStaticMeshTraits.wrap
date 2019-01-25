@@ -4,7 +4,7 @@ itk_wrap_class("itk::DefaultStaticMeshTraits")
     foreach(t ${types})
       itk_wrap_template("${ITKM_${t}}${d}" "${ITKT_${t}},${d}")
     endforeach()
-    itk_wrap_template("${ITKM_D}${d}${d}${ITKM_D}${ITKM_F}${ITKM_D}" "${ITKT_D},${d},${d},${ITKT_D},${ITKT_F},${ITKT_D}")
+    itk_wrap_template("${ITKM_D}${d}${d}${ITKM_D}${ITKM_D}${ITKM_D}" "${ITKT_D},${d},${d},${ITKT_D},${ITKT_D},${ITKT_D}")
     itk_wrap_template("${ITKM_D}${d}${d}${ITKM_F}${ITKM_F}${ITKM_D}" "${ITKT_D},${d},${d},${ITKT_F},${ITKT_F},${ITKT_D}")
     itk_wrap_template("M${ITKM_D}${d}${d}${d}${d}${ITKM_F}${ITKM_F}M${ITKM_D}${d}${d}"
     "itk::Matrix< ${ITKT_D},${d},${d} >, ${d},${d},${ITKT_F},${ITKT_F}, itk::Matrix< ${ITKT_D}, ${d}, ${d} >")
