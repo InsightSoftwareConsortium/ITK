@@ -354,39 +354,42 @@ int main(int, char *[])
   std::cout << "===========================================" << std::endl;
   std::cout << "The Left Eye Location is " << LeftEyePoint << std::endl;
 
+  // create new global def \NL in latex to avoid \\ multi-line warning
   // Software Guide : BeginLatex
+  //
+  // \gdef\NL{\\}
   //
   // For a given index $\vec{I}$ in 3D, the physical location $\vec{P}$ is calculated
   // as following:
   //
   // \begin{equation}
   // \begin{pmatrix}
-  //   P_1\\
-  //   P_2\\
+  //   P_1\NL
+  //   P_2\NL
   //   P_3
   // \end{pmatrix}
   // =
   // \begin{pmatrix}
-  //   O_1\\
-  //   O_2\\
+  //   O_1\NL
+  //   O_2\NL
   //   O_3
   // \end{pmatrix}
   // +
   // \begin{pmatrix}
-  //   D_{1,1}     & D_{1,2} & D_{1,3}\\
-  //   D_{2,1}     & D_{2,2} & D_{2,3}\\
+  //   D_{1,1}     & D_{1,2} & D_{1,3}\NL
+  //   D_{2,1}     & D_{2,2} & D_{2,3}\NL
   //   D_{3,1}     & D_{3,2} & D_{3,3}
   // \end{pmatrix}
   // *
   // \begin{pmatrix}
-  //   S_1 & 0   & 0  \\
-  //   0   & S_2 & 0  \\
-  //   0   & 0   & S_3\\
+  //   S_1 & 0   & 0  \NL
+  //   0   & S_2 & 0  \NL
+  //   0   & 0   & S_3\NL
   // \end{pmatrix}
   // *
   // \begin{pmatrix}
-  //   I_1\\
-  //   I_2\\
+  //   I_1\NL
+  //   I_2\NL
   //   I_3
   // \end{pmatrix}
   // \end{equation}
@@ -408,8 +411,8 @@ int main(int, char *[])
   // \mathcal{A}
   // =
   // \begin{pmatrix}
-  //   D_{1,1}\cdot S_1     & D_{1,2}\cdot S_2  & D_{1,3}\cdot S_3\\
-  //   D_{2,1}\cdot S_1     & D_{2,2}\cdot S_2  & D_{2,3}\cdot S_3\\
+  //   D_{1,1}\cdot S_1     & D_{1,2}\cdot S_2  & D_{1,3}\cdot S_3\NL
+  //   D_{2,1}\cdot S_1     & D_{2,2}\cdot S_2  & D_{2,3}\cdot S_3\NL
   //   D_{3,1}\cdot S_1     & D_{3,2}\cdot S_2  & D_{3,3}\cdot S_3
   // \end{pmatrix}
   // \end{equation}
