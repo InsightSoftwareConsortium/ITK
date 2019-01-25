@@ -204,6 +204,7 @@ STLMeshIO ::ReadMeshInternalFromAscii()
   }
 
   this->SetNumberOfPoints(this->m_PointsMap.size());
+  this->SetNumberOfCells(this->m_CellsVector.size());
 
   //
   // The factor 5 accounts for five integers
