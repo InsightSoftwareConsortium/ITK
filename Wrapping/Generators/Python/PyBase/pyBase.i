@@ -336,11 +336,19 @@ str = str
                 """
                 filt = self.New(*args, **kargs)
                 filt.UpdateLargestPossibleRegion()
-                if filt.GetNumberOfIndexedOutputs() == 1:
-                    result = filt.GetOutput()
-                else:
-                    result = tuple([filt.GetOutput(idx) for idx in range(filt.GetNumberOfIndexedOutputs())])
-                return result
+                try:
+                    if filt.GetNumberOfIndexedOutputs() == 0:
+                        result = None
+                    elif filt.GetNumberOfIndexedOutputs() == 1:
+                        result = filt.GetOutput()
+                    else:
+                        result = tuple([filt.GetOutput(idx) for idx in range(filt.GetNumberOfIndexedOutputs())])
+                    return result
+                except AttributeError as e:
+                    # In theory, filters should declare that they don't return any output
+                    # and therefore the `GetOutput()` method should not be called. However,
+                    # there is no garranty that this is always the case.
+                    print("This filter cannot be called functionally. Use Object call instead.")
             %}
     }
 
