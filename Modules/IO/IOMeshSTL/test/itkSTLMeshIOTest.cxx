@@ -21,6 +21,7 @@
 #include "itkSTLMeshIO.h"
 #include "itkMeshFileReader.h"
 #include "itkMeshFileWriter.h"
+#include "itkTestingMacros.h"
 
 int
 itkSTLMeshIOTest(int argc, char * argv[])
@@ -65,22 +66,15 @@ itkSTLMeshIOTest(int argc, char * argv[])
 
   writer->SetInput(reader->GetOutput());
 
-  int result = EXIT_SUCCESS;
+  TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
-  try
-  {
-    writer->Update();
-  }
-  catch (itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    result = EXIT_FAILURE;
-  }
 
   //
   //  Exercising additional methods
   //
   itk::STLMeshIO::Pointer meshIO = itk::STLMeshIO::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS(meshIO, STLMeshIO, MeshIOBase);
 
   mesh->Print(std::cout);
   reader->GetMeshIO()->Print(std::cout);
@@ -99,5 +93,7 @@ itkSTLMeshIOTest(int argc, char * argv[])
     std::cout << "This system is Big Endian" << std::endl;
   }
 
-  return result;
+
+  std::cout << "Test finished." << std::endl;
+  return EXIT_SUCCESS;
 }
