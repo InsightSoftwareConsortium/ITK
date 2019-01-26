@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkOtsuMultipleThresholdsCalculator.h"
+#include "itkTestingMacros.h"
 
 int itkOtsuMultipleThresholdsCalculatorTest(int, char*[])
 {
@@ -68,6 +69,12 @@ int itkOtsuMultipleThresholdsCalculatorTest(int, char*[])
   using OtsuMultipleThresholdCalculatorType = itk::OtsuMultipleThresholdsCalculator<HistogramType>;
 
   OtsuMultipleThresholdCalculatorType::Pointer otsuThresholdCalculator = OtsuMultipleThresholdCalculatorType::New();
+
+#if defined(ITKV4_COMPATIBILITY)
+  TEST_EXPECT_TRUE( otsuThresholdCalculator->GetReturnBinMidpoint());
+#else
+  TEST_EXPECT_TRUE( !otsuThresholdCalculator->GetReturnBinMidpoint());
+#endif
 
   otsuThresholdCalculator->SetInputHistogram(histogram);
   otsuThresholdCalculator->SetNumberOfThresholds(numberOfThresholds);

@@ -115,7 +115,11 @@ private:
   SizeValueType m_NumberOfThresholds{ 1 };
   OutputType    m_Output;
   bool          m_ValleyEmphasis{ false };
-  bool          m_ReturnBinMidpoint{ false };
+#if defined(ITKV4_COMPATIBILITY)
+  bool                m_ReturnBinMidpoint{ true };
+#else
+  bool                m_ReturnBinMidpoint{ false };
+#endif
 };
 } // end of namespace itk
 

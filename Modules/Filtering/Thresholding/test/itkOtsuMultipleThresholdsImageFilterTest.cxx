@@ -64,6 +64,14 @@ int itkOtsuMultipleThresholdsImageFilterTest(int argc, char* argv[] )
   // Set up the reader
   reader->SetFileName( argv[1] );
 
+
+#if defined(ITKV4_COMPATIBILITY)
+  TEST_EXPECT_TRUE( filter->GetReturnBinMidpoint() );
+#else
+  TEST_EXPECT_TRUE( !filter->GetReturnBinMidpoint() );
+#endif
+  filter->ReturnBinMidpointOff();
+
   // Set up the filter parameters
   filter->SetInput( reader->GetOutput() );
 
