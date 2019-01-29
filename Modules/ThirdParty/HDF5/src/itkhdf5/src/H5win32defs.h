@@ -47,7 +47,6 @@ typedef __int64             h5_stat_size_t;
 #define HDmkdir(S,M)        _mkdir(S)
 #define HDnanosleep(N, O)   Wnanosleep(N, O)
 #define HDoff_t             __int64
-
 /* _O_BINARY must be set in Windows to avoid CR-LF <-> LF EOL
  * transformations when performing I/O. Note that this will
  * produce Unix-style text files, though.
@@ -55,7 +54,6 @@ typedef __int64             h5_stat_size_t;
  * Also note that the variadic macro is using a VC++ extension
  * where the comma is dropped if nothing is passed to the ellipsis.
  */
-
 #define HDread(F,M,Z)       _read(F,M,Z)
 #define HDrmdir(S)          _rmdir(S)
 #define HDsetvbuf(F,S,M,Z)  setvbuf(F,S,M,(Z>1?Z:2))
