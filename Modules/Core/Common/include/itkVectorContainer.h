@@ -117,6 +117,10 @@ public:
   using STLContainerType::end;
   using STLContainerType::rbegin;
   using STLContainerType::rend;
+  using STLContainerType::cbegin;
+  using STLContainerType::cend;
+  using STLContainerType::crbegin;
+  using STLContainerType::crend;
 
   using STLContainerType::size;
   using STLContainerType::max_size;
@@ -124,11 +128,13 @@ public:
   using STLContainerType::capacity;
   using STLContainerType::empty;
   using STLContainerType::reserve;
+  using STLContainerType::shrink_to_fit;
 
   using STLContainerType::operator[];
   using STLContainerType::at;
   using STLContainerType::front;
   using STLContainerType::back;
+  using STLContainerType::data;
 
   using STLContainerType::assign;
   using STLContainerType::push_back;
@@ -137,6 +143,8 @@ public:
   using STLContainerType::erase;
   using STLContainerType::swap;
   using STLContainerType::clear;
+  using STLContainerType::emplace;
+  using STLContainerType::emplace_back;
 
   using STLContainerType::get_allocator;
 

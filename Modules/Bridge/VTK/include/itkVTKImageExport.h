@@ -84,7 +84,7 @@ public:
 
 protected:
   VTKImageExport();
-  ~VTKImageExport() override {}
+  ~VTKImageExport() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   using InputImagePointer = typename InputImageType::Pointer;

@@ -12,6 +12,16 @@ jobs:
   pool:
     vmImage: 'macOS 10.13'
   steps:
+    - checkout: self
+      clean: true
+      fetchDepth: 5
+    - bash: |
+        set -x
+        if [ -n "$(System.PullRequest.SourceCommitId)" ]; then
+          git checkout $(System.PullRequest.SourceCommitId)
+        fi
+
+      displayName: Checkout pull request HEAD
     - bash: |
         set -x
 

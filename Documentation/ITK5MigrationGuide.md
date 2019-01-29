@@ -307,9 +307,10 @@ have multiple `ParallelizeRegion` calls or a long single-threaded section.
 An example of how to add progress reporting can be found in
 [this commit](https://github.com/InsightSoftwareConsortium/ITK/commit/dd0b0d128d6c0760cefd8a958107cb0e841b51b4).
 
-Otsu filters now return correct threshold (bin's maximum value instead of mid-point) by default.
-To keep old behavior, use `filter->SetReturnBinMidpoint( true );`.
-This change should be relevant only in tests.
+Otsu filters now return the correct threshold (bin's maximum value instead of mid-point) with ITKv5.
+The old behavior is kept when ITKV4_COMPATIBILITY is enabled by setting `ReturnBinMidpoint` to true by default.
+It is recommended when migrating to ITKv5 to explicitly set the `ReturnBinMidpoint` value to false.
+This change may effect computations which rely on the results of an Otsu threshold filter.
 
 `HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPixelType>` no longer
 has a default argument for its last template parameter. Instead, users of the filter should now

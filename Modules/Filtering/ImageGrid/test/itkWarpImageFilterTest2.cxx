@@ -114,11 +114,13 @@ itkWarpImageFilterTest2(int, char * [])
   filter->SetInput(image);
   filter->SetOutputParametersFromImage(image);
   filter->Update();
-  ImageType::Pointer result1 = filter->GetOutput();
+  ImageType::Pointer result1 = filter->GetOutput(); // save output for later comparison
+  result1->DisconnectPipeline(); // disconnect to create new output
   // test with half res
   filter->SetDisplacementField(defField2);
   filter->SetInput(image);
   filter->SetOutputParametersFromImage(image);
+  filter->Modified(); // enforce re-execution just to be sure
   filter->Update();
   ImageType::Pointer result2 = filter->GetOutput();
   itk::ImageRegionIterator<ImageType>

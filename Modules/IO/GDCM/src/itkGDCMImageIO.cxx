@@ -242,7 +242,7 @@ bool GDCMImageIO::CanReadFile(const char *filename)
     }
 //Do not allow CanRead to return true for non-compliant DICOM files
 #define GDCMPARSER_IGNORE_MAGIC_NUMBER
-#if defined GDCMPARSER_IGNORE_MAGIC_NUMBER
+#if defined(GDCMPARSER_IGNORE_MAGIC_NUMBER) && !defined(__EMSCRIPTEN__)
   //
   // Try it anyways...
   //

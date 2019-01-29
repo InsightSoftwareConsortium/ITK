@@ -269,6 +269,7 @@ class LibraryLoader(object):
 dirs = [p for p in itkConfig.path if os.path.isdir(p)]
 module_data = {}
 lazy_attributes = {}
+known_modules = []
 for d in dirs:
     files = os.listdir(d + os.sep + "Configuration")
     known_modules = sorted([f[:-9] for f in files if f.endswith('Config.py')])

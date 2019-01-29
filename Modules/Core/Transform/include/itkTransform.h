@@ -541,8 +541,11 @@ protected:
 
   Transform();
   Transform(NumberOfParametersType NumberOfParameters);
+#if defined(__GNUC__) && __GNUC__ < 6
+  ~Transform() override {};
+#else
   ~Transform() override = default;
-
+#endif
   mutable ParametersType      m_Parameters;
   mutable FixedParametersType m_FixedParameters;
 

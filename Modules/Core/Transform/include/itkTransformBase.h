@@ -127,8 +127,16 @@ public:
   virtual TransformCategoryType GetTransformCategory() const = 0;
 
 protected:
+
+#if defined(__GNUC__) && __GNUC__ < 6
+  // A bug in some versions of the gcc 5.4.0 compiler
+  // result in a linker error when = default is requested
   TransformBaseTemplate() {};
-  ~TransformBaseTemplate() override {};
+  ~TransformBaseTemplate() override { };
+#else
+  TransformBaseTemplate() = default;
+  ~TransformBaseTemplate() override = default;
+#endif
 };
 
 /** This helps to meet backward compatibility */

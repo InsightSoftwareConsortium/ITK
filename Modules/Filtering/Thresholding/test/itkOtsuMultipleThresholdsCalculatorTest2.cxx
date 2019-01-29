@@ -63,6 +63,7 @@ int itkOtsuMultipleThresholdsCalculatorTest2(int, char*[])
     OtsuMultipleThresholdCalculatorType::OutputType thMid;
     try
       {
+      otsuThresholdCalculator->SetReturnBinMidpoint(false);
       otsuThresholdCalculator->Compute();
       thMax = otsuThresholdCalculator->GetOutput();
 

@@ -71,37 +71,59 @@ constexpr double NumericTraits< double >:: One;
 constexpr long double NumericTraits< long double >:: Zero;
 constexpr long double NumericTraits< long double >:: One;
 
+template<>
 const std::complex< char >  NumericTraits< std::complex< char > >:: Zero = std::complex< char >(0, 0);
+template<>
 const std::complex< char >  NumericTraits< std::complex< char > >:: One  = std::complex< char >(1, 0);
 
+template<>
 const std::complex< unsigned char >  NumericTraits< std::complex< unsigned char > >:: Zero = std::complex< unsigned char >(0, 0);
+template<>
 const std::complex< unsigned char >  NumericTraits< std::complex< unsigned char > >:: One  = std::complex< unsigned char >(1, 0);
 
+template<>
 const std::complex< short >  NumericTraits< std::complex< short > >:: Zero = std::complex< short >(0, 0);
+template<>
 const std::complex< short >  NumericTraits< std::complex< short > >:: One  = std::complex< short >(1, 0);
 
+template<>
 const std::complex< unsigned short >  NumericTraits< std::complex< unsigned short > >:: Zero = std::complex< unsigned short >(0, 0);
+template<>
 const std::complex< unsigned short >  NumericTraits< std::complex< unsigned short > >:: One  = std::complex< unsigned short >(1, 0);
 
+template<>
 const std::complex< int >  NumericTraits< std::complex< int > >:: Zero = std::complex< int >(0, 0);
+template<>
 const std::complex< int >  NumericTraits< std::complex< int > >:: One  = std::complex< int >(1, 0);
 
+template<>
 const std::complex< unsigned int >  NumericTraits< std::complex< unsigned int > >:: Zero = std::complex< unsigned int >(0, 0);
+template<>
 const std::complex< unsigned int >  NumericTraits< std::complex< unsigned int > >:: One  = std::complex< unsigned int >(1, 0);
 
+template<>
 const std::complex< long >  NumericTraits< std::complex< long > >:: Zero = std::complex< long >(0L, 0L);
+template<>
 const std::complex< long >  NumericTraits< std::complex< long > >:: One  = std::complex< long >(1L, 0L);
 
+template<>
 const std::complex< unsigned long >  NumericTraits< std::complex< unsigned long > >:: Zero = std::complex< unsigned long >(0UL, 0UL);
+template<>
 const std::complex< unsigned long >  NumericTraits< std::complex< unsigned long > >:: One  = std::complex< unsigned long >(1UL, 0UL);
 
+template<>
 const std::complex< float >  NumericTraits< std::complex< float > >:: Zero = std::complex< float >(0.0f, 0.0f);
+template<>
 const std::complex< float >  NumericTraits< std::complex< float > >:: One  = std::complex< float >(1.0f, 0.0f);
 
+template<>
 const std::complex< double >  NumericTraits< std::complex< double > >:: Zero = std::complex< double >(0.0, 0.0);
+template<>
 const std::complex< double >  NumericTraits< std::complex< double > >:: One  = std::complex< double >(1.0, 0.0);
 
+template<>
 const std::complex< long double >  NumericTraits< std::complex< long double > >:: Zero = std::complex< long double >(0.0, 0.0);
+template<>
 const std::complex< long double >  NumericTraits< std::complex< long double > >:: One  = std::complex< long double >(1.0, 0.0);
 
 } // end namespace itk

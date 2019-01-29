@@ -12,6 +12,12 @@ jobs:
   pool:
     vmImage: 'vs2017-win2016'
   steps:
+    - checkout: self
+      clean: true
+      fetchDepth: 5
+    - script: |
+        if DEFINED SYSTEM_PULLREQUEST_SOURCECOMMITID git checkout $(System.PullRequest.SourceCommitId)
+      displayName: Checkout pull request HEAD
     - script: |
         pip3 install ninja numpy
 
@@ -39,5 +45,5 @@ jobs:
         set CTEST_OUTPUT_ON_FAILURE=1
 
         ctest -S ITK-dashboard/azure_dashboard.cmake -V -j 4
-      displayName: Build and Test
+      displayName: Build and test
       workingDirectory: $(Agent.BuildDirectory)

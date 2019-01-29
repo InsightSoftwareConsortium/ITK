@@ -13,12 +13,12 @@ endif()
 itk_module(ITKCommon
   ENABLE_SHARED
   DEPENDS
-    ITKEigen3
     ITKKWIML
     ${ITKCOMMON_TBB_DEPENDS}
   PRIVATE_DEPENDS
     ITKDoubleConversion
   COMPILE_DEPENDS
+    ITKEigen3
     ITKKWSys
     ITKVNLInstantiation
   TEST_DEPENDS
