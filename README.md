@@ -30,17 +30,29 @@ Links
 About
 -----
 
-The National Library of Medicine Insight Segmentation and Registration Toolkit
-(ITK), or Insight Toolkit, is an open-source, cross-platform C++ toolkit for
-segmentation and registration. Segmentation is the process of identifying and
-classifying  data found in a digitally sampled representation. Typically the
-sampled representation is an image acquired from such medical instrumentation
-as CT or MRI scanners. Registration is the task of aligning or developing
-correspondences between data. For example, in the medical environment, a
-CT scan may be aligned with a MRI scan in order to combine the information
-contained in both.
+The Insight Toolkit (ITK) is an open-source, cross-platform toolkit for
+N-dimensional scientific image processing, segmentation, and registration.
+Segmentation is the process of identifying and classifying data found in a
+digitally sampled representation. Typically the sampled representation is an
+image acquired from such medical instrumentation as CT or MRI scanners.
+Registration is the task of aligning or developing correspondences between
+data. For example, in the medical environment, a CT scan may be aligned with a
+MRI scan in order to combine the information contained in both.
 
-The toolkit may be built from source using [CMake](https://cmake.org).
+ITK is distributed in binary Python packages. To install:
+
+```
+pip install itk
+```
+
+or
+
+```
+conda install -c conda-forge itk
+```
+
+The cross-platform, C++ core of the toolkit may be built from source using
+[CMake](https://cmake.org).
 
 
 Copyright
