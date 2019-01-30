@@ -1,4 +1,3 @@
-
 There are typically two feature releases a year, around June and December, and
 one to three bug fix release between feature releases. Releasing ITK has many
 steps. This document is a central location for all of the tribal knowledge
@@ -176,7 +175,7 @@ Pre-tag activities
 
 The following must be ensured before tagging the ITK repository:
 
-  * Make sure to **update the versions** in the top level `CMakeLists.txt`.
+  * Make sure to **update the versions** in `ITK/CMake/itkVersion.cmake`.
     * For bugfix releases, this is done before the tag. For feature releases,
     this is done after the final tag.
   * Make sure **all new remote modules are built in by the Doxygen build**.
@@ -184,7 +183,7 @@ The following must be ensured before tagging the ITK repository:
 
 ### Increment the version number
 
-If the version number in `CMakeLists.txt` is not already set accordingly,
+If the version number in `ITK/CMake/itkVersion.cmake` is not already set accordingly,
 submit a pull request to update ITK's version number in the `master` branch to
 what the new release is called. Any point beyond that in the `master` branch
 could serve as the start of the new release branch.
@@ -203,9 +202,9 @@ local directory. e.g.
 ```
 
 Pre-populate the store with the contents of the 'InsightData' tarballs from a
- previous release. Once the tarball extracted, move the content of its
- subfolder called `.ExternalData` in your local `ExternalData_OBJECT_STORES`
- directory.
+previous release. Once the tarball extracted, move the content of its
+subfolder called `.ExternalData` in your local `ExternalData_OBJECT_STORES`
+directory.
 
 Then, from the ITK build directory, configure ITK enabling the flags:
   * `ITK_WRAP_PYTHON`
@@ -244,7 +243,8 @@ Next, archive the data on data.kitware.com. Create a folder, e.g.
 `$MAJOR_VERSION.$MINOR_VERSION`, in `ITK/ITKTestingData`, and run
 
 ```sh
-   $ ./Utilities/Maintenance/ArchiveTestingDataOnGirder.py --object-store ${HOME}/data --parent-id <the-girder-id-of-the-folder-created> --api-key <your-girder-user-api-key>
+   $ python -m pip install girder-client
+   $ python ./Utilities/Maintenance/ArchiveTestingDataOnGirder.py --object-store ${ExternalData_OBJECT_STORES} --parent-id <the-girder-id-of-the-folder-created> --api-key <your-girder-user-api-key>
 ```
 
 This script requires the girder-client Python package install from Girder
@@ -253,7 +253,7 @@ master, November 2016 or later, (Girder > 2.0.0).
 Archive the `InsightData` contents on ITK's file server at kitware:
 
 ```sh
-   $ rsync -v -r /tmp/InsightToolkit-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION/.ExternalData/MD5/ public:/projects/Insight/WWW/InsightWeb/files/ExternalData/MD5/
+   $ rsync -v -r ${ExternalData_OBJECT_STORES}/MD5/ public:/projects/Insight/WWW/InsightWeb/files/ExternalData/MD5/
 ```
 
 Update the data archive at https://github.com/InsightSoftwareConsortium/ITKTestingData.
@@ -400,18 +400,11 @@ First, merge the
 
 Next, update the `VERSION` variable in *ITKPythonPackage/itkVersion.py* and
 `ITK_GIT_TAG` in *ITKPythonPackage/CMakeLists.txt*. Commit the update locally
-to the release branch.
+to the release branch and push to GitHub `upstream`.
 
 Then [build the
 wheels](https://itkpythonpackage.readthedocs.io/en/latest/Build_ITK_Python_packages.html)
 from the `release` branch locally.
-
-Next, tag the release branch `HEAD` and push to GitHub:
-
-```sh
-  $ git tag -m "ITKPythonPackage $version" -s v$version HEAD
-  $ git push upstream release v$version
-```
 
 Build the sdist and wheels for Linux:
 
@@ -419,8 +412,8 @@ Build the sdist and wheels for Linux:
   $ ssh metroplex
   $ cd ~/Packaging/ITKPythonPackage
   $ git reset --hard HEAD
-  $ git fetch origin
-  $ git checkout v$version
+  $ git checkout release
+  $ git pull origin release
   $ git clean -fdx
   $ /home/kitware/Support/skbuild-venv/bin/python setup.py sdist --formats=gztar,zip
   $ ./scripts/dockcross-manylinux-build-wheels.sh
@@ -436,8 +429,8 @@ Build the wheels for macOS:
   $ ssh misty
   $ cd ~/Dashboards/ITK/ITKPythonPackage
   $ git reset --hard HEAD
-  $ git fetch origin
-  $ git checkout v$version
+  $ git checkout release
+  $ git pull
   $ git clean -fdx
   $ ./scripts/macpython-build-wheels.sh
   $ tar cvzf /tmp/dist-macos.tar.gz ./dist
@@ -452,16 +445,26 @@ Build the wheels for Windows:
   $ vncviewer overload # Open Git Bash shell
   $ cd /c/P/IPP
   $ git reset --hard HEAD
-  $ get fetch origin
-  $ git checkout v$version
+  $ git checkout release
+  $ git pull
   $ git clean -fdx
-  $ export PATH=/c/cmake-3.12.1/bin:$PATH
-  $ /c/Python36-x64/python.exe ./scripts/windows_build_wheels.py
+  $ # Open a VS2017 x64 SDK 8.1 Native Tools Command Prompt
+  $ cd C:\P\IPP
+  $ set PATH=C:\cmake-3.12.1\bin;%PATH%
+  $ C:\Python36-x64\python.exe ./scripts/windows_build_wheels.py
+  $ # Back in Git Bash...
   $ tar cvzf /c/P/dist-windows.tar.gz ./dist
   $ rm dist/*
   $ cd ..
   $ rm -f ./ITKPythonBuilds-windows.zip
   $ powershell "IPP/scripts/windows-build-tarball.ps1"
+  ```
+
+Next, tag the release branch `HEAD` and push to GitHub:
+
+```sh
+  $ git tag -m "ITKPythonPackage $version" -s v$version HEAD
+  $ git push upstream release v$version
 ```
 
 ### Upload the wheels to PyPI
