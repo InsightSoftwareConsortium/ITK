@@ -170,13 +170,13 @@ inline void EncapsulateMetaData(MetaDataDictionary & Dictionary, const char *key
 template< typename T >
 inline bool ExposeMetaData(const MetaDataDictionary & Dictionary, const std::string key, T & outval)
 {
-  if ( !Dictionary.HasKey(key) )
+  auto keyIter = Dictionary.Find(key);
+  if ( keyIter == Dictionary.End() )
     {
     return false;
     }
 
-  const MetaDataObjectBase::ConstPointer baseObjectSmartPointer = Dictionary[key];
-  auto const * const TempMetaDataObject = dynamic_cast< MetaDataObject< T > const * >( baseObjectSmartPointer.GetPointer() );
+  auto const * const TempMetaDataObject = dynamic_cast< MetaDataObject< T > const * >( keyIter->second.GetPointer() );
   if ( TempMetaDataObject == nullptr )
     {
     return false;
