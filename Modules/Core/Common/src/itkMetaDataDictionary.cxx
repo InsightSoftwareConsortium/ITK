@@ -75,9 +75,13 @@ const MetaDataObjectBase *
 MetaDataDictionary
 ::operator[](const std::string & key) const
 {
-  MetaDataObjectBase::Pointer entry = ( *m_Dictionary )[key];
-  const MetaDataObjectBase *  constentry = entry.GetPointer();
+  auto iter = m_Dictionary->find(key);
+  if (iter == m_Dictionary->end())
+    {
+    return nullptr;
+    }
 
+  const MetaDataObjectBase *  constentry = iter->second.GetPointer();
   return constentry;
 }
 

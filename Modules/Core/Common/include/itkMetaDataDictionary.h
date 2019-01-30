@@ -86,6 +86,9 @@ public:
   // API. The implementation will be in the DLL.
   MetaDataObjectBase::Pointer & operator[](const std::string &);
 
+  // \brief Get a constant point to a DataObject
+  //
+  // If the key does not exist then nullptr is returned.
   const MetaDataObjectBase * operator[](const std::string &) const;
 
   const MetaDataObjectBase * Get(const std::string &) const;
