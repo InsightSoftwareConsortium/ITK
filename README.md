@@ -1,7 +1,7 @@
 ![ITK - The Insight Toolkit](Documentation/Art/itkBannerSmall.png)
 
-ITK: The Insight Segmentation and Registration Toolkit
-======================================================
+ITK: The Insight Toolkit
+========================
 
 [![GitHub release](https://img.shields.io/github/release/InsightSoftwareConsortium/ITK.svg)](https://github.com/InsightSoftwareConsortium/ITK/releases/latest)
 [![PyPI](https://img.shields.io/pypi/v/itk.svg)](https://pypi.python.org/pypi/itk)
