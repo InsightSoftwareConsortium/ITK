@@ -468,15 +468,29 @@ def imwrite(image_or_filter, filename, compression=False):
     auto_pipeline.current = tmp_auto_pipeline
     writer.Update()
 
-def imread(filename, pixel_type=None):
+def imread(filename, pixel_type=None, fallback_only=False):
     """Read an image from a file or series of files and return an itk.Image.
 
     The reader is instantiated with the image type of the image file if
     `pixel_type` is not provided (default). The dimension of the image is
     automatically found. If the given filename is a list or a tuple, the
     reader will use an itk.ImageSeriesReader object to read the files.
+
+    If `fallback_only` is set to `True`, `imread()` will first try to
+    automatically deduce the image pixel_type, and only use the given
+    `pixel_type` if the automatic deduction fail. Failures typically
+    happen if the pixel type is not supported (e.g. it is not currently
+    wrapped).
     """
     import itk
+    if fallback_only == True:
+        if pixel_type is None:
+            raise Exception("`pixel_type` must be set when using `fallback_only`"
+                " option")
+        try:
+            return imread(filename)
+        except KeyError:
+            pass
     if type(filename) in [list, tuple]:
         TemplateReaderType=itk.ImageSeriesReader
         io_filename=filename[0]

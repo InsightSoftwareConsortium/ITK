@@ -136,6 +136,18 @@ image=itk.imread(fileName)
 assert type(image) == itk.Image[itk.RGBPixel[itk.UC],2]
 image=itk.imread(fileName, itk.F)
 assert type(image) == itk.Image[itk.F,2]
+image=itk.imread(fileName, itk.F, fallback_only=True)
+assert type(image) == itk.Image[itk.RGBPixel[itk.UC],2]
+try:
+  image=itk.imread(fileName, fallback_only=True)
+  # Should never reach this point if test passes since an exception
+  # is expected.
+  raise Exception('`itk.imread()` fallback_only should have failed')
+except Exception as e:
+  if str(e) == "`pixel_type` must be set when using `fallback_only` option":
+    pass
+  else:
+    raise e
 
 # test search
 res = itk.search("Index")
