@@ -3,6 +3,7 @@ itk_module_test()
 add_compile_options(-D_SCL_SECURE_NO_WARNINGS) # disable non-standard warning on MSVC
 
 set(MontageTests
+  itkInMemoryMontageTest2D.cxx
   itkMontagePCMTestSynthetic.cxx
   itkMontagePCMTestFiles.cxx
   itkMontageGenericTests.cxx
@@ -149,6 +150,30 @@ itk_add_test(NAME itkMontageTestRGB
     ${TESTING_OUTPUT_PATH}/itkMockMontageTestRGB
     1 -1 1 1
   )
+
+function(AddInMemoryMontageTest variation willFail)
+  itk_add_test(NAME itkInMemoryMontageTest${variation}
+    COMMAND MontageTestDriver
+      --compare DATA{${CMAKE_CURRENT_LIST_DIR}/Input/VisibleHumanRGB/VisibleHumanMale1608.png}
+                     ${TESTING_OUTPUT_PATH}/itkInMemoryMontageTestRGB${variation}.mha
+      --ignoreInputInformation # ignore different spacing
+      --compareRadiusTolerance 1
+      itkInMemoryMontageTest2D
+        DATA{${CMAKE_CURRENT_LIST_DIR}/Input/VisibleHumanRGB/,REGEX:.*}
+        ${TESTING_OUTPUT_PATH}/itkInMemoryMontageTestRGB
+        ${variation}
+    )
+  set_tests_properties(itkInMemoryMontageTest${variation} PROPERTIES WILL_FAIL ${willFail})
+endfunction()
+
+AddInMemoryMontageTest(0 TRUE)
+AddInMemoryMontageTest(1 TRUE)
+AddInMemoryMontageTest(2 FALSE)
+AddInMemoryMontageTest(3 FALSE)
+AddInMemoryMontageTest(4 FALSE)
+AddInMemoryMontageTest(5 FALSE)
+AddInMemoryMontageTest(6 FALSE)
+AddInMemoryMontageTest(7 FALSE)
 
 if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/FlatFielded/36/1000.tif)
 
