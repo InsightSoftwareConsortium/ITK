@@ -48,6 +48,11 @@ assert readerType == readerType2 == readerType3
 assert tpl == itk.Image
 assert parameters == (PixelType, dim)
 
+# test that `isinstance` works
+obj = itk.ImageFileReader[ImageType].New()
+assert isinstance(obj, itk.ImageFileReader.IUC2)
+assert isinstance(obj, itk.ImageFileReader)
+
 # the template must raise a KeyError exception if the template parameter
 # is unknown
 try:

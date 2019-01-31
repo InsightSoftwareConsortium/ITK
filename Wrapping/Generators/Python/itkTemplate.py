@@ -165,6 +165,19 @@ class itkTemplate(object):
         # add the attribute to this object
         self.__dict__[attributeName] = cl
 
+    def __instancecheck__(self, instance):
+        """Overloads `isinstance()` when called on an `itkTemplate` object.
+
+        This function allows to compare an object to a filter without
+        specifying the actual template arguments of the class. It will
+        test all available template parameters that have been wrapped
+        and return `True` if one that corresponds to the object is found.
+        """
+        for k in self.keys():
+            if isinstance(instance, self[k]):
+                return True
+        return False
+
     def __find_param__(self, paramSetString):
         """Find the parameters of the template.
 
