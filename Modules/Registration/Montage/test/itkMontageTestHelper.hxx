@@ -176,6 +176,7 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
           {
           ind[0] = x;
           const TransformType* regTr = montage->GetOutputTransform( ind );
+          std::cout << "(" << x << ", " << y << "): " << regTr->GetOffset();
 
           registrationErrors << peakMethod << '\t' << x << '\t' << y;
 
