@@ -5,7 +5,7 @@ itk_wrap_class("itk::VectorContainer" POINTER)
   UNIQUE(scalar_types "${WRAP_ITK_SCALAR};D")
   foreach(t ${scalar_types})
     # These are wrapped below with "vectypes"
-    if(NOT ${t} STREQUAL "UC")
+    if(NOT t IN_LIST WRAP_ITK_USIGN_INT)
       itk_wrap_template("${ITKM_IT}${ITKM_${t}}" "${ITKT_IT},${ITKT_${t}}")
       itk_wrap_template("${ITKM_UC}${ITKM_${t}}" "${ITKT_UC},${ITKT_${t}}")
     endif()
