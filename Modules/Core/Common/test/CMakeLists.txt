@@ -634,5 +634,6 @@ set(ITKCommonGTests
       itkShapedImageNeighborhoodRangeGTest.cxx
       itkSmartPointerGTest.cxx
       itkCommonTypeTraitsGTest.cxx
+      itkMetaDataDictionaryGTest.cxx
 )
 CreateGoogleTestDriver(ITKCommon "${ITKCommon-Test_LIBRARIES}" "${ITKCommonGTests}")
