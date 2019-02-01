@@ -21,22 +21,20 @@ namespace itk
 {
 MetaDataDictionary
 ::MetaDataDictionary()
+  : m_Dictionary( std::make_shared<MetaDataDictionaryMapType>() )
 {
-  m_Dictionary = new MetaDataDictionaryMapType;
 }
 
 MetaDataDictionary
 ::~MetaDataDictionary()
 {
-  delete m_Dictionary;
-  m_Dictionary = nullptr;
 }
 
 MetaDataDictionary
 ::MetaDataDictionary(const MetaDataDictionary & old)
+  // perform shallow copy, so m_Dictionary is shared
+  :  m_Dictionary( old.m_Dictionary )
 {
-  m_Dictionary = new MetaDataDictionaryMapType;
-  *m_Dictionary = *( old.m_Dictionary );
 }
 
 MetaDataDictionary & MetaDataDictionary
@@ -44,7 +42,8 @@ MetaDataDictionary & MetaDataDictionary
 {
   if(this != &old)
     {
-    *m_Dictionary = *( old.m_Dictionary );
+    // perform shallow copy, so m_Dictionary is shared
+    m_Dictionary = old.m_Dictionary;
     }
   return *this;
 }
@@ -53,6 +52,7 @@ void
 MetaDataDictionary
 ::Print(std::ostream & os) const
 {
+  os << "Dictionary use_count: " << m_Dictionary.use_count() << std::endl;
   for ( MetaDataDictionaryMapType::const_iterator it = m_Dictionary->begin();
         it != m_Dictionary->end();
         ++it )
@@ -60,12 +60,14 @@ MetaDataDictionary
     os << ( *it ).first <<  "  ";
     ( *it ).second->Print(os);
     }
+
 }
 
 MetaDataObjectBase::Pointer &
 MetaDataDictionary
 ::operator[](const std::string & key)
 {
+  MakeUnique();
   return ( *m_Dictionary )[key];
 }
 
@@ -73,9 +75,13 @@ const MetaDataObjectBase *
 MetaDataDictionary
 ::operator[](const std::string & key) const
 {
-  MetaDataObjectBase::Pointer entry = ( *m_Dictionary )[key];
-  const MetaDataObjectBase *  constentry = entry.GetPointer();
+  auto iter = m_Dictionary->find(key);
+  if (iter == m_Dictionary->end())
+    {
+    return nullptr;
+    }
 
+  const MetaDataObjectBase *  constentry = iter->second.GetPointer();
   return constentry;
 }
 
@@ -96,6 +102,7 @@ void
 MetaDataDictionary
 ::Set(const std::string & key, MetaDataObjectBase * object)
 {
+  MakeUnique();
   (*m_Dictionary)[key] = object;
 }
 
@@ -126,6 +133,7 @@ MetaDataDictionary::Iterator
 MetaDataDictionary
 ::Begin()
 {
+  MakeUnique();
   return m_Dictionary->begin();
 }
 
@@ -140,6 +148,7 @@ MetaDataDictionary::Iterator
 MetaDataDictionary
 ::End()
 {
+  MakeUnique();
   return m_Dictionary->end();
 }
 
@@ -154,6 +163,7 @@ MetaDataDictionary::Iterator
 MetaDataDictionary
 ::Find(const std::string & key)
 {
+  MakeUnique();
   return m_Dictionary->find(key);
 }
 
@@ -168,7 +178,30 @@ void
 MetaDataDictionary
 ::Clear()
 {
-  this->m_Dictionary->clear();
+  // Construct a new one instead of enforcing uniqueness then clearing
+  this->m_Dictionary = std::make_shared<MetaDataDictionaryMapType>();
+}
+
+void
+MetaDataDictionary
+::Swap( MetaDataDictionary &other )
+{
+  using std::swap;
+  swap(m_Dictionary, other.m_Dictionary);
+}
+
+
+bool
+MetaDataDictionary
+::MakeUnique()
+{
+  if (m_Dictionary.use_count() > 1)
+    {
+    // copy the shared dictionary.
+    m_Dictionary = std::make_shared<MetaDataDictionaryMapType>(*m_Dictionary);
+    return true;
+    }
+  return false;
 }
 
 bool
@@ -180,6 +213,11 @@ MetaDataDictionary
 
   if( it != end )
     {
+    if (MakeUnique())
+      {
+      // Need to find the correct iterator, in the new copy
+      it = m_Dictionary->find( key );
+      }
     m_Dictionary->erase( it );
     return true;
     }

@@ -22,6 +22,7 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <memory>
 
 namespace itk
 {
@@ -35,6 +36,15 @@ namespace itk
  * classes, is designed to provide a mechanism for storing a collection of
  * arbitrary data types. The main motivation for such a collection is to
  * associate arbitrary data elements with itk DataObjects.
+ *
+ * The MetaDataDictionary implements shallow copying with copy on
+ * write behavior. When a copy of this class is created, the new copy
+ * will be shared with the old copy via C++11 shared pointers. When a
+ * non-constant operation is done, if the dictionary is not unique to
+ * this object, then a deep copy is performed. This make is very cheap
+ * to create multiple copies of the same dictionary if they are never
+ * modified.
+ *
  * \ingroup ITKCommon
  */
 class ITKCommon_EXPORT MetaDataDictionary
@@ -57,8 +67,10 @@ public:
   MetaDataDictionary();
   // Copy Constructor
   MetaDataDictionary(const MetaDataDictionary &);
+  MetaDataDictionary(MetaDataDictionary &&) = default;
   // operator =
   MetaDataDictionary & operator=(const MetaDataDictionary &);
+  MetaDataDictionary & operator=(MetaDataDictionary &&) = default;
 
   // Destructor
   virtual ~MetaDataDictionary();
@@ -74,6 +86,9 @@ public:
   // API. The implementation will be in the DLL.
   MetaDataObjectBase::Pointer & operator[](const std::string &);
 
+  // \brief Get a constant point to a DataObject
+  //
+  // If the key does not exist then nullptr is returned.
   const MetaDataObjectBase * operator[](const std::string &) const;
 
   const MetaDataObjectBase * Get(const std::string &) const;
@@ -112,8 +127,18 @@ public:
   /** remove all MetaObjects from dictionary */
   void Clear();
 
+  void Swap( MetaDataDictionary &other );
+
 private:
-  MetaDataDictionaryMapType *m_Dictionary;
+  bool MakeUnique(void);
+
+  std::shared_ptr<MetaDataDictionaryMapType> m_Dictionary;
 };
+
+inline void swap(MetaDataDictionary &a, MetaDataDictionary &b )
+{
+  a.Swap(b);
+}
+
 }
 #endif // itkMetaDataDictionary_h
