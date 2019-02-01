@@ -179,10 +179,23 @@ int itkResampleImageTest2(int argc, char * argv[])
         (double)inputSize[i] * inputSpacing[i] / outputSpacing[i]);
       }
 
+    typename ImageType::DirectionType outputDirection =
+      resample->GetInput()->GetDirection();
+
+    typename ImageType::PointType outputOrigin =
+      resample->GetInput()->GetOrigin();
+
     resample->SetOutputSpacing( outputSpacing );
+    TEST_SET_GET_VALUE( outputSpacing, resample->GetOutputSpacing() );
+
     resample->SetSize( outputSize );
-    resample->SetOutputOrigin( resample->GetInput()->GetOrigin() );
-    resample->SetOutputDirection( resample->GetInput()->GetDirection() );
+    TEST_SET_GET_VALUE( outputSize, resample->GetSize() );
+
+    resample->SetOutputOrigin( outputOrigin );
+    TEST_SET_GET_VALUE( outputOrigin, resample->GetOutputOrigin() );
+
+    resample->SetOutputDirection( outputDirection );
+    TEST_SET_GET_VALUE( outputDirection, resample->GetOutputDirection() );
     }
 
   // Run the resampling filter with the normal, linear, affine transform.
@@ -231,6 +244,7 @@ int itkResampleImageTest2(int argc, char * argv[])
   std::cout << "Test with nearest neighbor extrapolator, affine transform." << std::endl;
   resample->SetTransform( affineTransform );
   resample->SetExtrapolator( extrapolator );
+  TEST_SET_GET_VALUE( extrapolator, resample->GetExtrapolator() );
 
   TRY_EXPECT_NO_EXCEPTION( resample->Update() );
 
