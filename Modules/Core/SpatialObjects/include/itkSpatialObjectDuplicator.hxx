@@ -60,7 +60,7 @@ SpatialObjectDuplicator< TInputSpatialObject >
 {
   // Create the new Spatial Object using the SpatialObjectFactory
   LightObject::Pointer i;
-  std::string value = source->GetSpatialObjectTypeAsString();
+  std::string value = source->GetClassNameAndDimension();
 
   i = ObjectFactoryBase::CreateInstance( value.c_str() );
 
@@ -120,7 +120,7 @@ SpatialObjectDuplicator< TInputSpatialObject >
   //Copy the object first
   // Create the new Spatial Object using the SpatialObjectFactory
   LightObject::Pointer i;
-  std::string value = m_Input->GetSpatialObjectTypeAsString();
+  std::string value = m_Input->GetClassNameAndDimension();
   i = ObjectFactoryBase::CreateInstance( value.c_str() );
 
   m_DuplicateSpatialObject = dynamic_cast< SpatialObjectType * >( i.GetPointer() );
