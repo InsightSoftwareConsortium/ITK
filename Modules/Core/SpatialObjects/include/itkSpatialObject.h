@@ -322,7 +322,7 @@ public:
   /** Remove the object passed as arguments from the list of
    * children. */
   bool RemoveChild(Self *object);
-  void RemoveAllChildren(void);
+  void RemoveChildren( unsigned int depth = 0 );
 
   /** Return a pointer to the parent object in the hierarchy tree */
   virtual const Self * GetParent() const;
@@ -346,10 +346,6 @@ public:
 
   /** Set the list of pointers to children to the list passed as argument. */
   void SetChildren(ChildrenListType & children);
-
-  /** Clear the spatial object by deleting all lists of children
-   * and subchildren */
-  virtual void ClearChildren( unsigned int depth = 0 );
 
   /**
    * Compute an axis-aligned bounding box for an object and its selected
