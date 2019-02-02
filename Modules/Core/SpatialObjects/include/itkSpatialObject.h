@@ -20,7 +20,6 @@
 
 // Disable warning for lengthy symbol names in this file only
 
-#include "itkAffineGeometryFrame.h"
 #include "itkCovariantVector.h"
 #include "itkExceptionObject.h"
 #include <list>
@@ -28,7 +27,6 @@
 #include "itkProcessObject.h"
 #include "itkIndex.h"
 #include "itkImageRegion.h"
-#include "itkSpatialObjectTreeNode.h"
 
 namespace itk
 {
@@ -40,7 +38,7 @@ namespace itk
  * Patterns, Gamma, 1995] within itk, so that it becomes easy to create an
  * environment containing objects within a scene, and to manipulate the
  * environment as a whole or any of its component objects.  An
- * object has a list of transformations to transform index coordinates
+ * object has a list of transformations to transform object coordinates
  * to the corresponding coordinates in the real world coordinate
  * system, and a list of inverse transformation to go backward.  Any
  * spatial objects can be plugged to a spatial object as children.  To
@@ -52,10 +50,6 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 
-// Forward reference because of circular dependencies
-template< unsigned int VDimension >
-class ITK_FORWARD_EXPORT SpatialObjectTreeNode;
-
 template< unsigned int VDimension = 3 >
 class ITK_TEMPLATE_EXPORT SpatialObject:
   public DataObject
@@ -64,6 +58,10 @@ public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObject);
 
   using ScalarType = double;
+
+  using ObjectDimensionType = unsigned int;
+
+  static constexpr ObjectDimensionType ObjectDimension = VDimension;
 
   static constexpr unsigned int MaximumDepth = 9999999;
 
@@ -86,51 +84,40 @@ public:
   using CovariantVectorType = CovariantVector< ScalarType, VDimension >;
   using VectorPointer = VectorType *;
 
-  using SpacingType = double *;
+  using SpacingVectorType = Vector< ScalarType, VDimension >;
+  using SpacingVectorPointer = SpacingVectorType *;
 
-  using OutputVectorType = CovariantVector< double, VDimension >;
-  using OutputVectorPointer = OutputVectorType *;
+  using DerivativeVectorType = CovariantVector< ScalarType, VDimension >;
+  using DerivativeVectorPointer = DerivativeVectorType *;
 
-  using TransformType = ScalableAffineTransform< double, VDimension >;
+  using TransformType = AffineTransform< ScalarType, VDimension >;
   using TransformPointer = typename TransformType::Pointer;
   using TransformConstPointer = const TransformType *;
 
   using VectorContainerType = VectorContainer< IdentifierType, PointType >;
 
-  using BoundingBoxType = BoundingBox< IdentifierType, VDimension, ScalarType, VectorContainerType >;
+  using BoundingBoxType = BoundingBox< IdentifierType, VDimension,
+          ScalarType, VectorContainerType >;
   using BoundingBoxPointer = typename BoundingBoxType::Pointer;
-
-  using AffineGeometryFrameType = AffineGeometryFrame< double, VDimension >;
-  using AffineGeometryFramePointer = typename AffineGeometryFrameType::Pointer;
 
   /** Return type for the list of children */
   using ChildrenListType = std::list< Pointer >;
   using ChildrenListPointer = ChildrenListType *;
 
-  /** Index type alias support An index is used to access pixel values. */
-  using IndexType = Index< VDimension >;
-
-  /** Offset type alias support An offset represent relative position
-   * between indices. */
-  using OffsetType = Offset< VDimension >;
   using RegionType = ImageRegion< VDimension >;
   using SizeType = Size< VDimension >;
-  using PropertyType = SpatialObjectProperty< float >;
+  using PropertyType = SpatialObjectProperty< ScalarType >;
   using PropertyPointer = typename PropertyType::Pointer;
-
-  using TreeNodeType = SpatialObjectTreeNode< VDimension >;
 
   /** Return true if the object has a parent object. Basically, only
    *  the root object , or some isolated objects should return false. */
   virtual bool HasParent() const;
 
   /** Get the typename of the SpatialObject */
-  virtual const char * GetTypeName() const { return m_TypeName.c_str(); }
+  virtual const std::string GetTypeName() const { return m_TypeName; }
 
-  /** Dimension of the object.  This constant is used by functions that are
-   * templated over SpatialObject type when they need compile time access
-   * to the dimension of the object. */
-  static constexpr unsigned int ObjectDimension = VDimension;
+  /** Get the class name with the dimension of the spatial object appended */
+  virutal std::string GetClassNameAndDimension( void ) const;
 
   /** Get the dimensionality of the object */
   unsigned int GetObjectDimension() const { return VDimension; }
@@ -141,16 +128,10 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(SpatialObject, DataObject);
 
-  /** Set/Get the AffineGeometryFrame */
-  itkSetObjectMacro(AffineGeometryFrame, AffineGeometryFrameType);
-  itkGetModifiableObjectMacro(AffineGeometryFrame, AffineGeometryFrameType);
-
   /** This defines the transformation from the global coordinate frame.
    *  By setting this transform, the local transform is computed */
   void SetObjectToWorldTransform(TransformType *transform);
   itkGetModifiableObjectMacro(ObjectToWorldTransform, TransformType);
-
-  itkGetModifiableObjectMacro(IndexToWorldTransform, TransformType);
 
   /** Compute the World transform when the local transform is set
    *  This function should be called each time the local transform
@@ -169,7 +150,7 @@ public:
   /** Returns the value at a point */
   virtual bool ValueAt(const PointType & point, double & value,
                        unsigned int depth = 0,
-                       char *name = nullptr) const;
+                       const std::string & name = "") const;
 
   /** Returns true if the object can provide a "meaningful" value at
    * a point.   Often defaults to returning same answer as IsInside, but
@@ -179,12 +160,12 @@ public:
    */
   virtual bool IsEvaluableAt(const PointType & point,
                              unsigned int depth = 0,
-                             char *name = nullptr) const;
+                             const std::string & name = "") const;
 
   /** Returns true if a point is inside the object. */
   virtual bool IsInside(const PointType & point,
                         unsigned int depth = 0,
-                        char *name = nullptr) const;
+                        const std::string & name = "") const;
 
   /** Returns true if a point is inside the object - provided
    * to make spatial objects compatible with spatial functions
@@ -200,7 +181,8 @@ public:
                             short unsigned int order,
                             OutputVectorType & value,
                             unsigned int depth = 0,
-                            char *name = nullptr);
+                            const std::string & name = "",
+                            const SpacingVectorType & spacing = 1);
 
   /** Returns the latest modified time of the spatial object, and
    * any of its components. */
@@ -259,54 +241,6 @@ public:
    * \sa ImageRegion, SetLargestPossibleRegion(), SetBufferedRegion() */
   virtual const RegionType & GetRequestedRegion() const
   { return m_RequestedRegion; }
-
-  /** Get the offset table.  The offset table gives increments for
-   * moving from one pixel to next in the current row, column, slice,
-   * etc..  This table if of size [VImageDimension+1], because its
-   * values are computed progressively as: {1, N1, N1*N2,
-   * N1*N2*N3,...,(N1*...*Nn)} Where the values {N1,...,Nn} are the
-   * elements of the BufferedRegion::Size array.  The last element of
-   * the OffsetTable is equivalent to the BufferSize.  Having a
-   * [VImageDimension+1] size array, simplifies the implementation of
-   * some data accessing algorithms. */
-  const OffsetValueType * GetOffsetTable() const { return m_OffsetTable; }
-
-  /** Compute an offset from the beginning of the buffer for a pixel
-   * at the specified index. */
-  OffsetValueType ComputeOffset(const IndexType & ind) const
-  {
-    // need to add bounds checking for the region/buffer?
-    OffsetValueType   offset = 0;
-    const IndexType & bufferedRegionIndex = m_BufferedRegion.GetIndex();
-
-    // data is arranged as [][][][slice][row][col]
-    // with Index[0] = col, Index[1] = row, Index[2] = slice
-    for ( int i = VDimension - 1; i > 0; i-- )
-      {
-      offset += ( ind[i] - bufferedRegionIndex[i] ) * m_OffsetTable[i];
-      }
-    offset += ( ind[0] - bufferedRegionIndex[0] );
-
-    return offset;
-  }
-
-  /** Compute the index of the pixel at a specified offset from the
-   * beginning of the buffered region. */
-  IndexType ComputeIndex(OffsetValueType offset) const
-  {
-    IndexType         index;
-    const IndexType & bufferedRegionIndex = m_BufferedRegion.GetIndex();
-
-    for ( int i = VDimension - 1; i > 0; i-- )
-      {
-      index[i] = static_cast< IndexValueType >( offset / m_OffsetTable[i] );
-      offset -= ( index[i] * m_OffsetTable[i] );
-      index[i] += bufferedRegionIndex[i];
-      }
-    index[0] = bufferedRegionIndex[0] + static_cast< IndexValueType >( offset );
-
-    return index;
-  }
 
   /** Copy information from the specified data set.  This method is
    * part of the pipeline execution model. By default, a ProcessObject
@@ -373,42 +307,6 @@ public:
   /** Specify that the object has been updated */
   void Update() override;
 
-  /** Set the tree container */
-  itkSetObjectMacro(TreeNode, TreeNodeType)
-
-  /** Return a raw pointer to the node container */
-  itkGetModifiableObjectMacro(TreeNode, TreeNodeType);
-
-  /** Theses functions are just calling the AffineGeometryFrame functions */
-  /** Set the spacing of the spatial object. */
-  void SetSpacing(const double spacing[Self::ObjectDimension])
-  {
-  m_AffineGeometryFrame->GetModifiableIndexToObjectTransform()->SetScale(spacing);
-  this->Modified();
-  }
-  /** Get the spacing of the spatial object. */
-  virtual const double * GetSpacing() const
-  {
-  return this->GetIndexToObjectTransform()->GetScale();
-  }
-
-  /** Transform points from the internal data coordinate system
-   * of the object (typically the indices of the image from which
-   * the object was defined) to "physical" space (which accounts
-   * for the spacing, orientation, and offset of the indices)
-   */
-  const TransformType * GetIndexToObjectTransform() const;
-
-  TransformType * GetModifiableIndexToObjectTransform()
-    {
-    return m_AffineGeometryFrame->GetModifiableIndexToObjectTransform();
-    }
-  TransformType * GetIndexToObjectTransform()
-    {
-    return m_AffineGeometryFrame->GetModifiableIndexToObjectTransform();
-    }
-
-
   /** Transforms points from the object-specific "physical" space
    * to the "physical" space of its parent object.
    */
@@ -418,26 +316,13 @@ public:
 
   const TransformType * GetObjectToParentTransform() const;
 
-  /** Transforms points from the object-specific "physical" space
-   * to the "physical" space of its parent object.
-   */
-  itkLegacyMacro(TransformType * GetObjectToNodeTransform());
-  #if defined(ITK_LEGACY_REMOVE)
-  TransformType * GetModifiableObjectToNodeTransform();
-  #endif
-  const TransformType * GetObjectToNodeTransform() const;
-
-  /** Theses functions are just calling the itkSpatialObjectTreeNode
-   *  functions */
-
   /** Add an object to the list of children. */
-  void AddSpatialObject(Self *pointer);
+  void AddChild(Self *pointer);
 
   /** Remove the object passed as arguments from the list of
-   * children. May this function
-   * should return a false value if the object to remove is
-   * not found in the list. */
-  void RemoveSpatialObject(Self *object);
+   * children. */
+  bool RemoveChild(Self *object);
+  void RemoveChildren( unsigned int depth = 0 );
 
   /** Return a pointer to the parent object in the hierarchy tree */
   virtual const Self * GetParent() const;
@@ -451,18 +336,16 @@ public:
    * \warning User is responsible for freeing the list, but not the elements of
    * the list. */
   virtual ChildrenListType * GetChildren(unsigned int depth = 0,
-                                         char *name = nullptr) const;
+    const std::string & name = "") const;
+  virtual void AddChildrenToList(unsigned int depth = 0,
+    const std::string & name = "", ChildrenListType * children ) const;
 
   /** Returns the number of children currently assigned to the object. */
   unsigned int GetNumberOfChildren(unsigned int depth = 0,
-                                   char *name = nullptr) const;
+                                   const std::string & name = "") const;
 
   /** Set the list of pointers to children to the list passed as argument. */
   void SetChildren(ChildrenListType & children);
-
-  /** Clear the spatial object by deleting all lists of children
-   * and subchildren */
-  virtual void Clear();
 
   /**
    * Compute an axis-aligned bounding box for an object and its selected
@@ -512,13 +395,6 @@ public:
    *  used for the spatial object patter. */
   void SetParent(Self *parent);
 
-  /** These function are just calling the node container transforms */
-  void SetNodeToParentNodeTransform(TransformType *transform);
-
-  TransformType * GetNodeToParentNodeTransform();
-
-  const TransformType * GetNodeToParentNodeTransform() const;
-
   /** Set/Get the default inside value (ValueAt()) of the object.
    *  Default is 1.0 */
   itkSetMacro(DefaultInsideValue, double);
@@ -528,10 +404,6 @@ public:
    *  Default is 0.0 */
   itkSetMacro(DefaultOutsideValue, double);
   itkGetConstMacro(DefaultOutsideValue, double);
-
-  /** Return the type of the spatial object as a string
-   *  This is used by the SpatialObjectFactory */
-  virtual std::string GetSpatialObjectTypeAsString() const;
 
 protected:
 
@@ -543,67 +415,38 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  /** Calculate the offsets needed to move from one pixel to the next
-   * along a row, column, slice, volume, etc. These offsets are based
-   * on the size of the BufferedRegion. This should be called after
-   * the BufferedRegion is set. */
-  void ComputeOffsetTable();
-
-  itkSetMacro(Dimension, unsigned int);
-  itkGetConstReferenceMacro(Dimension, unsigned int)
   itkSetMacro(TypeName, std::string);
-  itkGetModifiableObjectMacro(Bounds, BoundingBoxType);
-  itkGetModifiableObjectMacro(InternalInverseTransform, TransformType);
 
-  /** This convenience method take the IndexToWorldTransform, and
-   * if it can compute its inverse, then stores the result in the
-   * InternalInverse member variable, that can be later accessed
-   * with the method GetInternalInverseTransform(). This method is
-   * not exposed to users, it is only intended to be called internally
-   * by derived classes. */
-  bool SetInternalInverseTransformToWorldToIndexTransform() const;
+  itkGetModifiableObjectMacro(Bounds, BoundingBoxType);
 
 private:
 
+  /** Object Identification Number */
+  int             m_Id;
+
+  /** Type of spatial object */
+  std::string     m_TypeName;
+
+  PropertyPointer m_Property;
+
+  int             m_ParentId;
+  Self *          m_Parent;
+
+  RegionType      m_LargestPossibleRegion;
+  RegionType      m_RequestedRegion;
+  RegionType      m_BufferedRegion;
+
   BoundingBoxPointer       m_Bounds;
   mutable ModifiedTimeType m_BoundsMTime;
+  std::string              m_BoundingBoxChildrenName;
+  unsigned int             m_BoundingBoxChildrenDepth;
 
   TransformPointer m_ObjectToParentTransform;
   TransformPointer m_ObjectToWorldTransform;
-  TransformPointer m_IndexToWorldTransform;
-
-  /** Type of spatial object */
-  std::string m_TypeName;
-
-  unsigned int m_Dimension;
-
-  OffsetValueType m_OffsetTable[3 + 1];
-
-  RegionType m_LargestPossibleRegion;
-  RegionType m_RequestedRegion;
-  RegionType m_BufferedRegion;
-
-  std::string     m_BoundingBoxChildrenName;
-  unsigned int    m_BoundingBoxChildrenDepth;
-  PropertyPointer m_Property;
-
-  /** Object Identification Number */
-  int m_Id;
-  int m_ParentId;
-
-  /** Pointer to the tree container */
-  typename TreeNodeType::Pointer m_TreeNode;
-
-  /** Pointer to the AffineGeometryFrame */
-  AffineGeometryFramePointer m_AffineGeometryFrame;
 
   /** We keep an internal list of smart pointers to the immediate children
    *  This avoid the deletion of a child */
   ChildrenListType m_InternalChildrenList;
-
-  /** We create an inverse transform pointer since it take time to create
-   *  it each time to get the inverse transform in the IsInside() method */
-  TransformPointer m_InternalInverseTransform;
 
   /** Default inside value for the ValueAt() */
   double m_DefaultInsideValue;
