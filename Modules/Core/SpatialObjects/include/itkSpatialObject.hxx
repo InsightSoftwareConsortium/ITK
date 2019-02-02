@@ -506,7 +506,7 @@ SpatialObject< TDimension >
   auto it = m_InternalChildrenList->begin();
   while ( it != m_InternChildrenList->end() )
     {
-    if( name.compare( 0, name.size(), (*it)->Get()->GetTypeName() ) == 0 )
+    if( name.find( (*it)->Get()->GetTypeName() ) == std::string::npos )
       {
       childrenSO->push_back( ( *it )->Get() );
       }
@@ -534,7 +534,7 @@ SpatialObject< TDimension >
   auto it = m_InternalChildrenList->begin();
   while ( it != m_InternalChildrenList->end() )
     {
-    if( name.compare( 0, name.size(), (*it)->Get()->GetTypeName() ) == 0 )
+    if( name.find( (*it)->Get()->GetTypeName() ) == std::string::npos )
       {
       childrenList->push_back( ( *it )->Get() );
       }
@@ -578,7 +578,7 @@ SpatialObject< TDimension >
   auto it = m_InternalChildrenList->begin();
   while ( it != m_InternalChildrenList->end() )
     {
-    if( name.compare( 0, name.size(), (*it)->Get()->GetTypeName() ) == 0 )
+    if( name.find( (*it)->Get()->GetTypeName() ) == std::string::npos )
       {
       ++ccount;
       }
