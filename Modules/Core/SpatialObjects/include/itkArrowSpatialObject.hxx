@@ -55,14 +55,6 @@ ArrowSpatialObject< TDimension >
 ::SetLength(double length)
 {
   m_Length = length;
-  double spacing[TDimension];
-  spacing[0] = m_Length;
-
-  for ( unsigned int i = 1; i < TDimension; i++ )
-    {
-    spacing[i] = 1;
-    }
-  this->SetSpacing(spacing);
   this->Modified();
 }
 
@@ -75,7 +67,8 @@ ArrowSpatialObject< TDimension >
   itkDebugMacro("Computing Rectangle bounding box");
 
   if ( this->GetBoundingBoxChildrenName().empty()
-       || strstr( typeid( Self ).name(), this->GetBoundingBoxChildrenName().c_str() ) )
+       || this->GetBoundingBoxChildrenName().find( this->GetTypeName() ) !=
+          std::string::npos )
     {
     PointType pnt = this->GetPosition();
     PointType pnt2;
@@ -84,13 +77,13 @@ ArrowSpatialObject< TDimension >
       pnt2[i] = pnt[i] + m_Length * m_Direction[i];
       }
 
-    pnt = this->GetIndexToWorldTransform()->TransformPoint(pnt);
-    pnt2 = this->GetIndexToWorldTransform()->TransformPoint(pnt2);
+    pnt = this->GetObjectToWorldTransform()->TransformPoint(pnt);
+    pnt2 = this->GetObjectToWorldTransform()->TransformPoint(pnt2);
 
     const_cast< typename Superclass::BoundingBoxType * >(
-      this->GetBounds() )->SetMinimum(pnt);
+      this->GetBounds() )->ConsiderPoint(pnt);
     const_cast< typename Superclass::BoundingBoxType * >(
-      this->GetBounds() )->SetMaximum(pnt2);
+      this->GetBounds() )->ConsiderPoint(pnt2);
     }
   return true;
 }
@@ -110,7 +103,7 @@ ArrowSpatialObject< TDimension >
       return true;
       }
     }
-  else if ( strstr(typeid( Self ).name(), name) )
+  else if ( name.find( this->GetTypeName() ) != std::string::npos )
     {
     if ( IsInside(point) )
       {
@@ -129,13 +122,8 @@ bool
 ArrowSpatialObject< TDimension >
 ::IsInside(const PointType & point) const
 {
-  if ( !this->SetInternalInverseTransformToWorldToIndexTransform() )
-    {
-    return false;
-    }
-
   PointType transformedPoint =
-    this->GetInternalInverseTransform()->TransformPoint(point);
+    this->GetObjectToWorldTransform()->GetInverse()->TransformPoint(point);
 
   this->ComputeLocalBoundingBox();
 
@@ -155,7 +143,8 @@ ArrowSpatialObject< TDimension >
     v.Normalize();
     v2.Normalize();
 
-    if ( Math::AlmostEquals( dot_product( v.GetVnlVector(), v2.GetVnlVector() ), NumericTraits< typename VectorType::ValueType >::OneValue() ) )
+    if ( Math::AlmostEquals( dot_product( v.GetVnlVector(), v2.GetVnlVector() ),
+        NumericTraits< typename VectorType::ValueType >::OneValue() ) )
       {
       return true;
       }
@@ -164,41 +153,6 @@ ArrowSpatialObject< TDimension >
   return false;
 }
 
-/** Update the local transform from the position and the direction */
-template< unsigned int TDimension >
-void
-ArrowSpatialObject< TDimension >
-::UpdateTransform()
-{
-  //TODO: What should happen if TDimension is not equal to 3
-  VectorType offset;
-  for ( unsigned int i = 0; i < TDimension; i++ )
-    {
-    offset[i] = m_Position[i];
-    }
-  this->GetObjectToParentTransform()->SetOffset(offset);
-
-  // If the given direction is not normalized we set the length of the vector
-  // as the length of the arrow
-  m_Length = m_Direction.GetSquaredNorm();
-  if ( m_Length != 0.0 )
-    {
-    m_Length = std::sqrt(m_Length);
-    }
-  else
-    {
-    this->Modified();
-    return;
-    }
-
-  m_Direction.Normalize();
-  this->Modified();
-}
-
-template< > void ArrowSpatialObject< 3 > ::UpdateTransform();
-
-
-/** Print the object */
 template< unsigned int TDimension >
 void
 ArrowSpatialObject< TDimension >
