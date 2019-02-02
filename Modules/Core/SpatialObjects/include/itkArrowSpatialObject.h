@@ -60,7 +60,6 @@ public:
   void SetPosition(const PointType & p)
   {
     m_Position = p;
-    this->UpdateTransform();
   }
 
   itkGetConstMacro(Position, PointType);
@@ -69,7 +68,6 @@ public:
   {
     m_Position[0] = x;
     m_Position[1] = y;
-    this->UpdateTransform();
   }
 
   void SetPosition(float x, float y, float z)
@@ -77,14 +75,12 @@ public:
     m_Position[0] = x;
     m_Position[1] = y;
     m_Position[2] = z;
-    this->UpdateTransform();
   }
 
   /** Set the direction of the arrow */
   void SetDirection(const VectorType & d)
   {
     m_Direction = d;
-    this->UpdateTransform();
   }
 
   itkGetConstMacro(Direction, VectorType);
@@ -93,7 +89,6 @@ public:
   {
     m_Direction[0] = x;
     m_Direction[1] = y;
-    this->UpdateTransform();
   }
 
   void SetDirection(float x, float y, float z)
@@ -101,7 +96,6 @@ public:
     m_Direction[0] = x;
     m_Direction[1] = y;
     m_Direction[2] = z;
-    this->UpdateTransform();
   }
 
   /** Set the length of the arrow */
@@ -126,9 +120,6 @@ protected:
 
   ArrowSpatialObject();
   ~ArrowSpatialObject() override = default;
-
-  /** Update the transformation given the position and the direction */
-  void UpdateTransform();
 
   /** Method to print the object.*/
   void PrintSelf(std::ostream & os, Indent indent) const override;
