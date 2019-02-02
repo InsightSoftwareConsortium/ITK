@@ -175,8 +175,8 @@ int itkResampleImageTest2(int argc, char * argv[])
     typedef typename ImageType::SizeType::SizeValueType SizeValueType;
     for( unsigned int i = 0; i < NDimensions; ++i )
       {
-      outputSize[i] = static_cast< SizeValueType >(
-        (double)inputSize[i] * inputSpacing[i] / outputSpacing[i]);
+      outputSize[i] = itk::Math::Ceil< SizeValueType >(
+        (double)inputSize[i] * inputSpacing[i] / outputSpacing[i] );
       }
 
     typename ImageType::DirectionType outputDirection =
