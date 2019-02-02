@@ -53,25 +53,7 @@ template< unsigned int TDimension >
 SpatialObject< TDimension >
 ::~SpatialObject()
 {
-  this->Clear();
-}
-
-/** Clear the spatial object by deleting all
- *  lists of children and subchildren */
-template< unsigned int TDimension >
-void
-SpatialObject< TDimension >
-::Clear()
-{
-  auto pos = m_InternalChildrenList.begin();
-  auto it =  m_InternalChildrenList.begin();
-  while ( it != m_InternalChildrenList.end() )
-    {
-    pos = it;
-    it++;
-    m_InternalChildrenList.erase(pos);
-    }
-  m_InternalChildrenList.clear();
+  this->RemoveAllChildren();
 }
 
 /** Return the Derivative at a point given the order of the derivative */
@@ -295,7 +277,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 void
 SpatialObject< TDimension >
-::RemoveAllChildren(void)
+::RemoveAllChildren( unsigned int depth )
 {
   typename ChildrenListType::iterator it = m_InternalChildrenList.begin();
   while( it != m_InternalChildrenList.end() )
@@ -303,6 +285,10 @@ SpatialObject< TDimension >
     Self * oldChild = (*it)->Get();
     it = m_InternalChildrenList.erase( it );
     oldChild->SetParent( nullptr );
+    if( depth > 0 )
+      {
+      oldChild->RemoveAllChildren( depth-1 );
+      }
     }
 
   this->Modified();
