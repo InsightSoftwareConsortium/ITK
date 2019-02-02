@@ -32,27 +32,18 @@ SpatialObject< TDimension >
 ::SpatialObject()
 {
   m_TypeName = "SpatialObject";
-  m_Dimension = TDimension;
   m_Bounds = BoundingBoxType::New();
   m_BoundsMTime = 0;
   m_Property = PropertyType::New();
-  m_TreeNode = nullptr;
 
   m_ObjectToWorldTransform = TransformType::New();
   m_ObjectToWorldTransform->SetIdentity();
   m_ObjectToParentTransform = TransformType::New();
   m_ObjectToParentTransform->SetIdentity();
-  m_IndexToWorldTransform = TransformType::New();
-  m_IndexToWorldTransform->SetIdentity();
 
   m_BoundingBoxChildrenDepth = MaximumDepth;
   m_Id = -1;
   m_ParentId = -1;
-  m_AffineGeometryFrame = AffineGeometryFrameType::New();
-  m_AffineGeometryFrame->SetIndexToWorldTransform(m_IndexToWorldTransform);
-  m_TreeNode = SpatialObjectTreeNode< TDimension >::New();
-  m_TreeNode->Set(this);
-  m_InternalInverseTransform = TransformType::New();
   m_DefaultInsideValue = 1.0;
   m_DefaultOutsideValue  = 0.0;
 }
@@ -88,14 +79,15 @@ template< unsigned int TDimension >
 void
 SpatialObject< TDimension >
 ::DerivativeAt(const PointType & point, short unsigned int order,
-               OutputVectorType & value, unsigned int depth, char *name)
+               DerivativeVectorType & value, unsigned int depth, const std::string & name,
+               const SpacingVectorType & spacing)
 {
   if ( !IsEvaluableAt(point, depth, name) )
     {
     ExceptionObject e(__FILE__);
     e.SetLocation(
       "SpatialObject< TDimension >::DerivateAt(\
-                   const PointType, unsigned short, OutputVectorType & )"                                                 );
+                   const PointType, unsigned short, DerivativeVectorType & )"                                                 );
     e.SetDescription("This spatial object is not evaluable at the point");
     throw e;
     }
@@ -109,25 +101,28 @@ SpatialObject< TDimension >
     }
   else
     {
-    PointType        p1, p2;
-    OutputVectorType v1, v2;
-    typename OutputVectorType::Iterator it = value.Begin();
-    typename OutputVectorType::Iterator it_v1 = v1.Begin();
-    typename OutputVectorType::Iterator it_v2 = v2.Begin();
+    PointType                  p1, p2;
+    DerivativeVectorType       v1, v2;
+    typename DerivativeVectorType::Iterator it = value.Begin();
+    typename DerivativeVectorType::Iterator it_v1 = v1.Begin();
+    typename DerivativeVectorType::Iterator it_v2 = v2.Begin();
 
+    typename SpacingVectorType spacingDiv2;
+    for ( unsigned short i = 0; i < TDimension; i++ )
+      {
+      spacingDiv2[i] = spacing[i] / 2.0;
+      }
     for ( unsigned short i = 0; i < TDimension; i++, it++, it_v1++, it_v2++ )
       {
       p1 = point;
       p2 = point;
 
-      // should get the spacing from the transform
-      const double *spacing = this->GetModifiableIndexToObjectTransform()->GetScale();
       p1[i] -= spacing[i];
       p2[i] += spacing[i];
 
       // note DerivativeAt might throw.
-      DerivativeAt(p1, order - 1, v1, depth, name);
-      DerivativeAt(p2, order - 1, v2, depth, name);
+      DerivativeAt(p1, order - 1, v1, depth, name, spacingDiv2);
+      DerivativeAt(p2, order - 1, v2, depth, name, spacingDiv2);
 
       ( *it ) = ( ( *it_v2 ) - ( *it_v1 ) ) / 2;
       }
@@ -138,7 +133,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 SpatialObject< TDimension >
-::IsInside(const PointType &  point, unsigned int depth, char *name) const
+::IsInside(const PointType &  point, unsigned int depth, const std::string & name) const
 {
   if ( depth > 0 )
     {
@@ -167,14 +162,11 @@ template< unsigned int TDimension >
 bool
 SpatialObject< TDimension >
 ::IsEvaluableAt(const PointType & point, unsigned int depth,
-                char *name) const
+                const std::string & name) const
 {
   if ( depth > 0 )
     {
-    using TreeChildrenListType = typename TreeNodeType::ChildrenListType;
-    TreeChildrenListType *children = m_TreeNode->GetChildren();
-    typename TreeChildrenListType::const_iterator it = children->begin();
-    typename TreeChildrenListType::const_iterator itEnd = children->end();
+    ChildrenListType *children = this->GetChildren( depth, name );
 
     while ( it != itEnd )
       {
@@ -196,16 +188,14 @@ template< unsigned int TDimension >
 bool
 SpatialObject< TDimension >
 ::ValueAt(const PointType & point, double & value, unsigned int depth,
-          char *name) const
+          const std::string & name) const
 {
   bool evaluable = false;
 
+  value = 0;
   if ( depth > 0 )
     {
-    using TreeChildrenListType = typename TreeNodeType::ChildrenListType;
-    TreeChildrenListType *children = m_TreeNode->GetChildren();
-    typename TreeChildrenListType::const_iterator it = children->begin();
-    typename TreeChildrenListType::const_iterator itEnd = children->end();
+    ChildrenListType *children = this->GetChildren( depth, name );
 
     while ( it != itEnd )
       {
@@ -239,8 +229,6 @@ SpatialObject< TDimension >
   os << "Geometric properties:" << std::endl;
   os << indent << "Object to World Transform: " << m_ObjectToWorldTransform
      << std::endl;
-  os << indent << "Index to World Transform: " << m_IndexToWorldTransform
-     << std::endl;
   os << std::endl << std::endl;
   os << indent << "Bounding Box Children Depth: " << m_BoundingBoxChildrenDepth
      << std::endl;
@@ -263,34 +251,61 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 void
 SpatialObject< TDimension >
-::AddSpatialObject(Self *pointer)
+::AddChild(Self *pointer)
 {
-  m_TreeNode->AddChild( pointer->GetModifiableTreeNode() );
-  m_InternalChildrenList.push_back(pointer);
-  this->Modified();
+  typename ChildrenListType::iterator pos;
+  pos = std::find(m_InternalChildrenList.begin(),
+                  m_InternalChildrenList.end(), pointer);
+  if( pos == m_InternalChildrenList.end() )
+    {
+    m_InternalChildrenList.push_back(pointer);
+
+    pointer->SetParent( this );
+
+    this->Modified();
+    }
+}
+
+/** Remove a child to the object */
+template< unsigned int TDimension >
+bool
+SpatialObject< TDimension >
+::RemoveChild(Self *pointer)
+{
+  typename ChildrenListType::iterator pos;
+  pos = std::find(m_InternalChildrenList.begin(),
+                  m_InternalChildrenList.end(), pointer);
+  if ( pos != m_InternalChildrenList.end() )
+    {
+    pointer->SetParent( nullptr );
+
+    m_InternalChildrenList.erase(pos);
+
+    this->Modified();
+
+    return true;
+    }
+  else
+    {
+    return false;
+    }
 }
 
 /** Remove a child to the object */
 template< unsigned int TDimension >
 void
 SpatialObject< TDimension >
-::RemoveSpatialObject(Self *pointer)
+::RemoveAllChildren(void)
 {
-  if ( m_TreeNode->Remove( pointer->GetModifiableTreeNode() ) )
+  typename ChildrenListType::iterator it = m_InternalChildrenList.begin();
+  while( it != m_InternalChildrenList.end() )
     {
-    typename ChildrenListType::iterator pos;
-    pos = std::find(m_InternalChildrenList.begin(),
-                    m_InternalChildrenList.end(), pointer);
-    if ( pos != m_InternalChildrenList.end() )
-      {
-      m_InternalChildrenList.erase(pos);
-      }
-    this->Modified();
+    Self * oldChild = (*it)->Get();
+    it = m_InternalChildrenList.erase( it );
+    oldChild->SetParent( nullptr );
     }
-  else
-    {
-    std::cerr << "Cannot RemoveSpatialObject" << std::endl;
-    }
+
+  this->Modified();
 }
 
 /** Set the local to global transformation */
@@ -299,8 +314,8 @@ void
 SpatialObject< TDimension >
 ::SetObjectToParentTransform(TransformType *transform)
 {
-  static_cast< TreeNodeType * >(
-    m_TreeNode.GetPointer() )->SetNodeToParentNodeTransform(transform);
+  m_ObjectToParentTransform.CopyInFixedParameters( transform );
+  m_ObjectToParentTransform.CopyInParameters( transform );
   ComputeObjectToWorldTransform();
 }
 
@@ -310,83 +325,26 @@ void
 SpatialObject< TDimension >
 ::ComputeObjectToWorldTransform()
 {
-  // The ObjectToParentTransform is the combination of the
-  //    ObjectToNodeTransform and the NodeToParentNodeTransform
-  m_ObjectToParentTransform->SetIdentity();
-  m_ObjectToParentTransform->SetCenter(
-    m_AffineGeometryFrame->GetObjectToNodeTransform()->GetCenter() );
-  m_ObjectToParentTransform->Compose(
-    m_AffineGeometryFrame->GetObjectToNodeTransform(), false);
-  m_ObjectToParentTransform->Compose(
-    static_cast< TreeNodeType * >(
-      m_TreeNode.GetPointer() )->GetNodeToParentNodeTransform(), false);
-
-  m_ObjectToWorldTransform->SetCenter(
-    m_AffineGeometryFrame->GetObjectToNodeTransform()->GetCenter() );
-  m_ObjectToWorldTransform->SetMatrix(
-    m_AffineGeometryFrame->GetObjectToNodeTransform()->GetMatrix() );
-  m_ObjectToWorldTransform->SetOffset(
-    m_AffineGeometryFrame->GetObjectToNodeTransform()->GetOffset() );
-
-  m_IndexToWorldTransform->SetCenter(
-    m_AffineGeometryFrame->GetIndexToObjectTransform()->GetCenter() );
-  m_IndexToWorldTransform->SetMatrix(
-    m_AffineGeometryFrame->GetIndexToObjectTransform()->GetMatrix() );
-  m_IndexToWorldTransform->SetOffset(
-    m_AffineGeometryFrame->GetIndexToObjectTransform()->GetOffset() );
-
-  static_cast< TreeNodeType * >( m_TreeNode.GetPointer() )
-  ->ComputeNodeToWorldTransform();
-  m_ObjectToWorldTransform->Compose(
-    static_cast< TreeNodeType * >(
-      m_TreeNode.GetPointer() )->GetNodeToWorldTransform(), false);
-
-  m_IndexToWorldTransform->Compose(this->GetObjectToWorldTransform(), false);
+  m_ObjectToWorldTransform->CopyInFixedParameters(
+    this->GetObjectToParentTransform() );
+  m_ObjectToWorldTransform->CopyInParameters(
+    this->GetObjectToParentTransform() );
+  if( this->HasParent() )
+    {
+    m_ObjectToWorldTransform->Compose( this->GetParent()
+      ->GetObjectToWorldTransform(), false );
+    }
 
   // Propagate the changes to the children
-  using TreeChildrenListType = typename TreeNodeType::ChildrenListType;
-  TreeChildrenListType *children = m_TreeNode->GetChildren();
-  typename TreeChildrenListType::const_iterator it = children->begin();
-  typename TreeChildrenListType::const_iterator itEnd = children->end();
-
+  ChildrenListType *children = this->GetChildren();
+  typename ChildrenListType::iterator it = children->begin();
+  typename ChildrenListType::iterator itEnd = children->end();
   while ( it != itEnd )
     {
     ( *it )->Get()->ComputeObjectToWorldTransform();
     it++;
     }
-  // handle internal inverse
-  if(!this->GetIndexToWorldTransform()->GetInverse( const_cast< TransformType *>( this->GetInternalInverseTransform() ) ))
-    {
-    this->m_InternalInverseTransform = nullptr;
-    }
   delete children;
-}
-#if !defined(ITK_LEGACY_REMOVE)
-/** Get the local transformation */
-template< unsigned int TDimension >
-typename SpatialObject< TDimension >::TransformType *
-SpatialObject< TDimension >
-::GetObjectToNodeTransform()
-{
-  return m_AffineGeometryFrame->GetModifiableObjectToNodeTransform();
-}
-#else
-/** Get the local transformation */
-template< unsigned int TDimension >
-typename SpatialObject< TDimension >::TransformType *
-SpatialObject< TDimension >
-::GetModifiableObjectToNodeTransform()
-{
-  return m_AffineGeometryFrame->GetModifiableObjectToNodeTransform();
-}
-#endif
-/** Get the local transformation (const) */
-template< unsigned int TDimension >
-const typename SpatialObject< TDimension >::TransformType *
-SpatialObject< TDimension >
-::GetObjectToNodeTransform() const
-{
-  return m_AffineGeometryFrame->GetObjectToNodeTransform();
 }
 
 /** Get the local transformation */
@@ -395,9 +353,7 @@ typename SpatialObject< TDimension >::TransformType *
 SpatialObject< TDimension >
 ::GetObjectToParentTransform()
 {
-  return static_cast< TreeNodeType * >(
-           m_TreeNode.GetPointer() )->GetNodeToParentNodeTransform();
-  //return m_ObjectToNodeTransform.GetPointer();
+  return m_ObjectToParentTransform.GetPointer();
 }
 
 /** Get the local transformation (const) */
@@ -406,19 +362,9 @@ const typename SpatialObject< TDimension >::TransformType *
 SpatialObject< TDimension >
 ::GetObjectToParentTransform() const
 {
-  return static_cast< TreeNodeType * >(
-           m_TreeNode.GetPointer() )->GetNodeToParentNodeTransform();
+  return m_ObjectToParentTransform.GetPointer();
 }
 
-
-/** Get the local transformation (const) */
-template< unsigned int TDimension >
-const typename SpatialObject< TDimension >::TransformType *
-SpatialObject< TDimension >
-::GetIndexToObjectTransform() const
-{
-  return m_AffineGeometryFrame->GetIndexToObjectTransform();
-}
 
 /** Set the global to local transformation */
 template< unsigned int TDimension >
@@ -426,7 +372,8 @@ void
 SpatialObject< TDimension >
 ::SetObjectToWorldTransform(TransformType *transform)
 {
-  m_ObjectToWorldTransform = transform;
+  m_ObjectToWorldTransform->CopyInFixedParameters( transform );
+  m_ObjectToWorldTransform->CopyInParameters( transform );
   ComputeObjectToParentTransform();
 }
 
@@ -437,47 +384,16 @@ void
 SpatialObject< TDimension >
 ::ComputeObjectToParentTransform()
 {
-  m_ObjectToParentTransform->SetScale( m_ObjectToWorldTransform->GetScale() );
-  m_ObjectToParentTransform->SetCenter( m_ObjectToWorldTransform->GetCenter() );
-  m_ObjectToParentTransform->SetMatrix( m_ObjectToWorldTransform->GetMatrix() );
-  m_ObjectToParentTransform->SetOffset( m_ObjectToWorldTransform->GetOffset() );
+  m_ObjectToParentTransform->CopyInFixedParameters( m_ObjectToWorldTransform );
+  m_ObjectToParentTransform->CopyInParameters( m_ObjectToWorldTransform );
 
-  if ( m_TreeNode->HasParent() )
+  if( this->HasParent() )
     {
     typename TransformType::Pointer inverse = TransformType::New();
-    if ( static_cast< TreeNodeType * >( m_TreeNode->GetParent() )
-         ->GetNodeToParentNodeTransform()->GetInverse(inverse) )
+    if( this->GetParent()->GetObjectToWorldTransform()->GetInverse(inverse) )
       {
       m_ObjectToParentTransform->Compose(inverse, true);
       }
-    }
-
-  m_AffineGeometryFrame->GetModifiableObjectToNodeTransform()->SetIdentity();
-  static_cast< TreeNodeType * >( m_TreeNode.GetPointer() )
-  ->GetNodeToParentNodeTransform()
-  ->SetCenter( m_ObjectToParentTransform->GetCenter() );
-  static_cast< TreeNodeType * >( m_TreeNode.GetPointer() )
-  ->GetNodeToParentNodeTransform()
-  ->SetMatrix( m_ObjectToParentTransform->GetMatrix() );
-  static_cast< TreeNodeType * >( m_TreeNode.GetPointer() )
-  ->GetNodeToParentNodeTransform()
-  ->SetOffset( m_ObjectToParentTransform->GetOffset() );
-
-  m_IndexToWorldTransform->SetCenter( m_AffineGeometryFrame
-                                      ->GetIndexToObjectTransform()
-                                      ->GetCenter() );
-  m_IndexToWorldTransform->SetMatrix( m_AffineGeometryFrame
-                                      ->GetIndexToObjectTransform()
-                                      ->GetMatrix() );
-  m_IndexToWorldTransform->SetOffset( m_AffineGeometryFrame
-                                      ->GetIndexToObjectTransform()
-                                      ->GetOffset() );
-  m_IndexToWorldTransform->Compose(m_ObjectToWorldTransform, false);
-
-  // handle internal inverse
-  if(!this->GetIndexToWorldTransform()->GetInverse( const_cast< TransformType *>( this->GetInternalInverseTransform() ) ))
-    {
-    this->m_InternalInverseTransform = nullptr;
     }
 }
 
@@ -489,33 +405,28 @@ SpatialObject< TDimension >
 {
   ModifiedTimeType latestTime = Object::GetMTime();
 
-  if ( latestTime < m_BoundsMTime )
+  if( latestTime < m_BoundsMTime )
     {
     latestTime = m_BoundsMTime;
     }
-  using TreeChildrenListType = typename TreeNodeType::ChildrenListType;
 
-  if ( !m_TreeNode )
-    {
-    return latestTime;
-    }
-
-  TreeChildrenListType *children = m_TreeNode->GetChildren();
-  typename TreeChildrenListType::const_iterator it = children->begin();
-  typename TreeChildrenListType::const_iterator itEnd = children->end();
+  ChildrenListType *children = this->GetChildren();
+  typename ChildrenListType::const_iterator it = children->begin();
+  typename ChildrenListType::const_iterator itEnd = children->end();
   ModifiedTimeType localTime;
 
-  while ( it != itEnd )
+  while( it != itEnd )
     {
     localTime = ( *it )->Get()->GetMTime();
 
-    if ( localTime > latestTime )
+    if( localTime > latestTime )
       {
       latestTime = localTime;
       }
     it++;
     }
   delete children;
+
   return latestTime;
 }
 
@@ -548,22 +459,20 @@ SpatialObject< TDimension >
   itkDebugMacro("Computing Bounding Box");
   this->ComputeLocalBoundingBox();
 
-  if ( m_BoundingBoxChildrenDepth > 0 && m_TreeNode )
+  if ( m_BoundingBoxChildrenDepth > 0 )
     {
-    using TreeChildrenListType = typename TreeNodeType::ChildrenListType;
-    TreeChildrenListType *children = m_TreeNode->GetChildren(0);
-    typename TreeChildrenListType::const_iterator it = children->begin();
-    typename TreeChildrenListType::const_iterator itEnd = children->end();
-
-    while ( it != itEnd )
+    typename ChildrenListType::const_iterator it =
+      m_InternalChildrenList->begin();
+    while ( it != m_InternalChildrenList->end() )
       {
-      ( *it )->Get()->SetBoundingBoxChildrenDepth(m_BoundingBoxChildrenDepth - 1);
-      ( *it )->Get()->SetBoundingBoxChildrenName(m_BoundingBoxChildrenName);
+      ( *it )->Get()->SetBoundingBoxChildrenDepth(
+        m_BoundingBoxChildrenDepth - 1 );
+      ( *it )->Get()->SetBoundingBoxChildrenName( m_BoundingBoxChildrenName );
       ( *it )->Get()->ComputeBoundingBox();
 
       // If the bounding box is not defined we set the minimum and maximum
       bool bbDefined = false;
-      for ( unsigned int i = 0; i < m_Dimension; i++ )
+      for ( unsigned int i = 0; i < ObjectDimension; i++ )
         {
         if ( Math::NotExactlyEquals(m_Bounds->GetBounds()[2 * i], 0)
              || Math::NotExactlyEquals(m_Bounds->GetBounds()[2 * i + 1], 0) )
@@ -585,16 +494,16 @@ SpatialObject< TDimension >
         }
       it++;
       }
-    delete children;
     return true;
     }
 
   typename BoundingBoxType::PointType pnt;
-  pnt.Fill(NumericTraits< typename
-                               BoundingBoxType::PointType::ValueType >::ZeroValue());
+  pnt.Fill( NumericTraits< typename BoundingBoxType::PointType::ValueType >::
+    ZeroValue() );
   m_Bounds->SetMinimum(pnt);
   m_Bounds->SetMaximum(pnt);
   m_BoundsMTime = this->GetMTime();
+
   return false;
 }
 
@@ -604,28 +513,56 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 typename SpatialObject< TDimension >::ChildrenListType *
 SpatialObject< TDimension >
-::GetChildren(unsigned int depth, char *name) const
+::GetChildren(unsigned int depth, const std::string & name) const
 {
-  if ( !m_TreeNode )
-    {
-    return nullptr;
-    }
-
-  typename TreeNodeType::ChildrenListType * children =
-    m_TreeNode->GetChildren(depth, name);
-  typename TreeNodeType::ChildrenListType::const_iterator it =
-    children->begin();
-
   auto * childrenSO = new ChildrenListType;
 
-  while ( it != children->end() )
+  auto it = m_InternalChildrenList->begin();
+  while ( it != m_InternChildrenList->end() )
     {
-    childrenSO->push_back( ( *it )->Get() );
+    if( name.compare( 0, name.size(), (*it)->Get()->GetTypeName() ) == 0 )
+      {
+      childrenSO->push_back( ( *it )->Get() );
+      }
     it++;
     }
 
-  delete children;
+  if( depth > 0 )
+    {
+    it = m_InternChildrenList->begin();
+    while ( it != m_InternChildrenList->end() )
+      {
+      (*it)->Get()->AddChildrenToList( depth-1, name, childrenSO );
+      }
+    }
+
   return childrenSO;
+}
+
+template< unsigned int TDimension >
+void
+SpatialObject< TDimension >
+::AddChildrenToList( unsigned int depth, const std::string & name,
+  ChildrenListType * childrenList ) const
+{
+  auto it = m_InternalChildrenList->begin();
+  while ( it != m_InternalChildrenList->end() )
+    {
+    if( name.compare( 0, name.size(), (*it)->Get()->GetTypeName() ) == 0 )
+      {
+      childrenList->push_back( ( *it )->Get() );
+      }
+    it++;
+    }
+
+  if( depth > 0 )
+    {
+    it = m_InternalChildrenList->begin();
+    while ( it != m_InternalChildrenList->end() )
+      {
+      (*it)->Get()->AddChildrenToList( depth-1, name, childrenList );
+      }
+    }
 }
 
 /** Set children list */
@@ -634,14 +571,13 @@ void
 SpatialObject< TDimension >
 ::SetChildren(ChildrenListType & children)
 {
+  this->RemoveAllChildren();
+
   // Add children
   auto it = children.begin();
-  auto itEnd = children.end();
-
-  while ( it != itEnd )
+  while ( it != children.end() )
     {
-    static_cast< TreeNodeType * >(
-      m_TreeNode.GetPointer() )->AddChild( ( *it )->GetModifiableTreeNode() );
+    this->AddChild( ( *it )->Get() );
     it++;
     }
 }
@@ -650,9 +586,29 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 unsigned int
 SpatialObject< TDimension >
-::GetNumberOfChildren(unsigned int depth, char *name) const
+::GetNumberOfChildren(unsigned int depth, const std::string & name) const
 {
-  return m_TreeNode->GetNumberOfChildren(depth, name);
+  unsigned int ccount = 0;
+  auto it = m_InternalChildrenList->begin();
+  while ( it != m_InternalChildrenList->end() )
+    {
+    if( name.compare( 0, name.size(), (*it)->Get()->GetTypeName() ) == 0 )
+      {
+      ++ccount;
+      }
+    it++;
+    }
+
+  if( depth > 0 )
+    {
+    it = m_InternalChildrenList->begin();
+    while ( it != m_InternalChildrenList->end() )
+      {
+      ccount += (*it)->Get()->GetNumberOfChildren( depth-1, name );
+      }
+    }
+
+  return ccount;
 }
 
 /** Return the Modified time of the LocalToGlobalTransform */
@@ -670,7 +626,7 @@ unsigned long
 SpatialObject< TDimension >
 ::GetWorldTransformMTime()
 {
-  return m_IndexToWorldTransform->GetMTime();
+  return m_ObjectToWorldTransform->GetMTime();
 }
 
 /** Get the parent of the spatial object */
@@ -679,11 +635,7 @@ SpatialObject< TDimension > *
 SpatialObject< TDimension >
 ::GetParent()
 {
-  if ( m_TreeNode->HasParent() )
-    {
-    return m_TreeNode->GetParent()->Get();
-    }
-  return nullptr;
+  return m_Parent;
 }
 
 /** Get the parent of the spatial object */
@@ -692,11 +644,7 @@ const SpatialObject< TDimension > *
 SpatialObject< TDimension >
 ::GetParent() const
 {
-  if ( m_TreeNode->HasParent() )
-    {
-    return m_TreeNode->GetParent()->Get();
-    }
-  return nullptr;
+  return m_Parent;
 }
 
 /** Set the parent of the spatial object */
@@ -705,13 +653,25 @@ void
 SpatialObject< TDimension >
 ::SetParent(Self *parent)
 {
-  if ( !parent )
+  if( parent != m_Parent )
     {
-    m_TreeNode->SetParent(nullptr);
-    }
-  else
-    {
-    m_TreeNode->SetParent( parent->GetModifiableTreeNode() );
+    Self * oldParent = m_Parent;
+    m_Parent = parent;
+    if( parent != nullptr )
+      {
+      m_ParentId = parent->GetId();
+      this->ComputeObjectToParentTransform();
+      m_Parent->AddChild( this );
+      }
+    else
+      {
+      m_parentId = 0;
+      this->SetObjectToParentTransform( this->GetObjectToWorldTransform() );
+      }
+    if( oldParent != nullptr )
+      {
+      oldParent->RemoveChild( this );
+      }
     }
 }
 
@@ -721,7 +681,11 @@ bool
 SpatialObject< TDimension >
 ::HasParent() const
 {
-  return m_TreeNode->HasParent();
+  if( m_Parent == nullptr )
+    {
+    return false;
+    }
+  return true;
 }
 
 /** Set the largest possible region */
@@ -783,12 +747,13 @@ SpatialObject< TDimension >
   const SizeType & requestedRegionSize = m_RequestedRegion.GetSize();
   const SizeType & bufferedRegionSize = m_BufferedRegion.GetSize();
 
-  for ( i = 0; i < m_Dimension; i++ )
+  for ( i = 0; i < ObjectDimension; i++ )
     {
     if ( ( requestedRegionIndex[i] < bufferedRegionIndex[i] )
-         || ( ( requestedRegionIndex[i] + static_cast< OffsetValueType >( requestedRegionSize[i] ) )
+         || ( ( requestedRegionIndex[i]
+             + static_cast< OffsetValueType >( requestedRegionSize[i] ) )
               > ( bufferedRegionIndex[i]
-                  + static_cast< OffsetValueType >( bufferedRegionSize[i] ) ) ) )
+                 + static_cast< OffsetValueType >( bufferedRegionSize[i] ) ) ) )
       {
       return true;
       }
@@ -804,7 +769,6 @@ SpatialObject< TDimension >
   if ( m_BufferedRegion != region )
     {
     m_BufferedRegion = region;
-    this->ComputeOffsetTable();
     this->Modified();
     }
 }
@@ -825,14 +789,17 @@ SpatialObject< TDimension >
     m_LargestPossibleRegion.GetIndex();
 
   const SizeType & requestedRegionSize = m_RequestedRegion.GetSize();
-  const SizeType & largestPossibleRegionSize = m_LargestPossibleRegion.GetSize();
+  const SizeType & largestPossibleRegionSize =
+    m_LargestPossibleRegion.GetSize();
 
-  for ( i = 0; i < m_Dimension; i++ )
+  for ( i = 0; i < ObjectDimension; i++ )
     {
     if ( ( requestedRegionIndex[i] < largestPossibleRegionIndex[i] )
-         || ( ( requestedRegionIndex[i] + static_cast< OffsetValueType >( requestedRegionSize[i] ) )
+         || ( ( requestedRegionIndex[i]
+             + static_cast< OffsetValueType >( requestedRegionSize[i] ) )
               > ( largestPossibleRegionIndex[i]
-                  + static_cast< OffsetValueType >( largestPossibleRegionSize[i] ) ) ) )
+                 + static_cast< OffsetValueType >(
+                   largestPossibleRegionSize[i] ) ) ) )
       {
       retval = false;
       }
@@ -858,32 +825,22 @@ void
 SpatialObject< TDimension >
 ::SetRequestedRegion(const DataObject *data)
 {
-  const auto * imgData = dynamic_cast< const SpatialObject * >( data );
+  const auto * soData = dynamic_cast< const SpatialObject * >( data );
+  const auto * imgData = dynamic_cast< const ImageBase * >( data );
 
-  if ( imgData == nullptr)
+  if( soData != nullptr )
     {
-    // pointer could not be cast back down
-    itkExceptionMacro(
-      << "itk::ImageBase::SetRequestedRegion(const DataObject *) cannot cast "
-      << typeid( data ).name() << " to " << typeid( SpatialObject * ).name() );
+    m_RequestedRegion = soData->GetRequestedRegion();
     }
-
-  m_RequestedRegion = imgData->GetRequestedRegion();
-}
-
-template< unsigned int TDimension >
-void
-SpatialObject< TDimension >
-::ComputeOffsetTable()
-{
-  OffsetValueType  num = 1;
-  const SizeType & bufferSize = m_BufferedRegion.GetSize();
-
-  m_OffsetTable[0] = static_cast< OffsetValueType >( num );
-  for ( unsigned int i = 0; i < m_Dimension; i++ )
+  else if( imgData != nullptr )
     {
-    num *= bufferSize[i];
-    m_OffsetTable[i + 1] = static_cast< OffsetValueType >( num );
+    m_RequestedRegion = imgData->GetRequestedRegion();
+    }
+  else
+    {
+    itkExceptionMacro(
+      << "SpatialObject::SetRequestedRegion(const DataObject *) cannot cast "
+      << typeid( data ).name() << " to " << typeid( SpatialObject * ).name() );
     }
 }
 
@@ -914,67 +871,18 @@ SpatialObject< TDimension >
   this->Modified();
 }
 
-template< unsigned int TDimension >
-bool
-SpatialObject< TDimension >
-::SetInternalInverseTransformToWorldToIndexTransform() const
-{
-  if( this->m_InternalInverseTransform.IsNull() )
-    {
-    return false;
-    }
-  return true;
-}
-
-template< unsigned int TDimension >
-void
-SpatialObject< TDimension >
-::SetNodeToParentNodeTransform(TransformType *transform)
-{
-  if ( !m_TreeNode )
-    {
-    static_cast< TreeNodeType * >(
-      m_TreeNode.GetPointer() )->SetNodeToParentNodeTransform(transform);
-    }
-}
-
-template< unsigned int TDimension >
-typename SpatialObject< TDimension >::TransformType *
-SpatialObject< TDimension >
-::GetNodeToParentNodeTransform()
-{
-  if ( m_TreeNode )
-    {
-    return static_cast< TreeNodeType * >(
-             m_TreeNode.GetPointer() )->GetNodeToParentNodeTransform();
-    }
-  return nullptr;
-}
-
-template< unsigned int TDimension >
-const typename SpatialObject< TDimension >::TransformType *
-SpatialObject< TDimension >
-::GetNodeToParentNodeTransform() const
-{
-  if ( m_TreeNode )
-    {
-    return static_cast< TreeNodeType * >(
-             m_TreeNode.GetPointer() )->GetNodeToParentNodeTransform();
-    }
-  return nullptr;
-}
-
 /** Return the type of the spatial object as a string
  *  This is used by the SpatialObjectFactory */
 template< unsigned int TDimension >
 std::string
-SpatialObject< TDimension >::GetSpatialObjectTypeAsString() const
+SpatialObject< TDimension >::GetClassNameAndDimension() const
 {
   std::ostringstream n;
 
   n << GetNameOfClass();
   n << "_";
   n << TDimension;
+
   return n.str();
 }
 
@@ -989,9 +897,9 @@ void SpatialObject< TDimension >
   // Attempt to cast data to an ImageBase
   const SpatialObject *imgData;
 
-  imgData = dynamic_cast< const SpatialObject * >( data );
+  soData = dynamic_cast< const SpatialObject * >( data );
 
-  if ( imgData == nullptr )
+  if ( soData == nullptr )
     {
     // pointer could not be cast back down
     itkExceptionMacro( << "itk::SpatialObject::CopyInformation() cannot cast "
@@ -1012,16 +920,13 @@ void SpatialObject< TDimension >
     }
 
   // copy the properties
-  this->GetProperty()->SetRed( source->GetProperty()->GetRed() );
-  this->GetProperty()->SetGreen( source->GetProperty()->GetGreen() );
-  this->GetProperty()->SetBlue( source->GetProperty()->GetBlue() );
-  this->GetProperty()->SetAlpha( source->GetProperty()->GetAlpha() );
-  this->GetProperty()->SetName( source->GetProperty()->GetName().c_str() );
+  this->GetProperty()->CopyInformation( source->GetProperty() );
 
   // copy the ivars
-  this->SetId( source->GetId() );
-  this->SetParentId( source->GetParentId() );
+  this->SetObjectToWorldTransform( source-GetObjectToWorldTransform() );
+  this->SetParent( source->GetParent() );
 }
+
 } // end of namespace itk
 
 #endif // __SpatialObject_hxx
