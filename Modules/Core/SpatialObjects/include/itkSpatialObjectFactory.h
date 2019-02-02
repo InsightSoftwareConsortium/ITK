@@ -47,9 +47,9 @@ public:
     typename T::Pointer t = T::New();
     SpatialObjectFactoryBase::Pointer f =
       SpatialObjectFactoryBase::GetFactory();
-    f->RegisterSpatialObject ( t->GetSpatialObjectTypeAsString().c_str(),
-                               t->GetSpatialObjectTypeAsString().c_str(),
-                               t->GetSpatialObjectTypeAsString().c_str(),
+    f->RegisterSpatialObject ( t->GetClassNameAndDimension().c_str(),
+                               t->GetClassNameAndDimension().c_str(),
+                               t->GetClassNameAndDimension().c_str(),
                                1,
                                CreateObjectFunction< T >::New() );
   }
