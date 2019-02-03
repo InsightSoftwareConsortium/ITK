@@ -76,11 +76,6 @@ public:
   /** Get a pointer to the image currently attached to the object. */
   const ImageType * GetImage() const;
 
-  /** Return true if the object is evaluable at the requested point,
-   *  and else otherwise. */
-  bool IsEvaluableAt(const PointType & point,
-                     unsigned int depth = 0, char *name = nullptr) const override;
-
   /** Returns the value of the image at the requested point.
    *  If the point is not inside the object, then an exception is thrown.
    * \sa ExceptionObject */
@@ -91,13 +86,8 @@ public:
   bool IsInside(const PointType & point,
                 unsigned int depth, char *name) const override;
 
-  /** Test whether a point is inside or outside the object
-   *  For computational speed purposes, it is faster if the method does not
-   *  check the name of the class and the current depth */
-  bool IsInside(const PointType & point) const;
-
   /** Compute the boundaries of the iamge spatial object. */
-  bool ComputeLocalBoundingBox() const override;
+  bool ComputeObjectBoundingBox() const override;
 
   /** Returns the latest modified time of the object and its component. */
   ModifiedTimeType GetMTime() const override;
@@ -131,7 +121,7 @@ protected:
 
   typename InterpolatorType::Pointer m_Interpolator;
   template <typename T>
-    void InternalSetPixelType(const T *)
+  void InternalSetPixelType(const T *)
   {
     itkWarningMacro("itk::ImageSpatialObject() : PixelType not recognized");
   }
