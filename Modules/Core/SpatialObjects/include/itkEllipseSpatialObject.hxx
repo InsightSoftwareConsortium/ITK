@@ -30,7 +30,7 @@ EllipseSpatialObject< TDimension >
 {
   this->SetTypeName("EllipseSpatialObject");
   m_Radius.Fill(1.0);
-  this->SetDimension(TDimension);
+  m_Center.Fill(1.0);
 }
 
 /** Set all radii to the same radius value */
@@ -39,10 +39,11 @@ void
 EllipseSpatialObject< TDimension >
 ::SetRadius(double radius)
 {
-  for ( unsigned int i = 0; i < NumberOfDimension; i++ )
+  for ( unsigned int i = 0; i < ObjectDimension; i++ )
     {
     m_Radius[i] = radius;
     }
+  this->Modified();
 }
 
 template< unsigned int TDimension >
@@ -50,21 +51,18 @@ auto
 EllipseSpatialObject<TDimension>::GetCenterPoint() const
 -> PointType
 {
-  PointType originPoint;
-  originPoint.Fill(0);
-  // GetObjectToWorldTransform() never returns nullptr, no need to check.
-  return originPoint + this->GetObjectToWorldTransform()->GetOffset();
+  return m_Center
 }
 
 template< unsigned int TDimension >
 void
 EllipseSpatialObject<TDimension>::SetCenterPoint(const PointType& point)
 {
-  PointType originPoint;
-  originPoint.Fill(0);
-  // GetModifiableObjectToWorldTransform() never returns nullptr, no need to check.
-  this->GetModifiableObjectToWorldTransform()->SetOffset(point - originPoint);
-  this->ComputeObjectToParentTransform();
+  for ( unsigned int i = 0; i < ObjectDimension; i++ )
+    {
+    m_Center[i] = point[i];
+    }
+  this->Modified();
 }
 
 /** Test whether a point is inside or outside the object
@@ -73,144 +71,93 @@ EllipseSpatialObject<TDimension>::SetCenterPoint(const PointType& point)
 template< unsigned int TDimension >
 bool
 EllipseSpatialObject< TDimension >
-::IsInside(const PointType & point) const
+::IsInside(const PointType & point, unsigned int depth,
+  const std::string & name) const
 {
-  if ( !this->SetInternalInverseTransformToWorldToIndexTransform() )
+  if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    return false;
-    }
+    PointType transformedPoint =
+      this->GetObjectToWorldTransform()->GetInverse()->TransformPoint(point);
 
-  PointType transformedPoint =
-    this->GetInternalInverseTransform()->TransformPoint(point);
-
-  double r = 0;
-  for ( unsigned int i = 0; i < TDimension; i++ )
-    {
-    if ( m_Radius[i] != 0.0 )
+    double r = 0;
+    for ( unsigned int i = 0; i < TDimension; i++ )
       {
-      r += ( transformedPoint[i] * transformedPoint[i] ) / ( m_Radius[i] * m_Radius[i] );
+      if ( m_Radius[i] != 0.0 )
+        {
+        r += ( transformedPoint[i] * transformedPoint[i] )
+             / ( m_Radius[i] * m_Radius[i] );
+        }
+      else if ( transformedPoint[i] > 0.0 )  // Degenerate ellipse
+        {
+        r = 2; // Keeps function from returning true here
+        break;
+        }
       }
-    else if ( transformedPoint[i] > 0.0 )  // Degenerate ellipse
+
+    if ( r < 1 )
       {
-      r = 2; // Keeps function from returning true here
-      break;
+      return true;
       }
     }
 
-  if ( r < 1 )
+  if( depth > 0 )
     {
-    return true;
+    return Superclass::IsInsideChildren( point, depth-1, name );
     }
+
   return false;
-}
-
-/** Test if the given point is inside the ellipse */
-template< unsigned int TDimension >
-bool
-EllipseSpatialObject< TDimension >
-::IsInside(const PointType & point, unsigned int depth, char *name) const
-{
-  itkDebugMacro("Checking the point [" << point << "] is inside the Ellipse");
-
-  if ( name == nullptr )
-    {
-    if ( IsInside(point) )
-      {
-      return true;
-      }
-    }
-  else if ( strstr(typeid( Self ).name(), name) )
-    {
-    if ( IsInside(point) )
-      {
-      return true;
-      }
-    }
-
-  return Superclass::IsInside(point, depth, name);
 }
 
 /** Compute the bounds of the ellipse */
 template< unsigned int TDimension >
 bool
 EllipseSpatialObject< TDimension >
-::ComputeLocalBoundingBox() const
+::ComputeObjectBoundingBox() const
 {
   itkDebugMacro("Computing ellipse bounding box");
 
-  if ( this->GetBoundingBoxChildrenName().empty()
-       || strstr( typeid( Self ).name(),
-                  this->GetBoundingBoxChildrenName().c_str() ) )
+  // First we compute the bounding box in the object space
+  typename BoundingBoxType::Pointer bb = BoundingBoxType::New();
+
+  PointType    pnt1;
+  PointType    pnt2;
+  unsigned int i;
+  for ( i = 0; i < TDimension; i++ )
     {
-    // we need to set the minimum and maximum of the bounding box
-    // the center is always inside the bounding box.
-    PointType center;
-    center.Fill(0);
-    center = this->GetIndexToWorldTransform()->TransformPoint(center);
-    const_cast< BoundingBoxType * >( this->GetBounds() )->SetMinimum(center);
-    const_cast< BoundingBoxType * >( this->GetBounds() )->SetMaximum(center);
-
-    // First we compute the bounding box in the index space
-    typename BoundingBoxType::Pointer bb = BoundingBoxType::New();
-
-    PointType    pntMin;
-    PointType    pntMax;
-    unsigned int i;
-    for ( i = 0; i < TDimension; i++ )
-      {
-      pntMin[i] = -m_Radius[i];
-      pntMax[i] = m_Radius[i];
-      }
-
-    bb->SetMinimum(pntMin);
-    bb->SetMaximum(pntMax);
-
-    bb->ComputeBoundingBox();
-
-    using PointsContainer = typename BoundingBoxType::PointsContainer;
-    const PointsContainer *corners = bb->GetCorners();
-    auto it = corners->begin();
-    while ( it != corners->end() )
-      {
-      PointType pnt = this->GetIndexToWorldTransform()->TransformPoint(*it);
-      const_cast< BoundingBoxType * >( this->GetBounds() )->ConsiderPoint(pnt);
-      ++it;
-      }
+    pnt1[i] = m_Center[i] - m_Radius[i];
+    pnt2[i] = m_Center[i] + m_Radius[i];
     }
+
+  bb->SetMinimum(pnt1);
+  bb->SetMaximum(pnt1);
+  bb->ConsiderPoint(pnt2);
+  bb->ComputeBoundingBox();
+
+  // Next Transform the corners of the bounding box
+  using PointsContainer = typename BoundingBoxType::PointsContainer;
+  const PointsContainer *corners = bb->GetCorners();
+  typename PointsContainer::Pointer transformedCorners =
+    PointsContainer::New();
+  transformedCorners->Reserve(
+    static_cast<typename PointsContainer::ElementIdentifier>(
+      corners->size() ) );
+
+  auto it = corners->begin();
+  auto itTrans = transformedCorners->begin();
+  while ( it != corners->end() )
+    {
+    PointType pnt = this->GetObjectToWorldTransform()->TransformPoint(*it);
+    *itTrans = pnt;
+    ++it;
+    ++itTrans;
+    }
+
+  // refresh the bounding box with the transformed corners
+  const_cast< BoundingBoxType * >( this->GetObjectBounds() )
+    ->SetPoints(transformedCorners);
+  this->GetObjectBounds()->ComputeBoundingBox();
+
   return true;
-}
-
-/** Returns if the ellipse os evaluable at one point */
-template< unsigned int TDimension >
-bool
-EllipseSpatialObject< TDimension >
-::IsEvaluableAt(const PointType & point,
-                unsigned int depth, char *name) const
-{
-  itkDebugMacro("Checking if the ellipse is evaluable at " << point);
-  return IsInside(point, depth, name);
-}
-
-/** Returns the value at one point */
-template< unsigned int TDimension >
-bool
-EllipseSpatialObject< TDimension >
-::ValueAt(const PointType & point, double & value, unsigned int depth,
-          char *name) const
-{
-  itkDebugMacro("Getting the value of the ellipse at " << point);
-  if ( IsInside(point, 0, name) )
-    {
-    value = this->GetDefaultInsideValue();
-    return true;
-    }
-  else if ( Superclass::IsEvaluableAt(point, depth, name) )
-    {
-    Superclass::ValueAt(point, value, depth, name);
-    return true;
-    }
-  value = this->GetDefaultOutsideValue();
-  return false;
 }
 
 /** Print Self function */
@@ -221,29 +168,9 @@ EllipseSpatialObject< TDimension >
 {
   Superclass::PrintSelf(os, indent);
   os << "Radius: " << m_Radius << std::endl;
+  os << "Center: " << m_Center << std::endl;
 }
 
-/** Copy the information from another spatial object */
-template< unsigned int TDimension >
-void EllipseSpatialObject< TDimension >
-::CopyInformation(const DataObject *data)
-{
-  // check if we are the same type
-  const auto * source = dynamic_cast< const Self * >( data );
-
-  if ( !source )
-    {
-    std::cout << "CopyInformation: objects are not of the same type"
-              << std::endl;
-    return;
-    }
-
-  // copy the properties
-  Superclass::CopyInformation(data);
-
-  // copy the internal info
-  this->SetRadius( source->GetRadius() );
-}
 } // end namespace itk
 
 #endif

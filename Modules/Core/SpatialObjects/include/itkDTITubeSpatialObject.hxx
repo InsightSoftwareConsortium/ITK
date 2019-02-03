@@ -29,7 +29,6 @@ DTITubeSpatialObject< TDimension >
 ::DTITubeSpatialObject()
 {
   this->m_ParentPoint = -1;
-  this->SetDimension(TDimension);
   this->SetTypeName("DTITubeSpatialObject");
 }
 
