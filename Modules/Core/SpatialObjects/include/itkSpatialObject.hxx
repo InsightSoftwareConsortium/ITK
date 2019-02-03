@@ -32,8 +32,19 @@ SpatialObject< TDimension >
 ::SpatialObject()
 {
   m_TypeName = "SpatialObject";
+
   m_Bounds = BoundingBoxType::New();
+  typename BoundingBoxType::PointType pnt;
+  pnt.Fill( NumericTraits< typename BoundingBoxType::PointType::ValueType >::
+    ZeroValue() );
+  m_Bounds->SetMinimum(pnt);
+  m_Bounds->SetMaximum(pnt);
   m_BoundsMTime = 0;
+
+  m_ObjectBounds = BoundingBoxType::New();
+  m_ObjectBounds->SetMinimum(pnt);
+  m_ObjectBounds->SetMaximum(pnt);
+
   m_Property = PropertyType::New();
 
   m_ObjectToWorldTransform = TransformType::New();
@@ -41,7 +52,6 @@ SpatialObject< TDimension >
   m_ObjectToParentTransform = TransformType::New();
   m_ObjectToParentTransform->SetIdentity();
 
-  m_BoundingBoxChildrenDepth = MaximumDepth;
   m_Id = -1;
   m_ParentId = -1;
   m_DefaultInsideValue = 1.0;
@@ -61,7 +71,8 @@ template< unsigned int TDimension >
 void
 SpatialObject< TDimension >
 ::DerivativeAt(const PointType & point, short unsigned int order,
-               DerivativeVectorType & value, unsigned int depth, const std::string & name,
+               DerivativeVectorType & value, unsigned int depth,
+               const std::string & name,
                const SpacingVectorType & spacing)
 {
   if ( !IsEvaluableAt(point, depth, name) )
@@ -115,25 +126,36 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 SpatialObject< TDimension >
-::IsInside(const PointType &  point, unsigned int depth, const std::string & name) const
+::IsInside(const PointType &  point, unsigned int depth,
+  const std::string & name) const
 {
-  if ( depth > 0 )
+  if( depth > 0 )
     {
-    using TreeChildrenListType = typename TreeNodeType::ChildrenListType;
-    TreeChildrenListType *children = m_TreeNode->GetChildren();
-    typename TreeChildrenListType::const_iterator it = children->begin();
-    typename TreeChildrenListType::const_iterator itEnd = children->end();
+    return IsInsideChildren( point, depth-1, name );
+    }
+  else
+    {
+    return false;
+    }
+}
 
-    while ( it != itEnd )
+/** Return if a point is inside the object or its children */
+template< unsigned int TDimension >
+bool
+SpatialObject< TDimension >
+::IsInsideChildren(const PointType &  point, unsigned int depth,
+  const std::string & name) const
+{
+  typename ChildrenListType::const_iterator it =
+    m_ChildrenList->begin();
+
+  while ( it != m_ChildrenList->end() )
+    {
+    if ( ( *it )->Get()->IsInside(point, depth, name) )
       {
-      if ( ( *it )->Get()->IsInside(point, depth - 1, name) )
-        {
-        delete children;
-        return true;
-        }
-      it++;
+      return true;
       }
-    delete children;
+    it++;
     }
 
   return false;
@@ -144,22 +166,42 @@ template< unsigned int TDimension >
 bool
 SpatialObject< TDimension >
 ::IsEvaluableAt(const PointType & point, unsigned int depth,
-                const std::string & name) const
+  const std::string & name) const
 {
-  if ( depth > 0 )
+  if( IsInide( point, 0, name ) )
     {
-    ChildrenListType *children = this->GetChildren( depth, name );
-
-    while ( it != itEnd )
+    return true;
+    }
+  else
+    {
+    if( depth > 0 )
       {
-      if ( ( *it )->Get()->IsEvaluableAt(point, depth - 1, name) )
-        {
-        delete children;
-        return true;
-        }
-      it++;
+      return IsEvaluableAtChildren( point, depth-1, name );
       }
-    delete children;
+    else
+      {
+      return false;
+      }
+    }
+}
+
+/** Return if the object is evaluable at a point */
+template< unsigned int TDimension >
+bool
+SpatialObject< TDimension >
+::IsEvaluableAtChildren(const PointType & point, unsigned int depth,
+  const std::string & name) const
+{
+  typename ChildrenListType::const_iterator it =
+    m_ChildrenList->begin();
+
+  while ( it != m_ChildrenList->end() )
+    {
+    if ( ( *it )->Get()->IsEvaluableAt(point, depth, name) )
+      {
+      return true;
+      }
+    it++;
     }
 
   return false;
@@ -172,30 +214,54 @@ SpatialObject< TDimension >
 ::ValueAt(const PointType & point, double & value, unsigned int depth,
           const std::string & name) const
 {
-  bool evaluable = false;
-
-  value = 0;
-  if ( depth > 0 )
+  if( IsEvaluableAt( point, 0, name ) )
     {
-    ChildrenListType *children = this->GetChildren( depth, name );
-
-    while ( it != itEnd )
+    if( IsInide( point, 0, name ) )
       {
-      if ( ( *it )->Get()->IsEvaluableAt(point, depth - 1, name) )
-        {
-        ( *it )->Get()->ValueAt(point, value, depth - 1, name);
-        evaluable = true;
-        break;
-        }
-      it++;
+      value = m_DefaultInsideValue;
+      return true;
       }
-    delete children;
+    else
+      {
+      value = m_DefaultOutsideValue;
+      return true;
+      }
+    }
+  else
+    {
+    if( depth > 0 )
+      {
+      return ValueAtChildren( point, value, depth-1, name );
+      }
+    else
+      {
+      value = m_DefaultOutsideValue;
+      return false;
+      }
+
+    }
+}
+
+/** Return the value of the object at a point */
+template< unsigned int TDimension >
+bool
+::ValueAtChildren(const PointType & point, double & value, unsigned int depth,
+          const std::string & name) const
+{
+  typename ChildrenListType::const_iterator it =
+    m_ChildrenList->begin();
+
+  while ( it != m_ChildrenList->end() )
+    {
+    if ( ( *it )->Get()->IsEvaluableAt(point, depth, name) )
+      {
+      ( *it )->Get()->ValueAt(point, value, depth, name);
+      return true;
+      }
+    it++;
     }
 
-  if ( evaluable )
-    {
-    return true;
-    }
+  value = m_DefaultOutsideValue;
   return false;
 }
 
@@ -206,16 +272,16 @@ SpatialObject< TDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+  os << "Object Bounding Box:" << std::endl;
+  os << indent << m_ObjectBounds << std::endl;
   os << "Bounding Box:" << std::endl;
   os << indent << m_Bounds << std::endl;
   os << "Geometric properties:" << std::endl;
   os << indent << "Object to World Transform: " << m_ObjectToWorldTransform
      << std::endl;
+  os << indent << "Object to Parent Transform: " << m_ObjectToParentTransform
+     << std::endl;
   os << std::endl << std::endl;
-  os << indent << "Bounding Box Children Depth: " << m_BoundingBoxChildrenDepth
-     << std::endl;
-  os << indent << "Bounding Box Children Name: " << m_BoundingBoxChildrenName
-     << std::endl;
   os << "Object properties: " << std::endl;
   os << m_Property << std::endl;
 }
@@ -236,11 +302,11 @@ SpatialObject< TDimension >
 ::AddChild(Self *pointer)
 {
   typename ChildrenListType::iterator pos;
-  pos = std::find(m_InternalChildrenList.begin(),
-                  m_InternalChildrenList.end(), pointer);
-  if( pos == m_InternalChildrenList.end() )
+  pos = std::find(m_ChildrenList.begin(),
+                  m_ChildrenList.end(), pointer);
+  if( pos == m_ChildrenList.end() )
     {
-    m_InternalChildrenList.push_back(pointer);
+    m_ChildrenList.push_back(pointer);
 
     pointer->SetParent( this );
 
@@ -255,13 +321,13 @@ SpatialObject< TDimension >
 ::RemoveChild(Self *pointer)
 {
   typename ChildrenListType::iterator pos;
-  pos = std::find(m_InternalChildrenList.begin(),
-                  m_InternalChildrenList.end(), pointer);
-  if ( pos != m_InternalChildrenList.end() )
+  pos = std::find(m_ChildrenList.begin(),
+                  m_ChildrenList.end(), pointer);
+  if ( pos != m_ChildrenList.end() )
     {
     pointer->SetParent( nullptr );
 
-    m_InternalChildrenList.erase(pos);
+    m_ChildrenList.erase(pos);
 
     this->Modified();
 
@@ -279,11 +345,11 @@ void
 SpatialObject< TDimension >
 ::RemoveAllChildren( unsigned int depth )
 {
-  typename ChildrenListType::iterator it = m_InternalChildrenList.begin();
-  while( it != m_InternalChildrenList.end() )
+  typename ChildrenListType::iterator it = m_ChildrenList.begin();
+  while( it != m_ChildrenList.end() )
     {
     Self * oldChild = (*it)->Get();
-    it = m_InternalChildrenList.erase( it );
+    it = m_ChildrenList.erase( it );
     oldChild->SetParent( nullptr );
     if( depth > 0 )
       {
@@ -322,15 +388,12 @@ SpatialObject< TDimension >
     }
 
   // Propagate the changes to the children
-  ChildrenListType *children = this->GetChildren();
-  typename ChildrenListType::iterator it = children->begin();
-  typename ChildrenListType::iterator itEnd = children->end();
-  while ( it != itEnd )
+  typename ChildrenListType::iterator it = m_ChildrenList->begin();
+  while ( it != m_ChildrenList->end() )
     {
     ( *it )->Get()->ComputeObjectToWorldTransform();
     it++;
     }
-  delete children;
 }
 
 /** Get the local transformation */
@@ -396,12 +459,10 @@ SpatialObject< TDimension >
     latestTime = m_BoundsMTime;
     }
 
-  ChildrenListType *children = this->GetChildren();
-  typename ChildrenListType::const_iterator it = children->begin();
-  typename ChildrenListType::const_iterator itEnd = children->end();
+  typename ChildrenListType::const_iterator it = m_ChildrenList->begin();
   ModifiedTimeType localTime;
 
-  while( it != itEnd )
+  while( it != m_ChildrenList->end() )
     {
     localTime = ( *it )->Get()->GetMTime();
 
@@ -411,77 +472,44 @@ SpatialObject< TDimension >
       }
     it++;
     }
-  delete children;
 
   return latestTime;
+}
+
+template< unsigned int TDimension >
+bool
+SpatialObject< TDimension >
+::ComputeObjectBoundingBox() const
+{
+  typename BoundingBoxType::PointType pnt;
+  pnt.Fill( NumericTraits< typename BoundingBoxType::PointType::ValueType >::
+    ZeroValue() );
+  m_ObjectBounds->SetMinimum(pnt);
+  m_ObjectBounds->SetMaximum(pnt);
+
+  return false;
+}
+
+
+/** Get the bounds of the object */
+template< unsigned int TDimension >
+typename SpatialObject< TDimension >::BoundingBoxType *
+SpatialObject< TDimension >
+::GetObjectBoundingBox() const
+{
+  return m_ObjectBounds.GetPointer();
 }
 
 /**
  * Compute an axis-aligned bounding box for an object and its selected
  * children, down to a specified depth.  After computation, the
- * resulting bounding box is stored in this->m_Bounds.
- *
- * By default, the bounding box children depth is maximum, meaning that
- * the bounding box for the object and all its recursive children is computed.
- * This depth can be set (before calling ComputeBoundingBox) using
- * SetBoundingBoxChildrenDepth().
- *
- * By calling SetBoundingBoxChildrenName(), it is possible to restrict
- * the bounding box computation to objects of a specified type or
- * family of types.  The spatial objects included in the computation
- * are those whose typenames share, as their initial substring, the
- * string specified via SetBoundingBoxChildrenName().  The root
- * spatial object (on which the method is called) is not treated
- * specially.  If its typename does not match the bounding box
- * children name, then it is not included in the bounding box
- * computation, but its descendents that match the string are
- * included.
- */
+ * resulting bounding box is stored in this->m_Bounds.  */
 template< unsigned int TDimension >
 bool
 SpatialObject< TDimension >
-::ComputeBoundingBox() const
+::ComputeBoundingBox( unsigned int depth, const std::string & name ) const
 {
   itkDebugMacro("Computing Bounding Box");
-  this->ComputeLocalBoundingBox();
-
-  if ( m_BoundingBoxChildrenDepth > 0 )
-    {
-    typename ChildrenListType::const_iterator it =
-      m_InternalChildrenList->begin();
-    while ( it != m_InternalChildrenList->end() )
-      {
-      ( *it )->Get()->SetBoundingBoxChildrenDepth(
-        m_BoundingBoxChildrenDepth - 1 );
-      ( *it )->Get()->SetBoundingBoxChildrenName( m_BoundingBoxChildrenName );
-      ( *it )->Get()->ComputeBoundingBox();
-
-      // If the bounding box is not defined we set the minimum and maximum
-      bool bbDefined = false;
-      for ( unsigned int i = 0; i < ObjectDimension; i++ )
-        {
-        if ( Math::NotExactlyEquals(m_Bounds->GetBounds()[2 * i], 0)
-             || Math::NotExactlyEquals(m_Bounds->GetBounds()[2 * i + 1], 0) )
-          {
-          bbDefined = true;
-          break;
-          }
-        }
-
-      if ( !bbDefined )
-        {
-        m_Bounds->SetMinimum( ( *it )->Get()->GetBoundingBox()->GetMinimum() );
-        m_Bounds->SetMaximum( ( *it )->Get()->GetBoundingBox()->GetMaximum() );
-        }
-      else
-        {
-        m_Bounds->ConsiderPoint( ( *it )->Get()->GetBoundingBox()->GetMinimum() );
-        m_Bounds->ConsiderPoint( ( *it )->Get()->GetBoundingBox()->GetMaximum() );
-        }
-      it++;
-      }
-    return true;
-    }
 
   typename BoundingBoxType::PointType pnt;
   pnt.Fill( NumericTraits< typename BoundingBoxType::PointType::ValueType >::
@@ -489,8 +517,48 @@ SpatialObject< TDimension >
   m_Bounds->SetMinimum(pnt);
   m_Bounds->SetMaximum(pnt);
   m_BoundsMTime = this->GetMTime();
+  bool bbDefined = false;
 
-  return false;
+  if( this->GetTypeName().find( name ) != std::string::npos )
+    {
+    PointType pointMin = this->GetObjectBoundingBox()->GetMinimum();
+    PointType pointMax = this->GetObjectBoundingBox()->GetMaximum();
+    for ( unsigned int i = 0; i < ObjectDimension; i++ )
+      {
+      if ( Math::NotExactlyEquals(pointMin[i], 0)
+           || Math::NotExactlyEquals(pointMax[i], 0) )
+        {
+        bbDefined = true;
+        m_Bounds->SetMinimum( pointMin )
+        m_Bounds->SetMaximum( pointMax )
+        break;
+        }
+      }
+    }
+
+  if( depth > 0 )
+    {
+    typename ChildrenListType::const_iterator it = m_ChildrenList->begin();
+    while( it != m_ChildrenList->end() )
+      {
+      ( *it )->Get()->ComputeBoundingBox( depth-1, name );
+
+      if( !bbDefined )
+        {
+        m_Bounds->SetMinimum( ( *it )->Get()->GetBoundingBox()->GetMinimum() );
+        m_Bounds->SetMaximum( ( *it )->Get()->GetBoundingBox()->GetMaximum() );
+        bbDefined = true;
+        }
+      else
+        {
+        m_Bounds->ConsiderPoint( (*it)->Get()->GetBoundingBox()->GetMinimum() );
+        m_Bounds->ConsiderPoint( (*it)->Get()->GetBoundingBox()->GetMaximum() );
+        }
+      it++;
+      }
+    }
+
+  return bbDefined;
 }
 
 /** Get the children list.
@@ -503,10 +571,10 @@ SpatialObject< TDimension >
 {
   auto * childrenSO = new ChildrenListType;
 
-  auto it = m_InternalChildrenList->begin();
+  auto it = m_ChildrenList->begin();
   while ( it != m_InternChildrenList->end() )
     {
-    if( name.find( (*it)->Get()->GetTypeName() ) == std::string::npos )
+    if( (*it)->Get()->GetTypeName().find( name ) != std::string::npos )
       {
       childrenSO->push_back( ( *it )->Get() );
       }
@@ -531,10 +599,10 @@ SpatialObject< TDimension >
 ::AddChildrenToList( unsigned int depth, const std::string & name,
   ChildrenListType * childrenList ) const
 {
-  auto it = m_InternalChildrenList->begin();
-  while ( it != m_InternalChildrenList->end() )
+  auto it = m_ChildrenList->begin();
+  while ( it != m_ChildrenList->end() )
     {
-    if( name.find( (*it)->Get()->GetTypeName() ) == std::string::npos )
+    if( (*it)->Get()->GetTypeName().find( name ) != std::string::npos )
       {
       childrenList->push_back( ( *it )->Get() );
       }
@@ -543,8 +611,8 @@ SpatialObject< TDimension >
 
   if( depth > 0 )
     {
-    it = m_InternalChildrenList->begin();
-    while ( it != m_InternalChildrenList->end() )
+    it = m_ChildrenList->begin();
+    while ( it != m_ChildrenList->end() )
       {
       (*it)->Get()->AddChildrenToList( depth-1, name, childrenList );
       }
@@ -575,10 +643,10 @@ SpatialObject< TDimension >
 ::GetNumberOfChildren(unsigned int depth, const std::string & name) const
 {
   unsigned int ccount = 0;
-  auto it = m_InternalChildrenList->begin();
-  while ( it != m_InternalChildrenList->end() )
+  auto it = m_ChildrenList->begin();
+  while ( it != m_ChildrenList->end() )
     {
-    if( name.find( (*it)->Get()->GetTypeName() ) == std::string::npos )
+    if( (*it)->Get()->GetTypeName().find( name ) != std::string::npos )
       {
       ++ccount;
       }
@@ -587,8 +655,8 @@ SpatialObject< TDimension >
 
   if( depth > 0 )
     {
-    it = m_InternalChildrenList->begin();
-    while ( it != m_InternalChildrenList->end() )
+    it = m_ChildrenList->begin();
+    while ( it != m_ChildrenList->end() )
       {
       ccount += (*it)->Get()->GetNumberOfChildren( depth-1, name );
       }
@@ -651,7 +719,7 @@ SpatialObject< TDimension >
       }
     else
       {
-      m_parentId = 0;
+      m_parentId = -1;
       this->SetObjectToParentTransform( this->GetObjectToWorldTransform() );
       }
     if( oldParent != nullptr )
@@ -881,20 +949,19 @@ void SpatialObject< TDimension >
   Superclass::CopyInformation(data);
 
   // Attempt to cast data to an ImageBase
-  const SpatialObject *imgData;
-
-  soData = dynamic_cast< const SpatialObject * >( data );
+  const SpatialObject< TDimension > * soData;
+  soData = dynamic_cast< const SpatialObject< TDimension > * >( data );
 
   if ( soData == nullptr )
     {
     // pointer could not be cast back down
     itkExceptionMacro( << "itk::SpatialObject::CopyInformation() cannot cast "
                        << typeid( data ).name() << " to "
-                       << typeid( SpatialObject * ).name() );
+                       << typeid( SpatialObject< TDimension > * ).name() );
     }
 
   // Copy the meta data for this data type
-  m_LargestPossibleRegion = imgData->GetLargestPossibleRegion();
+  m_LargestPossibleRegion = soData->GetLargestPossibleRegion();
 
   // check if we are the same type
   const auto * source = dynamic_cast< const Self * >( data );
@@ -910,7 +977,11 @@ void SpatialObject< TDimension >
 
   // copy the ivars
   this->SetObjectToWorldTransform( source-GetObjectToWorldTransform() );
-  this->SetParent( source->GetParent() );
+  this->SetDefaultInsideValue( source->GetDefaultInsideValue() );
+  this->SetDefaultOutsideValue( source->GetDefaultOutsideValue() );
+
+  // Do not copy id, parent, or child info
+  // this->SetParent( source->GetParent() );
 }
 
 } // end of namespace itk

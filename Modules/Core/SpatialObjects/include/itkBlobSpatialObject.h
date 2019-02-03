@@ -85,7 +85,10 @@ public:
   }
 
   /** Return a point in the list given the index */
-  SpatialObjectPointType * GetPoint(IdentifierType id) override { return &( m_Points[id] ); }
+  SpatialObjectPointType * GetPoint(IdentifierType id) override
+  {
+    return &( m_Points[id] );
+  }
 
   /** Return the number of points in the list */
   SizeValueType GetNumberOfPoints() const override
@@ -93,26 +96,9 @@ public:
     return static_cast<SizeValueType>( m_Points.size() );
   }
 
-  /** Returns true if the Blob is evaluable at the requested point,
-   *  false otherwise. */
-  bool IsEvaluableAt(const PointType & point,
-                     unsigned int depth = 0, char *name = nullptr) const override;
-
-  /** Returns the value of the Blob at that point.
-   *  Currently this function returns a binary value,
-   *  but it might want to return a degree of membership
-   *  in case of fuzzy Blobs. */
-  bool ValueAt(const PointType & point, double & value,
-               unsigned int depth = 0, char *name = nullptr) const override;
-
   /** Returns true if the point is inside the Blob, false otherwise. */
-  bool IsInside(const PointType & point,
-                unsigned int depth, char *name) const override;
-
-  /** Test whether a point is inside or outside the object
-   *  For computational speed purposes, it is faster if the method does not
-   *  check the name of the class and the current depth */
-  bool IsInside(const PointType & point) const;
+  bool IsInside(const PointType & point, unsigned int depth,
+    const std::string & name) const override;
 
   /** Compute the boundaries of the Blob. */
   bool ComputeLocalBoundingBox() const override;

@@ -30,7 +30,7 @@ ImageMaskSpatialObject< TDimension >
 ::ImageMaskSpatialObject()
 {
   this->SetTypeName("ImageMaskSpatialObject");
-  this->ComputeBoundingBox();
+  this->ComputeObjectBoundingBox();
 }
 
 /** Test whether a point is inside or outside the object
@@ -39,273 +39,106 @@ ImageMaskSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 ImageMaskSpatialObject< TDimension >
-::IsInside(const PointType & point) const
+::IsInside(const PointType & point, unsigned int depth,
+  const std::string & name ) const
 {
-  if ( !this->GetBounds()->IsInside(point) )
+  if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    return false;
-    }
-
-  if ( !this->SetInternalInverseTransformToWorldToIndexTransform() )
-    {
-    return false;
-    }
-
-  PointType p = this->GetInternalInverseTransform()->TransformPoint(point);
-
-  typename Superclass::InterpolatorType::ContinuousIndexType index;
-  for ( unsigned int i = 0; i < TDimension; i++ )
-    {
-    index[i] = p[i];
-    }
-
-  const bool insideBuffer =
-    this->GetImage()->GetBufferedRegion().IsInside(index);
-
-  if ( !insideBuffer )
-    {
-    return false;
-    }
-
-  using InterpolatorOutputType = typename InterpolatorType::OutputType;
-  const bool insideMask = (
-    Math::NotExactlyEquals( DefaultConvertPixelTraits<InterpolatorOutputType>::GetScalarValue(this->m_Interpolator->EvaluateAtContinuousIndex(index)),
-    NumericTraits<PixelType>::ZeroValue() ) );
-  return insideMask;
-}
-
-/** Return true if the given point is inside the image */
-template< unsigned int TDimension >
-bool
-ImageMaskSpatialObject< TDimension >
-::IsInside(const PointType & point, unsigned int depth, char *name) const
-{
-  if ( name == nullptr )
-    {
-    if ( IsInside(point) )
+    if( this->GetObjectBounds()->IsInside(point) )
       {
-      return true;
-      }
-    }
-  else if ( strstr(typeid( Self ).name(), name) )
-    {
-    if ( IsInside(point) )
-      {
-      return true;
-      }
-    }
-  return SpatialObject< TDimension >::IsInside(point, depth, name);
-}
+    PointType p = this->GetObjectWorldTransform()->GetInverse()->
+        TransformPoint(point);
 
-template< unsigned int TDimension >
-typename ImageMaskSpatialObject< TDimension >::RegionType
-ImageMaskSpatialObject< TDimension >
-::GetAxisAlignedBoundingBoxRegion() const
-{
-  // We will use a slice iterator to iterate through slices orthogonal
-  // to each of the axis of the image to find the bounding box. Each
-  // slice iterator iterates from the outermost slice towards the image
-  // center till it finds a mask pixel. For a 3D image, there will be six
-  // slice iterators, iterating from the periphery inwards till the bounds
-  // along each axes are found. The slice iterators save time and avoid
-  // having to walk the whole image. Since we are using slice iterators,
-  // we will implement this only for 3D images.
-
-  PixelType  outsideValue = NumericTraits< PixelType >::ZeroValue();
-  RegionType region;
-
-  ImagePointer image = this->GetImage();
-
-  IndexType index;
-  SizeType  size;
-
-  for(unsigned int i(0); i < ImageType::ImageDimension; i++)
-    {
-    index[i] = 0;
-    size[i] = 0;
-    }
-
-  if ( ImageType::ImageDimension == 3 )
-    {
-    for ( unsigned int axis = 0; axis < ImageType::ImageDimension; axis++ )
-      {
-      // Two slice iterators along each axis...
-      // Find the orthogonal planes for the slices
-      unsigned int i, j;
-      unsigned int direction[2];
-      for ( i = 0, j = 0; i < 3; ++i )
+      typename Superclass::InterpolatorType::ContinuousIndexType index;
+      for ( unsigned int i = 0; i < TDimension; i++ )
         {
-        if ( i != axis )
-          {
-          direction[j] = i;
-          j++;
-          }
+        index[i] = p[i];
         }
 
-      // Create the forward iterator to find lower bound
-      SliceIteratorType fit( image,  image->GetRequestedRegion() );
-      fit.SetFirstDirection(direction[1]);
-      fit.SetSecondDirection(direction[0]);
-
-      fit.GoToBegin();
-      while ( !fit.IsAtEnd() )
+      using InterpolatorOutputType = typename InterpolatorType::OutputType;
+      const bool insideMask = (
+        Math::NotExactlyEquals(
+          DefaultConvertPixelTraits<InterpolatorOutputType>::GetScalarValue(
+            this->m_Interpolator->EvaluateAtContinuousIndex(index)),
+          NumericTraits<PixelType>::ZeroValue() ) );
+      if( insideMask )
         {
-        while ( !fit.IsAtEndOfSlice() )
-          {
-          while ( !fit.IsAtEndOfLine() )
-            {
-            if ( fit.Get() != outsideValue )
-              {
-              index[axis] = fit.GetIndex()[axis];
-              fit.GoToReverseBegin(); // skip to the end
-              break;
-              }
-            ++fit;
-            }
-          fit.NextLine();
-          }
-        fit.NextSlice();
-        }
-
-      // Create the reverse iterator to find upper bound
-      SliceIteratorType rit( image,  image->GetRequestedRegion() );
-      rit.SetFirstDirection(direction[1]);
-      rit.SetSecondDirection(direction[0]);
-
-      rit.GoToReverseBegin();
-      while ( !rit.IsAtReverseEnd() )
-        {
-        while ( !rit.IsAtReverseEndOfSlice() )
-          {
-          while ( !rit.IsAtReverseEndOfLine() )
-            {
-            if ( rit.Get() != outsideValue )
-              {
-              size[axis] = rit.GetIndex()[axis] - index[axis] + 1;
-              rit.GoToBegin(); //Skip to reverse end
-              break;
-              }
-            --rit;
-            }
-          rit.PreviousLine();
-          }
-        rit.PreviousSlice();
+        return true;
         }
       }
-
-    region.SetIndex(index);
-    region.SetSize(size);
     }
-  else
+  if( depth > 0 )
     {
-    //itkExceptionMacro( << "ImageDimension must be 3!" );
-    using IteratorType = ImageRegionConstIteratorWithIndex< ImageType >;
-    IteratorType it( image, image->GetRequestedRegion() );
-    it.GoToBegin();
+    return Superclass( point, depth, name );
+    }
 
-    for ( unsigned int i = 0; i < ImageType::ImageDimension; ++i )
-      {
-      index[i] = image->GetRequestedRegion().GetSize(i);
-      size[i]  = image->GetRequestedRegion().GetIndex(i);
-      }
-
-    while ( !it.IsAtEnd() )
-      {
-      if ( it.Get() != outsideValue )
-        {
-        IndexType tmpIndex = it.GetIndex();
-        for ( unsigned int i = 0; i < ImageType::ImageDimension; ++i )
-          {
-          if ( index[i] > tmpIndex[i] )
-            {
-            index[i] = tmpIndex[i];
-            }
-
-          const auto tmpSize = static_cast< SizeValueType >( tmpIndex[i] );
-
-          if ( size[i]  < tmpSize )
-            {
-            size[i]  = tmpSize;
-            }
-          }
-        }
-      ++it;
-      }
-
-    for ( unsigned int i = 0; i < ImageType::ImageDimension; ++i )
-      {
-      size[i] = size[i] - index[i] + 1;
-      }
-    region.SetIndex(index);
-    region.SetSize(size);
-    } // end else
-
-  return region;
+  return false;
 }
 
 template< unsigned int TDimension >
 bool
 ImageMaskSpatialObject< TDimension >
-::ComputeLocalBoundingBox() const
+::ComputeObjectBoundingBox() const
 {
-  itkDebugMacro("Computing ImageMaskSpatialObject bounding box");
+  using IteratorType = ImageRegionConstIteratorWithIndex< ImageType >;
+  IteratorType it( image, image->GetLargestPossibleRegion() );
+  IteratorType prevIt( image, image->GetLargestPossibleRegion() );
+  it.GoToBegin();
+  prevIt = it;
 
-  if ( this->GetBoundingBoxChildrenName().empty()
-       || strstr( typeid( Self ).name(),
-                  this->GetBoundingBoxChildrenName().c_str() ) )
+  bool first = true;
+  PixelType outsideValue = NumericTraits< PixelType >::ZeroValue();
+  PixelType value = outsideValue;
+  PixelType prevValue = outsideValue;
+  IndexType tmpIndex;
+  PointType tmpPoint;
+  PointType transformedPoint
+  while ( !it.IsAtEnd() )
     {
-
-    // First get the region bounding box...
-    RegionType boundingRegion = GetAxisAlignedBoundingBoxRegion();
-    const typename RegionType::IndexType index = boundingRegion.GetIndex();
-    const typename RegionType::SizeType  size = boundingRegion.GetSize();
-
-    //Now find the corners (by index)
-    using IndexContainerType =
-        VectorContainer< unsigned int, typename RegionType::IndexType >;
-
-    typename IndexContainerType::Pointer cornerInds = IndexContainerType::New();
-
-    unsigned int c = 0;
-    cornerInds->InsertElement(c++, index);
-    for ( unsigned int i = 0; i < ImageType::ImageDimension; ++i )
+    value = it.Get();
+    if ( value != prevValue )
       {
-      unsigned int curSize = cornerInds->Size();
-      for ( unsigned int ii = 0; ii < curSize; ++ii)
+      prevValue = value;
+      if( value == outsideValue )
         {
-        IndexType tmpIndex = cornerInds->ElementAt(ii);
-        tmpIndex[i] += size[i];
-        cornerInds->InsertElement(c++,tmpIndex);
+        tmpIndex = prevIt.GetIndex();
+        }
+      else
+        {
+        tmpIndex = it.GetIndex();
+        }
+      image->TransformIndexToPhysicalPoint( tmpIndex, tmpPoint );
+      transformedPoint =
+        this->GetObjectToWorldTransform()->Transform( tmpPoint );
+      if( first )
+        {
+        first = false;
+        this->GetObjectBounds()->SetMinimum( transformedPoint );
+        this->GetObjectBounds()->SetMaximum( transformedPoint );
+        }
+      else
+        {
+        this->GetObjectBounds()->ConsiderPoint( transformedPoint );
         }
       }
-
-    // Next Transform the corners of the bounding box
-    using PointsContainer = typename BoundingBoxType::PointsContainer;
-    typename PointsContainer::Pointer transformedCorners = PointsContainer::New();
-    transformedCorners->Reserve(static_cast<typename PointsContainer::ElementIdentifier>( cornerInds->size() ) );
-
-    typename IndexContainerType::const_iterator it = cornerInds->begin();
-    auto itTrans = transformedCorners->begin();
-    while ( it != cornerInds->end() )
-      {
-      PointType origPnt;
-      for ( unsigned int i = 0; i < ImageType::ImageDimension; ++i )
-        {
-        origPnt[i] = static_cast< typename PointType::CoordRepType>( (*it)[i]);
-        }
-      PointType pnt = this->GetIndexToWorldTransform()->TransformPoint(origPnt);
-      *itTrans = pnt;
-      ++it;
-      ++itTrans;
-      }
-
-    // refresh the bounding box with the transformed corners
-    const_cast< BoundingBoxType * >( this->GetBounds() )->SetPoints(transformedCorners);
-    this->GetBounds()->ComputeBoundingBox();
+    itPrev = it;
+    ++it;
     }
+
+  if( first )
+    {
+    transformedPoint.Fill(
+      NumericTraits< typename BoundingBoxType::PointType::ValueType >::
+      ZeroValue() );
+
+    this->GetObjectBounds()->SetMinimum( transformedPoint );
+    this->GetObjectBounds()->SetMaximum( transformedPoint );
+
+    return false;
+    }
+
   return true;
 }
-
 
 /** Print the object */
 template< unsigned int TDimension >

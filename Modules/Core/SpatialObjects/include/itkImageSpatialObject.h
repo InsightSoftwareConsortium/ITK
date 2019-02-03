@@ -76,28 +76,18 @@ public:
   /** Get a pointer to the image currently attached to the object. */
   const ImageType * GetImage() const;
 
-  /** Return true if the object is evaluable at the requested point,
-   *  and else otherwise. */
-  bool IsEvaluableAt(const PointType & point,
-                     unsigned int depth = 0, char *name = nullptr) const override;
-
   /** Returns the value of the image at the requested point.
    *  If the point is not inside the object, then an exception is thrown.
    * \sa ExceptionObject */
-  bool ValueAt(const PointType & point, double & value,
-               unsigned int depth = 0, char *name = nullptr) const override;
+  bool ValueAt(const PointType & point, double & value, unsigned int depth = 0,
+    const std::string & name = "") const override;
 
   /** Returns true if the point is inside, false otherwise. */
-  bool IsInside(const PointType & point,
-                unsigned int depth, char *name) const override;
-
-  /** Test whether a point is inside or outside the object
-   *  For computational speed purposes, it is faster if the method does not
-   *  check the name of the class and the current depth */
-  bool IsInside(const PointType & point) const;
+  bool IsInside(const PointType & point, unsigned int depth=0,
+    const std::string & name = "") const override;
 
   /** Compute the boundaries of the iamge spatial object. */
-  bool ComputeLocalBoundingBox() const override;
+  bool ComputeObjectBoundingBox() const override;
 
   /** Returns the latest modified time of the object and its component. */
   ModifiedTimeType GetMTime() const override;
@@ -109,7 +99,7 @@ public:
   int GetSlicePosition(unsigned int dimension)
   { return m_SlicePosition[dimension]; }
 
-  const char * GetPixelType()
+  const char * GetPixelTypeName()
   {
     return m_PixelType.c_str();
   }
@@ -126,32 +116,32 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  int *       m_SlicePosition;
-  std::string m_PixelType;
+  IndexType       m_SlicePosition;
+  std::string     m_PixelType;
 
   typename InterpolatorType::Pointer m_Interpolator;
   template <typename T>
-    void InternalSetPixelType(const T *)
+  void SetPixelTypeName(const T *)
   {
     itkWarningMacro("itk::ImageSpatialObject() : PixelType not recognized");
   }
-  void InternalSetPixelType(const short *)
+  void SetPixelTypeName(const short *)
   {
     m_PixelType = "short";
   }
-  void InternalSetPixelType(const unsigned char *)
+  void SetPixelTypeName(const unsigned char *)
   {
     m_PixelType = "unsigned char";
   }
-  void InternalSetPixelType(const unsigned short *)
+  void SetPixelTypeName(const unsigned short *)
   {
     m_PixelType = "unsigned short";
   }
-  void InternalSetPixelType(const float *)
+  void SetPixelTypeName(const float *)
   {
     m_PixelType = "float";
   }
-  void InternalSetPixelType(const double *)
+  void SetPixelTypeName(const double *)
   {
     m_PixelType = "double";
   }
