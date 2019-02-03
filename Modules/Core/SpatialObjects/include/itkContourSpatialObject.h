@@ -130,32 +130,12 @@ public:
   itkSetMacro(AttachedToSlice, int);
   itkGetConstMacro(AttachedToSlice, int);
 
-  /** Returns true if the Contour is evaluable at the requested point,
-   *  false otherwise.
-   *
-   * Note: For this class, this will always return false. -GH
-   */
-  bool IsEvaluableAt(const PointType & point,
-                     unsigned int depth = 0, char *name = nullptr) const override;
-
-  /** Returns the value of the Contour at that point.
-   *  Currently this function returns a binary value,
-   *  but it might want to return a degree of membership
-   *  in case of fuzzy Contours. */
-  bool ValueAt(const PointType & point, double & value,
-               unsigned int depth = 0, char *name = nullptr) const override;
-
   /** Returns true if the point is inside the Contour, false otherwise. */
-  bool IsInside(const PointType & point,
-                unsigned int depth, char *name) const override;
-
-  /** Test whether a point is inside or outside the object
-   *  For computational speed purposes, it is faster if the method does not
-   *  check the name of the class and the current depth */
-  virtual bool IsInside(const PointType & point) const;
+  bool IsInside(const PointType & point, unsigned int depth=0,
+    const std::string & name="") const override;
 
   /** Compute the boundaries of the Contour. */
-  bool ComputeLocalBoundingBox() const override;
+  bool ComputeObjectBoundingBox( void ) const override;
 
 protected:
   ControlPointListType      m_ControlPoints;

@@ -18,7 +18,6 @@
 #ifndef itkContourSpatialObject_hxx
 #define itkContourSpatialObject_hxx
 
-
 #include "itkContourSpatialObject.h"
 #include "itkNumericTraits.h"
 
@@ -29,7 +28,6 @@ template< unsigned int TDimension >
 ContourSpatialObject< TDimension >
 ::ContourSpatialObject()
 {
-  this->SetDimension(TDimension);
   this->SetTypeName("ContourSpatialObject");
   this->GetProperty()->SetRed(1);
   this->GetProperty()->SetGreen(0);
@@ -131,7 +129,6 @@ ContourSpatialObject< TDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   os << indent << "ContourSpatialObject(" << this << ")" << std::endl;
-  os << indent << "ID: " << this->GetId() << std::endl;
   os << indent << "#Control Points: "
      << static_cast< SizeValueType >( m_ControlPoints.size() ) << std::endl;
   os << indent << "Interpolation type: " << m_InterpolationType << std::endl;
@@ -145,62 +142,49 @@ ContourSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 ContourSpatialObject< TDimension >
-::ComputeLocalBoundingBox() const
+::ComputeObjectBoundingBox() const
 {
   itkDebugMacro("Computing blob bounding box");
 
-  if ( this->GetBoundingBoxChildrenName().empty()
-       || strstr( typeid( Self ).name(),
-                  this->GetBoundingBoxChildrenName().c_str() ) )
+  auto it  = m_ControlPoints.begin();
+  auto end = m_ControlPoints.end();
+
+  if ( it == end )
     {
-    auto it  = m_ControlPoints.begin();
-    auto end = m_ControlPoints.end();
+    return false;
+    }
+  else
+    {
+    PointType pt = this->GetObjectToWorldTransform()->TransformPoint(
+      ( *it ).GetPosition() );
+    const_cast< BoundingBoxType * >( this->GetObjectBounds() )->SetMinimum(pt);
+    const_cast< BoundingBoxType * >( this->GetObjectBounds() )->SetMaximum(pt);
+    const_cast< BoundingBoxType * >( this->GetObjectBounds() )->
+      ConsiderPoint(pt);
+    it++;
 
-    if ( it == end )
+    while ( it != end )
       {
-      return false;
-      }
-    else
-      {
-      PointType pt =
-        this->GetIndexToWorldTransform()->TransformPoint( ( *it ).GetPosition() );
-      const_cast< BoundingBoxType * >( this->GetBounds() )->SetMinimum(pt);
-      const_cast< BoundingBoxType * >( this->GetBounds() )->SetMaximum(pt);
+      pt = this->GetObjectToWorldTransform()->TransformPoint(
+        ( *it ).GetPosition() );
+      const_cast< BoundingBoxType * >( this->GetObjectBounds() )->
+        ConsiderPoint(pt);
       it++;
+      }
 
-      while ( it != end )
-        {
-        pt =
-          this->GetIndexToWorldTransform()->TransformPoint( ( *it ).GetPosition() );
-        const_cast< BoundingBoxType * >( this->GetBounds() )->ConsiderPoint(pt);
-        it++;
-        }
-
-      // Add the interpolated points (if any)
-      auto itI = m_InterpolatedPoints.begin();
-      while ( itI != m_InterpolatedPoints.end() )
-        {
-        pt = this->GetIndexToWorldTransform()->TransformPoint(
-          ( *itI ).GetPosition() );
-        const_cast< BoundingBoxType * >( this->GetBounds() )->ConsiderPoint(pt);
-        itI++;
-        }
+    // Add the interpolated points (if any)
+    auto itI = m_InterpolatedPoints.begin();
+    while ( itI != m_InterpolatedPoints.end() )
+      {
+      pt = this->GetObjectToWorldTransform()->TransformPoint(
+        ( *itI ).GetPosition() );
+      const_cast< BoundingBoxType * >( this->GetObjectBounds() )->
+        ConsiderPoint(pt);
+      itI++;
       }
     }
 
   return true;
-}
-
-/** Test whether a point is inside or outside the object
- *  For computational speed purposes, it is faster if the method does not
- *  check the name of the class and the current depth. Since a contour is
- *  considered to be a 1D object, IsInside will always return false. */
-template< unsigned int TDimension >
-bool
-ContourSpatialObject< TDimension >
-::IsInside( const PointType & itkNotUsed(point) ) const
-{
-  return false;
 }
 
 /** Test if the given point is inside the blob. Since a contour is
@@ -209,37 +193,70 @@ ContourSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 ContourSpatialObject< TDimension >
-::IsInside(const PointType &, unsigned int, char *) const
+::IsInside(const PointType & point, unsigned int depth,
+  const std::string & name) const
 {
-  return false;
+  itkDebugMacro("Computing blob IsInside");
+
+  if( this->GetTypeName().find( name ) != std::string::npos )
+    {
+    PointType tPoint = this->GetObjectToWorldTransform()->GetInverse()->
+      TransformPoint( point );
+
+    auto it = m_ControlPoints.begin();
+
+    bool match = false;
+    while ( it != m_ControlPoints.end() )
+      {
+      match = true;
+      PointType pt = ( *it ).GetPosition();
+      for( unsigned int d=0; d<ObjectDimension; ++d )
+        {
+        if( pt[d] != tPoint[d] )
+          {
+          match = false;
+          break;
+          }
+        }
+      if( match )
+        {
+        return true;
+        }
+      it++;
+      }
+
+    // Add the interpolated points (if any)
+    auto itI = m_InterpolatedPoints.begin();
+    while ( itI != m_InterpolatedPoints.end() )
+      {
+      match = true;
+      PointType pt = ( *itI ).GetPosition();
+      for( unsigned int d=0; d<ObjectDimension; ++d )
+        {
+        if( pt[d] != tPoint[d] )
+          {
+          match = false;
+          break;
+          }
+        }
+      if( match )
+        {
+        return true;
+        }
+      itI++;
+      }
+    }
+
+  if( depth > 0 )
+    {
+    return Superclass::IsInsideChildren( point, depth-1, name );
+    }
+  else
+    {
+    return false;
+    }
 }
 
-/** Return true if the blob is evaluable at a given point
- *  i.e if the point is defined in the points list        */
-template< unsigned int TDimension >
-bool
-ContourSpatialObject< TDimension >
-::IsEvaluableAt(const PointType & point,
-                unsigned int depth, char *name) const
-{
-  itkDebugMacro("Checking if the blob is evaluable at " << point);
-  return IsInside(point, depth, name);
-}
-
-/** Return 1 if the point is in the points list
- *  Note: removed names of third parameter since it is no
- *  longer used.  It was "depth" */
-template< unsigned int TDimension >
-bool
-ContourSpatialObject< TDimension >
-::ValueAt(const PointType & point, double & value, unsigned int,
-          char *name) const
-{
-  itkDebugMacro("Getting the value of the blob at " << point);
-
-  value = this->GetDefaultOutsideValue(); // cannot be inside of a 1d contour
-  return IsInside(point, 0, name);        // so will always return false
-}
 } // end namespace itk
 
 #endif

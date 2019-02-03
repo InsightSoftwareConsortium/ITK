@@ -60,6 +60,7 @@ public:
   void SetPosition(const PointType & p)
   {
     m_Position = p;
+    this->Modified();
   }
 
   itkGetConstMacro(Position, PointType);
@@ -68,6 +69,7 @@ public:
   {
     m_Position[0] = x;
     m_Position[1] = y;
+    this->Modified();
   }
 
   void SetPosition(float x, float y, float z)
@@ -75,12 +77,14 @@ public:
     m_Position[0] = x;
     m_Position[1] = y;
     m_Position[2] = z;
+    this->Modified();
   }
 
   /** Set the direction of the arrow */
   void SetDirection(const VectorType & d)
   {
     m_Direction = d;
+    this->Modified();
   }
 
   itkGetConstMacro(Direction, VectorType);
@@ -89,6 +93,7 @@ public:
   {
     m_Direction[0] = x;
     m_Direction[1] = y;
+    this->Modified();
   }
 
   void SetDirection(float x, float y, float z)
@@ -96,6 +101,7 @@ public:
     m_Direction[0] = x;
     m_Direction[1] = y;
     m_Direction[2] = z;
+    this->Modified();
   }
 
   /** Set the length of the arrow */
@@ -104,17 +110,12 @@ public:
   /** Get the length of the arrow */
   itkGetConstReferenceMacro(Length, double);
 
-  /** Compute the local bounding box */
-  bool ComputeLocalBoundingBox() const override;
+  /** Compute the Object bounding box */
+  bool ComputeObjectBoundingBox() const override;
 
   /** Returns true if the point is inside the line, false otherwise. */
-  bool IsInside(const PointType & point,
-                unsigned int depth, char *name) const override;
-
-  /** Test whether a point is inside or outside the object
-   *  For computational speed purposes, it is faster if the method does not
-   *  check the name of the class and the current depth */
-  virtual bool IsInside(const PointType & point) const;
+  bool IsInside(const PointType & point, unsigned int depth=0,
+    const std::string & name="") const override;
 
 protected:
 

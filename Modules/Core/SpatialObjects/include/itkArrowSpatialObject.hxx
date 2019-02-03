@@ -28,7 +28,6 @@ template< unsigned int TDimension >
 ArrowSpatialObject< TDimension >
 ::ArrowSpatialObject()
 {
-  this->SetDimension(TDimension);
   this->SetTypeName ("ArrowSpatialObject");
   this->GetProperty()->SetRed(1);
   this->GetProperty()->SetGreen(0);
@@ -39,8 +38,6 @@ ArrowSpatialObject< TDimension >
   m_Direction[0] = 1; // along the x direction by default
   m_Position.Fill(0);
   m_Length = 1;
-
-  this->ComputeBoundingBox();
 }
 
 /** Destructor */
@@ -62,29 +59,27 @@ ArrowSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 ArrowSpatialObject< TDimension >
-::ComputeLocalBoundingBox() const
+::ComputeObjectBoundingBox() const
 {
   itkDebugMacro("Computing Rectangle bounding box");
 
-  if ( this->GetBoundingBoxChildrenName().empty()
-       || this->GetBoundingBoxChildrenName().find( this->GetTypeName() ) !=
-          std::string::npos )
+  PointType pnt = this->GetPosition();
+  PointType pnt2;
+  for ( unsigned int i = 0; i < TDimension; i++ )
     {
-    PointType pnt = this->GetPosition();
-    PointType pnt2;
-    for ( unsigned int i = 0; i < TDimension; i++ )
-      {
-      pnt2[i] = pnt[i] + m_Length * m_Direction[i];
-      }
-
-    pnt = this->GetObjectToWorldTransform()->TransformPoint(pnt);
-    pnt2 = this->GetObjectToWorldTransform()->TransformPoint(pnt2);
-
-    const_cast< typename Superclass::BoundingBoxType * >(
-      this->GetBounds() )->ConsiderPoint(pnt);
-    const_cast< typename Superclass::BoundingBoxType * >(
-      this->GetBounds() )->ConsiderPoint(pnt2);
+    pnt2[i] = pnt[i] + m_Length * m_Direction[i];
     }
+
+  pnt = this->GetObjectToWorldTransform()->TransformPoint(pnt);
+  pnt2 = this->GetObjectToWorldTransform()->TransformPoint(pnt2);
+
+  const_cast< typename Superclass::BoundingBoxType * >(
+    this->GetObjectBounds() )->SetMinimum(pnt);
+  const_cast< typename Superclass::BoundingBoxType * >(
+    this->GetObjectBounds() )->SetMaximum(pnt);
+  const_cast< typename Superclass::BoundingBoxType * >(
+    this->GetObjectBounds() )->ConsiderPoint(pnt2);
+
   return true;
 }
 
@@ -92,62 +87,45 @@ ArrowSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 ArrowSpatialObject< TDimension >
-::IsInside(const PointType & point, unsigned int depth, char *name) const
+::IsInside(const PointType & point, unsigned int depth,
+  const std::string & name) const
 {
   itkDebugMacro("Checking the point [" << point << "] is on the Line");
 
-  if ( name == nullptr )
+  if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    if ( IsInside(point) )
+    PointType transformedPoint =
+      this->GetObjectToWorldTransform()->GetInverse()->TransformPoint(point);
+
+    this->ComputeLocalBoundingBox();
+
+    if ( this->GetBounds()->IsInside(transformedPoint) )
       {
-      return true;
+      // If the transformedPoint lies on the line between the two points
+      PointType pnt = this->GetPosition();
+      PointType pnt2;
+      for ( unsigned int i = 0; i < TDimension; i++ )
+        {
+        pnt2[i] = pnt[i] + m_Length * m_Direction[i];
+        }
+
+      VectorType v = pnt2 - pnt;
+      VectorType v2 = transformedPoint - pnt;
+
+      v.Normalize();
+      v2.Normalize();
+
+      if ( Math::AlmostEquals( dot_product( v.GetVnlVector(), v2.GetVnlVector() ),
+          NumericTraits< typename VectorType::ValueType >::OneValue() ) )
+        {
+        return true;
+        }
       }
     }
-  else if ( name.find( this->GetTypeName() ) != std::string::npos )
+
+  if( depth > 0 )
     {
-    if ( IsInside(point) )
-      {
-      return true;
-      }
-    }
-
-  return Superclass::IsInside(point, depth, name);
-}
-
-/** Test whether a point is inside or outside the object
- *  For computational speed purposes, it is faster if the method does not
- *  check the name of the class and the current depth */
-template< unsigned int TDimension >
-bool
-ArrowSpatialObject< TDimension >
-::IsInside(const PointType & point) const
-{
-  PointType transformedPoint =
-    this->GetObjectToWorldTransform()->GetInverse()->TransformPoint(point);
-
-  this->ComputeLocalBoundingBox();
-
-  if ( this->GetBounds()->IsInside(transformedPoint) )
-    {
-    // If the transformedPoint lies on the line between the two points
-    PointType pnt = this->GetPosition();
-    PointType pnt2;
-    for ( unsigned int i = 0; i < TDimension; i++ )
-      {
-      pnt2[i] = pnt[i] + m_Length * m_Direction[i];
-      }
-
-    VectorType v = pnt2 - pnt;
-    VectorType v2 = transformedPoint - pnt;
-
-    v.Normalize();
-    v2.Normalize();
-
-    if ( Math::AlmostEquals( dot_product( v.GetVnlVector(), v2.GetVnlVector() ),
-        NumericTraits< typename VectorType::ValueType >::OneValue() ) )
-      {
-      return true;
-      }
+    return Superclass::IsInsideChildren( point, depth-1, name );
     }
 
   return false;

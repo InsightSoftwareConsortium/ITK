@@ -55,30 +55,16 @@ public:
   itkTypeMacro(BoxSpatialObject, SpatialObject);
 
   /** Set/Get the size of the box spatial object. */
-  itkSetMacro(Size, SizeType);
+  void SetSize( const SizeType & s );
   itkGetConstReferenceMacro(Size, SizeType);
 
-  /** Returns a degree of membership to the object.
-   *  That's useful for fuzzy objects. */
-  bool ValueAt(const PointType & point, double & value,
-                       unsigned int depth = 0,
-                       char *name = nullptr) const override;
-
-  /** Return true if the object provides a method to evaluate the value
-   * at the specified point, false otherwise. */
-  bool IsEvaluableAt(const PointType & point,
-                             unsigned int depth = 0,
-                             char *name = nullptr) const override;
+  /** Set/Get the position of the box spatial object. */
+  void SetPosition( const PointType & p );
+  itkGetConstReferenceMacro(Position, PointType);
 
   /** Test whether a point is inside or outside the object */
-  bool IsInside(const PointType & point,
-                        unsigned int depth,
-                        char *) const override;
-
-  /** Test whether a point is inside or outside the object
-   *  For computational speed purposes, it is faster if the method does not
-   *  check the name of the class and the current depth */
-  virtual bool IsInside(const PointType & point) const;
+  bool IsInside(const PointType & point, unsigned int depth = 0,
+    const std::string & name = "" ) const override;
 
   /** Get the boundaries of a specific object.  This function needs to
    *  be called every time one of the object's components is
@@ -89,7 +75,8 @@ protected:
   BoxSpatialObject();
   ~BoxSpatialObject() override;
 
-  SizeType m_Size;
+  SizeType  m_Size;
+  PointType m_Position;
 
   /** Print the object informations in a stream. */
   void PrintSelf(std::ostream & os, Indent indent) const override;

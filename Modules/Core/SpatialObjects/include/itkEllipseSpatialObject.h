@@ -54,7 +54,7 @@ public:
   using PointContainerPointer = SmartPointer< PointContainerType >;
 
   using ArrayType = FixedArray< double, TDimension >;
-  static constexpr unsigned int NumberOfDimension = TDimension;
+  static constexpr unsigned int ObjectDimension = TDimension;
 
   itkNewMacro(Self);
   itkTypeMacro(EllipseSpatialObject, SpatialObject);
@@ -75,41 +75,21 @@ public:
   /* Set the center point (in world coordinates) of the ellipse */
   void SetCenterPoint(const PointType& point);
 
-  /** Returns a degree of membership to the object.
-   *  That's useful for fuzzy objects. */
-  bool ValueAt(const PointType & point, double & value,
-                       unsigned int depth = 0,
-                       char *name = nullptr) const override;
-
-  /** Return true if the object provides a method to evaluate the value
-   * at the specified point, false otherwise. */
-  bool IsEvaluableAt(const PointType & point,
-                             unsigned int depth = 0,
-                             char *name = nullptr) const override;
-
   /** Test whether a point is inside or outside the object */
-  bool IsInside(const PointType & point,
-                        unsigned int depth,
-                        char *) const override;
-
-  /** Test whether a point is inside or outside the object
-   *  For computational speed purposes, it is faster if the method does not
-   *  check the name of the class and the current depth */
-  virtual bool IsInside(const PointType & point) const;
+  bool IsInside(const PointType & point, unsigned int depth=0,
+    const std::string & name ) const override;
 
   /** Get the boundaries of a specific object.  This function needs to
    *  be called every time one of the object's components is
    *  changed. */
-  bool ComputeLocalBoundingBox() const override;
-
-  /** Copy the information from another SpatialObject */
-  void CopyInformation(const DataObject *data) override;
+  bool ComputeObjectBoundingBox() const override;
 
 protected:
   EllipseSpatialObject();
   ~EllipseSpatialObject() override;
 
   ArrayType m_Radius;
+  PointType m_Center;
 
   /** Print the object informations in a stream. */
   void PrintSelf(std::ostream & os, Indent indent) const override;

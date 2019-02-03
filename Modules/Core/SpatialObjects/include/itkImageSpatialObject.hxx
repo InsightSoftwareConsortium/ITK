@@ -37,7 +37,6 @@ ImageSpatialObject< TDimension,  PixelType >
     m_SlicePosition[i] = 0;
     }
 
-  this->ComputeBoundingBox();
   this->InternalSetPixelType(static_cast<const PixelType *>(nullptr));
   m_Interpolator = NNInterpolatorType::New();
 }
@@ -48,16 +47,6 @@ ImageSpatialObject< TDimension,  PixelType >
 ::~ImageSpatialObject()
 {
   delete[] m_SlicePosition;
-}
-
-/** Return true if the given point is inside the image */
-template< unsigned int TDimension, typename PixelType >
-bool
-ImageSpatialObject< TDimension,  PixelType >
-::IsEvaluableAt(const PointType & point,
-                unsigned int depth, char *name) const
-{
-  return IsInside(point, depth, name);
 }
 
 /** Set the interpolator */
@@ -73,24 +62,14 @@ ImageSpatialObject< TDimension,  PixelType >
     }
 }
 
-/** Test whether a point is inside or outside the object
- *  For computational speed purposes, it is faster if the method does not
- *  check the name of the class and the current depth */
+
+/** Return true if the given point is inside the image */
 template< unsigned int TDimension, typename PixelType >
 bool
 ImageSpatialObject< TDimension,  PixelType >
-::IsInside(const PointType & point) const
+::IsInside(const PointType & point, unsigned int depth, char *name) const
 {
-  if ( !this->GetBounds()->IsInside(point) )
-    {
-    return false;
-    }
-
-  if ( !this->SetInternalInverseTransformToWorldToIndexTransform() )
-    {
-    return false;
-    }
-
+{
   PointType transformedPoint =
     this->GetInternalInverseTransform()->TransformPoint(point);
 
@@ -116,13 +95,6 @@ ImageSpatialObject< TDimension,  PixelType >
 
   return isInside;
 }
-
-/** Return true if the given point is inside the image */
-template< unsigned int TDimension, typename PixelType >
-bool
-ImageSpatialObject< TDimension,  PixelType >
-::IsInside(const PointType & point, unsigned int depth, char *name) const
-{
   if ( name == nullptr )
     {
     if ( IsInside(point) )
@@ -197,7 +169,7 @@ ImageSpatialObject< TDimension,  PixelType >
 template< unsigned int TDimension, typename PixelType >
 bool
 ImageSpatialObject< TDimension,  PixelType >
-::ComputeLocalBoundingBox() const
+::ComputeObjectBoundingBox() const
 {
   if ( this->GetBoundingBoxChildrenName().empty()
        || strstr( typeid( Self ).name(),
@@ -260,51 +232,8 @@ ImageSpatialObject< TDimension,  PixelType >
     }
 
   m_Image = image;
-  typename TransformType::OffsetType offset;
-  typename TransformType::MatrixType indexToObjectMatrix;
-  typename ImageType::PointType origin;
-  typename ImageType::SpacingType spacing;
-  typename ImageType::DirectionType direction;
-  typename ImageType::IndexType indexProbe;
-  typename ImageType::PointType pointProbe;
-
-  origin.Fill(0);
-  spacing.Fill(1.0);
-
-  origin = m_Image->GetOrigin();
-  spacing = m_Image->GetSpacing();
-  direction = m_Image->GetDirection();
-
-  for ( unsigned int d = 0; d < TDimension; d++ )
-    {
-    offset[d]  = origin[d];
-
-    // Get the Image transformation by passing index probes along each one of
-    // the image axis.
-    indexProbe.Fill(0);
-    indexProbe[d] = 1;
-
-    m_Image->TransformIndexToPhysicalPoint(indexProbe, pointProbe);
-
-    // Remove the origin
-    for ( unsigned int d3 = 0; d3 < TDimension; d3++ )
-      {
-      pointProbe[d3] -= origin[d3];
-      }
-
-    for ( unsigned int d2 = 0; d2 < TDimension; d2++ )
-      {
-      indexToObjectMatrix[d2][d] = pointProbe[d2];
-      }
-    }
-
-  this->GetModifiableIndexToObjectTransform()->SetMatrix(indexToObjectMatrix);
-  this->GetModifiableIndexToObjectTransform()->SetOffset(offset);
-
-  this->ComputeObjectToParentTransform();
 
   this->Modified();
-  this->ComputeBoundingBox();
 
   m_Interpolator->SetInputImage(m_Image);
 }
