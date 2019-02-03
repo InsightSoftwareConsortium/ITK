@@ -230,10 +230,10 @@ MeshIOBase
   os << indent << "Cell  component type: " << GetComponentTypeAsString(m_CellComponentType) << std::endl;
   os << indent << "Number of point pixel components: " << m_NumberOfPointPixelComponents << std::endl;
   os << indent << "Number of cell  pixel components: " << m_NumberOfCellPixelComponents << std::endl;
-  os << indent << "Number of points: " << m_NumberOfPointPixels << std::endl;
-  os << indent << "Number of cells: " << m_NumberOfCellPixels << std::endl;
-  os << indent << "Number of point pixels: " << m_NumberOfPoints << std::endl;
-  os << indent << "Number of cell pixels: " << m_NumberOfCells << std::endl;
+  os << indent << "Number of points: " << m_NumberOfPoints << std::endl;
+  os << indent << "Number of cells: " << m_NumberOfCells << std::endl;
+  os << indent << "Number of point pixels: " << m_NumberOfPointPixels << std::endl;
+  os << indent << "Number of cell pixels: " << m_NumberOfCellPixels << std::endl;
   os << indent << "Point pixel type: " << GetPixelTypeAsString(m_PointPixelType) << std::endl;
   os << indent << "Cell  pixel type: " << GetPixelTypeAsString(m_CellPixelType) << std::endl;
   os << indent << "Point pixel component type: " << GetComponentTypeAsString(m_PointPixelComponentType) << std::endl;
