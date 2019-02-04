@@ -261,6 +261,25 @@ public:
   itkBooleanMacro(UseReferenceImage);
   itkGetConstMacro(UseReferenceImage, bool);
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  // Begin concept checking
+  itkConceptMacro( OutputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< PixelComponentType > ) );
+  // End concept checking
+#endif
+
+protected:
+  ResampleImageFilter();
+  ~ResampleImageFilter() override = default;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
+
+  /** Override VeriyInputInformation() since this filter's inputs do
+   * not need to occoupy the same physical space.
+   *
+   * \sa ProcessObject::VerifyInputInformation
+   */
+  void VerifyInputInformation() ITKv5_CONST override { }
+
   /** ResampleImageFilter produces an image which is a different size
    * than its input.  As such, it needs to provide an implementation
    * for GenerateOutputInformation() in order to inform the pipeline
@@ -285,25 +304,6 @@ public:
 
   /** Compute the Modified Time based on the changed components. */
   ModifiedTimeType GetMTime() const override;
-
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
-  itkConceptMacro( OutputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< PixelComponentType > ) );
-  // End concept checking
-#endif
-
-protected:
-  ResampleImageFilter();
-  ~ResampleImageFilter() override = default;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
-
-  /** Override VeriyInputInformation() since this filter's inputs do
-   * not need to occoupy the same physical space.
-   *
-   * \sa ProcessObject::VerifyInputInformation
-   */
-  void VerifyInputInformation() ITKv5_CONST override { }
 
   /** ResampleImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a DynamicThreadedGenerateData()
