@@ -56,10 +56,8 @@ public:
   /** Method for creation through the object factory. */
   itkTypeMacro(GroupSpatialObject, SpatialObject);
 
-  /**  */
-  bool ComputeLocalBoundingBox() const override { return false; }
-
 protected:
+
   GroupSpatialObject();
   ~GroupSpatialObject() override;
 

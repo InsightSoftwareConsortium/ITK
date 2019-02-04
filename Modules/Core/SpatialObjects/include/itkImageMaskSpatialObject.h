@@ -67,27 +67,13 @@ public:
   itkTypeMacro(ImageMaskSpatialObject, ImageSpatialObject);
 
   /** Returns true if the point is inside, false otherwise. */
-  bool IsInside(const PointType & point,
-                unsigned int depth, char *name) const override;
-
-  /** Test whether a point is inside or outside the object
-   *  For computational speed purposes, it is faster if the method does not
-   *  check the name of the class and the current depth */
-  virtual bool IsInside(const PointType & point) const;
-
-  /** Compute axis aligned bounding box from the image mask. The bounding box
-   * is returned as an image region. Each call to this function will recompute
-   * the region.
-   * This function is useful in cases, where you may have a mask image
-   * resulting from say a segmentation and you want to get the smallest box
-   * region that encapsulates the mask image. Currently this is done only for 3D
-   * volumes. */
-  RegionType GetAxisAlignedBoundingBoxRegion() const;
+  bool IsInside(const PointType & point, unsigned int depth=0,
+    const std::string & name) const override;
 
   /** Get the boundaries of a specific object.  This function needs to
    *  be called every time one of the object's components is
    *  changed. */
-  bool ComputeLocalBoundingBox() const override;
+  bool ComputeObjectBoundingBox() const override;
 
 protected:
   ImageMaskSpatialObject();

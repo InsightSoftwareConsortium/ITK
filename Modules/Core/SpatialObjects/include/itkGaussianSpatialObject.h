@@ -56,7 +56,7 @@ public:
   using TransformType = typename Superclass::TransformType;
   using BoundingBoxType = typename Superclass::BoundingBoxType;
 
-  static constexpr unsigned int NumberOfDimensions = TDimension;
+  static constexpr unsigned int ObjectDimensions = TDimension;
 
   itkNewMacro(Self);
   itkTypeMacro(GaussianSpatialObject, SpatialObject);
@@ -78,34 +78,21 @@ public:
   itkGetConstReferenceMacro(Maximum, ScalarType);
 
   /** If the matrix S is returned by
-   * this->GetIndexToObjectTransform()->GetMatrix(), then SquaredZScore(x)
+   * this->GetObjectToParentTransform()->GetMatrix(), then SquaredZScore(x)
    * returns |Sx| squared.  */
   ScalarType SquaredZScore(const PointType & point) const;
 
-  /** Returns the value of the Gaussian at the given point.  */
-  bool ValueAt(const PointType & point, ScalarType & value,
-                       unsigned int depth = 0,
-                       char *name = nullptr) const override;
-
-  /** Return true if the object provides a method to evaluate the value
-   * at the specified point, false otherwise. */
-  bool IsEvaluableAt(const PointType & point,
-                             unsigned int depth = 0,
-                             char *name = nullptr) const override;
-
   /** Test whether a point is inside or outside the object */
-  bool IsInside(const PointType & point,
-                        unsigned int depth,
-                        char *name) const override;
-
-  /** Test whether a point is inside or outside the object
-   *  For computational speed purposes, it is faster if the method does not
-   *  check the name of the class and the current depth */
-  virtual bool IsInside(const PointType & point) const;
+  bool IsInside(const PointType & point, unsigned int depth = 0,
+    const std::string & name = "") const override;
 
   /** This function needs to be called every time one of the object's
    *  components is changed. */
-  bool ComputeLocalBoundingBox() const override;
+  bool ComputeObjectBoundingBox() const override;
+
+  /** Returns the value of the Gaussian at the given point.  */
+  bool ValueAt(const PointType & point, ScalarType & value,
+    unsigned int depth = 0, const std::string & name = "") const override;
 
   /** Returns the sigma=m_Radius level set of the Gaussian function, as an
    * EllipseSpatialObject.  */

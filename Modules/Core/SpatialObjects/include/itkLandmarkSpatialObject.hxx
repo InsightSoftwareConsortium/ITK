@@ -143,93 +143,46 @@ LandmarkSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 LandmarkSpatialObject< TDimension >
-::IsInside(const PointType & point) const
+::IsInside(const PointType & point, unsigned int depth,
+  const std::string & name) const
 {
-  auto it = m_Points.begin();
-  auto itEnd = m_Points.end();
-
-  if ( !this->SetInternalInverseTransformToWorldToIndexTransform() )
+  if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    return false;
-    }
+    PointType transformedPoint = this->GetObjectToWorldTransform()->
+      GetInverse()->TransformPoint(point);
 
-  PointType transformedPoint =
-    this->GetInternalInverseTransform()->TransformPoint(point);
-
-  if ( this->GetBounds()->IsInside(transformedPoint) )
-    {
-    while ( it != itEnd )
+    if ( this->GetObjectBounds()->IsInside(transformedPoint) )
       {
-      if ( ( *it ).GetPosition() == transformedPoint )
+      auto it = m_Points.begin();
+      auto itEnd = m_Points.end();
+
+      while ( it != itEnd )
         {
-        return true;
+        bool match = true;
+        for( unsigned int i=0; i<ObjectDimensions; ++i )
+        if ( !Math::AlmostEquals( ( *it ).GetPosition(),
+               transformedPoint ) )
+          {
+          match = false;
+          break;
+          }
+        if( match )
+          {
+          return true;
+          }
+        ++it;
         }
-      it++;
       }
     }
+
+  if( depth > 0 )
+    {
+    return Superclass::IsInside( point, depth-1, name );
+    }
+
   return false;
 }
 
-/** Test if the given point is inside the blob
- *  Note: ComputeBoundingBox should be called before. */
-template< unsigned int TDimension >
-bool
-LandmarkSpatialObject< TDimension >
-::IsInside(const PointType & point, unsigned int depth, char *name) const
-{
-  itkDebugMacro("Checking the point [" << point << "] is inside the blob");
-
-  if ( name == nullptr )
-    {
-    if ( IsInside(point) )
-      {
-      return true;
-      }
-    }
-  else if ( strstr(typeid( Self ).name(), name) )
-    {
-    if ( IsInside(point) )
-      {
-      return true;
-      }
-    }
-
-  return Superclass::IsInside(point, depth, name);
-}
-
-/** Return true if the blob is evaluable at a given point
- *  i.e if the point is defined in the points list        */
-template< unsigned int TDimension >
-bool
-LandmarkSpatialObject< TDimension >
-::IsEvaluableAt(const PointType & point,
-                unsigned int depth, char *name) const
-{
-  itkDebugMacro("Checking if the blob is evaluable at " << point);
-  return IsInside(point, depth, name);
-}
-
-/** Return 1 if the point is in the points list */
-template< unsigned int TDimension >
-bool
-LandmarkSpatialObject< TDimension >
-::ValueAt(const PointType & point, double & value, unsigned int depth,
-          char *name) const
-{
-  itkDebugMacro("Getting the value of the blob at " << point);
-  if ( IsInside(point, 0, name) )
-    {
-    value = this->GetDefaultInsideValue();
-    return true;
-    }
-  else if ( Superclass::IsEvaluableAt(point, depth, name) )
-    {
-    Superclass::ValueAt(point, value, depth, name);
-    return true;
-    }
-  value = this->GetDefaultOutsideValue();
-  return false;
-}
 } // end namespace itk
 
 #endif
