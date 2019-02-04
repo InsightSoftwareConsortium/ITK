@@ -127,7 +127,7 @@ function(AddTestOMC slicerNumber)
   itk_add_test(NAME itkMontageTestOMC${slicerNumber}
     COMMAND MontageTestDriver
     itkMontageTest2D
-      DATA{${CMAKE_CURRENT_LIST_DIR}/Input/OMC/FlatField/${slicerNumber}/,REGEX:.*}
+      DATA{Input/OMC/FlatField/${slicerNumber}/,REGEX:.*}
       ${TESTING_OUTPUT_PATH}/itkMontageTestOMC${slicerNumber}_
       ${TESTING_OUTPUT_PATH}/itkMockMontageTestOMC${slicerNumber}_
       1 -1 0 1
@@ -142,10 +142,10 @@ AddTestOMC(18)
 
 itk_add_test(NAME itkMontageTestRGB
   COMMAND MontageTestDriver
-  --compare DATA{${CMAKE_CURRENT_LIST_DIR}/Input/VisibleHumanRGB/VisibleHumanMale1608.png}
+  --compare DATA{Input/VisibleHumanRGB/VisibleHumanMale1608.png}
                  ${TESTING_OUTPUT_PATH}/itkMontageTestRGB0_1.mha
   itkMontageTest2D
-    DATA{${CMAKE_CURRENT_LIST_DIR}/Input/VisibleHumanRGB/,REGEX:.*}
+    DATA{Input/VisibleHumanRGB/,REGEX:.*}
     ${TESTING_OUTPUT_PATH}/itkMontageTestRGB
     ${TESTING_OUTPUT_PATH}/itkMockMontageTestRGB
     1 -1 1 1
@@ -154,12 +154,11 @@ itk_add_test(NAME itkMontageTestRGB
 function(AddInMemoryMontageTest variation willFail)
   itk_add_test(NAME itkInMemoryMontageTest${variation}
     COMMAND MontageTestDriver
-      --compare DATA{${CMAKE_CURRENT_LIST_DIR}/Input/VisibleHumanRGB/VisibleHumanMale1608.png}
+      --compare DATA{Input/VisibleHumanRGB/VisibleHumanMale1608.png}
                      ${TESTING_OUTPUT_PATH}/itkInMemoryMontageTestRGB${variation}.mha
       --ignoreInputInformation # ignore different spacing
-      --compareRadiusTolerance 1
       itkInMemoryMontageTest2D
-        DATA{${CMAKE_CURRENT_LIST_DIR}/Input/VisibleHumanRGB/,REGEX:.*}
+        DATA{Input/VisibleHumanRGB/,REGEX:.*}
         ${TESTING_OUTPUT_PATH}/itkInMemoryMontageTestRGB
         ${variation}
     )
