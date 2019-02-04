@@ -28,13 +28,11 @@ template< unsigned int TDimension >
 LineSpatialObject< TDimension >
 ::LineSpatialObject()
 {
-  this->SetDimension(TDimension);
   this->SetTypeName("LineSpatialObject");
   this->GetProperty()->SetRed(1);
   this->GetProperty()->SetGreen(0);
   this->GetProperty()->SetBlue(0);
   this->GetProperty()->SetAlpha(1);
-  this->ComputeBoundingBox();
 }
 
 /** Set the list of Line points. */
@@ -77,138 +75,80 @@ LineSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 LineSpatialObject< TDimension >
-::ComputeLocalBoundingBox() const
+::ComputeObjectBoundingBox() const
 {
-  itkDebugMacro("Computing tube bounding box");
-  if ( this->GetBoundingBoxChildrenName().empty()
-       || strstr( typeid( Self ).name(),
-                  this->GetBoundingBoxChildrenName().c_str() ) )
-    {
-    auto it  = m_Points.begin();
-    auto end = m_Points.end();
+  auto it  = m_Points.begin();
+  auto end = m_Points.end();
 
-    if ( it == end )
-      {
-      return false;
-      }
-    else
-      {
-      PointType pt =  this->GetIndexToWorldTransform()->TransformPoint(
-        ( *it ).GetPosition() );
-      const_cast< BoundingBoxType * >( this->GetBounds() )->SetMinimum(pt);
-      const_cast< BoundingBoxType * >( this->GetBounds() )->SetMaximum(pt);
-      it++;
-
-      while ( it != end )
-        {
-        pt = this->GetIndexToWorldTransform()->TransformPoint(
-          ( *it ).GetPosition() );
-        const_cast< BoundingBoxType * >( this->GetBounds() )->ConsiderPoint(pt);
-        it++;
-        }
-      }
-    }
-  return true;
-}
-
-/** Test whether a point is inside or outside the object
- *  For computational speed purposes, it is faster if the method does not
- *  check the name of the class and the current depth */
-template< unsigned int TDimension >
-bool
-LineSpatialObject< TDimension >
-::IsInside(const PointType & point) const
-{
-  auto it = m_Points.begin();
-  auto itEnd = m_Points.end();
-
-  if ( !this->SetInternalInverseTransformToWorldToIndexTransform() )
+  if ( it == end )
     {
     return false;
     }
 
-  PointType transformedPoint =
-    this->GetInternalInverseTransform()->TransformPoint(point);
+  PointType pt =  this->GetObjectToWorldTransform()->TransformPoint(
+    ( *it ).GetPosition() );
+  const_cast< BoundingBoxType * >( this->GetObjectBounds() )->SetMinimum(pt);
+  const_cast< BoundingBoxType * >( this->GetObjectBounds() )->SetMaximum(pt);
+  it++;
 
-  if ( this->GetBounds()->IsInside(transformedPoint) )
+  while ( it != end )
     {
-    while ( it != itEnd )
+    pt = this->GetObjectToWorldTransform()->TransformPoint(
+      ( *it ).GetPosition() );
+    const_cast< BoundingBoxType * >( this->GetObjectBounds() )->
+      ConsiderPoint(pt);
+    it++;
+    }
+
+  return true;
+}
+
+template< unsigned int TDimension >
+bool
+LineSpatialObject< TDimension >
+::IsInside(const PointType & point, unsigned int depth,
+  const std::string & name) const
+{
+  if( this->GetTypeName().find( name ) != std::string::npos )
+    {
+    auto it = m_Points.begin();
+    auto itEnd = m_Points.end();
+
+    PointType transformedPoint = this->GetObjectToWorldTransform()->
+      GetInverse()->TransformPoint(point);
+
+    if ( this->GetObjectBounds()->IsInside(transformedPoint) )
       {
-      if ( ( *it ).GetPosition() == transformedPoint )
+      while ( it != itEnd )
         {
-        return true;
+        bool match = true;
+        for( unsigned int i=0; i<ObjectDimension; ++i )
+          {
+          if ( ! Math::AlmostEquals( ( *it ).GetPosition()[i],
+                   transformedPoint[i] ) )
+            {
+            match = false;
+            break;
+            }
+          }
+        if( match )
+          {
+          return true;
+          }
+        it++;
         }
-      it++;
       }
     }
+
+  if( depth > 0 )
+    {
+    return Superclass::IsInsideChildren( point, depth-1, name );
+    }
+
 
   return false;
 }
 
-/** Check if a given point is inside a line
- *  return True only if the point is in the point list */
-template< unsigned int TDimension >
-bool
-LineSpatialObject< TDimension >
-::IsInside(const PointType & point, unsigned int depth, char *name) const
-{
-  itkDebugMacro("Checking the point [" << point << "] is on the Line");
-
-  if ( name == nullptr )
-    {
-    if ( IsInside(point) )
-      {
-      return true;
-      }
-    }
-  else if ( strstr(typeid( Self ).name(), name) )
-    {
-    if ( IsInside(point) )
-      {
-      return true;
-      }
-    }
-
-  return Superclass::IsInside(point, depth, name);
-}
-
-/** Returns true if the line is evaluable at the requested point,
- *  false otherwise. */
-template< unsigned int TDimension >
-bool
-LineSpatialObject< TDimension >
-::IsEvaluableAt(const PointType & point,
-                unsigned int depth, char *name) const
-{
-  itkDebugMacro("Checking if the tube is evaluable at " << point);
-  return IsInside(point, depth, name);
-}
-
-/** Returns the value of the line at that point.
- * Currently this function returns a binary value,
- * but it might want to return a degree of membership
- * in case of fuzzy Lines. */
-template< unsigned int TDimension >
-bool
-LineSpatialObject< TDimension >
-::ValueAt(const PointType & point, double & value, unsigned int depth,
-          char *name) const
-{
-  itkDebugMacro("Getting the value of the tube at " << point);
-
-  if ( IsInside(point, 0, name) )
-    {
-    value = this->GetDefaultInsideValue();
-    return true;
-    }
-  else if ( Superclass::IsEvaluableAt(point, depth, name) )
-    {
-    Superclass::ValueAt(point, value, depth, name);
-    return true;
-    }
-  value = this->GetDefaultOutsideValue();
-  return false;
-}
 } // end namespace itk
 
 #endif
