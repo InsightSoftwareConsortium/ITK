@@ -102,28 +102,22 @@ public:
    * context cannot be dereferenced safely */
 
   /** Returns an iterator to the beginning of the map */
-#if !defined( ITK_WRAPPING_PARSER )
+  // Blacklisted by igenerator.py
   Iterator  Begin();
-
+  // Blacklisted by igenerator.py
   ConstIterator  Begin() const;
 
-#endif
-
   /** Returns an iterator to the end of the map */
-#if !defined( ITK_WRAPPING_PARSER )
+  // Blacklisted by igenerator.py
   Iterator  End();
-
+  // Blacklisted by igenerator.py
   ConstIterator  End() const;
 
-#endif
-
   /** Returns an iterator matching the string key */
-#if !defined( ITK_WRAPPING_PARSER )
   Iterator  Find(const std::string & key);
 
   ConstIterator  Find(const std::string & key) const;
 
-#endif
   /** remove all MetaObjects from dictionary */
   void Clear();
 

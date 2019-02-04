@@ -160,6 +160,7 @@ str = str
 
 
 %extend itkMetaDataDictionary {
+    %ignore Find;
     std::string __str__() {
         std::ostringstream msg;
         self->Print( msg );
