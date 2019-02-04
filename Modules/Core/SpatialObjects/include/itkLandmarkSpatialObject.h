@@ -84,7 +84,7 @@ public:
 
   /** Returns true if the point is inside the Landmark, false otherwise. */
   bool IsInside(const PointType & point, unsigned int depth = 0,
-    const std::string & name) const override;
+    const std::string & name="") const override;
 
   /** Compute the boundaries of the Landmark. */
   bool ComputeObjectBoundingBox() const override;
