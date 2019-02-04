@@ -29,7 +29,6 @@ template< unsigned int TDimension >
 LandmarkSpatialObject< TDimension >
 ::LandmarkSpatialObject()
 {
-  this->SetDimension(TDimension);
   this->SetTypeName("LandmarkSpatialObject");
   this->GetProperty()->SetRed(1);
   this->GetProperty()->SetGreen(0);
@@ -101,45 +100,36 @@ LandmarkSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 LandmarkSpatialObject< TDimension >
-::ComputeLocalBoundingBox() const
+::ComputeObjectBoundingBox() const
 {
-  itkDebugMacro("Computing blob bounding box");
+  itkDebugMacro("Computing Landmark bounding box");
 
-  if ( this->GetBoundingBoxChildrenName().empty()
-       || strstr( typeid( Self ).name(),
-                  this->GetBoundingBoxChildrenName().c_str() ) )
+  auto it  = m_Points.begin();
+  auto end = m_Points.end();
+
+  if ( it == end )
     {
-    auto it  = m_Points.begin();
-    auto end = m_Points.end();
+    return false;
+    }
 
-    if ( it == end )
-      {
-      return false;
-      }
-    else
-      {
-      PointType pt =
-        this->GetIndexToWorldTransform()->TransformPoint( ( *it ).GetPosition() );
-      const_cast< BoundingBoxType * >( this->GetBounds() )->SetMinimum(pt);
-      const_cast< BoundingBoxType * >( this->GetBounds() )->SetMaximum(pt);
-      it++;
+  PointType pt = this->GetObjectToWorldTransform()->TransformPoint(
+    ( *it ).GetPosition() );
+  const_cast< BoundingBoxType * >( this->GetObjectBounds() )->SetMinimum(pt);
+  const_cast< BoundingBoxType * >( this->GetObjectBounds() )->SetMaximum(pt);
+  it++;
 
-      while ( it != end )
-        {
-        pt =
-          this->GetIndexToWorldTransform()->TransformPoint( ( *it ).GetPosition() );
-        const_cast< BoundingBoxType * >( this->GetBounds() )->ConsiderPoint(pt);
-        it++;
-        }
-      }
+  while ( it != end )
+    {
+    pt = this->GetObjectToWorldTransform()->TransformPoint(
+      ( *it ).GetPosition() );
+    const_cast< BoundingBoxType * >( this->GetObjectBounds() )->
+      ConsiderPoint(pt);
+    it++;
     }
 
   return true;
 }
 
-/** Test whether a point is inside or outside the object
- *  For computational speed purposes, it is faster if the method does not
- *  check the name of the class and the current depth */
 template< unsigned int TDimension >
 bool
 LandmarkSpatialObject< TDimension >
@@ -160,11 +150,13 @@ LandmarkSpatialObject< TDimension >
         {
         bool match = true;
         for( unsigned int i=0; i<ObjectDimensions; ++i )
-        if ( !Math::AlmostEquals( ( *it ).GetPosition(),
-               transformedPoint ) )
           {
-          match = false;
-          break;
+          if ( !Math::AlmostEquals( ( *it ).GetPosition()[i],
+               transformedPoint[i] ) )
+            {
+            match = false;
+            break;
+            }
           }
         if( match )
           {
