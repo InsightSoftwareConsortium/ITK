@@ -20,7 +20,8 @@
 #include "itkParseTileConfiguration.h"
 #include "itkRGBPixel.h"
 
-int itkInMemoryMontageTest2D(int argc, char* argv[])
+int
+itkInMemoryMontageTest2D( int argc, char* argv[] )
 {
   if ( argc < 3 )
     {
@@ -49,20 +50,20 @@ int itkInMemoryMontageTest2D(int argc, char* argv[])
   imageIO->ReadImageInformation();
   const itk::ImageIOBase::IOPixelType pixelType = imageIO->GetPixelType();
 
-  std::string outFileName = std::string(argv[2]);
+  std::string outFileName = std::string( argv[2] );
 
-  if (pixelType == itk::ImageIOBase::IOPixelType::RGB)
+  if ( pixelType == itk::ImageIOBase::IOPixelType::RGB )
     {
     using TestTransformType = InMemoryMontageTest< itk::RGBPixel< unsigned char >, itk::RGBPixel< unsigned int > >;
 
     TestTransformType::TestVariation variation = TestTransformType::TestVariation::UOrigin_USpacing_UTransform;
     if ( argc > 3 )
-    {
-      variation = static_cast<TestTransformType::TestVariation>(std::stoul( argv[3] ));
-    }
+      {
+      variation = static_cast< TestTransformType::TestVariation >( std::stoul( argv[3] ) );
+      }
 
     TestTransformType::Pointer testObject = TestTransformType::New();
-    return testObject->execute(stageTiles, inputPath, outFileName, variation, streamSubdivisions );
+    return testObject->execute( stageTiles, inputPath, outFileName, variation, streamSubdivisions );
     }
   else
     {
@@ -70,11 +71,11 @@ int itkInMemoryMontageTest2D(int argc, char* argv[])
 
     TestTransformType::TestVariation variation = TestTransformType::TestVariation::UOrigin_USpacing_UTransform;
     if ( argc > 3 )
-    {
-      variation = static_cast<TestTransformType::TestVariation>(std::stoul( argv[3] ));
-    }
+      {
+      variation = static_cast< TestTransformType::TestVariation >( std::stoul( argv[3] ) );
+      }
 
     TestTransformType::Pointer testObject = TestTransformType::New();
-    return testObject->execute(stageTiles, inputPath, outFileName, variation, streamSubdivisions );
+    return testObject->execute( stageTiles, inputPath, outFileName, variation, streamSubdivisions );
     }
 }
