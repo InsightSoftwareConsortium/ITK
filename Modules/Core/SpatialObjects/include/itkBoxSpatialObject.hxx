@@ -107,8 +107,7 @@ BoxSpatialObject< TDimension >
 
   PointType    pnt1;
   PointType    pnt2;
-  unsigned int i;
-  for ( i = 0; i < TDimension; i++ )
+  for ( unsigned int i = 0; i < TDimension; i++ )
     {
     pnt1[i] = m_Position[i];
     pnt2[i] = m_Position[i] + m_Size[i];

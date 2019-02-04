@@ -31,13 +31,10 @@ ImageSpatialObject< TDimension,  PixelType >
 {
   this->SetTypeName("ImageSpatialObject");
   m_Image = ImageType::New();
-  m_SlicePosition = new int[TDimension];
-  for ( unsigned int i = 0; i < TDimension; i++ )
-    {
-    m_SlicePosition[i] = 0;
-    }
+  m_SlicePosition.Fill( 0 );
 
-  this->InternalSetPixelType(static_cast<const PixelType *>(nullptr));
+  this->SetPixelTypeName(static_cast<const PixelType *>(nullptr));
+
   m_Interpolator = NNInterpolatorType::New();
 }
 
@@ -67,50 +64,30 @@ ImageSpatialObject< TDimension,  PixelType >
 template< unsigned int TDimension, typename PixelType >
 bool
 ImageSpatialObject< TDimension,  PixelType >
-::IsInside(const PointType & point, unsigned int depth, char *name) const
+::IsInside(const PointType & point, unsigned int depth,
+  const std::string & name) const
 {
-{
-  PointType transformedPoint =
-    this->GetInternalInverseTransform()->TransformPoint(point);
-
-  bool isInside = true;
-  typename ImageType::RegionType region = m_Image->GetLargestPossibleRegion();
-  itk::Size< TDimension > size = region.GetSize();
-
-  for ( unsigned int i = 0; i < TDimension; i++ )
+  if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    if ( size[i] )
-      {
-      if ( ( transformedPoint[i] > size[i] ) || ( transformedPoint[i] < 0 ) )
-        {
-        isInside = false;
-        break;
-        }
-      }
-    else
-      {
-      itkExceptionMacro(<< "Size of the ImageSpatialObject must be non-zero!");
-      }
-    }
+    PointType transformedPoint =
+      this->GetObjectToWorldTransform()->GetInverse()->TransformPoint(point);
 
-  return isInside;
-}
-  if ( name == nullptr )
-    {
-    if ( IsInside(point) )
-      {
-      return true;
-      }
-    }
-  else if ( strstr(typeid( Self ).name(), name) )
-    {
-    if ( IsInside(point) )
+    IndexType index;
+    bool isInside = m_Image->TransformPhysicalPointToIndex( transformedPoint,
+      index );
+
+    if( isInside )
       {
       return true;
       }
     }
 
-  return Superclass::IsInside(point, depth, name);
+  if( depth > 0 )
+    {
+    return Superclass::IsInsideChildren(point, depth-1, name);
+    }
+
+  return false;
 }
 
 /** Return the value of the image at a specified point
@@ -121,48 +98,40 @@ template< unsigned int TDimension, typename PixelType >
 bool
 ImageSpatialObject< TDimension,  PixelType >
 ::ValueAt(const PointType & point, double & value, unsigned int depth,
-          char *name) const
+  const std::string & name) const
 {
   bool returnValue = false;
 
-  if ( IsEvaluableAt(point, 0, name) )
+  if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    if ( !this->SetInternalInverseTransformToWorldToIndexTransform() )
+    if( IsEvaluableAt(point, 0, name) )
       {
-      return returnValue;
-      }
+      PointType transformedPoint = this->GetObjectToWorldTransform()->
+        GetInverse()->TransformPoint( point );
 
-    PointType p = this->GetInternalInverseTransform()->TransformPoint(point);
+      IndexType index;
+      bool isInside = m_Image->TransformPhysicalPointToIndex( transformedPoint,
+        index );
 
-    typename InterpolatorType::ContinuousIndexType index;
-    using InterpolatorOutputType = typename InterpolatorType::OutputType;
-    for ( unsigned int i = 0; i < TDimension; i++ )
-      {
-      index[i] = p[i];
-      }
+      if( isInside )
+        {
+        using InterpolatorOutputType = typename InterpolatorType::OutputType;
+          index[i] = p[i];
+        value = static_cast< double >(
+          DefaultConvertPixelTraits< InterpolatorOutputType >::GetScalarValue(
+            m_Interpolator->EvaluateAtContinuousIndex(index) ) );
 
-    value = static_cast< double >(
-      DefaultConvertPixelTraits< InterpolatorOutputType >::GetScalarValue(
-        m_Interpolator->EvaluateAtContinuousIndex(index) ) );
-
-    returnValue = true;
-    }
-  else
-    {
-    if ( Superclass::IsEvaluableAt(point, depth, name) )
-      {
-      double val;
-      Superclass::ValueAt(point, val, depth, name);
-      value = val;
-      returnValue = true;
-      }
-    else
-      {
-      value = this->GetDefaultOutsideValue();
-      returnValue = false;
+        return true;
+        }
       }
     }
-  return returnValue;
+
+  if ( depth > 0 )
+    {
+    return Superclass::ValueAtChildren(point, value, depth-1, name);
+    }
+
+  return false;
 }
 
 /** Compute the bounds of the image */
@@ -171,53 +140,55 @@ bool
 ImageSpatialObject< TDimension,  PixelType >
 ::ComputeObjectBoundingBox() const
 {
-  if ( this->GetBoundingBoxChildrenName().empty()
-       || strstr( typeid( Self ).name(),
-                  this->GetBoundingBoxChildrenName().c_str() ) )
+  itkDebugMacro("Computing ImageSpatialObject bounding box");
+
+  // First we compute the bounding box in the object space
+  typename BoundingBoxType::Pointer bb = BoundingBoxType::New();
+
+  IndexType    index = m_Image->GetLargestPossibleRegion().GetIndex();
+  SizeType     size = m_Image->GetLargestPossibleRegion().GetSize();
+  IndexType    tmpIndex1;
+  IndexType    tmpIndex2;
+  PointType    pnt1;
+  PointType    pnt2;
+  for ( unsigned int i = 0; i < TDimension; i++ )
     {
-    typename ImageType::RegionType region =
-      m_Image->GetLargestPossibleRegion();
-    itk::Size< TDimension > size = region.GetSize();
-    PointType               pointLow, pointHigh;
+    tmpIndex1[i] = index[i];
+    tmpIndex2[i] = index[i] + size[i];
+    }
+  m_Image->TransformIndexToPhysicalSpace( tmpIndex1, pnt1 );
+  m_Image->TransformIndexToPhysicalSpace( tmpIndex2, pnt2 );
 
-    unsigned int i;
-    for ( i = 0; i < TDimension; i++ )
-      {
-      pointLow[i] = 0;
-      pointHigh[i] = size[i];
-      }
+  bb->SetMinimum(pnt1);
+  bb->SetMaximum(pnt1);
+  bb->ConsiderPoint(pnt2);
+  bb->ComputeBoundingBox();
 
-    typename BoundingBoxType::Pointer bb = BoundingBoxType::New();
-    bb->SetMinimum(pointLow);
-    bb->SetMaximum(pointHigh);
-    using PointsContainerType = typename BoundingBoxType::PointsContainer;
-    const PointsContainerType *corners = bb->GetCorners();
+  // Next Transform the corners of the bounding box
+  using PointsContainer = typename BoundingBoxType::PointsContainer;
+  const PointsContainer *corners = bb->GetCorners();
+  typename PointsContainer::Pointer transformedCorners =
+    PointsContainer::New();
+  transformedCorners->Reserve(
+    static_cast<typename PointsContainer::ElementIdentifier>(
+      corners->size() ) );
 
-    auto itC = corners->begin();
-    i = 0;
-    while ( itC != corners->end() )
-      {
-      PointType transformedPoint = this->GetIndexToWorldTransform()->TransformPoint(*itC);
-      if ( i == 0 )
-        {
-        const_cast< BoundingBoxType * >( this->GetBounds() )->SetMinimum(transformedPoint);
-        }
-      else if ( i == 1 )
-        {
-        const_cast< BoundingBoxType * >( this->GetBounds() )->SetMaximum(transformedPoint);
-        }
-      else
-        {
-        const_cast< BoundingBoxType * >( this->GetBounds() )->ConsiderPoint(transformedPoint);
-        }
-      itC++;
-      i++;
-      }
-
-    return true;
+  auto it = corners->begin();
+  auto itTrans = transformedCorners->begin();
+  while ( it != corners->end() )
+    {
+    PointType pnt = this->GetObjectToWorldTransform()->TransformPoint(*it);
+    *itTrans = pnt;
+    ++it;
+    ++itTrans;
     }
 
-  return false;
+  // refresh the bounding box with the transformed corners
+  const_cast< BoundingBoxType * >( this->GetObjectBounds() )
+    ->SetPoints(transformedCorners);
+  this->GetObjectBounds()->ComputeBoundingBox();
+
+  return true;
 }
 
 /** Set the image in the spatial object */
@@ -254,10 +225,12 @@ ImageSpatialObject< TDimension,  PixelType >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << "Image: " << std::endl;
+  os << indent << "Image: " << std::endl;
   os << indent << m_Image << std::endl;
-  os << "Interpolator: " << std::endl;
+  os << indent << "Interpolator: " << std::endl;
   os << indent << m_Interpolator << std::endl;
+  os << indent << "SlicePosition: " << m_SlicePosition << std::endl;
+  os << indent << "PixelType: " << m_PixelType << std::endl;
 }
 
 /** Get the modification time */
