@@ -41,7 +41,9 @@ jobs:
       workingDirectory: $(Agent.BuildDirectory)
     - script: |
         set -x
-
+        xcode-select -p
+        sudo xcode-select -s /Applications/Xcode_9.4.1.app/Contents/Developer/
+        xcode-select -p
         c++ --version
         cmake --version
 
