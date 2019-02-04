@@ -58,7 +58,12 @@ assert isinstance(obj, itk.ImageFileReader)
 try:
     itk.ImageFileReader['unknown parameter']
     raise Exception('no exception sent for unknown parameter')
-except KeyError:
+except TypeError as e:
+    print("Exception caught!")
+    print(e)
+    if not "imread" in str(e):
+        raise Exception('Expected to find extra information about'
+                        ' `itk.imread()` in exception message.')
     pass
 
 # TODO: test the rest of the dict interface
@@ -264,6 +269,19 @@ if reader_error or other_error:
     print("Pixel Fill error: %s" % pixel_fill_error)
     print("Reader error: %s" % reader_error)
     raise AssertionError()
+
+# Try to instantiate a template type that does not exist that is
+# not an `itk.ImageFileReader` (tested above) since that object
+# is handled slightly differently.
+try:
+    itk.Image['unknown parameter'].New()
+    # We should never arrive to this point, so raise an exception if
+    # we do.
+    raise Exception('no exception sent for unknown parameter')
+except TypeError as e:
+    print("Exception caught!")
+    print(e)
+    pass
 
 # Test that ImageFileWriter can be called with filter given as input
 # with 'Input' keyword.
