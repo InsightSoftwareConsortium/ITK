@@ -89,14 +89,11 @@ ArrowSpatialObject< TDimension >
 
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    PointType transformedPoint =
-      this->GetObjectToWorldTransform()->GetInverse()->TransformPoint(point);
-
-    this->ComputeLocalBoundingBox();
-
-    if ( this->GetBounds()->IsInside(transformedPoint) )
+    if ( this->GetObjectBounds()->IsInside(point) )
       {
-      // If the transformedPoint lies on the line between the two points
+      PointType transformedPoint =
+        this->GetObjectToWorldTransform()->GetInverse()->TransformPoint(point);
+
       PointType pnt = this->GetPosition();
       PointType pnt2;
       for ( unsigned int i = 0; i < TDimension; i++ )

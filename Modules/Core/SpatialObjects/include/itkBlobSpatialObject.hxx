@@ -138,20 +138,21 @@ BlobSpatialObject< TDimension >
 {
   if( this->GetTypeName.find( name ) != std::string::npos )
     {
-    auto it = m_Points.begin();
-    auto itEnd = m_Points.end();
-
-    PointType transformedPoint =
-      this->GetObjectToWorldTransform()->GetInverse()->TransformPoint(point);
-
-    if( this->GetBounds()->IsInside(transformedPoint) )
+    if( this->GetObjectBounds()->IsInside( point ) )
       {
+      auto it = m_Points.begin();
+      auto itEnd = m_Points.end();
+
+      PointType transformedPoint =
+        this->GetObjectToWorldTransform()->GetInverse()->TransformPoint(point);
+
       while ( it != itEnd )
         {
         bool equals = true;
         for( unsigned int i=0; i<ObjectDimension; ++i )
           {
-          if( ! Math::AlmostEquals( transformedPoint[i], it->GetPosition() ) )
+          if( ! Math::AlmostEquals( transformedPoint[i],
+              it->GetPosition()[i] ) )
             {
             equals = false;
             break;
@@ -165,14 +166,13 @@ BlobSpatialObject< TDimension >
         }
       }
     }
+
   if( depth > 0 )
     {
     return Superclass::IsInsideChildren(point, depth-1, name);
     }
-  else
-    {
-    return false;
-    }
+
+  return false;
 }
 
 } // end namespace itk
