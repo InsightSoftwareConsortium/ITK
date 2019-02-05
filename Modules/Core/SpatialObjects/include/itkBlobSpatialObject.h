@@ -80,21 +80,15 @@ public:
 
   /** Return a point in the list given the index */
   const SpatialObjectPointType * GetPoint(IdentifierType id) const override
-  {
-    return &( m_Points[id] );
-  }
+  { return &( m_Points[id] ); }
 
   /** Return a point in the list given the index */
   SpatialObjectPointType * GetPoint(IdentifierType id) override
-  {
-    return &( m_Points[id] );
-  }
+  { return &( m_Points[id] ); }
 
   /** Return the number of points in the list */
   SizeValueType GetNumberOfPoints() const override
-  {
-    return static_cast<SizeValueType>( m_Points.size() );
-  }
+  { return static_cast<SizeValueType>( m_Points.size() ); }
 
   /** Returns true if the point is inside the Blob, false otherwise. */
   bool IsInside(const PointType & point, unsigned int depth,

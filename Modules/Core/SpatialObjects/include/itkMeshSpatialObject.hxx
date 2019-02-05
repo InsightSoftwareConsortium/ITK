@@ -35,113 +35,63 @@ MeshSpatialObject< TMesh >
   m_IsInsidePrecision = 1;
 }
 
-/** Return true if the given point is inside the Mesh */
-template< typename TMesh >
-bool
-MeshSpatialObject< TMesh >
-::IsEvaluableAt(const PointType & point,
-                unsigned int depth, char *name) const
-{
-  return IsInside(point, depth, name);
-}
-
 /** Test whether a point is inside or outside the object
  *  For computational speed purposes, it is faster if the method does not
  *  check the name of the class and the current depth */
 template< typename TMesh >
 bool
 MeshSpatialObject< TMesh >
-::IsInside(const PointType & point) const
+::IsInside(const PointType & point, unsigned int depth,
+  const std::string & name) const
 {
-  if ( !this->SetInternalInverseTransformToWorldToIndexTransform() )
+  if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    return false;
-    }
-
-  PointType transformedPoint =
-    this->GetInternalInverseTransform()->TransformPoint(point);
-
-  if ( this->GetBounds()->IsInside(transformedPoint) )
-    {
-    typename MeshType::CellsContainerPointer cells =  m_Mesh->GetCells();
-    typename MeshType::CellsContainer::ConstIterator it = cells->Begin();
-    while ( it != cells->End() )
+    if( this->GetObjectBoundingBox().IsInside( point ) )
       {
-      using CoordRepType = typename MeshType::CoordRepType;
-      CoordRepType position[Dimension];
-      for ( unsigned int i = 0; i < Dimension; i++ )
-        {
-        position[i] = transformedPoint[i];
-        }
+      PointType transformedPoint = this->GetObjectToWorldTransform()->
+        GetInverse()->TransformPoint(point);
 
-      // If this is a triangle cell we need to check the distance
-      if ( it.Value()->GetNumberOfPoints() == 3 )
+      typename MeshType::CellsContainerPointer cells =  m_Mesh->GetCells();
+      typename MeshType::CellsContainer::ConstIterator it = cells->Begin();
+      while ( it != cells->End() )
         {
-        double minDist = 0.0;
-        const bool pointIsInside = it.Value()->EvaluatePosition(
-          position, m_Mesh->GetPoints(), nullptr, nullptr, &minDist, nullptr);
-
-        if ( pointIsInside  && minDist <= this->m_IsInsidePrecision )
+        using CoordRepType = typename MeshType::CoordRepType;
+        CoordRepType position[Dimension];
+        for ( unsigned int i = 0; i < Dimension; i++ )
           {
-          return true;
+          position[i] = transformedPoint[i];
           }
-        }
-      else
-        {
-        if ( it.Value()->EvaluatePosition(position, m_Mesh->GetPoints(),
-                                          nullptr, nullptr, nullptr, nullptr) )
+
+        // If this is a triangle cell we need to check the distance
+        if ( it.Value()->GetNumberOfPoints() == 3 )
           {
-          return true;
+          double minDist = 0.0;
+          const bool pointIsInside = it.Value()->EvaluatePosition(
+            position, m_Mesh->GetPoints(), nullptr, nullptr, &minDist, nullptr);
+
+          if ( pointIsInside  && minDist <= this->m_IsInsidePrecision )
+            {
+            return true;
+            }
           }
+        else
+          {
+          if ( it.Value()->EvaluatePosition(position, m_Mesh->GetPoints(),
+                                            nullptr, nullptr, nullptr, nullptr) )
+            {
+            return true;
+            }
+          }
+        ++it;
         }
-      ++it;
       }
     }
-  return false;
-}
 
-/** Return true if the given point is inside the Mesh */
-template< typename TMesh >
-bool
-MeshSpatialObject< TMesh >
-::IsInside(const PointType & point, unsigned int depth, char *name) const
-{
-  if ( name == nullptr )
+  if( depth > 0 )
     {
-    if ( IsInside(point) )
-      {
-      return true;
-      }
+    return Superclass::IsInsideChildren( point, depth-1, name );
     }
-  else if ( strstr(typeid( Self ).name(), name) )
-    {
-    if ( IsInside(point) )
-      {
-      return true;
-      }
-    }
-  return Superclass::IsInside(point, depth, name);
-}
 
-/** Return the value of the Mesh at a specified point
- *  The value returned is always of type double */
-template< typename TMesh >
-bool
-MeshSpatialObject< TMesh >
-::ValueAt(const PointType & point, double & value, unsigned int depth,
-          char *name) const
-{
-  if ( IsEvaluableAt(point, 0, name) )
-    {
-    value = this->GetDefaultInsideValue();
-    return true;
-    }
-  else if ( Superclass::IsEvaluableAt(point, depth, name) )
-    {
-    Superclass::ValueAt(point, value, depth, name);
-    return true;
-    }
-  value = this->GetDefaultOutsideValue();
   return false;
 }
 
@@ -149,27 +99,49 @@ MeshSpatialObject< TMesh >
 template< typename TMesh >
 bool
 MeshSpatialObject< TMesh >
-::ComputeLocalBoundingBox() const
+::ComputeObjectBoundingBox() const
 {
-  if ( this->GetBoundingBoxChildrenName().empty()
-       || strstr( typeid( Self ).name(),
-                  this->GetBoundingBoxChildrenName().c_str() ) )
+  PointType pnt1;
+  PointType pnt2;
+  for ( unsigned int i = 0; i < ObjectDimension; i++ )
     {
-    PointType pnt;
-    PointType pnt2;
-
-    for ( unsigned int i = 0; i < Self::Dimension; i++ )
-      {
-      pnt[i] = m_Mesh->GetBoundingBox()->GetBounds()[2 * i];
-      pnt2[i] = m_Mesh->GetBoundingBox()->GetBounds()[2 * i + 1];
-      }
-
-    pnt = this->GetIndexToWorldTransform()->TransformPoint(pnt);
-    pnt2 = this->GetIndexToWorldTransform()->TransformPoint(pnt2);
-
-    const_cast< BoundingBoxType * >( this->GetBounds() )->SetMinimum(pnt);
-    const_cast< BoundingBoxType * >( this->GetBounds() )->SetMaximum(pnt2);
+    pnt1[i] = m_Mesh->GetBoundingBox()->GetBounds()[2 * i];
+    pnt2[i] = m_Mesh->GetBoundingBox()->GetBounds()[2 * i + 1];
     }
+
+  pnt1 = this->GetObjectToWorldTransform()->TransformPoint(pnt1);
+  pnt2 = this->GetObjectToWorldTransform()->TransformPoint(pnt2);
+
+  typename BoundingBoxType::Pointer bb = BoundingBoxType::New();
+  bb->SetMinimum(pnt1);
+  bb->SetMaximum(pnt1);
+  bb->ConsiderPoint(pnt2);
+  bb->ComputeBoundingBox();
+
+  // Next Transform the corners of the bounding box
+  using PointsContainer = typename BoundingBoxType::PointsContainer;
+  const PointsContainer *corners = bb->GetCorners();
+  typename PointsContainer::Pointer transformedCorners =
+    PointsContainer::New();
+  transformedCorners->Reserve(
+    static_cast<typename PointsContainer::ElementIdentifier>(
+      corners->size() ) );
+
+  auto it = corners->begin();
+  auto itTrans = transformedCorners->begin();
+  while ( it != corners->end() )
+    {
+    PointType pnt = this->GetObjectToWorldTransform()->TransformPoint(*it);
+    *itTrans = pnt;
+    ++it;
+    ++itTrans;
+    }
+
+  // refresh the bounding box with the transformed corners
+  const_cast< BoundingBoxType * >( this->GetObjectBounds() )
+    ->SetPoints(transformedCorners);
+  this->GetObjectBounds()->ComputeBoundingBox();
+
   return true;
 }
 
@@ -181,7 +153,6 @@ MeshSpatialObject< TMesh >
 {
   m_Mesh = mesh;
   m_Mesh->Modified();
-  this->ComputeBoundingBox();
 }
 
 /** Get the Mesh inside the spatial object */
