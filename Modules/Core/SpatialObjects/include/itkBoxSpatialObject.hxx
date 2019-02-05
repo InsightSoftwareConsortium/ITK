@@ -66,33 +66,34 @@ BoxSpatialObject< TDimension >
 
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    PointType transformedPoint = this->GetObjectToWorldTransform()
-      ->GetInverse()->TransformPoint(point);
+    if( this->GetObjectBounds()->IsInside( point ) )
+      {
+      PointType transformedPoint = this->GetObjectToWorldTransform()
+        ->GetInverse()->TransformPoint(point);
 
-    bool isOutside = false;
-    for ( unsigned int i = 0; i < TDimension; i++ )
-      {
-      if ( ( transformedPoint[i] - m_Position[i] > m_Size[i] )
-        || ( transformedPoint[i] - m_Position[i] < 0 ) )
+      bool isOutside = false;
+      for ( unsigned int i = 0; i < TDimension; i++ )
         {
-        isOutside = true;
-        break;
+        if ( ( transformedPoint[i] - m_Position[i] > m_Size[i] )
+          || ( transformedPoint[i] - m_Position[i] < 0 ) )
+          {
+          isOutside = true;
+          break;
+          }
         }
-      }
-    if( !isOutside )
-      {
-      return true;
+      if( !isOutside )
+        {
+        return true;
+        }
       }
     }
 
   if( depth > 0 )
     {
-    return Superclass::IsInside(point, depth-1, name);
+    return Superclass::IsInsideChildren(point, depth-1, name);
     }
-  else
-    {
-    return false;
-    }
+
+  return false;
 }
 
 /** Compute the bounds of the box */

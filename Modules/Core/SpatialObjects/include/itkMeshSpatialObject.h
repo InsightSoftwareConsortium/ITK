@@ -70,34 +70,18 @@ public:
   MeshType * GetMesh();
   const MeshType *GetMesh() const;
 
-  /** Return true if the object is evaluable at the requested point,
-   *  and else otherwise. */
-  bool IsEvaluableAt(const PointType & point,
-                     unsigned int depth = 0, char *name = nullptr) const override;
-
-  /** Returns the value of the Mesh at the requested point.
-   *  If the point is not inside the object, then an exception is thrown.
-   * \sa ExceptionObject */
-  bool ValueAt(const PointType & point, double & value,
-               unsigned int depth = 0, char *name = nullptr) const override;
-
   /** Returns true if the point is inside, false otherwise. */
-  bool IsInside(const PointType & point,
-                unsigned int depth, char *name) const override;
-
-  /** Test whether a point is inside or outside the object
-   *  For computational speed purposes, it is faster if the method does not
-   *  check the name of the class and the current depth */
-  virtual bool IsInside(const PointType & point) const;
+  bool IsInside(const PointType & point, unsigned int depth=0,
+    const std::string & name="") const override;
 
   /** Compute the boundaries of the iamge spatial object. */
-  bool ComputeLocalBoundingBox() const override;
+  bool ComputeObjectBoundingBox() const override;
 
   /** Returns the latest modified time of the object and its component. */
   ModifiedTimeType GetMTime() const override;
 
   /** Return the type of pixel used */
-  const char * GetPixelType()
+  const char * GetPixelTypeName()
   {
     return m_PixelType.c_str();
   }
