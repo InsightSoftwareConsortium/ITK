@@ -509,14 +509,8 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
   // Call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
-  if ( !this->GetInput() )
-    {
-    return;
-    }
-
   // Get pointers to the input and output
-  InputImagePointer inputPtr  =
-    const_cast< TInputImage * >( this->GetInput() );
+  InputImagePointer inputPtr  = const_cast< TInputImage * >( this->GetInput() );
 
   // Determining the actual input region is non-trivial, especially
   // when we cannot assume anything about the transform being used.
@@ -538,10 +532,6 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
 
   // Get pointers to the input and output
   OutputImageType *outputPtr = this->GetOutput();
-  if ( !outputPtr )
-    {
-    return;
-    }
 
   const ReferenceImageBaseType *referenceImage = this->GetReferenceImage();
 
