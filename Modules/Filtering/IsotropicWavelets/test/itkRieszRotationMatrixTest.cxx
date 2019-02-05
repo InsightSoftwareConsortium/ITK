@@ -125,6 +125,28 @@ runRieszRotationMatrixInterfaceWithRieszFrequencyFilterBankGeneratorTest()
     std::cout << images[i]->GetLargestPossibleRegion() << std::endl;
   }
 
+  std::vector<PixelType> inputVector(M, 0);
+  inputVector[0] = 1;
+  inputVector[1] = 2;
+  inputVector[2] = 3;
+  auto vectorRotated = S.MultiplyWithVector(inputVector);
+
+  itk::VariableSizeMatrix<PixelType> inputColumnMatrix(M, 1);
+  inputColumnMatrix.GetVnlMatrix()(0, 0) = 1;
+  inputColumnMatrix.GetVnlMatrix()(1, 0) = 2;
+  inputColumnMatrix.GetVnlMatrix()(2, 0) = 3;
+  auto columnMatrixRotated = S.MultiplyWithColumnMatrix(inputColumnMatrix);
+  bool multiplyWithSomethingPassed = true;
+  for (unsigned int i = 0; i < M; ++i)
+  {
+    if (!itk::Math::FloatAlmostEqual(inputVector[i], columnMatrixRotated.GetVnlMatrix()(i, 0)))
+    {
+      std::cout << "Not Equal!: ";
+      std::cout << inputVector[i] << " != " << columnMatrixRotated.GetVnlMatrix()(i, 0) << std::endl;
+      multiplyWithSomethingPassed = false;
+    }
+  }
+
   auto imagesMultipliedByRieszRotationMatrix = S.MultiplyWithVectorOfImages<ImageType>(images);
   std::cout << "Size: ";
   std::cout << imagesMultipliedByRieszRotationMatrix.size() << std::endl;
@@ -146,6 +168,10 @@ runRieszRotationMatrixInterfaceWithRieszFrequencyFilterBankGeneratorTest()
   // result = 1.0 * images[0]
   int thirdComponentStatus = compareImagesAndReport<ImageType>(images[0], imagesMultipliedByRieszRotationMatrix[2]);
 
+  if (!multiplyWithSomethingPassed)
+  {
+    return EXIT_FAILURE;
+  }
   return firstComponentStatus && secondComponentStatus && thirdComponentStatus;
 }
 

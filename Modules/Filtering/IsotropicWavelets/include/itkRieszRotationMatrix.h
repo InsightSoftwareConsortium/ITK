@@ -64,6 +64,14 @@ public:
   std::vector<typename TImage::Pointer>
   MultiplyWithVectorOfImages(const std::vector<typename TImage::Pointer> & vect) const;
 
+  template <typename TInputValue>
+  std::vector<TInputValue>
+  MultiplyWithVector(const std::vector<TInputValue> & vect) const;
+
+  template <typename TInputValue>
+  VariableSizeMatrix<TInputValue>
+  MultiplyWithColumnMatrix(const VariableSizeMatrix<TInputValue> & vect) const;
+
   /**
    * Multi-index notation
    * S[n = (n1,...,nd)][m = (m1,...,md)]
