@@ -119,7 +119,6 @@ int itkResampleImageTest2Streaming( int argc, char * argv [] )
   EXERCISE_BASIC_OBJECT_METHODS( resample, ResampleImageFilter, ImageToImageFilter );
 
   monitor->SetInput( reader1->GetOutput() );
-  resample->SetInput( monitor->GetOutput() );
   TEST_SET_GET_VALUE( reader1->GetOutput(), monitor->GetInput() );
 
   resample->SetReferenceImage( reader2->GetOutput() );
@@ -135,6 +134,7 @@ int itkResampleImageTest2Streaming( int argc, char * argv [] )
   TEST_SET_GET_VALUE( interpolator, resample->GetInterpolator() );
 
   resample->SetInput( monitor->GetOutput() );
+  TEST_SET_GET_VALUE( monitor->GetOutput(), resample->GetInput() );
   writer1->SetInput( resample->GetOutput() );
 
   // Check GetReferenceImage
@@ -172,15 +172,15 @@ int itkResampleImageTest2Streaming( int argc, char * argv [] )
 
   nonlinearAffineTransform->Scale(2.0);
   resample->SetTransform( nonlinearAffineTransform );
-  writer2->SetInput( resample->GetOutput() );
   monitor->ClearPipelineSavedInformation();
+  writer2->SetInput( resample->GetOutput() );
   writer2->SetNumberOfStreamDivisions(8); //demand splitting into 8 pieces for streaming, but faked non-linearity will disable streaming
   TRY_EXPECT_NO_EXCEPTION( writer2->Update() );
 
   // check that streaming is not possible for non-linear case
-  if (!monitor->VerifyAllInputCanStream(8))
+  if (!monitor->VerifyAllInputCanStream(1))
     {
-    std::cerr << "Streaming succedded for non-linear transform which should not be the case!" << std::endl;
+    std::cerr << "Streaming succeeded for non-linear transform which should not be the case!" << std::endl;
     std::cerr << monitor;
     std::cerr << "Test failed." << std::endl;
     return EXIT_FAILURE;
