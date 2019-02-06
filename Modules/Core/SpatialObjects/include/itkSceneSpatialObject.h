@@ -34,84 +34,29 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 
-template< unsigned int TSpaceDimension = 3 >
+template< unsigned int TDimension = 3 >
 class ITK_TEMPLATE_EXPORT SceneSpatialObject:
-  public Object
+  public GroupSpatialObject< TDimension >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SceneSpatialObject);
 
-  using Self = SceneSpatialObject< TSpaceDimension >;
-  using Superclass = Object;
+  using Self = SceneSpatialObject;
+  using Superclass = GroupSpatialObject< TDimension >;
   using SuperclassPointer = Superclass::Pointer;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
 
-  using ObjectType = SpatialObject< TSpaceDimension >;
-  using SpatialObjectType = SpatialObject< TSpaceDimension >;
+  using SpatialObjectType = SpatialObject< TDimension >;
   using SpatialObjectPointer = typename SpatialObjectType::Pointer;
 
-  using ObjectListType = std::list< SpatialObjectPointer >;
-
-  static constexpr unsigned int MaximumDepth = 9999999;
+  using ChildrenListType = typename Superclass::ChildrenListType;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
   itkTypeMacro(SceneSpatialObject, Object);
 
-  /** Add an object to the list of children. */
-  void AddSpatialObject(SpatialObject< TSpaceDimension > *pointer);
-
-  /** Remove the object passed as arguments from the list of
-   *  children. May this function
-   *  should return a false value if the object to remove is
-   *  not found in the list. */
-  void RemoveSpatialObject(SpatialObject< TSpaceDimension > *object);
-
-  /** Returns a list of pointer to the objects in the scene.
-   *  \warning This function creates a new list therefore
-   *  the user is responsible for the deletion of the list. */
-  ObjectListType * GetObjects(unsigned int depth = MaximumDepth,
-                              char *name = nullptr);
-
-  /** Returns the number of children currently assigned to
-   *  the SceneSpatialObject object. */
-  unsigned int GetNumberOfObjects(unsigned int depth = MaximumDepth,
-                                  char *name = nullptr);
-
-  /** Set the list of pointers to children to the list passed as
-* argument. */
-  void SetObjects(ObjectListType & children);
-
-  /** Returns the latest modified time of all the objects contained
-   *  in this SceneSpatialObject object. */
-  ModifiedTimeType GetMTime() const override;
-
-  /** Get/Set the ParentID */
-  void SetParentId(int parentid) { m_ParentId = parentid; }
-  int  GetParentId() { return m_ParentId; }
-
-  /** Return a SpatialObject in the SceneSpatialObject given its ID */
-  SpatialObject< TSpaceDimension > * GetObjectById(int Id);
-
-  /** In practice, this is used to transform an imported MetaIO scene hierarchy
-   * specified only by Ids into the SceneSpatialObject hierarchy specified by
-   * Ids and Child/Parent lists. */
-  bool FixHierarchy();
-
-  bool CheckIdValidity();
-
-  void FixIdValidity();
-
-  int GetNextAvailableId();
-
-  /** Clear function : Remove all the objects in the scene */
-  void Clear();
-
 protected:
-  /** List of the children object plug to the SceneSpatialObject
-   *  spatial object. */
-  ObjectListType m_Objects;
 
   /** constructor */
   SceneSpatialObject();
@@ -122,9 +67,8 @@ protected:
   /** Print the object informations in a stream. */
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  /** Parent ID : default = -1 */
-  int m_ParentId{0};
 };
+
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
