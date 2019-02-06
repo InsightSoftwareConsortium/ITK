@@ -19,7 +19,6 @@
 #define itkArrowSpatialObject_hxx
 
 #include "itkArrowSpatialObject.h"
-#include "itkEuler3DTransform.h"
 
 namespace itk
 {
@@ -28,7 +27,7 @@ template< unsigned int TDimension >
 ArrowSpatialObject< TDimension >
 ::ArrowSpatialObject()
 {
-  this->SetTypeName ("ArrowSpatialObject");
+  this->SetTypeName("ArrowSpatialObject");
   this->GetProperty()->SetRed(1);
   this->GetProperty()->SetGreen(0);
   this->GetProperty()->SetBlue(0);

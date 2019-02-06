@@ -83,9 +83,17 @@ public:
   }
 
   /**  */
-  bool ComputeLocalBoundingBox() const override
+  bool ComputeObjectBoundingBox() const override
   {
     itkWarningMacro(<< "PointBasedSpatialObject::ComputeLocalBoundingBox() is"
+                    << " not implemented in the base class" << std::endl);
+    return false;
+  }
+
+  bool IsInside( const PointType & point, unsigned int depth=0,
+    const std::string & name ) const override
+  {
+    itkWarningMacro(<< "PointBasedSpatialObject::IsInside() is"
                     << " not implemented in the base class" << std::endl);
     return false;
   }
