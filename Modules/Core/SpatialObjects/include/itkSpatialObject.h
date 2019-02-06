@@ -301,6 +301,23 @@ public:
   unsigned int GetNumberOfChildren(unsigned int depth = 0,
                                    const std::string & name = "") const;
 
+  /** Return a SpatialObject in the SceneSpatialObject given its ID */
+  SpatialObject< TDimension > * GetObjectById(int Id);
+
+  /** In practice, this is used to transform an imported MetaIO scene hierarchy
+   * specified only by Ids into the SceneSpatialObject hierarchy specified by
+   * Ids and Child/Parent lists. */
+  bool FixParentChildHierarchyUsingParentIds();
+
+  /** Confirm that every object inherited from this has a unique Id */
+  bool CheckIdValidity() const;
+
+  /** Give every object inherited from this a unique Id */
+  void FixIdValidity();
+
+  /** Generate a unique Id */
+  int GetNextAvailableId() const;
+
 
   /**********************/
   /* Bounding Box       */

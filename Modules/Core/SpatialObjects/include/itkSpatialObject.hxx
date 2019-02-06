@@ -310,6 +310,11 @@ SpatialObject< TDimension >
 
     pointer->SetParent( this );
 
+    if( pointer->GetId() == -1 )
+      {
+      pointer->SetId( this->GetNextAvailableId() );
+      }
+
     this->Modified();
     }
 }
@@ -366,9 +371,26 @@ void
 SpatialObject< TDimension >
 ::SetObjectToParentTransform(TransformType *transform)
 {
+  typename TransformType::Pointer inverse = TransformType::New();
+  if ( !transform->GetInverse( inverse ) )
+    {
+    ExceptionObject e(__FILE__);
+    e.SetLocation( "SpatialObject::SetObjectToParentTransform()" );
+    e.SetDescription( "Transform must be invertible." );
+    throw e;
+    }
+
   m_ObjectToParentTransform.CopyInFixedParameters( transform );
   m_ObjectToParentTransform.CopyInParameters( transform );
+
   ComputeObjectToWorldTransform();
+
+  auto it = m_ChildrenList->begin();
+  while( it != m_ChildrenList->end() )
+    {
+    (*it)->ComputeObjectToWorldTransform();
+    ++it;
+    }
 }
 
 /** Compute the Global Transform */
@@ -383,8 +405,8 @@ SpatialObject< TDimension >
     this->GetObjectToParentTransform() );
   if( this->HasParent() )
     {
-    m_ObjectToWorldTransform->Compose( this->GetParent()
-      ->GetObjectToWorldTransform(), false );
+    m_ObjectToWorldTransform->Compose( this->GetParent()->
+      GetObjectToWorldTransform(), false );
     }
 
   // Propagate the changes to the children
@@ -394,6 +416,10 @@ SpatialObject< TDimension >
     ( *it )->Get()->ComputeObjectToWorldTransform();
     it++;
     }
+
+  this->ComputeObjectBoundingBox();
+
+  this->Modified();
 }
 
 /** Get the local transformation */
@@ -421,8 +447,18 @@ void
 SpatialObject< TDimension >
 ::SetObjectToWorldTransform(TransformType *transform)
 {
+  typename TransformType::Pointer inverse = TransformType::New();
+  if ( !transform->GetInverse( inverse ) )
+    {
+    ExceptionObject e(__FILE__);
+    e.SetLocation( "SpatialObject::SetObjectToWorldTransform()" );
+    e.SetDescription( "Transform must be invertible." );
+    throw e;
+    }
+
   m_ObjectToWorldTransform->CopyInFixedParameters( transform );
   m_ObjectToWorldTransform->CopyInParameters( transform );
+
   ComputeObjectToParentTransform();
 }
 
@@ -444,6 +480,17 @@ SpatialObject< TDimension >
       m_ObjectToParentTransform->Compose(inverse, true);
       }
     }
+  // Propagate the changes to the children
+  typename ChildrenListType::iterator it = m_ChildrenList->begin();
+  while ( it != m_ChildrenList->end() )
+    {
+    ( *it )->Get()->ComputeObjectToWorldTransform();
+    it++;
+    }
+
+  this->ComputeObjectBoundingBox();
+
+  this->Modified();
 }
 
 /** Get the modification time  */
@@ -665,6 +712,183 @@ SpatialObject< TDimension >
   return ccount;
 }
 
+/** Return a SpatialObject in the SceneSpatialObject
+ *  given a parent ID */
+template< unsigned int TDimension >
+SpatialObject< TDimension > *
+SpatialObject< TDimension >
+::GetObjectById(int Id)
+{
+  if( Id == this->GetId() )
+    {
+    return this;
+    }
+
+  auto it = m_ChildrenList.begin();
+  auto itEnd = m_ChildrenList.end();
+
+  while ( it != itEnd )
+    {
+    SpatialObject< TDimension > * tmp = (*it)->GetObjectById();
+    if( tmp != nullptr )
+      {
+      return tmp;
+      }
+    ++it;
+    }
+
+  return nullptr;
+}
+
+template< unsigned int TDimension >
+bool
+SceneSpatialObject< TDimension >
+::FixParentChildHierarchyUsingParentIds()
+{
+  ChildrenListType * children = this->GetChildren( 99999 );
+
+  auto it = children->begin();
+  auto itEnd = children->end();
+  typename ChildrenListType::iterator oldIt;
+
+  bool ret = true;
+  while ( it != itEnd )
+    {
+    const int parentId = ( *it )->GetParentId();
+    if ( parentId >= 0 )
+      {
+      auto * parentObject = static_cast< SpatialObject< TDimension > * >(
+        this->GetObjectById(parentId) );
+      if ( parentObject == nullptr )
+        {
+        ret = false;
+        ++it;
+        }
+      else
+        {
+        parentObject->AddChild( dynamic_cast< SpatialObject< TDimension > * >(
+          ( *it ).GetPointer() ) );
+        oldIt = it;
+        ++it;
+        }
+      }
+    else
+      {
+      ++it;
+      }
+    }
+
+  delete children;
+
+  return ret;
+}
+
+/** Check if the parent objects have a defined ID */
+template< unsigned int TDimension >
+bool
+SceneSpatialObject< TDimension >
+::CheckIdValidity() const
+{
+  if( this->GetId() == -1 )
+    {
+    return false;
+    }
+
+  ChildrenListType * children = this->GetChildren();
+
+  typename ObjectListType::iterator it = children->begin();
+  typename ObjectListType::iterator itEnd = children->end();
+  typename ObjectListType::iterator it2;
+  int id;
+  int id2;
+
+  while ( it != itEnd )
+    {
+    id = (*it)->GetId();
+    it2 = ++it;
+    while( it2 != itEnd )
+      {
+      id2 = (*it2)->GetId();
+      if( id == id2 || id2 == -1 )
+        {
+        delete children;
+        return false;
+        }
+      ++it2;
+      }
+    ++it;
+    }
+
+  delete children;
+  return true;
+}
+
+template< unsigned int TDimension >
+void
+SceneSpatialObject< TDimension >
+::FixIdValidity()
+{
+  if( this->GetId() == -1 )
+    {
+    this->SetId( this->GetNextAvailableId() );
+    }
+
+  ChildrenListType * children = this->GetChildren();
+
+  typename ObjectListType::iterator it = children->begin();
+  typename ObjectListType::iterator itEnd = children->end();
+  typename ObjectListType::iterator it2;
+  int id;
+  int id2;
+
+  while ( it != itEnd )
+    {
+    id = (*it)->GetId();
+    it2 = ++it;
+    while( it2 != itEnd )
+      {
+      id2 = (*it2)->GetId();
+      if( id == id2 || id2 == -1 )
+        {
+        ( *it2 )->SetId( this->GetNextAvailableId() );
+        }
+      ++it2;
+      }
+    ++it;
+    }
+
+  delete children;
+}
+
+/** Return the next available Id. For speed reason the MaxID+1 is returned */
+template< unsigned int TDimension >
+int
+SceneSpatialObject< TDimension >
+::GetNextAvailableId() const
+{
+  int maxId = 0;
+
+  ChildrenListType * children = this->GetChildren();
+
+  typename ObjectListType::iterator it = children->begin();
+  typename ObjectListType::iterator itEnd = children->end();
+  int id;
+
+  while ( it != itEnd )
+    {
+    id = (*it)->GetId();
+    if( id > maxId )
+      {
+      maxId = id;
+      }
+    ++it;
+    }
+
+  delete children;
+
+  return maxId + 1;
+}
+
 /** Return the Modified time of the LocalToGlobalTransform */
 template< unsigned int TDimension >
 unsigned long
@@ -710,18 +934,21 @@ SpatialObject< TDimension >
   if( parent != m_Parent )
     {
     Self * oldParent = m_Parent;
+    TransformType * oldObjectWorldTransform = this->GetObjectToWorldTransform();
+
     m_Parent = parent;
     if( parent != nullptr )
       {
       m_ParentId = parent->GetId();
-      this->ComputeObjectToParentTransform();
       m_Parent->AddChild( this );
+      this->SetObjectToWorldTransform( oldObjectWorldTransform );
       }
     else
       {
       m_parentId = -1;
-      this->SetObjectToParentTransform( this->GetObjectToWorldTransform() );
+      this->SetObjectToParentTransform( oldObjectWorldTransform );
       }
+
     if( oldParent != nullptr )
       {
       oldParent->RemoveChild( this );
