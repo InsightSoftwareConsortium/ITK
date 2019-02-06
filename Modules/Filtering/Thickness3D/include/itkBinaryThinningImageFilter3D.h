@@ -54,7 +54,7 @@ namespace itk
  * \author Hanno Homann, Oxford University, Wolfson Medical Vision Lab, UK.
  *
  * \sa MorphologyImageFilter
- * \ingroup ImageEnhancement MathematicalMorphologyImageFilters BinaryThinning3D
+ * \ingroup ImageEnhancement MathematicalMorphologyImageFilters Thickness3D
  */
 
 template <class TInputImage, class TOutputImage>
