@@ -24,56 +24,64 @@
 
 namespace itk
 {
+
+template< unsigned int TDimension >
+PolygonSpatialObject< TDimension >
+::PolygonSpatialObject()
+{
+  this->SetTypeName( "PolygonSpatialObject" );
+  m_IsClosed = false;
+  m_IsClosedMTime = this->GetObjectMTime();
+  m_Orientation = -1;
+  m_OrientationMTime = this->GetObjectMTime();
+  m_Thickness = 0.0;
+}
+
 template< unsigned int TDimension >
 typename PolygonSpatialObject< TDimension >::PolygonGroupOrientation
 PolygonSpatialObject< TDimension >
 ::Plane() const
 {
-  if ( Self::ObjectDimension == 2 )
+  if( m_OrientationMTime == this->GetObjectMTime() )
     {
-    return Axial;
+    return m_Orientation;
     }
-
-  PolygonGroupOrientation plane;
-  // local type alias to shut up the compiler...
+  m_OrientationMTime = this->GetObjectMTime();
 
   const PointListType & points = this->GetPoints();
   auto it = points.begin();
   auto itend = points.end();
-  double min[3], max[3];       // x, y, z
-  int    i;
-  for ( i = 0; i < 3; i++ )
-    {
-    max[i] = NumericTraits< double >::NonpositiveMin();
-    min[i] = NumericTraits< double >::max();
-    }
+  PointType minPnt;
+  PointType maxPnt;
+  minPnt.Fill( NumericTraits< double >::max() );
+  maxPnt.Fill( NumericTraits< double >::NonpositiveMin() );
   while ( it != itend )
     {
-    PointType curpoint = ( *it ).GetPosition();
-    for ( i = 0; i < 3; i++ )
+    PointType curpoint = this->GetObjectToWorldTransform()->TransformPoint(
+      ( *it ).GetPosition() );
+    for ( unsigned int i = 0; i < ObjectDimension; i++ )
       {
-      if ( min[i] > curpoint[i] ) { min[i] = curpoint[i]; }
-      if ( max[i] < curpoint[i] ) { max[i] = curpoint[i]; }
+      if ( minPnt[i] > curpoint[i] )
+        {
+        minPnt[i] = curpoint[i];
+        }
+      if ( maxPnt[i] < curpoint[i] )
+        {
+        maxPnt[i] = curpoint[i];
+        }
       }
     it++;
     }
-  if ( Math::ExactlyEquals(min[0], max[0]) && Math::NotExactlyEquals(min[1], max[1]) && Math::NotExactlyEquals(min[2], max[2]) )
+  m_Orientation = -1;
+  for ( unsigned int i = 0; i < ObjectDimension; i++ )
     {
-    plane = Sagittal;
+    if ( Math::ExactlyEquals(minPnt[0], maxPnt[0]) )
+      {
+      m_Orientation = i;
+      break;
+      }
     }
-  else if ( Math::NotExactlyEquals(min[0], max[0]) && Math::ExactlyEquals(min[1], max[1]) && Math::NotExactlyEquals(min[2], max[2]) )
-    {
-    plane = Coronal;
-    }
-  else if ( Math::NotExactlyEquals(min[0], max[0]) && Math::NotExactlyEquals(min[1], max[1]) && Math::ExactlyEquals(min[2], max[2]) )
-    {
-    plane = Axial;
-    }
-  else
-    {
-    plane = Unknown;
-    }
-  return plane;
+  return m_Orientation;
 }
 
 template< unsigned int TDimension >
@@ -81,56 +89,18 @@ bool
 PolygonSpatialObject< TDimension >
 ::IsClosed() const
 {
+  if( m_IsClosedMTime == this->GetObjectMTime() )
+    {
+    return m_IsClosed;
+    }
+  m_IsClosedMTime = this->GetObjectMTime();
+
   const PointListType & points = this->GetPoints();
 
   auto it = points.begin();
   auto itend = points.end();
   itend--;
   return ( *it ).GetPosition() == ( *itend ).GetPosition();
-}
-
-template< unsigned int TDimension >
-unsigned int
-PolygonSpatialObject< TDimension >
-::NumberOfPoints() const
-{
-  return static_cast<unsigned int>( ( this->GetPoints() ).size() );
-}
-
-template< unsigned int TDimension >
-typename PolygonSpatialObject< TDimension >::PointType
-PolygonSpatialObject< TDimension >
-::ClosestPoint(const PointType & curPoint) const
-{
-  const PointListType & points = this->GetPoints();
-
-  auto it = points.begin();
-  auto itend = points.end();
-  double distance = NumericTraits< double >::max();
-
-  if ( it == itend )
-    {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription(
-      "PolygonSpatialObject: ClosestPoint called using an empty point list");
-    throw exception;
-    }
-
-  PointType closestPoint;
-  closestPoint.Fill(0.0);
-  while ( it != itend )
-    {
-    typename SpatialObjectPoint< TDimension >::PointType curpos =
-      ( *it ).GetPosition();
-    double curdistance = curpos.EuclideanDistanceTo(curPoint);
-    if ( curdistance < distance )
-      {
-      closestPoint = ( *it ).GetPosition();
-      distance = curdistance;
-      }
-    it++;
-    }
-  return closestPoint;
 }
 
 template< unsigned int TDimension >
@@ -144,46 +114,43 @@ PolygonSpatialObject< TDimension >
   //dot product operator, the `x' represents the cross product operator,
   //        and std::abs() is the absolute value function.
   double area = 0.0;
-  int    numpoints = this->NumberOfPoints();
-  int    X, Y;
+  int    numpoints = this->GetNumberOfPoints();
+  int    X = -1;
+  int    Y = -1;
 
   if ( numpoints < 3 )
     {
     return 0;
     }
-  switch ( this->Plane() )
+
+  for( unsigned int i=0; i<ObjectDimension ++i )
     {
-    case Sagittal:
-      X = 1; Y = 2;
-      break;
-    case Axial:
-      X = 0; Y = 1;
-      break;
-    case Coronal:
-      X = 0; Y = 2;
-      break;
-    default:
-      ExceptionObject exception(__FILE__, __LINE__);
-      exception.SetDescription("File cannot be read");
-      throw exception;
+    if( this->Plane() != i )
+      {
+      if( X == -1 )
+        {
+        X = i;
+        }
+      else
+        {
+        Y = i;
+        break;
+        }
+      }
     }
+
   const PointListType & points = this->GetPoints();
   auto it = points.begin();
-  PointType start = ( *it ).GetPosition();
+  PointType a;
+  PointType b = this->GetObjectToWorldTransform()->TransformPoint(
+    ( *it ).GetPosition() );
   for ( int i = 0; i < numpoints; i++ )
     {
-    PointType a = ( *it ).GetPosition();
-    PointType b;
+    a = b;
     it++;
-    if ( i == numpoints - 1 )
-      {
-      b = start;
-      }
-    else
-      {
-      b = ( *it ).GetPosition();
-      }
-    //
+    b = this->GetObjectToWorldTransform()->TransformPoint(
+      ( *it ).GetPosition() );
+
     // closed PolygonGroup has first and last points the same
     if ( a == b )
       {
@@ -209,7 +176,7 @@ PolygonSpatialObject< TDimension >
 ::MeasurePerimeter() const
 {
   double perimeter = 0.0;
-  int    numpoints = this->NumberOfPoints();
+  int    numpoints = this->GetNumberOfPoints();
 
   if ( numpoints < 3 )
     {
@@ -219,21 +186,16 @@ PolygonSpatialObject< TDimension >
 
   auto it = points.begin();
 
-  PointType start = ( *it ).GetPosition();
+  PointType a;
+  PointType b = this->GetObjectToWorldTransform()->TransformPoint(
+    ( *it ).GetPosition() );
   for ( int i = 0; i < numpoints; i++ )
     {
-    PointType a = ( *it ).GetPosition();
-    PointType b;
+    a = b;
     it++;
-    if ( i == numpoints - 1 )
-      {
-      b = start;
-      }
-    else
-      {
-      b = ( *it ).GetPosition();
-      }
-    //
+    b = this->GetObjectToWorldTransform()->TransformPoint(
+      ( *it ).GetPosition() );
+
     // closed PolygonGroup has first and last points the same
     if ( a == b )
       {
@@ -248,256 +210,88 @@ PolygonSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 PolygonSpatialObject< TDimension >
-::DeletePoint(const PointType & pointToDelete)
+::IsInside(const PointType & point, unsigned int depth,
+  const std::string & name) const
 {
-  PointListType & points = this->GetPoints();
-
-  auto it = points.begin();
-  auto itend = points.end();
-  if ( it == itend )
+  if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    return false;
-    }
-
-  while ( it != itend )
-    {
-    BlobPointType & curPoint = ( *it );
-    typename SpatialObjectPoint< TDimension >::PointType curpos =
-      curPoint.GetPosition();
-    if ( curpos == pointToDelete )
+    if( this->IsClosed() && this->GetObjectBounds()->IsInside( point ) )
       {
-      points.erase(it);
-      return true;
-      }
-    it++;
-    }
-  return false;
-}
+      int    numpoints = this->GetNumberOfPoints();
+      int    X = -1;
+      int    Y = -1;
 
-template< unsigned int TDimension >
-bool
-PolygonSpatialObject< TDimension >
-::AddPoint(const PointType & pointToAdd)
-{
-  BlobPointType newPoint;
-
-  newPoint.SetPosition(pointToAdd);
-  this->GetPoints().push_back(newPoint);
-  return true;
-}
-
-template< unsigned int TDimension >
-bool
-PolygonSpatialObject< TDimension >
-::InsertPoint(const PointType & point1, const PointType & pointToAdd)
-{
-  PointListType & points = this->GetPoints();
-
-  auto it = points.begin();
-  auto itend = points.end();
-  if ( it == itend )
-    {
-    this->AddPoint(pointToAdd);
-    return true;
-    }
-
-  while ( it != itend )
-    {
-    BlobPointType & curPoint = ( *it );
-    typename SpatialObjectPoint< TDimension >::PointType curpos =
-      curPoint.GetPosition();
-    if ( curpos == point1 )
-      {
-      auto after = it;
-      after++;
-      BlobPointType newPoint;
-      newPoint.SetPosition(pointToAdd);
-      points.insert(after, 1, newPoint);
-      return true;
-      }
-    it++;
-    }
-  return false;
-}
-
-template< unsigned int TDimension >
-bool
-PolygonSpatialObject< TDimension >
-::ReplacePoint(const PointType & oldpoint, const PointType & newPoint)
-{
-  if ( oldpoint == newPoint )
-    {
-    return true;
-    }
-  PointListType & points = this->GetPoints();
-  auto it = points.begin();
-  auto itend = points.end();
-  if ( it == itend )
-    {
-    this->AddPoint(newPoint);
-    return true;
-    }
-
-  while ( it != itend )
-    {
-    BlobPointType & curPoint = ( *it );
-    typename SpatialObjectPoint< TDimension >::PointType curpos =
-      curPoint.GetPosition();
-    if ( curpos == oldpoint )
-      {
-      auto after = it;
-      after++;
-      BlobPointType newBlobPoint;
-      newBlobPoint.SetPosition(newPoint);
-      points.insert(after, 1, newBlobPoint);
-      points.erase(it);
-      return true;
-      }
-    it++;
-    }
-  return false;
-}
-
-template< unsigned int TDimension >
-bool
-PolygonSpatialObject< TDimension >
-::RemoveSegment(const PointType & startPoint, const PointType & endPoint)
-{
-  PointListType & points = this->GetPoints();
-
-  auto it = points.begin();
-  auto itend = points.end();
-  typename PointListType::iterator first;
-  typename PointListType::iterator last;
-
-  if ( it == itend )
-    {
-    return false;
-    }
-  int foundcount = 0;
-  while ( it != itend )
-    {
-    BlobPointType & curPoint = ( *it );
-    typename SpatialObjectPoint< TDimension >::PointType curpos =
-      curPoint.GetPosition();
-    if ( curpos == startPoint )
-      {
-      first = it;
-      foundcount++;
-      }
-    //
-    // make sure you find the start before you find the end
-    else if ( foundcount > 0 && curpos == endPoint )
-      {
-      last = it;
-      foundcount++;
-      }
-    if ( foundcount == 2 )
-      {
-      break;
-      }
-    it++;
-    }
-  if ( foundcount != 2 )
-    {
-    return false;
-    }
-
-  points.erase( first, points.erase(last) );
-  return true;
-}
-
-template< unsigned int TDimension >
-bool
-PolygonSpatialObject< TDimension >
-::IsInside(const PointType & point) const
-{
-  return this->IsInside(point, 0, nullptr);
-}
-
-template< unsigned int TDimension >
-bool
-PolygonSpatialObject< TDimension >
-::IsInside(const PointType & point, unsigned int, char *) const
-{
-  int numpoints = this->NumberOfPoints();
-  int X, Y;
-
-  if ( numpoints < 3 )
-    {
-    return false;
-    }
-  switch ( this->Plane() )
-    {
-    case Sagittal:
-      X = 1; Y = 2;
-      break;
-    case Axial:
-      X = 0; Y = 1;
-      break;
-    case Coronal:
-      X = 0; Y = 2;
-      break;
-    default:
-      ExceptionObject exception(__FILE__, __LINE__);
-      exception.SetDescription("non-planar polygon");
-      throw exception;
-    }
-
-  if ( !this->SetInternalInverseTransformToWorldToIndexTransform() )
-    {
-    return false;
-    }
-
-  PointType transformedPoint =
-    this->GetInternalInverseTransform()->TransformPoint(point);
-
-  const PointListType & points = this->GetPoints();
-  auto it = points.begin();
-  auto itend = points.end();
-  itend--;
-
-  PointType first = ( *it ).GetPosition();
-
-  // If last point same as first, don't bother with it.
-  if ( this->IsClosed() )
-    {
-    numpoints--;
-    }
-
-  bool oddNodes = false;
-
-  PointType node1;
-  PointType node2;
-
-  for ( int i = 0; i < numpoints; i++ )
-    {
-    node1 = ( *it ).GetPosition();
-    it++;
-    if ( i == numpoints - 1 )
-      {
-      node2 = first;
-      }
-    else
-      {
-      node2 = ( *it ).GetPosition();
-      }
-
-    const double x = transformedPoint[X];
-    const double y = transformedPoint[Y];
-
-    if ( ( node1[Y] < y && node2[Y] >= y )
-         || ( node2[Y] < y && node1[Y] >= y ) )
-      {
-      if ( node1[X] + ( y - node1[Y] )
-           / ( node2[Y] - node1[Y] ) * ( node2[X] - node1[X] ) < x )
+      if ( numpoints >= 3 )
         {
-        oddNodes = !oddNodes;
+        for( unsigned int i=0; i<ObjectDimension ++i )
+          {
+          if( this->Plane() != i )
+            {
+            if( X == -1 )
+              {
+              X = i;
+              }
+            else
+              {
+              Y = i;
+              break;
+              }
+            }
+          }
+
+        PointType transformedPoint = this->GetObjectToWorldTransform()->
+          GetInverse()->TransformPoint( point );
+
+        const PointListType & points = this->GetPoints();
+        auto it = points.begin();
+        auto itend = points.end();
+        itend--;
+
+        PointType first = ( *it ).GetPosition();
+
+        bool oddNodes = false;
+
+        PointType node1;
+        PointType node2 = ( *it ).GetPosition();
+        for ( int i = 0; i < numpoints; i++ )
+          {
+          node1 = node2;
+          it++;
+          node2 = ( *it ).GetPosition();
+
+          if( node1 == node2 )
+            {
+            continue;
+            }
+
+          const double x = transformedPoint[X];
+          const double y = transformedPoint[Y];
+
+          if ( ( node1[Y] < y && node2[Y] >= y )
+               || ( node2[Y] < y && node1[Y] >= y ) )
+            {
+            if ( node1[X] + ( y - node1[Y] )
+                 / ( node2[Y] - node1[Y] ) * ( node2[X] - node1[X] ) < x )
+              {
+              oddNodes = !oddNodes;
+              }
+            }
+          }
+
+        if( oddNodes )
+          {
+          return true;
+          }
         }
       }
     }
 
-  return oddNodes;
+  if( depth > 0 )
+    {
+    return Superclass::IsInsideChildren( point, depth-1, name );
+    }
+
+  return false;
 }
 
 template< unsigned int TDimension >
@@ -506,7 +300,12 @@ PolygonSpatialObject< TDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << m_Thickness << std::endl;
+  os << indent << "Orientation: " << m_Orientation << std::endl;
+  os << indent << "Orientation Time: " << m_OrientationMTime << std::endl;
+  os << indent << "IsClosed: " << (m_IsClosed)?"True":"False" << std::endl;
+  os << indent << "IsClosed Time: " << m_IsClosedMTime << std::endl;
+  os << indent << "Thickness: " << m_Thickness << std::endl;
 }
-}
+
+} //namespace
 #endif
