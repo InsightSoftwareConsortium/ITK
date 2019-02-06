@@ -90,15 +90,19 @@ public:
   SizeValueType GetNumberOfPoints() const override
   { return static_cast<SizeValueType>( m_Points.size() ); }
 
+  /** Method returns the Point closest to the given point */
+  IdentifierType ClosestPoint(const PointType & curPoint) const;
+
   /** Returns true if the point is inside the Blob, false otherwise. */
   bool IsInside(const PointType & point, unsigned int depth,
     const std::string & name) const override;
 
   /** Compute the boundaries of the Blob. */
-  bool ComputeLocalBoundingBox() const override;
+  bool ComputeObjectBoundingBox() const override;
 
 protected:
   PointListType m_Points;
+
 
   BlobSpatialObject();
   ~BlobSpatialObject() override;

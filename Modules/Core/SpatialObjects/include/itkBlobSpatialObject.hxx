@@ -98,6 +98,45 @@ BlobSpatialObject< TDimension >
   Superclass::PrintSelf(os, indent);
 }
 
+template< unsigned int TDimension >
+typename PolygonSpatialObject< TDimension >::IdentifierType
+PolygonSpatialObject< TDimension >
+::ClosestPoint(const PointType & curPoint) const
+{
+  const PointListType & points = this->GetPoints();
+
+  auto it = points.begin();
+  auto itend = points.end();
+
+  if ( it == itend )
+    {
+    ExceptionObject exception(__FILE__, __LINE__);
+    exception.SetDescription(
+      "BlogSpatialObject: ClosestPoint called using an empty point list");
+    throw exception;
+    }
+
+  IdentifierType pointId = 0;
+  IdentifierType closestPointId = 0;
+  double closestPointDistance = NumericTraits< double >::max();
+  while ( it != itend )
+    {
+    typename SpatialObjectPoint< TDimension >::PointType curpos =
+      this->GetObjectToWorldTransform()->TransformPoint( ( *it ).GetPosition() );
+    double curdistance = curpos.EuclideanDistanceTo(curPoint);
+    if ( curdistance < closestPointDistance )
+      {
+      closestPointId = pointId;
+      closestPointDistance = curdistance;
+      }
+    it++;
+    pointId++;
+    }
+
+  return closestPointId;
+}
+
+
 /** Compute the bounds of the blob */
 template< unsigned int TDimension >
 bool
@@ -113,22 +152,46 @@ BlobSpatialObject< TDimension >
     {
     return false;
     }
-  else
+
+  PointType pt = ( *it ).GetPosition();
+
+  // Compute a bounding box in object space
+  typename BoundingBoxType::Pointer bb = BoundingBoxType::New();
+
+  bb->SetMinimum(pt);
+  bb->SetMaximum(pt);
+  it++;
+  while ( it != end )
     {
-    PointType pt = this->GetObjectToWorldTransform()->TransformPoint(
-      ( *it ).GetPosition() );
-    const_cast< BoundingBoxType * >( this->GetObjectBounds() )->SetMinimum(pt);
-    const_cast< BoundingBoxType * >( this->GetObjectBounds() )->SetMaximum(pt);
+    bb->ConsiderPoint( ( *it ).GetPosition() );
     it++;
-    while ( it != end )
-      {
-      pt = this->GetObjectToWorldTransform()->TransformPoint(
-        ( *it ).GetPosition() );
-      const_cast< BoundingBoxType * >( this->GetObjectBounds() )
-        ->ConsiderPoint(pt);
-      it++;
-      }
     }
+  bb->ComputeBOundingBox();
+
+  // Next Transform the corners of the bounding box into world space
+  using PointsContainer = typename BoundingBoxType::PointsContainer;
+  const PointsContainer *corners = bb->GetCorners();
+  typename PointsContainer::Pointer transformedCorners =
+    PointsContainer::New();
+  transformedCorners->Reserve(
+    static_cast<typename PointsContainer::ElementIdentifier>(
+      corners->size() ) );
+
+  auto it = corners->begin();
+  auto itTrans = transformedCorners->begin();
+  while ( it != corners->end() )
+    {
+    PointType pnt = this->GetObjectToWorldTransform()->TransformPoint(*it);
+    *itTrans = pnt;
+    ++it;
+    ++itTrans;
+    }
+
+  // refresh the object's bounding box with the transformed corners
+  const_cast< BoundingBoxType * >( this->GetObjectBounds() )
+    ->SetPoints(transformedCorners);
+  this->GetObjectBounds()->ComputeBoundingBox();
+
   return true;
 }
 
