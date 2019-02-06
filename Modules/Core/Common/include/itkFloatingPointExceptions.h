@@ -19,6 +19,7 @@
 #define itkFloatingPointExceptions_h
 
 #include "itkMacro.h" // for ITKCommon_EXPORT
+#include "itkSingletonMacro.h"
 
 namespace itk
 {
@@ -28,6 +29,9 @@ namespace itk
  * Allows floating point exceptions to be caught during program execution.
  * \ingroup ITKCommon
  */
+
+struct ExceptionGlobals;
+
 class ITKCommon_EXPORT FloatingPointExceptions
 {
 public:
@@ -76,9 +80,9 @@ private:
   FloatingPointExceptions(const FloatingPointExceptions &) = delete;
   void operator=(const FloatingPointExceptions &) = delete;
 
+  itkGetGlobalDeclarationMacro(ExceptionGlobals, PimplGlobals);
   /** static member that controls what happens during an exception */
-  static ExceptionAction m_ExceptionAction;
-  static bool            m_Enabled;
+  static ExceptionGlobals * m_PimplGlobals;
 };
 }
 

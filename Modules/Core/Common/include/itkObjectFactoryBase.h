@@ -29,6 +29,7 @@
 #define itkObjectFactoryBase_h
 
 #include "itkCreateObjectFunction.h"
+#include "itkSingletonMacro.h"
 #include <list>
 #include <vector>
 
@@ -198,14 +199,6 @@ public:
     CreateObjectFunctionBase::Pointer m_CreateObject;
   };
 
-  /** Set/Get the pointer to ObjectFactoryBasePrivate.
-   * Note that these functions are not part of the public API and should not be
-   * used outside of ITK. They are an implementation detail and will be
-   * removed in the future. Also note that SetObjectFactoryBasePrivate is not
-   * concurrent thread safe. */
-  static ObjectFactoryBasePrivate *GetObjectFactoryBase();
-  static void SynchronizeObjectFactoryBase(ObjectFactoryBasePrivate * objectFactoryBasePrivate);
-
 protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -231,6 +224,12 @@ protected:
   ~ObjectFactoryBase() override;
 
 private:
+
+  /** Set/Get the pointer to ObjectFactoryBasePrivate.
+   * No concurrent thread safe. */
+  static void SynchronizeObjectFactoryBase(void * objectFactoryBasePrivate);
+  itkGetGlobalDeclarationMacro(ObjectFactoryBasePrivate, PimplGlobals);
+
   OverRideMap *m_OverrideMap;
 
   /** Initialize the static list of Factories. */
@@ -257,11 +256,10 @@ private:
   unsigned long m_LibraryDate;
   std::string   m_LibraryPath;
 
-  static  bool  m_StrictVersionChecking;
-
-  // This variable should NOT be accessed directly, but through GetObjectFactoryBase
-  static ObjectFactoryBasePrivate * m_ObjectFactoryBasePrivate;
+  static ObjectFactoryBasePrivate * m_PimplGlobals;
 };
+
+
 } // end namespace itk
 
 #endif

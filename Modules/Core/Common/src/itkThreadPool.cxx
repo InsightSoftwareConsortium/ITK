@@ -22,89 +22,24 @@
 #include "itkThreadSupport.h"
 #include "itkNumericTraits.h"
 #include "itkMultiThreaderBase.h"
+#include "itkSingleton.h"
 
 #include <algorithm>
 
+
 namespace itk
 {
-  struct ThreadPoolGlobals
-  {
-    ThreadPoolGlobals(){};
-    // To lock on the internal variables.
-    std::mutex          m_Mutex;
-    ThreadPool::Pointer m_ThreadPoolInstance;
-    bool                m_DoNotWaitForThreads{false};
-  };
-}//end of itk namespace
 
-
-namespace
+struct ThreadPoolGlobals
 {
-/** \brief A function which does nothing
- *
- * This function is to be used to mark parameters as unused to suppress
- * compiler warning. It can be used when the parameter needs to be named
- * (i.e. itkNotUsed cannot be used) but is not always used. It ensures
- * that the parameter is not optimized out.
- */
-template <typename T>
-void Unused( const T &) {};
-
-// This ensures that m_ThreadPoolGlobals is has been initialized once
-// the library has been loaded. In some cases, this call will perform the
-// initialization. In other cases, static initializers like the IO factory
-// initialization code will have done the initialization.
-static ::itk::ThreadPoolGlobals *
-    initializedThreadPoolGlobals =
-    ::itk::ThreadPool::GetThreadPoolGlobals();
-
-/** \class ThreadPoolGlobalsInitializer
- *
- * \brief Initialize a ThreadPoolGlobals and delete it on program
- * completion.
- * */
-class ThreadPoolGlobalsInitializer
-{
-public:
-  using Self = ThreadPoolGlobalsInitializer;
-
-  ThreadPoolGlobalsInitializer() = default;
-
-  /** Delete the thread pool globals if it was created. */
-  ~ThreadPoolGlobalsInitializer()
-    {
-    delete m_ThreadPoolGlobals;
-    m_ThreadPoolGlobals = nullptr;
-    }
-
-  /** Create the ThreadPoolGlobals if needed and return it. */
-  static ::itk::ThreadPoolGlobals * GetThreadPoolGlobals()
-    {
-    if( !m_ThreadPoolGlobals )
-      {
-      m_ThreadPoolGlobals = new ::itk::ThreadPoolGlobals;
-
-      // To avoid being optimized out. The compiler does not like this
-      // statement at a higher scope.
-      Unused(initializedThreadPoolGlobals);
-      }
-    return m_ThreadPoolGlobals;
-    }
-
-private:
-  static ::itk::ThreadPoolGlobals *
-      m_ThreadPoolGlobals;
+  ThreadPoolGlobals():m_DoNotWaitForThreads(false){};
+  // To lock on the internal variables.
+  std::mutex m_Mutex;
+  ThreadPool::Pointer m_ThreadPoolInstance;
+  bool m_DoNotWaitForThreads;
 };
 
-// Takes care of cleaning up the ThreadPoolGlobals
-static ThreadPoolGlobalsInitializer ThreadPoolGlobalsInstance;
-// Initialized by the compiler to zero
-::itk::ThreadPoolGlobals *
-    ThreadPoolGlobalsInitializer::m_ThreadPoolGlobals;
-}// end of anonymous namespace
-
-namespace itk
-{
+itkGetGlobalSimpleMacro(ThreadPool, ThreadPoolGlobals, PimplGlobals);
 
 ThreadPool::Pointer
 ThreadPool
@@ -118,65 +53,48 @@ ThreadPool::Pointer
 ThreadPool
 ::GetInstance()
 {
-  std::unique_lock<std::mutex> mutexHolder( m_ThreadPoolGlobals->m_Mutex );
-
-  // This is called once, on-demand to ensure that m_ThreadPoolGlobals is
+  // This is called once, on-demand to ensure that m_PimplGlobals is
   // initialized.
-  static ThreadPoolGlobals * threadPoolGlobals = GetThreadPoolGlobals();
-  Unused(threadPoolGlobals);
+  itkInitGlobalsMacro(PimplGlobals);
 
-  if( m_ThreadPoolGlobals->m_ThreadPoolInstance.IsNull() )
+  if( m_PimplGlobals->m_ThreadPoolInstance.IsNull() )
     {
-    m_ThreadPoolGlobals->m_ThreadPoolInstance  = ObjectFactory< Self >::Create();
-    if ( m_ThreadPoolGlobals->m_ThreadPoolInstance.IsNull() )
+    std::unique_lock<std::mutex> mutexHolder(m_PimplGlobals->m_Mutex);
+    // After we have the lock, double check the initialization
+    // flag to ensure it hasn't been changed by another thread.
+    if( m_PimplGlobals->m_ThreadPoolInstance.IsNull() )
       {
-      new ThreadPool(); //constructor sets m_ThreadPoolGlobals->m_ThreadPoolInstance
+      m_PimplGlobals->m_ThreadPoolInstance  = ObjectFactory< Self >::Create();
+      if ( m_PimplGlobals->m_ThreadPoolInstance.IsNull() )
+        {
+        new ThreadPool(); //constructor sets m_PimplGlobals->m_ThreadPoolInstance
+        }
       }
     }
-  return m_ThreadPoolGlobals->m_ThreadPoolInstance;
-}
-
-ThreadPoolGlobals *
-ThreadPool
-::GetThreadPoolGlobals()
-{
-  if( m_ThreadPoolGlobals == nullptr )
-    {
-    m_ThreadPoolGlobals = ThreadPoolGlobalsInitializer::GetThreadPoolGlobals();
-    }
-  return m_ThreadPoolGlobals;
-}
-
-void
-ThreadPool
-::SetThreadPoolGlobals(::itk::ThreadPoolGlobals * globals)
-{
-  m_ThreadPoolGlobals = globals;
+  return m_PimplGlobals->m_ThreadPoolInstance;
 }
 
 bool
 ThreadPool
 ::GetDoNotWaitForThreads()
 {
-  static ThreadPoolGlobals * threadPoolGlobals = GetThreadPoolGlobals();
-  Unused(threadPoolGlobals);
-  return m_ThreadPoolGlobals->m_DoNotWaitForThreads;
+  itkInitGlobalsMacro(PimplGlobals);
+  return m_PimplGlobals->m_DoNotWaitForThreads;
 }
 
 void
 ThreadPool
 ::SetDoNotWaitForThreads(bool doNotWaitForThreads)
 {
-  static ThreadPoolGlobals * threadPoolGlobals = GetThreadPoolGlobals();
-  Unused(threadPoolGlobals);
-  m_ThreadPoolGlobals->m_DoNotWaitForThreads = doNotWaitForThreads;
+  itkInitGlobalsMacro(PimplGlobals);
+  m_PimplGlobals->m_DoNotWaitForThreads = doNotWaitForThreads;
 }
 
 ThreadPool
 ::ThreadPool()
 {
-  m_ThreadPoolGlobals->m_ThreadPoolInstance = this; //threads need this
-  m_ThreadPoolGlobals->m_ThreadPoolInstance->UnRegister(); // Remove extra reference
+  m_PimplGlobals->m_ThreadPoolInstance = this; //threads need this
+  m_PimplGlobals->m_ThreadPoolInstance->UnRegister(); // Remove extra reference
   ThreadIdType threadCount = MultiThreaderBase::GetGlobalDefaultNumberOfThreads();
   m_Threads.reserve( threadCount );
   for ( unsigned int i = 0; i < threadCount; ++i )
@@ -189,7 +107,7 @@ void
 ThreadPool
 ::AddThreads(ThreadIdType count)
 {
-  std::unique_lock<std::mutex> mutexHolder( m_ThreadPoolGlobals->m_Mutex );
+  std::unique_lock<std::mutex> mutexHolder(m_PimplGlobals->m_Mutex);
   m_Threads.reserve( m_Threads.size() + count );
   for( unsigned int i = 0; i < count; ++i )
     {
@@ -201,14 +119,14 @@ std::mutex&
 ThreadPool
 ::GetMutex()
 {
-  return m_ThreadPoolGlobals->m_Mutex;
+  return m_PimplGlobals->m_Mutex;
 }
 
 int
 ThreadPool
 ::GetNumberOfCurrentlyIdleThreads() const
 {
-  std::unique_lock<std::mutex> mutexHolder( m_ThreadPoolGlobals->m_Mutex );
+  std::unique_lock<std::mutex> mutexHolder( m_PimplGlobals->m_Mutex );
   return int(m_Threads.size()) - int(m_WorkQueue.size()); // lousy approximation
 }
 
@@ -224,14 +142,14 @@ ThreadPool
   //explicitly terminated by a call to the ExitProcess function".
   waitForThreads = false;
 #else
-  if(m_ThreadPoolGlobals->m_DoNotWaitForThreads)
+  if(m_PimplGlobals->m_DoNotWaitForThreads)
     {
     waitForThreads = false;
     }
 #endif
+  {
+    std::unique_lock< std::mutex > mutexHolder( m_PimplGlobals->m_Mutex );
 
-    {
-    std::unique_lock< std::mutex > mutexHolder( m_ThreadPoolGlobals->m_Mutex );
     this->m_Stopping = true;
     }
 
@@ -255,14 +173,14 @@ ThreadPool
 ::ThreadExecute()
 {
   //plain pointer does not increase reference count
-  ThreadPool* threadPool = m_ThreadPoolGlobals->m_ThreadPoolInstance.GetPointer();
+  ThreadPool* threadPool = m_PimplGlobals->m_ThreadPoolInstance.GetPointer();
 
   while ( true )
     {
       std::function< void() > task;
 
       {
-        std::unique_lock<std::mutex> mutexHolder( m_ThreadPoolGlobals->m_Mutex );
+        std::unique_lock<std::mutex> mutexHolder( m_PimplGlobals->m_Mutex );
         threadPool->m_Condition.wait( mutexHolder,
           [threadPool]
         {
@@ -281,6 +199,6 @@ ThreadPool
     }
 }
 
-ThreadPoolGlobals * ThreadPool::m_ThreadPoolGlobals;
+ThreadPoolGlobals * ThreadPool::m_PimplGlobals;
 
 }

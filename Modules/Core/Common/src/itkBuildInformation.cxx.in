@@ -18,13 +18,14 @@
 
 #include "itkBuildInformation.h"
 #include "itkObjectFactory.h"
+#include "itkSingleton.h"
 
 #include <algorithm>
 
 // Construct const versions via the emplace method.  This macro simplifies the text
 // written in ITK/Modules/Core/Common/src/CMakeLists.txt.
 #define MAKE_MAP_ENTRY(KEY, VALUE, DESCRIPTION )                                          \
-m_Map.emplace(                                                                            \
+m_PimplGlobals->m_Map.emplace(                                                                            \
   std::pair< MapKeyType, InformationValueType>(                                           \
     MapKeyType{ KEY },                                                                    \
     InformationValueType{ MapValueType{ VALUE }, MapValueDescriptionType{ DESCRIPTION } } \
@@ -33,9 +34,19 @@ m_Map.emplace(                                                                  
 
 namespace itk {
 
-std::mutex BuildInformation::m_Mutex;
-BuildInformation::Pointer BuildInformation::m_InformationInstance;
-BuildInformation::MapType BuildInformation::m_Map;
+struct BuildInformationGlobals
+{
+  BuildInformationGlobals():m_InformationInstance(nullptr)
+  {}
+/** To lock on the internal variables */
+  std::mutex m_Mutex;
+  BuildInformation::Pointer m_InformationInstance;
+  BuildInformation::MapType m_Map;
+};
+
+itkGetGlobalSimpleMacro(BuildInformation, BuildInformationGlobals, PimplGlobals);
+
+BuildInformationGlobals * BuildInformation::m_PimplGlobals;
 
 BuildInformation::Pointer
 BuildInformation
@@ -48,21 +59,22 @@ BuildInformation::Pointer
 BuildInformation
 ::GetInstance()
 {
-  std::lock_guard<std::mutex> mutexHolder(m_Mutex);
-  if (m_InformationInstance.IsNull())
+  itkInitGlobalsMacro(PimplGlobals);
+  std::lock_guard<std::mutex> mutexHolder(m_PimplGlobals->m_Mutex);
+  if (m_PimplGlobals->m_InformationInstance.IsNull())
   {
-    m_InformationInstance = ObjectFactory<Self>::Create();
+    m_PimplGlobals->m_InformationInstance = ObjectFactory<Self>::Create();
     {
       new BuildInformation(); //constructor sets m_InformationInstance
     }
   }
-  return m_InformationInstance;
+  return m_PimplGlobals->m_InformationInstance;
 }
 
 const BuildInformation::MapType &
 BuildInformation::GetMap()
 {
-  return BuildInformation::GetInstance()->m_Map;
+  return BuildInformation::GetInstance()->m_PimplGlobals->m_Map;
 }
 
 const BuildInformation::MapValueType
@@ -96,7 +108,7 @@ BuildInformation::GetAllKeys()
 {
   std::vector< BuildInformation::MapKeyType > keyVector;
   keyVector.reserve(30);
-  for( auto elem : BuildInformation::GetInstance()->m_Map )
+  for( auto elem : BuildInformation::GetInstance()->m_PimplGlobals->m_Map )
   {
     keyVector.emplace_back( elem.first );
   }
@@ -106,8 +118,8 @@ BuildInformation::GetAllKeys()
 BuildInformation
 ::BuildInformation()
 {
-  m_InformationInstance = this; //threads need this
-  m_InformationInstance->UnRegister(); // Remove extra reference
+  m_PimplGlobals->m_InformationInstance = this; //threads need this
+  m_PimplGlobals->m_InformationInstance->UnRegister(); // Remove extra reference
 
   @MAPPING_VALUES@
 }

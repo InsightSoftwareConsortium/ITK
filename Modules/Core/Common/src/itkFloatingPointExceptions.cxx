@@ -17,6 +17,7 @@
  *=========================================================================*/
 #include "itkFloatingPointExceptions.h"
 #include <iostream>
+#include "itkSingleton.h"
 
 //
 // invariant over all targets -- set a preference for what
@@ -31,35 +32,43 @@
 namespace itk
 {
 
-FloatingPointExceptions::ExceptionAction
-FloatingPointExceptions::m_ExceptionAction =
-  FloatingPointExceptions::ABORT;
-bool FloatingPointExceptions::m_Enabled(false);
+struct ExceptionGlobals
+{
+  ExceptionGlobals():m_ExceptionAction(FloatingPointExceptions::ABORT),
+  m_Enabled(false)
+  {};
+  FloatingPointExceptions::ExceptionAction m_ExceptionAction;
+  bool m_Enabled;
+};
 
 void
 FloatingPointExceptions
 ::SetExceptionAction(ExceptionAction a)
 {
-  FloatingPointExceptions::m_ExceptionAction = a;
+  itkInitGlobalsMacro(PimplGlobals);
+  FloatingPointExceptions::m_PimplGlobals->m_ExceptionAction = a;
 }
 
 FloatingPointExceptions::ExceptionAction
 FloatingPointExceptions::GetExceptionAction()
 {
-  return FloatingPointExceptions::m_ExceptionAction;
+  itkInitGlobalsMacro(PimplGlobals);
+  return FloatingPointExceptions::m_PimplGlobals->m_ExceptionAction;
 }
 
 bool
 FloatingPointExceptions::
 GetEnabled()
 {
-  return FloatingPointExceptions::m_Enabled;
+  itkInitGlobalsMacro(PimplGlobals);
+  return FloatingPointExceptions::m_PimplGlobals->m_Enabled;
 }
 
 void
 FloatingPointExceptions::
 SetEnabled(bool val)
 {
+  itkInitGlobalsMacro(PimplGlobals);
   if(val)
     {
     FloatingPointExceptions::Enable();
@@ -69,6 +78,10 @@ SetEnabled(bool val)
     FloatingPointExceptions::Disable();
     }
 }
+
+itkGetGlobalSimpleMacro(FloatingPointExceptions, ExceptionGlobals, PimplGlobals);
+
+ExceptionGlobals * FloatingPointExceptions::m_PimplGlobals;
 
 } // end of itk namespace
 

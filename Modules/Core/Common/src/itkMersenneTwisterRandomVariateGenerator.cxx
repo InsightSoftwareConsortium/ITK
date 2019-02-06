@@ -17,16 +17,28 @@
  *=========================================================================*/
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 
+#include "itkSingleton.h"
+
 
 namespace itk
 {
 namespace Statistics
 {
 
-// Static/Global variables
-MersenneTwisterRandomVariateGenerator::Pointer MersenneTwisterRandomVariateGenerator::m_StaticInstance = nullptr;
-std::recursive_mutex MersenneTwisterRandomVariateGenerator::m_StaticInstanceLock;
-MersenneTwisterRandomVariateGenerator::IntegerType MersenneTwisterRandomVariateGenerator::m_StaticDiffer = 0;
+/** Private nested class to easily synchronize global variables across static libraries.*/
+struct MersenneTwisterGlobals
+{
+  MersenneTwisterGlobals():m_StaticInstance(nullptr),
+  m_StaticDiffer(0)
+  {};
+  MersenneTwisterRandomVariateGenerator::Pointer m_StaticInstance;
+  std::recursive_mutex m_StaticInstanceLock;
+  MersenneTwisterRandomVariateGenerator::IntegerType m_StaticDiffer;
+};
+
+itkGetGlobalSimpleMacro(MersenneTwisterRandomVariateGenerator, MersenneTwisterGlobals, PimplGlobals);
+
+MersenneTwisterGlobals * MersenneTwisterRandomVariateGenerator::m_PimplGlobals;
 
 MersenneTwisterRandomVariateGenerator::Pointer
 MersenneTwisterRandomVariateGenerator
@@ -61,15 +73,16 @@ MersenneTwisterRandomVariateGenerator::Pointer
 MersenneTwisterRandomVariateGenerator
 ::GetInstance()
 {
-  std::lock_guard< std::recursive_mutex > mutexHolder( m_StaticInstanceLock );
+  itkInitGlobalsMacro(PimplGlobals);
+  std::lock_guard< std::recursive_mutex > mutexHolder( m_PimplGlobals->m_StaticInstanceLock );
 
-  if ( !m_StaticInstance )
+  if ( !m_PimplGlobals->m_StaticInstance )
     {
-    m_StaticInstance  = MersenneTwisterRandomVariateGenerator::CreateInstance();
-    m_StaticInstance->SetSeed();
+    m_PimplGlobals->m_StaticInstance  = MersenneTwisterRandomVariateGenerator::CreateInstance();
+    m_PimplGlobals->m_StaticInstance->SetSeed();
     }
 
-  return m_StaticInstance;
+  return m_PimplGlobals->m_StaticInstance;
 }
 
 MersenneTwisterRandomVariateGenerator
@@ -85,6 +98,7 @@ MersenneTwisterRandomVariateGenerator::IntegerType
 MersenneTwisterRandomVariateGenerator
 ::hash(time_t t, clock_t c)
 {
+  itkInitGlobalsMacro(PimplGlobals);
   // Get an IntegerType from t and c
   // Better than IntegerType(x) in case x is floating point in [0,1]
   // Based on code by Lawrence Kirby: fred at genesis dot demon dot co dot uk
@@ -108,18 +122,19 @@ MersenneTwisterRandomVariateGenerator
     h2 += p[j];
     }
   // lock for m_StaticDiffer
-  std::lock_guard< std::recursive_mutex > mutexHolder( m_StaticInstanceLock );
-  return ( h1 + m_StaticDiffer++ ) ^ h2;
+  std::lock_guard< std::recursive_mutex > mutexHolder( m_PimplGlobals->m_StaticInstanceLock );
+  return ( h1 + m_PimplGlobals->m_StaticDiffer++ ) ^ h2;
 }
 
 MersenneTwisterRandomVariateGenerator::IntegerType
 MersenneTwisterRandomVariateGenerator
 ::GetNextSeed()
 {
+  itkInitGlobalsMacro(PimplGlobals);
   IntegerType newSeed = GetInstance()->GetSeed();
   {
-    std::lock_guard< std::recursive_mutex > mutexHolder( m_StaticInstanceLock );
-    newSeed += m_StaticDiffer++;
+    std::lock_guard< std::recursive_mutex > mutexHolder( m_PimplGlobals->m_StaticInstanceLock );
+    newSeed += m_PimplGlobals->m_StaticDiffer++;
   }
   return newSeed;
 }

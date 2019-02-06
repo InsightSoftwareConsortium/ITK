@@ -22,15 +22,19 @@
 #include "itkIOCommon.h"
 #include "itksys/SystemTools.hxx"
 #include "itkMath.h"
+#include "itkSingleton.h"
 
 namespace itk
 {
 // Explicitly set std::numeric_limits<double>::max_digits10 this will provide
 // better accuracy when writing out floating point number in MetaImage header.
-unsigned int MetaImageIO::m_DefaultDoublePrecision = 17;
+itkGetGlobalValueMacro(MetaImageIO, unsigned int, DefaultDoublePrecision, 17);
+
+unsigned int * MetaImageIO::m_DefaultDoublePrecision;
 
 MetaImageIO::MetaImageIO()
 {
+  itkInitGlobalsMacro(DefaultDoublePrecision);
   m_FileType = Binary;
   m_SubSamplingFactor = 1;
   if ( MET_SystemByteOrderMSB() )
@@ -1298,12 +1302,14 @@ MetaImageIO::GetSplitRegionForWriting( unsigned int ithPiece,
 
 void MetaImageIO::SetDefaultDoublePrecision(unsigned int precision)
 {
-  m_DefaultDoublePrecision = precision;
+  itkInitGlobalsMacro(DefaultDoublePrecision);
+  *m_DefaultDoublePrecision = precision;
 }
 
 unsigned int MetaImageIO::GetDefaultDoublePrecision()
 {
-  return m_DefaultDoublePrecision;
+  itkInitGlobalsMacro(DefaultDoublePrecision);
+  return *MetaImageIO::GetDefaultDoublePrecisionPointer();
 }
 
 } // end namespace itk

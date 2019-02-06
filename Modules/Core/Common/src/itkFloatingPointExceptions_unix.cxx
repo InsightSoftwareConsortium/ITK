@@ -135,6 +135,7 @@ void
 FloatingPointExceptions
 ::Enable()
 {
+  itkInitGlobalsMacro(PimplGlobals);
 #if defined(ITK_HAS_FPE_CAPABILITY)
   itk_feenableexcept (FE_DIVBYZERO);
   itk_feenableexcept (FE_INVALID);
@@ -146,7 +147,7 @@ FloatingPointExceptions
   act.sa_flags = SA_SIGINFO;
   sigaction(SIGFPE,&act,nullptr);
 #endif
-  FloatingPointExceptions::m_Enabled = true;
+ FloatingPointExceptions::m_PimplGlobals->m_Enabled = true;
   (void)itkFloatingPointExceptionsNotSupported; // avoid unused-function warning
 #else
   itkFloatingPointExceptionsNotSupported();
@@ -157,10 +158,11 @@ void
 FloatingPointExceptions
 ::Disable()
 {
+  itkInitGlobalsMacro(PimplGlobals);
 #if defined(ITK_HAS_FPE_CAPABILITY)
   itk_fedisableexcept (FE_DIVBYZERO);
   itk_fedisableexcept (FE_INVALID);
-  FloatingPointExceptions::m_Enabled = false;
+  FloatingPointExceptions::m_PimplGlobals->m_Enabled = false;
 #else
   itkFloatingPointExceptionsNotSupported();
 #endif
@@ -169,6 +171,7 @@ FloatingPointExceptions
 bool FloatingPointExceptions
 ::HasFloatingPointExceptionsSupport()
 {
+  itkInitGlobalsMacro(PimplGlobals);
 #if defined(ITK_HAS_FPE_CAPABILITY)
   return true;
 #else
