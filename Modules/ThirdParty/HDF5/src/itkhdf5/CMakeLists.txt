@@ -4,6 +4,10 @@ endif()
 if(POLICY CMP0042)
   cmake_policy(SET CMP0042 NEW)
 endif()
+if( POLICY CMP0075 )
+  cmake_policy(SET CMP0075 NEW)
+endif()
+
 PROJECT (HDF5 C CXX)
 
 #-----------------------------------------------------------------------------

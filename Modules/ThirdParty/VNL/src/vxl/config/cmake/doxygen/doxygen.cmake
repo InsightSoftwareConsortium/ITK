@@ -1,3 +1,4 @@
+unset(BUILD_DOCUMENTATION)
 option(BUILD_DOCUMENTATION
   "Build doxygen-based code documentation." OFF)
 
