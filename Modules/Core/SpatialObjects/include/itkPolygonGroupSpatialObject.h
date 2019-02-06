@@ -60,8 +60,6 @@ public:
   using PointType = typename Superclass::PointType;
   using BoundingBoxType = typename Superclass::BoundingBoxType;
   using ChildrenListType = typename Superclass::ChildrenListType;
-  using TreeNodeType = typename Superclass::TreeNodeType;
-  using TreeNodeChildrenListType = typename TreeNodeType::ChildrenListType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -95,11 +93,6 @@ public:
 
   /** Same as Volume, above. */
   double MeasureVolume();
-
-  /** Test whether a point is inside or outside the object. */
-  bool IsInside(const PointType & point,
-                        unsigned int depth = 0,
-                        char *name = nullptr) const override;
 
 protected:
   PolygonGroupSpatialObject() = default;

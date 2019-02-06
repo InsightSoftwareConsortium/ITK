@@ -23,34 +23,44 @@
 namespace itk
 {
 template< unsigned int TDimension >
-bool PolygonGroupSpatialObject< TDimension >::AddStrand(PolygonSpatialObject< TDimension > *toAdd)
+PolygonGroupSpatialObject< TDimension >::
+PolygonSpatialObject()
 {
-  this->AddSpatialObject(toAdd);
+  this->SetTypeName( "PolygonGroupSpatialObject" );
+}
+
+template< unsigned int TDimension >
+bool PolygonGroupSpatialObject< TDimension >::AddStrand(
+  PolygonSpatialObject< TDimension > *toAdd )
+{
+  this->AddChild(toAdd);
   return true;
 }
 
 template< unsigned int TDimension >
-bool PolygonGroupSpatialObject< TDimension >::DeleteStrand(PolygonSpatialObject< TDimension > *toDelete)
+bool PolygonGroupSpatialObject< TDimension >::DeleteStrand(
+  PolygonSpatialObject< TDimension > *toDelete )
 {
-  this->RemoveSpatialObject(toDelete);
+  this->RemoveChild(toDelete);
   return true;
 }
 
 template< unsigned int TDimension >
-bool PolygonGroupSpatialObject< TDimension >::ReplaceStrand(PolygonSpatialObject< TDimension > *toReplace,
-                                                            PolygonSpatialObject< TDimension > *replacement)
+bool PolygonGroupSpatialObject< TDimension >::ReplaceStrand(
+  PolygonSpatialObject< TDimension > *toReplace,
+  PolygonSpatialObject< TDimension > *replacement)
 {
-  TreeNodeChildrenListType & children = this->GetModifiableTreeNode()->GetChildrenList();
-
-  auto it = children.begin();
-  auto itend = children.end();
+  auto it = m_ChildrenList.begin();
+  auto itend = m_ChildrenList.end();
   while ( it != itend )
     {
-    if ( static_cast< void * >( ( *it ) ) == static_cast< void * >( toReplace ) )
+    if ( static_cast< void * >( ( *it ) ) ==
+      static_cast< void * >( toReplace ) )
       {
       auto after = it;
       after++;
-      children.insert( after, 1, replacement->GetModifiableTreeNode() );
+      children.insert( after, 1, replacement );
+      it.SetParent( nullptr );
       children.erase(it);
       return true;
       }
@@ -62,13 +72,12 @@ bool PolygonGroupSpatialObject< TDimension >::ReplaceStrand(PolygonSpatialObject
 template< unsigned int TDimension >
 bool PolygonGroupSpatialObject< TDimension >::IsClosed()
 {
-  TreeNodeChildrenListType & children = this->GetModifiableTreeNode()->GetChildrenList();
-
-  auto it = children.begin();
-  auto itend = children.end();
+  auto it = m_ChildrenList.begin();
+  auto itend = m_ChildrenList.end();
   while ( it != itend )
     {
-    auto * curstrand = dynamic_cast< PolygonSpatialObject< TDimension > * >( ( *it ).GetPointer() );
+    auto * curstrand = dynamic_cast< PolygonSpatialObject< TDimension > * >(
+      ( *it ).GetPointer() );
     if ( curstrand != nullptr )
       {
       if ( !curstrand->IsClosed() )
@@ -84,24 +93,24 @@ bool PolygonGroupSpatialObject< TDimension >::IsClosed()
 template< unsigned int TDimension >
 unsigned PolygonGroupSpatialObject< TDimension >::NumberOfStrands()
 {
-  return this->GetTreeNode()->GetNumberOfChildren();
+  return this->GetNumberOfChildren();
 }
 
 template< unsigned int TDimension >
 double PolygonGroupSpatialObject< TDimension >::Volume()
 {
   double            volume = 0;
-  ChildrenListType *children = this->GetChildren();
 
-  auto it = children->begin();
-  auto itend = children->end();
+  auto it = m_ChildrenList->begin();
+  auto itend = m_ChildrenList->end();
   while ( it != itend )
     {
-    auto * curstrand = dynamic_cast< PolygonSpatialObject< TDimension > * >( ( *it ).GetPointer() );
+    auto * curstrand = dynamic_cast< PolygonSpatialObject< TDimension > * >(
+      ( *it ).GetPointer() );
     volume += curstrand->MeasureVolume();
     it++;
     }
-  delete children;
+
   return volume;
 }
 
@@ -111,20 +120,5 @@ double PolygonGroupSpatialObject< TDimension >::MeasureVolume()
   return this->Volume();
 }
 
-template< unsigned int TDimension >
-bool PolygonGroupSpatialObject< TDimension >::IsInside(const PointType & point, unsigned int, char *name) const
-{
-  // want to encompass all children, at least 2 levels, but to be
-  // safe say 4;
-  const_cast< Self * >( this )->SetBoundingBoxChildrenDepth(4);
-  const_cast< Self * >( this )->SetBoundingBoxChildrenName("");
-  const_cast< Self * >( this )->ComputeBoundingBox();
-  BoundingBoxType *bounds = const_cast< Self * >( this )->GetBoundingBox();
-  if ( !bounds->IsInside(point) )
-    {
-    return false;
-    }
-  return this->SpatialObject< TDimension >::IsInside(point, 4, name);
-}
 }
 #endif

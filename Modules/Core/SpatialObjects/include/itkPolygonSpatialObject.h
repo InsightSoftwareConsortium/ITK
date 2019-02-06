@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef itkPolygonSpatialObject_h
 #define itkPolygonSpatialObject_h
+
 #include "itkBlobSpatialObject.h"
 
 namespace itk
@@ -47,20 +48,8 @@ public:
   /** Method for creation through the object factory. */
   itkTypeMacro(PolygonSpatialObject, BlobSpatialObject);
 
-  /**
-   * \enum PolygonGroupOrientation
-   * \brief enumerates the possible spatial orientations
-   */
-  typedef enum {
-        Axial = 0,
-        Coronal = 1,
-        Sagittal = 2,
-        UserPlane = 3,
-        Unknown = 4
-        } PolygonGroupOrientation;
-
   /** Method returning plane alignment of strand */
-  PolygonGroupOrientation Plane() const;
+  int Plane() const;
 
   /** Method sets the thickness of the current strand */
   itkSetMacro(Thickness, double);
@@ -74,9 +63,6 @@ public:
   /** Returns the number of points of the polygon */
   unsigned int NumberOfPoints() const;
 
-  /** Method returns the Point closest to the given point */
-  PointType ClosestPoint(const PointType & curPoint) const;
-
   /** Method returns area of polygon described by points */
   double MeasureArea() const;
 
@@ -86,44 +72,28 @@ public:
   /** Method returns the length of the perimeter */
   double MeasurePerimeter() const;
 
-  /** Method deletes a point from the strand */
-  bool DeletePoint(const PointType & pointToDelete);
-
-  /** Method adds a point to the end of the strand */
-  bool AddPoint(const PointType & pointToAdd);
-
-  /** Method inserts point after point1 */
-  bool InsertPoint(const PointType & point1, const PointType & pointToAdd);
-
-  /** Method replaces a point */
-  bool ReplacePoint(const PointType & oldpoint, const PointType & newPoint);
-
-  /** Method removes the series of points between startpoint and endpoint */
-  bool RemoveSegment(const PointType & startpoint, const PointType & endPoint);
+  // For ComputeObjectBounds - use the implementation in BlobSpatialObject
 
   /** Test whether a point is inside or outside the object. */
-  bool IsInside(const PointType & point,
-                        unsigned int depth,
-                        char *name) const override;
-
-  /** Test whether a point is inside or outside the object For
-   * computational speed purposes, it is faster if the method does not
-   * check the name of the class and the current depth. */
-  virtual bool IsInside(const PointType & point) const;
+  bool IsInside(const PointType & point, unsigned int depth,
+    const std::string & name) const override;
 
 protected:
+  PolygonSpatialObject();
+  ~PolygonSpatialObject() override;
+
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  PolygonGroupOrientation m_Orientation;
+  int                     m_Orientation;
+  ModifiedTimeType        m_OrientationMTime;
+  bool                    m_IsClosed;
+  ModifiedTimeType        m_IsClosedMTime;
   double                  m_Thickness;
-  PolygonSpatialObject()
-  {
-    m_Orientation = Unknown;
-    m_Thickness = 0.0;
-  }
 };
+
 }
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkPolygonSpatialObject.hxx"
 #endif
