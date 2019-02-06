@@ -3,6 +3,8 @@ trigger:
     include:
     - master
     - release*
+variables:
+  ExternalDataVersion: 4.13.1
 jobs:
 - job: Windows
   timeoutInMinutes: 0
@@ -10,11 +12,26 @@ jobs:
   pool:
     vmImage: 'vs2017-win2016'
   steps:
+    - checkout: self
+      clean: true
+      fetchDepth: 5
     - script: |
-        git clone -b dashboard --single-branch https://github.com/thewtex/ITK.git ITK-dashboard
+        if DEFINED SYSTEM_PULLREQUEST_SOURCECOMMITID git checkout $(System.PullRequest.SourceCommitId)
+      displayName: Checkout pull request HEAD
+    - script: |
+        pip3 install ninja numpy
 
-        pip3 install ninja
+      displayName: Install dependencies
+    - script: |
+        git clone -b dashboard --single-branch https://github.com/InsightSoftwareConsortium/ITK.git ITK-dashboard
 
+        curl -L https://github.com/InsightSoftwareConsortium/ITK/releases/download/v$(ExternalDataVersion)/InsightData-$(ExternalDataVersion).tar.gz -O
+        cmake -E tar xfz InsightData-$(ExternalDataVersion).tar.gz
+        cmake -E rename InsightToolkit-$(ExternalDataVersion)/.ExternalData/MD5 $(Build.SourcesDirectory)/.ExternalData/MD5
+
+      displayName: Download dashboard script and testing data
+      workingDirectory: $(Agent.BuildDirectory)
+    - script: |
         cmake --version
 
         call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
@@ -25,7 +42,8 @@ jobs:
         set ITK_BUILD_DEFAULT_MODULES=OFF
         set CC=cl.exe
         set CXX=cl.exe
+        set CTEST_OUTPUT_ON_FAILURE=1
 
-        ctest -S ITK-dashboard/azure_dashboard.cmake -VV -j 4
-      displayName: Build and Test
+        ctest -S ITK-dashboard/azure_dashboard.cmake -V -j 4
+      displayName: Build and test
       workingDirectory: $(Agent.BuildDirectory)

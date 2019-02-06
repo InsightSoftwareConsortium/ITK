@@ -3,6 +3,8 @@ trigger:
     include:
     - master
     - release*
+variables:
+  ExternalDataVersion: 4.13.1
 jobs:
 - job: macOS
   timeoutInMinutes: 0
@@ -10,19 +12,44 @@ jobs:
   pool:
     vmImage: 'macOS 10.13'
   steps:
-    - script: |
+    - checkout: self
+      clean: true
+      fetchDepth: 5
+    - bash: |
+        set -x
+        if [ -n "$(System.PullRequest.SourceCommitId)" ]; then
+          git checkout $(System.PullRequest.SourceCommitId)
+        fi
+
+      displayName: Checkout pull request HEAD
+    - bash: |
+        set -x
+
+        sudo pip3 install ninja
+
+      displayName: Install dependencies
+    - bash: |
         set -x
 
         git clone -b dashboard --single-branch https://github.com/InsightSoftwareConsortium/ITK.git ITK-dashboard
 
-        sudo pip3 install ninja
-        sudo apt-get install -y python3-venv
+        curl -L https://github.com/InsightSoftwareConsortium/ITK/releases/download/v$(ExternalDataVersion)/InsightData-$(ExternalDataVersion).tar.gz -O
+        cmake -E tar xfz InsightData-$(ExternalDataVersion).tar.gz
+        cmake -E rename InsightToolkit-$(ExternalDataVersion)/.ExternalData/MD5 $(Build.SourcesDirectory)/.ExternalData/MD5
 
+      displayName: Download dashboard script and testing data
+      workingDirectory: $(Agent.BuildDirectory)
+    - script: |
+        set -x
+        xcode-select -p
+        sudo xcode-select -s /Applications/Xcode_9.4.1.app/Contents/Developer/
+        xcode-select -p
         c++ --version
         cmake --version
 
         export BUILD_SHARED_LIBS=ON
+        export CTEST_OUTPUT_ON_FAILURE=1
 
-        ctest -S ITK-dashboard/azure_dashboard.cmake -VV -j 4
-      displayName: Build and Test
+        ctest -S ITK-dashboard/azure_dashboard.cmake -V -j 4
+      displayName: Build and test
       workingDirectory: $(Agent.BuildDirectory)
