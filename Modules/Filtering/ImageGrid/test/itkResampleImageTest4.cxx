@@ -56,8 +56,7 @@ int itkResampleImageTest4(int argc, char * argv [] )
   ImageRegionType region;
   region.SetSize ( size );
   region.SetIndex( index );
-  image->SetLargestPossibleRegion( region );
-  image->SetBufferedRegion( region );
+  image->SetRegions( region );
   image->Allocate();
 
   auto newDims = static_cast<unsigned int>( 64*scaling );
@@ -120,7 +119,8 @@ int itkResampleImageTest4(int argc, char * argv [] )
   // Run the resampling filter
   itk::TimeProbe clock;
   clock.Start();
-  resample->Update();
+  std::cout << "Input: " << image << std::endl;
+  resample->UpdateLargestPossibleRegion();
   clock.Stop();
 
   std::cout << "Resampling from " << size << " to " << osize << " took " << clock.GetMean() << " s" << std::endl;

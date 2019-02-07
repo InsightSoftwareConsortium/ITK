@@ -27,6 +27,8 @@
 #include "itkProgressReporter.h"
 #include "itkContinuousIndex.h"
 #include "itkMath.h"
+#include "itkTransform.h"
+
 namespace itk
 {
 template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
@@ -410,10 +412,12 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
     else
       {
       using DisplacementRegionType = typename TDisplacementField::RegionType;
+      using TransformType = itk::Transform< SpacePrecisionType, OutputImageType::ImageDimension, OutputImageType::ImageDimension >;
 
       DisplacementRegionType fieldRequestedRegion = ImageAlgorithm::EnlargeRegionOverBox(outputPtr->GetRequestedRegion(),
                                                                                          outputPtr,
-                                                                                         fieldPtr);
+                                                                                         fieldPtr,
+                                                                                         static_cast< TransformType *>(nullptr));
       fieldPtr->SetRequestedRegion( fieldRequestedRegion );
       }
     if ( !fieldPtr->VerifyRequestedRegion() )
