@@ -70,20 +70,22 @@ public:
   itkTypeMacro(BlobSpatialObject, SpatialObject);
 
   /** Returns a reference to the list of the Blob points. */
-  PointListType & GetPoints();
+  virtual PointListType & GetObjectPoints()
+  { return m_ObjectPoints; }
 
-  /** Returns a reference to the list of the Blob points. */
-  const PointListType & GetPoints() const;
+  /** Returns a const reference to the list of the Blob points. */
+  virtual const PointListType & GetObjectPoints() const
+  { return m_ObjectPoints; }
 
   /** Set the list of Blob points. */
-  void SetPoints(PointListType & newPoints);
+  void SetObjectPoints(PointListType & newPoints);
 
   /** Return a point in the list given the index */
-  const SpatialObjectPointType * GetPoint(IdentifierType id) const override
+  const SpatialObjectPointType * GetObjectPoint(IdentifierType id) const override
   { return &( m_Points[id] ); }
 
   /** Return a point in the list given the index */
-  SpatialObjectPointType * GetPoint(IdentifierType id) override
+  SpatialObjectPointType * GetObjectPoint(IdentifierType id) override
   { return &( m_Points[id] ); }
 
   /** Return the number of points in the list */
@@ -91,17 +93,17 @@ public:
   { return static_cast<SizeValueType>( m_Points.size() ); }
 
   /** Method returns the Point closest to the given point */
-  IdentifierType ClosestPoint(const PointType & curPoint) const;
+  IdentifierType ClosestWorldPoint(const PointType & curPoint) const;
 
   /** Returns true if the point is inside the Blob, false otherwise. */
   bool IsInside(const PointType & point, unsigned int depth,
     const std::string & name) const override;
 
   /** Compute the boundaries of the Blob. */
-  bool ComputeObjectBoundingBox() const override;
+  bool ComputeObjectWorldBoundingBox() const override;
 
 protected:
-  PointListType m_Points;
+  PointListType m_ObjectPoints;
 
 
   BlobSpatialObject();
