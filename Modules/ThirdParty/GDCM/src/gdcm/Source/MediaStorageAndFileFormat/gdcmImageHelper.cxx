@@ -773,12 +773,12 @@ std::vector<unsigned int> ImageHelper::GetDimensionsValue(const File& f)
 #endif
     {
       {
-      Attribute<0x0028,0x0011> at = { 0 };
+      Attribute<0x0028,0x0011> at = { 0 }; // Columns
       at.SetFromDataSet( ds );
       theReturn[0] = at.GetValue();
       }
       {
-      Attribute<0x0028,0x0010> at = { 0 };
+      Attribute<0x0028,0x0010> at = { 0 }; // Rows
       at.SetFromDataSet( ds );
       theReturn[1] = at.GetValue();
       }
@@ -1537,13 +1537,13 @@ void ImageHelper::SetSpacingValue(DataSet & ds, const std::vector<double> & spac
 
         // <entry group="0028" element="9110" vr="SQ" vm="1" name="Pixel Measures Sequence"/>
         // do not set spacing between slices since GDCM always recompute it from the IOP/IPP
-        //Attribute<0x0018,0x0088> at2;
-        //at2.SetValue( fabs(spacing[2]) );
+        Attribute<0x0018,0x0088> at2;
+        at2.SetValue( fabs(spacing[2]) );
         Attribute<0x0028,0x0030> at1;
         at1.SetValue( spacing[1], 0 );
         at1.SetValue( spacing[0], 1 );
         subds2.Replace( at1.GetAsDataElement() );
-        //subds2.Replace( at2.GetAsDataElement() );
+        subds2.Replace( at2.GetAsDataElement() );
       }
     // cleanup per-frame
     {
@@ -1563,7 +1563,14 @@ void ImageHelper::SetSpacingValue(DataSet & ds, const std::vector<double> & spac
         }
       }
     }
-
+    // cleanup root (famous MR -> EMR case) 
+    {
+    const Tag t1(0x0018,0x0088);
+    ds.Remove(t1);
+    const Tag t2(0x0028,0x0030);
+    ds.Remove(t2);
+    }
+ 
     return;
     }
 
