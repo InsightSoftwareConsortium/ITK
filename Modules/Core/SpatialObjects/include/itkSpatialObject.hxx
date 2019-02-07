@@ -33,17 +33,17 @@ SpatialObject< TDimension >
 {
   m_TypeName = "SpatialObject";
 
-  m_Bounds = BoundingBoxType::New();
+  m_FamilyBounds = BoundingBoxType::New();
   typename BoundingBoxType::PointType pnt;
   pnt.Fill( NumericTraits< typename BoundingBoxType::PointType::ValueType >::
     ZeroValue() );
-  m_Bounds->SetMinimum(pnt);
-  m_Bounds->SetMaximum(pnt);
-  m_BoundsMTime = 0;
+  m_FamilyBounds->SetMinimum(pnt);
+  m_FamilyBounds->SetMaximum(pnt);
+  m_FamilyBoundsMTime = 0;
 
-  m_ObjectWorldBounds = BoundingBoxType::New();
-  m_ObjectWorldBounds->SetMinimum(pnt);
-  m_ObjectWorldBounds->SetMaximum(pnt);
+  m_MyBounds = BoundingBoxType::New();
+  m_MyBounds->SetMinimum(pnt);
+  m_MyBounds->SetMaximum(pnt);
 
   m_Property = PropertyType::New();
 
@@ -273,9 +273,9 @@ SpatialObject< TDimension >
 {
   Superclass::PrintSelf(os, indent);
   os << "Object Bounding Box:" << std::endl;
-  os << indent << m_ObjectWorldBounds << std::endl;
+  os << indent << m_MyBounds << std::endl;
   os << "Bounding Box:" << std::endl;
-  os << indent << m_Bounds << std::endl;
+  os << indent << m_FamilyBounds << std::endl;
   os << "Geometric properties:" << std::endl;
   os << indent << "Object to World Transform: " << m_ObjectToWorldTransform
      << std::endl;
@@ -290,9 +290,9 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 typename SpatialObject< TDimension >::BoundingBoxType *
 SpatialObject< TDimension >
-::GetBoundingBox() const
+::GetFamilyBoundingBox() const
 {
-  return m_Bounds.GetPointer();
+  return m_FamilyBounds.GetPointer();
 }
 
 /** Add a child to the object */
@@ -417,7 +417,7 @@ SpatialObject< TDimension >
     it++;
     }
 
-  this->ComputeObjectWorldBoundingBox();
+  this->ComputeMyBoundingBox();
 
   this->Modified();
 }
@@ -488,7 +488,7 @@ SpatialObject< TDimension >
     it++;
     }
 
-  this->ComputeObjectWorldBoundingBox();
+  this->ComputeMyBoundingBox();
 
   this->Modified();
 }
@@ -501,9 +501,9 @@ SpatialObject< TDimension >
 {
   ModifiedTimeType latestTime = Object::GetMTime();
 
-  if( latestTime < m_BoundsMTime )
+  if( latestTime < m_FamilyBoundsMTime )
     {
-    latestTime = m_BoundsMTime;
+    latestTime = m_FamilyBoundsMTime;
     }
 
   typename ChildrenListType::const_iterator it = m_ChildrenList->begin();
@@ -526,13 +526,13 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 SpatialObject< TDimension >
-::ComputeObjectWorldBoundingBox() const
+::ComputeMyBoundingBox() const
 {
   typename BoundingBoxType::PointType pnt;
   pnt.Fill( NumericTraits< typename BoundingBoxType::PointType::ValueType >::
     ZeroValue() );
-  m_ObjectWorldBounds->SetMinimum(pnt);
-  m_ObjectWorldBounds->SetMaximum(pnt);
+  m_MyBounds->SetMinimum(pnt);
+  m_MyBounds->SetMaximum(pnt);
 
   return false;
 }
@@ -542,42 +542,42 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 typename SpatialObject< TDimension >::BoundingBoxType *
 SpatialObject< TDimension >
-::GetObjectWorldBoundingBox() const
+::GetMyBoundingBox() const
 {
-  return m_ObjectWorldBounds.GetPointer();
+  return m_MyBounds.GetPointer();
 }
 
 /**
  * Compute an axis-aligned bounding box for an object and its selected
  * children, down to a specified depth.  After computation, the
- * resulting bounding box is stored in this->m_Bounds.  */
+ * resulting bounding box is stored in this->m_FamilyBounds.  */
 template< unsigned int TDimension >
 bool
 SpatialObject< TDimension >
-::ComputeBoundingBox( unsigned int depth, const std::string & name ) const
+::ComputeFamilyBoundingBox( unsigned int depth, const std::string & name ) const
 {
   itkDebugMacro("Computing Bounding Box");
 
   typename BoundingBoxType::PointType pnt;
   pnt.Fill( NumericTraits< typename BoundingBoxType::PointType::ValueType >::
     ZeroValue() );
-  m_Bounds->SetMinimum(pnt);
-  m_Bounds->SetMaximum(pnt);
-  m_BoundsMTime = this->GetMTime();
+  m_FamilyBounds->SetMinimum(pnt);
+  m_FamilyBounds->SetMaximum(pnt);
+  m_FamilyBoundsMTime = this->GetMTime();
   bool bbDefined = false;
 
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    PointType pointMin = this->GetObjectWorldBoundingBox()->GetMinimum();
-    PointType pointMax = this->GetObjectWorldBoundingBox()->GetMaximum();
+    PointType pointMin = this->GetMyBoundingBox()->GetMinimum();
+    PointType pointMax = this->GetMyBoundingBox()->GetMaximum();
     for ( unsigned int i = 0; i < ObjectDimension; i++ )
       {
       if ( Math::NotExactlyEquals(pointMin[i], 0)
            || Math::NotExactlyEquals(pointMax[i], 0) )
         {
         bbDefined = true;
-        m_Bounds->SetMinimum( pointMin )
-        m_Bounds->SetMaximum( pointMax )
+        m_FamilyBounds->SetMinimum( pointMin )
+        m_FamilyBounds->SetMaximum( pointMax )
         break;
         }
       }
@@ -588,18 +588,18 @@ SpatialObject< TDimension >
     typename ChildrenListType::const_iterator it = m_ChildrenList->begin();
     while( it != m_ChildrenList->end() )
       {
-      ( *it )->Get()->ComputeBoundingBox( depth-1, name );
+      ( *it )->Get()->ComputeFamilyBoundingBox( depth-1, name );
 
       if( !bbDefined )
         {
-        m_Bounds->SetMinimum( ( *it )->Get()->GetBoundingBox()->GetMinimum() );
-        m_Bounds->SetMaximum( ( *it )->Get()->GetBoundingBox()->GetMaximum() );
+        m_FamilyBounds->SetMinimum( ( *it )->Get()->GetFamilyBoundingBox()->GetMinimum() );
+        m_FamilyBounds->SetMaximum( ( *it )->Get()->GetFamilyBoundingBox()->GetMaximum() );
         bbDefined = true;
         }
       else
         {
-        m_Bounds->ConsiderPoint( (*it)->Get()->GetBoundingBox()->GetMinimum() );
-        m_Bounds->ConsiderPoint( (*it)->Get()->GetBoundingBox()->GetMaximum() );
+        m_FamilyBounds->ConsiderPoint( (*it)->Get()->GetFamilyBoundingBox()->GetMinimum() );
+        m_BFamilyounds->ConsiderPoint( (*it)->Get()->GetFamilyBoundingBox()->GetMaximum() );
         }
       it++;
       }
