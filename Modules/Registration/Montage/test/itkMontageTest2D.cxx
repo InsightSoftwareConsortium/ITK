@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#include "itkMockMontageHelper.hxx"
 #include "itkMontageTestHelper.hxx"
+#include "itkPairwiseTestHelper.hxx"
 #include "itkParseTileConfiguration.h"
 #include "itkRGBPixel.h"
 
@@ -79,7 +79,7 @@ int itkMontageTest2D(int argc, char* argv[])
       varyPaddingMethods, peakMethod, loadIntoMemory, streamSubdivisions );
     if ( doPairs )
       {
-      r2 = mockMontageTest< unsigned char >(
+      r2 = pairwiseTests< unsigned char >(
           stageTiles, actualTiles, inputPath, argv[3], varyPaddingMethods );
       }
     }
@@ -90,7 +90,7 @@ int itkMontageTest2D(int argc, char* argv[])
       varyPaddingMethods, peakMethod, loadIntoMemory, streamSubdivisions );
     if ( doPairs )
       {
-      r2 = mockMontageTest< unsigned short >(
+      r2 = pairwiseTests< unsigned short >(
           stageTiles, actualTiles, inputPath, argv[3], varyPaddingMethods );
       }
     }
