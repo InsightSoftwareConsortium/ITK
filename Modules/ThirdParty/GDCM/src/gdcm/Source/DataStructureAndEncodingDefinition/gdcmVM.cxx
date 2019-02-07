@@ -119,6 +119,7 @@ unsigned int VM::GetLength() const
   case VM::VM256:
     len = VMToLength<VM::VM256>::Length;
     break;
+  case VM::VM0:
   case VM::VM1_2:
   case VM::VM1_3:
   case VM::VM1_4:
