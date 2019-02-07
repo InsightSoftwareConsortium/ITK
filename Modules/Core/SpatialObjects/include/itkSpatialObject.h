@@ -121,7 +121,8 @@ public:
   itkSetMacro(Id, int);
 
   /** Get the typename of the SpatialObject */
-  virtual const std::string GetTypeName() const { return m_TypeName; }
+  virtual const std::string GetTypeName() const
+  { return m_TypeName; }
 
   /** Get the class name with the dimension of the spatial object appended */
   virutal std::string GetClassNameAndDimension( void ) const;
@@ -131,7 +132,9 @@ public:
 
   /** Returns a pointer to the property object applied to this class. */
   PropertyType * GetProperty();
-  const PropertyType * GetProperty() const { return m_Property; }
+
+  const PropertyType * GetProperty() const
+  { return m_Property; }
 
   /** Returns the latest modified time of the spatial object, and
    * any of its components. */
@@ -139,7 +142,8 @@ public:
 
   /** Returns the latest modified time of the spatial object, but not
    *  the modification time of the children */
-  ModifiedTimeType GetObjectMTime() const { return Superclass::GetMTime(); }
+  ModifiedTimeType GetObjectMTime() const
+  { return Superclass::GetMTime(); }
 
 
   /**************/
@@ -185,7 +189,7 @@ public:
   /**********************************************************************/
 
   /** Compute bounding box for the object in world space */
-  virtual bool ComputeObjectWorldBoundingBox() const;
+  virtual bool ComputeMyBoundingBox() const;
 
   /** Returns true if a point is inside the object. */
   virtual bool IsInside(const PointType & point,
@@ -331,18 +335,18 @@ public:
 
   /** Get a pointer to the bounding box of the object in object space
    *  The extents and the position of the box are not computed. */
-  virtual BoundingBoxType * GetObjectWorldBoundingBox() const;
+  virtual BoundingBoxType * GetMyBoundingBox() const;
 
   /**
    * Compute an axis-aligned bounding box for an object and its selected
    * children, down to a specified depth.  After computation, the
    * resulting bounding box is stored in this->m_Bounds.  */
-  virtual bool ComputeBoundingBox( unsigned int depth = 0,
+  virtual bool ComputeFamilyBoundingBox( unsigned int depth = 0,
     const std::string & name ) const;
 
   /** Get a pointer to the bounding box of the object.
    *  The extents and the position of the box are not computed. */
-  virtual BoundingBoxType * GetBoundingBox() const;
+  virtual BoundingBoxType * GetFamilyBoundingBox() const;
 
 
   /******************************/
@@ -470,9 +474,9 @@ protected:
 
   itkSetMacro(TypeName, std::string);
 
-  itkGetModifiableObjectMacro(ObjectWorldBounds, BoundingBoxType);
+  itkGetModifiableObjectMacro(MyBounds, BoundingBoxType);
 
-  itkGetModifiableObjectMacro(Bounds, BoundingBoxType);
+  itkGetModifiableObjectMacro(FamilyBounds, BoundingBoxType);
 
 private:
 
@@ -491,10 +495,10 @@ private:
   RegionType      m_RequestedRegion;
   RegionType      m_BufferedRegion;
 
-  BoundingBoxPointer       m_ObjectWorldBounds;
+  BoundingBoxPointer       m_MyBounds;
 
-  BoundingBoxPointer       m_Bounds;
-  mutable ModifiedTimeType m_BoundsMTime;
+  BoundingBoxPointer       m_FamilyBounds;
+  mutable ModifiedTimeType m_FamilyBoundsMTime;
 
   TransformPointer m_ObjectToParentTransform;
   TransformPointer m_ObjectToWorldTransform;
