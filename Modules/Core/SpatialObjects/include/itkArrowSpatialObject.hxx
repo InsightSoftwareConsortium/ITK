@@ -33,24 +33,21 @@ ArrowSpatialObject< TDimension >
   this->GetProperty()->SetBlue(0);
   this->GetProperty()->SetAlpha(1);
 
-  m_ObjectDirection.Fill(0);
-  m_ObjectDirection[0] = 1; // along the x direction by default
-  m_ObjectPosition.Fill(0);
-  m_ObjectLength = 1;
+  m_DirectionInObjectSpace.Fill(0);
+  m_DirectionInObjectSpace[0] = 1; // along the x direction by default
+  m_PositionInObjectSpace.Fill(0);
+  m_LengthInObjectSpace = 1;
 
-  m_WorldDirection.Fill(0);
-  m_WorldDirection[0] = 1; // along the x direction by default
-  m_WorldPosition.Fill(0);
-  m_WorldLength = 1;
+  this->Update();
 }
 
 /** Set the length of the arrow */
 template< unsigned int TDimension >
 void
 ArrowSpatialObject< TDimension >
-::SetObjectLength(double length)
+::SetLengthInObjectSpace(double length)
 {
-  m_ObjectLength = length;
+  m_LengthInObjectSpace = length;
   this->Modified();
 }
 
@@ -58,7 +55,7 @@ ArrowSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 ArrowSpatialObject< TDimension >
-::ComputeObjectBoundingBox() const
+::ComputeMyBoundingBox() const
 {
   itkDebugMacro("Computing Rectangle bounding box");
 
@@ -66,18 +63,18 @@ ArrowSpatialObject< TDimension >
   PointType pnt2;
   for ( unsigned int i = 0; i < TDimension; i++ )
     {
-    pnt2[i] = pnt[i] + m_ObjectLength * m_ObjectDirection[i];
+    pnt2[i] = pnt[i] + m_LengthInObjectSpace * m_DirectionInObjectSpace[i];
     }
 
   pnt = this->GetObjectToWorldTransform()->TransformPoint(pnt);
   pnt2 = this->GetObjectToWorldTransform()->TransformPoint(pnt2);
 
   const_cast< typename Superclass::BoundingBoxType * >(
-    this->GetObjectBounds() )->SetMinimum(pnt);
+    this->GetMyBounds() )->SetMinimum(pnt);
   const_cast< typename Superclass::BoundingBoxType * >(
-    this->GetObjectBounds() )->SetMaximum(pnt);
+    this->GetMyBounds() )->SetMaximum(pnt);
   const_cast< typename Superclass::BoundingBoxType * >(
-    this->GetObjectBounds() )->ConsiderPoint(pnt2);
+    this->GetMyBounds() )->ConsiderPoint(pnt2);
 
   return true;
 }
@@ -93,7 +90,7 @@ ArrowSpatialObject< TDimension >
 
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    if ( this->GetObjectBounds()->IsInside(point) )
+    if ( this->GetMyBounds()->IsInside(point) )
       {
       PointType transformedPoint =
         this->GetObjectToWorldTransform()->GetInverse()->TransformPoint(point);
@@ -102,7 +99,7 @@ ArrowSpatialObject< TDimension >
       PointType pnt2;
       for ( unsigned int i = 0; i < TDimension; i++ )
         {
-        pnt2[i] = pnt[i] + m_ObjectLength * m_ObjectDirection[i];
+        pnt2[i] = pnt[i] + m_LengthInObjectSpace * m_DirectionInObjectSpace[i];
         }
 
       VectorType v = pnt2 - pnt;
@@ -137,16 +134,16 @@ ArrowSpatialObject< TDimension >
   PointType pnt2;
   for ( unsigned int i = 0; i < TDimension; i++ )
     {
-    pnt2[i] = pnt[i] + m_ObjectLength * m_ObjectDirection[i];
+    pnt2[i] = pnt[i] + m_LengthInObjectSpace * m_DirectionInObjectSpace[i];
     }
 
   pnt = this->GetObjectToWorldTransform()->TransformPoint( pnt );
   pnt2 = this->GetObjectToWorldTransform()->TransformPoint( pnt2 );
 
-  m_WorldPosition = pnt;
-  m_WorldDirection = pnt2 - pnt;
-  m_WorldDirection.Normalize();
-  m_WorldLength = pnt.EuclideanDistanceTo( pnt2 );
+  m_Position = pnt;
+  m_Direction = pnt2 - pnt;
+  m_Direction.Normalize();
+  m_Length = pnt.EuclideanDistanceTo( pnt2 );
 }
 
 template< unsigned int TDimension >
@@ -156,12 +153,12 @@ ArrowSpatialObject< TDimension >
 {
   os << indent << "ArrowSpatialObject(" << this << ")" << std::endl;
   Superclass::PrintSelf(os, indent);
-  os << indent << "Object Position = " << m_ObjectPosition << std::endl;
-  os << indent << "Object Direction = " << m_ObjectDirection << std::endl;
-  os << indent << "Object Length = " << m_ObjectLength << std::endl;
-  os << indent << "World Position = " << m_WorldPosition << std::endl;
-  os << indent << "World Direction = " << m_WorldDirection << std::endl;
-  os << indent << "World Length = " << m_WorldLength << std::endl;
+  os << indent << "Object Position = " << m_PositionInObjectSpace << std::endl;
+  os << indent << "Object Direction = " << m_DirectionInObjectSpace << std::endl;
+  os << indent << "Object Length = " << m_LengthInObjectSpace << std::endl;
+  os << indent << "World Position = " << m_Position << std::endl;
+  os << indent << "World Direction = " << m_Direction << std::endl;
+  os << indent << "World Length = " << m_Length << std::endl;
 }
 } // end namespace itk
 
