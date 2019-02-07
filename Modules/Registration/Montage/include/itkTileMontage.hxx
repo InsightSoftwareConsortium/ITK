@@ -187,7 +187,7 @@ TileMontage< TImageType, TCoordinate >
 ::nDIndexToLinearIndex( TileIndexType nDIndex ) const
 {
   DataObjectPointerArraySizeType ind = 0;
-  SizeValueType                  stride = 1u;
+  SizeValueType stride = 1u;
   for ( unsigned d = 0; d < ImageDimension; d++ )
     {
     itkAssertOrThrowMacro( nDIndex[d] < m_MontageSize[d],
@@ -309,7 +309,7 @@ TileMontage< TImageType, TCoordinate >
           {
           TileIndexType referenceIndex = currentIndex;
           referenceIndex[regDim] = currentIndex[regDim] - 1;
-          TransformPointer      t = this->RegisterPair( referenceIndex, currentIndex );
+          TransformPointer t = this->RegisterPair( referenceIndex, currentIndex );
           TransformConstPointer oldT = this->GetTransform( referenceIndex );
           t->Compose( oldT, true );
           transforms.push_back( t );
