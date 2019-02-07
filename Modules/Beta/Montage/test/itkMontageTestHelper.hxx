@@ -127,7 +127,10 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
     auto paddingMethod = static_cast< typename PCMType::PaddingMethod >( padMethod );
     montage->GetModifiablePCM()->SetPaddingMethod( paddingMethod );
     montage->SetMontageSize( { xMontageSize, yMontageSize } );
-    montage->SetOriginAdjustment( stageTiles[1][1].Position );
+    if ( !loadIntoMemory )
+      {
+      montage->SetOriginAdjustment( stageTiles[1][1].Position );
+      }
     montage->SetForcedSpacing( sp );
 
     typename MontageType::TileIndexType ind;
@@ -140,7 +143,9 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
         std::string filename = inputPath + stageTiles[y][x].FileName;
         if (loadIntoMemory)
           {
-          montage->SetInputTile( ind, ReadImage< typename MontageType::ImageType >( filename.c_str() ) );
+          typename ScalarImageType::Pointer image = ReadImage< ScalarImageType >( filename.c_str() );
+          image->SetOrigin( stageTiles[y][x].Position );
+          montage->SetInputTile( ind, image );
           }
         else
           {
@@ -195,6 +200,7 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
             }
           totalError += singleError;
           registrationErrors << std::endl;
+          std::cout << std::endl;
           WriteTransform( regTr, outFilename + std::to_string( padMethod ) + "_" + std::to_string( peakMethod )
                           + "_Tr_" + std::to_string( x ) + "_" + std::to_string( y ) + ".tfm" );
           }
@@ -212,7 +218,10 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
       typename Resampler::Pointer resampleF = Resampler::New();
       itk::SimpleFilterWatcher fw2( resampleF, "resampler" );
       resampleF->SetMontageSize( { xMontageSize, yMontageSize } );
-      resampleF->SetOriginAdjustment( stageTiles[1][1].Position );
+      if ( !loadIntoMemory )
+        {
+          resampleF->SetOriginAdjustment( stageTiles[1][1].Position );
+        }
       resampleF->SetForcedSpacing( sp );
       for ( unsigned y = 0; y < yMontageSize; y++ )
         {
@@ -223,7 +232,9 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
           std::string filename = inputPath + stageTiles[y][x].FileName;
           if ( loadIntoMemory )
             {
-            resampleF->SetInputTile( ind, ReadImage< typename Resampler::ImageType >( filename.c_str() ) );
+            typename OriginalImageType::Pointer image = ReadImage< OriginalImageType >( filename.c_str() );
+            image->SetOrigin( stageTiles[y][x].Position );
+            resampleF->SetInputTile( ind, image );
             }
           else
             {
