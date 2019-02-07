@@ -99,6 +99,37 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
 
   using PeakInterpolationType = typename itk::MaxPhaseCorrelationOptimizer< PCMType >::PeakInterpolationMethod;
   using PeakFinderUnderlying = typename std::underlying_type< PeakInterpolationType >::type;
+  using MontageType = itk::TileMontage< ScalarImageType >;
+  using ResamplerType = itk::TileMergeImageFilter< OriginalImageType, AccumulatePixelType >;
+
+  std::vector< std::vector< typename OriginalImageType::Pointer > > oImages( yMontageSize );
+  std::vector< std::vector< typename ScalarImageType::Pointer > > sImages( yMontageSize );
+  typename MontageType::TileIndexType ind;
+  if ( loadIntoMemory )
+    {
+    for ( unsigned y = 0; y < yMontageSize; y++ )
+      {
+      oImages[y].resize( xMontageSize );
+      sImages[y].resize( xMontageSize );
+      for ( unsigned x = 0; x < xMontageSize; x++ )
+        {
+        std::string filename = inputPath + stageTiles[y][x].FileName;
+        typename OriginalImageType::Pointer image = ReadImage< OriginalImageType >( filename.c_str() );
+        image->SetOrigin( stageTiles[y][x].Position );
+        oImages[y][x] = image;
+        if ( std::is_same< OriginalImageType, ScalarImageType >::value )
+          {
+          sImages[y][x] = reinterpret_cast< ScalarImageType* >( image.GetPointer() );
+          }
+        else // We need a type cast. Instead of fiddling with it, let reader do the conversion.
+          {
+          typename ScalarImageType::Pointer sImage = ReadImage< ScalarImageType >( filename.c_str() );
+          sImage->SetOrigin( stageTiles[y][x].Position );
+          sImages[y][x] = sImage;
+          }
+        }
+      }
+    }
 
   for ( auto padMethod = static_cast< PadMethodUnderlying >( PCMType::PaddingMethod::Zero );
         padMethod <= static_cast< PadMethodUnderlying >( PCMType::PaddingMethod::Last );
@@ -122,7 +153,6 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
     registrationErrors << std::endl;
 
 
-    using MontageType = itk::TileMontage< ScalarImageType >;
     typename MontageType::Pointer montage = MontageType::New();
     auto paddingMethod = static_cast< typename PCMType::PaddingMethod >( padMethod );
     montage->GetModifiablePCM()->SetPaddingMethod( paddingMethod );
@@ -133,7 +163,6 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
       }
     montage->SetForcedSpacing( sp );
 
-    typename MontageType::TileIndexType ind;
     for ( unsigned y = 0; y < yMontageSize; y++ )
       {
       ind[1] = y;
@@ -143,9 +172,7 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
         std::string filename = inputPath + stageTiles[y][x].FileName;
         if (loadIntoMemory)
           {
-          typename ScalarImageType::Pointer image = ReadImage< ScalarImageType >( filename.c_str() );
-          image->SetOrigin( stageTiles[y][x].Position );
-          montage->SetInputTile( ind, image );
+          montage->SetInputTile( ind, sImages[y][x] );
           }
         else
           {
@@ -213,9 +240,9 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
         {
         result = EXIT_FAILURE;
         }
+
       // write generated mosaic
-      using Resampler = itk::TileMergeImageFilter< OriginalImageType, AccumulatePixelType >;
-      typename Resampler::Pointer resampleF = Resampler::New();
+      typename ResamplerType::Pointer resampleF = ResamplerType::New();
       itk::SimpleFilterWatcher fw2( resampleF, "resampler" );
       resampleF->SetMontageSize( { xMontageSize, yMontageSize } );
       if ( !loadIntoMemory )
@@ -232,9 +259,7 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
           std::string filename = inputPath + stageTiles[y][x].FileName;
           if ( loadIntoMemory )
             {
-            typename OriginalImageType::Pointer image = ReadImage< OriginalImageType >( filename.c_str() );
-            image->SetOrigin( stageTiles[y][x].Position );
-            resampleF->SetInputTile( ind, image );
+            resampleF->SetInputTile( ind, oImages[y][x] );
             }
           else
             {
