@@ -132,8 +132,8 @@ calculateError( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& ac
 // do the registrations and calculate registration errors
 template< typename PixelType >
 int
-mockMontageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actualTiles,
-                 const std::string& inputPath, const std::string& outFilename, bool varyPaddingMethods )
+pairwiseTests( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actualTiles,
+               const std::string& inputPath, const std::string& outFilename, bool varyPaddingMethods )
 {
   int result = EXIT_SUCCESS;
   constexpr unsigned Dimension = 2;
