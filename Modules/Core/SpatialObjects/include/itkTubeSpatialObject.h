@@ -70,10 +70,12 @@ public:
   itkTypeMacro(TubeSpatialObject, PointBasedSpatialObject);
 
   /** Returns a reference to the list of the tube points. */
-  virtual PointListType & GetPoints();
+  virtual PointListType & GetPoints()
+  { return m_Points; }
 
   /** Returns a reference to the list of the tube points. */
-  virtual const PointListType & GetPoints() const;
+  virtual const PointListType & GetPoints() const
+  { return m_Points; }
 
   /** Set the list of tube points. */
   virtual void SetPoints(PointListType & newPoints);
@@ -96,16 +98,14 @@ public:
 
   /** Return the number of points in the list */
   SizeValueType GetNumberOfPoints() const override
-  {
-    return static_cast<SizeValueType>(m_Points.size());
-  }
+  { return static_cast<SizeValueType>(m_Points.size()); }
 
-  /** Set the type of tube end-type: 0 = flat, 1 = rounded */
-  itkSetMacro(EndType, unsigned int);
-  itkGetConstMacro(EndType, unsigned int);
+  /** Set the type of tube end-type: false = flat, true = rounded */
+  itkSetMacro(EndRounded, bool);
+  itkGetConstMacro(EndRounded, bool);
 
   /** Remove the list of tube points */
-  void Clear() override;
+  void ClearPoints() override;
 
   /** Calculate the normalized tangent */
   bool ComputeTangentAndNormals();
@@ -113,17 +113,6 @@ public:
   /** Remove duplicate points */
   unsigned int RemoveDuplicatePoints(unsigned int step = 1);
 
-  /** Returns true if the tube is evaluable at the requested point,
-   *  false otherwise. */
-  bool IsEvaluableAt(const PointType & point,
-                     unsigned int depth = 0, char *name = nullptr) const override;
-
-  /** Returns the value of the tube at that point.
-   *  Currently this function returns a binary value,
-   *  but it might want to return a degree of membership
-   *  in case of fuzzy tubes. */
-  bool ValueAt(const PointType & point, double & value,
-               unsigned int depth = 0, char *name = nullptr) const override;
 
   /** Returns true if the point is inside the tube, false otherwise. */
   bool IsInside(const PointType & point,
@@ -159,7 +148,7 @@ protected:
 
   int m_ParentPoint;
 
-  unsigned int m_EndType;
+  bool m_EndRounded;
 
   bool m_Root;
   bool m_Artery;
@@ -169,11 +158,8 @@ protected:
 
   /** Method to print the object. */
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-  /** TimeStamps */
-  mutable ModifiedTimeType m_OldMTime;
-  mutable ModifiedTimeType m_IndexToWorldTransformMTime;
 };
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
