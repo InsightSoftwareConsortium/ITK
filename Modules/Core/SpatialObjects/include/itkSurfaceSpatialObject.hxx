@@ -29,31 +29,11 @@ template< unsigned int TDimension >
 SurfaceSpatialObject< TDimension >
 ::SurfaceSpatialObject()
 {
-  this->SetDimension(TDimension);
   this->SetTypeName("SurfaceSpatialObject");
   this->GetProperty()->SetRed(1);
   this->GetProperty()->SetGreen(0);
   this->GetProperty()->SetBlue(0);
   this->GetProperty()->SetAlpha(1);
-  this->ComputeBoundingBox();
-}
-
-/** Get the list of points composing the surface */
-template< unsigned int TDimension >
-typename SurfaceSpatialObject< TDimension >::PointListType &
-SurfaceSpatialObject< TDimension >
-::GetPoints()
-{
-  itkDebugMacro("Getting SurfacePoint list");
-  return m_Points;
-}
-template< unsigned int TDimension >
-const typename SurfaceSpatialObject< TDimension >::PointListType &
-SurfaceSpatialObject< TDimension >
-::GetPoints() const
-{
-  itkDebugMacro("Getting SurfacePoint list");
-  return m_Points;
 }
 
 /** Set the list of points composing the surface */
@@ -75,7 +55,7 @@ SurfaceSpatialObject< TDimension >
     it++;
     }
 
-  this->ComputeBoundingBox();
+  this->ComputeObjectBoundingBox();
   this->Modified();
 }
 
@@ -96,37 +76,57 @@ SurfaceSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 SurfaceSpatialObject< TDimension >
-::ComputeLocalBoundingBox() const
+::ComputeObjectBoundingBox() const
 {
-  itkDebugMacro("Computing surface bounding box");
+  itkDebugMacro("Computing surface object bounding box");
 
-  if ( this->GetBoundingBoxChildrenName().empty()
-       || strstr( typeid( Self ).name(),
-                  this->GetBoundingBoxChildrenName().c_str() ) )
+  auto it  = m_Points.begin();
+  auto end = m_Points.end();
+
+  if ( it == end )
     {
-    auto it  = m_Points.begin();
-    auto end = m_Points.end();
-
-    if ( it == end )
-      {
-      return false;
-      }
-    else
-      {
-      PointType pt =
-        this->GetIndexToWorldTransform()->TransformPoint( ( *it ).GetPosition() );
-      const_cast< BoundingBoxType * >( this->GetBounds() )->SetMinimum(pt);
-      const_cast< BoundingBoxType * >( this->GetBounds() )->SetMaximum(pt);
-      it++;
-      while ( it != end )
-        {
-        pt = this->GetIndexToWorldTransform()->TransformPoint(
-          ( *it ).GetPosition() );
-        const_cast< BoundingBoxType * >( this->GetBounds() )->ConsiderPoint(pt);
-        it++;
-        }
-      }
+    return false;
     }
+
+  PointType pt = ( *it ).GetPosition();
+
+  // Compute a bounding box in object space
+  typename BoundingBoxType::Pointer bb = BoundingBoxType::New();
+
+  bb->SetMinimum(pt);
+  bb->SetMaximum(pt);
+  it++;
+  while ( it != end )
+    {
+    bb->ConsiderPoint( ( *it ).GetPosition() );
+    it++;
+    }
+  bb->ComputeBOundingBox();
+
+  // Next Transform the corners of the bounding box into world space
+  using PointsContainer = typename BoundingBoxType::PointsContainer;
+  const PointsContainer *corners = bb->GetCorners();
+  typename PointsContainer::Pointer transformedCorners =
+    PointsContainer::New();
+  transformedCorners->Reserve(
+    static_cast<typename PointsContainer::ElementIdentifier>(
+      corners->size() ) );
+
+  auto it = corners->begin();
+  auto itTrans = transformedCorners->begin();
+  while ( it != corners->end() )
+    {
+    PointType pnt = this->GetObjectToWorldTransform()->TransformPoint(*it);
+    *itTrans = pnt;
+    ++it;
+    ++itTrans;
+    }
+
+  // refresh the object's bounding box with the transformed corners
+  const_cast< BoundingBoxType * >( this->GetObjectBounds() )
+    ->SetPoints(transformedCorners);
+  this->GetObjectBounds()->ComputeBoundingBox();
+
   return true;
 }
 
@@ -138,87 +138,43 @@ bool
 SurfaceSpatialObject< TDimension >
 ::IsInside(const PointType & point) const
 {
-  auto it = m_Points.begin();
-  auto itEnd = m_Points.end();
-
-  if ( !this->SetInternalInverseTransformToWorldToIndexTransform() )
+  if( this->GetTypeName.find( name ) != std::string::npos )
     {
-    return false;
-    }
-
-  PointType transformedPoint =
-    this->GetInternalInverseTransform()->TransformPoint(point);
-
-  if ( this->GetBounds()->IsInside(transformedPoint) )
-    {
-    while ( it != itEnd )
+    if( this->GetObjectBounds()->IsInside( point ) )
       {
-      if ( ( *it ).GetPosition() == transformedPoint )
+      auto it = m_Points.begin();
+      auto itEnd = m_Points.end();
+
+      PointType transformedPoint =
+        this->GetObjectToWorldTransform()->GetInverseTransform()->
+          TransformPoint(point);
+
+      while ( it != itEnd )
         {
-        return true;
+        bool equals = true;
+        for( unsigned int i=0; i<ObjectDimension; ++i )
+          {
+          if( ! Math::AlmostEquals( transformedPoint[i],
+              it->GetPosition()[i] ) )
+            {
+            equals = false;
+            break;
+            }
+          }
+        if( equals )
+          {
+          return true;
+          }
+        it++;
         }
-      it++;
-      }
-    }
-  return false;
-}
-
-/** Return true is the given point is on the surface */
-template< unsigned int TDimension >
-bool
-SurfaceSpatialObject< TDimension >
-::IsInside(const PointType & point, unsigned int depth, char *name) const
-{
-  itkDebugMacro("Checking the point [" << point << "is on the surface");
-
-  if ( name == nullptr )
-    {
-    if ( IsInside(point) )
-      {
-      return true;
-      }
-    }
-  else if ( strstr(typeid( Self ).name(), name) )
-    {
-    if ( IsInside(point) )
-      {
-      return true;
       }
     }
 
-  return Superclass::IsInside(point, depth, name);
-}
-
-/** Return true if the surface is evaluable at a specified point */
-template< unsigned int TDimension >
-bool
-SurfaceSpatialObject< TDimension >
-::IsEvaluableAt(const PointType & point,
-                unsigned int depth, char *name) const
-{
-  itkDebugMacro("Checking if the surface is evaluable at " << point);
-  return IsInside(point, depth, name);
-}
-
-/** Return 1 if the point is on the surface */
-template< unsigned int TDimension >
-bool
-SurfaceSpatialObject< TDimension >
-::ValueAt(const PointType & point, double & value, unsigned int depth,
-          char *name) const
-{
-  itkDebugMacro("Getting the value of the surface at " << point);
-  if ( IsInside(point, 0, name) )
+  if( depth > 0 )
     {
-    value = this->GetDefaultInsideValue();
-    return true;
+    return Superclass::IsInsideChildren(point, depth-1, name);
     }
-  else if ( Superclass::IsEvaluableAt(point, depth, name) )
-    {
-    Superclass::ValueAt(point, value, depth, name);
-    return true;
-    }
-  value = this->GetDefaultOutsideValue();
+
   return false;
 }
 
@@ -394,6 +350,7 @@ SurfaceSpatialObject< TDimension >
 
   return true;
 }
+
 } // end namespace itk
 
 #endif

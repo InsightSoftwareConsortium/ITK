@@ -63,51 +63,38 @@ public:
   /** Method for creation through the object factory. */
   itkTypeMacro(SurfaceSpatialObject, PointBasedSpatialObject);
 
-  /** Returns a reference to the list of the Surface points. */
-  PointListType & GetPoints();
-  const PointListType & GetPoints() const;
-
-  /** Return a point in the list given the index */
-  const SpatialObjectPointType * GetPoint(IdentifierType id) const override
-  {
-    return &( m_Points[id] );
-  }
-
-  /** Return a point in the list given the index */
-  SpatialObjectPointType * GetPoint(IdentifierType id) override { return &( m_Points[id] ); }
-
-  /** Return the number of points in the list */
-  SizeValueType GetNumberOfPoints() const override
-  {
-    return static_cast<SizeValueType>( m_Points.size() );
-  }
-
   /** Set the list of Surface points. */
   void SetPoints(PointListType & newPoints);
 
-  /** Returns true if the Surface is evaluable at the requested point,
-   * false otherwise. */
-  bool IsEvaluableAt(const PointType & point,
-                     unsigned int depth = 0, char *name = nullptr) const override;
+  /** Returns a reference to the list of the Surface points. */
+  PointListType & GetPoints()
+  { return m_Points; }
 
-  /** Returns the value of the Surface at that point.
-   *  Currently this function returns a binary value,
-   *  but it might want to return a degree of membership
-   *  in case of fuzzy Surfaces. */
-  bool ValueAt(const PointType & point, double & value,
-               unsigned int depth = 0, char *name = nullptr) const override;
+  /** Returns a const reference to the list of the Surface points. */
+  const PointListType & GetPoints() const
+  { return m_Points; }
+
+  /** Return a point in the list given the index */
+  const SpatialObjectPointType * GetPoint(IdentifierType id) const override
+  { return &( m_Points[id] ); }
+
+  /** Return a point in the list given the index */
+  SpatialObjectPointType * GetPoint(IdentifierType id) override
+  { return &( m_Points[id] ); }
+
+  /** Return the number of points in the list */
+  SizeValueType GetNumberOfPoints() const override
+  { return static_cast<SizeValueType>( m_Points.size() ); }
+
+  /** Method returns the Point closest to the given point */
+  IdentifierType ClosestPoint( const PointType & curPoint) const;
 
   /** Returns true if the point is inside the Surface, false otherwise. */
-  bool IsInside(const PointType & point,
-                unsigned int depth, char *name) const override;
-
-  /** Test whether a point is inside or outside the object
-   *  For computational speed purposes, it is faster if the method does not
-   *  check the name of the class and the current depth */
-  virtual bool IsInside(const PointType & point) const;
+  bool IsInside(const PointType & point, unsigned int depth=0,
+    const std::string & name) const override;
 
   /** Compute the boundaries of the Surface. */
-  bool ComputeLocalBoundingBox() const override;
+  bool ComputeObjectBoundingBox() const override;
 
   /** Compute the normals to the surface from neighboring points */
   bool Approximate3DNormals();
