@@ -57,61 +57,61 @@ public:
   itkTypeMacro(ArrowSpatialObject, SpatialObject);
 
   /** Set the position of the arrow */
-  void SetObjectPosition(const PointType & p)
+  void SetPositionInObjectSpace(const PointType & positionInObjectSpace)
   {
-    m_ObjectPosition = p;
+    m_PositionInObjectSpace = p;
     this->Modified();
   }
 
-  itkGetConstMacro(ObjectPosition, PointType);
+  itkGetConstMacro(PositionInObjectSpace, PointType);
 
-  void SetObjectPosition(float x, float y)
+  void SetPositionInObjectSpace(float x, float y)
   {
-    m_ObjectPosition[0] = x;
-    m_ObjectPosition[1] = y;
+    m_PositionInObjectSpace[0] = x;
+    m_PositionInObjectSpace[1] = y;
     this->Modified();
   }
 
-  void SetObjectPosition(float x, float y, float z)
+  void SetPositionInObjectSpace(float x, float y, float z)
   {
-    m_ObjectPosition[0] = x;
-    m_ObjectPosition[1] = y;
-    m_ObjectPosition[2] = z;
+    m_PositionInObjectSpace[0] = x;
+    m_PositionInObjectSpace[1] = y;
+    m_PositionInObjectSpace[2] = z;
     this->Modified();
   }
 
   /** Set the direction of the arrow */
-  void SetObjectDirection(const VectorType & d)
+  void SetDirectionInObjectSpace(const VectorType & d)
   {
-    m_ObjectDirection = d;
+    m_DirectionInObjectSpace = d;
     this->Modified();
   }
 
-  itkGetConstMacro(ObjectDirection, VectorType);
+  itkGetConstMacro(DirectionInObjectSpace, VectorType);
 
-  void SetObjectDirection(float x, float y)
+  void SetDirectionInObjectSpace(float x, float y)
   {
-    m_ObjectDirection[0] = x;
-    m_ObjectDirection[1] = y;
+    m_DirectionInObjectSpace[0] = x;
+    m_DirectionInObjectSpace[1] = y;
     this->Modified();
   }
 
-  void SetObjectDirection(float x, float y, float z)
+  void SetDirectionInObjectSpace(float x, float y, float z)
   {
-    m_ObjectDirection[0] = x;
-    m_ObjectDirection[1] = y;
-    m_ObjectDirection[2] = z;
+    m_DirectionInObjectSpace[0] = x;
+    m_DirectionInObjectSpace[1] = y;
+    m_DirectionInObjectSpace[2] = z;
     this->Modified();
   }
 
   /** Set the length of the arrow */
-  void SetObjectLength(double length);
+  void SetLengthInObjectSpace(double length);
 
   /** Get the length of the arrow */
-  itkGetConstReferenceMacro(ObjectLength, double);
+  itkGetConstReferenceMacro(LengthInObjectSpace, double);
 
   /** Compute the Object bounding box */
-  bool ComputeObjectWorldBoundingBox() const override;
+  bool ComputeMyBoundingBox() const override;
 
   /** Returns true if the point is inside the line, false otherwise. */
   bool IsInside(const PointType & point, unsigned int depth=0,
@@ -119,9 +119,9 @@ public:
 
   void Update() override;
 
-  itkGetConstReferenceMacro( WorldPosition, PointType );
-  itkGetConstReferenceMacro( WorldDirection, VectorType );
-  itkGetConstReferenceMacro( WorldLength, double );
+  itkGetConstReferenceMacro( Position, PointType );
+  itkGetConstReferenceMacro( Direction, VectorType );
+  itkGetConstReferenceMacro( Length, double );
 
 protected:
 
@@ -132,9 +132,12 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  VectorType m_ObjectDirection;
-  PointType  m_ObjectPosition;
-  double     m_ObjectLength;
+  VectorType m_DirectionInObjectSpace;
+  PointType  m_PositionInObjectSpace;
+  double     m_LengthInObjectSpace;
+  VectorType m_Direction;
+  PointType  m_Position;
+  double     m_Length;
 };
 
 } // end namespace itk

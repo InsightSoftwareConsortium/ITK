@@ -67,7 +67,8 @@ public:
 
   /** Return the maximum depth that a tree of spatial objects can
    * have.  This provides convenient access to a static constant. */
-  unsigned int GetMaximumDepth() const { return MaximumDepth; }
+  unsigned int GetMaximumDepth() const
+  { return MaximumDepth; }
 
   using Self = SpatialObject< VDimension >;
   using Superclass = DataObject;
@@ -108,7 +109,8 @@ public:
   using PropertyPointer = typename PropertyType::Pointer;
 
   /** Get the dimensionality of the object */
-  unsigned int GetObjectDimension() const { return VDimension; }
+  unsigned int GetObjectDimension() const
+  { return VDimension; }
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -142,7 +144,7 @@ public:
 
   /** Returns the latest modified time of the spatial object, but not
    *  the modification time of the children */
-  ModifiedTimeType GetObjectMTime() const
+  ModifiedTimeType GetMyMTime() const
   { return Superclass::GetMTime(); }
 
 
@@ -179,7 +181,7 @@ public:
   /**********************************************************************/
   /* These are the three member functions that a subclass will typically
    *    overwrite.
-   *    * ComputeObjectWorldBoundingBox
+   *    * ComputeMyBoundingBox
    *    * IsInside
    *    * Update
    *  Optionally, a subclass may also wish to overwrite
@@ -191,13 +193,13 @@ public:
   /** Compute bounding box for the object in world space */
   virtual bool ComputeMyBoundingBox() const;
 
-  /** Returns true if a point is inside the object. */
+  /** Returns true if a point is inside the object in world space. */
   virtual bool IsInside(const PointType & point,
                         unsigned int depth = 0,
                         const std::string & name = "") const;
 
-  /** Update - Used to compute a world-coordinate representation of
-   *   the object.   Object-dependent implementation       */
+  /** Update - Optionally used to compute a world-coordinate representation of
+   *   the object.   Object-dependent implementation. */
   void Update() override;
 
 
@@ -259,8 +261,9 @@ public:
   /* Deal with Parents */
   /*********************/
 
-  /** Set the pointer to the parent object in the tree hierarchy
-   *  used for the spatial object patter. */
+  /** Set the pointer to the parent object in the tree hierarchy.
+   * Updates the ObjectToParentTransform to keep the object from moving
+   * in space. */
   void SetParent(Self *parent);
 
   /** Return true if the object has a parent object. Basically, only
@@ -294,7 +297,7 @@ public:
   bool RemoveChild(Self *object);
 
   /** Remove all children to a given depth */
-  void RemoveChildren( unsigned int depth = 0 );
+  void RemoveChildren( unsigned int depth = MaximumDepth );
 
   /** Returns a list of pointer to the children affiliated to this object.
    * A depth of 0 returns the immediate childred. A depth of 1 returns the
@@ -309,13 +312,13 @@ public:
 
   /** Returns the number of children currently assigned to the object. */
   unsigned int GetNumberOfChildren(unsigned int depth = 0,
-                                   const std::string & name = "") const;
+    const std::string & name = "") const;
 
-  /** Return a SpatialObject in the SceneSpatialObject given its ID */
+  /** Return a SpatialObject given its ID, if it is a child */
   SpatialObject< TDimension > * GetObjectById(int Id);
 
   /** In practice, this is used to transform an imported MetaIO scene hierarchy
-   * specified only by Ids into the SceneSpatialObject hierarchy specified by
+   * specified only by Ids into the SpatialObject hierarchy specified by
    * Ids and Child/Parent lists. */
   bool FixParentChildHierarchyUsingParentIds();
 
@@ -333,14 +336,13 @@ public:
   /* Bounding Box       */
   /**********************/
 
-  /** Get a pointer to the bounding box of the object in object space
-   *  The extents and the position of the box are not computed. */
+  /** Get a pointer to the axis-aligned bounding box of the object in world
+   *   space. This box is computed by ComputeMyBoundingBox which is called by
+   *   Update().  */
   virtual BoundingBoxType * GetMyBoundingBox() const;
 
-  /**
-   * Compute an axis-aligned bounding box for an object and its selected
-   * children, down to a specified depth.  After computation, the
-   * resulting bounding box is stored in this->m_Bounds.  */
+  /** Compute an axis-aligned bounding box for an object and its selected
+   * children, down to a specified depth, in world space. */
   virtual bool ComputeFamilyBoundingBox( unsigned int depth = 0,
     const std::string & name ) const;
 
@@ -447,7 +449,6 @@ public:
   void CopyInformation(const DataObject *data) override;
 
 
-
   /*************************************/
   /* Evaluate used by SpatialFunctions */
   /*************************************/
@@ -474,9 +475,9 @@ protected:
 
   itkSetMacro(TypeName, std::string);
 
-  itkGetModifiableObjectMacro(MyBounds, BoundingBoxType);
+  itkGetModifiableObjectMacro(MyBoundingBox, BoundingBoxType);
 
-  itkGetModifiableObjectMacro(FamilyBounds, BoundingBoxType);
+  itkGetModifiableObjectMacro(FamilyBoundingBox, BoundingBoxType);
 
 private:
 
@@ -495,10 +496,10 @@ private:
   RegionType      m_RequestedRegion;
   RegionType      m_BufferedRegion;
 
-  BoundingBoxPointer       m_MyBounds;
+  BoundingBoxPointer       m_MyBoundingBox;
 
-  BoundingBoxPointer       m_FamilyBounds;
-  mutable ModifiedTimeType m_FamilyBoundsMTime;
+  BoundingBoxPointer       m_FamilyBoundingBox;
+  mutable ModifiedTimeType m_FamilyBoundingBoxMTime;
 
   TransformPointer m_ObjectToParentTransform;
   TransformPointer m_ObjectToWorldTransform;
