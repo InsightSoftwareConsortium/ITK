@@ -175,8 +175,9 @@ public:
   /**********************************************************************/
   /* These are the three member functions that a subclass will typically
    *    overwrite.
-   *    * ComputeObjectBoundingBox
+   *    * ComputeObjectWorldBoundingBox
    *    * IsInside
+   *    * Update
    *  Optionally, a subclass may also wish to overwrite
    *    * ValueAt
    *    * IsEvaluableAt - if the extend is beyond IsInisde.
@@ -184,12 +185,17 @@ public:
   /**********************************************************************/
 
   /** Compute bounding box for the object in world space */
-  virtual bool ComputeObjectBoundingBox() const;
+  virtual bool ComputeObjectWorldBoundingBox() const;
 
   /** Returns true if a point is inside the object. */
   virtual bool IsInside(const PointType & point,
                         unsigned int depth = 0,
                         const std::string & name = "") const;
+
+  /** Update - Used to compute a world-coordinate representation of
+   *   the object.   Object-dependent implementation       */
+  void Update() override;
+
 
   /** Returns the value at a point */
   virtual bool ValueAt(const PointType & point, double & value,
@@ -325,7 +331,7 @@ public:
 
   /** Get a pointer to the bounding box of the object in object space
    *  The extents and the position of the box are not computed. */
-  virtual BoundingBoxType * GetObjectBoundingBox() const;
+  virtual BoundingBoxType * GetObjectWorldBoundingBox() const;
 
   /**
    * Compute an axis-aligned bounding box for an object and its selected
@@ -437,13 +443,6 @@ public:
   void CopyInformation(const DataObject *data) override;
 
 
-  /*************************************/
-  /* Update - typically not used       */
-  /*************************************/
-
-  /** Specify that the object has been updated */
-  void Update() override;
-
 
   /*************************************/
   /* Evaluate used by SpatialFunctions */
@@ -471,7 +470,7 @@ protected:
 
   itkSetMacro(TypeName, std::string);
 
-  itkGetModifiableObjectMacro(ObjectBounds, BoundingBoxType);
+  itkGetModifiableObjectMacro(ObjectWorldBounds, BoundingBoxType);
 
   itkGetModifiableObjectMacro(Bounds, BoundingBoxType);
 
@@ -492,7 +491,7 @@ private:
   RegionType      m_RequestedRegion;
   RegionType      m_BufferedRegion;
 
-  BoundingBoxPointer       m_ObjectBounds;
+  BoundingBoxPointer       m_ObjectWorldBounds;
 
   BoundingBoxPointer       m_Bounds;
   mutable ModifiedTimeType m_BoundsMTime;

@@ -41,9 +41,9 @@ SpatialObject< TDimension >
   m_Bounds->SetMaximum(pnt);
   m_BoundsMTime = 0;
 
-  m_ObjectBounds = BoundingBoxType::New();
-  m_ObjectBounds->SetMinimum(pnt);
-  m_ObjectBounds->SetMaximum(pnt);
+  m_ObjectWorldBounds = BoundingBoxType::New();
+  m_ObjectWorldBounds->SetMinimum(pnt);
+  m_ObjectWorldBounds->SetMaximum(pnt);
 
   m_Property = PropertyType::New();
 
@@ -273,7 +273,7 @@ SpatialObject< TDimension >
 {
   Superclass::PrintSelf(os, indent);
   os << "Object Bounding Box:" << std::endl;
-  os << indent << m_ObjectBounds << std::endl;
+  os << indent << m_ObjectWorldBounds << std::endl;
   os << "Bounding Box:" << std::endl;
   os << indent << m_Bounds << std::endl;
   os << "Geometric properties:" << std::endl;
@@ -417,7 +417,7 @@ SpatialObject< TDimension >
     it++;
     }
 
-  this->ComputeObjectBoundingBox();
+  this->ComputeObjectWorldBoundingBox();
 
   this->Modified();
 }
@@ -488,7 +488,7 @@ SpatialObject< TDimension >
     it++;
     }
 
-  this->ComputeObjectBoundingBox();
+  this->ComputeObjectWorldBoundingBox();
 
   this->Modified();
 }
@@ -526,13 +526,13 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 SpatialObject< TDimension >
-::ComputeObjectBoundingBox() const
+::ComputeObjectWorldBoundingBox() const
 {
   typename BoundingBoxType::PointType pnt;
   pnt.Fill( NumericTraits< typename BoundingBoxType::PointType::ValueType >::
     ZeroValue() );
-  m_ObjectBounds->SetMinimum(pnt);
-  m_ObjectBounds->SetMaximum(pnt);
+  m_ObjectWorldBounds->SetMinimum(pnt);
+  m_ObjectWorldBounds->SetMaximum(pnt);
 
   return false;
 }
@@ -542,9 +542,9 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 typename SpatialObject< TDimension >::BoundingBoxType *
 SpatialObject< TDimension >
-::GetObjectBoundingBox() const
+::GetObjectWorldBoundingBox() const
 {
-  return m_ObjectBounds.GetPointer();
+  return m_ObjectWorldBounds.GetPointer();
 }
 
 /**
@@ -568,8 +568,8 @@ SpatialObject< TDimension >
 
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    PointType pointMin = this->GetObjectBoundingBox()->GetMinimum();
-    PointType pointMax = this->GetObjectBoundingBox()->GetMaximum();
+    PointType pointMin = this->GetObjectWorldBoundingBox()->GetMinimum();
+    PointType pointMax = this->GetObjectWorldBoundingBox()->GetMaximum();
     for ( unsigned int i = 0; i < ObjectDimension; i++ )
       {
       if ( Math::NotExactlyEquals(pointMin[i], 0)
@@ -1147,9 +1147,6 @@ SpatialObject< TDimension >
 ::Update()
 {
   Superclass::Update();
-
-  /** This is probably not correct and should be removed */
-  this->Modified();
 }
 
 /** Return the type of the spatial object as a string

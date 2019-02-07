@@ -49,18 +49,24 @@ public:
   using TransformType = typename Superclass::TransformType;
   using BoundingBoxType = typename Superclass::BoundingBoxType;
   using SizeType = FixedArray< double, TDimension >;
-  using PointContainerType = VectorContainer< IdentifierType, PointType >;
+  using PointsContainerType = typename BoundingBoxType::PointsContainer;
 
   itkNewMacro(Self);
   itkTypeMacro(BoxSpatialObject, SpatialObject);
 
   /** Set/Get the size of the box spatial object. */
-  void SetSize( const SizeType & s );
-  itkGetConstReferenceMacro(Size, SizeType);
+  void SetObjectSize( const SizeType & s );
+  itkGetConstReferenceMacro(ObjectSize, SizeType);
 
   /** Set/Get the position of the box spatial object. */
-  void SetPosition( const PointType & p );
-  itkGetConstReferenceMacro(Position, PointType);
+  void SetObjectPosition( const PointType & p );
+  itkGetConstReferenceMacro(ObjectPosition, PointType);
+
+  /** Update position of corners in world space */
+  void Update() override;
+
+  const PointType & GetWorldCorner( unsigned int cornerNumber ) const;
+  itkGetConstObjectMacro(WorldCorners, PointsContainerType) const;
 
   /** Test whether a point is inside or outside the object */
   bool IsInside(const PointType & point, unsigned int depth = 0,
@@ -69,14 +75,16 @@ public:
   /** Get the boundaries of a specific object.  This function needs to
    *  be called every time one of the object's components is
    *  changed. */
-  bool ComputeLocalBoundingBox() const override;
+  bool ComputeObjectBoundingBox() const override;
 
 protected:
   BoxSpatialObject();
   ~BoxSpatialObject() override;
 
-  SizeType  m_Size;
-  PointType m_Position;
+  SizeType  m_ObjectSize;
+  PointType m_ObjectPosition;
+
+  typename PointContainer::Pointer m_WorldCorners;
 
   /** Print the object informations in a stream. */
   void PrintSelf(std::ostream & os, Indent indent) const override;

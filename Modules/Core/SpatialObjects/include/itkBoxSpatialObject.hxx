@@ -29,8 +29,9 @@ BoxSpatialObject< TDimension >
 ::BoxSpatialObject()
 {
   this->SetTypeName("BoxSpatialObject");
-  m_Size.Fill(1);
-  m_Position.Fill(0);
+  m_ObjectSize.Fill(1);
+  m_ObjectPosition.Fill(0);
+  m_Corners = nullptr;
 }
 
 /** Destructor */
@@ -43,7 +44,7 @@ void
 BoxSpatialObject< TDimension >
 ::SetSize(const SizeType & s) const
 {
-  this->m_Size = s;
+  this->m_ObjectSize = s;
   this->Modified();
 }
 
@@ -52,7 +53,7 @@ void
 BoxSpatialObject< TDimension >
 ::SetPosition(const PointType & p) const
 {
-  this->m_Position = p;
+  this->m_ObjectPosition = p;
   this->Modified();
 }
 
@@ -74,8 +75,8 @@ BoxSpatialObject< TDimension >
       bool isOutside = false;
       for ( unsigned int i = 0; i < TDimension; i++ )
         {
-        if ( ( transformedPoint[i] - m_Position[i] > m_Size[i] )
-          || ( transformedPoint[i] - m_Position[i] < 0 ) )
+        if ( ( transformedPoint[i] - m_ObjectPosition[i] > m_ObjectSize[i] )
+          || ( transformedPoint[i] - m_ObjectPosition[i] < 0 ) )
           {
           isOutside = true;
           break;
@@ -104,6 +105,28 @@ BoxSpatialObject< TDimension >
 {
   itkDebugMacro("Computing BoxSpatialObject bounding box");
 
+  // Computes m_Corners from ObjectSize and ObjectPosition
+  //  in world coordinates.
+  this->Update();
+
+  // refresh the bounding box with the transformed corners
+  const_cast< BoundingBoxType * >( this->GetObjectBounds() )
+    ->SetPoints(m_Corners);
+  this->GetObjectBounds()->ComputeBoundingBox();
+
+  return true;
+}
+
+/** Compute the bounds of the box */
+template< unsigned int TDimension >
+void
+BoxSpatialObject< TDimension >
+::Update() const
+{
+  itkDebugMacro("BoxSpatialObject: Update");
+
+  Superclass::Update();
+
   // First we compute the bounding box in the object space
   typename BoundingBoxType::Pointer bb = BoundingBoxType::New();
 
@@ -111,8 +134,8 @@ BoxSpatialObject< TDimension >
   PointType    pnt2;
   for ( unsigned int i = 0; i < TDimension; i++ )
     {
-    pnt1[i] = m_Position[i];
-    pnt2[i] = m_Position[i] + m_Size[i];
+    pnt1[i] = m_ObjectPosition[i];
+    pnt2[i] = m_ObjectPosition[i] + m_ObjectSize[i];
     }
 
   bb->SetMinimum(pnt1);
@@ -121,30 +144,34 @@ BoxSpatialObject< TDimension >
   bb->ComputeBoundingBox();
 
   // Next Transform the corners of the bounding box
-  using PointsContainer = typename BoundingBoxType::PointsContainer;
   const PointsContainer *corners = bb->GetCorners();
-  typename PointsContainer::Pointer transformedCorners =
-    PointsContainer::New();
-  transformedCorners->Reserve(
-    static_cast<typename PointsContainer::ElementIdentifier>(
-      corners->size() ) );
+  m_Corners = PointsContainer::New();
+  m_Corners->Reserve( static_cast<typename PointsContainer::ElementIdentifier>(
+    corners->size() ) );
 
   auto it = corners->begin();
-  auto itTrans = transformedCorners->begin();
+  auto itWorldCorner = m_Corners->begin();
   while ( it != corners->end() )
     {
     PointType pnt = this->GetObjectToWorldTransform()->TransformPoint(*it);
-    *itTrans = pnt;
+    *itWorldCorner = pnt;
     ++it;
     ++itTrans;
     }
+}
 
-  // refresh the bounding box with the transformed corners
-  const_cast< BoundingBoxType * >( this->GetObjectBounds() )
-    ->SetPoints(transformedCorners);
-  this->GetObjectBounds()->ComputeBoundingBox();
-
-  return true;
+template< unsigned int TDimension >
+const PointType &
+BoxSpatialObject< TDimension >
+::GetCorner( unsigned int cornerNumber ) const
+{
+  if( m_Corners != nullptr )
+    {
+    if( cornerNumber < m_Corners.size() )
+       {
+       return m_Croners[ cornerNumber ];
+       }
+    }
 }
 
 /** Print Self function */
@@ -154,8 +181,9 @@ BoxSpatialObject< TDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << "Size: " << m_Size << std::endl;
-  os << "Position: " << m_Position << std::endl;
+  os << "Size: " << m_ObjectSize << std::endl;
+  os << "Position: " << m_ObjectPosition << std::endl;
+  os << "Corners: " << m_Corners << std::endl;
 }
 } // end namespace itk
 

@@ -36,7 +36,7 @@ BlobSpatialObject< TDimension >
   this->GetProperty()->SetBlue(0);
   this->GetProperty()->SetAlpha(1);
 
-  m_Points.clear();
+  m_ObjectPoints.clear();
 }
 
 /** Destructor */
@@ -44,42 +44,22 @@ template< unsigned int TDimension >
 BlobSpatialObject< TDimension >
 ::~BlobSpatialObject() = default;
 
-/** Get the list of points that defines the blob */
-template< unsigned int TDimension >
-typename BlobSpatialObject< TDimension >::PointListType &
-BlobSpatialObject< TDimension >
-::GetPoints()
-{
-  itkDebugMacro("Getting BlobPoint list");
-  return m_Points;
-}
-
-/** Get the list of points which are defining the blob */
-template< unsigned int TDimension >
-const typename BlobSpatialObject< TDimension >::PointListType &
-BlobSpatialObject< TDimension >
-::GetPoints() const
-{
-  itkDebugMacro("Getting BlobPoint list");
-  return m_Points;
-}
-
 /** Set the points which are defining the Blob structure */
 template< unsigned int TDimension >
 void
 BlobSpatialObject< TDimension >
-::SetPoints(PointListType & points)
+::SetObjectPoints(PointListType & points)
 {
   // in this function, passing a null pointer as argument will
   // just clear the list...
-  m_Points.clear();
+  m_ObjectPoints.clear();
 
   typename PointListType::iterator it, end;
   it = points.begin();
   end = points.end();
   while ( it != end )
     {
-    m_Points.push_back(*it);
+    m_ObjectPoints.push_back(*it);
     it++;
     }
   this->Modified();
@@ -94,16 +74,16 @@ BlobSpatialObject< TDimension >
   os << indent << "BlobSpatialObject(" << this << ")" << std::endl;
   os << indent << "ID: " << this->GetId() << std::endl;
   os << indent << "nb of points: "
-     << static_cast< SizeValueType >( m_Points.size() ) << std::endl;
+     << static_cast< SizeValueType >( m_ObjectPoints.size() ) << std::endl;
   Superclass::PrintSelf(os, indent);
 }
 
 template< unsigned int TDimension >
 typename PolygonSpatialObject< TDimension >::IdentifierType
 PolygonSpatialObject< TDimension >
-::ClosestPoint(const PointType & curPoint) const
+::ClosestWorldPoint(const PointType & curPoint) const
 {
-  const PointListType & points = this->GetPoints();
+  const PointListType & points = this->GetObjectPoints();
 
   auto it = points.begin();
   auto itend = points.end();
@@ -112,7 +92,7 @@ PolygonSpatialObject< TDimension >
     {
     ExceptionObject exception(__FILE__, __LINE__);
     exception.SetDescription(
-      "BlogSpatialObject: ClosestPoint called using an empty point list");
+      "BlogSpatialObject: ClosestWorldPoint called using an empty point list");
     throw exception;
     }
 
@@ -145,8 +125,8 @@ BlobSpatialObject< TDimension >
 {
   itkDebugMacro("Computing blob bounding box");
 
-  auto it  = m_Points.begin();
-  auto end = m_Points.end();
+  auto it  = m_ObjectPoints.begin();
+  auto end = m_ObjectPoints.end();
 
   if ( it == end )
     {
@@ -208,11 +188,12 @@ BlobSpatialObject< TDimension >
     {
     if( this->GetObjectBounds()->IsInside( point ) )
       {
-      auto it = m_Points.begin();
-      auto itEnd = m_Points.end();
+      auto it = m_ObjectPoints.begin();
+      auto itEnd = m_ObjectPoints.end();
 
       PointType transformedPoint =
-        this->GetObjectToWorldTransform()->GetInverse()->TransformPoint(point);
+        this->GetObjectToWorldTransform()->GetInverseTransform()->
+          TransformPoint(point);
 
       while ( it != itEnd )
         {

@@ -29,45 +29,22 @@ template< unsigned int TDimension, typename TTubePointType >
 TubeSpatialObject< TDimension, TTubePointType >
 ::TubeSpatialObject()
 {
-  m_Root = false;
-  m_Artery = true;
-  m_ParentPoint = -1;
-  this->SetDimension(TDimension);
   this->SetTypeName("TubeSpatialObject");
   this->GetProperty()->SetRed(1);
   this->GetProperty()->SetGreen(0);
   this->GetProperty()->SetBlue(0);
   this->GetProperty()->SetAlpha(1);
-  m_OldMTime = 0;
-  m_IndexToWorldTransformMTime = 0;
-  m_EndType = 0; // default end-type is flat
+
+  m_Root = false;
+  m_Artery = true;
+  m_ParentPoint = -1;
+  m_EndRounded = false; // default end-type is flat
 }
 
 /** Destructor */
 template< unsigned int TDimension, typename TTubePointType >
 TubeSpatialObject< TDimension, TTubePointType >
 ::~TubeSpatialObject() = default;
-
-/** Get the list of points composing the tube */
-template< unsigned int TDimension, typename TTubePointType >
-typename TubeSpatialObject< TDimension, TTubePointType >::PointListType &
-TubeSpatialObject< TDimension, TTubePointType >
-::GetPoints()
-{
-  itkDebugMacro("Getting TubePoint list");
-  return m_Points;
-}
-
-/** Get the list of points composing the tube */
-template< unsigned int TDimension, typename TTubePointType >
-const typename
-TubeSpatialObject< TDimension, TTubePointType >::PointListType &
-TubeSpatialObject< TDimension, TTubePointType >
-::GetPoints() const
-{
-  itkDebugMacro("Getting TubePoint list");
-  return m_Points;
-}
 
 /** Set the list of points composing the tube */
 template< unsigned int TDimension, typename TTubePointType >
@@ -89,6 +66,7 @@ TubeSpatialObject< TDimension, TTubePointType >
     }
 
   this->ComputeBoundingBox();
+
   this->Modified();
 }
 

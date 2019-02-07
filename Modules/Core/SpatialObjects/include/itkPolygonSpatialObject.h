@@ -60,9 +60,6 @@ public:
   /** Returns if the polygon is closed */
   bool IsClosed() const;
 
-  /** Returns the number of points of the polygon */
-  unsigned int NumberOfPoints() const;
-
   /** Method returns area of polygon described by points */
   double MeasureArea() const;
 
