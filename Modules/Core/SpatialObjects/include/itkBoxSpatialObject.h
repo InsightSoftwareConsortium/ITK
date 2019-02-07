@@ -55,18 +55,18 @@ public:
   itkTypeMacro(BoxSpatialObject, SpatialObject);
 
   /** Set/Get the size of the box spatial object. */
-  void SetObjectSize( const SizeType & s );
-  itkGetConstReferenceMacro(ObjectSize, SizeType);
+  void SetSizeInObjectSpace( const SizeType & sizeInObjectSpace );
+  itkGetConstReferenceMacro(SizeInObjectSpace, SizeType);
 
   /** Set/Get the position of the box spatial object. */
-  void SetObjectPosition( const PointType & p );
-  itkGetConstReferenceMacro(ObjectPosition, PointType);
+  void SetPositionInObjectSpace( const PointType & positionInObjectSpace );
+  itkGetConstReferenceMacro(PositionInObjectSpace, PointType);
 
   /** Update position of corners in world space */
   void Update() override;
 
-  const PointType & GetWorldCorner( unsigned int cornerNumber ) const;
-  itkGetConstObjectMacro(WorldCorners, PointsContainerType) const;
+  const PointType & GetCorner( unsigned int cornerNumber ) const;
+  itkGetConstObjectMacro(Corners, PointsContainerType) const;
 
   /** Test whether a point is inside or outside the object */
   bool IsInside(const PointType & point, unsigned int depth = 0,
@@ -75,7 +75,7 @@ public:
   /** Get the boundaries of a specific object.  This function needs to
    *  be called every time one of the object's components is
    *  changed. */
-  bool ComputeObjectBoundingBox() const override;
+  bool ComputeMyBoundingBox() const override;
 
 protected:
   BoxSpatialObject();

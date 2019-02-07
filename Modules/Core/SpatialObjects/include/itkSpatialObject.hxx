@@ -33,17 +33,17 @@ SpatialObject< TDimension >
 {
   m_TypeName = "SpatialObject";
 
-  m_FamilyBounds = BoundingBoxType::New();
+  m_FamilyBoundingBox = BoundingBoxType::New();
   typename BoundingBoxType::PointType pnt;
   pnt.Fill( NumericTraits< typename BoundingBoxType::PointType::ValueType >::
     ZeroValue() );
-  m_FamilyBounds->SetMinimum(pnt);
-  m_FamilyBounds->SetMaximum(pnt);
-  m_FamilyBoundsMTime = 0;
+  m_FamilyBoundingBox->SetMinimum(pnt);
+  m_FamilyBoundingBox->SetMaximum(pnt);
+  m_FamilyBoundingBoxMTime = 0;
 
-  m_MyBounds = BoundingBoxType::New();
-  m_MyBounds->SetMinimum(pnt);
-  m_MyBounds->SetMaximum(pnt);
+  m_MyBoundingBox = BoundingBoxType::New();
+  m_MyBoundingBox->SetMinimum(pnt);
+  m_MyBoundingBox->SetMaximum(pnt);
 
   m_Property = PropertyType::New();
 
@@ -63,7 +63,7 @@ template< unsigned int TDimension >
 SpatialObject< TDimension >
 ::~SpatialObject()
 {
-  this->RemoveAllChildren();
+  this->RemoveAllChildren(0);
 }
 
 /** Return the Derivative at a point given the order of the derivative */
@@ -168,7 +168,7 @@ SpatialObject< TDimension >
 ::IsEvaluableAt(const PointType & point, unsigned int depth,
   const std::string & name) const
 {
-  if( IsInide( point, 0, name ) )
+  if( IsInside( point, 0, name ) )
     {
     return true;
     }
@@ -216,7 +216,7 @@ SpatialObject< TDimension >
 {
   if( IsEvaluableAt( point, 0, name ) )
     {
-    if( IsInide( point, 0, name ) )
+    if( IsInside( point, 0, name ) )
       {
       value = m_DefaultInsideValue;
       return true;
@@ -273,9 +273,9 @@ SpatialObject< TDimension >
 {
   Superclass::PrintSelf(os, indent);
   os << "Object Bounding Box:" << std::endl;
-  os << indent << m_MyBounds << std::endl;
+  os << indent << m_MyBoundingBox << std::endl;
   os << "Bounding Box:" << std::endl;
-  os << indent << m_FamilyBounds << std::endl;
+  os << indent << m_FamilyBoundingBox << std::endl;
   os << "Geometric properties:" << std::endl;
   os << indent << "Object to World Transform: " << m_ObjectToWorldTransform
      << std::endl;
@@ -292,7 +292,7 @@ typename SpatialObject< TDimension >::BoundingBoxType *
 SpatialObject< TDimension >
 ::GetFamilyBoundingBox() const
 {
-  return m_FamilyBounds.GetPointer();
+  return m_FamilyBoundingBox.GetPointer();
 }
 
 /** Add a child to the object */
@@ -380,8 +380,8 @@ SpatialObject< TDimension >
     throw e;
     }
 
-  m_ObjectToParentTransform.CopyInFixedParameters( transform );
-  m_ObjectToParentTransform.CopyInParameters( transform );
+  m_ObjectToParentTransform->CopyInFixedParameters( transform );
+  m_ObjectToParentTransform->CopyInParameters( transform );
 
   ComputeObjectToWorldTransform();
 
@@ -501,9 +501,9 @@ SpatialObject< TDimension >
 {
   ModifiedTimeType latestTime = Object::GetMTime();
 
-  if( latestTime < m_FamilyBoundsMTime )
+  if( latestTime < m_FamilyBoundingBoxMTime )
     {
-    latestTime = m_FamilyBoundsMTime;
+    latestTime = m_FamilyBoundingBoxMTime;
     }
 
   typename ChildrenListType::const_iterator it = m_ChildrenList->begin();
@@ -531,8 +531,8 @@ SpatialObject< TDimension >
   typename BoundingBoxType::PointType pnt;
   pnt.Fill( NumericTraits< typename BoundingBoxType::PointType::ValueType >::
     ZeroValue() );
-  m_MyBounds->SetMinimum(pnt);
-  m_MyBounds->SetMaximum(pnt);
+  m_MyBoundingBox->SetMinimum(pnt);
+  m_MyBoundingBox->SetMaximum(pnt);
 
   return false;
 }
@@ -544,13 +544,13 @@ typename SpatialObject< TDimension >::BoundingBoxType *
 SpatialObject< TDimension >
 ::GetMyBoundingBox() const
 {
-  return m_MyBounds.GetPointer();
+  return m_MyBoundingBox.GetPointer();
 }
 
 /**
  * Compute an axis-aligned bounding box for an object and its selected
  * children, down to a specified depth.  After computation, the
- * resulting bounding box is stored in this->m_FamilyBounds.  */
+ * resulting bounding box is stored in this->m_FamilyBoundingBox.  */
 template< unsigned int TDimension >
 bool
 SpatialObject< TDimension >
@@ -561,9 +561,9 @@ SpatialObject< TDimension >
   typename BoundingBoxType::PointType pnt;
   pnt.Fill( NumericTraits< typename BoundingBoxType::PointType::ValueType >::
     ZeroValue() );
-  m_FamilyBounds->SetMinimum(pnt);
-  m_FamilyBounds->SetMaximum(pnt);
-  m_FamilyBoundsMTime = this->GetMTime();
+  m_FamilyBoundingBox->SetMinimum(pnt);
+  m_FamilyBoundingBox->SetMaximum(pnt);
+  m_FamilyBoundingBoxMTime = this->GetMTime();
   bool bbDefined = false;
 
   if( this->GetTypeName().find( name ) != std::string::npos )
@@ -576,8 +576,8 @@ SpatialObject< TDimension >
            || Math::NotExactlyEquals(pointMax[i], 0) )
         {
         bbDefined = true;
-        m_FamilyBounds->SetMinimum( pointMin )
-        m_FamilyBounds->SetMaximum( pointMax )
+        m_FamilyBoundingBox->SetMinimum( pointMin )
+        m_FamilyBoundingBox->SetMaximum( pointMax )
         break;
         }
       }
@@ -592,14 +592,14 @@ SpatialObject< TDimension >
 
       if( !bbDefined )
         {
-        m_FamilyBounds->SetMinimum( ( *it )->Get()->GetFamilyBoundingBox()->GetMinimum() );
-        m_FamilyBounds->SetMaximum( ( *it )->Get()->GetFamilyBoundingBox()->GetMaximum() );
+        m_FamilyBoundingBox->SetMinimum( ( *it )->Get()->GetFamilyBoundingBox()->GetMinimum() );
+        m_FamilyBoundingBox->SetMaximum( ( *it )->Get()->GetFamilyBoundingBox()->GetMaximum() );
         bbDefined = true;
         }
       else
         {
-        m_FamilyBounds->ConsiderPoint( (*it)->Get()->GetFamilyBoundingBox()->GetMinimum() );
-        m_BFamilyounds->ConsiderPoint( (*it)->Get()->GetFamilyBoundingBox()->GetMaximum() );
+        m_FamilyBoundingBox->ConsiderPoint( (*it)->Get()->GetFamilyBoundingBox()->GetMinimum() );
+        m_FamilyBoundingBox->ConsiderPoint( (*it)->Get()->GetFamilyBoundingBox()->GetMaximum() );
         }
       it++;
       }
@@ -619,7 +619,7 @@ SpatialObject< TDimension >
   auto * childrenSO = new ChildrenListType;
 
   auto it = m_ChildrenList->begin();
-  while ( it != m_InternChildrenList->end() )
+  while ( it != m_ChildrenList->end() )
     {
     if( (*it)->Get()->GetTypeName().find( name ) != std::string::npos )
       {
@@ -630,10 +630,11 @@ SpatialObject< TDimension >
 
   if( depth > 0 )
     {
-    it = m_InternChildrenList->begin();
-    while ( it != m_InternChildrenList->end() )
+    it = m_ChildrenList->begin();
+    while ( it != m_ChildrenList->end() )
       {
       (*it)->Get()->AddChildrenToList( depth-1, name, childrenSO );
+      it++;
       }
     }
 
@@ -662,6 +663,7 @@ SpatialObject< TDimension >
     while ( it != m_ChildrenList->end() )
       {
       (*it)->Get()->AddChildrenToList( depth-1, name, childrenList );
+      ++it;
       }
     }
 }
@@ -672,14 +674,14 @@ void
 SpatialObject< TDimension >
 ::SetChildren(ChildrenListType & children)
 {
-  this->RemoveAllChildren();
+  this->RemoveAllChildren(0);
 
   // Add children
   auto it = children.begin();
   while ( it != children.end() )
     {
     this->AddChild( ( *it )->Get() );
-    it++;
+    ++it;
     }
 }
 
@@ -706,6 +708,7 @@ SpatialObject< TDimension >
     while ( it != m_ChildrenList->end() )
       {
       ccount += (*it)->Get()->GetNumberOfChildren( depth-1, name );
+      ++it;
       }
     }
 
@@ -725,11 +728,9 @@ SpatialObject< TDimension >
     }
 
   auto it = m_ChildrenList.begin();
-  auto itEnd = m_ChildrenList.end();
-
-  while ( it != itEnd )
+  while ( it != m_ChildrenList.end() )
     {
-    SpatialObject< TDimension > * tmp = (*it)->GetObjectById();
+    SpatialObject< TDimension > * tmp = (*it)->Get()->GetObjectById();
     if( tmp != nullptr )
       {
       return tmp;
@@ -745,7 +746,7 @@ bool
 SceneSpatialObject< TDimension >
 ::FixParentChildHierarchyUsingParentIds()
 {
-  ChildrenListType * children = this->GetChildren( 99999 );
+  ChildrenListType * children = this->GetChildren( MaximumDepth );
 
   auto it = children->begin();
   auto itEnd = children->end();
@@ -816,7 +817,6 @@ SceneSpatialObject< TDimension >
         }
       ++it2;
       }
-    ++it;
     }
 
   delete children;
@@ -851,10 +851,11 @@ SceneSpatialObject< TDimension >
       if( id == id2 || id2 == -1 )
         {
         ( *it2 )->SetId( this->GetNextAvailableId() );
+        // TODO: Go thru children and fix ParentId;
+        //   - This should be done in the SetId function
         }
       ++it2;
       }
-    ++it;
     }
 
   delete children;
