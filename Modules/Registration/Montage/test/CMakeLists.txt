@@ -123,32 +123,42 @@ itk_add_test(NAME itkMontagePCMTestFilesSynthetic3D
     1.0
   )
 
-function(AddTestOMC slicerNumber)
+function(AddTestOMC slicerNumber inMemory)
   itk_add_test(NAME itkMontageTestOMC${slicerNumber}
     COMMAND MontageTestDriver
     itkMontageTest2D
       DATA{Input/OMC/FlatField/${slicerNumber}/,REGEX:.*}
       ${TESTING_OUTPUT_PATH}/itkMontageTestOMC${slicerNumber}_
       ${TESTING_OUTPUT_PATH}/itkMockMontageTestOMC${slicerNumber}_
-      1 -1 0 1
+      1 -1 ${inMemory} 1 0
     )
 endfunction()
 
-AddTestOMC(14)
-AddTestOMC(15)
-AddTestOMC(16)
-AddTestOMC(17)
-AddTestOMC(18)
+AddTestOMC(14 1)
+AddTestOMC(15 0)
+AddTestOMC(16 1)
+AddTestOMC(17 0)
+AddTestOMC(18 1)
 
-itk_add_test(NAME itkMontageTestRGB
+itk_add_test(NAME itkMontageTestRGBinMemory
   COMMAND MontageTestDriver
   --compare DATA{Input/VisibleHumanRGB/VisibleHumanMale1608.png}
-                 ${TESTING_OUTPUT_PATH}/itkMontageTestRGB0_1.mha
+                 ${TESTING_OUTPUT_PATH}/itkMontageTestRGBim0_1.mha
   itkMontageTest2D
     DATA{Input/VisibleHumanRGB/,REGEX:.*}
-    ${TESTING_OUTPUT_PATH}/itkMontageTestRGB
-    ${TESTING_OUTPUT_PATH}/itkMockMontageTestRGB
-    1 -1 1 1
+    ${TESTING_OUTPUT_PATH}/itkMontageTestRGBim
+    ${TESTING_OUTPUT_PATH}/itkMockMontageTestRGBim
+    1 -1 1 1 0
+  )
+itk_add_test(NAME itkMontageTestRGBpairs
+  COMMAND MontageTestDriver
+  --compare DATA{Input/VisibleHumanRGB/VisibleHumanMale1608.png}
+                 ${TESTING_OUTPUT_PATH}/itkMontageTestRGBp0_1.mha
+  itkMontageTest2D
+    DATA{Input/VisibleHumanRGB/,REGEX:.*}
+    ${TESTING_OUTPUT_PATH}/itkMontageTestRGBp
+    ${TESTING_OUTPUT_PATH}/itkMockMontageTestRGBp
+    1 -1 0 1 1
   )
 
 function(AddInMemoryMontageTest variation willFail)
@@ -210,7 +220,7 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/FlatFielded/36/1000.tif)
       ${flatFolder}
       ${TESTING_OUTPUT_PATH}/itkMontageTestTi7flat36_
       ${TESTING_OUTPUT_PATH}/itkMockMontageTestTi7flat36_
-      0 1 0 5
+      0 1 1 5 0
     )
 
   itk_add_test(NAME itkMontageTestTi7Slice36raw
@@ -219,7 +229,7 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/FlatFielded/36/1000.tif)
       ${rawFolder}
       ${TESTING_OUTPUT_PATH}/itkMontageTestTi7raw36_
       ${TESTING_OUTPUT_PATH}/itkMockMontageTestTi7raw36_
-      0 1 0 5
+      0 1 1 5 0
     )
 endif()
 
@@ -230,7 +240,7 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles/Image_10_10.tif)
       ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles
       ${TESTING_OUTPUT_PATH}/itkMontageTestTiles
       ${TESTING_OUTPUT_PATH}/itkMockMontageTestTiles
-      0 -1 1 1
+      0 -1 1 1 0
     )
 endif()
 
@@ -241,6 +251,6 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/NoisyTiles/NoisyImage_10_10.tif)
       ${CMAKE_CURRENT_LIST_DIR}/Input/NoisyTiles
       ${TESTING_OUTPUT_PATH}/itkMontageTestNoisyTiles
       ${TESTING_OUTPUT_PATH}/itkMockMontageTestNoisyTiles
-      0 -1 1 1
+      0 -1 1 1 0
     )
 endif()
