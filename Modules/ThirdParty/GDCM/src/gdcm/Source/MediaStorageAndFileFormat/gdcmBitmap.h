@@ -43,6 +43,7 @@ public:
   void Print(std::ostream &) const;
 
   virtual bool AreOverlaysInPixelData() const { return false; }
+  virtual bool UnusedBitsPresentInPixelData() const { return false; }
 
   /// Return the number of dimension of the pixel data bytes; for example 2 for a 2D matrices of values
   unsigned int GetNumberOfDimensions() const;
