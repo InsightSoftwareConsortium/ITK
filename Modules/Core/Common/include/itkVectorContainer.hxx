@@ -32,7 +32,7 @@ namespace itk
  * reference.
  */
 template< typename TElementIdentifier, typename TElement >
-typename VectorContainer< TElementIdentifier, TElement >::Element &
+typename VectorContainer< TElementIdentifier, TElement >::reference
 VectorContainer< TElementIdentifier, TElement >
 ::ElementAt(ElementIdentifier id)
 {
@@ -47,7 +47,7 @@ VectorContainer< TElementIdentifier, TElement >
  *
  */
 template< typename TElementIdentifier, typename TElement >
-const typename VectorContainer< TElementIdentifier, TElement >::Element &
+typename VectorContainer< TElementIdentifier, TElement >::const_reference
 VectorContainer< TElementIdentifier, TElement >
 ::ElementAt(ElementIdentifier id) const
 {
@@ -63,7 +63,7 @@ VectorContainer< TElementIdentifier, TElement >
  * reference.
  */
 template< typename TElementIdentifier, typename TElement >
-typename VectorContainer< TElementIdentifier, TElement >::Element &
+typename VectorContainer< TElementIdentifier, TElement >::reference
 VectorContainer< TElementIdentifier, TElement >
 ::CreateElementAt(ElementIdentifier id)
 {
