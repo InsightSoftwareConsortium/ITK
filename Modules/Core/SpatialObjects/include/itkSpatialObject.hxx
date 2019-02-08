@@ -78,9 +78,7 @@ SpatialObject< TDimension >
   if ( !IsEvaluableAt(point, depth, name) )
     {
     ExceptionObject e(__FILE__);
-    e.SetLocation(
-      "SpatialObject< TDimension >::DerivateAt(\
-                   const PointType, unsigned short, DerivativeVectorType & )"                                                 );
+    e.SetLocation( "SpatialObject::DerivateAt()" );
     e.SetDescription("This spatial object is not evaluable at the point");
     throw e;
     }

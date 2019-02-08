@@ -475,44 +475,11 @@ TubeSpatialObject< TDimension, TTubePointType >
   return true;
 }
 
-/** Return true if the tube is evaluable at a given point */
-template< unsigned int TDimension, typename TTubePointType >
-bool
-TubeSpatialObject< TDimension, TTubePointType >
-::IsEvaluableAt(const PointType & point,
-                unsigned int depth, char *name) const
-{
-  itkDebugMacro("Checking if the tube is evaluable at " << point);
-  return IsInside(point, depth, name);
-}
-
-/** Return the value of the tube at a specified point */
-template< unsigned int TDimension, typename TTubePointType >
-bool
-TubeSpatialObject< TDimension, TTubePointType >
-::ValueAt(const PointType & point, double & value, unsigned int depth,
-          char *name) const
-{
-  itkDebugMacro("Getting the value of the tube at " << point);
-  if ( IsInside(point, 0, name) )
-    {
-    value = this->GetDefaultInsideValue();
-    return true;
-    }
-  else if ( Superclass::IsEvaluableAt(point, depth, name) )
-    {
-    Superclass::ValueAt(point, value, depth, name);
-    return true;
-    }
-  value = this->GetDefaultOutsideValue();
-  return false;
-}
-
 /** Copy the information from another spatial object */
 template< unsigned int TDimension, typename TTubePointType >
 void
 TubeSpatialObject< TDimension, TTubePointType >
-::CopyInformation(const DataObject *data)
+::DeepCopy(const DataObject *data)
 {
   // check if we are the same type
   const auto * source = dynamic_cast< const Self * >( data );

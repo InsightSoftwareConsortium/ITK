@@ -29,7 +29,8 @@ namespace itk
  * \class ContourSpatialObject
  * \brief Representation of a Contour based on the spatial object classes.
  *
- * The Contour is basically defined by a set of points which are inside this blob
+ * The Contour is basically defined by a set of points which are inside this
+ * blob
  *
  * \sa SpatialObjectPoint
  * \ingroup ITKSpatialObjects
@@ -37,7 +38,8 @@ namespace itk
 
 template< unsigned int TDimension = 3 >
 class ITK_TEMPLATE_EXPORT ContourSpatialObject:
-  public PointBasedSpatialObject<  TDimension >
+  public PointBasedSpatialObject<  TDimension,
+           ContourSpatialObjectPoint< TDimension > >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ContourSpatialObject);
@@ -46,18 +48,24 @@ public:
   using Superclass = PointBasedSpatialObject< TDimension >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
+
   using ScalarType = double;
-  using ControlPointType = ContourSpatialObjectPoint< TDimension >;
-  using InterpolatedPointType = SpatialObjectPoint< TDimension >;
-  using ControlPointListType = std::vector< ControlPointType >;
-  using InterpolatedPointListType = std::vector< InterpolatedPointType >;
 
   using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;
-  using PointType = typename Superclass::PointType;
+  using SpatialObjectPointListType = typename
+    Superclass::SpatialObjectPointListType;
+
+  using PointType = typename Superclass::SpatialObjectPointType;
   using TransformType = typename Superclass::TransformType;
   using BoundingBoxType = typename Superclass::BoundingBoxType;
   using PointContainerType = VectorContainer< IdentifierType, PointType >;
   using PointContainerPointer = SmartPointer< PointContainerType >;
+
+  enum InterpolationMethodType {
+    NO_INTERPOLATION = 0,
+    EXPLICIT_INTERPOLATION,
+    BEZIER_INTERPOLATION,
+    LINEAR_INTERPOLATION };
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -66,83 +74,72 @@ public:
   itkTypeMacro(ContourSpatialObject, PointBasedSpatialObject);
 
   /** Returns a reference to the list of the control points. */
-  ControlPointListType & GetControlPoints();
+  SpatialObjectPointListType & GetControlPoints();
+  { return m_ControlPoints; }
 
   /** Returns a reference to the list of the control points. */
-  const ControlPointListType & GetControlPoints() const;
+  const SpatialObjectPointListType & GetControlPoints() const;
+  { return m_ControlPoints; }
 
   /** Set the list of control points. */
-  void SetControlPoints(ControlPointListType & newPoints);
+  void SetControlPoints(SpatialObjectPointListType & newPoints);
 
   /** Return a control point in the list given the index */
-  const ControlPointType * GetControlPoint(IdentifierType id) const
+  const SpatialObjectPointType * GetControlPoint(IdentifierType id) const
   { return &( m_ControlPoints[id] ); }
 
   /** Return a control point in the list given the index */
-  ControlPointType * GetControlPoint(IdentifierType id)
+  SpatialObjectPointType * GetControlPoint(IdentifierType id)
   { return &( m_ControlPoints[id] ); }
 
   /** Return the number of control points in the list */
   SizeValueType GetNumberOfControlPoints() const
   { return static_cast<SizeValueType>( m_ControlPoints.size() ); }
 
-  /** Returns a reference to the list of the interpolated points. */
-  InterpolatedPointListType & GetInterpolatedPoints();
+  /** Set the interpolation type */
+  itkSetMacro( InterpolationMethod, InterpolationMethodType )
 
-  /** Returns a reference to the list of the interpolated points. */
-  const InterpolatedPointListType & GetInterpolatedPoints() const;
+  /** Get the interpolation type */
+  itkGetMacro( InterpolationMethod, InterpolationMethodType )
 
-  /** Set the list of interpolated points. */
-  void SetInterpolatedPoints(InterpolatedPointListType & newPoints);
+  /** Set the interpolation factor, e.g., factor of 2 means 2 interpolated
+   *    points created for every control point. */
+  itkSetMacro( InterpolationFactor, unsigned int )
 
-  /** Return a interpolated point in the list given the index */
-  const InterpolatedPointType * GetInterpolatedPoint(IdentifierType id) const
-  { return &( m_InterpolatedPoints[id] ); }
+  /** Get the interpolation factor */
+  itkGetMacro( InterpolationFactor, unsigned int )
 
-  /** Return a interpolated point in the list given the index */
-  InterpolatedPointType * GetInterpolatedPoint(IdentifierType id)
-  { return &( m_InterpolatedPoints[id] ); }
+  /** Set if the contour is closed */
+  itkSetMacro(IsClosed, bool);
 
-  /** Return the number of interpolated points in the list */
-  SizeValueType GetNumberOfInterpolatedPoints() const
-  { return static_cast<SizeValueType>( m_InterpolatedPoints.size() ); }
+  /** Get if the contour is closed */
+  itkGetConstMacro(IsClosed, bool);
 
-  enum InterpolationType { NO_INTERPOLATION = 0,
-                           EXPLICIT_INTERPOLATION, BEZIER_INTERPOLATION,
-                           LINEAR_INTERPOLATION };
+  /** Set the axis-normal orientation of the contour */
+  itkSetMacro(Orientation, int);
 
-  /** Set/Get the interpolation type */
-  InterpolationType GetInterpolationType() const
-  { return m_InterpolationType; }
-  void SetInterpolationType(InterpolationType interpolation)
-  { m_InterpolationType = interpolation; }
+  /** Get the axis-normal orientation of the contour */
+  itkGetConstMacro(Orientation, int);
 
-  /** Set/Get if the contour is closed */
-  itkSetMacro(Closed, bool);
-  itkGetConstMacro(Closed, bool);
-
-  /** Set/Get the display orientation of the contour */
-  itkSetMacro(DisplayOrientation, int);
-  itkGetConstMacro(DisplayOrientation, int);
-
-  /** Set/Get the slice attached to the contour if any
-   *  -1 is returned if no contour attached. */
+  /** Set the slice attached to the contour.
+   *   Set -1 to indicate no attachment */ if any.
   itkSetMacro(AttachedToSlice, int);
+
+  /** Get the slice attached to the contour.
+   *   Return -1 if not attached. */
   itkGetConstMacro(AttachedToSlice, int);
 
-  /** Returns true if the point is inside the Contour, false otherwise. */
-  bool IsInside(const PointType & point, unsigned int depth=0,
-    const std::string & name="") const override;
-
-  /** Compute the boundaries of the Contour. */
-  bool ComputeObjectBoundingBox( void ) const override;
+  /** Apply the interpolator to generate points from the control points */
+  void Update();
 
 protected:
   ControlPointListType      m_ControlPoints;
-  InterpolatedPointListType m_InterpolatedPoints;
-  InterpolationType         m_InterpolationType;
-  bool                      m_Closed;
-  int                       m_DisplayOrientation;
+
+  InterpolationMethodType   m_InterpolationMethod;
+  unsigned int              m_InterpolationFactor;
+
+  bool                      m_IsClosed;
+  int                       m_Orientation;
   int                       m_AttachedToSlice;
 
   ContourSpatialObject();
