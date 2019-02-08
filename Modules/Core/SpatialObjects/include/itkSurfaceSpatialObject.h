@@ -35,9 +35,10 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 
-template< unsigned int TDimension = 3 >
+template< unsigned int TDimension = 3,
+  class TSpatialObjectPointType = SurfaceSpatialObjectPoint< TDimension > >
 class ITK_TEMPLATE_EXPORT SurfaceSpatialObject:
-  public PointBasedSpatialObject<  TDimension >
+  public PointBasedSpatialObject<  TDimension, TSurfaceObjectPointType >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SurfaceSpatialObject);
@@ -46,9 +47,12 @@ public:
   using Superclass = PointBasedSpatialObject< TDimension >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
+
   using ScalarType = double;
-  using SurfacePointType = SurfaceSpatialObjectPoint< TDimension >;
-  using PointListType = std::vector< SurfacePointType >;
+
+  using SurfacePointType = TSurfaceObjectPointType;
+  using SurfacePointListType = std::vector< SurfacePointType >;
+
   using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;
   using PointType = typename Superclass::PointType;
   using TransformType = typename Superclass::TransformType;
@@ -63,51 +67,17 @@ public:
   /** Method for creation through the object factory. */
   itkTypeMacro(SurfaceSpatialObject, PointBasedSpatialObject);
 
-  /** Set the list of Surface points. */
-  void SetPoints(PointListType & newPoints);
-
-  /** Returns a reference to the list of the Surface points. */
-  PointListType & GetPoints()
-  { return m_Points; }
-
-  /** Returns a const reference to the list of the Surface points. */
-  const PointListType & GetPoints() const
-  { return m_Points; }
-
-  /** Return a point in the list given the index */
-  const SpatialObjectPointType * GetPoint(IdentifierType id) const override
-  { return &( m_Points[id] ); }
-
-  /** Return a point in the list given the index */
-  SpatialObjectPointType * GetPoint(IdentifierType id) override
-  { return &( m_Points[id] ); }
-
-  /** Return the number of points in the list */
-  SizeValueType GetNumberOfPoints() const override
-  { return static_cast<SizeValueType>( m_Points.size() ); }
-
-  /** Method returns the Point closest to the given point */
-  IdentifierType ClosestPoint( const PointType & curPoint) const;
-
-  /** Returns true if the point is inside the Surface, false otherwise. */
-  bool IsInside(const PointType & point, unsigned int depth=0,
-    const std::string & name) const override;
-
-  /** Compute the boundaries of the Surface. */
-  bool ComputeObjectBoundingBox() const override;
-
   /** Compute the normals to the surface from neighboring points */
   bool Approximate3DNormals();
 
 protected:
-  PointListType m_Points;
-
   SurfaceSpatialObject();
   ~SurfaceSpatialObject() override;
 
   /** Method to print the object.*/
   void PrintSelf(std::ostream & os, Indent indent) const override;
 };
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

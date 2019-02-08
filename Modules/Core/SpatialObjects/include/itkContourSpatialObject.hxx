@@ -29,13 +29,15 @@ ContourSpatialObject< TDimension >
 ::ContourSpatialObject()
 {
   this->SetTypeName("ContourSpatialObject");
+
   this->GetProperty()->SetRed(1);
   this->GetProperty()->SetGreen(0);
   this->GetProperty()->SetBlue(0);
   this->GetProperty()->SetAlpha(1);
-  m_InterpolationType = NO_INTERPOLATION;
-  m_Closed = false;
-  m_DisplayOrientation = -1;
+
+  m_InterpolationMethod = NO_INTERPOLATION;
+  m_IsClosed = false;
+  m_Orientation = -1;
   m_AttachedToSlice = -1;
 }
 
@@ -43,26 +45,6 @@ ContourSpatialObject< TDimension >
 template< unsigned int TDimension >
 ContourSpatialObject< TDimension >
 ::~ContourSpatialObject() = default;
-
-/** Get the list of control points */
-template< unsigned int TDimension >
-typename ContourSpatialObject< TDimension >::ControlPointListType &
-ContourSpatialObject< TDimension >
-::GetControlPoints()
-{
-  itkDebugMacro("Getting control Point list");
-  return m_ControlPoints;
-}
-
-/** Get the list of control points */
-template< unsigned int TDimension >
-const typename ContourSpatialObject< TDimension >::ControlPointListType &
-ContourSpatialObject< TDimension >
-::GetControlPoints() const
-{
-  itkDebugMacro("Getting ContourPoint list");
-  return m_ControlPoints;
-}
 
 /** Set the control points which are defining the contour */
 template< unsigned int TDimension >
@@ -74,49 +56,10 @@ ContourSpatialObject< TDimension >
 
   typename ControlPointListType::iterator it, end;
   it = points.begin();
-  end = points.end();
-  while ( it != end )
+  while ( it != points.end() )
     {
+    it->SetSpatialObject( this );
     m_ControlPoints.push_back(*it);
-    it++;
-    }
-  this->Modified();
-}
-
-/** Get the list of interpolated points */
-template< unsigned int TDimension >
-typename ContourSpatialObject< TDimension >::InterpolatedPointListType &
-ContourSpatialObject< TDimension >
-::GetInterpolatedPoints()
-{
-  itkDebugMacro("Getting interpolated Point list");
-  return m_InterpolatedPoints;
-}
-
-/** Get the list of interpolated points */
-template< unsigned int TDimension >
-const typename ContourSpatialObject< TDimension >::InterpolatedPointListType &
-ContourSpatialObject< TDimension >
-::GetInterpolatedPoints() const
-{
-  itkDebugMacro("Getting interpolated list");
-  return m_InterpolatedPoints;
-}
-
-/** Set the interpolated points which are defining the contour */
-template< unsigned int TDimension >
-void
-ContourSpatialObject< TDimension >
-::SetInterpolatedPoints(InterpolatedPointListType & points)
-{
-  m_InterpolatedPoints.clear();
-
-  typename InterpolatedPointListType::iterator it, end;
-  it = points.begin();
-  end = points.end();
-  while ( it != end )
-    {
-    m_InterpolatedPoints.push_back(*it);
     it++;
     }
   this->Modified();
@@ -131,130 +74,76 @@ ContourSpatialObject< TDimension >
   os << indent << "ContourSpatialObject(" << this << ")" << std::endl;
   os << indent << "#Control Points: "
      << static_cast< SizeValueType >( m_ControlPoints.size() ) << std::endl;
-  os << indent << "Interpolation type: " << m_InterpolationType << std::endl;
-  os << indent << "Contour closed: " << m_Closed << std::endl;
-  os << indent << "Display Orientation : " << m_DisplayOrientation << std::endl;
+  os << indent << "Interpolation type: " << m_InterpolationMethod << std::endl;
+  os << indent << "Contour closed: " << m_IsClosed << std::endl;
+  os << indent << "Display Orientation : " << m_Orientation << std::endl;
   os << indent << "Pin to slice : " << m_AttachedToSlice << std::endl;
   Superclass::PrintSelf(os, indent);
 }
 
-/** Compute the bounds of the blob */
+
+/** Print the contour spatial object */
 template< unsigned int TDimension >
-bool
+void
 ContourSpatialObject< TDimension >
-::ComputeObjectBoundingBox() const
+::Update()
 {
-  itkDebugMacro("Computing blob bounding box");
-
-  auto it  = m_ControlPoints.begin();
-  auto end = m_ControlPoints.end();
-
-  if ( it == end )
+  switch( m_InterpolationMethod )
     {
-    return false;
-    }
-  else
-    {
-    PointType pt = this->GetObjectToWorldTransform()->TransformPoint(
-      ( *it ).GetPosition() );
-    const_cast< BoundingBoxType * >( this->GetObjectBounds() )->SetMinimum(pt);
-    const_cast< BoundingBoxType * >( this->GetObjectBounds() )->SetMaximum(pt);
-    const_cast< BoundingBoxType * >( this->GetObjectBounds() )->
-      ConsiderPoint(pt);
-    it++;
-
-    while ( it != end )
-      {
-      pt = this->GetObjectToWorldTransform()->TransformPoint(
-        ( *it ).GetPosition() );
-      const_cast< BoundingBoxType * >( this->GetObjectBounds() )->
-        ConsiderPoint(pt);
-      it++;
-      }
-
-    // Add the interpolated points (if any)
-    auto itI = m_InterpolatedPoints.begin();
-    while ( itI != m_InterpolatedPoints.end() )
-      {
-      pt = this->GetObjectToWorldTransform()->TransformPoint(
-        ( *itI ).GetPosition() );
-      const_cast< BoundingBoxType * >( this->GetObjectBounds() )->
-        ConsiderPoint(pt);
-      itI++;
-      }
-    }
-
-  return true;
-}
-
-/** Test if the given point is inside the blob. Since a contour is
- *  considered to be a 1D object, IsInside will always return false.
- *  Note: removed names of arguments since they are no longer used. */
-template< unsigned int TDimension >
-bool
-ContourSpatialObject< TDimension >
-::IsInside(const PointType & point, unsigned int depth,
-  const std::string & name) const
-{
-  itkDebugMacro("Computing blob IsInside");
-
-  if( this->GetTypeName().find( name ) != std::string::npos )
-    {
-    PointType tPoint = this->GetObjectToWorldTransform()->GetInverse()->
-      TransformPoint( point );
-
-    auto it = m_ControlPoints.begin();
-
-    bool match = false;
-    while ( it != m_ControlPoints.end() )
-      {
-      match = true;
-      PointType pt = ( *it ).GetPosition();
-      for( unsigned int d=0; d<ObjectDimension; ++d )
+    case NO_INTERPOLATION:
+      this->SetPoints( m_ControlPoints );
+      break;
+    case EXPLICIT_INTERPOLATION:
+      break;
+    case BEZIER_INTERPOLATION:
+      // TODO: Implement bezier interpolation
+      ExceptionObject e(__FILE__);
+      e.SetLocation( "ContourSpatialObject:Update()");
+      e.SetDescription( "Bezier interpolation type not yet defined." );
+      throw e;
+      break;
+    case LINEAR_INTERPOLATION:
+      m_Points.clear();
+      auto it = m_ControlPoints.begin();
+      while( it != m_ControlPoints.end() )
         {
-        if( pt[d] != tPoint[d] )
+        auto it2 = ++it;
+        if( it2 == m_ControlPoints.end() )
           {
-          match = false;
-          break;
+          if( this->IsClosed() )
+            {
+            it2 = m_ControlPoints.begin();
+            }
+          else
+            {
+            break;
+            }
           }
-        }
-      if( match )
-        {
-        return true;
-        }
-      it++;
-      }
-
-    // Add the interpolated points (if any)
-    auto itI = m_InterpolatedPoints.begin();
-    while ( itI != m_InterpolatedPoints.end() )
-      {
-      match = true;
-      PointType pt = ( *itI ).GetPosition();
-      for( unsigned int d=0; d<ObjectDimension; ++d )
-        {
-        if( pt[d] != tPoint[d] )
+        PointType pnt = it->GetPosition();
+        PointType pnt2 = it2->GetPosition();
+        PointType step;
+        for( unsigned int d=0; d<ObjectDimension; ++d )
           {
-          match = false;
-          break;
+          step[d] = (pnt2[d] - pnt[d]) / m_InterpolationFactor;
           }
+        PointType newPoint;
+        for( unsigned int i=0; i<m_InterpolationFactor; ++i )
+          {
+          for( unsigned int d=0; d<ObjectDimension; ++d )
+            {
+            newPoint = pnt[d] + i * step[d];
+            }
+          }
+        SpatialObjectPointType newSOPoint;
+        newSOPoint = (*it);
+        newSOPoint->SetPosition( newPoint );
+        m_Points.push_back( newSOPoint );
         }
-      if( match )
-        {
-        return true;
-        }
-      itI++;
-      }
-    }
+      break;
+    };
 
-  if( depth > 0 )
-    {
-    return Superclass::IsInsideChildren( point, depth-1, name );
-    }
-  else
-    {
-    return false;
-    }
+  // Call this last to compute MyBoundingBox
+  Superclass::Update();
 }
 
 } // end namespace itk

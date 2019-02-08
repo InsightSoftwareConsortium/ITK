@@ -44,7 +44,8 @@ namespace itk
 
 template< unsigned int TDimension = 3 >
 class ITK_TEMPLATE_EXPORT BlobSpatialObject:
-  public PointBasedSpatialObject<  TDimension >
+  public PointBasedSpatialObject<  TDimension,
+           BlobSpatialObjectPoint< TDimension > >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BlobSpatialObject);
@@ -53,9 +54,12 @@ public:
   using Superclass = PointBasedSpatialObject< TDimension >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
+
   using ScalarType = double;
-  using BlobPointType = SpatialObjectPoint< TDimension >;
-  using PointListType = std::vector< BlobPointType >;
+
+  using BlobPointType = BlobSpatialObjectPoint< TDimension >;
+  using BlobPointListType = std::vector< BlobPointType >;
+
   using PointType = typename Superclass::PointType;
   using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;
   using TransformType = typename Superclass::TransformType;
@@ -69,42 +73,7 @@ public:
   /** Method for creation through the object factory. */
   itkTypeMacro(BlobSpatialObject, SpatialObject);
 
-  /** Returns a reference to the list of the Blob points. */
-  virtual PointListType & GetObjectPoints()
-  { return m_ObjectPoints; }
-
-  /** Returns a const reference to the list of the Blob points. */
-  virtual const PointListType & GetObjectPoints() const
-  { return m_ObjectPoints; }
-
-  /** Set the list of Blob points. */
-  void SetObjectPoints(PointListType & newPoints);
-
-  /** Return a point in the list given the index */
-  const SpatialObjectPointType * GetObjectPoint(IdentifierType id) const override
-  { return &( m_Points[id] ); }
-
-  /** Return a point in the list given the index */
-  SpatialObjectPointType * GetObjectPoint(IdentifierType id) override
-  { return &( m_Points[id] ); }
-
-  /** Return the number of points in the list */
-  SizeValueType GetNumberOfPoints() const override
-  { return static_cast<SizeValueType>( m_Points.size() ); }
-
-  /** Method returns the Point closest to the given point */
-  IdentifierType ClosestWorldPoint(const PointType & curPoint) const;
-
-  /** Returns true if the point is inside the Blob, false otherwise. */
-  bool IsInside(const PointType & point, unsigned int depth,
-    const std::string & name) const override;
-
-  /** Compute the boundaries of the Blob. */
-  bool ComputeObjectWorldBoundingBox() const override;
-
 protected:
-  PointListType m_ObjectPoints;
-
 
   BlobSpatialObject();
   ~BlobSpatialObject() override;

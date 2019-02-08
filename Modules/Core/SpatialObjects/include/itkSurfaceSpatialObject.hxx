@@ -30,6 +30,7 @@ SurfaceSpatialObject< TDimension >
 ::SurfaceSpatialObject()
 {
   this->SetTypeName("SurfaceSpatialObject");
+
   this->GetProperty()->SetRed(1);
   this->GetProperty()->SetGreen(0);
   this->GetProperty()->SetBlue(0);
@@ -40,29 +41,6 @@ SurfaceSpatialObject< TDimension >
 template< unsigned int TDimension >
 SurfaceSpatialObject< TDimension >
 ::~SurfaceSpatialObject() = default;
-
-/** Set the list of points composing the surface */
-template< unsigned int TDimension >
-void
-SurfaceSpatialObject< TDimension >
-::SetPoints(PointListType & points)
-{
-  // in this function, passing a null pointer as argument will
-  // just clear the list...
-  m_Points.clear();
-
-  typename PointListType::iterator it, end;
-  it = points.begin();
-  end = points.end();
-  while ( it != end )
-    {
-    m_Points.push_back(*it);
-    it++;
-    }
-
-  this->ComputeObjectBoundingBox();
-  this->Modified();
-}
 
 /** Print the surface object */
 template< unsigned int TDimension >
@@ -75,112 +53,6 @@ SurfaceSpatialObject< TDimension >
   os << indent << "nb of points: "
      << static_cast< SizeValueType >( m_Points.size() ) << std::endl;
   Superclass::PrintSelf(os, indent);
-}
-
-/** Compute the bounds of the surface */
-template< unsigned int TDimension >
-bool
-SurfaceSpatialObject< TDimension >
-::ComputeObjectBoundingBox() const
-{
-  itkDebugMacro("Computing surface object bounding box");
-
-  auto it  = m_Points.begin();
-  auto end = m_Points.end();
-
-  if ( it == end )
-    {
-    return false;
-    }
-
-  PointType pt = ( *it ).GetPosition();
-
-  // Compute a bounding box in object space
-  typename BoundingBoxType::Pointer bb = BoundingBoxType::New();
-
-  bb->SetMinimum(pt);
-  bb->SetMaximum(pt);
-  it++;
-  while ( it != end )
-    {
-    bb->ConsiderPoint( ( *it ).GetPosition() );
-    it++;
-    }
-  bb->ComputeBOundingBox();
-
-  // Next Transform the corners of the bounding box into world space
-  using PointsContainer = typename BoundingBoxType::PointsContainer;
-  const PointsContainer *corners = bb->GetCorners();
-  typename PointsContainer::Pointer transformedCorners =
-    PointsContainer::New();
-  transformedCorners->Reserve(
-    static_cast<typename PointsContainer::ElementIdentifier>(
-      corners->size() ) );
-
-  auto it = corners->begin();
-  auto itTrans = transformedCorners->begin();
-  while ( it != corners->end() )
-    {
-    PointType pnt = this->GetObjectToWorldTransform()->TransformPoint(*it);
-    *itTrans = pnt;
-    ++it;
-    ++itTrans;
-    }
-
-  // refresh the object's bounding box with the transformed corners
-  const_cast< BoundingBoxType * >( this->GetObjectBounds() )
-    ->SetPoints(transformedCorners);
-  this->GetObjectBounds()->ComputeBoundingBox();
-
-  return true;
-}
-
-/** Test whether a point is inside or outside the object
- *  For computational speed purposes, it is faster if the method does not
- *  check the name of the class and the current depth */
-template< unsigned int TDimension >
-bool
-SurfaceSpatialObject< TDimension >
-::IsInside(const PointType & point) const
-{
-  if( this->GetTypeName.find( name ) != std::string::npos )
-    {
-    if( this->GetObjectBounds()->IsInside( point ) )
-      {
-      auto it = m_Points.begin();
-      auto itEnd = m_Points.end();
-
-      PointType transformedPoint =
-        this->GetObjectToWorldTransform()->GetInverseTransform()->
-          TransformPoint(point);
-
-      while ( it != itEnd )
-        {
-        bool equals = true;
-        for( unsigned int i=0; i<ObjectDimension; ++i )
-          {
-          if( ! Math::AlmostEquals( transformedPoint[i],
-              it->GetPosition()[i] ) )
-            {
-            equals = false;
-            break;
-            }
-          }
-        if( equals )
-          {
-          return true;
-          }
-        it++;
-        }
-      }
-    }
-
-  if( depth > 0 )
-    {
-    return Superclass::IsInsideChildren(point, depth-1, name);
-    }
-
-  return false;
 }
 
 /** Approximate the normals of the surface */
@@ -199,8 +71,8 @@ SurfaceSpatialObject< TDimension >
     itkExceptionMacro("Approximate3DNormals requires at least 3 points");
     }
 
-  typename PointListType::iterator it = m_Points.begin();
-  typename PointListType::iterator itEnd = m_Points.end();
+  typename SurfacePointListType::iterator it = m_Points.begin();
+  typename SurfacePointListType::iterator itEnd = m_Points.end();
 
   while ( it != itEnd )
     {
@@ -222,7 +94,7 @@ SurfaceSpatialObject< TDimension >
       max[1] = 99999999;
       max[2] = 99999999;
 
-      typename PointListType::const_iterator it2 = m_Points.begin();
+      typename SurfacePointListType::const_iterator it2 = m_Points.begin();
 
       int i = 0;
       while ( it2 != m_Points.end() )
@@ -254,16 +126,14 @@ SurfaceSpatialObject< TDimension >
           }
 
         PointType pos2 = ( *it2 ).GetPosition();
-        float     distance = ( pos2[0] - pos[0] ) * ( pos2[0] - pos[0] ) + ( pos2[1] - pos[1] )
-                             * ( pos2[1] - pos[1] ) + ( pos2[2] - pos[2] ) * ( pos2[2] - pos[2] );
+        float  distance = pos2.EuclideanDistance( pos );
 
         // Check that the point is not the same as some previously defined
         bool valid = true;
         for (auto & j : identifier)
           {
           PointType p = m_Points[j].GetPosition();
-          float     d = ( pos2[0] - p[0] ) * ( pos2[0] - p[0] ) + ( pos2[1] - p[1] )
-                        * ( pos2[1] - p[1] ) + ( pos2[2] - p[2] ) * ( pos2[2] - p[2] );
+          float     d = pos2.EuclideanDistance( p );
           if ( Math::AlmostEquals( d, 0.0f ) )
             {
             valid = false;
@@ -306,7 +176,8 @@ SurfaceSpatialObject< TDimension >
             )
         {
         std::cout << "Cannot find 3 distinct points!" << std::endl;
-        std::cout << identifier[0] << " : " << identifier[1] << " : " << identifier[2] << std::endl;
+        std::cout << identifier[0] << " : " << identifier[1] << " : "
+          << identifier[2] << std::endl;
         std::cout << max[0] << " : " << max[1] << " : " << max[2] << std::endl;
         return false;
         }
@@ -325,7 +196,8 @@ SurfaceSpatialObject< TDimension >
                       + v2[0] * ( v3[1] - v1[1] )
                       + v3[0] * ( v1[1] - v2[1] ) );
 
-      absvec = -std::sqrt ( (double)( ( coa * coa ) + ( cob * cob ) + ( coc * coc ) ) );
+      absvec = -std::sqrt ( (double)( ( coa * coa ) + ( cob * cob )
+          + ( coc * coc ) ) );
 
       if ( Math::AlmostEquals( absvec, 0.0 ) )
         {
@@ -340,12 +212,14 @@ SurfaceSpatialObject< TDimension >
         ( *it ).SetNormal(normal);
         }
       }
-    while ( ( Math::AlmostEquals( absvec, 0.0 ) ) && ( badId.size() < m_Points.size() - 1 ) );
+    while ( ( Math::AlmostEquals( absvec, 0.0 ) )
+      && ( badId.size() < m_Points.size() - 1 ) );
 
     if ( Math::AlmostEquals( absvec, 0.0 ) )
       {
       std::cout << "Approximate3DNormals Failed!" << std::endl;
-      std::cout << identifier[0] << " : " << identifier[1] << " : " << identifier[2] << std::endl;
+      std::cout << identifier[0] << " : " << identifier[1] << " : "
+        << identifier[2] << std::endl;
       std::cout << badId.size() << " : " << m_Points.size() - 1 << std::endl;
       return false;
       }
