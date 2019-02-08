@@ -1,6 +1,7 @@
 itk_wrap_class("itk::SpatialFunction")
+UNIQUE(types "D;${WRAP_ITK_REAL}")
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
-    foreach(t ${WRAP_ITK_REAL})
+    foreach(t ${types})
       itk_wrap_template("${ITKM_${t}}${d}${ITKM_PD${d}}" "${ITKT_${t}},${d},${ITKT_PD${d}}")
     endforeach()
   endforeach()
