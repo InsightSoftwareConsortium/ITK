@@ -186,7 +186,7 @@ public:
    *    * Update
    *  Optionally, a subclass may also wish to overwrite
    *    * ValueAt
-   *    * IsEvaluableAt - if the extend is beyond IsInisde.
+   *    * IsEvaluableAt - if the extent is beyond IsInisde.
    */
   /**********************************************************************/
 
@@ -203,7 +203,7 @@ public:
   void Update() override;
 
 
-  /** Returns the value at a point */
+  /** Returns the value at a point. Returns true if that value is valid */
   virtual bool ValueAt(const PointType & point, double & value,
                        unsigned int depth = 0,
                        const std::string & name = "") const;
