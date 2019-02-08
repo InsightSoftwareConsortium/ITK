@@ -30,7 +30,6 @@ ImageMaskSpatialObject< TDimension >
 ::ImageMaskSpatialObject()
 {
   this->SetTypeName("ImageMaskSpatialObject");
-  this->ComputeObjectBoundingBox();
 }
 
 /** Test whether a point is inside or outside the object
@@ -46,25 +45,24 @@ ImageMaskSpatialObject< TDimension >
     {
     if( this->GetObjectBounds()->IsInside(point) )
       {
-    PointType p = this->GetObjectWorldTransform()->GetInverse()->
+      PointType p = this->GetObjectWorldTransform()->GetInverse()->
         TransformPoint(point);
 
       typename Superclass::InterpolatorType::ContinuousIndexType index;
-      for ( unsigned int i = 0; i < TDimension; i++ )
-        {
-        index[i] = p[i];
-        }
-
-      using InterpolatorOutputType = typename InterpolatorType::OutputType;
-      const bool insideMask = (
-        Math::NotExactlyEquals(
-          DefaultConvertPixelTraits<InterpolatorOutputType>::GetScalarValue(
-            this->m_Interpolator->EvaluateAtContinuousIndex(index)),
-          NumericTraits<PixelType>::ZeroValue() ) );
-      if( insideMask )
-        {
-        return true;
-        }
+      bool inside_image = m_Image->TransformPhysicalPointToIndex( p,
+      index );
+      if( inside_image ){
+          using InterpolatorOutputType = typename InterpolatorType::OutputType;
+          bool insideMask = (
+            Math::NotExactlyEquals(
+              DefaultConvertPixelTraits<InterpolatorOutputType>::GetScalarValue(
+                this->m_Interpolator->EvaluateAtContinuousIndex(index)),
+              NumericTraits<PixelType>::ZeroValue() ) );
+          if( insideMask )
+            {
+            return true;
+            }
+          }
       }
     }
   if( depth > 0 )

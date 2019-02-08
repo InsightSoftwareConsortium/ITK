@@ -83,8 +83,6 @@ public:
   bool IsInside(const PointType & point, unsigned int depth=0,
     const std::string & name = "") const override;
 
-  void Update() override;
-
   /** Returns the value of the image at the requested point.
    *  Returns true if that value is valid */
   bool ValueAt(const PointType & point, double & value, unsigned int depth = 0,
