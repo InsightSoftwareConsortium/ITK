@@ -143,7 +143,7 @@ protected:
   /** Color of the point */
   ColorType m_Color;
 
-  const SpatialObjectType m_SpatialObject;
+  const SpatialObjectType::Pointer m_SpatialObject;
 };
 
 } // end of namespace itk
