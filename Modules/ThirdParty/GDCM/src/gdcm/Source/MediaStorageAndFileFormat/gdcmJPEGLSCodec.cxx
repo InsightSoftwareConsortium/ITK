@@ -109,6 +109,7 @@ bool JPEGLSCodec::GetHeaderInfo(std::istream &is, TransferSyntax &ts)
   else if( metadata.components == 3 )
     {
     PI = PhotometricInterpretation::RGB;
+    PlanarConfiguration = 1;
     this->PF.SetSamplesPerPixel( 3 );
     }
   else assert(0);
@@ -374,7 +375,7 @@ bool JPEGLSCodec::Code(DataElement const &in, DataElement &out)
     const char *inputdata = input + dim * image_len;
 
     std::vector<BYTE> rgbyteCompressed;
-    rgbyteCompressed.resize(image_width * image_height * 4);
+    rgbyteCompressed.resize(image_width * image_height * 4 * 2); // overallocate in case of weird case
 
     size_t cbyteCompressed;
     const bool b = this->CodeFrameIntoBuffer((char*)&rgbyteCompressed[0], rgbyteCompressed.size(), cbyteCompressed, inputdata, inputlength );
