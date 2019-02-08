@@ -194,13 +194,7 @@ ImageSpatialObject< TDimension,  PixelType >
   return true;
 }
 
-template< unsigned int TDimension, typename PixelType>
-void
-ImageSpatialObject< TDimension, PixelType >
-::Update()
-{
-    Superclass::Update();
-}
+
 /** Set the image in the spatial object */
 template< unsigned int TDimension, typename PixelType >
 void
