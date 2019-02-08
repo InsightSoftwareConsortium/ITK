@@ -51,9 +51,11 @@ public:
                              DTITubeSpatialObjectPoint< TDimension > >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
-  using TubePointType = DTITubeSpatialObjectPoint< TDimension >;
-  using PointListType = typename Superclass::PointListType;
+
+  using DTITubePointType = DTITubeSpatialObjectPoint< TDimension >;
+
   using PointType = typename Superclass::PointType;
+  using PointListType = typename Superclass::PointListType;
   using TransformType = typename Superclass::TransformType;
   using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;
   using PointContainerType = VectorContainer< IdentifierType, PointType >;
