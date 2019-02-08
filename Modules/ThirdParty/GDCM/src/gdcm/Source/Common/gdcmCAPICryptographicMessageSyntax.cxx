@@ -218,7 +218,7 @@ bool CAPICryptographicMessageSyntax::Decrypt(char *output, size_t &outlen, const
     goto err;
     }
 
-  DWORD dwMessageType, cbMessageTypeLen;
+  DWORD dwMessageType, cbMessageTypeLen = sizeof(DWORD);
   if(! CryptMsgGetParam(hMsg, CMSG_TYPE_PARAM, 0, &dwMessageType, &cbMessageTypeLen)) 
     {
     gdcmErrorMacro( "CryptMsgGetParam CMSG_TYPE_PARAM failed with error 0x" << std::hex << GetLastError() );
@@ -232,7 +232,7 @@ bool CAPICryptographicMessageSyntax::Decrypt(char *output, size_t &outlen, const
     }
 
   ALG_ID kekAlg;
-  DWORD kekAlgLen;
+  DWORD kekAlgLen = sizeof(ALG_ID);
   if(! CryptGetKeyParam(hRsaPrivK, KP_ALGID, (BYTE*)&kekAlg, &kekAlgLen, 0)) 
     {
     gdcmErrorMacro( "MsgGetParam KP_ALGID failed with error 0x" << std::hex << GetLastError() );
@@ -244,7 +244,7 @@ bool CAPICryptographicMessageSyntax::Decrypt(char *output, size_t &outlen, const
     goto err;
     }
 
-  DWORD nrOfRecipeints, nrOfRecipientsLen;
+  DWORD nrOfRecipeints, nrOfRecipientsLen = sizeof(DWORD);
   if(! CryptMsgGetParam(hMsg, CMSG_RECIPIENT_COUNT_PARAM, 0, &nrOfRecipeints, &nrOfRecipientsLen))
     {
     gdcmErrorMacro( "Decode CMSG_RECIPIENT_COUNT_PARAM failed with error 0x" << std::hex << GetLastError() );
