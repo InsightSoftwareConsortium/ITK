@@ -76,18 +76,19 @@ public:
   /** Get a pointer to the image currently attached to the object. */
   const ImageType * GetImage() const;
 
-  /** Returns the value of the image at the requested point.
-   *  If the point is not inside the object, then an exception is thrown.
-   * \sa ExceptionObject */
-  bool ValueAt(const PointType & point, double & value, unsigned int depth = 0,
-    const std::string & name = "") const override;
+  /** Compute the boundaries of the image spatial object. */
+  bool ComputeMyBoundingBox() const override;
 
   /** Returns true if the point is inside, false otherwise. */
   bool IsInside(const PointType & point, unsigned int depth=0,
     const std::string & name = "") const override;
 
-  /** Compute the boundaries of the iamge spatial object. */
-  bool ComputeObjectBoundingBox() const override;
+  /** Returns the value of the image at the requested point.
+   *  Returns true if that value is valid */
+  bool ValueAt(const PointType & point, double & value, unsigned int depth = 0,
+    const std::string & name = "") const override;
+
+
 
   /** Returns the latest modified time of the object and its component. */
   ModifiedTimeType GetMTime() const override;
@@ -120,6 +121,7 @@ protected:
   std::string     m_PixelType;
 
   typename InterpolatorType::Pointer m_Interpolator;
+
   template <typename T>
   void SetPixelTypeName(const T *)
   {
