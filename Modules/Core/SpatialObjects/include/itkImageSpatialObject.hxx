@@ -138,46 +138,49 @@ ImageSpatialObject< TDimension,  PixelType >
 template< unsigned int TDimension, typename PixelType >
 bool
 ImageSpatialObject< TDimension,  PixelType >
-::ComputeObjectBoundingBox() const
+::ComputeMyBoundingBox() const
 {
   itkDebugMacro("Computing ImageSpatialObject bounding box");
 
-  // First we compute the bounding box in the object space
-  typename BoundingBoxType::Pointer bb = BoundingBoxType::New();
+  // First we compute the bounding box in the index space
+  typename BoundingBoxType::Pointer indexSpaceBB = BoundingBoxType::New();
 
   IndexType    index = m_Image->GetLargestPossibleRegion().GetIndex();
   SizeType     size = m_Image->GetLargestPossibleRegion().GetSize();
-  IndexType    tmpIndex1;
-  IndexType    tmpIndex2;
+
   PointType    pnt1;
   PointType    pnt2;
   for ( unsigned int i = 0; i < TDimension; i++ )
     {
-    tmpIndex1[i] = index[i];
-    tmpIndex2[i] = index[i] + size[i];
+    pnt1[i] = index[i];
+    pnt2[i] = index[i] + size[i];
     }
-  m_Image->TransformIndexToPhysicalSpace( tmpIndex1, pnt1 );
-  m_Image->TransformIndexToPhysicalSpace( tmpIndex2, pnt2 );
 
-  bb->SetMinimum(pnt1);
-  bb->SetMaximum(pnt1);
-  bb->ConsiderPoint(pnt2);
-  bb->ComputeBoundingBox();
+  indexSpaceBB->SetMinimum(pnt1);
+  indexSpaceBB->SetMaximum(pnt1);
+  indexSpaceBB->ConsiderPoint(pnt2);
+  indexSpaceBB->ComputeBoundingBox();
 
   // Next Transform the corners of the bounding box
   using PointsContainer = typename BoundingBoxType::PointsContainer;
-  const PointsContainer *corners = bb->GetCorners();
+  const PointsContainer *indexSpaceCorners = indexSpaceBB->GetCorners();
   typename PointsContainer::Pointer transformedCorners =
     PointsContainer::New();
   transformedCorners->Reserve(
     static_cast<typename PointsContainer::ElementIdentifier>(
-      corners->size() ) );
+      indexSpaceCorners->size() ) );
 
-  auto it = corners->begin();
+  auto it = indexSpaceCorners->begin();
   auto itTrans = transformedCorners->begin();
-  while ( it != corners->end() )
+  while ( it != indexSpaceCorners->end() )
     {
-    PointType pnt = this->GetObjectToWorldTransform()->TransformPoint(*it);
+    IndexType ind;
+    for (unsigned int i = 0; i < TDimensions; i++){
+        ind[i] = (*it)[i];
+    }
+    PointType objectSpacePoint;
+    m_Image->TransformIndexToPhysicalSpace(ind, objectSpacePoint);
+    PointType pnt = this->GetObjectToWorldTransform()->TransformPoint(objectSpacePoint);
     *itTrans = pnt;
     ++it;
     ++itTrans;
@@ -191,6 +194,13 @@ ImageSpatialObject< TDimension,  PixelType >
   return true;
 }
 
+template< unsigned int TDimension, typename PixelType>
+void
+ImageSpatialObject< TDimension, PixelType >
+::Update()
+{
+    Superclass::Update();
+}
 /** Set the image in the spatial object */
 template< unsigned int TDimension, typename PixelType >
 void
@@ -199,6 +209,7 @@ ImageSpatialObject< TDimension,  PixelType >
 {
   if ( !image )
     {
+    itkDebugMacro("Image passed to ImageSpatialObject was null");
     return;
     }
 
