@@ -40,10 +40,10 @@ getNextNonCommentLine( std::istream& in )
       }
     }
 
-  if ( temp[temp.size() - 1] == '\r' )
-  {
+  if ( !temp.empty() && temp[temp.size() - 1] == '\r' )
+    {
     temp.erase(temp.size() - 1, 1);
-  }
+    }
   return temp;
 }
 

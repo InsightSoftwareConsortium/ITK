@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#include "itkMockMontageHelper.hxx"
 #include "itkMontageTestHelper.hxx"
+#include "itkPairwiseTestHelper.hxx"
 #include "itkParseTileConfiguration.h"
 #include "itkRGBPixel.h"
 
@@ -26,7 +26,7 @@ int itkMontageTest2D(int argc, char* argv[])
   if ( argc < 4 )
     {
     std::cerr << "Usage: " << argv[0] << " <directoryWtihInputData> <montageTSV> <mockTSV>";
-    std::cerr << " [ varyPaddingMethods peakMethod loadIntoMemory streamSubdivisions ]" << std::endl;
+    std::cerr << " [ varyPaddingMethods peakMethod loadIntoMemory streamSubdivisions doPairs]" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -50,6 +50,11 @@ int itkMontageTest2D(int argc, char* argv[])
     {
     streamSubdivisions = std::stoul( argv[7] );
     }
+  bool doPairs = true;
+  if ( argc > 8 )
+    {
+    doPairs = std::stoi( argv[8] );
+    }
 
   std::string inputPath = argv[1];
   if ( inputPath.back() != '/' && inputPath.back() != '\\' )
@@ -66,22 +71,28 @@ int itkMontageTest2D(int argc, char* argv[])
   imageIO->ReadImageInformation();
   const itk::ImageIOBase::IOPixelType pixelType = imageIO->GetPixelType();
 
-  int r1, r2;
+  int r1, r2 = EXIT_SUCCESS;
   if (pixelType == itk::ImageIOBase::IOPixelType::RGB)
     {
     r1 = montageTest< itk::RGBPixel< unsigned char >, itk::RGBPixel< unsigned int > >(
       stageTiles, actualTiles, inputPath, argv[2],
       varyPaddingMethods, peakMethod, loadIntoMemory, streamSubdivisions );
-    r2 = mockMontageTest< unsigned char >(
-        stageTiles, actualTiles, inputPath, argv[3], varyPaddingMethods );
+    if ( doPairs )
+      {
+      r2 = pairwiseTests< unsigned char >(
+          stageTiles, actualTiles, inputPath, argv[3], varyPaddingMethods );
+      }
     }
   else
     {
     r1 = montageTest< unsigned short, double >(
       stageTiles, actualTiles, inputPath, argv[2],
       varyPaddingMethods, peakMethod, loadIntoMemory, streamSubdivisions );
-    r2 = mockMontageTest< unsigned short >(
-        stageTiles, actualTiles, inputPath, argv[3], varyPaddingMethods );
+    if ( doPairs )
+      {
+      r2 = pairwiseTests< unsigned short >(
+          stageTiles, actualTiles, inputPath, argv[3], varyPaddingMethods );
+      }
     }
 
   if ( r1 == EXIT_FAILURE || r2 == EXIT_FAILURE )
