@@ -19,7 +19,6 @@
 #define itkEllipseSpatialObject_hxx
 
 #include "itkEllipseSpatialObject.h"
-#include <cstring>
 
 namespace itk
 {
@@ -29,40 +28,10 @@ EllipseSpatialObject< TDimension >
 ::EllipseSpatialObject()
 {
   this->SetTypeName("EllipseSpatialObject");
-  m_Radius.Fill(1.0);
-  m_Center.Fill(1.0);
-}
+  m_RadiusInObjectSpace.Fill(1.0);
+  m_CenterInObjectSpace.Fill(1.0);
 
-/** Set all radii to the same radius value */
-template< unsigned int TDimension >
-void
-EllipseSpatialObject< TDimension >
-::SetRadius(double radius)
-{
-  for ( unsigned int i = 0; i < ObjectDimension; i++ )
-    {
-    m_Radius[i] = radius;
-    }
-  this->Modified();
-}
-
-template< unsigned int TDimension >
-auto
-EllipseSpatialObject<TDimension>::GetCenterPoint() const
--> PointType
-{
-  return m_Center
-}
-
-template< unsigned int TDimension >
-void
-EllipseSpatialObject<TDimension>::SetCenterPoint(const PointType& point)
-{
-  for ( unsigned int i = 0; i < ObjectDimension; i++ )
-    {
-    m_Center[i] = point[i];
-    }
-  this->Modified();
+  this->Update();
 }
 
 /** Test whether a point is inside or outside the object
@@ -71,21 +40,21 @@ EllipseSpatialObject<TDimension>::SetCenterPoint(const PointType& point)
 template< unsigned int TDimension >
 bool
 EllipseSpatialObject< TDimension >
-::IsInside(const PointType & point, unsigned int depth,
+::IsInside(const PointType & worldPoint, unsigned int depth,
   const std::string & name) const
 {
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    PointType transformedPoint =
-      this->GetObjectToWorldTransform()->GetInverse()->TransformPoint(point);
+    PointType transformedPoint = this->GetObjectToWorldTransform()
+      ->GetInverseTransform()->TransformPoint(worldPoint);
 
     double r = 0;
     for ( unsigned int i = 0; i < TDimension; i++ )
       {
-      if ( m_Radius[i] != 0.0 )
+      if ( m_RadiusInObjectSpace[i] != 0.0 )
         {
         r += ( transformedPoint[i] * transformedPoint[i] )
-             / ( m_Radius[i] * m_Radius[i] );
+             / ( m_RadiusInObjectSpace[i] * m_RadiusInObjectSpace[i] );
         }
       else if ( transformedPoint[i] > 0.0 )  // Degenerate ellipse
         {
@@ -102,7 +71,7 @@ EllipseSpatialObject< TDimension >
 
   if( depth > 0 )
     {
-    return Superclass::IsInsideChildren( point, depth-1, name );
+    return Superclass::IsInsideChildren( worldPoint, depth-1, name );
     }
 
   return false;
@@ -112,7 +81,7 @@ EllipseSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 EllipseSpatialObject< TDimension >
-::ComputeObjectBoundingBox() const
+::ComputeMyBoundingBox() const
 {
   itkDebugMacro("Computing ellipse bounding box");
 
@@ -124,8 +93,8 @@ EllipseSpatialObject< TDimension >
   unsigned int i;
   for ( i = 0; i < TDimension; i++ )
     {
-    pnt1[i] = m_Center[i] - m_Radius[i];
-    pnt2[i] = m_Center[i] + m_Radius[i];
+    pnt1[i] = m_CenterInObjectSpace[i] - m_RadiusInObjectSpace[i];
+    pnt2[i] = m_CenterInObjectSpace[i] + m_RadiusInObjectSpace[i];
     }
 
   bb->SetMinimum(pnt1);
@@ -153,11 +122,26 @@ EllipseSpatialObject< TDimension >
     }
 
   // refresh the bounding box with the transformed corners
-  const_cast< BoundingBoxType * >( this->GetObjectBounds() )
+  const_cast< BoundingBoxType * >( this->GetMyBoundingBox() )
     ->SetPoints(transformedCorners);
-  this->GetObjectBounds()->ComputeBoundingBox();
+  this->GetMyBoundingBox()->ComputeBoundingBox();
 
   return true;
+}
+
+/** Update world coordinate representation */
+template < unsigned int TDimension >
+void
+EllipseSpatialObject< TDimension >
+::Update()
+{
+  PointType center = this->GetCenterInObjectSpace();
+  PointType worldCenter;
+
+  worldCenter = this->GetObjectToWorldTransform()->TransformPoint( center );
+  m_Center = worldCenter;
+
+  Superclass::Update();
 }
 
 /** Print Self function */
@@ -166,9 +150,11 @@ void
 EllipseSpatialObject< TDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
+  os << indent << "EllipseSpatialObject(" << this << ")" << std::endl;
   Superclass::PrintSelf(os, indent);
-  os << "Radius: " << m_Radius << std::endl;
-  os << "Center: " << m_Center << std::endl;
+  os << "Object Radius: " << m_RadiusInObjectSpace << std::endl;
+  os << "Object Center: " << m_CenterInObjectSpace << std::endl;
+  os << "World Center: " << m_Center << std::endl;
 }
 
 } // end namespace itk
