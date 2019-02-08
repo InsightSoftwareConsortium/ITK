@@ -33,7 +33,8 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 
-template< unsigned int TPointDimension = 3 >
+template< unsigned int TPointDimension = 3,
+  class TSpatialObjectType >
 class ITK_TEMPLATE_EXPORT SpatialObjectPoint
 {
 public:
@@ -45,25 +46,25 @@ public:
   virtual ~SpatialObjectPoint() = default;
 
   using Self = SpatialObjectPoint;
+
+  using SpatialObjectType = TSpatialObjectType;
+
   using PointType = Point< double, TPointDimension >;
   using VectorType = vnl_vector< double >;
-  using PixelType = RGBAPixel< float >;
-  using ColorType = PixelType;
-
-  /** Get the SpatialObjectPoint Id. */
-  int GetID() const;
+  using ColorType = RGBAPixel< float >;
 
   /** Set the SpatialObjectPoint Id. */
-  void SetID(const int newID);
+  itkSetMacro( Id, int );
 
-  /** Return a pointer to the point object. */
-  const PointType & GetPosition() const;
+  /** Get the SpatialObjectPoint Id. */
+  itkGetMacro( Id, int );
 
   /** Set the point object. Couldn't use macros for these methods. */
-  void SetPosition(const PointType & newX);
+  void SetPositionInObjectSpace(const PointType & newX)
+  { m_X = newX; }
 
   template <typename... TCoordinate>
-  void SetPosition(
+  void SetPositionInObjectSpace(
     const double firstCoordinate,
     const TCoordinate... otherCoordinate)
     {
@@ -76,38 +77,57 @@ public:
     m_X = coordinates;
     }
 
+  /** Return a pointer to the point object. */
+  const PointType & GetPositionInObjectSpace() const
+  { return m_X; }
+
+  itkSetConstObjectMacro( SpatialObject, SpatialObjectType );
+
+  /** Returns the position in world coordinates, using the
+   *    spatialObject's objectToWorld transform */
+  PointType GetPosition() const;
+
   /** Copy one SpatialObjectPoint to another */
   SpatialObjectPoint & operator=(const SpatialObjectPoint & ) = default;
 
   /** Set/Get color of the point */
-  const PixelType & GetColor() const;
+  itkSetConstReferenceMacro( Color, ColorType );
+  itkGetConstReferenceMacro( Color, ColorType );
 
-  void SetColor(const PixelType & color);
-
+  /** Set the color */
   void SetColor(float r, float g, float b, float a = 1);
 
   /** Set/Get red color of the point */
-  void SetRed(float r);
+  void SetRed(float r)
+  { m_Color.SetRed( r ); }
 
-  float GetRed() const;
+  float GetRed() const
+  { return m_Color.GetRed(); }
 
   /** Set/Get Green color of the point */
-  void SetGreen(float g);
+  void SetGreen(float g)
+  { m_Color.SetGreen( g ); }
 
-  float GetGreen() const;
+  float GetGreen() const
+  { return m_Color.GetGreen(); }
 
   /** Set/Get blue color of the point */
-  void SetBlue(float b);
+  void SetBlue(float b)
+  { m_Color.SetBlue( b ); }
 
-  float GetBlue() const;
+  float GetBlue() const
+  { return m_Color.GetBlue(); }
 
   /** Set/Get alpha value of the point */
-  void SetAlpha(float a);
+  void SetAlpha(float a)
+  { m_Color.SetAlpha( a ); }
 
-  float GetAlpha() const;
+  float GetAlpha() const
+  { return m_Color.GetAlpha(); }
 
   /** PrintSelf method */
-  void Print(std::ostream & os) const;
+  void Print(std::ostream & os) const
+  { this->PrintSelf( os, 3 ); }
 
 protected:
 
@@ -115,14 +135,17 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** A unique ID assigned to this SpatialObjectPoint */
-  int m_ID{-1};
+  int m_ID;
 
   /** Position of the point */
   PointType m_X;
 
   /** Color of the point */
-  PixelType m_Color;
+  ColorType m_Color;
+
+  const SpatialObjectType m_SpatialObject;
 };
+
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
