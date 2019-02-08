@@ -31,33 +31,11 @@ BlobSpatialObject< TDimension >
 ::BlobSpatialObject()
 {
   this->SetTypeName("BlobSpatialObject");
+
   this->GetProperty()->SetRed(1);
   this->GetProperty()->SetGreen(0);
   this->GetProperty()->SetBlue(0);
   this->GetProperty()->SetAlpha(1);
-
-  m_ObjectPoints.clear();
-}
-
-/** Set the points which are defining the Blob structure */
-template< unsigned int TDimension >
-void
-BlobSpatialObject< TDimension >
-::SetObjectPoints(PointListType & points)
-{
-  // in this function, passing a null pointer as argument will
-  // just clear the list...
-  m_ObjectPoints.clear();
-
-  typename PointListType::iterator it, end;
-  it = points.begin();
-  end = points.end();
-  while ( it != end )
-    {
-    m_ObjectPoints.push_back(*it);
-    it++;
-    }
-  this->Modified();
 }
 
 /** Print the blob spatial object */
@@ -71,152 +49,6 @@ BlobSpatialObject< TDimension >
   os << indent << "nb of points: "
      << static_cast< SizeValueType >( m_ObjectPoints.size() ) << std::endl;
   Superclass::PrintSelf(os, indent);
-}
-
-template< unsigned int TDimension >
-typename PolygonSpatialObject< TDimension >::IdentifierType
-PolygonSpatialObject< TDimension >
-::ClosestWorldPoint(const PointType & curPoint) const
-{
-  const PointListType & points = this->GetObjectPoints();
-
-  auto it = points.begin();
-  auto itend = points.end();
-
-  if ( it == itend )
-    {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription(
-      "BlogSpatialObject: ClosestWorldPoint called using an empty point list");
-    throw exception;
-    }
-
-  IdentifierType pointId = 0;
-  IdentifierType closestPointId = 0;
-  double closestPointDistance = NumericTraits< double >::max();
-  while ( it != itend )
-    {
-    typename SpatialObjectPoint< TDimension >::PointType curpos =
-      this->GetObjectToWorldTransform()->TransformPoint( ( *it ).GetPosition() );
-    double curdistance = curpos.EuclideanDistanceTo(curPoint);
-    if ( curdistance < closestPointDistance )
-      {
-      closestPointId = pointId;
-      closestPointDistance = curdistance;
-      }
-    it++;
-    pointId++;
-    }
-
-  return closestPointId;
-}
-
-
-/** Compute the bounds of the blob */
-template< unsigned int TDimension >
-bool
-BlobSpatialObject< TDimension >
-::ComputeObjectBoundingBox() const
-{
-  itkDebugMacro("Computing blob bounding box");
-
-  auto it  = m_ObjectPoints.begin();
-  auto end = m_ObjectPoints.end();
-
-  if ( it == end )
-    {
-    return false;
-    }
-
-  PointType pt = ( *it ).GetPosition();
-
-  // Compute a bounding box in object space
-  typename BoundingBoxType::Pointer bb = BoundingBoxType::New();
-
-  bb->SetMinimum(pt);
-  bb->SetMaximum(pt);
-  it++;
-  while ( it != end )
-    {
-    bb->ConsiderPoint( ( *it ).GetPosition() );
-    it++;
-    }
-  bb->ComputeBOundingBox();
-
-  // Next Transform the corners of the bounding box into world space
-  using PointsContainer = typename BoundingBoxType::PointsContainer;
-  const PointsContainer *corners = bb->GetCorners();
-  typename PointsContainer::Pointer transformedCorners =
-    PointsContainer::New();
-  transformedCorners->Reserve(
-    static_cast<typename PointsContainer::ElementIdentifier>(
-      corners->size() ) );
-
-  auto it = corners->begin();
-  auto itTrans = transformedCorners->begin();
-  while ( it != corners->end() )
-    {
-    PointType pnt = this->GetObjectToWorldTransform()->TransformPoint(*it);
-    *itTrans = pnt;
-    ++it;
-    ++itTrans;
-    }
-
-  // refresh the object's bounding box with the transformed corners
-  const_cast< BoundingBoxType * >( this->GetObjectBounds() )
-    ->SetPoints(transformedCorners);
-  this->GetObjectBounds()->ComputeBoundingBox();
-
-  return true;
-}
-
-/** Test whether a point is inside or outside the object
- *  For computational speed purposes, it is faster if the method does not
- *  check the name of the class and the current depth */
-template< unsigned int TDimension >
-bool
-BlobSpatialObject< TDimension >
-::IsInside(const PointType & point, unsigned int depth,
-  const std::string & name) const
-{
-  if( this->GetTypeName.find( name ) != std::string::npos )
-    {
-    if( this->GetObjectBounds()->IsInside( point ) )
-      {
-      auto it = m_ObjectPoints.begin();
-      auto itEnd = m_ObjectPoints.end();
-
-      PointType transformedPoint =
-        this->GetObjectToWorldTransform()->GetInverseTransform()->
-          TransformPoint(point);
-
-      while ( it != itEnd )
-        {
-        bool equals = true;
-        for( unsigned int i=0; i<ObjectDimension; ++i )
-          {
-          if( ! Math::AlmostEquals( transformedPoint[i],
-              it->GetPosition()[i] ) )
-            {
-            equals = false;
-            break;
-            }
-          }
-        if( equals )
-          {
-          return true;
-          }
-        it++;
-        }
-      }
-    }
-
-  if( depth > 0 )
-    {
-    return Superclass::IsInsideChildren(point, depth-1, name);
-    }
-
-  return false;
 }
 
 } // end namespace itk

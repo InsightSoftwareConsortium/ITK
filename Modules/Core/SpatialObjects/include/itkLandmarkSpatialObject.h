@@ -45,9 +45,12 @@ public:
   using Superclass = PointBasedSpatialObject< TDimension >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
+
   using ScalarType = double;
+
   using LandmarkPointType = SpatialObjectPoint< TDimension >;
-  using PointListType = std::vector< LandmarkPointType >;
+  using LandmarkPointListType = std::vector< LandmarkPointType >;
+
   using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;
   using PointType = typename Superclass::PointType;
   using TransformType = typename Superclass::TransformType;
@@ -61,36 +64,7 @@ public:
   /** Method for creation through the object factory. */
   itkTypeMacro(LandmarkSpatialObject, PointBasedSpatialObject);
 
-  /** Returns a reference to the list of the Landmark points. */
-  PointListType & GetPoints();
-
-  /** Returns a reference to the list of the Landmark points. */
-  const PointListType & GetPoints() const;
-
-  /** Set the list of Landmark points. */
-  void SetPoints(PointListType & newPoints);
-
-  /** Return a point in the list given the index */
-  const SpatialObjectPointType * GetPoint(IdentifierType id) const override
-  { return &( m_Points[id] ); }
-
-  /** Return a point in the list given the index */
-  SpatialObjectPointType * GetPoint(IdentifierType id) override
-  { return &( m_Points[id] ); }
-
-  /** Return the number of points in the list */
-  SizeValueType GetNumberOfPoints() const override
-  { return static_cast<SizeValueType>( m_Points.size() ); }
-
-  /** Returns true if the point is inside the Landmark, false otherwise. */
-  bool IsInside(const PointType & point, unsigned int depth = 0,
-    const std::string & name="") const override;
-
-  /** Compute the boundaries of the Landmark. */
-  bool ComputeObjectBoundingBox() const override;
-
 protected:
-  PointListType m_Points;
 
   LandmarkSpatialObject();
   ~LandmarkSpatialObject() override = default;

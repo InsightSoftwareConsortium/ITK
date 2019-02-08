@@ -49,7 +49,7 @@ public:
   itkTypeMacro(PolygonSpatialObject, BlobSpatialObject);
 
   /** Method returning plane alignment of strand */
-  int Plane() const;
+  int Orientation() const;
 
   /** Method sets the thickness of the current strand */
   itkSetMacro(Thickness, double);
