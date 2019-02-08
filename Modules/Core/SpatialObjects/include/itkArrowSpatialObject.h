@@ -65,21 +65,6 @@ public:
 
   itkGetConstMacro(PositionInObjectSpace, PointType);
 
-  void SetPositionInObjectSpace(float x, float y)
-  {
-    m_PositionInObjectSpace[0] = x;
-    m_PositionInObjectSpace[1] = y;
-    this->Modified();
-  }
-
-  void SetPositionInObjectSpace(float x, float y, float z)
-  {
-    m_PositionInObjectSpace[0] = x;
-    m_PositionInObjectSpace[1] = y;
-    m_PositionInObjectSpace[2] = z;
-    this->Modified();
-  }
-
   /** Set the direction of the arrow */
   void SetDirectionInObjectSpace(const VectorType & d)
   {
@@ -88,21 +73,6 @@ public:
   }
 
   itkGetConstMacro(DirectionInObjectSpace, VectorType);
-
-  void SetDirectionInObjectSpace(float x, float y)
-  {
-    m_DirectionInObjectSpace[0] = x;
-    m_DirectionInObjectSpace[1] = y;
-    this->Modified();
-  }
-
-  void SetDirectionInObjectSpace(float x, float y, float z)
-  {
-    m_DirectionInObjectSpace[0] = x;
-    m_DirectionInObjectSpace[1] = y;
-    m_DirectionInObjectSpace[2] = z;
-    this->Modified();
-  }
 
   /** Set the length of the arrow */
   void SetLengthInObjectSpace(double length);
@@ -121,7 +91,7 @@ public:
 
   itkGetConstReferenceMacro( Position, PointType );
   itkGetConstReferenceMacro( Direction, VectorType );
-  itkGetConstReferenceMacro( Length, double );
+  itkGetMacro( Length, double );
 
 protected:
 
