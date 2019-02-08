@@ -31,7 +31,7 @@ namespace itk
  * it's templated over the representation to use for each color component.
  */
 
-template< typename TComponentType = float >
+template< typename TComponentType = double >
 class ITK_TEMPLATE_EXPORT SpatialObjectProperty:
   public LightObject
 {
@@ -41,7 +41,6 @@ public:
   using Self = SpatialObjectProperty< TComponentType >;
   using Superclass = LightObject;
   using PixelType = RGBAPixel< TComponentType >;
-  using StringType = std::string;
 
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -74,11 +73,25 @@ public:
   SpatialObjectProperty();
   ~SpatialObjectProperty() override = default;
 
-  void SetName(const char *name);
+  void SetName(const std::string & name);
+  const std::string & GetName() const;
 
-  StringType GetName() const;
+  void SetTagScalarValue( const std::string & tag, double value );
+  void SetTagStringValue( const std::string & tag, const std::string & value );
 
-  ModifiedTimeType GetMTime() { return m_MTime; }
+  double      GetTagScalarValue( const std::string & tag );
+  std::string SetTagStringValue( const std::string & tag );
+
+  std::map< std::string, double >      GetTagScalarDictionary();
+  std::map< std::string, std::string > GetTagStringDictionary();
+
+  void SetTagScalarDictionary( std::map< std::string, double > & dict );
+  void SetTagStringDictionary( std::map< std::string, string > & dict );
+
+  Self & operator=(const Self & rhs );
+
+  ModifiedTimeType GetMTime()
+  { return m_MTime; }
 
 protected:
 
@@ -87,8 +100,13 @@ protected:
   void Modified() { m_MTime++; }
 
 private:
+
   PixelType        m_Color;
-  StringType       m_Name;
+  std::string      m_Name;
+
+  std::map< std::string, double >      m_ScalarDictionary;
+  std::map< std::string, std::string > m_StringDictionary;
+
   ModifiedTimeType m_MTime;
 };
 }

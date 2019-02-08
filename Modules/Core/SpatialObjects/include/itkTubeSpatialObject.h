@@ -39,7 +39,7 @@ namespace itk
  */
 
 template< unsigned int TDimension = 3,
-          class TSpatialObjectPointType = TubeSpatialObjectPoint< TDimension > >
+  class TSpatialObjectPointType = TubeSpatialObjectPoint< TDimension > >
 class ITK_TEMPLATE_EXPORT TubeSpatialObject:
   public PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 {
@@ -81,7 +81,6 @@ public:
   /** Remove duplicate points */
   unsigned int RemoveDuplicatePoints(unsigned int step = 1);
 
-
   /** Returns true if the point is inside the tube, false otherwise. */
   bool IsInside(const PointType & point, unsigned int depth = 0,
     const std::string & name) const override;
@@ -89,19 +88,21 @@ public:
   /** Compute the boundaries of the tube. */
   bool ComputeMyBoundingBox() const override;
 
-  /** Set/Get the parent point which corresponds to the
+  /** Set the parent point which corresponds to the
    *  position of the point in the parent's points list */
   itkSetMacro(ParentPoint, int);
+
+  /** Get the parent point which corresponds to the
+   *  position of the point in the parent's points list */
   itkGetConstMacro(ParentPoint, int);
 
-  /** Set/Get a flag for vessel which are a "root" of a
-   *  vascular network in the scene */
+  /** Set a flag for tube which are a "root" of a
+   *  tube network in the scene */
   itkSetMacro(Root, bool);
-  itkGetConstMacro(Root, bool);
 
-  /** Set/Get a flag for vessel which are an Artery */
-  itkSetMacro(Artery, bool);
-  itkGetConstMacro(Artery, bool);
+  /** Get a flag for tube which are a "root" of a
+   *  tube network in the scene */
+  itkGetConstMacro(Root, bool);
 
   void DeepCopy( const TubeSpatialObject * tube );
 
@@ -111,7 +112,6 @@ protected:
   bool m_EndRounded;
 
   bool m_Root;
-  bool m_Artery;
 
   TubeSpatialObject();
   ~TubeSpatialObject() override = default;
