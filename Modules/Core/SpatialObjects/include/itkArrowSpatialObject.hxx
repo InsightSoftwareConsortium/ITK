@@ -59,7 +59,7 @@ ArrowSpatialObject< TDimension >
 {
   itkDebugMacro("Computing Rectangle bounding box");
 
-  PointType pnt = this->GetPosition();
+  PointType pnt = this->GetPositionInObjectSpace();
   PointType pnt2;
   for ( unsigned int i = 0; i < TDimension; i++ )
     {
@@ -130,7 +130,7 @@ void
 ArrowSpatialObject< TDimension >
 ::Update()
 {
-  PointType pnt = this->GetPosition();
+  PointType pnt = this->GetPositionInObjectSpace();
   PointType pnt2;
   for ( unsigned int i = 0; i < TDimension; i++ )
     {
@@ -144,6 +144,8 @@ ArrowSpatialObject< TDimension >
   m_Direction = pnt2 - pnt;
   m_Direction.Normalize();
   m_Length = pnt.EuclideanDistanceTo( pnt2 );
+
+  Superclass::Update();
 }
 
 template< unsigned int TDimension >
