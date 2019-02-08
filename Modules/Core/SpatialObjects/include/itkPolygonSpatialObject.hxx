@@ -40,7 +40,7 @@ PolygonSpatialObject< TDimension >
 template< unsigned int TDimension >
 typename PolygonSpatialObject< TDimension >::PolygonGroupOrientation
 PolygonSpatialObject< TDimension >
-::Plane() const
+::GetOrientation() const
 {
   if( m_OrientationMTime == this->GetObjectMTime() )
     {
@@ -125,7 +125,7 @@ PolygonSpatialObject< TDimension >
 
   for( unsigned int i=0; i<ObjectDimension ++i )
     {
-    if( this->Plane() != i )
+    if( this->GetOrientation() != i )
       {
       if( X == -1 )
         {
@@ -210,12 +210,12 @@ PolygonSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 PolygonSpatialObject< TDimension >
-::IsInside(const PointType & point, unsigned int depth,
+::IsInside(const PointType & worldPoint, unsigned int depth,
   const std::string & name) const
 {
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    if( this->IsClosed() && this->GetObjectBounds()->IsInside( point ) )
+    if( this->IsClosed() && this->GetObjectBounds()->IsInside( worldPoint ) )
       {
       int    numpoints = this->GetNumberOfPoints();
       int    X = -1;
@@ -225,7 +225,7 @@ PolygonSpatialObject< TDimension >
         {
         for( unsigned int i=0; i<ObjectDimension ++i )
           {
-          if( this->Plane() != i )
+          if( this->GetOrientation() != i )
             {
             if( X == -1 )
               {
@@ -240,7 +240,7 @@ PolygonSpatialObject< TDimension >
           }
 
         PointType transformedPoint = this->GetObjectToWorldTransform()->
-          GetInverse()->TransformPoint( point );
+          GetInverseTransform()->TransformPoint( worldPoint );
 
         const PointListType & points = this->GetPoints();
         auto it = points.begin();
@@ -288,7 +288,7 @@ PolygonSpatialObject< TDimension >
 
   if( depth > 0 )
     {
-    return Superclass::IsInsideChildren( point, depth-1, name );
+    return Superclass::IsInsideChildren( worldPoint, depth-1, name );
     }
 
   return false;
