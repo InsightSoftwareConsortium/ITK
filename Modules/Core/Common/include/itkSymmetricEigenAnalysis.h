@@ -420,6 +420,12 @@ private:
    *
    * To use this function:
    * using ValueType = decltype(this->GetMatrixType(true));
+   *
+   * \note The two `GetMatrixValueType` overloads have different
+   * parameter declarations (`bool` and `...`), to avoid that both
+   * functions are equally good candidates during overload resolution,
+   * in case `element_type` and `ValueType` are both nested types of
+   * `TMatrix` (which is the case when `TMatrix` = `itk::Array2D`).
    */
   template<typename QMatrix = TMatrix >
   auto GetMatrixValueType(bool) const
@@ -428,7 +434,7 @@ private:
     return QMatrix::element_type();
     }
   template<typename QMatrix = TMatrix >
-  auto GetMatrixValueType(bool) const
+  auto GetMatrixValueType(...) const
   -> typename QMatrix::ValueType
     {
     return QMatrix::ValueType();
