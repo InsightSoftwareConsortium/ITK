@@ -30,7 +30,6 @@ EllipseSpatialObject< TDimension >
   this->SetTypeName("EllipseSpatialObject");
   m_RadiusInObjectSpace.Fill(1.0);
   m_CenterInObjectSpace.Fill(1.0);
-
   this->Update();
 }
 
