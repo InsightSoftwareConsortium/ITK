@@ -36,7 +36,7 @@ class ITK_TEMPLATE_EXPORT SpatialObjectProperty:
   public LightObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectProperty);
+  //ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectProperty);
 
   using Self = SpatialObjectProperty< TComponentType >;
   using Superclass = LightObject;
@@ -82,11 +82,11 @@ public:
   double      GetTagScalarValue( const std::string & tag );
   std::string SetTagStringValue( const std::string & tag );
 
-  std::map< std::string, double >      GetTagScalarDictionary();
-  std::map< std::string, std::string > GetTagStringDictionary();
+  std::map< std::string, double >      & GetTagScalarDictionary();
+  std::map< std::string, std::string > & GetTagStringDictionary();
 
-  void SetTagScalarDictionary( std::map< std::string, double > & dict );
-  void SetTagStringDictionary( std::map< std::string, string > & dict );
+  void SetTagScalarDictionary( const std::map< std::string, double > & dict );
+  void SetTagStringDictionary( const std::map< std::string, std::string > & dict );
 
   Self & operator=(const Self & rhs );
 

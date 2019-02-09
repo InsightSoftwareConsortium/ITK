@@ -32,6 +32,8 @@ BoxSpatialObject< TDimension >
   m_SizeInObjectSpace.Fill(1);
   m_PositionInObjectSpace.Fill(0);
   m_Corners = nullptr;
+
+  this->Update();
 }
 
 /** Destructor */
@@ -40,37 +42,19 @@ BoxSpatialObject< TDimension >
 ::~BoxSpatialObject() = default;
 
 template< unsigned int TDimension >
-void
-BoxSpatialObject< TDimension >
-::SetSizeInObjectSpace(const SizeType & s) const
-{
-  this->m_SizeInObjectSpace = s;
-  this->Modified();
-}
-
-template< unsigned int TDimension >
-void
-BoxSpatialObject< TDimension >
-::SetPositionInObjectSpace(const PointType & p) const
-{
-  this->m_PositionInObjectSpace = p;
-  this->Modified();
-}
-
-template< unsigned int TDimension >
 bool
 BoxSpatialObject< TDimension >
-::IsInside(const PointType & point, unsigned int depth,
+::IsInside(const PointType & worldPoint, unsigned int depth,
   const std::string & name) const
 {
-  itkDebugMacro("Checking the point [" << point << "] is in the box");
+  itkDebugMacro("Checking the point [" << worldPoint << "] is in the box");
 
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    if( this->GetMyBounds()->IsInside( point ) )
+    if( this->GetMyBoundingBox()->IsInside( worldPoint ) )
       {
       PointType transformedPoint = this->GetObjectToWorldTransform()
-        ->GetInverseTransform()->TransformPoint(point);
+        ->GetInverseTransform()->TransformPoint(worldPoint);
 
       bool isOutside = false;
       for ( unsigned int i = 0; i < TDimension; i++ )
@@ -91,7 +75,7 @@ BoxSpatialObject< TDimension >
 
   if( depth > 0 )
     {
-    return Superclass::IsInsideChildren(point, depth-1, name);
+    return Superclass::IsInsideChildren(worldPoint, depth-1, name);
     }
 
   return false;
@@ -105,19 +89,29 @@ BoxSpatialObject< TDimension >
 {
   itkDebugMacro("Computing BoxSpatialObject bounding box");
 
-  // Computes m_Corners from SizeInObjectSpace and PositionInObjectSpace
-  //  in world coordinates.
-  this->Update();
+  PointType    pnt1;
+  PointType    pnt2;
+  for ( unsigned int i = 0; i < TDimension; i++ )
+    {
+    pnt1[i] = m_PositionInObjectSpace[i];
+    pnt2[i] = m_PositionInObjectSpace[i] + m_SizeInObjectSpace[i];
+    }
 
-  // refresh the bounding box with the transformed corners
-  const_cast< BoundingBoxType * >( this->GetMyBounds() )
-    ->SetPoints(m_Corners);
-  this->GetMyBounds()->ComputeBoundingBox();
+  pnt1 = this->GetObjectToWorldTransform()->TransformPoint(pnt1);
+  pnt2 = this->GetObjectToWorldTransform()->TransformPoint(pnt2);
+
+  const_cast< BoundingBoxType * >( this->GetMyBoundingBox() )
+    ->SetMinimum(pnt1);
+  const_cast< BoundingBoxType * >( this->GetMyBoundingBox() )
+    ->SetMaximum(pnt1);
+  const_cast< BoundingBoxType * >( this->GetMyBoundingBox() )
+    ->ConsiderPoint(pnt2);
+  this->GetMyBoundingBox()->ComputeBoundingBox();
 
   return true;
 }
 
-/** Compute the bounds of the box */
+/** Update world representation */
 template< unsigned int TDimension >
 void
 BoxSpatialObject< TDimension >
@@ -125,9 +119,12 @@ BoxSpatialObject< TDimension >
 {
   itkDebugMacro("BoxSpatialObject: Update");
 
-  Superclass::Update();
+  PointType pos = this->GetPositionInObjectSpace();
+  pos = this->GetObjectToWorldTransform()->TransformPoint( pos );
 
-  // First we compute the bounding box in the object space
+  m_Position = pos;
+
+  // for corners, first we compute the bounding box in the object space
   typename BoundingBoxType::Pointer bb = BoundingBoxType::New();
 
   PointType    pnt1;
@@ -143,7 +140,6 @@ BoxSpatialObject< TDimension >
   bb->ConsiderPoint(pnt2);
   bb->ComputeBoundingBox();
 
-  // Next Transform the corners of the bounding box
   const PointsContainer *corners = bb->GetCorners();
   m_Corners = PointsContainer::New();
   m_Corners->Reserve( static_cast<typename PointsContainer::ElementIdentifier>(
@@ -156,8 +152,10 @@ BoxSpatialObject< TDimension >
     PointType pnt = this->GetObjectToWorldTransform()->TransformPoint(*it);
     *itWorldCorner = pnt;
     ++it;
-    ++itTrans;
+    ++itWorldCorner;
     }
+
+  Superclass::Update();
 }
 
 template< unsigned int TDimension >
@@ -169,7 +167,7 @@ BoxSpatialObject< TDimension >
     {
     if( cornerNumber < m_Corners.size() )
        {
-       return m_Croners[ cornerNumber ];
+       return m_Corners[ cornerNumber ];
        }
     }
 }
@@ -181,8 +179,9 @@ BoxSpatialObject< TDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << "Size: " << m_SizeInObjectSpace << std::endl;
-  os << "Position: " << m_PositionInObjectSpace << std::endl;
+  os << "Object Size: " << m_SizeInObjectSpace << std::endl;
+  os << "Object Position: " << m_PositionInObjectSpace << std::endl;
+  os << "World Position: " << m_Position << std::endl;
   os << "Corners: " << m_Corners << std::endl;
 }
 } // end namespace itk
