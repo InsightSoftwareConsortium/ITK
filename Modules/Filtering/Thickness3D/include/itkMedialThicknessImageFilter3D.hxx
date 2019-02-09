@@ -18,10 +18,12 @@
 #ifndef itkMedialThicknessImageFilter3D_hxx
 #define itkMedialThicknessImageFilter3D_hxx
 
+
 #include "itkMedialThicknessImageFilter3D.h"
 
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
+
 
 namespace itk
 {
@@ -40,13 +42,6 @@ MedialThicknessImageFilter3D<TInputImage, TOutputImage>::MedialThicknessImageFil
 
 template <typename TInputImage, typename TOutputImage>
 void
-MedialThicknessImageFilter3D<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-}
-
-template <typename TInputImage, typename TOutputImage>
-void
 MedialThicknessImageFilter3D<TInputImage, TOutputImage>::GenerateData()
 {
   m_DistanceFilter->SetInput(this->GetInput());
@@ -55,6 +50,13 @@ MedialThicknessImageFilter3D<TInputImage, TOutputImage>::GenerateData()
   m_MaskFilter->GraftOutput(this->GetOutput());
   m_MaskFilter->Update();
   this->GraftOutput(m_MaskFilter->GetOutput());
+}
+
+template <typename TInputImage, typename TOutputImage>
+void
+MedialThicknessImageFilter3D<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
 }
 
 } // end namespace itk

@@ -142,19 +142,29 @@ protected:
   void
   PrepareData();
 
-  /**  Compute thinning Image. */
+  /** Compute thinning image. */
   void
   ComputeThinImage();
 
-  /**  isEulerInvariant [Lee94] */
+  /** Check for Euler invariance (see [Lee94]). */
   bool
   IsEulerInvariant(NeighborhoodType neighbors, int * LUT);
+
+  /** Fill the Euler look-up table (LUT) for later check of the Euler
+   * invariance (see [Lee94]). */
   void
   FillEulerLUT(int * LUT);
-  /**  isSimplePoint [Lee94] */
+
+  /** Check if the current point is a simple point.
+   * This method is named 'N(v)_labeling' in [Lee94].
+   * Outputs the number of connected objects in a neighborhood of a point
+   * after this point would have been removed. */
   bool
   IsSimplePoint(NeighborhoodType neighbors);
-  /**  Octree_labeling [Lee94] */
+
+  /** Recursive method that calulates the number of connected components in
+   * the 3D neighbourhood after the center pixel would have been removed (see)
+   * [Lee94]). */
   void
   OctreeLabeling(int octant, int label, int * cube);
 
