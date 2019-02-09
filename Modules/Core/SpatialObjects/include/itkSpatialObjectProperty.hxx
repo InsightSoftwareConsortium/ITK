@@ -168,7 +168,7 @@ SpatialObjectProperty< TComponentType >
 template< typename TComponentType >
 double
 SpatialObjectProperty< TComponentType >
-::GetTagScalarValue( std::string tag )
+::GetTagScalarValue( const std::string & tag )
 {
   return m_ScalarDictionary[ tag ];
 }
@@ -200,7 +200,7 @@ SpatialObjectProperty< TComponentType >
 template< typename TComponentType >
 void
 SpatialObjectProperty< TComponentType >
-::SetTagStringDictionary( std::map< std::string, std::string > & dict )
+::SetTagStringDictionary(const std::map< std::string, std::string > & dict )
 {
   m_StringDictionary = dict;
 }
