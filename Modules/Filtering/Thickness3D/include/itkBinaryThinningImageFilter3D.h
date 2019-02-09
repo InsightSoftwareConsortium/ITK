@@ -148,15 +148,15 @@ protected:
 
   /**  isEulerInvariant [Lee94] */
   bool
-  isEulerInvariant(NeighborhoodType neighbors, int * LUT);
+  IsEulerInvariant(NeighborhoodType neighbors, int * LUT);
   void
-  fillEulerLUT(int * LUT);
+  FillEulerLUT(int * LUT);
   /**  isSimplePoint [Lee94] */
   bool
-  isSimplePoint(NeighborhoodType neighbors);
+  IsSimplePoint(NeighborhoodType neighbors);
   /**  Octree_labeling [Lee94] */
   void
-  Octree_labeling(int octant, int label, int * cube);
+  OctreeLabeling(int octant, int label, int * cube);
 
 private:
   BinaryThinningImageFilter3D(const Self &); // purposely not implemented
