@@ -27,6 +27,9 @@
 #include "itkProcessObject.h"
 #include "itkIndex.h"
 #include "itkImageRegion.h"
+#include "itkAffineTransform.h"
+#include "itkVectorContainer.h"
+#include "itkBoundingBox.h"
 
 namespace itk
 {
@@ -76,18 +79,20 @@ public:
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
 
-  using PointPointer = PointType *;
 
   // Spatial Function Iterator needs the following type alias
   using InputType = Point< ScalarType, VDimension >;
 
   using PointType = Point< ScalarType, VDimension >;
+  using PointPointer = PointType *;
   using VectorType = Vector< ScalarType, VDimension >;
   using CovariantVectorType = CovariantVector< ScalarType, VDimension >;
   using VectorPointer = VectorType *;
 
   using DerivativeVectorType = CovariantVector< ScalarType, VDimension >;
   using DerivativeVectorPointer = DerivativeVectorType *;
+
+  using SpacingVectorType = Vector< double, VDimension>;
 
   using TransformType = AffineTransform< ScalarType, VDimension >;
   using TransformPointer = typename TransformType::Pointer;
@@ -127,7 +132,7 @@ public:
   { return m_TypeName; }
 
   /** Get the class name with the dimension of the spatial object appended */
-  virutal std::string GetClassNameAndDimension( void ) const;
+  virtual std::string GetClassNameAndDimension( void ) const;
 
   /** Set the property applied to the object. */
   void SetProperty(PropertyType *property);
@@ -251,7 +256,7 @@ public:
   /** Return the n-th order derivative value at the specified point. */
   virtual void DerivativeAt(const PointType & point,
                             short unsigned int order,
-                            OutputVectorType & value,
+                            CovariantVectorType & value,
                             unsigned int depth = 0,
                             const std::string & name = "",
                             const SpacingVectorType & spacing = 1);
@@ -297,7 +302,7 @@ public:
   bool RemoveChild(Self *object);
 
   /** Remove all children to a given depth */
-  void RemoveChildren( unsigned int depth = MaximumDepth );
+  void RemoveAllChildren( unsigned int depth = MaximumDepth );
 
   /** Returns a list of pointer to the children affiliated to this object.
    * A depth of 0 returns the immediate childred. A depth of 1 returns the
@@ -307,15 +312,15 @@ public:
   virtual ChildrenListType * GetChildren(unsigned int depth = 0,
     const std::string & name = "") const;
 
-  virtual void AddChildrenToList(unsigned int depth = 0,
-    const std::string & name = "", ChildrenListType * children ) const;
+  virtual void AddChildrenToList(ChildrenListType * children, unsigned int depth = 0,
+    const std::string & name = "") const;
 
   /** Returns the number of children currently assigned to the object. */
   unsigned int GetNumberOfChildren(unsigned int depth = 0,
     const std::string & name = "") const;
 
   /** Return a SpatialObject given its ID, if it is a child */
-  SpatialObject< TDimension > * GetObjectById(int Id);
+  SpatialObject< VDimension > * GetObjectById(int Id);
 
   /** In practice, this is used to transform an imported MetaIO scene hierarchy
    * specified only by Ids into the SpatialObject hierarchy specified by
@@ -344,7 +349,7 @@ public:
   /** Compute an axis-aligned bounding box for an object and its selected
    * children, down to a specified depth, in world space. */
   virtual bool ComputeFamilyBoundingBox( unsigned int depth = 0,
-    const std::string & name ) const;
+    const std::string & name = "" ) const;
 
   /** Get a pointer to the bounding box of the object.
    *  The extents and the position of the box are not computed. */
