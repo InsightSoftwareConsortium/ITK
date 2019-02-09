@@ -1,10 +1,14 @@
 cmake_minimum_required(VERSION 2.8.7)
-if(POLICY CMP0022)
-  cmake_policy(SET CMP0022 NEW)
-endif()
-if(POLICY CMP0063)
-  cmake_policy(SET CMP0063 NEW)
-endif()
+
+foreach(p
+    CMP0022
+    CMP0042
+    CMP0063 # CMake 3.3.2
+    )
+  if(POLICY ${p})
+    cmake_policy(SET ${p} NEW)
+  endif()
+endforeach()
 
 # http://www.linuxhacker.at/socketxx
 if(NOT SOCKETXX_NAMESPACE)

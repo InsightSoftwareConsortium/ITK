@@ -14,9 +14,15 @@ if(COMMAND CMAKE_POLICY)
   if (NOT (${CMAKE_VERSION} VERSION_LESS 3.0))
     cmake_policy(SET CMP0042 NEW)
   endif()
-  if(POLICY CMP0063)
-    cmake_policy(SET CMP0063 NEW)
-  endif()
+
+  foreach(p
+      CMP0042
+      CMP0063
+      )
+    if(POLICY ${p})
+      cmake_policy(SET ${p} NEW)
+    endif()
+  endforeach()
 endif()
 
 if(NOT OPENJPEG_NAMESPACE)
