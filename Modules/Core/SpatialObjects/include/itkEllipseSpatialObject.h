@@ -61,19 +61,30 @@ public:
 
   /** Set all radii to the same radius value.  Each radius is
    *  half the length of one axis of the ellipse.  */
-  void SetRadius(double radius);
+  void SetRadiusInObjectSpace(double radius)
+  {
+    for ( unsigned int i = 0; i < ObjectDimension; i++ )
+      {
+      m_RadiusInObjectSpace[i] = radius;
+      }
+    this->Modified();
+  }
 
   /** Set radii via an array of radius values */
-  itkSetMacro(Radius, ArrayType);
+  itkSetMacro(RadiusInObjectSpace, ArrayType);
 
   /** Get radii via an array of radius values */
-  itkGetConstReferenceMacro(Radius, ArrayType);
+  itkGetConstReferenceMacro(RadiusInObjectSpace, ArrayType);
 
-  /* Returns the center point (in world coordinates) of the ellipse */
-  PointType GetCenterPoint()  const;
+  /** Set center point in object space. */
+  void SetCenterInObjectSpace(const PointType & center)
+  {
+    m_CenterInObjectSpace = center;
+    this->Modified();
+  }
 
-  /* Set the center point (in world coordinates) of the ellipse */
-  void SetCenterPoint(const PointType& point);
+  /** Get center in object space */
+  itkGetConstReferenceMacro(CenterInObjectSpace, PointType);
 
   /** Test whether a point is inside or outside the object */
   bool IsInside(const PointType & point, unsigned int depth=0,
@@ -82,13 +93,19 @@ public:
   /** Get the boundaries of a specific object.  This function needs to
    *  be called every time one of the object's components is
    *  changed. */
-  bool ComputeObjectBoundingBox() const override;
+  bool ComputeMyBoundingBox() const override;
+
+  /** world-space property getters */
+  itkGetConstReferenceMacro( Center, PointType );
 
 protected:
   EllipseSpatialObject();
   ~EllipseSpatialObject() override;
 
-  ArrayType m_Radius;
+  /* object space */
+  ArrayType m_RadiusInObjectSpace;
+  PointType m_CenterInObjectSpace;
+  /* world space */
   PointType m_Center;
 
   /** Print the object informations in a stream. */
