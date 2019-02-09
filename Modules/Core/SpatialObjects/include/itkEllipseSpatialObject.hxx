@@ -56,7 +56,7 @@ auto
 EllipseSpatialObject<TDimension>::GetCenterPoint() const
 -> PointType
 {
-  return m_Center
+  return m_Center;
 }
 
 template< unsigned int TDimension >

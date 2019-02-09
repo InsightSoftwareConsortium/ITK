@@ -714,7 +714,7 @@ SpatialObject< TDimension >
   return ccount;
 }
 
-/** Return a SpatialObject in the SceneSpatialObject
+/** Return a SpatialObject in the SpatialObject
  *  given a parent ID */
 template< unsigned int TDimension >
 SpatialObject< TDimension > *
@@ -786,7 +786,7 @@ SpatialObject< TDimension >
 /** Check if the parent objects have a defined ID */
 template< unsigned int TDimension >
 bool
-SceneSpatialObject< TDimension >
+SpatialObject< TDimension >
 ::CheckIdValidity() const
 {
   if( this->GetId() == -1 )
@@ -824,7 +824,7 @@ SceneSpatialObject< TDimension >
 
 template< unsigned int TDimension >
 void
-SceneSpatialObject< TDimension >
+SpatialObject< TDimension >
 ::FixIdValidity()
 {
   if( this->GetId() == -1 )
@@ -863,7 +863,7 @@ SceneSpatialObject< TDimension >
 /** Return the next available Id. For speed reason the MaxID+1 is returned */
 template< unsigned int TDimension >
 int
-SceneSpatialObject< TDimension >
+SpatialObject< TDimension >
 ::GetNextAvailableId() const
 {
   int maxId = 0;
@@ -893,7 +893,7 @@ SceneSpatialObject< TDimension >
 template< unsigned int TDimension >
 unsigned long
 SpatialObject< TDimension >
-::GetTransformMTime()
+::GetObjectToParentTransformMTime()
 {
   return m_ObjectToParentTransform->GetMTime();
 }
@@ -902,7 +902,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 unsigned long
 SpatialObject< TDimension >
-::GetWorldTransformMTime()
+::GetObjectToWorldTransformMTime()
 {
   return m_ObjectToWorldTransform->GetMTime();
 }
@@ -945,7 +945,7 @@ SpatialObject< TDimension >
       }
     else
       {
-      m_parentId = -1;
+      m_ParentId = -1;
       this->SetObjectToParentTransform( oldObjectWorldTransform );
       }
 

@@ -108,10 +108,16 @@ public:
   using ChildrenListType = std::list< Pointer >;
   using ChildrenListPointer = ChildrenListType *;
 
+  using ObjectListType = std::list< Pointer >;
+
   using RegionType = ImageRegion< VDimension >;
 
   using PropertyType = SpatialObjectProperty< ScalarType >;
   using PropertyPointer = typename PropertyType::Pointer;
+
+  /* These are needed to participate in a Pipeline */
+  using IndexType = Index< VDimension >;
+  using SizeType = Size< VDimension >;
 
   /** Get the dimensionality of the object */
   unsigned int GetObjectDimension() const
