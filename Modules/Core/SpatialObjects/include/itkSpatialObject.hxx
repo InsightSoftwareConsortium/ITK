@@ -98,7 +98,7 @@ SpatialObject< TDimension >
     typename DerivativeVectorType::Iterator it_v1 = v1.Begin();
     typename DerivativeVectorType::Iterator it_v2 = v2.Begin();
 
-    typename SpacingVectorType spacingDiv2;
+    SpacingVectorType spacingDiv2;
     for ( unsigned short i = 0; i < TDimension; i++ )
       {
       spacingDiv2[i] = spacing[i] / 2.0;
@@ -243,6 +243,7 @@ SpatialObject< TDimension >
 /** Return the value of the object at a point */
 template< unsigned int TDimension >
 bool
+SpatialObject< TDimension >
 ::ValueAtChildren(const PointType & point, double & value, unsigned int depth,
           const std::string & name) const
 {
@@ -574,8 +575,8 @@ SpatialObject< TDimension >
            || Math::NotExactlyEquals(pointMax[i], 0) )
         {
         bbDefined = true;
-        m_FamilyBoundingBox->SetMinimum( pointMin )
-        m_FamilyBoundingBox->SetMaximum( pointMax )
+        m_FamilyBoundingBox->SetMinimum( pointMin );
+        m_FamilyBoundingBox->SetMaximum( pointMax );
         break;
         }
       }
@@ -631,7 +632,7 @@ SpatialObject< TDimension >
     it = m_ChildrenList->begin();
     while ( it != m_ChildrenList->end() )
       {
-      (*it)->Get()->AddChildrenToList( depth-1, name, childrenSO );
+      (*it)->Get()->AddChildrenToList( childrenSO, depth-1, name );
       it++;
       }
     }
@@ -642,8 +643,8 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 void
 SpatialObject< TDimension >
-::AddChildrenToList( unsigned int depth, const std::string & name,
-  ChildrenListType * childrenList ) const
+::AddChildrenToList( ChildrenListType * childrenList , unsigned int depth,
+ const std::string & name) const
 {
   auto it = m_ChildrenList->begin();
   while ( it != m_ChildrenList->end() )
@@ -660,7 +661,7 @@ SpatialObject< TDimension >
     it = m_ChildrenList->begin();
     while ( it != m_ChildrenList->end() )
       {
-      (*it)->Get()->AddChildrenToList( depth-1, name, childrenList );
+      (*it)->Get()->AddChildrenToList( childrenList, depth-1, name  );
       ++it;
       }
     }
@@ -713,7 +714,7 @@ SpatialObject< TDimension >
   return ccount;
 }
 
-/** Return a SpatialObject in the SceneSpatialObject
+/** Return a SpatialObject in the SpatialObject
  *  given a parent ID */
 template< unsigned int TDimension >
 SpatialObject< TDimension > *
@@ -741,7 +742,7 @@ SpatialObject< TDimension >
 
 template< unsigned int TDimension >
 bool
-SceneSpatialObject< TDimension >
+SpatialObject< TDimension >
 ::FixParentChildHierarchyUsingParentIds()
 {
   ChildrenListType * children = this->GetChildren( MaximumDepth );
@@ -785,7 +786,7 @@ SceneSpatialObject< TDimension >
 /** Check if the parent objects have a defined ID */
 template< unsigned int TDimension >
 bool
-SceneSpatialObject< TDimension >
+SpatialObject< TDimension >
 ::CheckIdValidity() const
 {
   if( this->GetId() == -1 )
@@ -823,7 +824,7 @@ SceneSpatialObject< TDimension >
 
 template< unsigned int TDimension >
 void
-SceneSpatialObject< TDimension >
+SpatialObject< TDimension >
 ::FixIdValidity()
 {
   if( this->GetId() == -1 )
@@ -862,7 +863,7 @@ SceneSpatialObject< TDimension >
 /** Return the next available Id. For speed reason the MaxID+1 is returned */
 template< unsigned int TDimension >
 int
-SceneSpatialObject< TDimension >
+SpatialObject< TDimension >
 ::GetNextAvailableId() const
 {
   int maxId = 0;
@@ -892,7 +893,7 @@ SceneSpatialObject< TDimension >
 template< unsigned int TDimension >
 unsigned long
 SpatialObject< TDimension >
-::GetTransformMTime()
+::GetObjectToParentTransformMTime()
 {
   return m_ObjectToParentTransform->GetMTime();
 }
@@ -901,7 +902,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 unsigned long
 SpatialObject< TDimension >
-::GetWorldTransformMTime()
+::GetObjectToWorldTransformMTime()
 {
   return m_ObjectToWorldTransform->GetMTime();
 }
@@ -944,7 +945,7 @@ SpatialObject< TDimension >
       }
     else
       {
-      m_parentId = -1;
+      m_ParentId = -1;
       this->SetObjectToParentTransform( oldObjectWorldTransform );
       }
 
