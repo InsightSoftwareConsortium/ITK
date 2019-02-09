@@ -18,7 +18,7 @@
 #ifndef itkPolygonSpatialObject_h
 #define itkPolygonSpatialObject_h
 
-#include "itkBlobSpatialObject.h"
+#include "itkPointBasedSpatialObject.h"
 
 namespace itk
 {
@@ -29,27 +29,28 @@ namespace itk
  */
 template< unsigned int TDimension = 3 >
 class ITK_TEMPLATE_EXPORT PolygonSpatialObject:
-  public BlobSpatialObject< TDimension >
+  public PointBasedSpatialObject< TDimension >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PolygonSpatialObject);
 
   using Self = PolygonSpatialObject< TDimension >;
-  using Superclass = BlobSpatialObject< TDimension >;
+  using Superclass = PointBasedSpatialObject< TDimension >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
   using PointType = typename Superclass::PointType;
   using TransformType = typename Superclass::TransformType;
   using PointListType = typename Superclass::PointListType;
-  using BlobPointType = typename Superclass::BlobPointType;
+  using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Method for creation through the object factory. */
-  itkTypeMacro(PolygonSpatialObject, BlobSpatialObject);
+  itkTypeMacro(PolygonSpatialObject, PointBasedSpatialObject);
 
   /** Method returning plane alignment of strand */
-  int Orientation() const;
+  typename PolygonSpatialObject< TDimension >::PolygonGroupOrientation
+  GetOrientation() const;
 
   /** Method sets the thickness of the current strand */
   itkSetMacro(Thickness, double);
@@ -69,7 +70,7 @@ public:
   /** Method returns the length of the perimeter */
   double MeasurePerimeter() const;
 
-  // For ComputeObjectBounds - use the implementation in BlobSpatialObject
+  // For ComputeMyBounds - use the implementation in PointBasedSpatialObject
 
   /** Test whether a point is inside or outside the object. */
   bool IsInside(const PointType & point, unsigned int depth,
