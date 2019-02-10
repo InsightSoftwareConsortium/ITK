@@ -633,6 +633,7 @@ set(ITKCommonGTests
       itkIndexRangeGTest.cxx
       itkShapedImageNeighborhoodRangeGTest.cxx
       itkSmartPointerGTest.cxx
+      itkVectorContainerGTest.cxx
       itkCommonTypeTraitsGTest.cxx
       itkMetaDataDictionaryGTest.cxx
 )

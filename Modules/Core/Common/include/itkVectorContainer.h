@@ -81,7 +81,7 @@ protected:
   VectorContainer(size_type n, const Element & x):
     Object(), VectorType(n, x) {}
   VectorContainer(const Self & r):
-    Object(), VectorType(r) {}
+    Object(), VectorType(r.CastToSTLConstContainer()) {}
   template< typename TInputIterator >
   VectorContainer(TInputIterator first, TInputIterator last):
     Object(), VectorType(first, last) {}
@@ -134,7 +134,6 @@ public:
   using STLContainerType::at;
   using STLContainerType::front;
   using STLContainerType::back;
-  using STLContainerType::data;
 
   using STLContainerType::assign;
   using STLContainerType::push_back;
@@ -143,8 +142,6 @@ public:
   using STLContainerType::erase;
   using STLContainerType::swap;
   using STLContainerType::clear;
-  using STLContainerType::emplace;
-  using STLContainerType::emplace_back;
 
   using STLContainerType::get_allocator;
 
@@ -208,7 +205,7 @@ public:
     ElementIdentifier Index() const { return static_cast< ElementIdentifier >( m_Pos ); }
 
     /** Get the value at this iterator's location in the VectorContainer.   */
-    Element & Value() const { return *m_Iter; }
+    reference Value() const { return *m_Iter; }
 
 private:
     size_type      m_Pos;
@@ -258,7 +255,7 @@ public:
         */
     ElementIdentifier Index() const { return static_cast< ElementIdentifier >( m_Pos ); }
     /** Get the value at this iterator's location in the VectorContainer.   */
-    const Element & Value() const { return *m_Iter; }
+    const_reference Value() const { return *m_Iter; }
 
 private:
     size_type           m_Pos;
@@ -276,7 +273,7 @@ private:
    * It is assumed that the value of the element is modified through the
    * reference.
    */
-  Element & ElementAt(ElementIdentifier);
+  reference ElementAt(ElementIdentifier);
 
   /**
    * Get a reference to the element at the given index.
@@ -284,7 +281,7 @@ private:
    * be created.
    *
    */
-  const Element & ElementAt(ElementIdentifier) const;
+  const_reference ElementAt(ElementIdentifier) const;
 
   /**
    * Get a reference to the element at the given index.
@@ -294,7 +291,7 @@ private:
    * It is assumed that the value of the element is modified through the
    * reference.
    */
-  Element & CreateElementAt(ElementIdentifier);
+  reference CreateElementAt(ElementIdentifier);
 
   /**
    * Read the element from the given index.
