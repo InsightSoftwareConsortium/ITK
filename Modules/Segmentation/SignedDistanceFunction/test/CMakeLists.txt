@@ -6,6 +6,8 @@ itkPCAShapeSignedDistanceFunctionTest.cxx
 
 CreateTestDriver(ITKSignedDistanceFunction  "${ITKSignedDistanceFunction-Test_LIBRARIES}" "${ITKSignedDistanceFunctionTests}")
 
+itk_python_expression_add_test(NAME itkPCAShapeSignedDistanceFunctionPythonTest EXPRESSION "itkPCAShapeSignedDistanceFunction = itk.PCAShapeSignedDistanceFunction.New()")
+
 itk_add_test(NAME itkSphereSignedDistanceFunctionTest
       COMMAND ITKSignedDistanceFunctionTestDriver itkSphereSignedDistanceFunctionTest)
 itk_add_test(NAME itkPCAShapeSignedDistanceFunctionTest
