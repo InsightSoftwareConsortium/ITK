@@ -486,9 +486,15 @@ protected:
 
   itkSetMacro(TypeName, std::string);
 
-  itkGetModifiableObjectMacro(MyBoundingBox, BoundingBoxType);
+  virtual BoundingBoxType * GetModifiableMyBoundingBox()
+    {
+    return m_MyBoundingBox.GetPointer();
+    }
 
-  itkGetModifiableObjectMacro(FamilyBoundingBox, BoundingBoxType);
+  virtual BoundingBoxType * GetModifiableFamilyBoundingBox()
+    {
+    return m_FamilyBoundingBox.GetPointer();
+    }
 
 private:
 
