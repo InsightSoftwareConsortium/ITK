@@ -23,13 +23,13 @@
 namespace itk
 {
 /** Constructor */
-template< unsigned int TPointDimension >
-SpatialObjectPoint< TPointDimension >
+template< unsigned int TPointDimension, class TSpatialObjectType >
+SpatialObjectPoint< TPointDimension, TSpatialObjectType >
 ::SpatialObjectPoint()
 {
   m_Id = -1;
 
-  m_X.Fill( 0 );
+  m_PositionInObjectSpace.Fill( 0 );
 
   m_Color.SetRed(1.0); // red by default
   m_Color.SetGreen(0);
@@ -39,10 +39,27 @@ SpatialObjectPoint< TPointDimension >
   m_SpatialObject = nullptr;
 }
 
-template< unsigned int TPointDimension >
-PointType
-SpatialObjectPoint< TPointDimension >
-::GetPosition( )
+template< unsigned int TPointDimension, class TSpatialObjectType >
+void
+SpatialObjectPoint< TPointDimension, TSpatialObjectType >
+::SetPosition( const PointType & point )
+{
+  if( m_SpatialObject == nullptr )
+    {
+    ExceptionObject e(__FILE__);
+    e.SetLocation( "SpatialObjectPoint:SetPosition" );
+    e.SetDescription( "The SpatialObject must be set prior to calling." );
+    throw e;
+    }
+
+  m_PositionInObjectSpace = m_SpatialObject->GetObjectToWorldTransform()->
+    GetInverseTransform()->TransformPoint( point );
+}
+
+template< unsigned int TPointDimension, class TSpatialObjectType >
+typename SpatialObjectPoint< TPointDimension, TSpatialObjectType >::PointType
+SpatialObjectPoint< TPointDimension, TSpatialObjectType >
+::GetPosition() const
 {
   if( m_SpatialObject == nullptr )
     {
@@ -52,13 +69,14 @@ SpatialObjectPoint< TPointDimension >
     throw e;
     }
 
-  return m_SpatialObject->GetObjectToWorldTransform()->TransformPoint( m_X );
+  return m_SpatialObject->GetObjectToWorldTransform()->TransformPoint(
+    m_PositionInObjectSpace );
 }
 
 /** Set the color of the point */
-template< unsigned int TPointDimension >
+template< unsigned int TPointDimension, class TSpatialObjectType >
 void
-SpatialObjectPoint< TPointDimension >
+SpatialObjectPoint< TPointDimension, TSpatialObjectType >
 ::SetColor(float r, float g, float b, float a)
 {
   m_Color.SetRed(r);
@@ -67,12 +85,28 @@ SpatialObjectPoint< TPointDimension >
   m_Color.SetAlpha(a);
 }
 
+template< unsigned int TPointDimension, class TSpatialObjectType >
+typename SpatialObjectPoint< TPointDimension, TSpatialObjectType >::Self &
+SpatialObjectPoint< TPointDimension, TSpatialObjectType >
+::operator=(const SpatialObjectPoint & rhs)
+{
+  if(this != &rhs)
+    {
+    this->SetId( rhs.GetId() );
+    this->SetPositionInObjectSpace( rhs.GetPositionInObjectSpace() );
+    this->SetColor( rhs.GetColor() );
+    }
+  return *this;
+}
+
+
 /** PrintSelfMethod */
-template< unsigned int TPointDimension >
+template< unsigned int TPointDimension, class TSpatialObjectType >
 void
-SpatialObjectPoint< TPointDimension >
+SpatialObjectPoint< TPointDimension, TSpatialObjectType >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
+  os << indent << "Id: " << m_Id << std::endl;
   os << indent << "RGBA: " << m_Color.GetRed() << " ";
   os << m_Color.GetGreen() << " ";
   os << m_Color.GetBlue() << " ";
@@ -80,9 +114,9 @@ SpatialObjectPoint< TPointDimension >
   os << indent << "Position: ";
   for ( unsigned int i = 1; i < TPointDimension; i++ )
     {
-    os << m_X[i - 1] << ",";
+    os << m_PositionInObjectSpace[i - 1] << ",";
     }
-  os <<  m_X[TPointDimension - 1] << std::endl;
+  os <<  m_PositionInObjectSpace[TPointDimension - 1] << std::endl;
 }
 } // end namespace itk
 

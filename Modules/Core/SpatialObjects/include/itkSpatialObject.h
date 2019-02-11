@@ -112,7 +112,7 @@ public:
 
   using RegionType = ImageRegion< VDimension >;
 
-  using PropertyType = SpatialObjectProperty< ScalarType >;
+  using PropertyType = SpatialObjectProperty;
   using PropertyPointer = typename PropertyType::Pointer;
 
   /* These are needed to participate in a Pipeline */
