@@ -316,6 +316,8 @@ foreach(itk-module ${ITK_MODULES_ENABLED})
     init_module_vars()
   endif()
   include("${${itk-module}_SOURCE_DIR}/itk-module-init.cmake" OPTIONAL)
+  # Set CMP0048 to new in all modules
+  set(CMAKE_POLICY_DEFAULT_CMP0048 "NEW")
   add_subdirectory("${${itk-module}_SOURCE_DIR}" "${${itk-module}_BINARY_DIR}")
 endforeach()
 
