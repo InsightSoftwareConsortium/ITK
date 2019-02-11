@@ -88,7 +88,7 @@ public:
   { return static_cast<SizeValueType>( m_Points.size() ); }
 
   /** Method returns the Point closest to the given point */
-  SpatialObjectPointType * ClosestPoint(const PointType & worldPoint) const;
+  TSpatialObjectPointType & ClosestPoint(const PointType & worldPoint) const;
 
   /** Returns true if the point is inside the Blob, false otherwise. */
   bool IsInside(const PointType & worldPoint, unsigned int depth,
