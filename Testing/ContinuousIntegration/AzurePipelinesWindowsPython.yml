@@ -15,22 +15,26 @@ jobs:
     - checkout: self
       clean: true
       fetchDepth: 5
+
     - script: |
         if DEFINED SYSTEM_PULLREQUEST_SOURCECOMMITID git checkout $(System.PullRequest.SourceCommitId)
       displayName: Checkout pull request HEAD
+
     - script: |
         pip3 install ninja numpy
-
+        pip3 install --upgrade setuptools
+        pip3 install scikit-ci-addons
       displayName: Install dependencies
+
     - script: |
         git clone -b dashboard --single-branch https://github.com/InsightSoftwareConsortium/ITK.git ITK-dashboard
 
         curl -L https://github.com/InsightSoftwareConsortium/ITK/releases/download/v$(ExternalDataVersion)/InsightData-$(ExternalDataVersion).tar.gz -O
         cmake -E tar xfz InsightData-$(ExternalDataVersion).tar.gz
         cmake -E rename InsightToolkit-$(ExternalDataVersion)/.ExternalData/MD5 $(Build.SourcesDirectory)/.ExternalData/MD5
-
-      displayName: Download dashboard script and testing data
       workingDirectory: $(Agent.BuildDirectory)
+      displayName: Download dashboard script and testing data
+
     - script: |
         cmake --version
 
@@ -45,5 +49,17 @@ jobs:
         set CTEST_OUTPUT_ON_FAILURE=1
 
         ctest -S ITK-dashboard/azure_dashboard.cmake -V -j 4
-      displayName: Build and test
       workingDirectory: $(Agent.BuildDirectory)
+      displayName: Build and test
+
+    - script: |
+        ci_addons ctest_junit_formatter $(Build.SourcesDirectory)-build > $(Agent.BuildDirectory)/JUnitTestResults.xml
+      condition: succeededOrFailed()
+      displayName: 'Format CTest output in JUnit format'
+
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFiles: "$(Agent.BuildDirectory)/JUnitTestResults.xml"
+        testRunTitle: 'CTest $(Agent.OS)'
+      condition: succeededOrFailed()
+      displayName: 'Publish test results'
