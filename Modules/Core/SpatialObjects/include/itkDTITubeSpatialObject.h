@@ -55,7 +55,7 @@ public:
   using DTITubePointType = DTITubeSpatialObjectPoint< TDimension >;
 
   using PointType = typename Superclass::PointType;
-  using PointListType = typename Superclass::PointListType;
+  using PointListType = typename Superclass::TubePointListType;
   using TransformType = typename Superclass::TransformType;
   using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;
   using PointContainerType = VectorContainer< IdentifierType, PointType >;
