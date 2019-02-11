@@ -28,11 +28,19 @@ template< unsigned int TPointDimension >
 TubeSpatialObjectPoint< TPointDimension >
 ::TubeSpatialObjectPoint()
 {
-  m_NumDimensions = TPointDimension;
-  m_T.Fill(0);
-  m_Normal1.Fill(0);
-  m_Normal2.Fill(0);
-  m_R = 0;
+  m_TangentInObjectSpace.Fill(0);
+  m_Normal1InObjectSpace.Fill(0);
+  m_Normal2InObjectSpace.Fill(0);
+  m_RadiusInObjectSpace = 0;
+}
+
+/** Get the radius */
+template< unsigned int TPointDimension >
+float
+TubeSpatialObjectPoint< TPointDimension >
+::GetRadiusInObjectSpace() const
+{
+  return m_RadiusInObjectSpace;
 }
 
 /** Get the radius */
@@ -41,16 +49,50 @@ float
 TubeSpatialObjectPoint< TPointDimension >
 ::GetRadius() const
 {
-  return m_R;
+  CovariantVectorType cvect.Fill( m_RadiusInObjectSpace );
+  cVect = m_SpatialObject->GetObjectToWorldTransform()->
+    TransformCovariantVector( cVect );
+  double worldR = 0;
+  for( unsigned int d=0; d<ObjectDimension; ++d )
+    {
+    worldR += cVect[d];
+    }
+  worldR /= ObjectDimension;
+  return worldR;
 }
 
 /** Set the radius */
 template< unsigned int TPointDimension >
 void
 TubeSpatialObjectPoint< TPointDimension >
-::SetRadius(const float newR)
+::SetRadiusInObjectSpace(float newR)
 {
-  m_R = newR;
+  m_RadiusInObjectSpace = newR;
+}
+
+/** Get the radius */
+template< unsigned int TPointDimension >
+void
+TubeSpatialObjectPoint< TPointDimension >
+::SetRadius(float newR)
+{
+  CovariantVectorType cvect.Fill( newR );
+  cVect = m_SpatialObject->GetObjectToWorldTransform()->GetInverseTransform()->
+    TransformCovariantVector( cVect );
+  m_RadiusInObjectSpace = 0;
+  for( unsigned int d=0; d<ObjectDimension; ++d )
+    {
+    m_RadiusInObjectSpace += cVect[d];
+    }
+  m_RadiusInObjectSpace /= ObjectDimension;
+}
+
+template< unsigned int TPointDimension >
+const typename TubeSpatialObjectPoint< TPointDimension >::VectorType &
+TubeSpatialObjectPoint< TPointDimension >
+::GetTangentInObjectSpace() const
+{
+  return m_TangentInObjectSpace;
 }
 
 template< unsigned int TPointDimension >
@@ -58,37 +100,33 @@ const typename TubeSpatialObjectPoint< TPointDimension >::VectorType &
 TubeSpatialObjectPoint< TPointDimension >
 ::GetTangent() const
 {
-  return m_T;
+  return m_SpatialObject->GetObjectToWorldTransform()->
+    TransformVector( m_TangentInObjectSpace );
 }
 
-// n-D case
+template< unsigned int TPointDimension >
+void
+TubeSpatialObjectPoint< TPointDimension >
+::SetTangentInObjectSpace(const VectorType & newT)
+{
+  m_TangentInObjectSpace = newT;
+}
+
 template< unsigned int TPointDimension >
 void
 TubeSpatialObjectPoint< TPointDimension >
 ::SetTangent(const VectorType & newT)
 {
-  m_T = newT;
+  m_TangentInObjectSpace = m_SpatialObject->GetObjectToWorldTransform()->
+    GetInveseTransform()->TransformVector( newT );
 }
 
-// 3-D case
 template< unsigned int TPointDimension >
-void
+const typename TubeSpatialObjectPoint< TPointDimension >::CovariantVectorType &
 TubeSpatialObjectPoint< TPointDimension >
-::SetTangent(const double t0, const double t1, const double t2)
+::GetNormal1InObjectSpace() const
 {
-  m_T[0] = t0;
-  m_T[1] = t1;
-  m_T[2] = t2;
-}
-
-// 2-D case
-template< unsigned int TPointDimension >
-void
-TubeSpatialObjectPoint< TPointDimension >
-::SetTangent(const double t0, const double t1)
-{
-  m_T[0] = t0;
-  m_T[1] = t1;
+  return m_Normal1InObjectSpace;
 }
 
 template< unsigned int TPointDimension >
@@ -96,37 +134,33 @@ const typename TubeSpatialObjectPoint< TPointDimension >::CovariantVectorType &
 TubeSpatialObjectPoint< TPointDimension >
 ::GetNormal1() const
 {
-  return m_Normal1;
+  return m_SpatialObject->GetObjectToWorldTransform()->
+    TrasnformCovariantVector( m_Normal1InObjectSpace );
 }
 
-// n-D case
+template< unsigned int TPointDimension >
+void
+TubeSpatialObjectPoint< TPointDimension >
+::SetNormal1InObjectSpace(const CovariantVectorType & newV1)
+{
+  m_Normal1InObjectSpace = newV1;
+}
+
 template< unsigned int TPointDimension >
 void
 TubeSpatialObjectPoint< TPointDimension >
 ::SetNormal1(const CovariantVectorType & newV1)
 {
-  m_Normal1 = newV1;
+  m_Normal1InObjectSpace = m_SpatialObject->GetObjectToWorldTransform()->
+    GetInverseTransform()->TransformCovariantVector( newV1 );
 }
 
-// 3-D case
 template< unsigned int TPointDimension >
-void
+const typename TubeSpatialObjectPoint< TPointDimension >::CovariantVectorType &
 TubeSpatialObjectPoint< TPointDimension >
-::SetNormal1(const double v10, const double v11, const double v12)
+::GetNormal2InObjectSpace() const
 {
-  m_Normal1[0] = v10;
-  m_Normal1[1] = v11;
-  m_Normal1[2] = v12;
-}
-
-// 2-D case
-template< unsigned int TPointDimension >
-void
-TubeSpatialObjectPoint< TPointDimension >
-::SetNormal1(const double v10, const double v11)
-{
-  m_Normal1[0] = v10;
-  m_Normal1[1] = v11;
+  return m_Normal2InObjectSpace;
 }
 
 template< unsigned int TPointDimension >
@@ -134,45 +168,25 @@ const typename TubeSpatialObjectPoint< TPointDimension >::CovariantVectorType &
 TubeSpatialObjectPoint< TPointDimension >
 ::GetNormal2() const
 {
-  return m_Normal2;
+  return m_SpatialObject->GetObjectToWorldTransform()->
+    TrasnformCovariantVector( m_Normal2InObjectSpace );
 }
 
-// n-D case
+template< unsigned int TPointDimension >
+void
+TubeSpatialObjectPoint< TPointDimension >
+::SetNormal2InObjectSpace(const CovariantVectorType & newV2)
+{
+  m_Normal2InObjectSpace = newV2;
+}
+
 template< unsigned int TPointDimension >
 void
 TubeSpatialObjectPoint< TPointDimension >
 ::SetNormal2(const CovariantVectorType & newV2)
 {
-  m_Normal2 = newV2;
-}
-
-// 3-D case
-template< unsigned int TPointDimension >
-void
-TubeSpatialObjectPoint< TPointDimension >
-::SetNormal2(const double v20, const double v21, const double v22)
-{
-  m_Normal2[0] = v20;
-  m_Normal2[1] = v21;
-  m_Normal2[2] = v22;
-}
-
-// 2-D case
-template< unsigned int TPointDimension >
-void
-TubeSpatialObjectPoint< TPointDimension >
-::SetNormal2(const double v20, const double v21)
-{
-  m_Normal2[0] = v20;
-  m_Normal2[1] = v21;
-}
-
-template< unsigned int TPointDimension >
-unsigned short int
-TubeSpatialObjectPoint< TPointDimension >
-::GetNumDimensions() const
-{
-  return m_NumDimensions;
+  m_Normal2InObjectSpace = m_SpatialObject->GetObjectToWorldTransform()->
+    GetInverseTransform()->TransformCovariantVector( newV2 );
 }
 
 template< unsigned int TPointDimension >
@@ -181,12 +195,14 @@ TubeSpatialObjectPoint< TPointDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "#Dims: " << m_NumDimensions << std::endl;
-  os << indent << "R: " << m_R << std::endl;
-  os << indent << "X: " << this->m_X << std::endl;
-  os << indent << "T: " << m_T << std::endl;
-  os << indent << "Normal1: " << m_Normal1 << std::endl;
-  os << indent << "Normal2: " << m_Normal2 << std::endl;
+  os << indent << "Radius In Object Space: " << m_RadiusInObjectSpace
+    << std::endl;
+  os << indent << "Tangent In Object Space: " << m_TangentInObjectSpace
+    << std::endl;
+  os << indent << "Normal1 In Object Space: " << m_Normal1InObjectSpace
+    << std::endl;
+  os << indent << "Normal2 In Object Space: " << m_Normal2InObjectSpace
+    << std::endl;
 }
 
 template< unsigned int TPointDimension >
@@ -196,14 +212,16 @@ TubeSpatialObjectPoint< TPointDimension >
 {
   if(this != &rhs)
     {
-    this->m_ID = rhs.m_ID;
-    m_R = rhs.m_R;
-    m_NumDimensions = rhs.m_NumDimensions;
-    this->m_X = rhs.m_X;
-    m_T = rhs.m_T;
-    m_Normal1 = rhs.m_Normal1;
-    m_Normal2 = rhs.m_Normal2;
-    this->m_Color = rhs.m_Color;
+    // Superclass
+    this->SetId( rhs.GetId() );
+    this->SetPositionInObjectSpace( rhs.GetPositionInObjectSpace() );
+    this->SetColor( rhs.GetColor() );
+
+    // class
+    this->SetRadiusInObjectSpace( rhs.GetRadiusInObjectSpace() );
+    this->SetTangentInObjectSpace( rhs.GetTangentInObjectSpace() );
+    this->SetNormal1InObjectSpace( rhs.GetNormal1InObjectSpace() );
+    this->SetNormal2InObjectSpace( rhs.GetNormal2InObjectSpace() );
     }
   return *this;
 }

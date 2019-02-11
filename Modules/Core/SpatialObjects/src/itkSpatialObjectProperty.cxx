@@ -174,7 +174,7 @@ SpatialObjectProperty
   m_StringDictionary = dict;
 }
 
-SpatialObjectProperty &
+SpatialObjectProperty::Self &
 SpatialObjectProperty
 ::operator=( const SpatialObjectProperty * rhs )
 {

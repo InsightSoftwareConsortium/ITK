@@ -98,6 +98,8 @@ public:
   /** world-space property getters */
   itkGetConstReferenceMacro( Center, PointType );
 
+  void Update() override;
+
 protected:
   EllipseSpatialObject();
   ~EllipseSpatialObject() override = default;

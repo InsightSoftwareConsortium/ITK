@@ -18,6 +18,8 @@
 #ifndef itkSpatialObjectPoint_h
 #define itkSpatialObjectPoint_h
 
+#include "itkSpatialObject.h"
+
 #include "itkPoint.h"
 #include "vnl/vnl_vector_fixed.h"
 #include "itkRGBAPixel.h"
@@ -34,7 +36,7 @@ namespace itk
  */
 
 template< unsigned int TPointDimension = 3,
-  class TSpatialObjectType >
+  class TSpatialObjectType = SpatialObject< TPointDimension> >
 class ITK_TEMPLATE_EXPORT SpatialObjectPoint
 {
 public:
@@ -59,9 +61,9 @@ public:
   /** Get the SpatialObjectPoint Id. */
   itkGetMacro( Id, int );
 
-  /** Set the point object. Couldn't use macros for these methods. */
-  void SetPositionInObjectSpace(const PointType & newX)
-  { m_X = newX; }
+  /** Set the point object. */
+  void SetPositionInObjectSpace(const PointType & newPositionInObjectSpace)
+  { m_PositionInObjectSpace = newPositionInObjectSpace; }
 
   template <typename... TCoordinate>
   void SetPositionInObjectSpace(
@@ -74,24 +76,29 @@ public:
       {
       firstCoordinate, static_cast<double>(otherCoordinate)...
       };
-    m_X = coordinates;
+    m_PositionInObjectSpace = coordinates;
     }
 
   /** Return a pointer to the point object. */
   const PointType & GetPositionInObjectSpace() const
-  { return m_X; }
+  { return m_PositionInObjectSpace; }
 
   itkSetConstObjectMacro( SpatialObject, SpatialObjectType );
+
+  /** Set the position in world coordinates, using the
+   *    spatialObject's objectToWorld transform, inverse */
+  void SetPosition( const PointType & point );
 
   /** Returns the position in world coordinates, using the
    *    spatialObject's objectToWorld transform */
   PointType GetPosition() const;
 
   /** Copy one SpatialObjectPoint to another */
-  SpatialObjectPoint & operator=(const SpatialObjectPoint & ) = default;
+  Self & operator=(const SpatialObjectPoint & rhs );
 
   /** Set/Get color of the point */
-  itkSetConstReferenceMacro( Color, ColorType );
+  itkSetMacro( Color, ColorType );
+  itkGetMacro( Color, ColorType );
   itkGetConstReferenceMacro( Color, ColorType );
 
   /** Set the color */
@@ -138,12 +145,12 @@ protected:
   int m_ID;
 
   /** Position of the point */
-  PointType m_X;
+  PointType m_PositionInObjectSpace;
 
   /** Color of the point */
   ColorType m_Color;
 
-  const SpatialObjectType::Pointer m_SpatialObject;
+  const typename SpatialObjectType::Pointer m_SpatialObject;
 };
 
 } // end of namespace itk
