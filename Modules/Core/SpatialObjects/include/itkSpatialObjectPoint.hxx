@@ -23,8 +23,8 @@
 namespace itk
 {
 /** Constructor */
-template< unsigned int TPointDimension, class TSpatialObjectType >
-SpatialObjectPoint< TPointDimension, TSpatialObjectType >
+template< unsigned int TPointDimension >
+SpatialObjectPoint< TPointDimension >
 ::SpatialObjectPoint()
 {
   m_Id = -1;
@@ -39,9 +39,9 @@ SpatialObjectPoint< TPointDimension, TSpatialObjectType >
   m_SpatialObject = nullptr;
 }
 
-template< unsigned int TPointDimension, class TSpatialObjectType >
+template< unsigned int TPointDimension >
 void
-SpatialObjectPoint< TPointDimension, TSpatialObjectType >
+SpatialObjectPoint< TPointDimension >
 ::SetPosition( const PointType & point )
 {
   if( m_SpatialObject == nullptr )
@@ -56,9 +56,9 @@ SpatialObjectPoint< TPointDimension, TSpatialObjectType >
     GetInverseTransform()->TransformPoint( point );
 }
 
-template< unsigned int TPointDimension, class TSpatialObjectType >
-typename SpatialObjectPoint< TPointDimension, TSpatialObjectType >::PointType
-SpatialObjectPoint< TPointDimension, TSpatialObjectType >
+template< unsigned int TPointDimension >
+typename SpatialObjectPoint< TPointDimension >::PointType
+SpatialObjectPoint< TPointDimension >
 ::GetPosition() const
 {
   if( m_SpatialObject == nullptr )
@@ -74,9 +74,9 @@ SpatialObjectPoint< TPointDimension, TSpatialObjectType >
 }
 
 /** Set the color of the point */
-template< unsigned int TPointDimension, class TSpatialObjectType >
+template< unsigned int TPointDimension >
 void
-SpatialObjectPoint< TPointDimension, TSpatialObjectType >
+SpatialObjectPoint< TPointDimension >
 ::SetColor(float r, float g, float b, float a)
 {
   m_Color.SetRed(r);
@@ -85,9 +85,9 @@ SpatialObjectPoint< TPointDimension, TSpatialObjectType >
   m_Color.SetAlpha(a);
 }
 
-template< unsigned int TPointDimension, class TSpatialObjectType >
-typename SpatialObjectPoint< TPointDimension, TSpatialObjectType >::Self &
-SpatialObjectPoint< TPointDimension, TSpatialObjectType >
+template< unsigned int TPointDimension >
+typename SpatialObjectPoint< TPointDimension >::Self &
+SpatialObjectPoint< TPointDimension >
 ::operator=(const SpatialObjectPoint & rhs)
 {
   if(this != &rhs)
@@ -101,9 +101,9 @@ SpatialObjectPoint< TPointDimension, TSpatialObjectType >
 
 
 /** PrintSelfMethod */
-template< unsigned int TPointDimension, class TSpatialObjectType >
+template< unsigned int TPointDimension >
 void
-SpatialObjectPoint< TPointDimension, TSpatialObjectType >
+SpatialObjectPoint< TPointDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   os << indent << "Id: " << m_Id << std::endl;
