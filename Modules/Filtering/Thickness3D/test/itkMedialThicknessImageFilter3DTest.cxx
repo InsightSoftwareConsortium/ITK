@@ -19,9 +19,9 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkMedialThicknessImageFilter3D.h"
+#include "itkTestingMacros.h"
 
 #include <iostream>
-using namespace std;
 
 int
 itkMedialThicknessImageFilter3DTest(int argc, char * argv[])
@@ -29,6 +29,7 @@ itkMedialThicknessImageFilter3DTest(int argc, char * argv[])
   // Verify the number of parameters in the command line
   if (argc <= 2)
   {
+    std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << " inputImageFile outputImageFile" << std::endl;
     return EXIT_FAILURE;
@@ -46,40 +47,30 @@ itkMedialThicknessImageFilter3DTest(int argc, char * argv[])
   typedef itk::ImageFileReader<InputImageType> ReaderType;
   ReaderType::Pointer                          reader = ReaderType::New();
   reader->SetFileName(infilename);
-  try
-  {
-    reader->Update();
-  }
-  catch (itk::ExceptionObject & ex)
-  {
-    std::cout << ex << std::endl;
-    return EXIT_FAILURE;
-  }
-  cout << infilename << " sucessfully read." << endl;
+
+  TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
 
   // Define the thinning filter
   typedef itk::MedialThicknessImageFilter3D<InputImageType, OutputImageType> FilterType;
-  FilterType::Pointer                                                        filter = FilterType::New();
-  filter->SetInput(reader->GetOutput());
-  filter->Update();
+  FilterType::Pointer                                                        medialThicknessFilter = FilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS(medialThicknessFilter, MedialThicknessImageFilter3D, ImageToImageFilter);
+
+  medialThicknessFilter->SetInput(reader->GetOutput());
+
+  TRY_EXPECT_NO_EXCEPTION(medialThicknessFilter->Update());
+
 
   // output to file
   typedef itk::ImageFileWriter<OutputImageType> WriterType;
   WriterType::Pointer                           writer = WriterType::New();
-  writer->SetInput(filter->GetOutput());
+  writer->SetInput(medialThicknessFilter->GetOutput());
   writer->SetFileName(outfilename);
 
-  try
-  {
-    writer->Update();
-  }
-  catch (itk::ExceptionObject & ex)
-  {
-    std::cout << ex << std::endl;
-    return EXIT_FAILURE;
-  }
-  cout << outfilename << " sucessfully written." << endl;
+  TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
-  cout << "Program terminated normally." << endl;
+
+  std::cout << "Test finished.";
   return EXIT_SUCCESS;
 }
