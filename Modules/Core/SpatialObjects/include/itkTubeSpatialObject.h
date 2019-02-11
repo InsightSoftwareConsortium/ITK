@@ -54,7 +54,7 @@ public:
   using ScalarType = double;
 
   using TubePointType = TSpatialObjectPointType;
-  using TubePointListType = std::vector< TubePointType >;
+  using TubePointListType = std::list< TubePointType >;
 
   using PointType = typename Superclass::PointType;
   using TransformType = typename Superclass::TransformType;
@@ -79,14 +79,8 @@ public:
   bool ComputeTangentAndNormals();
 
   /** Remove duplicate points */
-  unsigned int RemoveDuplicatePoints(unsigned int step = 1);
-
-  /** Returns true if the point is inside the tube, false otherwise. */
-  bool IsInside(const PointType & point, unsigned int depth = 0,
-    const std::string & name) const override;
-
-  /** Compute the boundaries of the tube. */
-  bool ComputeMyBoundingBox() const override;
+  unsigned int RemoveDuplicatePointsInObjectSpace(
+    double minSpacingInObjectSpace = 0 );
 
   /** Set the parent point which corresponds to the
    *  position of the point in the parent's points list */
@@ -103,6 +97,13 @@ public:
   /** Get a flag for tube which are a "root" of a
    *  tube network in the scene */
   itkGetConstMacro(Root, bool);
+
+  /** Compute the boundaries of the tube. */
+  bool ComputeMyBoundingBox() const override;
+
+  /** Returns true if the point is inside the tube, false otherwise. */
+  bool IsInside(const PointType & point, unsigned int depth = 0,
+    const std::string & name) const override;
 
   void DeepCopy( const TubeSpatialObject * tube );
 

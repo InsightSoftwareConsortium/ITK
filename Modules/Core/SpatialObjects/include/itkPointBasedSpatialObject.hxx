@@ -60,9 +60,9 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 
 /** Determine closest point in world space */
 template< unsigned int TDimension, class TSpatialObjectPointType >
-SpatialObjectPointType *
+TSpatialObjectPointType &
 PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
-::ClosestPoint( const PointType & point )
+::ClosestPoint( const PointType & point ) const
 {
   auto it = m_Points.begin();
   auto itend = m_Points.end();
@@ -80,7 +80,8 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
   while ( it != itend )
     {
     typename SpatialObjectPoint< TDimension >::PointType curpos =
-      this->GetObjectToWorldTransform()->TransformPoint( ( *it ).GetPosition() );
+      this->GetObjectToWorldTransform()->TransformPoint(
+        ( *it ).GetPositionInObjectSpace() );
     double curdistance = curpos.EuclideanDistanceTo(curPoint);
     if ( curdistance < closestPointDistance )
       {
@@ -95,9 +96,9 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 
 /** Compute bounding box of just this object in world space */
 template< unsigned int TDimension, class TSpatialObjectPointType >
-void
+bool
 PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
-::ComputeMyBoundingBox()
+::ComputeMyBoundingBox() const
 {
   itkDebugMacro("Computing blob bounding box");
 
@@ -109,7 +110,7 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
     return false;
     }
 
-  PointType pt = ( *it ).GetPosition();
+  PointType pt = ( *it ).GetPositionInObjectSpace();
 
   // Compute a bounding box in object space
   typename BoundingBoxType::Pointer bb = BoundingBoxType::New();
@@ -119,10 +120,10 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
   it++;
   while ( it != end )
     {
-    bb->ConsiderPoint( ( *it ).GetPosition() );
+    bb->ConsiderPoint( ( *it ).GetPositionInObjectSpace() );
     it++;
     }
-  bb->ComputeBOundingBox();
+  bb->ComputeBoundingBox();
 
   // Next Transform the corners of the bounding box into world space
   using PointsContainer = typename BoundingBoxType::PointsContainer;
@@ -176,7 +177,7 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
         for( unsigned int i=0; i<ObjectDimension; ++i )
           {
           if( ! Math::AlmostEquals( transformedPoint[i],
-              it->GetPosition()[i] ) )
+              it->GetPositionInObjectSpace()[i] ) )
             {
             equals = false;
             break;

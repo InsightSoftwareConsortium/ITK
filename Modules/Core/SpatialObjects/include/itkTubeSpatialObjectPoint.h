@@ -18,6 +18,7 @@
 #ifndef itkTubeSpatialObjectPoint_h
 #define itkTubeSpatialObjectPoint_h
 
+#include "itkTubeSpatialObject.h"
 #include "itkSpatialObjectPoint.h"
 #include "itkCovariantVector.h"
 #include "vnl/vnl_vector_fixed.h"
@@ -34,14 +35,15 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 
-template< unsigned int TPointDimension = 3 >
+template< unsigned int TPointDimension = 3,
+   class TSpatialObjectType = TubeSpatialObject< TPointDimension >  >
 class ITK_TEMPLATE_EXPORT TubeSpatialObjectPoint:
-  public SpatialObjectPoint< TPointDimension >
+  public SpatialObjectPoint< TPointDimension, TSpatialObjectType >
 {
 public:
 
   using Self = TubeSpatialObjectPoint;
-  using Superclass = SpatialObjectPoint< TPointDimension >;
+  using Superclass = SpatialObjectPoint< TPointDimension, TSpatialObjectType >;
   using PointType = Point< double, TPointDimension >;
   using VectorType = Vector< double, TPointDimension >;
   using CovariantVectorType = CovariantVector< double, TPointDimension >;
@@ -53,63 +55,71 @@ public:
   /** Default destructor. */
   ~TubeSpatialObjectPoint() override;
 
-  /** Get the tangent */
-  const VectorType & GetTangent() const;
-
-  /** Set T. Couldn't use macros for these methods */
-  void SetTangent(const VectorType & newT);
-
-  void SetTangent(const double t0, const double t1);
-
-  void SetTangent(const double t0, const double t1, const double t2);
-
-  /** Get V1 */
-  const CovariantVectorType & GetNormal1() const;
-
-  /** Set V1 */
-  void SetNormal1(const CovariantVectorType & newV1);
-
-  void SetNormal1(const double v10, const double v11);
-
-  void SetNormal1(const double v10, const double v11, const double v12);
-
-  /** Get V2 */
-  const CovariantVectorType & GetNormal2() const;
-
-  /** Set V2 */
-  void SetNormal2(const CovariantVectorType & newV2);
-
-  void SetNormal2(const double v20, const double v21);
-
-  void SetNormal2(const double v20, const double v21, const double v22);
+  /** Get R */
+  float GetRadiusInObjectSpace() const;
 
   /** Get R */
   float GetRadius() const;
 
   /** Set R */
-  void SetRadius(const float newR);
+  void SetRadiusInObjectSpace(float newR);
 
-  /** Get number of dimensions */
-  unsigned short int GetNumDimensions() const;
+  /** Set R */
+  void SetRadius(float newR);
+
+  /** Get the tangent in Object Space */
+  const VectorType & GetTangentInObjectSpace() const;
+
+  /** Get the tangent in World Space */
+  const VectorType & GetTangent() const;
+
+  /** Set the tangent in object space. */
+  void SetTangentInObjectSpace(const VectorType & newT);
+
+  /** Set the tangent in World Space. */
+  void SetTangent(const VectorType & newT);
+
+  /** Get V1 in Object space */
+  const CovariantVectorType & GetNormal1InObjectSpace() const;
+
+  /** Get V1 in World space */
+  const CovariantVectorType & GetNormal1() const;
+
+  /** Set V1 */
+  void SetNormal1InObjectSpace(const CovariantVectorType & newV1);
+
+  /** Set V1 */
+  void SetNormal1(const CovariantVectorType & newV1);
+
+  /** Get V2 */
+  const CovariantVectorType & GetNormal2InObjectSpace() const;
+
+  /** Get V2 */
+  const CovariantVectorType & GetNormal2() const;
+
+  /** Set V2 */
+  void SetNormal2InObjectSpace(const CovariantVectorType & newV2);
+
+  /** Set V2 */
+  void SetNormal2(const CovariantVectorType & newV2);
 
   /** Copy one TubeSpatialObjectPoint to another */
   Self & operator=(const TubeSpatialObjectPoint & rhs);
 
 protected:
 
-  VectorType          m_T;
-  CovariantVectorType m_Normal1;
-  CovariantVectorType m_Normal2;
+  VectorType          m_TInObjectSpace;
+  CovariantVectorType m_Normal1InObjectSpace;
+  CovariantVectorType m_Normal2InObjectSpace;
 
   /** The radius of the tube point */
-  float m_R;
-
-  /** number of dimensions */
-  unsigned short int m_NumDimensions;
+  float m_RInObjectSpace;
 
   /** Print the object */
   void PrintSelf(std::ostream & os, Indent indent) const override;
+
 };
+
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
