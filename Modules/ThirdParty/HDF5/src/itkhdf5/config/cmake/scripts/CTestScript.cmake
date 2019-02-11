@@ -9,6 +9,7 @@
 # If you do not have access to either file, you may request a copy from
 # help@hdfgroup.org.
 #
+cmake_minimum_required (VERSION 3.10)
 ########################################################
 # This dashboard is maintained by The HDF Group
 # For any comments please contact cdashhelp@hdfgroup.org

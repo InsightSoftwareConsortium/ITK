@@ -47,7 +47,7 @@ set(ADD_BUILD_OPTIONS "${ADD_BUILD_OPTIONS} -DCTEST_CONFIGURATION_TYPE:STRING=${
 ##################################################################
 
 if(NOT DEFINED INSTALLDIR)
-  set(INSTALLDIR "@CMAKE_INSTALL_PREFIX@")
+  set(INSTALLDIR "C:/Program Files/HDF_Group/@HDF5_PACKAGE_NAME@/@HDF5_PACKAGE_VERSION@")
 endif()
 
 if(NOT DEFINED CTEST_SOURCE_NAME)
