@@ -37,22 +37,24 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
-template< typename TImage, typename TFeatureImage >
+template< typename TLabelMap,
+          typename TFeatureImage,
+          typename TParentLabelMapFilter = ShapeLabelMapFilter< TLabelMap,
+                                                                Image< typename TLabelMap::PixelType,  TLabelMap ::ImageDimension > > >
 class ITK_TEMPLATE_EXPORT StatisticsLabelMapFilter:
-  public ShapeLabelMapFilter< TImage,
-                              Image< typename TImage::PixelType,  TImage ::ImageDimension > >
+  public TParentLabelMapFilter
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = StatisticsLabelMapFilter;
-  using Superclass = ShapeLabelMapFilter< TImage >;
+  using Superclass = TParentLabelMapFilter;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
 
   /** Some convenient type alias. */
-  using ImageType = TImage;
+  using ImageType = TLabelMap;
   using ImagePointer = typename ImageType::Pointer;
   using ImageConstPointer = typename ImageType::ConstPointer;
   using PixelType = typename ImageType::PixelType;
@@ -68,7 +70,7 @@ public:
   using FeatureImagePixelType = typename FeatureImageType::PixelType;
 
   /** ImageDimension constants */
-  static constexpr unsigned int ImageDimension = TImage::ImageDimension;
+  static constexpr unsigned int ImageDimension = TLabelMap::ImageDimension;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -102,7 +104,7 @@ public:
   }
 
   /** Set the input image */
-  void SetInput1(TImage *input)
+  void SetInput1(TLabelMap *input)
   {
     this->SetInput(input);
   }
