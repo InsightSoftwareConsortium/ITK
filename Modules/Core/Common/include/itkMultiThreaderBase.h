@@ -255,7 +255,9 @@ INTEL_PRAGMA_WARN_POP
    * If filter argument is not nullptr, this function will update its progress
    * as each work unit is completed. Delegates work to non-templated version. */
   template<unsigned int VDimension>
-  void ParallelizeImageRegion(const ImageRegion<VDimension> & requestedRegion, TemplatedThreadingFunctorType<VDimension> funcP, ProcessObject* filter)
+  ITK_TEMPLATE_EXPORT void ParallelizeImageRegion(const ImageRegion<VDimension> & requestedRegion,
+                                     TemplatedThreadingFunctorType<VDimension> funcP,
+                                     ProcessObject* filter)
   {
     this->ParallelizeImageRegion(
         VDimension,
@@ -278,7 +280,7 @@ INTEL_PRAGMA_WARN_POP
    * of the directions. If VDimension is 1, restrictedDirection is ignored
    * and no parallelization occurs. */
   template<unsigned int VDimension>
-  void ParallelizeImageRegionRestrictDirection(unsigned int restrictedDirection,
+  ITK_TEMPLATE_EXPORT void ParallelizeImageRegionRestrictDirection(unsigned int restrictedDirection,
     const ImageRegion<VDimension> & requestedRegion,
     TemplatedThreadingFunctorType<VDimension> funcP,
     ProcessObject* filter)
