@@ -48,14 +48,14 @@ public:
 
   using Self = DTITubeSpatialObject;
   using Superclass = TubeSpatialObject< TDimension,
-                             DTITubeSpatialObjectPoint< TDimension > >;
+          DTITubeSpatialObjectPoint< TDimension > >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
 
   using DTITubePointType = DTITubeSpatialObjectPoint< TDimension >;
+  using DTITubePointListType = std::vector< DTITubePointType >;
 
   using PointType = typename Superclass::PointType;
-  using PointListType = typename Superclass::TubePointListType;
   using TransformType = typename Superclass::TransformType;
   using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;
   using PointContainerType = VectorContainer< IdentifierType, PointType >;

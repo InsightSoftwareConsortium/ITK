@@ -33,6 +33,7 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
   m_Points.clear();
 }
 
+/** Set Points from a list */
 template< unsigned int TDimension, class TSpatialObjectPointType >
 void
 PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
@@ -153,7 +154,7 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 ::IsInside( const PointType & point, unsigned int depth,
     const std::string & name) const
 {
-  if( this->GetTypeName.find( name ) != std::string::npos )
+  if( this->GetTypeName().find( name ) != std::string::npos )
     {
     if( this->GetMyBoundingBox()->IsInside( point ) )
       {
