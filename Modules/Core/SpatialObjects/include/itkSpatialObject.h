@@ -469,9 +469,7 @@ public:
    * and conditional iterators for defining regions of interest.
    */
   bool Evaluate(const PointType & point) const
-  {
-    return this->IsInside(point);
-  }
+  { return this->IsInside(point); }
 
 
 protected:
@@ -487,14 +485,10 @@ protected:
   itkSetMacro(TypeName, std::string);
 
   virtual BoundingBoxType * GetModifiableMyBoundingBox()
-    {
-    return m_MyBoundingBox.GetPointer();
-    }
+  { return m_MyBoundingBox.GetPointer(); }
 
   virtual BoundingBoxType * GetModifiableFamilyBoundingBox()
-    {
-    return m_FamilyBoundingBox.GetPointer();
-    }
+  { return m_FamilyBoundingBox.GetPointer(); }
 
 private:
 
