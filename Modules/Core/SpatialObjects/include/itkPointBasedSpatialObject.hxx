@@ -33,6 +33,7 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
   m_Points.clear();
 }
 
+/** Set Points from a list */
 template< unsigned int TDimension, class TSpatialObjectPointType >
 void
 PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
