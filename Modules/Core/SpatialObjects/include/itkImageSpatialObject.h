@@ -19,6 +19,7 @@
 #define itkImageSpatialObject_h
 
 #include "itkImage.h"
+#include "itkContinuousIndex.h"
 #include "itkSpatialObject.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
 
@@ -49,6 +50,7 @@ public:
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
 
+  using ContinuousIndexType = ContinuousIndex< double, TDimension >;
   using PixelType = TPixelType;
   using ImageType = Image< PixelType, TDimension >;
   using ImagePointer = typename ImageType::ConstPointer;

@@ -47,14 +47,15 @@ public:
   ITK_DISALLOW_COPY_AND_ASSIGN(TubeSpatialObject);
 
   using Self = TubeSpatialObject;
-  using Superclass = PointBasedSpatialObject< TDimension >;
+  using Superclass = PointBasedSpatialObject< TDimension,
+          TSpatialObjectPointType >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
 
   using ScalarType = double;
 
   using TubePointType = TSpatialObjectPointType;
-  using TubePointListType = std::list< TubePointType >;
+  using TubePointListType = std::vector< TubePointType >;
 
   using PointType = typename Superclass::PointType;
   using TransformType = typename Superclass::TransformType;
@@ -114,7 +115,6 @@ protected:
   bool m_EndRounded;
 
   bool m_Root;
-  bool m_Artery;
 
   TubeSpatialObject();
   ~TubeSpatialObject() override = default;

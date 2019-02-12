@@ -88,10 +88,10 @@ public:
 
   /** This function needs to be called every time one of the object's
    *  components is changed. */
-  bool ComputeObjectBoundingBox() const override;
+  bool ComputeMyBoundingBox() const override;
 
   /** Returns the value of the Gaussian at the given point.  */
-  bool ValueAt(const PointType & point, ScalarType & value,
+  bool ValueAt(const PointType & point, double & value,
     unsigned int depth = 0, const std::string & name = "") const override;
 
   /** Returns the sigma=m_Radius level set of the Gaussian function, as an
