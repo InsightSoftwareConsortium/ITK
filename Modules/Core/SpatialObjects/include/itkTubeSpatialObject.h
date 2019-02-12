@@ -114,7 +114,6 @@ protected:
   bool m_EndRounded;
 
   bool m_Root;
-  bool m_Artery;
 
   TubeSpatialObject();
   ~TubeSpatialObject() override;
