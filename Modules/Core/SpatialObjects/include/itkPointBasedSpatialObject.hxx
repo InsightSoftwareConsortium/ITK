@@ -33,7 +33,6 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
   m_Points.clear();
 }
 
-/** Print the object */
 template< unsigned int TDimension, class TSpatialObjectPointType >
 void
 PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
@@ -76,7 +75,7 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
     typename SpatialObjectPoint< TDimension >::PointType curpos =
       this->GetObjectToWorldTransform()->TransformPoint(
         ( *it ).GetPositionInObjectSpace() );
-    double curdistance = curpos.EuclideanDistanceTo(curPoint);
+    double curdistance = curpos.EuclideanDistanceTo(point);
     if ( curdistance < closestPointDistance )
       {
       closestPoint = &(*it);
@@ -128,13 +127,13 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
     static_cast<typename PointsContainer::ElementIdentifier>(
       corners->size() ) );
 
-  auto it = corners->begin();
+  auto itCorners = corners->begin();
   auto itTrans = transformedCorners->begin();
-  while ( it != corners->end() )
+  while ( itCorners != corners->end() )
     {
-    PointType pnt = this->GetObjectToWorldTransform()->TransformPoint(*it);
+    PointType pnt = this->GetObjectToWorldTransform()->TransformPoint(*itCorners);
     *itTrans = pnt;
-    ++it;
+    ++itCorners;
     ++itTrans;
     }
 
@@ -168,7 +167,7 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
       while ( it != itEnd )
         {
         bool equals = true;
-        for( unsigned int i=0; i<ObjectDimension; ++i )
+        for( unsigned int i=0; i<TDimension; ++i )
           {
           if( ! Math::AlmostEquals( transformedPoint[i],
               it->GetPositionInObjectSpace()[i] ) )

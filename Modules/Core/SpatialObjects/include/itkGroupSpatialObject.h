@@ -47,8 +47,6 @@ public:
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
   using ScalarType = double;
-  using TreeNodeType = typename Superclass::TreeNodeType;
-  using TreeNodeChildrenListType = typename TreeNodeType::ChildrenListType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

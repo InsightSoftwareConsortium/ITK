@@ -41,28 +41,6 @@ TubeSpatialObject< TDimension, TTubePointType >
   m_EndRounded = false; // default end-type is flat
 }
 
-/** Set the list of points composing the tube */
-template< unsigned int TDimension, typename TTubePointType >
-void
-TubeSpatialObject< TDimension, TTubePointType >
-::SetPoints(TubePointListType & points)
-{
-  // in this function, passing a null pointer as argument will
-  // just clear the list...
-  m_Points.clear();
-
-  typename PointListType::iterator it, end;
-  it = points.begin();
-  end = points.end();
-  while ( it != end )
-    {
-    m_Points.push_back(*it);
-    it++;
-    }
-
-  this->Modified();
-}
-
 /** Print the object */
 template< unsigned int TDimension, typename TTubePointType >
 void
@@ -84,8 +62,8 @@ TubeSpatialObject< TDimension, TTubePointType >
 {
   itkDebugMacro("Computing tube bounding box");
 
-  auto it  = m_Points.begin();
-  auto end = m_Points.end();
+  auto it  = Superclass::m_Points.begin();
+  auto end = Superclass::m_Points.end();
 
   if ( it == end )
     {
@@ -98,15 +76,15 @@ TubeSpatialObject< TDimension, TTubePointType >
   // Compute a bounding box in object space
   PointType tmpPt;
   typename BoundingBoxType::Pointer bb = BoundingBoxType::New();
-  for( unsigned int d=0; d<ObjectDimension; ++d )
+  for( unsigned int d=0; d<TDimension; ++d )
     {
-    tmpPt[d] = pnt[d] - ptRadius;
+    tmpPt[d] = pt[d] - ptRadius;
     }
   bb->SetMinimum(tmpPt);
 
-  for( unsigned int d=0; d<ObjectDimension; ++d )
+  for( unsigned int d=0; d<TDimension; ++d )
     {
-    tmpPt[d] = pnt[d] + ptRadius;
+    tmpPt[d] = pt[d] + ptRadius;
     }
   bb->SetMaximum(tmpPt);
 
@@ -115,15 +93,15 @@ TubeSpatialObject< TDimension, TTubePointType >
     {
     pt = it->GetPositionInObjectSpace();
     ptRadius = it->GetRadiusInObjectSpace();
-    for( unsigned int d=0; d<ObjectDimension; ++d )
+    for( unsigned int d=0; d<TDimension; ++d )
       {
-      tmpPt[d] = pnt[d] - ptRadius;
+      tmpPt[d] = pt[d] - ptRadius;
       }
     bb->ConsiderPoint(tmpPt);
 
-    for( unsigned int d=0; d<ObjectDimension; ++d )
+    for( unsigned int d=0; d<TDimension; ++d )
       {
-      tmpPt[d] = pnt[d] + ptRadius;
+      tmpPt[d] = pt[d] + ptRadius;
       }
     bb->ConsiderPoint(tmpPt);
 
@@ -140,13 +118,13 @@ TubeSpatialObject< TDimension, TTubePointType >
     static_cast<typename PointsContainer::ElementIdentifier>(
       corners->size() ) );
 
-  auto it = corners->begin();
+  auto itCorner = corners->begin();
   auto itTrans = transformedCorners->begin();
-  while ( it != corners->end() )
+  while ( itCorner != corners->end() )
     {
-    PointType pnt = this->GetObjectToWorldTransform()->TransformPoint(*it);
+    PointType pnt = this->GetObjectToWorldTransform()->TransformPoint(*itCorner);
     *itTrans = pnt;
-    ++it;
+    ++itCorner;
     ++itTrans;
     }
 
@@ -173,10 +151,10 @@ TubeSpatialObject< TDimension, TTubePointType >
       {
       double minSquareDist = 999999.0;
       double tempSquareDist;
-      auto it = m_Points.begin();
-      auto it2 = m_Points.begin();
-      auto end = m_Points.end();
-      typename PointListType::const_iterator min;
+      auto it = this->m_Points.begin();
+      auto it2 = this->m_Points.begin();
+      auto end = this->m_Points.end();
+      typename TubePointListType::const_iterator min;
 
       PointType transformedPoint = this->GetObjectToWorldTransform()->
         GetInverseTransform()->TransformPoint(point);
@@ -201,7 +179,7 @@ TubeSpatialObject< TDimension, TTubePointType >
 
           double lambda = A / B;
 
-          if ( ( ( it != m_Points.begin() )
+          if ( ( ( it != this->m_Points.begin() )
                  && ( lambda > -( ( *it ).GetRadiusInObjectSpace()
                      / ( 2 * std::sqrt(B) ) ) )
                  && ( lambda < 0 ) )
@@ -290,18 +268,18 @@ TubeSpatialObject< TDimension, TTubePointType >
 {
   int nPoints = 0;
 
-  auto it = m_Points.begin();
-  while( it != m_Points.end() )
+  auto it = this->m_Points.begin();
+  while( it != this->m_Points.end() )
     {
     PointType pnt = it->GetPositionInObjectSpace();
     ++it;
-    if( it != m_Points.end() )
+    if( it != this->m_Points.end() )
       {
       PointType pnt2 = it->GetPositionInObjectSpace();
       double dist = pnt.EuclideanDistanceTo( pnt2 );
       if ( dist <= minSpacingInObjectSpace )
         {
-        it = m_Points.erase( it );
+        it = this->m_Points.erase( it );
         nPoints++;
         --it;
         }
@@ -471,8 +449,8 @@ TubeSpatialObject< TDimension, TTubePointType >
   this->SetEndType( source->GetEndType() );
 
   // We copy the points
-  PointListType source_list = source->GetPoints();
-  typename PointListType::const_iterator it_source = source_list.begin();
+  TubePointListType source_list = source->GetPoints();
+  typename TubePointListType::const_iterator it_source = source_list.begin();
 
   this->m_Points.clear();
 
