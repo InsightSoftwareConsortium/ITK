@@ -55,7 +55,7 @@ public:
   using TransformType = typename Superclass::TransformType;
   using VectorType = typename Superclass::VectorType;
   using CovariantVectorType = typename Superclass::CovariantVectorType;
-
+  using BoundingBoxType = typename Superclass::BoundingBoxType;
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 

@@ -35,15 +35,14 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 
-template< unsigned int TPointDimension = 3,
-   class TSpatialObjectType = TubeSpatialObject< TPointDimension >  >
+template< unsigned int TPointDimension = 3>
 class ITK_TEMPLATE_EXPORT TubeSpatialObjectPoint:
-  public SpatialObjectPoint< TPointDimension, TSpatialObjectType >
+  public SpatialObjectPoint< TPointDimension >
 {
 public:
 
   using Self = TubeSpatialObjectPoint;
-  using Superclass = SpatialObjectPoint< TPointDimension, TSpatialObjectType >;
+  using Superclass = SpatialObjectPoint< TPointDimension >;
   using PointType = Point< double, TPointDimension >;
   using VectorType = Vector< double, TPointDimension >;
   using CovariantVectorType = CovariantVector< double, TPointDimension >;
@@ -108,12 +107,12 @@ public:
 
 protected:
 
-  VectorType          m_TInObjectSpace;
+  VectorType          m_TangentInObjectSpace;
   CovariantVectorType m_Normal1InObjectSpace;
   CovariantVectorType m_Normal2InObjectSpace;
 
   /** The radius of the tube point */
-  float m_RInObjectSpace;
+  float m_RadiusInObjectSpace;
 
   /** Print the object */
   void PrintSelf(std::ostream & os, Indent indent) const override;

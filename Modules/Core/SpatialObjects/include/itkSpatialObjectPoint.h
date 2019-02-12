@@ -24,6 +24,7 @@
 #include "vnl/vnl_vector_fixed.h"
 #include "itkRGBAPixel.h"
 
+
 namespace itk
 {
 /** \class SpatialObjectPoint
@@ -35,8 +36,10 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 
-template< unsigned int TPointDimension = 3,
-  class TSpatialObjectType = SpatialObject< TPointDimension> >
+template < unsigned int TDimension, class TSpatialObjectPointType>
+class PointBasedSpatialObject;
+
+template< unsigned int TPointDimension = 3>
 class ITK_TEMPLATE_EXPORT SpatialObjectPoint
 {
 public:
@@ -49,7 +52,7 @@ public:
 
   using Self = SpatialObjectPoint;
 
-  using SpatialObjectType = TSpatialObjectType;
+  using SpatialObjectType = PointBasedSpatialObject<TPointDimension, Self>;
 
   using PointType = Point< double, TPointDimension >;
   using VectorType = vnl_vector< double >;
@@ -142,7 +145,7 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** A unique ID assigned to this SpatialObjectPoint */
-  int m_ID;
+  int m_Id;
 
   /** Position of the point */
   PointType m_PositionInObjectSpace;

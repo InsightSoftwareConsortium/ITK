@@ -103,9 +103,10 @@ public:
 
   /** Returns true if the point is inside the tube, false otherwise. */
   bool IsInside(const PointType & point, unsigned int depth = 0,
-    const std::string & name) const override;
+    const std::string & name = "") const override;
 
-  void DeepCopy( const TubeSpatialObject * tube );
+
+  void DeepCopy( const DataObject * tube );
 
 protected:
   int m_ParentPoint;
