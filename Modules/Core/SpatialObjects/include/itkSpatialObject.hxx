@@ -23,6 +23,7 @@
 #include <algorithm>
 #include <string>
 #include "itkMath.h"
+#include "itkImageBase.h"
 
 namespace itk
 {
@@ -352,7 +353,7 @@ SpatialObject< TDimension >
   typename ChildrenListType::iterator it = m_ChildrenList.begin();
   while( it != m_ChildrenList.end() )
     {
-    Self * oldChild = (*it)->Get();
+    Self * oldChild = (*it);
     it = m_ChildrenList.erase( it );
     oldChild->SetParent( nullptr );
     if( depth > 0 )
@@ -379,8 +380,8 @@ SpatialObject< TDimension >
     throw e;
     }
 
-  m_ObjectToParentTransform->CopyInFixedParameters( transform );
-  m_ObjectToParentTransform->CopyInParameters( transform );
+  m_ObjectToParentTransform->SetFixedParameters( transform->GetFixedParameters() );
+  m_ObjectToParentTransform->SetParameters( transform->GetParameters() );
 
   ComputeObjectToWorldTransform();
 
@@ -398,10 +399,10 @@ void
 SpatialObject< TDimension >
 ::ComputeObjectToWorldTransform()
 {
-  m_ObjectToWorldTransform->CopyInFixedParameters(
-    this->GetObjectToParentTransform() );
-  m_ObjectToWorldTransform->CopyInParameters(
-    this->GetObjectToParentTransform() );
+  m_ObjectToWorldTransform->SetFixedParameters(
+    this->GetObjectToParentTransform()->GetFixedParameters() );
+  m_ObjectToWorldTransform->SetParameters(
+    this->GetObjectToParentTransform()->GetFixedParameters() );
   if( this->HasParent() )
     {
     m_ObjectToWorldTransform->Compose( this->GetParent()->
@@ -455,8 +456,8 @@ SpatialObject< TDimension >
     throw e;
     }
 
-  m_ObjectToWorldTransform->CopyInFixedParameters( transform );
-  m_ObjectToWorldTransform->CopyInParameters( transform );
+  m_ObjectToWorldTransform->SetFixedParameters(transform->GetFixedParameters());
+  m_ObjectToWorldTransform->SetParameters( transform->GetParameters());
 
   ComputeObjectToParentTransform();
 }
@@ -468,8 +469,8 @@ void
 SpatialObject< TDimension >
 ::ComputeObjectToParentTransform()
 {
-  m_ObjectToParentTransform->CopyInFixedParameters( m_ObjectToWorldTransform );
-  m_ObjectToParentTransform->CopyInParameters( m_ObjectToWorldTransform );
+  m_ObjectToParentTransform->SetFixedParameters( m_ObjectToWorldTransform->GetFixedParameters() );
+  m_ObjectToParentTransform->SetParameters( m_ObjectToWorldTransform->GetParameters() );
 
   if( this->HasParent() )
     {
@@ -1107,7 +1108,7 @@ SpatialObject< TDimension >
 ::SetRequestedRegion(const DataObject *data)
 {
   const auto * soData = dynamic_cast< const SpatialObject * >( data );
-  const auto * imgData = dynamic_cast< const ImageBase * >( data );
+  const auto * imgData = dynamic_cast< const ImageBase<TDimension> * >( data );
 
   if( soData != nullptr )
     {
