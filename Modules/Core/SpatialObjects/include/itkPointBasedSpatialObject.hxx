@@ -39,7 +39,7 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 ::~PointBasedSpatialObject() = default;
 
 
-/** Print Set Points from a list */
+/** Set Points from a list */
 template< unsigned int TDimension, class TSpatialObjectPointType >
 void
 PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
