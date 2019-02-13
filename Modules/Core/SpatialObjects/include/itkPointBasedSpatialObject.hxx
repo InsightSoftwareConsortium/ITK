@@ -154,7 +154,7 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 ::IsInside( const PointType & point, unsigned int depth,
     const std::string & name) const
 {
-  if( this->GetTypeName.find( name ) != std::string::npos )
+  if( this->GetTypeName().find( name ) != std::string::npos )
     {
     if( this->GetMyBoundingBox()->IsInside( point ) )
       {

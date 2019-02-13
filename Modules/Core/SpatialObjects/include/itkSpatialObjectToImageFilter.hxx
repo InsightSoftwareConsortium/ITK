@@ -292,8 +292,9 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
   InputObject->ComputeBoundingBox();
   for ( i = 0; i < ObjectDimension; i++ )
     {
-    size[i] = static_cast<SizeValueType>( InputObject->GetBoundingBox()->GetMaximum()[i]
-                                   - InputObject->GetBoundingBox()->GetMinimum()[i] );
+    size[i] = static_cast<SizeValueType>(
+      InputObject->GetMyBoundingBox()->GetMaximum()[i]
+      - InputObject->GetMyBoundingBox()->GetMinimum()[i] );
     }
 
   typename OutputImageType::IndexType index;

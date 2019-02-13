@@ -174,17 +174,15 @@ SpatialObjectProperty
   m_StringDictionary = dict;
 }
 
-SpatialObjectProperty::Self &
+void
 SpatialObjectProperty
-::operator=( const SpatialObjectProperty * rhs )
+::DeepCopy( const SpatialObjectProperty * rhs )
 {
   this->SetName( rhs->GetName() );
   this->SetColor( rhs->GetColor() );
 
   this->SetTagScalarDictionary( rhs->GetTagScalarDictionary() );
   this->SetTagStringDictionary( rhs->GetTagStringDictionary() );
-
-  return *this;
 }
 
 void

@@ -52,17 +52,19 @@ public:
 
   using Self = SpatialObjectPoint;
 
-  using SpatialObjectType = PointBasedSpatialObject<TPointDimension, Self>;
+  using SpatialObjectType = SpatialObject<TPointDimension>;
 
   using PointType = Point< double, TPointDimension >;
   using VectorType = vnl_vector< double >;
   using ColorType = RGBAPixel< float >;
 
   /** Set the SpatialObjectPoint Id. */
-  itkSetMacro( Id, int );
+  void Setid( int id )
+  { m_Id = id; }
 
   /** Get the SpatialObjectPoint Id. */
-  itkGetMacro( Id, int );
+  int GetId() const
+  { return m_Id; }
 
   /** Set the point object. */
   void SetPositionInObjectSpace(const PointType & newPositionInObjectSpace)
@@ -86,7 +88,8 @@ public:
   const PointType & GetPositionInObjectSpace() const
   { return m_PositionInObjectSpace; }
 
-  itkSetConstObjectMacro( SpatialObject, SpatialObjectType );
+  void SetSpatialObject( SpatialObjectType * so )
+  { m_SpatialObject = so; }
 
   /** Set the position in world coordinates, using the
    *    spatialObject's objectToWorld transform, inverse */
@@ -100,9 +103,11 @@ public:
   Self & operator=(const SpatialObjectPoint & rhs );
 
   /** Set/Get color of the point */
-  itkSetMacro( Color, ColorType );
-  itkGetMacro( Color, ColorType );
-  itkGetConstReferenceMacro( Color, ColorType );
+  void SetColor( ColorType color )
+  { m_Color = color; }
+
+  ColorType GetColor() const
+  { return m_Color; }
 
   /** Set the color */
   void SetColor(float r, float g, float b, float a = 1);
@@ -153,7 +158,7 @@ protected:
   /** Color of the point */
   ColorType m_Color;
 
-  const typename SpatialObjectType::Pointer m_SpatialObject;
+  typename SpatialObjectType::Pointer m_SpatialObject;
 };
 
 } // end of namespace itk

@@ -35,29 +35,6 @@ LineSpatialObject< TDimension >
   this->GetProperty()->SetAlpha(1);
 }
 
-/** Set the list of Line points. */
-template< unsigned int TDimension >
-void
-LineSpatialObject< TDimension >
-::SetPoints(PointListType & points)
-{
-  // in this function, passing a null pointer as argument will
-  // just clear the list...
-  m_Points.clear();
-
-  typename PointListType::iterator it, end;
-  it = points.begin();
-  end = points.end();
-  while ( it != end )
-    {
-    m_Points.push_back(*it);
-    it++;
-    }
-
-  this->ComputeBoundingBox();
-  this->Modified();
-}
-
 /** Print the object. */
 template< unsigned int TDimension >
 void
@@ -71,38 +48,6 @@ LineSpatialObject< TDimension >
   Superclass::PrintSelf(os, indent);
 }
 
-/** Compute the boundaries of the line. */
-template< unsigned int TDimension >
-bool
-LineSpatialObject< TDimension >
-::ComputeObjectBoundingBox() const
-{
-  auto it  = m_Points.begin();
-  auto end = m_Points.end();
-
-  if ( it == end )
-    {
-    return false;
-    }
-
-  PointType pt =  this->GetObjectToWorldTransform()->TransformPoint(
-    ( *it ).GetPosition() );
-  const_cast< BoundingBoxType * >( this->GetObjectBounds() )->SetMinimum(pt);
-  const_cast< BoundingBoxType * >( this->GetObjectBounds() )->SetMaximum(pt);
-  it++;
-
-  while ( it != end )
-    {
-    pt = this->GetObjectToWorldTransform()->TransformPoint(
-      ( *it ).GetPosition() );
-    const_cast< BoundingBoxType * >( this->GetObjectBounds() )->
-      ConsiderPoint(pt);
-    it++;
-    }
-
-  return true;
-}
-
 template< unsigned int TDimension >
 bool
 LineSpatialObject< TDimension >
@@ -114,17 +59,17 @@ LineSpatialObject< TDimension >
     auto it = m_Points.begin();
     auto itEnd = m_Points.end();
 
-    PointType transformedPoint = this->GetObjectToWorldTransform()->
-      GetInverse()->TransformPoint(point);
+    PointType transformedPoint = this->GetObjectToWorldTransform()
+      ->GetInverseTransform()->TransformPoint(point);
 
-    if ( this->GetObjectBounds()->IsInside(transformedPoint) )
+    if ( this->GetMyBoundingBox()->IsInside(transformedPoint) )
       {
       while ( it != itEnd )
         {
         bool match = true;
         for( unsigned int i=0; i<ObjectDimension; ++i )
           {
-          if ( ! Math::AlmostEquals( ( *it ).GetPosition()[i],
+          if ( ! Math::AlmostEquals( ( *it ).GetPositionInObjectSpace()[i],
                    transformedPoint[i] ) )
             {
             match = false;

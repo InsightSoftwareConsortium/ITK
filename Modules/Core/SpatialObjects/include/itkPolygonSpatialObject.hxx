@@ -38,9 +38,9 @@ PolygonSpatialObject< TDimension >
 }
 
 template< unsigned int TDimension >
-typename PolygonSpatialObject< TDimension >::PolygonGroupOrientation
+int
 PolygonSpatialObject< TDimension >
-::GetOrientation() const
+::GetOrientationInObjectSpace() const
 {
   if( m_OrientationMTime == this->GetObjectMTime() )
     {
@@ -48,7 +48,7 @@ PolygonSpatialObject< TDimension >
     }
   m_OrientationMTime = this->GetObjectMTime();
 
-  const PointListType & points = this->GetPoints();
+  const PolygonPointListType & points = this->GetPoints();
   auto it = points.begin();
   auto itend = points.end();
   PointType minPnt;
@@ -58,7 +58,7 @@ PolygonSpatialObject< TDimension >
   while ( it != itend )
     {
     PointType curpoint = this->GetObjectToWorldTransform()->TransformPoint(
-      ( *it ).GetPosition() );
+      ( *it ).GetPositionInObjectSpace() );
     for ( unsigned int i = 0; i < ObjectDimension; i++ )
       {
       if ( minPnt[i] > curpoint[i] )
@@ -95,12 +95,13 @@ PolygonSpatialObject< TDimension >
     }
   m_IsClosedMTime = this->GetObjectMTime();
 
-  const PointListType & points = this->GetPoints();
+  const PolygonPointListType & points = this->GetPoints();
 
   auto it = points.begin();
   auto itend = points.end();
   itend--;
-  return ( *it ).GetPosition() == ( *itend ).GetPosition();
+  return ( *it ).GetPositionInObjectSpace() ==
+    ( *itend ).GetPositionInObjectSpace();
 }
 
 template< unsigned int TDimension >
@@ -139,17 +140,15 @@ PolygonSpatialObject< TDimension >
       }
     }
 
-  const PointListType & points = this->GetPoints();
+  const PolygonPointListType & points = this->GetPoints();
   auto it = points.begin();
   PointType a;
-  PointType b = this->GetObjectToWorldTransform()->TransformPoint(
-    ( *it ).GetPosition() );
+  PointType b = ( *it ).GetPosition();  // In world space
   for ( int i = 0; i < numpoints; i++ )
     {
     a = b;
     it++;
-    b = this->GetObjectToWorldTransform()->TransformPoint(
-      ( *it ).GetPosition() );
+    b = ( *it ).GetPosition();  // In world space
 
     // closed PolygonGroup has first and last points the same
     if ( a == b )
@@ -182,19 +181,17 @@ PolygonSpatialObject< TDimension >
     {
     return 0;
     }
-  const PointListType & points = this->GetPoints();
+  const PolygonPointListType & points = this->GetPoints();
 
   auto it = points.begin();
 
   PointType a;
-  PointType b = this->GetObjectToWorldTransform()->TransformPoint(
-    ( *it ).GetPosition() );
+  PointType b = ( *it ).GetPosition();  // In world space
   for ( int i = 0; i < numpoints; i++ )
     {
     a = b;
     it++;
-    b = this->GetObjectToWorldTransform()->TransformPoint(
-      ( *it ).GetPosition() );
+    b = ( *it ).GetPosition();  // In world space
 
     // closed PolygonGroup has first and last points the same
     if ( a == b )
@@ -215,7 +212,7 @@ PolygonSpatialObject< TDimension >
 {
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    if( this->IsClosed() && this->GetObjectBounds()->IsInside( worldPoint ) )
+    if( this->IsClosed() && this->GetMyBoundingBox()->IsInside( worldPoint ) )
       {
       int    numpoints = this->GetNumberOfPoints();
       int    X = -1;
@@ -242,22 +239,22 @@ PolygonSpatialObject< TDimension >
         PointType transformedPoint = this->GetObjectToWorldTransform()->
           GetInverseTransform()->TransformPoint( worldPoint );
 
-        const PointListType & points = this->GetPoints();
+        const PolygonPointListType & points = this->GetPoints();
         auto it = points.begin();
         auto itend = points.end();
         itend--;
 
-        PointType first = ( *it ).GetPosition();
+        PointType first = ( *it ).GetPositionInObjectSpace();
 
         bool oddNodes = false;
 
         PointType node1;
-        PointType node2 = ( *it ).GetPosition();
+        PointType node2 = ( *it ).GetPositionInObjectSpace();
         for ( int i = 0; i < numpoints; i++ )
           {
           node1 = node2;
           it++;
-          node2 = ( *it ).GetPosition();
+          node2 = ( *it ).GetPositionInObjectSpace();
 
           if( node1 == node2 )
             {

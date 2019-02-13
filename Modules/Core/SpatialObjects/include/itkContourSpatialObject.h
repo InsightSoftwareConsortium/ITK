@@ -51,11 +51,10 @@ public:
 
   using ScalarType = double;
 
-  using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;
-  using SpatialObjectPointListType = typename
-    Superclass::SpatialObjectPointListType;
+  using ContourPointType = typename SpatialObjectPoint< TDimension >;
+  using ContourPointListType = std::vector< ContourPointType >;
 
-  using PointType = typename Superclass::SpatialObjectPointType;
+  using PointType = typename Superclass::PointType;
   using TransformType = typename Superclass::TransformType;
   using BoundingBoxType = typename Superclass::BoundingBoxType;
   using PointContainerType = VectorContainer< IdentifierType, PointType >;
@@ -74,18 +73,18 @@ public:
   itkTypeMacro(ContourSpatialObject, PointBasedSpatialObject);
 
   /** Returns a reference to the list of the control points. */
-  SpatialObjectPointListType & GetControlPoints();
+  ContourPointListType & GetControlPoints()
   { return m_ControlPoints; }
 
   /** Returns a reference to the list of the control points. */
-  const SpatialObjectPointListType & GetControlPoints() const;
+  const ContourPointListType & GetControlPoints() const
   { return m_ControlPoints; }
 
   /** Set the list of control points. */
-  void SetControlPoints(SpatialObjectPointListType & newPoints);
+  void SetControlPoints(ContourPointListType & newPoints);
 
   /** Return a control point in the list given the index */
-  const SpatialObjectPointType * GetControlPoint(IdentifierType id) const
+  const ContourPointType * GetControlPoint(IdentifierType id) const
   { return &( m_ControlPoints[id] ); }
 
   /** Return a control point in the list given the index */
@@ -122,7 +121,7 @@ public:
   itkGetConstMacro(Orientation, int);
 
   /** Set the slice attached to the contour.
-   *   Set -1 to indicate no attachment */ if any.
+   *   Set -1 to indicate no attachment */
   itkSetMacro(AttachedToSlice, int);
 
   /** Get the slice attached to the contour.
@@ -133,7 +132,8 @@ public:
   void Update();
 
 protected:
-  ControlPointListType      m_ControlPoints;
+
+  ContourPointListType      m_ControlPoints;
 
   InterpolationMethodType   m_InterpolationMethod;
   unsigned int              m_InterpolationFactor;

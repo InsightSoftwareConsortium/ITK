@@ -42,7 +42,8 @@ GaussianSpatialObject< TDimension >
 ::SquaredZScore(const PointType & point) const
 {
   PointType transformedPoint =
-    this->GetObjectToWorldTransform()->GetInverse()->TransformPoint(point);
+    this->GetObjectToWorldTransform()->GetInverseTransform()
+      ->TransformPoint(point);
 
   ScalarType r = 0;
   for ( unsigned int i = 0; i < TDimension; i++ )
@@ -66,7 +67,7 @@ GaussianSpatialObject< TDimension >
     return false;
     }
 
-  if ( !this->GetObjectBounds()->IsInside(point) )
+  if ( !this->GetMyBoundingBox()->IsInside(point) )
     {
     return false;
     }
@@ -100,7 +101,7 @@ GaussianSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 GaussianSpatialObject< TDimension >
-::ComputeObjectBoundingBox() const
+::ComputeMyBoundingBox() const
 {
   itkDebugMacro("Computing Guassian bounding box");
 
@@ -141,9 +142,9 @@ GaussianSpatialObject< TDimension >
     }
 
   // refresh the bounding box with the transformed corners
-  const_cast< BoundingBoxType * >( this->GetObjectBounds() )
+  const_cast< BoundingBoxType * >( this->GetMyBoundingBox() )
     ->SetPoints(transformedCorners);
-  this->GetObjectBounds()->ComputeBoundingBox();
+  this->GetMyBoundingBox()->ComputeBoundingBox();
 
   return true;
 }
@@ -152,8 +153,8 @@ GaussianSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 GaussianSpatialObject< TDimension >
-::ValueAt(const PointType & point, ScalarType & value, unsigned int depth,
-          char *name) const
+::ValueAt(const PointType & point, double & value, unsigned int depth,
+    const std::string & name) const
 {
   itkDebugMacro("Getting the value of the ellipse at " << point);
   if( this->GetTypeName().find( name ) != std::string::npos )
@@ -168,7 +169,10 @@ GaussianSpatialObject< TDimension >
 
   if( depth > 0 )
     {
-    return Superclass::ValueAtChildren(point, value, depth-1, name);
+    if( Superclass::ValueAtChildren(point, value, depth-1, name) )
+      {
+      return true;
+      }
     }
 
   value = this->GetDefaultOutsideValue();
@@ -193,7 +197,7 @@ GaussianSpatialObject< TDimension >
   ellipse->GetObjectToWorldTransform()->SetParameters(
     this->GetObjectToWorldTransform()->GetParameters() );
 
-  ellipse->ComputeObjectBoundingBox();
+  ellipse->ComputeMyBoundingBox();
 
   return ellipse;
 }
