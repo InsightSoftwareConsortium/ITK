@@ -41,7 +41,7 @@ namespace itk
 
 template< unsigned int TDimension = 3 >
 class ITK_TEMPLATE_EXPORT LineSpatialObject:
-  public PointBasedSpatialObject<  TDimension >
+  public PointBasedSpatialObject<  TDimension, SpatialObjectPoint< TDimension> >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LineSpatialObject);
@@ -50,10 +50,12 @@ public:
   using Superclass = PointBasedSpatialObject< TDimension >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
+
   using ScalarType = double;
+
   using LinePointType = LineSpatialObjectPoint< TDimension >;
-  using PointListType = std::vector< LinePointType >;
-  using ConstPointListType = const PointListType;
+  using LinePointListType = std::vector< LinePointType >;
+
   using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;
   using PointType = typename Superclass::PointType;
   using TransformType = typename Superclass::TransformType;
@@ -67,39 +69,12 @@ public:
   /** Method for creation through the object factory. */
   itkTypeMacro(LineSpatialObject, PointBasedSpatialObject);
 
-  /** Returns a reference to the list of the Line points. */
-  PointListType & GetPoints()
-  { return m_Points; }
-
-  ConstPointListType & GetPoints() const
-  { return m_Points; }
-
-  /** Set the list of line points. */
-  void SetPoints(PointListType & newPoints);
-
-  /** Return a point in the list given the index */
-  const SpatialObjectPointType * GetPoint(IdentifierType id) const override
-  { return &( m_Points[id] ); }
-
-  /** Return a point in the list given the index */
-  SpatialObjectPointType * GetPoint(IdentifierType id) override
-  { return &( m_Points[id] ); }
-
-  /** Return the number of points in the list */
-  SizeValueType GetNumberOfPoints() const override
-  { return static_cast<SizeValueType>( m_Points.size() ); }
-
   /** Returns true if the line is evaluable at the requested point,
    *  false otherwise. */
   bool IsInside(const PointType & point, unsigned int depth = 0,
    const std::string & name = nullptr) const override;
 
-  /** Compute the boundaries of the line. */
-  bool ComputeObjectBoundingBox() const override;
-
 protected:
-  PointListType m_Points;
-
   LineSpatialObject();
   ~LineSpatialObject() override;
 

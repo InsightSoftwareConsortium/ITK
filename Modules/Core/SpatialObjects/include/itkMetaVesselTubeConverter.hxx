@@ -47,7 +47,7 @@ MetaVesselTubeConverter< NDimensions >
     itkExceptionMacro(<< "Can't convert MetaObject to MetaVesselTube" );
     }
 
-  VesselTubeSpatialObjectPointer
+  TubeSpatialObjectPointer
     vesselTubeSO = VesselTubeSpatialObjectType::New();
   double spacing[NDimensions];
 
@@ -62,12 +62,19 @@ MetaVesselTubeConverter< NDimensions >
   vesselTubeSO->SetParentPoint( vesselTubeMO->ParentPoint() );
   vesselTubeSO->SetId( vesselTubeMO->ID() );
   vesselTubeSO->SetRoot( vesselTubeMO->Root() );
-  vesselTubeSO->SetArtery( vesselTubeMO->Artery() );
   vesselTubeSO->SetParentId( vesselTubeMO->ParentID() );
   vesselTubeSO->GetProperty()->SetRed(vesselTubeMO->Color()[0]);
   vesselTubeSO->GetProperty()->SetGreen(vesselTubeMO->Color()[1]);
   vesselTubeSO->GetProperty()->SetBlue(vesselTubeMO->Color()[2]);
   vesselTubeSO->GetProperty()->SetAlpha(vesselTubeMO->Color()[3]);
+  if( vesselTubeMO->Artery() )
+    {
+    vesselTubeSO->GetProperty()->SetTagStringValue( "Artery", "true" );
+    }
+  else
+    {
+    vesselTubeSO->GetProperty()->SetTagStringValue( "Artery", "false" );
+    }
 
   using VesselTubePointType = itk::VesselTubeSpatialObjectPoint< NDimensions >;
 
@@ -204,7 +211,15 @@ MetaVesselTubeConverter< NDimensions >
   vesselTubeMO->Color(color);
   vesselTubeMO->ID( vesselTubeSO->GetId() );
   vesselTubeMO->Root( vesselTubeSO->GetRoot() );
-  vesselTubeMO->Artery( vesselTubeSO->GetArtery() );
+  if( vesselTubeSO->GetProperty()->GetTagStringValue( "Artery" ) == "True" )
+    {
+    vesselTubeMO->Artery( true );
+    }
+  else
+    {
+    vesselTubeMO->Artery( false );
+    }
+
 
   if ( vesselTubeSO->GetParent() )
     {

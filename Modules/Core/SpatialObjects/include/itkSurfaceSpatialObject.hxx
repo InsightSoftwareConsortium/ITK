@@ -78,7 +78,7 @@ SurfaceSpatialObject< TDimension >
     {
     // Try to find 3 points close to the corresponding point
     SurfacePointType pt = *it;
-    PointType        pos = ( *it ).GetPosition();
+    PointType        pos = ( *it ).GetPositionInObjectSpace();
 
     std::list< int > badId;
     unsigned int     identifier[3];
@@ -125,14 +125,14 @@ SurfaceSpatialObject< TDimension >
           continue;
           }
 
-        PointType pos2 = ( *it2 ).GetPosition();
+        PointType pos2 = ( *it2 ).GetPositionInObjectSpace();
         float  distance = pos2.EuclideanDistance( pos );
 
         // Check that the point is not the same as some previously defined
         bool valid = true;
         for (auto & j : identifier)
           {
-          PointType p = m_Points[j].GetPosition();
+          PointType p = m_Points[j].GetPositionInObjectSpace();
           float     d = pos2.EuclideanDistance( p );
           if ( Math::AlmostEquals( d, 0.0f ) )
             {
@@ -182,9 +182,9 @@ SurfaceSpatialObject< TDimension >
         return false;
         }
 
-      PointType v1 = m_Points[identifier[0]].GetPosition();
-      PointType v2 = m_Points[identifier[1]].GetPosition();
-      PointType v3 = m_Points[identifier[2]].GetPosition();
+      PointType v1 = m_Points[identifier[0]].GetPositionInObjectSpace();
+      PointType v2 = m_Points[identifier[1]].GetPositionInObjectSpace();
+      PointType v3 = m_Points[identifier[2]].GetPositionInObjectSpace();
 
       double coa = -( v1[1] * ( v2[2] - v3[2] )
                       + v2[1] * ( v3[2] - v1[2] )
@@ -209,7 +209,7 @@ SurfaceSpatialObject< TDimension >
         normal[0] = coa / absvec;
         normal[1] = cob / absvec;
         normal[2] = coc / absvec;
-        ( *it ).SetNormal(normal);
+        ( *it ).SetNormalInObjectSpace(normal);
         }
       }
     while ( ( Math::AlmostEquals( absvec, 0.0 ) )

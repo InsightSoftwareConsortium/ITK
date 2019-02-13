@@ -51,10 +51,10 @@ MeshSpatialObject< TMesh >
 {
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    if( this->GetObjectBoundingBox().IsInside( point ) )
+    if( this->GetMyBoundingBox().IsInside( point ) )
       {
       PointType transformedPoint = this->GetObjectToWorldTransform()->
-        GetInverse()->TransformPoint(point);
+        GetInverseTransform()->TransformPoint(point);
 
       typename MeshType::CellsContainerPointer cells =  m_Mesh->GetCells();
       typename MeshType::CellsContainer::ConstIterator it = cells->Begin();
@@ -104,14 +104,14 @@ MeshSpatialObject< TMesh >
 template< typename TMesh >
 bool
 MeshSpatialObject< TMesh >
-::ComputeObjectBoundingBox() const
+::ComputeMyBoundingBox() const
 {
   PointType pnt1;
   PointType pnt2;
   for ( unsigned int i = 0; i < ObjectDimension; i++ )
     {
-    pnt1[i] = m_Mesh->GetBoundingBox()->GetBounds()[2 * i];
-    pnt2[i] = m_Mesh->GetBoundingBox()->GetBounds()[2 * i + 1];
+    pnt1[i] = m_Mesh->GetBoundingBox()->GetBoundingBox()[2 * i];
+    pnt2[i] = m_Mesh->GetBoundingBox()->GetBoundingBox()[2 * i + 1];
     }
 
   pnt1 = this->GetObjectToWorldTransform()->TransformPoint(pnt1);
@@ -143,9 +143,9 @@ MeshSpatialObject< TMesh >
     }
 
   // refresh the bounding box with the transformed corners
-  const_cast< BoundingBoxType * >( this->GetObjectBounds() )
+  const_cast< BoundingBoxType * >( this->GetMyBoundingBox() )
     ->SetPoints(transformedCorners);
-  this->GetObjectBounds()->ComputeBoundingBox();
+  this->GetMyBoundingBox()->ComputeBoundingBox();
 
   return true;
 }

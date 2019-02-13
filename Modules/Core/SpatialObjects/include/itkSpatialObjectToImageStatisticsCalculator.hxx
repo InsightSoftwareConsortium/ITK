@@ -153,13 +153,14 @@ SpatialObjectToImageStatisticsCalculator< TInputImage, TInputSpatialObject, TSam
     // Get the bounding box
     typename SpatialObjectType::BoundingBoxType::Pointer boundingBox;
     m_SpatialObject->ComputeBoundingBox();
-    boundingBox = m_SpatialObject->GetBoundingBox();
+    boundingBox = m_SpatialObject->GetMyBoundingBox();
 
     Point< double, Self::ObjectDimension > pt;
     for ( unsigned int i = 0; i < Self::ObjectDimension; i++ )
       {
-      pt[i] =
-        boundingBox->GetBounds()[i * 2] + ( boundingBox->GetBounds()[i * 2 + 1] - boundingBox->GetBounds()[i * 2] ) / 2;
+      pt[i] = boundingBox->GetBounds()[i * 2]
+        + ( boundingBox->GetBounds()[i * 2 + 1]
+          - boundingBox->GetBounds()[i * 2] ) / 2;
       }
 
     IndexType index;

@@ -75,7 +75,7 @@ public:
     const std::string & name="") const override;
 
   /** Compute the boundaries of the iamge spatial object. */
-  bool ComputeObjectBoundingBox() const override;
+  bool ComputeMyBoundingBox() const override;
 
   /** Returns the latest modified time of the object and its component. */
   ModifiedTimeType GetMTime() const override;

@@ -113,7 +113,6 @@ public:
   using RegionType = ImageRegion< VDimension >;
 
   using PropertyType = SpatialObjectProperty;
-  using PropertyPointer = typename PropertyType::Pointer;
 
   /* These are needed to participate in a Pipeline */
   using IndexType = Index< VDimension >;
@@ -141,13 +140,15 @@ public:
   virtual std::string GetClassNameAndDimension( void ) const;
 
   /** Set the property applied to the object. */
-  void SetProperty(PropertyType *property);
+  void SetProperty( const PropertyType * property )
+  { m_Property->DeepCopy( property ); }
 
   /** Returns a pointer to the property object applied to this class. */
-  PropertyType * GetProperty();
+  PropertyType * GetProperty()
+  { return m_Property.GetPointer(); }
 
   const PropertyType * GetProperty() const
-  { return m_Property; }
+  { return m_Property.GetPointer(); }
 
   /** Returns the latest modified time of the spatial object, and
    * any of its components. */
@@ -165,7 +166,7 @@ public:
 
   /** This defines the transformation from the global coordinate frame.
    *  By setting this transform, the object transform is updated */
-  void SetObjectToWorldTransform(TransformType *transform);
+  void SetObjectToWorldTransform( const TransformType * transform);
   itkGetModifiableObjectMacro(ObjectToWorldTransform, TransformType);
 
   /** Compute the World transform when the local transform is set
@@ -175,7 +176,7 @@ public:
 
   /** Transforms points from the object-specific "physical" space
    * to the "physical" space of its parent object.  */
-  void SetObjectToParentTransform(TransformType *transform);
+  void SetObjectToParentTransform( const TransformType *transform);
   TransformType * GetObjectToParentTransform();
   const TransformType * GetObjectToParentTransform() const;
 
@@ -498,7 +499,7 @@ private:
   /** Type of spatial object */
   std::string     m_TypeName;
 
-  PropertyPointer m_Property;
+  typename PropertyType::Pointer m_Property;
 
   int             m_ParentId;
   Self *          m_Parent;

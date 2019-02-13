@@ -48,14 +48,14 @@ ImageMaskSpatialObject< TDimension >
 {
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    if( this->GetObjectBounds()->IsInside(point) )
+    if( this->GetMyBoundingBox()->IsInside(point) )
       {
-      PointType p = this->GetObjectWorldTransform()->GetInverse()->
+      PointType p = this->GetObjectToWorldTransform()->GetInverseTransform()->
         TransformPoint(point);
 
       typename Superclass::InterpolatorType::ContinuousIndexType index;
-      bool inside_image = m_Image->TransformPhysicalPointToIndex( p,
-      index );
+      bool inside_image = m_Image->TransformPhysicalPointToContinuousIndex( p,
+        index );
       if( inside_image ){
           using InterpolatorOutputType = typename InterpolatorType::OutputType;
           bool insideMask = (
@@ -72,7 +72,7 @@ ImageMaskSpatialObject< TDimension >
     }
   if( depth > 0 )
     {
-    return Superclass( point, depth, name );
+    return Superclass::IsInsideChildren( point, depth, name );
     }
 
   return false;
@@ -81,21 +81,23 @@ ImageMaskSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 ImageMaskSpatialObject< TDimension >
-::ComputeObjectBoundingBox() const
+::ComputeMyBoundingBox() const
 {
   using IteratorType = ImageRegionConstIteratorWithIndex< ImageType >;
-  IteratorType it( image, image->GetLargestPossibleRegion() );
-  IteratorType prevIt( image, image->GetLargestPossibleRegion() );
+  IteratorType it( m_Image, m_Image->GetLargestPossibleRegion() );
+  IteratorType prevIt( m_Image, m_Image->GetLargestPossibleRegion() );
   it.GoToBegin();
   prevIt = it;
 
+  // TODO: Could be made faster by computing BB in object space and
+  //   then transforming its corners to world space.
   bool first = true;
   PixelType outsideValue = NumericTraits< PixelType >::ZeroValue();
   PixelType value = outsideValue;
   PixelType prevValue = outsideValue;
   IndexType tmpIndex;
   PointType tmpPoint;
-  PointType transformedPoint
+  PointType transformedPoint;
   while ( !it.IsAtEnd() )
     {
     value = it.Get();
@@ -110,21 +112,21 @@ ImageMaskSpatialObject< TDimension >
         {
         tmpIndex = it.GetIndex();
         }
-      image->TransformIndexToPhysicalPoint( tmpIndex, tmpPoint );
+      m_Image->TransformIndexToPhysicalPoint( tmpIndex, tmpPoint );
       transformedPoint =
-        this->GetObjectToWorldTransform()->Transform( tmpPoint );
+        this->GetObjectToWorldTransform()->TransformPoint( tmpPoint );
       if( first )
         {
         first = false;
-        this->GetObjectBounds()->SetMinimum( transformedPoint );
-        this->GetObjectBounds()->SetMaximum( transformedPoint );
+        this->GetMyBoundingBox()->SetMinimum( transformedPoint );
+        this->GetMyBoundingBox()->SetMaximum( transformedPoint );
         }
       else
         {
-        this->GetObjectBounds()->ConsiderPoint( transformedPoint );
+        this->GetMyBoundingBox()->ConsiderPoint( transformedPoint );
         }
       }
-    itPrev = it;
+    prevIt = it;
     ++it;
     }
 
@@ -134,8 +136,8 @@ ImageMaskSpatialObject< TDimension >
       NumericTraits< typename BoundingBoxType::PointType::ValueType >::
       ZeroValue() );
 
-    this->GetObjectBounds()->SetMinimum( transformedPoint );
-    this->GetObjectBounds()->SetMaximum( transformedPoint );
+    this->GetMyBoundingBox()->SetMinimum( transformedPoint );
+    this->GetMyBoundingBox()->SetMaximum( transformedPoint );
 
     return false;
     }

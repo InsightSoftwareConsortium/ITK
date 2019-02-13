@@ -50,11 +50,11 @@ ContourSpatialObject< TDimension >
 template< unsigned int TDimension >
 void
 ContourSpatialObject< TDimension >
-::SetControlPoints(ControlPointListType & points)
+::SetControlPoints(ContourPointListType & points)
 {
   m_ControlPoints.clear();
 
-  typename ControlPointListType::iterator it, end;
+  typename ContourPointListType::iterator it, end;
   it = points.begin();
   while ( it != points.end() )
     {
@@ -119,8 +119,8 @@ ContourSpatialObject< TDimension >
             break;
             }
           }
-        PointType pnt = it->GetPosition();
-        PointType pnt2 = it2->GetPosition();
+        PointType pnt = it->GetPositionInObjectSpace();
+        PointType pnt2 = it2->GetPositionInObjectSpace();
         PointType step;
         for( unsigned int d=0; d<ObjectDimension; ++d )
           {
