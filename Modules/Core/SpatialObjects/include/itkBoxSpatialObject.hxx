@@ -115,7 +115,7 @@ BoxSpatialObject< TDimension >
 template< unsigned int TDimension >
 void
 BoxSpatialObject< TDimension >
-::Update() const
+::Update()
 {
   itkDebugMacro("BoxSpatialObject: Update");
 
@@ -159,7 +159,7 @@ BoxSpatialObject< TDimension >
 }
 
 template< unsigned int TDimension >
-const PointType &
+const typename BoxSpatialObject<TDimension>::PointType &
 BoxSpatialObject< TDimension >
 ::GetCorner( unsigned int cornerNumber ) const
 {

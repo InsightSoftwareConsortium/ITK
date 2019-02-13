@@ -35,10 +35,10 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 
-template< unsigned int TDimension = 3,
-  class TSpatialObjectPointType = SurfaceSpatialObjectPoint< TDimension > >
+template< unsigned int TDimension = 3 >
 class ITK_TEMPLATE_EXPORT SurfaceSpatialObject:
-  public PointBasedSpatialObject<  TDimension, TSurfaceObjectPointType >
+  public PointBasedSpatialObject<  TDimension,
+    SurfaceSpatialObjectPoint< TDimension > >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SurfaceSpatialObject);
@@ -50,7 +50,7 @@ public:
 
   using ScalarType = double;
 
-  using SurfacePointType = TSurfaceObjectPointType;
+  using SurfacePointType = SpatialObjectPoint< TDimension >;
   using SurfacePointListType = std::vector< SurfacePointType >;
 
   using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;

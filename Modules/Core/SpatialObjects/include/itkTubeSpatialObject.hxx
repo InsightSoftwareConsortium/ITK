@@ -36,7 +36,6 @@ TubeSpatialObject< TDimension, TTubePointType >
   this->GetProperty()->SetAlpha(1);
 
   m_Root = false;
-  m_Artery = true;
   m_ParentPoint = -1;
   m_EndRounded = false; // default end-type is flat
 }
@@ -57,6 +56,7 @@ TubeSpatialObject< TDimension, TTubePointType >
   os << indent << "End Type : " << m_EndRounded << std::endl;
   os << indent << "Parent Point : " << m_ParentPoint << std::endl;
   os << indent << "Root : " << m_Root << std::endl;
+
   Superclass::PrintSelf(os, indent);
 }
 
@@ -68,8 +68,8 @@ TubeSpatialObject< TDimension, TTubePointType >
 {
   itkDebugMacro("Computing tube bounding box");
 
-  auto it  = Superclass::m_Points.begin();
-  auto end = Superclass::m_Points.end();
+  auto it  = this->m_Points.begin();
+  auto end = this->m_Points.end();
 
   if ( it == end )
     {
@@ -160,7 +160,7 @@ TubeSpatialObject< TDimension, TTubePointType >
       auto it = this->m_Points.begin();
       auto it2 = this->m_Points.begin();
       auto end = this->m_Points.end();
-      typename TubePointListType::const_iterator min;
+      auto minIt = it;
 
       PointType transformedPoint = this->GetObjectToWorldTransform()->
         GetInverseTransform()->TransformPoint(point);
@@ -244,13 +244,13 @@ TubeSpatialObject< TDimension, TTubePointType >
           if ( tempSquareDist <= minSquareDist )
             {
             minSquareDist = tempSquareDist;
-            min = it;
+            minIt = it;
             }
           it++;
           }
 
         double dist = std::sqrt(minSquareDist);
-        if ( dist <= ( ( *min ).GetRadius() ) )
+        if ( dist <= ( minIt->GetRadius() ) )
           {
           return true;
           }
@@ -315,7 +315,7 @@ TubeSpatialObject< TDimension, TTubePointType >
 
   if ( length == 1 )
     {
-    ( (TubePointType *)( this->GetPoint(0) ) )->SetTangent(t);
+    ( (TubePointType *)( this->GetPoint(0) ) )->SetTangentInObjectSpace(t);
     return true;
     }
 
@@ -325,8 +325,8 @@ TubeSpatialObject< TDimension, TTubePointType >
 
   while ( it3 < (unsigned int)length )
     {
-    x1 = this->GetPoint(it1)->GetPosition();
-    x3 = this->GetPoint(it3)->GetPosition();
+    x1 = this->GetPoint(it1)->GetPositionInObjectSpace();
+    x3 = this->GetPoint(it3)->GetPositionInObjectSpace();
     l = 0;
     for ( unsigned int i = 0; i < TDimension; i++ )
       {
@@ -349,7 +349,7 @@ TubeSpatialObject< TDimension, TTubePointType >
       t[i] /= l;
       }
 
-    ( (TubePointType *)( this->GetPoint(it2) ) )->SetTangent(t);
+    ( (TubePointType *)( this->GetPoint(it2) ) )->SetTangentInObjectSpace(t);
     it1++;
     it2++;
     it3++;
@@ -357,12 +357,12 @@ TubeSpatialObject< TDimension, TTubePointType >
 
   it1 = 0;
   it2 = 1;
-  t = ( (TubePointType *)( this->GetPoint(it2) ) )->GetTangent();
-  ( (TubePointType *)( this->GetPoint(it1) ) )->SetTangent(t);
+  t = ( (TubePointType *)( this->GetPoint(it2) ) )->GetTangentInObjectSpace();
+  ( (TubePointType *)( this->GetPoint(it1) ) )->SetTangentInObjectSpace(t);
   it1 = length - 1;
   it2 = length - 2;
-  t = ( (TubePointType *)( this->GetPoint(it2) ) )->GetTangent();
-  ( (TubePointType *)( this->GetPoint(it1) ) )->SetTangent(t);
+  t = ( (TubePointType *)( this->GetPoint(it2) ) )->GetTangentInObjectSpace();
+  ( (TubePointType *)( this->GetPoint(it1) ) )->SetTangentInObjectSpace(t);
 
   // Compute the normal
   CovariantVectorType n1;
@@ -371,14 +371,14 @@ TubeSpatialObject< TDimension, TTubePointType >
   it1 = 0;
   while ( it1 < (unsigned int)length )
     {
-    t = ( (TubePointType *)( this->GetPoint(it1) ) )->GetTangent();
+    t = ( (TubePointType *)( this->GetPoint(it1) ) )->GetTangentInObjectSpace();
 
     if ( TDimension == 2 )
       {
-      t = ( (TubePointType *)( this->GetPoint(it1) ) )->GetTangent();
+      t = ( (TubePointType *)( this->GetPoint(it1) ) )->GetTangentInObjectSpace();
       n1[0] = -t[1];
       n1[1] = t[0];
-      ( (TubePointType *)( this->GetPoint(it1) ) )->SetNormal1(n1);
+      ( (TubePointType *)( this->GetPoint(it1) ) )->SetNormal1InObjectSpace(n1);
       }
     else if ( TDimension == 3 )
       {
@@ -397,8 +397,8 @@ TubeSpatialObject< TDimension, TTubePointType >
       n2[1] = t[2] * n1[0] - t[0] * n1[2];
       n2[2] = t[0] * n1[1] - t[1] * n1[0];
 
-      ( (TubePointType *)( this->GetPoint(it1) ) )->SetNormal1(n1);
-      ( (TubePointType *)( this->GetPoint(it1) ) )->SetNormal2(n2);
+      ( (TubePointType *)( this->GetPoint(it1) ) )->SetNormal1InObjectSpace(n1);
+      ( (TubePointType *)( this->GetPoint(it1) ) )->SetNormal2InObjectSpace(n2);
       }
 
     it1++;
@@ -406,24 +406,24 @@ TubeSpatialObject< TDimension, TTubePointType >
 
   it1 = 0;
   it2 = 1;
-  n1 = ( (TubePointType *)( this->GetPoint(it2) ) )->GetNormal1();
-  ( (TubePointType *)( this->GetPoint(it1) ) )->SetNormal1(n1);
+  n1 = ( (TubePointType *)( this->GetPoint(it2) ) )->GetNormal1InObjectSpace();
+  ( (TubePointType *)( this->GetPoint(it1) ) )->SetNormal1InObjectSpace(n1);
 
   if ( TDimension == 3 )
     {
-    n2 = ( (TubePointType *)( this->GetPoint(it2) ) )->GetNormal2();
-    ( (TubePointType *)( this->GetPoint(it1) ) )->SetNormal2(n2);
+    n2 = ( (TubePointType *)( this->GetPoint(it2) ) )->GetNormal2InObjectSpace();
+    ( (TubePointType *)( this->GetPoint(it1) ) )->SetNormal2InObjectSpace(n2);
     }
 
   it1 = length - 1;
   it2 = length - 2;
-  n1 = ( (TubePointType *)( this->GetPoint(it2) ) )->GetNormal1();
-  ( (TubePointType *)( this->GetPoint(it1) ) )->SetNormal1(n1);
+  n1 = ( (TubePointType *)( this->GetPoint(it2) ) )->GetNormal1InObjectSpace();
+  ( (TubePointType *)( this->GetPoint(it1) ) )->SetNormal1InObjectSpace(n1);
 
   if ( TDimension == 3 )
     {
-    n2 = ( (TubePointType *)( this->GetPoint(it2) ) )->GetNormal2();
-    ( (TubePointType *)( this->GetPoint(it1) ) )->SetNormal2(n2);
+    n2 = ( (TubePointType *)( this->GetPoint(it2) ) )->GetNormal2InObjectSpace();
+    ( (TubePointType *)( this->GetPoint(it1) ) )->SetNormal2InObjectSpace(n2);
     }
 
   return true;
@@ -450,7 +450,6 @@ TubeSpatialObject< TDimension, TTubePointType >
 
   // copy the internal info
   this->SetRoot( source->GetRoot() );
-  this->SetArtery( source->GetArtery() );
   this->SetParentPoint( source->GetParentPoint() );
   this->SetEndType( source->GetEndType() );
 
@@ -463,6 +462,7 @@ TubeSpatialObject< TDimension, TTubePointType >
   while ( it_source != source_list.end() )
     {
     this->m_Points.push_back(*it_source);
+    this->m_Points.back()->SetSpatialObject( this );
     it_source++;
     }
 }

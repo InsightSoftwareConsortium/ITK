@@ -45,7 +45,7 @@ namespace itk
 template< unsigned int TDimension = 3 >
 class ITK_TEMPLATE_EXPORT BlobSpatialObject:
   public PointBasedSpatialObject<  TDimension,
-           BlobSpatialObjectPoint< TDimension > >
+           SpatialObjectPoint< TDimension > >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BlobSpatialObject);
@@ -57,7 +57,7 @@ public:
 
   using ScalarType = double;
 
-  using BlobPointType = BlobSpatialObjectPoint< TDimension >;
+  using BlobPointType = SpatialObjectPoint< TDimension >;
   using BlobPointListType = std::vector< BlobPointType >;
 
   using PointType = typename Superclass::PointType;

@@ -29,7 +29,7 @@ namespace itk
  */
 template< unsigned int TDimension = 3 >
 class ITK_TEMPLATE_EXPORT PolygonSpatialObject:
-  public PointBasedSpatialObject< TDimension >
+  public PointBasedSpatialObject< TDimension, SpatialObjectPoint< TDimension > >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PolygonSpatialObject);
@@ -38,9 +38,12 @@ public:
   using Superclass = PointBasedSpatialObject< TDimension >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
+
+  using PolygonPointType = SpatialObjectPoint< TDimension >;
+  using PolygonPointListType = std::vector< PolygonPointType >;
+
   using PointType = typename Superclass::PointType;
   using TransformType = typename Superclass::TransformType;
-  using PointListType = typename Superclass::PointListType;
   using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -49,8 +52,7 @@ public:
   itkTypeMacro(PolygonSpatialObject, PointBasedSpatialObject);
 
   /** Method returning plane alignment of strand */
-  typename PolygonSpatialObject< TDimension >::PolygonGroupOrientation
-  GetOrientation() const;
+  int GetOrientation() const;
 
   /** Method sets the thickness of the current strand */
   itkSetMacro(Thickness, double);

@@ -89,7 +89,7 @@ public:
   void SetTagStringDictionary( const std::map< std::string,
     std::string > & dict );
 
-  Self & operator=(const SpatialObjectProperty * rhs );
+  void DeepCopy(const SpatialObjectProperty * rhs );
 
   itkGetConstMacro( MTime, ModifiedTimeType );
 

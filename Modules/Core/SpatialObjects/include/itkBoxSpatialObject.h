@@ -78,7 +78,7 @@ public:
   void Update() override;
 
   const PointType & GetCorner( unsigned int cornerNumber ) const;
-  itkGetConstObjectMacro(Corners, PointsContainerType) const;
+  itkGetConstObjectMacro(Corners, PointsContainerType);
 
   /** Test whether a point is inside or outside the object */
   bool IsInside(const PointType & point, unsigned int depth = 0,
@@ -102,7 +102,7 @@ protected:
 
   /** world space */
   PointType m_Position;
-  typename PointContainer::Pointer m_Corners;
+  typename PointsContainerType::Pointer m_Corners;
 
   /** Print the object informations in a stream. */
   void PrintSelf(std::ostream & os, Indent indent) const override;

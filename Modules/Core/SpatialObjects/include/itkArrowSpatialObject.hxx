@@ -97,10 +97,10 @@ ArrowSpatialObject< TDimension >
     {
     if ( this->GetMyBounds()->IsInside(point) )
       {
-      PointType transformedPoint =
-        this->GetObjectToWorldTransform()->GetInverse()->TransformPoint(point);
+      PointType transformedPoint = this->GetObjectToWorldTransform()
+        ->GetInverseTransform()->TransformPoint(point);
 
-      PointType pnt = this->GetPosition();
+      PointType pnt = this->GetPositionInObjectSpace();
       PointType pnt2;
       for ( unsigned int i = 0; i < TDimension; i++ )
         {

@@ -43,7 +43,6 @@ template< unsigned int TDimension, typename PixelType >
 ImageSpatialObject< TDimension,  PixelType >
 ::~ImageSpatialObject()
 {
-  delete[] m_SlicePosition;
 }
 
 /** Set the interpolator */
@@ -70,7 +69,8 @@ ImageSpatialObject< TDimension,  PixelType >
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
     PointType transformedPoint =
-      this->GetObjectToWorldTransform()->GetInverse()->TransformPoint(point);
+      this->GetObjectToWorldTransform()->GetInverseTransform()
+        ->TransformPoint(point);
 
     IndexType index;
     bool isInside = m_Image->TransformPhysicalPointToIndex( transformedPoint,
@@ -107,19 +107,18 @@ ImageSpatialObject< TDimension,  PixelType >
     if( IsEvaluableAt(point, 0, name) )
       {
       PointType transformedPoint = this->GetObjectToWorldTransform()->
-        GetInverse()->TransformPoint( point );
+        GetInverseTransform()->TransformPoint( point );
 
-      IndexType index;
-      bool isInside = m_Image->TransformPhysicalPointToIndex( transformedPoint,
-        index );
+      ContinuousIndexType cIndex;
+      bool isInside = m_Image->TransformPhysicalPointToContinuousIndex(
+        transformedPoint, cIndex );
 
       if( isInside )
         {
         using InterpolatorOutputType = typename InterpolatorType::OutputType;
-          index[i] = p[i];
         value = static_cast< double >(
           DefaultConvertPixelTraits< InterpolatorOutputType >::GetScalarValue(
-            m_Interpolator->EvaluateAtContinuousIndex(index) ) );
+            m_Interpolator->EvaluateAtContinuousIndex(cIndex) ) );
 
         return true;
         }
@@ -175,21 +174,22 @@ ImageSpatialObject< TDimension,  PixelType >
   while ( it != indexSpaceCorners->end() )
     {
     IndexType ind;
-    for (unsigned int i = 0; i < TDimensions; i++){
+    for (unsigned int i = 0; i < TDimension; i++){
         ind[i] = (*it)[i];
     }
     PointType objectSpacePoint;
-    m_Image->TransformIndexToPhysicalSpace(ind, objectSpacePoint);
-    PointType pnt = this->GetObjectToWorldTransform()->TransformPoint(objectSpacePoint);
+    m_Image->TransformIndexToPhysicalPoint(ind, objectSpacePoint);
+    PointType pnt = this->GetObjectToWorldTransform()
+      ->TransformPoint(objectSpacePoint);
     *itTrans = pnt;
     ++it;
     ++itTrans;
     }
 
   // refresh the bounding box with the transformed corners
-  const_cast< BoundingBoxType * >( this->GetObjectBounds() )
+  const_cast< BoundingBoxType * >( this->GetMyBoundingBox() )
     ->SetPoints(transformedCorners);
-  this->GetObjectBounds()->ComputeBoundingBox();
+  this->GetMyBoundingBox()->ComputeBoundingBox();
 
   return true;
 }
