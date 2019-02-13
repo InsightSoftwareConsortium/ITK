@@ -131,8 +131,8 @@ PolygonGroupSpatialObjectXMLFileReader::EndElement(const char *name)
         s = endptr;
         }
       }
-    PointType p;
-    p.SetPosition(pval);
+    PolygonPointType p;
+    p.SetPositionInObjectSpace(pval);
     m_CurPointList.push_back(p);
     }
   else if ( itksys::SystemTools::Strucmp(name, "POLYGON") == 0 )
@@ -246,21 +246,24 @@ PolygonGroupSpatialObjectXMLFileWriter::WriteFile()
 
   //
   // Write out polygondata
-  PolygonGroupType::ChildrenListType *children =
-    m_InputObject->GetChildren(0, nullptr);
+  GroupType::ChildrenListType *children =
+    m_InputObject->GetChildren(GroupType::MaximumDepth, "PolygonSpatialObject");
   auto it = children->begin();
   auto end = children->end();
   while ( it != end )
     {
     WriteStartElement("POLYGON", output);
     output << std::endl;
-    auto * curstrand = dynamic_cast< PolygonSpatialObjectType * >( ( *it ).GetPointer() );
-    PolygonSpatialObjectType::PointListType &         points = curstrand->GetPoints();
-    auto pointIt = points.begin();
-    auto pointItEnd = points.end();
+    auto * curstrand = dynamic_cast< PolygonSpatialObjectType * >(
+      ( *it ).GetPointer() );
+    PolygonSpatialObjectType::PolygonPointListType & polygonPoints =
+      curstrand->GetPoints();
+    auto pointIt = polygonPoints.begin();
+    auto pointItEnd = polygonPoints.end();
     while ( pointIt != pointItEnd )
       {
-      PolygonSpatialObjectType::PointType curpoint = ( *pointIt ).GetPosition();
+      PolygonSpatialObjectType::PointType curpoint =
+        ( *pointIt ).GetPositionInObjectSpace();
       WriteStartElement("POINT", output);
       output << curpoint[0] << " " << curpoint[1] << " "  << curpoint[2];
       WriteEndElement("POINT", output);
