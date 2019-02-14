@@ -30,14 +30,14 @@ ContourSpatialObject< TDimension >
 {
   this->SetTypeName("ContourSpatialObject");
 
-  this->GetProperty()->SetRed(1);
-  this->GetProperty()->SetGreen(0);
-  this->GetProperty()->SetBlue(0);
-  this->GetProperty()->SetAlpha(1);
+  this->GetProperty().SetRed(1);
+  this->GetProperty().SetGreen(0);
+  this->GetProperty().SetBlue(0);
+  this->GetProperty().SetAlpha(1);
 
   m_InterpolationMethod = NO_INTERPOLATION;
   m_IsClosed = false;
-  m_Orientation = -1;
+  m_OrientationInObjectSpace = -1;
   m_AttachedToSlice = -1;
 }
 
@@ -71,7 +71,8 @@ ContourSpatialObject< TDimension >
      << static_cast< SizeValueType >( m_ControlPoints.size() ) << std::endl;
   os << indent << "Interpolation type: " << m_InterpolationMethod << std::endl;
   os << indent << "Contour closed: " << m_IsClosed << std::endl;
-  os << indent << "Display Orientation : " << m_Orientation << std::endl;
+  os << indent << "Orientation In Object Space: " << m_OrientationInObjectSpace
+    << std::endl;
   os << indent << "Pin to slice : " << m_AttachedToSlice << std::endl;
   Superclass::PrintSelf(os, indent);
 }

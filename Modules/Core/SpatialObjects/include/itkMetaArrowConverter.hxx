@@ -60,13 +60,13 @@ MetaArrowConverter< NDimensions >
   arrowSO->SetDirectionInObjectSpace(direction);
 
   // convert the other fields
-  arrowSO->GetProperty()->SetName( metaArrow->Name() );
+  arrowSO->GetProperty().SetName( metaArrow->Name() );
   arrowSO->SetId( metaArrow->ID() );
   arrowSO->SetParentId( metaArrow->ParentID() );
-  arrowSO->GetProperty()->SetRed(metaArrow->Color()[0]);
-  arrowSO->GetProperty()->SetGreen(metaArrow->Color()[1]);
-  arrowSO->GetProperty()->SetBlue(metaArrow->Color()[2]);
-  arrowSO->GetProperty()->SetAlpha(metaArrow->Color()[3]);
+  arrowSO->GetProperty().SetRed(metaArrow->Color()[0]);
+  arrowSO->GetProperty().SetGreen(metaArrow->Color()[1]);
+  arrowSO->GetProperty().SetBlue(metaArrow->Color()[2]);
+  arrowSO->GetProperty().SetAlpha(metaArrow->Color()[3]);
 
   return arrowSO.GetPointer();
 }
@@ -112,10 +112,10 @@ MetaArrowConverter< NDimensions >
   mo->Length(metaLength);
   mo->ID( arrowSO->GetId() );
 
-  mo->Color( arrowSO->GetProperty()->GetRed(),
-                arrowSO->GetProperty()->GetGreen(),
-                arrowSO->GetProperty()->GetBlue(),
-                arrowSO->GetProperty()->GetAlpha() );
+  mo->Color( arrowSO->GetProperty().GetRed(),
+                arrowSO->GetProperty().GetGreen(),
+                arrowSO->GetProperty().GetBlue(),
+                arrowSO->GetProperty().GetAlpha() );
 
   return mo;
 }

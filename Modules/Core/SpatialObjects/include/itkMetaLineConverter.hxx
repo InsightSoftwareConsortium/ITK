@@ -53,13 +53,13 @@ MetaLineConverter< NDimensions >
     spacing[ii] = lineMO->ElementSpacing()[ii];
     }
   lineSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  lineSO->GetProperty()->SetName( lineMO->Name() );
+  lineSO->GetProperty().SetName( lineMO->Name() );
   lineSO->SetId( lineMO->ID() );
   lineSO->SetParentId( lineMO->ParentID() );
-  lineSO->GetProperty()->SetRed(lineMO->Color()[0]);
-  lineSO->GetProperty()->SetGreen(lineMO->Color()[1]);
-  lineSO->GetProperty()->SetBlue(lineMO->Color()[2]);
-  lineSO->GetProperty()->SetAlpha(lineMO->Color()[3]);
+  lineSO->GetProperty().SetRed(lineMO->Color()[0]);
+  lineSO->GetProperty().SetGreen(lineMO->Color()[1]);
+  lineSO->GetProperty().SetBlue(lineMO->Color()[2]);
+  lineSO->GetProperty().SetAlpha(lineMO->Color()[3]);
 
   using LinePointType = itk::LineSpatialObjectPoint< NDimensions >;
 
@@ -162,7 +162,7 @@ MetaLineConverter< NDimensions >
   float color[4];
   for ( unsigned int ii = 0; ii < 4; ii++ )
     {
-    color[ii] = lineSO->GetProperty()->GetColor()[ii];
+    color[ii] = lineSO->GetProperty().GetColor()[ii];
     }
 
   lineMO->Color(color);

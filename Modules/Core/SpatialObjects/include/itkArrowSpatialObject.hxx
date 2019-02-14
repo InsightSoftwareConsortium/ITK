@@ -28,10 +28,10 @@ ArrowSpatialObject< TDimension >
 ::ArrowSpatialObject()
 {
   this->SetTypeName("ArrowSpatialObject");
-  this->GetProperty()->SetRed(1);
-  this->GetProperty()->SetGreen(0);
-  this->GetProperty()->SetBlue(0);
-  this->GetProperty()->SetAlpha(1);
+  this->GetProperty().SetRed(1);
+  this->GetProperty().SetGreen(0);
+  this->GetProperty().SetBlue(0);
+  this->GetProperty().SetAlpha(1);
 
   m_DirectionInObjectSpace.Fill(0);
   m_DirectionInObjectSpace[0] = 1; // along the x direction by default

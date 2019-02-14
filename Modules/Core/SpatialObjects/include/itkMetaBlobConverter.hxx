@@ -53,13 +53,13 @@ MetaBlobConverter< NDimensions >
     }
 
   blob->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  blob->GetProperty()->SetName( Blob->Name() );
+  blob->GetProperty().SetName( Blob->Name() );
   blob->SetId( Blob->ID() );
   blob->SetParentId( Blob->ParentID() );
-  blob->GetProperty()->SetRed(Blob->Color()[0]);
-  blob->GetProperty()->SetGreen(Blob->Color()[1]);
-  blob->GetProperty()->SetBlue(Blob->Color()[2]);
-  blob->GetProperty()->SetAlpha(Blob->Color()[3]);
+  blob->GetProperty().SetRed(Blob->Color()[0]);
+  blob->GetProperty().SetGreen(Blob->Color()[1]);
+  blob->GetProperty().SetBlue(Blob->Color()[2]);
+  blob->GetProperty().SetAlpha(Blob->Color()[3]);
 
   using BlobPointType = itk::SpatialObjectPoint< NDimensions >;
 
@@ -140,7 +140,7 @@ MetaBlobConverter< NDimensions >
   float color[4];
   for ( unsigned int ii = 0; ii < 4; ii++ )
     {
-    color[ii] = spatialObject->GetProperty()->GetColor()[ii];
+    color[ii] = spatialObject->GetProperty().GetColor()[ii];
     }
 
   Blob->Color(color);

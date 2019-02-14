@@ -58,13 +58,13 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
     spacing[i] = _mesh->ElementSpacing()[i];
     }
   meshSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  meshSO->GetProperty()->SetName( _mesh->Name() );
+  meshSO->GetProperty().SetName( _mesh->Name() );
   meshSO->SetId( _mesh->ID() );
   meshSO->SetParentId( _mesh->ParentID() );
-  meshSO->GetProperty()->SetRed(_mesh->Color()[0]);
-  meshSO->GetProperty()->SetGreen(_mesh->Color()[1]);
-  meshSO->GetProperty()->SetBlue(_mesh->Color()[2]);
-  meshSO->GetProperty()->SetAlpha(_mesh->Color()[3]);
+  meshSO->GetProperty().SetRed(_mesh->Color()[0]);
+  meshSO->GetProperty().SetGreen(_mesh->Color()[1]);
+  meshSO->GetProperty().SetBlue(_mesh->Color()[2]);
+  meshSO->GetProperty().SetAlpha(_mesh->Color()[3]);
 
   // Create a new Mesh
   typename MeshType::Pointer mesh = MeshType::New();

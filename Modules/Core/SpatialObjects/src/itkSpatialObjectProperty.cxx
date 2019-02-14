@@ -25,8 +25,6 @@ namespace itk
 SpatialObjectProperty
 ::SpatialObjectProperty()
 {
-  m_MTime = 0;
-
   m_Color.SetRed(1);
   m_Color.SetGreen(1);
   m_Color.SetBlue(1);
@@ -38,9 +36,6 @@ SpatialObjectProperty
   m_StringDictionary.clear();
 }
 
-SpatialObjectProperty
-::~SpatialObjectProperty() = default;
-
 void
 SpatialObjectProperty
 ::SetColor(double r, double g, double b)
@@ -48,7 +43,6 @@ SpatialObjectProperty
   m_Color.SetRed(r);
   m_Color.SetGreen(g);
   m_Color.SetBlue(b);
-  this->Modified();
 }
 
 void
@@ -56,7 +50,6 @@ SpatialObjectProperty
 ::SetRed(double r)
 {
   m_Color.SetRed(r);
-  this->Modified();
 }
 
 double
@@ -71,7 +64,6 @@ SpatialObjectProperty
 ::SetGreen(double g)
 {
   m_Color.SetGreen(g);
-  this->Modified();
 }
 
 double
@@ -86,7 +78,6 @@ SpatialObjectProperty
 ::SetBlue(double b)
 {
   m_Color.SetBlue(b);
-  this->Modified();
 }
 
 double
@@ -101,7 +92,6 @@ SpatialObjectProperty
 ::SetAlpha(double a)
 {
   m_Color.SetAlpha(a);
-  this->Modified();
 }
 
 double
@@ -174,22 +164,25 @@ SpatialObjectProperty
   m_StringDictionary = dict;
 }
 
-void
+SpatialObjectProperty::Self &
 SpatialObjectProperty
-::DeepCopy( const SpatialObjectProperty * rhs )
+::operator=( const SpatialObjectProperty & rhs )
 {
-  this->SetName( rhs->GetName() );
-  this->SetColor( rhs->GetColor() );
+  if( this != &rhs )
+    {
+    this->SetName( rhs.GetName() );
+    this->SetColor( rhs.GetColor() );
 
-  this->SetTagScalarDictionary( rhs->GetTagScalarDictionary() );
-  this->SetTagStringDictionary( rhs->GetTagStringDictionary() );
+    this->SetTagScalarDictionary( rhs.GetTagScalarDictionary() );
+    this->SetTagStringDictionary( rhs.GetTagStringDictionary() );
+    }
+  return *this;
 }
 
 void
 SpatialObjectProperty
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os, indent);
   os << indent << "Name: " << m_Name << std::endl;
   os << indent << "RGBA: " << m_Color.GetRed() << " " << m_Color.GetGreen()
     << " " << m_Color.GetBlue() << " " << m_Color.GetAlpha() << std::endl;
@@ -197,7 +190,6 @@ SpatialObjectProperty
     << std::endl;
   os << indent << "StringDictionary size: " << m_StringDictionary.size()
     << std::endl;
-  os << indent << "MTime: " << m_MTime << std::endl;
 }
 } // end of namespace itk
 
