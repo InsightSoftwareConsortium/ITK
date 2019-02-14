@@ -125,24 +125,37 @@ runRieszRotationMatrixInterfaceWithRieszFrequencyFilterBankGeneratorTest()
     std::cout << images[i]->GetLargestPossibleRegion() << std::endl;
   }
 
+  bool                   multiplyWithSomethingPassed = true;
   std::vector<PixelType> inputVector(M, 0);
   inputVector[0] = 1;
   inputVector[1] = 2;
   inputVector[2] = 3;
-  auto vectorRotated = S.MultiplyWithVector(inputVector);
+  auto                   vectorRotated = S.MultiplyWithVector(inputVector);
+  std::vector<PixelType> expectedMultiplyResult(M, 0);
+  expectedMultiplyResult[0] = 3;
+  expectedMultiplyResult[1] = -2;
+  expectedMultiplyResult[2] = 1;
+  for (unsigned int i = 0; i < M; ++i)
+  {
+    if (!itk::Math::FloatAlmostEqual(vectorRotated[i], expectedMultiplyResult[i]))
+    {
+      std::cout << "vectorRotated not equal!: ";
+      std::cout << vectorRotated[i] << " != " << expectedMultiplyResult[i] << std::endl;
+      multiplyWithSomethingPassed = false;
+    }
+  }
 
   itk::VariableSizeMatrix<PixelType> inputColumnMatrix(M, 1);
   inputColumnMatrix.GetVnlMatrix()(0, 0) = 1;
   inputColumnMatrix.GetVnlMatrix()(1, 0) = 2;
   inputColumnMatrix.GetVnlMatrix()(2, 0) = 3;
   auto columnMatrixRotated = S.MultiplyWithColumnMatrix(inputColumnMatrix);
-  bool multiplyWithSomethingPassed = true;
   for (unsigned int i = 0; i < M; ++i)
   {
-    if (!itk::Math::FloatAlmostEqual(inputVector[i], columnMatrixRotated.GetVnlMatrix()(i, 0)))
+    if (!itk::Math::FloatAlmostEqual(columnMatrixRotated.GetVnlMatrix()(i, 0), expectedMultiplyResult[i]))
     {
-      std::cout << "Not Equal!: ";
-      std::cout << inputVector[i] << " != " << columnMatrixRotated.GetVnlMatrix()(i, 0) << std::endl;
+      std::cout << "columnMatrixRotated not Equal!: ";
+      std::cout << columnMatrixRotated.GetVnlMatrix()(i, 0) << " != " << expectedMultiplyResult[i] << std::endl;
       multiplyWithSomethingPassed = false;
     }
   }
