@@ -57,13 +57,13 @@ MetaEllipseConverter< NDimensions >
 
   ellipseSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
   ellipseSO->SetRadius(radius);
-  ellipseSO->GetProperty()->SetName( ellipseMO->Name() );
+  ellipseSO->GetProperty().SetName( ellipseMO->Name() );
   ellipseSO->SetId( ellipseMO->ID() );
   ellipseSO->SetParentId( ellipseMO->ParentID() );
-  ellipseSO->GetProperty()->SetRed(ellipseMO->Color()[0]);
-  ellipseSO->GetProperty()->SetGreen(ellipseMO->Color()[1]);
-  ellipseSO->GetProperty()->SetBlue(ellipseMO->Color()[2]);
-  ellipseSO->GetProperty()->SetAlpha(ellipseMO->Color()[3]);
+  ellipseSO->GetProperty().SetRed(ellipseMO->Color()[0]);
+  ellipseSO->GetProperty().SetGreen(ellipseMO->Color()[1]);
+  ellipseSO->GetProperty().SetBlue(ellipseMO->Color()[2]);
+  ellipseSO->GetProperty().SetAlpha(ellipseMO->Color()[3]);
 
   return ellipseSO.GetPointer();
 }
@@ -97,10 +97,10 @@ MetaEllipseConverter< NDimensions >
   ellipseMO->Radius(radius);
   ellipseMO->ID( ellipseSO->GetId() );
 
-  ellipseMO->Color( ellipseSO->GetProperty()->GetRed(),
-                  ellipseSO->GetProperty()->GetGreen(),
-                  ellipseSO->GetProperty()->GetBlue(),
-                  ellipseSO->GetProperty()->GetAlpha() );
+  ellipseMO->Color( ellipseSO->GetProperty().GetRed(),
+                  ellipseSO->GetProperty().GetGreen(),
+                  ellipseSO->GetProperty().GetBlue(),
+                  ellipseSO->GetProperty().GetAlpha() );
 
   for ( unsigned int i = 0; i < NDimensions; i++ )
     {

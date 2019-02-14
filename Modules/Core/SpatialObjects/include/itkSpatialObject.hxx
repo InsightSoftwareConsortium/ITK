@@ -46,8 +46,6 @@ SpatialObject< TDimension >
   m_MyBoundingBox->SetMinimum(pnt);
   m_MyBoundingBox->SetMaximum(pnt);
 
-  m_Property = PropertyType::New();
-
   m_ObjectToWorldTransform = TransformType::New();
   m_ObjectToWorldTransform->SetIdentity();
   m_ObjectToParentTransform = TransformType::New();
@@ -280,7 +278,7 @@ SpatialObject< TDimension >
      << std::endl;
   os << std::endl << std::endl;
   os << "Object properties: " << std::endl;
-  os << m_Property << std::endl;
+  m_Property.Print( std::cout );
 }
 
 /** Get the bounds of the object */

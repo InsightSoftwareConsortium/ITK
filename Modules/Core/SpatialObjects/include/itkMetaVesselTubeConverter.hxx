@@ -54,22 +54,22 @@ MetaVesselTubeConverter< NDimensions >
     }
 
   vesselTubeSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  vesselTubeSO->GetProperty()->SetName( vesselTubeMO->Name() );
+  vesselTubeSO->GetProperty().SetName( vesselTubeMO->Name() );
   vesselTubeSO->SetParentPoint( vesselTubeMO->ParentPoint() );
   vesselTubeSO->SetId( vesselTubeMO->ID() );
   vesselTubeSO->SetRoot( vesselTubeMO->Root() );
   vesselTubeSO->SetParentId( vesselTubeMO->ParentID() );
-  vesselTubeSO->GetProperty()->SetRed(vesselTubeMO->Color()[0]);
-  vesselTubeSO->GetProperty()->SetGreen(vesselTubeMO->Color()[1]);
-  vesselTubeSO->GetProperty()->SetBlue(vesselTubeMO->Color()[2]);
-  vesselTubeSO->GetProperty()->SetAlpha(vesselTubeMO->Color()[3]);
+  vesselTubeSO->GetProperty().SetRed(vesselTubeMO->Color()[0]);
+  vesselTubeSO->GetProperty().SetGreen(vesselTubeMO->Color()[1]);
+  vesselTubeSO->GetProperty().SetBlue(vesselTubeMO->Color()[2]);
+  vesselTubeSO->GetProperty().SetAlpha(vesselTubeMO->Color()[3]);
   if( vesselTubeMO->Artery() )
     {
-    vesselTubeSO->GetProperty()->SetTagStringValue( "Artery", "true" );
+    vesselTubeSO->GetProperty().SetTagStringValue( "Artery", "true" );
     }
   else
     {
-    vesselTubeSO->GetProperty()->SetTagStringValue( "Artery", "false" );
+    vesselTubeSO->GetProperty().SetTagStringValue( "Artery", "false" );
     }
 
   using VesselTubePointType = itk::VesselTubeSpatialObjectPoint< NDimensions >;
@@ -201,13 +201,13 @@ MetaVesselTubeConverter< NDimensions >
   float color[4];
   for ( unsigned int ii = 0; ii < 4; ii++ )
     {
-    color[ii] = vesselTubeSO->GetProperty()->GetColor()[ii];
+    color[ii] = vesselTubeSO->GetProperty().GetColor()[ii];
     }
 
   vesselTubeMO->Color(color);
   vesselTubeMO->ID( vesselTubeSO->GetId() );
   vesselTubeMO->Root( vesselTubeSO->GetRoot() );
-  if( vesselTubeSO->GetProperty()->GetTagStringValue( "Artery" ) == "True" )
+  if( vesselTubeSO->GetProperty().GetTagStringValue( "Artery" ) == "True" )
     {
     vesselTubeMO->Artery( true );
     }

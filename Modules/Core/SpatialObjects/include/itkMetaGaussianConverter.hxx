@@ -56,13 +56,13 @@ MetaGaussianConverter< NDimensions >
   gaussianSO->SetMaximum(metaGaussian->Maximum());
   gaussianSO->SetRadius(metaGaussian->Radius());
   gaussianSO->SetSigma(metaGaussian->Sigma());
-  gaussianSO->GetProperty()->SetName( metaGaussian->Name());
+  gaussianSO->GetProperty().SetName( metaGaussian->Name());
   gaussianSO->SetId(metaGaussian->ID());
   gaussianSO->SetParentId( metaGaussian->ParentID() );
-  gaussianSO->GetProperty()->SetRed(metaGaussian->Color()[0]);
-  gaussianSO->GetProperty()->SetGreen(metaGaussian->Color()[1]);
-  gaussianSO->GetProperty()->SetBlue(metaGaussian->Color()[2]);
-  gaussianSO->GetProperty()->SetAlpha(metaGaussian->Color()[3]);
+  gaussianSO->GetProperty().SetRed(metaGaussian->Color()[0]);
+  gaussianSO->GetProperty().SetGreen(metaGaussian->Color()[1]);
+  gaussianSO->GetProperty().SetBlue(metaGaussian->Color()[2]);
+  gaussianSO->GetProperty().SetAlpha(metaGaussian->Color()[3]);
 
   return gaussianSO.GetPointer();
 }
@@ -90,10 +90,10 @@ MetaGaussianConverter< NDimensions >
   metaGaussian->Sigma(gaussianSO->GetSigma());
   metaGaussian->ID(gaussianSO->GetId());
   metaGaussian->BinaryData(true);
-  metaGaussian->Color(gaussianSO->GetProperty()->GetRed(),
-    gaussianSO->GetProperty()->GetGreen(),
-    gaussianSO->GetProperty()->GetBlue(),
-    gaussianSO->GetProperty()->GetAlpha());
+  metaGaussian->Color(gaussianSO->GetProperty().GetRed(),
+    gaussianSO->GetProperty().GetGreen(),
+    gaussianSO->GetProperty().GetBlue(),
+    gaussianSO->GetProperty().GetAlpha());
 
   for ( unsigned int i = 0; i < NDimensions; i++ )
     {

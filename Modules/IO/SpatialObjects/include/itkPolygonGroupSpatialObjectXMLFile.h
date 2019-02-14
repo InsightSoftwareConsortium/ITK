@@ -25,9 +25,6 @@
 
 namespace itk
 {
-/* 3D Polygon Groups only ones that make sense for this data type */
-using GroupSpatialObjectType = GroupSpatialObject< 3 >;
-
 /** \class PolygonGroupSpatialObjectXMLFileReader
  *
  * Reads an XML-format file containing a list of polygons, and
@@ -35,15 +32,17 @@ using GroupSpatialObjectType = GroupSpatialObject< 3 >;
  * \ingroup ITKIOSpatialObjects
  */
 class PolygonGroupSpatialObjectXMLFileReader:
-  public XMLReader< GroupSpatialObjectType >
+  public XMLReader< GroupSpatialObject< 3 > >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PolygonGroupSpatialObjectXMLFileReader);
 
   /** Standard type alias */
   using Self = PolygonGroupSpatialObjectXMLFileReader;
-  using Superclass = XMLReader< GroupSpatialObjectType >;
+  using Superclass = XMLReader< GroupSpatialObject< 3 > >;
   using Pointer = SmartPointer< Self >;
+
+  using GroupSpatialObjectType = GroupSpatialObject< 3 >;
 
   using GroupType = GroupSpatialObjectType;
   using PolygonSpatialObjectType = PolygonSpatialObject< 3 >;
@@ -84,13 +83,13 @@ private:
  * \ingroup ITKIOSpatialObjects
  */
 class PolygonGroupSpatialObjectXMLFileWriter:
-  public XMLWriterBase< GroupSpatialObjectType >
+  public XMLWriterBase< GroupSpatialObject<3> >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PolygonGroupSpatialObjectXMLFileWriter);
 
   /** standard type alias */
-  using Superclass = XMLWriterBase< GroupSpatialObjectType >;
+  using Superclass = XMLWriterBase< GroupSpatialObject<3> >;
   using Self = PolygonGroupSpatialObjectXMLFileWriter;
   using Pointer = SmartPointer< Self >;
 
@@ -100,8 +99,11 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(PolygonGroupSpatialObjectXMLFileWriter,
                XMLWriterBase< GroupSpatialObjectType > );
-  using GroupType = GroupSpatialObjectType;
+
+  using GroupType = GroupSpatialObject<3>;
+
   using PolygonSpatialObjectType = PolygonSpatialObject< 3 >;
+
   /** Test whether a file is writable. */
   int CanWriteFile(const char *name) override;
 

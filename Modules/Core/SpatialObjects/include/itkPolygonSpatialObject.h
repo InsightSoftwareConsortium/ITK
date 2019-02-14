@@ -52,7 +52,7 @@ public:
   itkTypeMacro(PolygonSpatialObject, PointBasedSpatialObject);
 
   /** Method returning plane alignment of strand */
-  int GetOrientation() const;
+  int GetOrientationInObjectSpace() const;
 
   /** Method sets the thickness of the current strand */
   itkSetMacro(Thickness, double);
@@ -85,11 +85,11 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  int                     m_Orientation;
-  ModifiedTimeType        m_OrientationMTime;
-  bool                    m_IsClosed;
-  ModifiedTimeType        m_IsClosedMTime;
-  double                  m_Thickness;
+  mutable int               m_OrientationInObjectSpace;
+  mutable ModifiedTimeType  m_OrientationInObjectSpaceMTime;
+  mutable bool              m_IsClosed;
+  mutable ModifiedTimeType  m_IsClosedMTime;
+  double                    m_Thickness;
 };
 
 }
