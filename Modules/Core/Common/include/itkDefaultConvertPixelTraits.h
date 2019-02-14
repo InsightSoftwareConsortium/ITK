@@ -38,7 +38,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename PixelType >
-class DefaultConvertPixelTraits
+class ITK_TEMPLATE_EXPORT DefaultConvertPixelTraits
 {
 public:
   /** Determine the pixel data type. */
@@ -66,7 +66,7 @@ public:
 
 #define ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(type)                      \
   template< >                                                              \
-  class DefaultConvertPixelTraits< type >                                  \
+  class ITK_TEMPLATE_EXPORT DefaultConvertPixelTraits< type >              \
   {                                                                        \
 public:                                                                    \
     using ComponentType = type;                                            \
@@ -115,7 +115,7 @@ ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(bool)
 //
 
 template<unsigned int VDimension>
-class DefaultConvertPixelTraits< Offset< VDimension > >
+class ITK_TEMPLATE_EXPORT DefaultConvertPixelTraits< Offset< VDimension > >
 {
 public:
   using TargetType = Offset< VDimension >;
@@ -140,7 +140,7 @@ public:
 
 #define ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(type)                  \
   template<typename TComponentType, unsigned VDimension >               \
-  class DefaultConvertPixelTraits< type< TComponentType, VDimension > > \
+  class ITK_TEMPLATE_EXPORT DefaultConvertPixelTraits< type< TComponentType, VDimension > > \
   {                                                                     \
   public:                                                               \
     using TargetType = type< TComponentType, VDimension >;              \
@@ -182,7 +182,7 @@ ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(FixedArray);
 //  Default traits for pixel types deriving from VariableLengthVector<>
 //
 template<typename VComponent>
-class DefaultConvertPixelTraits< VariableLengthVector< VComponent > >
+class ITK_TEMPLATE_EXPORT DefaultConvertPixelTraits< VariableLengthVector< VComponent > >
 {
 public:
   using TargetType = VariableLengthVector< VComponent >;
@@ -215,7 +215,7 @@ public:
 //  Default traits for pixel types deriving from VariableSizeMatrix<>
 //
 template<typename VComponent>
-class DefaultConvertPixelTraits< VariableSizeMatrix< VComponent > >
+class ITK_TEMPLATE_EXPORT DefaultConvertPixelTraits< VariableSizeMatrix< VComponent > >
 {
 public:
   using TargetType = VariableSizeMatrix< VComponent >;
@@ -258,7 +258,7 @@ public:
 //
 
 template<typename VComponent, unsigned VRows, unsigned VCols >
-class DefaultConvertPixelTraits< Matrix< VComponent, VRows, VCols > >
+class ITK_TEMPLATE_EXPORT DefaultConvertPixelTraits< Matrix< VComponent, VRows, VCols > >
 {
 public:
   using TargetType = Matrix< VComponent, VRows, VCols >;
@@ -291,7 +291,7 @@ public:
 //
 
 template<typename TComponent >
-class DefaultConvertPixelTraits< ::std::complex< TComponent > >
+class ITK_TEMPLATE_EXPORT DefaultConvertPixelTraits< ::std::complex< TComponent > >
 {
 public:
   using TargetType = ::std::complex<TComponent>;
