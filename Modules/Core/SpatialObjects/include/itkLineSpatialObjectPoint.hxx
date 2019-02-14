@@ -27,13 +27,12 @@ template< unsigned int TPointDimension >
 LineSpatialObjectPoint< TPointDimension >
 ::LineSpatialObjectPoint()
 {
-  this->m_ID = 0;
   unsigned int ii = 0;
-  VectorType normal;
+  CovariantVectorType normal;
   normal.Fill(0);
   while( ii < TPointDimension - 1 )
     {
-    this->m_NormalArray[ii] = normal;
+    this->m_NormalArrayInObjectSpace[ii] = normal;
     ++ii;
     }
 }
@@ -45,11 +44,11 @@ LineSpatialObjectPoint< TPointDimension >
 
 /** Get the specified normal */
 template< unsigned int TPointDimension >
-const typename LineSpatialObjectPoint< TPointDimension >::VectorType &
+const typename LineSpatialObjectPoint< TPointDimension >::CovariantVectorType &
 LineSpatialObjectPoint< TPointDimension >
-::GetNormal(unsigned int index) const
+::GetNormalInObjectSpace(unsigned int index) const
 {
-  return m_NormalArray[index];
+  return m_NormalArrayInObjectSpace[index];
 }
 
 /** Print the object */
@@ -63,7 +62,7 @@ LineSpatialObjectPoint< TPointDimension >
   unsigned int ii = 0;
   while( ii < TPointDimension - 1 )
     {
-    os << indent << this->m_NormalArray[ii] << std::endl;
+    os << indent << this->m_NormalArrayInObjectSpace[ii] << std::endl;
     ++ii;
     }
 }
@@ -72,9 +71,9 @@ LineSpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 void
 LineSpatialObjectPoint< TPointDimension >
-::SetNormal(VectorType & normal, unsigned int index)
+::SetNormalInObjectSpace(CovariantVectorType & normal, unsigned int index)
 {
-  m_NormalArray[index] = normal;
+  m_NormalArrayInObjectSpace[index] = normal;
 }
 
 /** Copy a point to another */
@@ -83,8 +82,10 @@ typename LineSpatialObjectPoint< TPointDimension >::Self &
 LineSpatialObjectPoint< TPointDimension >
 ::operator=(const LineSpatialObjectPoint & rhs)
 {
-  this->m_ID = rhs.m_ID;
-  this->m_X = rhs.m_X;
+  this->m_Id = rhs.m_Id;
+  this->m_Color = rhs.m_Color;
+  this->m_PositionInObjectSpace = rhs.m_PositionInObjectSpace;
+  this->m_NormalArrayInObjectSpace = rhs.m_NormalArrayInObjectSpace;
   return *this;
 }
 } // end namespace itk

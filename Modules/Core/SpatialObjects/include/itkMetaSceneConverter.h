@@ -20,7 +20,7 @@
 
 #include "metaScene.h"
 #include "itkMetaEvent.h"
-#include "itkSceneSpatialObject.h"
+#include "itkGroupSpatialObject.h"
 #include "itkDefaultStaticMeshTraits.h"
 #include "itkMetaConverterBase.h"
 #include <string>
@@ -48,7 +48,7 @@ class ITK_TEMPLATE_EXPORT MetaSceneConverter
 public:
 
   /** SpatialObject Scene types */
-  using SceneType = itk::SceneSpatialObject< NDimensions >;
+  using SceneType = itk::GroupSpatialObject< NDimensions >;
   using ScenePointer = typename  SceneType::Pointer;
 
   /** Typedef for auxiliary conversion classes */
@@ -99,7 +99,7 @@ public:
 
   MetaScene * CreateMetaScene(SceneType *scene,
                               unsigned int depth = MaximumDepth,
-                              char *name = nullptr);
+                              const std::string & name = nullptr);
 
   ScenePointer CreateSpatialObjectScene(MetaScene *scene);
 

@@ -56,13 +56,13 @@ MetaSurfaceConverter< NDimensions >
     spacing[ii] = surfaceMO->ElementSpacing()[ii];
     }
   surfaceSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  surfaceSO->GetProperty()->SetName( surfaceMO->Name() );
+  surfaceSO->GetProperty().SetName( surfaceMO->Name() );
   surfaceSO->SetId( surfaceMO->ID() );
   surfaceSO->SetParentId( surfaceMO->ParentID() );
-  surfaceSO->GetProperty()->SetRed(surfaceMO->Color()[0]);
-  surfaceSO->GetProperty()->SetGreen(surfaceMO->Color()[1]);
-  surfaceSO->GetProperty()->SetBlue(surfaceMO->Color()[2]);
-  surfaceSO->GetProperty()->SetAlpha(surfaceMO->Color()[3]);
+  surfaceSO->GetProperty().SetRed(surfaceMO->Color()[0]);
+  surfaceSO->GetProperty().SetGreen(surfaceMO->Color()[1]);
+  surfaceSO->GetProperty().SetBlue(surfaceMO->Color()[2]);
+  surfaceSO->GetProperty().SetAlpha(surfaceMO->Color()[3]);
 
   using SurfacePointType = typename SurfaceSpatialObjectType::SurfacePointType;
 
@@ -155,7 +155,7 @@ MetaSurfaceConverter< NDimensions >
   float color[4];
   for ( unsigned int ii = 0; ii < 4; ii++ )
     {
-    color[ii] = surfaceSO->GetProperty()->GetColor()[ii];
+    color[ii] = surfaceSO->GetProperty().GetColor()[ii];
     }
 
   surfaceMO->Color(color);

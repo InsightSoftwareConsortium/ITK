@@ -57,11 +57,11 @@ MetaGroupConverter< NDimensions >
     spacing[i] = group->ElementSpacing()[i];
     }
   groupSO->GetModifiableIndexToObjectTransform()->SetScaleComponent(spacing);
-  groupSO->GetProperty()->SetName( group->Name() );
-  groupSO->GetProperty()->SetRed(group->Color()[0]);
-  groupSO->GetProperty()->SetGreen(group->Color()[1]);
-  groupSO->GetProperty()->SetBlue(group->Color()[2]);
-  groupSO->GetProperty()->SetAlpha(group->Color()[3]);
+  groupSO->GetProperty().SetName( group->Name() );
+  groupSO->GetProperty().SetRed(group->Color()[0]);
+  groupSO->GetProperty().SetGreen(group->Color()[1]);
+  groupSO->GetProperty().SetBlue(group->Color()[2]);
+  groupSO->GetProperty().SetAlpha(group->Color()[3]);
   groupSO->SetId( group->ID() );
   groupSO->SetParentId( group->ParentID() );
   return groupSO.GetPointer();
@@ -86,7 +86,7 @@ MetaGroupConverter< NDimensions >
 
   for ( unsigned int i = 0; i < 4; i++ )
     {
-    color[i] = groupSO->GetProperty()->GetColor()[i];
+    color[i] = groupSO->GetProperty().GetColor()[i];
     }
   group->Color(color);
 

@@ -47,8 +47,8 @@ public:
   using Self = LineSpatialObjectPoint;
   using Superclass = SpatialObjectPoint< TPointDimension >;
   using PointType = Point< double, TPointDimension >;
-  using VectorType = CovariantVector< double, TPointDimension >;
-  using NormalArrayType = FixedArray< VectorType, TPointDimension - 1 >;
+  using CovariantVectorType = CovariantVector< double, TPointDimension >;
+  using NormalArrayType = FixedArray< CovariantVectorType, TPointDimension - 1 >;
 
   /** Constructor */
   LineSpatialObjectPoint();
@@ -57,17 +57,17 @@ public:
   ~LineSpatialObjectPoint() override;
 
   /** Get Normal */
-  const VectorType & GetNormal(unsigned int index) const;
+  const CovariantVectorType & GetNormalInObjectSpace(unsigned int index) const;
 
   /** Set Normal */
-  void SetNormal(VectorType & normal, unsigned int index);
+  void SetNormalInObjectSpace(CovariantVectorType & normal, unsigned int index);
 
   /** Copy one LineSpatialObjectPoint to another */
   Self & operator=(const LineSpatialObjectPoint & rhs);
 
 protected:
 
-  NormalArrayType m_NormalArray;
+  NormalArrayType m_NormalArrayInObjectSpace;
 
   /** Method to print the object. */
   void PrintSelf(std::ostream & os, Indent indent) const override;

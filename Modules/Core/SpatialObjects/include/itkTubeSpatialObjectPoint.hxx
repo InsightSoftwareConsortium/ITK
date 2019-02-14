@@ -32,21 +32,15 @@ TubeSpatialObjectPoint< TPointDimension >
   m_Normal1InObjectSpace.Fill(0);
   m_Normal2InObjectSpace.Fill(0);
   m_RadiusInObjectSpace = 0;
+  m_Medialness = 0;
+  m_Ridgeness = 0;
+  m_Branchness = 0;
 }
 
 /** Destructor */
 template< unsigned int TPointDimension >
 TubeSpatialObjectPoint< TPointDimension >
 ::~TubeSpatialObjectPoint() = default;
-
-/** Get the radius */
-template< unsigned int TPointDimension >
-float
-TubeSpatialObjectPoint< TPointDimension >
-::GetRadiusInObjectSpace() const
-{
-  return m_RadiusInObjectSpace;
-}
 
 /** Get the radius */
 template< unsigned int TPointDimension >
@@ -65,15 +59,6 @@ TubeSpatialObjectPoint< TPointDimension >
     }
   worldR /= TPointDimension;
   return worldR;
-}
-
-/** Set the radius */
-template< unsigned int TPointDimension >
-void
-TubeSpatialObjectPoint< TPointDimension >
-::SetRadiusInObjectSpace(float newR)
-{
-  m_RadiusInObjectSpace = newR;
 }
 
 /** Get the radius */
@@ -97,26 +82,10 @@ TubeSpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 const typename TubeSpatialObjectPoint< TPointDimension >::VectorType &
 TubeSpatialObjectPoint< TPointDimension >
-::GetTangentInObjectSpace() const
-{
-  return m_TangentInObjectSpace;
-}
-
-template< unsigned int TPointDimension >
-const typename TubeSpatialObjectPoint< TPointDimension >::VectorType &
-TubeSpatialObjectPoint< TPointDimension >
 ::GetTangent() const
 {
   return Superclass::m_SpatialObject->GetObjectToWorldTransform()->
     TransformVector( m_TangentInObjectSpace );
-}
-
-template< unsigned int TPointDimension >
-void
-TubeSpatialObjectPoint< TPointDimension >
-::SetTangentInObjectSpace(const VectorType & newT)
-{
-  m_TangentInObjectSpace = newT;
 }
 
 template< unsigned int TPointDimension >
@@ -131,26 +100,10 @@ TubeSpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 const typename TubeSpatialObjectPoint< TPointDimension >::CovariantVectorType &
 TubeSpatialObjectPoint< TPointDimension >
-::GetNormal1InObjectSpace() const
-{
-  return m_Normal1InObjectSpace;
-}
-
-template< unsigned int TPointDimension >
-const typename TubeSpatialObjectPoint< TPointDimension >::CovariantVectorType &
-TubeSpatialObjectPoint< TPointDimension >
 ::GetNormal1() const
 {
   return Superclass::m_SpatialObject->GetObjectToWorldTransform()->
     TrasnformCovariantVector( m_Normal1InObjectSpace );
-}
-
-template< unsigned int TPointDimension >
-void
-TubeSpatialObjectPoint< TPointDimension >
-::SetNormal1InObjectSpace(const CovariantVectorType & newV1)
-{
-  m_Normal1InObjectSpace = newV1;
 }
 
 template< unsigned int TPointDimension >
@@ -165,26 +118,10 @@ TubeSpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 const typename TubeSpatialObjectPoint< TPointDimension >::CovariantVectorType &
 TubeSpatialObjectPoint< TPointDimension >
-::GetNormal2InObjectSpace() const
-{
-  return m_Normal2InObjectSpace;
-}
-
-template< unsigned int TPointDimension >
-const typename TubeSpatialObjectPoint< TPointDimension >::CovariantVectorType &
-TubeSpatialObjectPoint< TPointDimension >
 ::GetNormal2() const
 {
   return Superclass::m_SpatialObject->GetObjectToWorldTransform()->
     TrasnformCovariantVector( m_Normal2InObjectSpace );
-}
-
-template< unsigned int TPointDimension >
-void
-TubeSpatialObjectPoint< TPointDimension >
-::SetNormal2InObjectSpace(const CovariantVectorType & newV2)
-{
-  m_Normal2InObjectSpace = newV2;
 }
 
 template< unsigned int TPointDimension >
@@ -210,6 +147,9 @@ TubeSpatialObjectPoint< TPointDimension >
     << std::endl;
   os << indent << "Normal2 In Object Space: " << m_Normal2InObjectSpace
     << std::endl;
+  os << indent << "Medialness: " << m_Medialness << std::endl;
+  os << indent << "Branchness: " << m_Branchness << std::endl;
+  os << indent << "Ridgeness: " << m_Ridgeness << std::endl;
 }
 
 template< unsigned int TPointDimension >
@@ -229,6 +169,10 @@ TubeSpatialObjectPoint< TPointDimension >
     this->SetTangentInObjectSpace( rhs.GetTangentInObjectSpace() );
     this->SetNormal1InObjectSpace( rhs.GetNormal1InObjectSpace() );
     this->SetNormal2InObjectSpace( rhs.GetNormal2InObjectSpace() );
+
+    this->SetRidgeness( rhs.GetRidgeness() );
+    this->SetMedialness( rhs.GetMedialness() );
+    this->SetBranchness( rhs.GetBranchness() );
     }
   return *this;
 }

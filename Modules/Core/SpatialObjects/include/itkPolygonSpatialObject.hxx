@@ -31,9 +31,9 @@ PolygonSpatialObject< TDimension >
 {
   this->SetTypeName( "PolygonSpatialObject" );
   m_IsClosed = false;
-  m_IsClosedMTime = this->GetObjectMTime();
-  m_Orientation = -1;
-  m_OrientationMTime = this->GetObjectMTime();
+  m_IsClosedMTime = this->GetMyMTime();
+  m_OrientationInObjectSpace = -1;
+  m_OrientationInObjectSpaceMTime = this->GetMyMTime();
   m_Thickness = 0.0;
 }
 
@@ -42,11 +42,11 @@ int
 PolygonSpatialObject< TDimension >
 ::GetOrientationInObjectSpace() const
 {
-  if( m_OrientationMTime == this->GetObjectMTime() )
+  if( m_OrientationInObjectSpaceMTime == this->GetMyMTime() )
     {
-    return m_Orientation;
+    return m_OrientationInObjectSpace;
     }
-  m_OrientationMTime = this->GetObjectMTime();
+  m_OrientationInObjectSpaceMTime = this->GetMyMTime();
 
   const PolygonPointListType & points = this->GetPoints();
   auto it = points.begin();
@@ -72,16 +72,16 @@ PolygonSpatialObject< TDimension >
       }
     it++;
     }
-  m_Orientation = -1;
+  m_OrientationInObjectSpace = -1;
   for ( unsigned int i = 0; i < ObjectDimension; i++ )
     {
     if ( Math::ExactlyEquals(minPnt[0], maxPnt[0]) )
       {
-      m_Orientation = i;
+      m_OrientationInObjectSpace = i;
       break;
       }
     }
-  return m_Orientation;
+  return m_OrientationInObjectSpace;
 }
 
 template< unsigned int TDimension >
@@ -89,11 +89,11 @@ bool
 PolygonSpatialObject< TDimension >
 ::IsClosed() const
 {
-  if( m_IsClosedMTime == this->GetObjectMTime() )
+  if( m_IsClosedMTime == this->GetMyMTime() )
     {
     return m_IsClosed;
     }
-  m_IsClosedMTime = this->GetObjectMTime();
+  m_IsClosedMTime = this->GetMyMTime();
 
   const PolygonPointListType & points = this->GetPoints();
 
@@ -126,7 +126,7 @@ PolygonSpatialObject< TDimension >
 
   for( unsigned int i=0; i<ObjectDimension ++i )
     {
-    if( this->GetOrientation() != i )
+    if( this->GetOrientationInObjectSpace() != i )
       {
       if( X == -1 )
         {
@@ -220,9 +220,9 @@ PolygonSpatialObject< TDimension >
 
       if ( numpoints >= 3 )
         {
-        for( unsigned int i=0; i<ObjectDimension ++i )
+        for( unsigned int i=0; i<ObjectDimension; ++i )
           {
-          if( this->GetOrientation() != i )
+          if( this->GetOrientationInObjectSpace() != i )
             {
             if( X == -1 )
               {
@@ -297,9 +297,18 @@ PolygonSpatialObject< TDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Orientation: " << m_Orientation << std::endl;
-  os << indent << "Orientation Time: " << m_OrientationMTime << std::endl;
-  os << indent << "IsClosed: " << (m_IsClosed)?"True":"False" << std::endl;
+  os << indent << "OrientationInObjectSpace: " << m_OrientationInObjectSpace
+    << std::endl;
+  os << indent << "OrientationInObjectSpace Time: "
+    << m_OrientationInObjectSpaceMTime << std::endl;
+  if( m_IsClosed )
+    {
+    os << indent << "IsClosed: True" << std::endl;
+    }
+  else
+    {
+    os << indent << "IsClosed: True" << std::endl;
+    }
   os << indent << "IsClosed Time: " << m_IsClosedMTime << std::endl;
   os << indent << "Thickness: " << m_Thickness << std::endl;
 }

@@ -43,7 +43,8 @@ public:
   using Self = SurfaceSpatialObjectPoint;
   using Superclass = SpatialObjectPoint< TPointDimension >;
   using PointType = Point< double, TPointDimension >;
-  using VectorType = CovariantVector< double, TPointDimension >;
+
+  using CovariantVectorType = CovariantVector< double, TPointDimension >;
 
   /** Constructor */
   SurfaceSpatialObjectPoint();
@@ -52,22 +53,17 @@ public:
   ~SurfaceSpatialObjectPoint() override;
 
   /** Get Normal */
-  const VectorType & GetNormal() const;
+  const CovariantVectorType & GetNormalInObjectSpace() const;
 
   /** Set Normal */
-  void SetNormal(const VectorType & normal);
-
-  void SetNormal(const double normalx, const double normaly);
-
-  void SetNormal(const double normalx, const double normaly,
-                 const double normalz);
+  void SetNormalInObjectSpace(const CovariantVectorType & normal);
 
   /** Copy one SurfaceSpatialObjectPoint to another */
   Self & operator=(const SurfaceSpatialObjectPoint & rhs);
 
 protected:
 
-  VectorType m_Normal;
+  CovariantVectorType m_Normal;
 
   /** Method to print the object. */
   void PrintSelf(std::ostream & os, Indent indent) const override;

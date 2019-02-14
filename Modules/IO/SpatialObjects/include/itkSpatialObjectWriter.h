@@ -46,7 +46,7 @@ public:
 
   using SpatialObjectType = SpatialObject< NDimensions >;
   using SpatialObjectPointer = typename SpatialObjectType::Pointer;
-  using SceneType = SceneSpatialObject< NDimensions >;
+  using SceneType = GroupSpatialObject< NDimensions >;
 
   /** base type for MetaConverters -- bidirections conversion btw
    *  SpatialObject & MetaObject

@@ -59,14 +59,14 @@ MetaContourConverter< NDimensions >
     spacing[i] = contourMO->ElementSpacing()[i];
     }
   contourSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  contourSO->GetProperty()->SetName( contourMO->Name() );
+  contourSO->GetProperty().SetName( contourMO->Name() );
   contourSO->SetId( contourMO->ID() );
   contourSO->SetParentId( contourMO->ParentID() );
-  contourSO->GetProperty()->SetRed(contourMO->Color()[0]);
-  contourSO->GetProperty()->SetGreen(contourMO->Color()[1]);
-  contourSO->GetProperty()->SetBlue(contourMO->Color()[2]);
-  contourSO->GetProperty()->SetAlpha(contourMO->Color()[3]);
-  contourSO->SetClosed( const_cast<ContourMetaObjectType *>(contourMO)->Closed() );
+  contourSO->GetProperty().SetRed(contourMO->Color()[0]);
+  contourSO->GetProperty().SetGreen(contourMO->Color()[1]);
+  contourSO->GetProperty().SetBlue(contourMO->Color()[2]);
+  contourSO->GetProperty().SetAlpha(contourMO->Color()[3]);
+  contourSO->SetIsClosed( const_cast<ContourMetaObjectType *>(contourMO)->Closed() );
   contourSO->SetAttachedToSlice( const_cast<ContourMetaObjectType *>(contourMO)->AttachedToSlice() );
   contourSO->SetDisplayOrientation( const_cast<ContourMetaObjectType *>(contourMO)->DisplayOrientation() );
 
@@ -253,11 +253,11 @@ MetaContourConverter< NDimensions >
   float color[4];
   for ( unsigned int i = 0; i < 4; i++ )
     {
-    color[i] = contourSO->GetProperty()->GetColor()[i];
+    color[i] = contourSO->GetProperty().GetColor()[i];
     }
   contourMO->Color(color);
   contourMO->ID( contourSO->GetId() );
-  contourMO->Closed( contourSO->GetClosed() );
+  contourMO->Closed( contourSO->GetIsClosed() );
   contourMO->AttachedToSlice( contourSO->GetAttachedToSlice() );
   contourMO->DisplayOrientation( contourSO->GetDisplayOrientation() );
 

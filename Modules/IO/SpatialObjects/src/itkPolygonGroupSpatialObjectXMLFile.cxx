@@ -46,12 +46,12 @@ PolygonGroupSpatialObjectXMLFileReader::StartElement( const char *name, const ch
 {
   if ( itksys::SystemTools::Strucmp(name, "POLYGONGROUP") == 0 )
     {
-    m_PGroup = PGroupSpatialObjectType::New();
+    m_Group = GroupSpatialObjectType::New();
     }
   else if ( itksys::SystemTools::Strucmp(name, "POLYGON") == 0 )
     {
     m_CurPoly = PolygonSpatialObjectType::New();
-    m_PGroup->AddSpatialObject(m_CurPoly);
+    m_Group->AddChild(m_CurPoly);
     m_CurPointList.clear();
     }
 }
@@ -59,10 +59,10 @@ PolygonGroupSpatialObjectXMLFileReader::StartElement( const char *name, const ch
 void
 PolygonGroupSpatialObjectXMLFileReader::EndElement(const char *name)
 {
-  itk::MetaDataDictionary & thisDic = m_PGroup->GetMetaDataDictionary();
+  itk::MetaDataDictionary & thisDic = m_Group->GetMetaDataDictionary();
   if ( itksys::SystemTools::Strucmp(name, "POLYGONGROUP") == 0 )
     {
-    m_OutputObject = &( *m_PGroup );
+    m_OutputObject = &( *m_Group );
     }
   if ( itksys::SystemTools::Strucmp(name, "PATIENT-ID") == 0 )
     {

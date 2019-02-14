@@ -251,7 +251,7 @@ MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
 template< unsigned int NDimensions, typename PixelType, typename TMeshTraits >
 MetaScene *
 MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
-::CreateMetaScene(SceneType *scene, unsigned int depth, char *name)
+::CreateMetaScene(SceneType *scene, unsigned int depth, const std::string & name)
 {
   auto * metaScene = new MetaScene(NDimensions);
 
@@ -265,9 +265,9 @@ MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
   metaScene->ElementSpacing(spacing);
   delete[] spacing;
 
-  using ListType = typename SceneType::ObjectListType;
+  using ListType = typename SceneType::ChildrenListType;
 
-  ListType *childrenList = scene->GetObjects(depth, name);
+  ListType *childrenList = scene->GetChildren(depth, name);
   auto it = childrenList->begin();
   auto itEnd = childrenList->end();
 

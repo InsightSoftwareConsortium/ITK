@@ -57,13 +57,13 @@ MetaLandmarkConverter< NDimensions >
     spacing[ii] = landmarkMO->ElementSpacing()[ii];
     }
   landmarkSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  landmarkSO->GetProperty()->SetName( landmarkMO->Name() );
+  landmarkSO->GetProperty().SetName( landmarkMO->Name() );
   landmarkSO->SetId( landmarkMO->ID() );
   landmarkSO->SetParentId( landmarkMO->ParentID() );
-  landmarkSO->GetProperty()->SetRed(landmarkMO->Color()[0]);
-  landmarkSO->GetProperty()->SetGreen(landmarkMO->Color()[1]);
-  landmarkSO->GetProperty()->SetBlue(landmarkMO->Color()[2]);
-  landmarkSO->GetProperty()->SetAlpha(landmarkMO->Color()[3]);
+  landmarkSO->GetProperty().SetRed(landmarkMO->Color()[0]);
+  landmarkSO->GetProperty().SetGreen(landmarkMO->Color()[1]);
+  landmarkSO->GetProperty().SetBlue(landmarkMO->Color()[2]);
+  landmarkSO->GetProperty().SetAlpha(landmarkMO->Color()[3]);
 
   using LandmarkPointType = itk::SpatialObjectPoint< NDimensions >;
 
@@ -141,7 +141,7 @@ MetaLandmarkConverter< NDimensions >
   float color[4];
   for ( unsigned int ii = 0; ii < 4; ii++ )
     {
-    color[ii] = landmarkSO->GetProperty()->GetColor()[ii];
+    color[ii] = landmarkSO->GetProperty().GetColor()[ii];
     }
 
   landmarkMO->Color(color);
