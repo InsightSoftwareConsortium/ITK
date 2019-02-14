@@ -55,52 +55,78 @@ public:
   ~TubeSpatialObjectPoint() override;
 
   /** Get R */
-  float GetRadiusInObjectSpace() const;
+  double GetRadiusInObjectSpace() const
+  { return m_RadiusInObjectSpace; }
 
   /** Get R */
-  float GetRadius() const;
+  double GetRadius() const;
 
   /** Set R */
-  void SetRadiusInObjectSpace(float newR);
+  void SetRadiusInObjectSpace(double newR)
+  { m_RadiusInObjectSpace = newR; }
 
   /** Set R */
-  void SetRadius(float newR);
+  void SetRadius(double newR);
 
   /** Get the tangent in Object Space */
-  const VectorType & GetTangentInObjectSpace() const;
+  const VectorType & GetTangentInObjectSpace() const
+  { return m_TangetnInObjectSpace; }
 
   /** Get the tangent in World Space */
   const VectorType & GetTangent() const;
 
   /** Set the tangent in object space. */
-  void SetTangentInObjectSpace(const VectorType & newT);
+  void SetTangentInObjectSpace(const VectorType & newT)
+  { m_TangentInObjectSpace = newT; }
 
   /** Set the tangent in World Space. */
   void SetTangent(const VectorType & newT);
 
   /** Get V1 in Object space */
-  const CovariantVectorType & GetNormal1InObjectSpace() const;
+  const CovariantVectorType & GetNormal1InObjectSpace() const
+  { return m_Normal1InObjectSpace; }
 
   /** Get V1 in World space */
   const CovariantVectorType & GetNormal1() const;
 
   /** Set V1 */
   void SetNormal1InObjectSpace(const CovariantVectorType & newV1);
+  { m_Normal1InObjectSpace = newV1; }
 
   /** Set V1 */
   void SetNormal1(const CovariantVectorType & newV1);
 
   /** Get V2 */
-  const CovariantVectorType & GetNormal2InObjectSpace() const;
+  const CovariantVectorType & GetNormal2InObjectSpace() const
+  { return m_Normal2InObjectSpace; }
 
   /** Get V2 */
   const CovariantVectorType & GetNormal2() const;
 
   /** Set V2 */
   void SetNormal2InObjectSpace(const CovariantVectorType & newV2);
+  { m_Normal2InObjectSpace = newV2; }
 
   /** Set V2 */
   void SetNormal2(const CovariantVectorType & newV2);
+
+  void SetRidgness( double ridgeness )
+  { m_Ridgeness = ridgeness; }
+
+  double GetRidgeness()
+  { return m_Ridgeness; }
+
+  void SetMedialness( double medialness )
+  { m_Medialness = medialness; }
+
+  double GetMedialness()
+  { return m_Medialness; }
+
+  void SetBranchness( double branchness )
+  { m_Branchness = branchness; }
+
+  double GetBranchness()
+  { return m_Branchness; }
 
   /** Copy one TubeSpatialObjectPoint to another */
   Self & operator=(const TubeSpatialObjectPoint & rhs);
@@ -112,7 +138,7 @@ protected:
   CovariantVectorType m_Normal2InObjectSpace;
 
   /** The radius of the tube point */
-  float m_RadiusInObjectSpace;
+  double m_RadiusInObjectSpace;
 
   /** Print the object */
   void PrintSelf(std::ostream & os, Indent indent) const override;

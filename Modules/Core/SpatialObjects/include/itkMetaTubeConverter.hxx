@@ -57,14 +57,14 @@ MetaTubeConverter< NDimensions >
     }
 
   tubeSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  tubeSO->GetProperty()->SetName( tubeMO->Name() );
+  tubeSO->GetProperty().SetName( tubeMO->Name() );
   tubeSO->SetParentPoint( tubeMO->ParentPoint() );
   tubeSO->SetId( tubeMO->ID() );
   tubeSO->SetParentId( tubeMO->ParentID() );
-  tubeSO->GetProperty()->SetRed(tubeMO->Color()[0]);
-  tubeSO->GetProperty()->SetGreen(tubeMO->Color()[1]);
-  tubeSO->GetProperty()->SetBlue(tubeMO->Color()[2]);
-  tubeSO->GetProperty()->SetAlpha(tubeMO->Color()[3]);
+  tubeSO->GetProperty().SetRed(tubeMO->Color()[0]);
+  tubeSO->GetProperty().SetGreen(tubeMO->Color()[1]);
+  tubeSO->GetProperty().SetBlue(tubeMO->Color()[2]);
+  tubeSO->GetProperty().SetAlpha(tubeMO->Color()[3]);
 
   using TubePointType = itk::TubeSpatialObjectPoint< NDimensions >;
 
@@ -179,7 +179,7 @@ MetaTubeConverter< NDimensions >
   float color[4];
   for ( unsigned int i = 0; i < 4; i++ )
     {
-    color[i] = tubeSO->GetProperty()->GetColor()[i];
+    color[i] = tubeSO->GetProperty().GetColor()[i];
     }
 
   tubeMO->Color(color);

@@ -35,24 +35,25 @@ namespace itk
  */
 
 class SpatialObjectProperty
-  : public LightObject
 {
 public:
-  //ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectProperty);
+
+  SpatialObjectProperty();
+
+  virtual ~SpatialObjectProperty() = default;
 
   using Self = SpatialObjectProperty;
-  using Superclass = LightObject;
 
   using ColorType = RGBAPixel< double >;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  void SetColor( const ColorType & color )
+  { m_Color = color; }
 
-  itkNewMacro(Self);
-  itkTypeMacro(SpatialObjectProperty, LightObject);
+  ColorType & GetColor()
+  { return m_Color; }
 
-  itkSetMacro( Color, ColorType );
-  itkGetConstMacro( Color, ColorType );
+  const ColorType & GetColor() const
+  { return m_Color; }
 
   void SetColor(double r, double g, double b);
 
@@ -68,11 +69,14 @@ public:
   void SetAlpha(double a);
   double GetAlpha() const;
 
-  SpatialObjectProperty();
-  ~SpatialObjectProperty() override;
+  void SetName( const std::string & name )
+  { m_Name = name; }
 
-  itkSetMacro( Name, std::string );
-  itkGetConstMacro( Name, std::string );
+  std::string & GetName()
+  { return m_Name; }
+
+  const std::string & GetName() const
+  { return m_Name; }
 
   void SetTagScalarValue( const std::string & tag, double value );
   void SetTagStringValue( const std::string & tag, const std::string & value );
@@ -89,25 +93,23 @@ public:
   void SetTagStringDictionary( const std::map< std::string,
     std::string > & dict );
 
-  void DeepCopy(const SpatialObjectProperty * rhs );
+  void Print(std::ostream & os) const
+  { this->PrintSelf( os, 3 ); }
 
-  itkGetConstMacro( MTime, ModifiedTimeType );
+  Self & operator=(const SpatialObjectProperty & rhs );
 
 protected:
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
-
-  void Modified() { m_MTime++; }
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
 
   ColorType        m_Color;
+
   std::string      m_Name;
 
   std::map< std::string, double >      m_ScalarDictionary;
   std::map< std::string, std::string > m_StringDictionary;
-
-  ModifiedTimeType m_MTime;
 };
 
 }

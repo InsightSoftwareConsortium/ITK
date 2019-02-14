@@ -50,7 +50,7 @@ public:
 
   using ScalarType = double;
 
-  using SurfacePointType = SpatialObjectPoint< TDimension >;
+  using SurfacePointType = SurfaceSpatialObjectPoint< TDimension >;
   using SurfacePointListType = std::vector< SurfacePointType >;
 
   using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;

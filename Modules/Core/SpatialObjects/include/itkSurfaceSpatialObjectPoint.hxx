@@ -27,8 +27,7 @@ template< unsigned int TPointDimension >
 SurfaceSpatialObjectPoint< TPointDimension >
 ::SurfaceSpatialObjectPoint()
 {
-  this->m_ID = 0;
-  m_Normal.Fill(0);
+  m_NormalInObjectSpace.Fill(0);
 }
 
 /** Destructor */
@@ -40,39 +39,18 @@ SurfaceSpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 void
 SurfaceSpatialObjectPoint< TPointDimension >
-::SetNormal(const VectorType & normal)
+::SetNormalInObjectSpace(const CovariantVectorType & normal)
 {
-  m_Normal = normal;
-}
-
-/** Set the normal : 2D case */
-template< unsigned int TPointDimension >
-void
-SurfaceSpatialObjectPoint< TPointDimension >
-::SetNormal(const double normalx, const double normaly)
-{
-  m_Normal[0] = normalx;
-  m_Normal[1] = normaly;
-}
-
-/** Set the normal : 3D case */
-template< unsigned int TPointDimension >
-void
-SurfaceSpatialObjectPoint< TPointDimension >
-::SetNormal(const double normalx, const double normaly, const double normalz)
-{
-  m_Normal[0] = normalx;
-  m_Normal[1] = normaly;
-  m_Normal[2] = normalz;
+  m_NormalInObjectSpace = normal;
 }
 
 /** Get the normal at one point */
 template< unsigned int TPointDimension >
-const typename SurfaceSpatialObjectPoint< TPointDimension >::VectorType &
+const typename SurfaceSpatialObjectPoint< TPointDimension >::CovariantVectorType &
 SurfaceSpatialObjectPoint< TPointDimension >
-::GetNormal() const
+::GetNormalInObjectSpace() const
 {
-  return m_Normal;
+  return m_NormalInObjectSpace;
 }
 
 /** Print the object */
@@ -84,7 +62,7 @@ SurfaceSpatialObjectPoint< TPointDimension >
   Superclass::PrintSelf(os, indent);
   os << indent << "SurfaceSpatialObjectPoint(" << this << ")" << std::endl;
   os << indent << "Normal definition: ";
-  os << indent <<  m_Normal << std::endl;
+  os << indent <<  m_NormalInObjectSpace << std::endl;
 }
 
 /** Copy a surface point to another */
@@ -93,8 +71,10 @@ typename SurfaceSpatialObjectPoint< TPointDimension >::Self &
 SurfaceSpatialObjectPoint< TPointDimension >
 ::operator=(const SurfaceSpatialObjectPoint & rhs)
 {
-  this->m_ID = rhs.m_ID;
-  this->m_X = rhs.m_X;
+  this->m_Id = rhs.m_Id;
+  this->m_Color = rhs.m_Color;
+  this->m_PositionInObjectSpace = rhs.m_PositionInObjectSpace;
+  this->m_NormalInObjectSpace = rhs.m_NormalInObjectSpace;
   return *this;
 }
 } // end namespace itk

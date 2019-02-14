@@ -115,10 +115,10 @@ public:
   itkGetConstMacro(IsClosed, bool);
 
   /** Set the axis-normal orientation of the contour */
-  itkSetMacro(Orientation, int);
+  itkSetMacro(OrientationInObjectSpace, int);
 
   /** Get the axis-normal orientation of the contour */
-  itkGetConstMacro(Orientation, int);
+  itkGetConstMacro(OrientationInObjectSpace, int);
 
   /** Set the slice attached to the contour.
    *   Set -1 to indicate no attachment */
@@ -139,7 +139,7 @@ protected:
   unsigned int              m_InterpolationFactor;
 
   bool                      m_IsClosed;
-  int                       m_Orientation;
+  int                       m_OrientationInObjectSpace;
   int                       m_AttachedToSlice;
 
   ContourSpatialObject();

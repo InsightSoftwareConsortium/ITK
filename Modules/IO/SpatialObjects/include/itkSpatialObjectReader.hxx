@@ -42,14 +42,14 @@ SpatialObjectReader< NDimensions, PixelType, TMeshTraits >
 {
   m_Scene = m_MetaToSpatialConverter.ReadMeta( m_FileName.c_str() );
 
-  if ( m_Scene->GetNumberOfObjects(0) == 0 )
+  if ( m_Scene->GetNumberOfChildren(0) == 0 )
     {
     itkExceptionMacro("No groups were found in file " << m_FileName);
     }
 
-  if ( m_Scene->GetNumberOfObjects(0) == 1 )
+  if ( m_Scene->GetNumberOfChildren(0) == 1 )
     {
-    typename SceneType::ObjectListType * list = m_Scene->GetObjects(0);
+    typename SceneType::ChildrenListType * list = m_Scene->GetChildren(0);
     auto it = list->begin();
     if ( !strncmp( ( *it )->GetTypeName(), "Group", 5 ) )
       {
@@ -58,19 +58,19 @@ SpatialObjectReader< NDimensions, PixelType, TMeshTraits >
     else
       {
       m_Group = GroupType::New();
-      m_Group->AddSpatialObject( static_cast< SpatialObjectType * >( ( *it ).GetPointer() ) );
+      m_Group->AddChild( static_cast< SpatialObjectType * >( ( *it ).GetPointer() ) );
       }
     delete list;
     }
   else
     {
     m_Group = GroupType::New();
-    typename SceneType::ObjectListType * list = m_Scene->GetObjects(0);
+    typename SceneType::ChildrenListType * list = m_Scene->GetChildren(0);
     auto it = list->begin();
     auto it_end = list->end();
     while ( it != it_end )
       {
-      m_Group->AddSpatialObject( static_cast< SpatialObjectType * >( *it ) );
+      m_Group->AddChild( static_cast< SpatialObjectType * >( *it ) );
       it++;
       }
     delete list;
