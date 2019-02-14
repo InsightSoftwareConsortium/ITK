@@ -206,7 +206,7 @@ static bool CheckFileOperations()
     res = false;
   }
 
-  if (!kwsys::SystemTools::Touch(testNewFile.c_str(), true)) {
+  if (!kwsys::SystemTools::Touch(testNewFile, true)) {
     std::cerr << "Problem with Touch for: " << testNewFile << std::endl;
     res = false;
   }
@@ -415,7 +415,7 @@ static bool CheckFileOperations()
     res = false;
   }
 
-  kwsys::SystemTools::Touch(testNewFile.c_str(), true);
+  kwsys::SystemTools::Touch(testNewFile, true);
   if (!kwsys::SystemTools::RemoveADirectory(testNewDir)) {
     std::cerr << "Problem with RemoveADirectory for: " << testNewDir
               << std::endl;
@@ -806,7 +806,7 @@ static bool CheckFind()
   const std::string testFindFile(TEST_SYSTEMTOOLS_BINARY_DIR "/" +
                                  testFindFileName);
 
-  if (!kwsys::SystemTools::Touch(testFindFile.c_str(), true)) {
+  if (!kwsys::SystemTools::Touch(testFindFile, true)) {
     std::cerr << "Problem with Touch for: " << testFindFile << std::endl;
     // abort here as the existence of the file only makes the test meaningful
     return false;
@@ -984,6 +984,50 @@ static bool CheckGetLineFromStreamLongLine()
   return true;
 }
 
+static bool writeFile(const char* fileName, const char* data)
+{
+  kwsys::ofstream out(fileName, std::ios::binary);
+  out << data;
+  if (!out) {
+    std::cerr << "Failed to write file: " << fileName << std::endl;
+    return false;
+  }
+  return true;
+}
+
+static bool CheckTextFilesDiffer()
+{
+  struct
+  {
+    const char* a;
+    const char* b;
+    bool differ;
+  } test_cases[] = { { "one", "one", false },
+                     { "one", "two", true },
+                     { "", "", false },
+                     { "\n", "\r\n", false },
+                     { "one\n", "one\n", false },
+                     { "one\r\n", "one\n", false },
+                     { "one\n", "one", false },
+                     { "one\ntwo", "one\ntwo", false },
+                     { "one\ntwo", "one\r\ntwo", false } };
+  const int num_test_cases = sizeof(test_cases) / sizeof(test_cases[0]);
+  for (int i = 0; i < num_test_cases; ++i) {
+    if (!writeFile("file_a", test_cases[i].a) ||
+        !writeFile("file_b", test_cases[i].b)) {
+      return false;
+    }
+    if (kwsys::SystemTools::TextFilesDiffer("file_a", "file_b") !=
+        test_cases[i].differ) {
+      std::cerr << "Incorrect TextFilesDiffer result for test case " << i + 1
+                << "." << std::endl;
+      return false;
+    }
+  }
+
+  return true;
+}
+
 int testSystemTools(int, char* [])
 {
   bool res = true;
@@ -1026,6 +1070,8 @@ int testSystemTools(int, char* [])
   res &= CheckGetLineFromStreamLongLine();
 
   res &= CheckGetFilenameName();
+
+  res &= CheckTextFilesDiffer();
 
   return res ? 0 : 1;
 }
