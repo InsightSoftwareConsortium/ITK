@@ -26,7 +26,7 @@ static float strandPoints[11][2] =
     {1.75,1.5},{1.5,1.5},{1.5,2},{2,2},{2,1},{1,1}
   };
 using Polygon3DType = itk::PolygonSpatialObject<3>;
-using PolygonGroup3DType = itk::PolygonGroupSpatialObject<3>;
+using PolygonGroup3DType = itk::GroupSpatialObject<3>;
 using PolygonGroup3DPointer = PolygonGroup3DType::Pointer;
 
 int
@@ -39,12 +39,9 @@ buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
       itk::PolygonSpatialObject<3>::Pointer strand
         = itk::PolygonSpatialObject<3>::New();
 
-      if(!PolygonGroup->AddStrand(strand))
-        {
-        std::cerr << "Error adding point" << std::endl;
-        return EXIT_FAILURE;
-        }
+      PolygonGroup->AddChild(strand);
       strand->SetThickness(1.0);
+
       //
       // add all points to this strand.
       for(auto & strandPoint : strandPoints)
@@ -53,12 +50,9 @@ buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
         pos[0] = strandPoint[0];
         pos[1] = strandPoint[1];
         pos[2] = z;
-        itk::PolygonSpatialObject<3>::PointType curpoint(pos);
-        if(!strand->AddPoint(curpoint))
-          {
-          std::cerr << "Error adding point" << std::endl;
-          return EXIT_FAILURE;
-          }
+        itk::SpatialObjectPoint<3> curpoint;
+        curpoint.SetPositionInObjectSpace(pos);
+        strand->AddPoint(curpoint);
         }
       }
     }
@@ -96,9 +90,9 @@ int testPolygonGroupEquivalence(PolygonGroup3DPointer &p1,
     auto * curstrand1 = dynamic_cast<Polygon3DType *>((*it1).GetPointer());
     auto * curstrand2 = dynamic_cast<Polygon3DType *>((*it2).GetPointer());
 
-    Polygon3DType::PointListType &points1 =
+    Polygon3DType::PolygonPointListType &points1 =
       curstrand1->GetPoints();
-    Polygon3DType::PointListType &points2 =
+    Polygon3DType::PolygonPointListType &points2 =
       curstrand2->GetPoints();
 
     auto pointIt1

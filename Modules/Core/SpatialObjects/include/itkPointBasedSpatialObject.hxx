@@ -37,6 +37,18 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 template< unsigned int TDimension, class TSpatialObjectPointType >
 void
 PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
+::AddPoint( SpatialObjectPointType & newPoint )
+{
+  m_Points.push_back( newPoint );
+  m_Points.back().SetSpatialObject( this );
+
+  this->Modified();
+}
+
+/** Set Points from a list */
+template< unsigned int TDimension, class TSpatialObjectPointType >
+void
+PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 ::SetPoints( SpatialObjectPointListType & newPoints )
 {
   m_Points.clear();

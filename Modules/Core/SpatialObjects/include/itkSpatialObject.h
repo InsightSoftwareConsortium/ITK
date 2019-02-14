@@ -140,15 +140,15 @@ public:
   virtual std::string GetClassNameAndDimension( void ) const;
 
   /** Set the property applied to the object. */
-  void SetProperty( const PropertyType * property )
-  { m_Property->DeepCopy( property ); }
+  void SetProperty( const PropertyType & property )
+  { m_Property = property; }
 
   /** Returns a pointer to the property object applied to this class. */
-  PropertyType * GetProperty()
-  { return m_Property.GetPointer(); }
+  PropertyType & GetProperty()
+  { return m_Property; }
 
-  const PropertyType * GetProperty() const
-  { return m_Property.GetPointer(); }
+  const PropertyType & GetProperty() const
+  { return m_Property; }
 
   /** Returns the latest modified time of the spatial object, and
    * any of its components. */
@@ -499,7 +499,7 @@ private:
   /** Type of spatial object */
   std::string     m_TypeName;
 
-  typename PropertyType::Pointer m_Property;
+  PropertyType    m_Property;
 
   int             m_ParentId;
   Self *          m_Parent;

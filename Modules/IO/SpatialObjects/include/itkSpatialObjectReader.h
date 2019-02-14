@@ -48,7 +48,7 @@ public:
   using GroupType = GroupSpatialObject< NDimensions >;
   using GroupPointer = typename GroupType::Pointer;
 
-  using SceneType = SceneSpatialObject< NDimensions >;
+  using SceneType = GroupSpatialObject< NDimensions >;
   using ScenePointer = typename SceneType::Pointer;
 
   /** base type for MetaConverters -- bidirections conversion btw
