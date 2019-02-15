@@ -32,9 +32,9 @@ namespace itk
  * reference.
  */
 template< typename TElementIdentifier, typename TElement >
-typename VectorContainer< TElementIdentifier, TElement >::reference
+auto
 VectorContainer< TElementIdentifier, TElement >
-::ElementAt(ElementIdentifier id)
+::ElementAt(ElementIdentifier id) -> reference
 {
   this->Modified();
   return this->VectorType::operator[](id);
@@ -47,9 +47,9 @@ VectorContainer< TElementIdentifier, TElement >
  *
  */
 template< typename TElementIdentifier, typename TElement >
-typename VectorContainer< TElementIdentifier, TElement >::const_reference
+auto
 VectorContainer< TElementIdentifier, TElement >
-::ElementAt(ElementIdentifier id) const
+::ElementAt(ElementIdentifier id) const -> const_reference
 {
   return this->VectorType::operator[](id);
 }
@@ -63,9 +63,9 @@ VectorContainer< TElementIdentifier, TElement >
  * reference.
  */
 template< typename TElementIdentifier, typename TElement >
-typename VectorContainer< TElementIdentifier, TElement >::reference
+auto
 VectorContainer< TElementIdentifier, TElement >
-::CreateElementAt(ElementIdentifier id)
+::CreateElementAt(ElementIdentifier id) -> reference
 {
   if ( id >= this->VectorType::size() )
     {
