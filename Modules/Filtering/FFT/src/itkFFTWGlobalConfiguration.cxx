@@ -16,7 +16,12 @@
  *
  *=========================================================================*/
 #include "itkFFTWGlobalConfiguration.h"
+
 #if defined(ITK_USE_FFTWF) || defined(ITK_USE_FFTWD)
+
+#include "itkSingleton.h"
+
+
 #include "itksys/SystemTools.hxx"
 #ifdef _WIN32
         #include <Windows.h>
@@ -36,6 +41,15 @@
 
 namespace itk
 {
+
+struct FFTWGlobalConfigurationGlobals
+{
+  FFTWGlobalConfigurationGlobals():m_Instance(nullptr)
+  {};
+
+  FFTWGlobalConfiguration::Pointer m_Instance;
+  std::mutex m_CreationLock;
+};
 
 WisdomFilenameGeneratorBase
 ::WisdomFilenameGeneratorBase()
@@ -137,23 +151,25 @@ static bool isDeclineString(std::string response)
   return false;
 }
 
-std::mutex              itk::FFTWGlobalConfiguration::m_CreationLock;
-itk::FFTWGlobalConfiguration::Pointer itk::FFTWGlobalConfiguration::m_Instance=nullptr;
+itkGetGlobalSimpleMacro(FFTWGlobalConfiguration, FFTWGlobalConfigurationGlobals, PimplGlobals);
+
+FFTWGlobalConfigurationGlobals * FFTWGlobalConfiguration::m_PimplGlobals;
 
 FFTWGlobalConfiguration::Pointer
 FFTWGlobalConfiguration
 ::GetInstance()
 {
-  if( ! FFTWGlobalConfiguration::m_Instance )
+  itkInitGlobalsMacro(PimplGlobals);
+  if( ! m_PimplGlobals->m_Instance )
     {
-    FFTWGlobalConfiguration::m_CreationLock.lock();
+    m_PimplGlobals->m_CreationLock.lock();
     //Need to make sure that during gaining access
     //to the lock that some other thread did not
     //initialize the singleton.
-    if( ! FFTWGlobalConfiguration::m_Instance )
+    if( ! m_PimplGlobals->m_Instance )
       {
-      FFTWGlobalConfiguration::m_Instance= Self::New();
-      if ( ! FFTWGlobalConfiguration::m_Instance )
+      m_PimplGlobals->m_Instance= Self::New();
+      if ( ! m_PimplGlobals->m_Instance )
         {
         std::ostringstream message;
         message << "itk::ERROR: " << "FFTWGlobalConfiguration"
@@ -162,9 +178,9 @@ FFTWGlobalConfiguration
         throw e_; /* Explicit naming to work around Intel compiler bug.  */
         }
       }
-    FFTWGlobalConfiguration::m_CreationLock.unlock();
+    m_PimplGlobals->m_CreationLock.unlock();
     }
-  return FFTWGlobalConfiguration::m_Instance;
+  return m_PimplGlobals->m_Instance;
 }
 
 HardwareWisdomFilenameGenerator
@@ -801,6 +817,7 @@ void
 FFTWGlobalConfiguration
 ::SetNewWisdomAvailable( const bool & v )
 {
+  itkInitGlobalsMacro(PimplGlobals);
   GetInstance()->m_NewWisdomAvailable = v;
 }
 
@@ -808,6 +825,7 @@ bool
 FFTWGlobalConfiguration
 ::GetNewWisdomAvailable()
 {
+  itkInitGlobalsMacro(PimplGlobals);
   return GetInstance()->m_NewWisdomAvailable;
 }
 
@@ -815,6 +833,7 @@ void
 FFTWGlobalConfiguration
 ::SetPlanRigor( const int & v )
 {
+  itkInitGlobalsMacro(PimplGlobals);
   // use that method to check the value
   GetPlanRigorName( v );
   GetInstance()->m_PlanRigor = v;
@@ -824,6 +843,7 @@ int
 FFTWGlobalConfiguration
 ::GetPlanRigor()
 {
+  itkInitGlobalsMacro(PimplGlobals);
   return GetInstance()->m_PlanRigor;
 }
 
@@ -831,6 +851,7 @@ void
 FFTWGlobalConfiguration
 ::SetPlanRigor( const std::string & name )
 {
+  itkInitGlobalsMacro(PimplGlobals);
   SetPlanRigor( GetPlanRigorValue( name ) );
 }
 
@@ -838,6 +859,7 @@ void
 FFTWGlobalConfiguration
 ::SetReadWisdomCache( const bool & v )
 {
+  itkInitGlobalsMacro(PimplGlobals);
   GetInstance()->m_ReadWisdomCache = v;
   if(v == true)
     {
@@ -849,6 +871,7 @@ bool
 FFTWGlobalConfiguration
 ::GetReadWisdomCache()
 {
+  itkInitGlobalsMacro(PimplGlobals);
   return GetInstance()->m_ReadWisdomCache;
 }
 
@@ -856,6 +879,7 @@ void
 FFTWGlobalConfiguration
 ::SetWriteWisdomCache( const bool & v )
 {
+  itkInitGlobalsMacro(PimplGlobals);
   GetInstance()->m_WriteWisdomCache = v;
 }
 
@@ -863,6 +887,7 @@ bool
 FFTWGlobalConfiguration
 ::GetWriteWisdomCache()
 {
+  itkInitGlobalsMacro(PimplGlobals);
   return GetInstance()->m_WriteWisdomCache;
 }
 
@@ -871,6 +896,7 @@ void
 FFTWGlobalConfiguration
 ::SetWisdomCacheBase( const std::string & v )
 {
+  itkInitGlobalsMacro(PimplGlobals);
   GetInstance()->m_WisdomCacheBase = v;
   //If resetting the wisdom cache base, we need to re-read the wisdom files
   ImportDefaultWisdomFile();
@@ -880,6 +906,8 @@ std::string
 FFTWGlobalConfiguration
 ::GetWisdomCacheBase()
 {
+  itkInitGlobalsMacro(PimplGlobals);
+
   return GetInstance()->m_WisdomCacheBase;
 }
 
