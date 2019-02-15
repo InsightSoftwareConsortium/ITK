@@ -1,5 +1,8 @@
 cmake_minimum_required (VERSION 3.10)
 project (HDF5_SRC C)
+if(POLICY CMP0083)
+  cmake_policy(SET CMP0083 NEW) # CMake 3.14.0: Add PIE options when linking executable.
+endif()
 
 #-----------------------------------------------------------------------------
 # List Source Files

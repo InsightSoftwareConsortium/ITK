@@ -21,6 +21,10 @@
 
 include(ITK_CheckCCompilerFlag)
 include(ITK_CheckCXXCompilerFlag)
+if(CMAKE_VERSION GREATER_EQUAL 3.14.0)
+  include(CheckPIESupported)
+  check_pie_supported()
+endif()
 
 function(check_c_compiler_warning_flags c_flag_var)
   set(local_c_flags "")
