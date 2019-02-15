@@ -529,7 +529,8 @@ class SwigInputGenerator(object):
                 self.outputFile.write('def %s(*args, **kwargs):\n' % snakeCase)
                 self.outputFile.write('    """Procedural interface for %s"""\n' % processObject)
                 self.outputFile.write('    import itk\n')
-                self.outputFile.write('    return itk.%s.__call__(*args, **kwargs)\n' % processObject)
+                self.outputFile.write('    instance = itk.%s.New(*args, **kwargs)\n' % processObject)
+                self.outputFile.write('    return instance.__internal_call__()\n')
             self.outputFile.write('%}\n')
             self.outputFile.write("#endif\n")
 

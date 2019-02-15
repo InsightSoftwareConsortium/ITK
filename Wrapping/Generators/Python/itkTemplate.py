@@ -339,29 +339,35 @@ class itkTemplate(object):
 
 
     def __call__(self, *args, **kwargs):
-        """Create a process object, update with the inputs and
+        """Deprecated procedural interface function.
+
+        Use snake case function instead. This function is now
+        merely a wrapper around the snake case function (more
+        specifically around `__internal_call__()` to avoid
+        creating a new instance twice).
+
+        Create a process object, update with the inputs and
         attributes, and return the result.
 
         The syntax is the same as the one used in New().
 
         UpdateLargestPossibleRegion() is execute and the current output,
-        or tuple of outputs if there is more than
-        one, is returned.
+        or tuple of outputs if there is more than one, is returned.
 
         For example,
 
           outputImage = itk.MedianImageFilter(inputImage, Radius=(1,2))
         """
+        import itkHelpers
+        short_name = re.sub(r'.*::', '', self.__name__)
+        snake = itkHelpers.camel_to_snake_case(short_name)
+
+        warnings.warn("WrapITK warning: itk.%s() is deprecated for procedural"
+            " interface. Use snake case function itk.%s() instead."
+             % (short_name, snake), DeprecationWarning)
+
         filt = self.New(*args, **kwargs)
-        try:
-            filt.UpdateLargestPossibleRegion()
-            if filt.GetNumberOfIndexedOutputs() == 1:
-                result = filt.GetOutput()
-            else:
-                result = tuple([filt.GetOutput(idx) for idx in range(filt.GetNumberOfIndexedOutputs())])
-        except AttributeError:
-            result = filt
-        return result
+        return filt.__internal_call__()
 
     def New(self, *args, **kwargs):
         """Instantiate the template with a type implied from its input.
