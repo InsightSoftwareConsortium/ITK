@@ -27,11 +27,25 @@ endif()
 if( POLICY CMP0063 )
   cmake_policy(SET CMP0063 NEW)
 endif()
+#: Add PIE options when linking executable.
+if( POLICY CMP0083 )
+  cmake_policy(SET CMP0083 NEW)
+endif()
 
 project(vxl)
 
 include(CMakeDependentOption)
 
+#Disable overzealous compiler warning.  If the definition is truely missing a link error will be created.
+include(CheckCXXCompilerFlag)
+CHECK_CXX_COMPILER_FLAG(-Wno-undefined-var-template HAS_NO_UNDEFINED_VAR_TEMPLATE)
+if( HAS_NO_UNDEFINED_VAR_TEMPLATE )
+  add_definitions( -Wno-undefined-var-template )
+endif()
+if(NOT CMAKE_VERSION VERSION_LESS 3.14.0)
+  include(CheckPIESupported)
+  check_pie_supported()
+endif()
 
 find_program( MEMORYCHECK_COMMAND valgrind )
 if(MEMORYCHECK_COMMAND)
