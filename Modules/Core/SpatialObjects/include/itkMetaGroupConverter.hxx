@@ -44,14 +44,6 @@ MetaGroupConverter< NDimensions >
 
   GroupSpatialObjectPointer groupSO = GroupSpatialObjectType::New();
 
-  double               spacing[NDimensions];
-  unsigned int         i;
-
-  for ( i = 0; i < NDimensions; i++ )
-    {
-    spacing[i] = group->ElementSpacing()[i];
-    }
-  groupSO->GetModifiableIndexToObjectTransform()->SetScaleComponent(spacing);
   groupSO->GetProperty().SetName( group->Name() );
   groupSO->GetProperty().SetRed(group->Color()[0]);
   groupSO->GetProperty().SetGreen(group->Color()[1]);
@@ -84,12 +76,6 @@ MetaGroupConverter< NDimensions >
     color[i] = groupSO->GetProperty().GetColor()[i];
     }
   group->Color(color);
-
-  for ( unsigned int i = 0; i < NDimensions; i++ )
-    {
-    group->ElementSpacing(i, groupSO->GetIndexToObjectTransform()
-                          ->GetScaleComponent()[i]);
-    }
 
   if ( groupSO->GetParent() )
     {

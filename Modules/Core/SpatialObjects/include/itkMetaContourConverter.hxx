@@ -58,11 +58,13 @@ MetaContourConverter< NDimensions >
   contourSO->SetOrientationInObjectSpace( const_cast<ContourMetaObjectType *>(contourMO)->DisplayOrientation() );
 
   // First the control points
-  using ControlPointType = typename ContourSpatialObjectType::ControlPointType;
+  using ControlPointType = typename ContourSpatialObjectType::ContourPointType;
 
   auto itCP = contourMO->GetControlPoints().begin();
 
-  for ( unsigned int identifier = 0; identifier < contourMO->GetControlPoints().size(); identifier++ )
+  for ( unsigned int identifier = 0;
+        identifier < contourMO->GetControlPoints().size();
+        identifier++ )
     {
     ControlPointType pnt;
 
@@ -103,10 +105,10 @@ MetaContourConverter< NDimensions >
     }
 
   // Then the interpolated points
-  using InterpolatedPointType = typename ContourSpatialObjectType::InterpolatedPointType;
+  using InterpolatedPointType = typename ContourSpatialObjectType::ContourPointType;
   auto itI = contourMO->GetInterpolatedPoints().begin();
 
-  for ( unsigned int identifier = 0; identifier < contourMO->GetInterpolatedPoints().size(); identifier++ )
+  for ( unsigned int identifier = 0; identifier < contourMO->GetPoints().size(); identifier++ )
     {
     InterpolatedPointType pnt;
 
@@ -148,7 +150,7 @@ MetaContourConverter< NDimensions >
 
 
   // fill in the control points information
-  typename ContourSpatialObjectType::ControlPointListType::const_iterator itCP;
+  typename ContourSpatialObjectType::ContourPointListType::const_iterator itCP;
 
   for ( itCP = contourSO->GetControlPoints().begin();
         itCP != contourSO->GetControlPoints().end();
@@ -191,7 +193,7 @@ MetaContourConverter< NDimensions >
     }
 
   // fill in the interpolated points information
-  typename ContourSpatialObjectType::InterpolatedPointListType::const_iterator itI;
+  typename ContourSpatialObjectType::ContourPointListType::const_iterator itI;
   for ( itI = contourSO->GetPoints().begin();
         itI != contourSO->GetPoints().end();
         itI++ )
