@@ -104,7 +104,7 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 template< unsigned int TDimension, class TSpatialObjectPointType >
 bool
 PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
-::ComputeMyBoundingBox() const
+::ComputeMyBoundingBoxInWorldSpace() const
 {
   itkDebugMacro("Computing blob bounding box");
 
@@ -151,9 +151,9 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
     }
 
   // refresh the object's bounding box with the transformed corners
-  const_cast< BoundingBoxType * >( this->GetMyBoundingBox() )
+  const_cast< BoundingBoxType * >( this->GetMyBoundingBoxInWorldSpace() )
     ->SetPoints(transformedCorners);
-  this->GetMyBoundingBox()->ComputeBoundingBox();
+  this->GetMyBoundingBoxInWorldSpace()->ComputeBoundingBox();
 
   return true;
 }
@@ -163,12 +163,12 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 template< unsigned int TDimension, class TSpatialObjectPointType >
 bool
 PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
-::IsInside( const PointType & point, unsigned int depth,
+::IsInsideInWorldSpace( const PointType & point, unsigned int depth,
     const std::string & name) const
 {
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    if( this->GetMyBoundingBox()->IsInside( point ) )
+    if( this->GetMyBoundingBoxInWorldSpace()->IsInside( point ) )
       {
       auto it = m_Points.begin();
       auto itEnd = m_Points.end();
@@ -200,7 +200,7 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 
   if( depth > 0 )
     {
-    return Superclass::IsInsideChildren(point, depth-1, name);
+    return Superclass::IsInsideInWorldSpaceChildrenInWorldSpace(point, depth-1, name);
     }
 
   return false;

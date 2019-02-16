@@ -47,8 +47,8 @@ namespace itk
  * spatial objects can be plugged to a spatial object as children.  To
  * implement your own spatial object, you need to derive from the
  * following class, which requires the definition of just a few pure
- * virtual functions.  Examples of such functions are ValueAt(),
- * IsEvaluableAt(), and IsInside(), each of which has a meaning
+ * virtual functions.  Examples of such functions are ValueAtInWorldSpace(),
+ * IsEvaluableAtInWorldSpace(), and IsInsideInWorldSpace(), each of which has a meaning
  * specific to each particular object type.
  * \ingroup ITKSpatialObjects
  */
@@ -193,20 +193,20 @@ public:
   /**********************************************************************/
   /* These are the three member functions that a subclass will typically
    *    overwrite.
-   *    * ComputeMyBoundingBox
-   *    * IsInside
+   *    * ComputeMyBoundingBoxInWorldSpace
+   *    * IsInsideInWorldSpace
    *    * Update
    *  Optionally, a subclass may also wish to overwrite
-   *    * ValueAt
-   *    * IsEvaluableAt - if the extent is beyond IsInisde.
+   *    * ValueAtInWorldSpace
+   *    * IsEvaluableAtInWorldSpace - if the extent is beyond IsInisde.
    */
   /**********************************************************************/
 
   /** Compute bounding box for the object in world space */
-  virtual bool ComputeMyBoundingBox() const;
+  virtual bool ComputeMyBoundingBoxInWorldSpace() const;
 
   /** Returns true if a point is inside the object in world space. */
-  virtual bool IsInside(const PointType & point,
+  virtual bool IsInsideInWorldSpace(const PointType & point,
                         unsigned int depth = 0,
                         const std::string & name = "") const;
 
@@ -216,32 +216,32 @@ public:
 
 
   /** Returns the value at a point. Returns true if that value is valid */
-  virtual bool ValueAt(const PointType & point, double & value,
+  virtual bool ValueAtInWorldSpace(const PointType & point, double & value,
                        unsigned int depth = 0,
                        const std::string & name = "") const;
 
   /** Returns true if the object can provide a "meaningful" value at
-   * a point.   Often defaults to returning same answer as IsInside, but
+   * a point.   Often defaults to returning same answer as IsInsideInWorldSpace, but
    * certain objects influence space beyond their spatial extent,
    * e.g., an RFA Needle Spatial Object can cause a burn
    * that extends beyond the tip of the needle.
    */
-  virtual bool IsEvaluableAt(const PointType & point,
+  virtual bool IsEvaluableAtInWorldSpace(const PointType & point,
                              unsigned int depth = 0,
                              const std::string & name = "") const;
 
   /********************************************************/
   /* Helper functions to recurse queries through children */
   /********************************************************/
-  virtual bool IsInsideChildren(const PointType & point,
+  virtual bool IsInsideInWorldSpaceChildrenInWorldSpace(const PointType & point,
                         unsigned int depth = 0,
                         const std::string & name = "") const;
 
-  virtual bool ValueAtChildren(const PointType & point, double & value,
+  virtual bool ValueAtInWorldSpaceChildrenInWorldSpace(const PointType & point, double & value,
                        unsigned int depth = 0,
                        const std::string & name = "") const;
 
-  virtual bool IsEvaluableAtChildren(const PointType & point,
+  virtual bool IsEvaluableAtInWorldSpaceChildrenInWorldSpace(const PointType & point,
                              unsigned int depth = 0,
                              const std::string & name = "") const;
 
@@ -250,18 +250,18 @@ public:
   /* Values and derivatives */
   /**************************/
 
-  /** Set/Get the default inside value (ValueAt()) of the object.
+  /** Set/Get the default inside value (ValueAtInWorldSpace()) of the object.
    *  Default is 1.0 */
   itkSetMacro(DefaultInsideValue, double);
   itkGetConstMacro(DefaultInsideValue, double);
 
-  /** Set/Get the default outside value (ValueAt()) of the object.
+  /** Set/Get the default outside value (ValueAtInWorldSpace()) of the object.
    *  Default is 0.0 */
   itkSetMacro(DefaultOutsideValue, double);
   itkGetConstMacro(DefaultOutsideValue, double);
 
   /** Return the n-th order derivative value at the specified point. */
-  virtual void DerivativeAt(const PointType & point,
+  virtual void DerivativeAtInWorldSpace(const PointType & point,
                             short unsigned int order,
                             CovariantVectorType & value,
                             unsigned int depth = 0,
@@ -349,18 +349,18 @@ public:
   /**********************/
 
   /** Get a pointer to the axis-aligned bounding box of the object in world
-   *   space. This box is computed by ComputeMyBoundingBox which is called by
+   *   space. This box is computed by ComputeMyBoundingBoxInWorldSpace which is called by
    *   Update().  */
-  virtual BoundingBoxType * GetMyBoundingBox() const;
+  virtual BoundingBoxType * GetMyBoundingBoxInWorldSpace() const;
 
   /** Compute an axis-aligned bounding box for an object and its selected
    * children, down to a specified depth, in world space. */
-  virtual bool ComputeFamilyBoundingBox( unsigned int depth = 0,
+  virtual bool ComputeFamilyBoundingBoxInWorldSpace( unsigned int depth = 0,
     const std::string & name = "" ) const;
 
   /** Get a pointer to the bounding box of the object.
    *  The extents and the position of the box are not computed. */
-  virtual BoundingBoxType * GetFamilyBoundingBox() const;
+  virtual BoundingBoxType * GetFamilyBoundingBoxInWorldSpace() const;
 
 
   /******************************/
@@ -470,7 +470,7 @@ public:
    * and conditional iterators for defining regions of interest.
    */
   bool Evaluate(const PointType & point) const
-  { return this->IsInside(point); }
+  { return this->IsInsideInWorldSpace(point); }
 
 
 protected:
@@ -485,11 +485,11 @@ protected:
 
   itkSetMacro(TypeName, std::string);
 
-  virtual BoundingBoxType * GetModifiableMyBoundingBox()
-  { return m_MyBoundingBox.GetPointer(); }
+  virtual BoundingBoxType * GetModifiableMyBoundingBoxInWorldSpace()
+  { return m_MyBoundingBoxInWorldSpace.GetPointer(); }
 
-  virtual BoundingBoxType * GetModifiableFamilyBoundingBox()
-  { return m_FamilyBoundingBox.GetPointer(); }
+  virtual BoundingBoxType * GetModifiableFamilyBoundingBoxInWorldSpace()
+  { return m_FamilyBoundingBoxInWorldSpace.GetPointer(); }
 
 private:
 
@@ -508,20 +508,20 @@ private:
   RegionType      m_RequestedRegion;
   RegionType      m_BufferedRegion;
 
-  BoundingBoxPointer       m_MyBoundingBox;
+  BoundingBoxPointer       m_MyBoundingBoxInWorldSpace;
 
-  BoundingBoxPointer       m_FamilyBoundingBox;
-  mutable ModifiedTimeType m_FamilyBoundingBoxMTime;
+  BoundingBoxPointer       m_FamilyBoundingBoxInWorldSpace;
+  mutable ModifiedTimeType m_FamilyBoundingBoxInWorldSpaceMTime;
 
   TransformPointer m_ObjectToParentTransform;
   TransformPointer m_ObjectToWorldTransform;
 
   ChildrenListType m_ChildrenList;
 
-  /** Default inside value for the ValueAt() */
+  /** Default inside value for the ValueAtInWorldSpace() */
   double m_DefaultInsideValue;
 
-  /** Default outside value for the ValueAt() */
+  /** Default outside value for the ValueAtInWorldSpace() */
   double m_DefaultOutsideValue;
 
 };

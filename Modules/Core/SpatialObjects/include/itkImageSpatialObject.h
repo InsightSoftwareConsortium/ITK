@@ -79,15 +79,15 @@ public:
   const ImageType * GetImage() const;
 
   /** Compute the boundaries of the image spatial object. */
-  bool ComputeMyBoundingBox() const override;
+  bool ComputeMyBoundingBoxInWorldSpace() const override;
 
   /** Returns true if the point is inside, false otherwise. */
-  bool IsInside(const PointType & point, unsigned int depth=0,
+  bool IsInsideInWorldSpace(const PointType & point, unsigned int depth=0,
     const std::string & name = "") const override;
 
   /** Returns the value of the image at the requested point.
    *  Returns true if that value is valid */
-  bool ValueAt(const PointType & point, double & value, unsigned int depth = 0,
+  bool ValueAtInWorldSpace(const PointType & point, double & value, unsigned int depth = 0,
     const std::string & name = "") const override;
 
 
@@ -96,10 +96,10 @@ public:
   ModifiedTimeType GetMTime() const override;
 
   /** Set the slice position */
-  void SetSlicePosition(unsigned int dimension, int position);
+  void SetSlicePositionInWorldSpace(unsigned int dimension, int position);
 
   /** Get the slice position */
-  int GetSlicePosition(unsigned int dimension)
+  int GetSlicePositionInWorldSpace(unsigned int dimension)
   { return m_SlicePosition[dimension]; }
 
   const char * GetPixelTypeName()

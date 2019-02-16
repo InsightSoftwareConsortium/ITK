@@ -38,12 +38,12 @@ ImageMaskSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 ImageMaskSpatialObject< TDimension >
-::IsInside(const PointType & point, unsigned int depth,
+::IsInsideInWorldSpace(const PointType & point, unsigned int depth,
   const std::string & name ) const
 {
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    if( this->GetMyBoundingBox()->IsInside(point) )
+    if( this->GetMyBoundingBoxInWorldSpace()->IsInside(point) )
       {
       PointType p = this->GetObjectToWorldTransform()->GetInverseTransform()->
         TransformPoint(point);
@@ -67,7 +67,7 @@ ImageMaskSpatialObject< TDimension >
     }
   if( depth > 0 )
     {
-    return Superclass::IsInsideChildren( point, depth, name );
+    return Superclass::IsInsideInWorldSpaceChildrenInWorldSpace( point, depth, name );
     }
 
   return false;
@@ -76,7 +76,7 @@ ImageMaskSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 ImageMaskSpatialObject< TDimension >
-::ComputeMyBoundingBox() const
+::ComputeMyBoundingBoxInWorldSpace() const
 {
   using IteratorType = ImageRegionConstIteratorWithIndex< ImageType >;
   IteratorType it( m_Image, m_Image->GetLargestPossibleRegion() );
@@ -113,12 +113,12 @@ ImageMaskSpatialObject< TDimension >
       if( first )
         {
         first = false;
-        this->GetMyBoundingBox()->SetMinimum( transformedPoint );
-        this->GetMyBoundingBox()->SetMaximum( transformedPoint );
+        this->GetMyBoundingBoxInWorldSpace()->SetMinimum( transformedPoint );
+        this->GetMyBoundingBoxInWorldSpace()->SetMaximum( transformedPoint );
         }
       else
         {
-        this->GetMyBoundingBox()->ConsiderPoint( transformedPoint );
+        this->GetMyBoundingBoxInWorldSpace()->ConsiderPoint( transformedPoint );
         }
       }
     prevIt = it;
@@ -131,8 +131,8 @@ ImageMaskSpatialObject< TDimension >
       NumericTraits< typename BoundingBoxType::PointType::ValueType >::
       ZeroValue() );
 
-    this->GetMyBoundingBox()->SetMinimum( transformedPoint );
-    this->GetMyBoundingBox()->SetMaximum( transformedPoint );
+    this->GetMyBoundingBoxInWorldSpace()->SetMinimum( transformedPoint );
+    this->GetMyBoundingBoxInWorldSpace()->SetMaximum( transformedPoint );
 
     return false;
     }

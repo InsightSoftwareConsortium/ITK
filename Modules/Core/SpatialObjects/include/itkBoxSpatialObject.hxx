@@ -40,14 +40,14 @@ BoxSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 BoxSpatialObject< TDimension >
-::IsInside(const PointType & worldPoint, unsigned int depth,
+::IsInsideInWorldSpace(const PointType & worldPoint, unsigned int depth,
   const std::string & name) const
 {
   itkDebugMacro("Checking the point [" << worldPoint << "] is in the box");
 
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    if( this->GetMyBoundingBox()->IsInside( worldPoint ) )
+    if( this->GetMyBoundingBoxInWorldSpace()->IsInsideInWorldSpace( worldPoint ) )
       {
       PointType transformedPoint = this->GetObjectToWorldTransform()
         ->GetInverseTransform()->TransformPoint(worldPoint);
@@ -71,7 +71,7 @@ BoxSpatialObject< TDimension >
 
   if( depth > 0 )
     {
-    return Superclass::IsInsideChildren(worldPoint, depth-1, name);
+    return Superclass::IsInsideInWorldSpaceChildrenInWorldSpace(worldPoint, depth-1, name);
     }
 
   return false;
@@ -81,7 +81,7 @@ BoxSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 BoxSpatialObject< TDimension >
-::ComputeMyBoundingBox() const
+::ComputeMyBoundingBoxInWorldSpace() const
 {
   itkDebugMacro("Computing BoxSpatialObject bounding box");
 
@@ -96,13 +96,13 @@ BoxSpatialObject< TDimension >
   pnt1 = this->GetObjectToWorldTransform()->TransformPoint(pnt1);
   pnt2 = this->GetObjectToWorldTransform()->TransformPoint(pnt2);
 
-  const_cast< BoundingBoxType * >( this->GetMyBoundingBox() )
+  const_cast< BoundingBoxType * >( this->GetMyBoundingBoxInWorldSpace() )
     ->SetMinimum(pnt1);
-  const_cast< BoundingBoxType * >( this->GetMyBoundingBox() )
+  const_cast< BoundingBoxType * >( this->GetMyBoundingBoxInWorldSpace() )
     ->SetMaximum(pnt1);
-  const_cast< BoundingBoxType * >( this->GetMyBoundingBox() )
+  const_cast< BoundingBoxType * >( this->GetMyBoundingBoxInWorldSpace() )
     ->ConsiderPoint(pnt2);
-  this->GetMyBoundingBox()->ComputeBoundingBox();
+  this->GetMyBoundingBoxInWorldSpace()->ComputeBoundingBox();
 
   return true;
 }

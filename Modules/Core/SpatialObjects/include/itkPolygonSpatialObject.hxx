@@ -143,12 +143,12 @@ PolygonSpatialObject< TDimension >
   const PolygonPointListType & points = this->GetPoints();
   auto it = points.begin();
   PointType a;
-  PointType b = ( *it ).GetPosition();  // In world space
+  PointType b = ( *it ).GetPositionInWorldSpace();  // In world space
   for ( int i = 0; i < numpoints; i++ )
     {
     a = b;
     it++;
-    b = ( *it ).GetPosition();  // In world space
+    b = ( *it ).GetPositionInWorldSpace();  // In world space
 
     // closed PolygonGroup has first and last points the same
     if ( a == b )
@@ -186,12 +186,12 @@ PolygonSpatialObject< TDimension >
   auto it = points.begin();
 
   PointType a;
-  PointType b = ( *it ).GetPosition();  // In world space
+  PointType b = ( *it ).GetPositionInWorldSpace();  // In world space
   for ( int i = 0; i < numpoints; i++ )
     {
     a = b;
     it++;
-    b = ( *it ).GetPosition();  // In world space
+    b = ( *it ).GetPositionInWorldSpace();  // In world space
 
     // closed PolygonGroup has first and last points the same
     if ( a == b )
@@ -207,12 +207,12 @@ PolygonSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 PolygonSpatialObject< TDimension >
-::IsInside(const PointType & worldPoint, unsigned int depth,
+::IsInsideInWorldSpace(const PointType & worldPoint, unsigned int depth,
   const std::string & name) const
 {
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    if( this->IsClosed() && this->GetMyBoundingBox()->IsInside( worldPoint ) )
+    if( this->IsClosed() && this->GetMyBoundingBoxInWorldSpace()->IsInside( worldPoint ) )
       {
       int    numpoints = this->GetNumberOfPoints();
       int    X = -1;
@@ -285,7 +285,7 @@ PolygonSpatialObject< TDimension >
 
   if( depth > 0 )
     {
-    return Superclass::IsInsideChildren( worldPoint, depth-1, name );
+    return Superclass::IsInsideInWorldSpaceChildrenInWorldSpace( worldPoint, depth-1, name );
     }
 
   return false;

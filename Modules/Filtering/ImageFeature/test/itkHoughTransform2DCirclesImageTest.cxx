@@ -201,8 +201,8 @@ namespace
 
     using PointType = CircleType::PointType;
 
-    const PointType& centerPoint1 = circle1->GetCenterPoint();
-    const PointType& centerPoint2 = circle2->GetCenterPoint();
+    const PointType& centerPoint1 = circle1->GetCenterInObjectSpace();
+    const PointType& centerPoint2 = circle2->GetCenterInObjectSpace();
 
     if (centerPoint1 != centerPoint2)
     {
@@ -212,8 +212,8 @@ namespace
       success = false;
     }
 
-    const double radius1 = circle1->GetRadius()[0];
-    const double radius2 = circle2->GetRadius()[0];
+    const double radius1 = circle1->GetRadiusInObjectSpace()[0];
+    const double radius2 = circle2->GetRadiusInObjectSpace()[0];
 
     if ( radius2 < radius1 )
     {
@@ -277,7 +277,7 @@ namespace
       return false;
     }
 
-    const bool isInside = circle->IsInside(center);
+    const bool isInside = circle->IsInsideInWorldSpace(center);
 
     if (!isInside)
     {
@@ -428,18 +428,22 @@ int itkHoughTransform2DCirclesImageTest( int, char* [] )
   unsigned int i = 0;
   while( it != circleList.end() )
     {
-      if( !itk::Math::FloatAlmostEqual( (double)( it->GetPointer()->GetRadius()[0] ),
+      if( !itk::Math::FloatAlmostEqual(
+          (double)( it->GetPointer()->GetRadiusInObjectSpace()[0] ),
         radius[i], 10, radiusTolerance ) &&
-        !itk::Math::FloatAlmostEqual( (double)( it->GetPointer()->GetRadius()[0] ),
+        !itk::Math::FloatAlmostEqual(
+          (double)( it->GetPointer()->GetRadiusInObjectSpace()[0] ),
         radius[i] * discRadiusRatio, 10, radiusTolerance ) )
       {
       std::cout << "Failure for circle #" << i << std::endl;
-      std::cout << "Expected radius: " << radius[i] << ", found " << it->GetPointer()->GetRadius() << std::endl;
+      std::cout << "Expected radius: " << radius[i] << ", found "
+        << it->GetPointer()->GetRadiusInObjectSpace() << std::endl;
       success = false;
       }
     else
       {
-      std::cout << "Circle #" << i << " radius: " << it->GetPointer()->GetRadius() << std::endl;
+      std::cout << "Circle #" << i << " radius: "
+        << it->GetPointer()->GetRadiusInObjectSpace() << std::endl;
       }
     ++it;
     ++i;

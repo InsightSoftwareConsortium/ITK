@@ -42,7 +42,7 @@ SpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 void
 SpatialObjectPoint< TPointDimension >
-::SetPosition( const PointType & point )
+::SetPositionInWorldSpace( const PointType & point )
 {
   if( m_SpatialObject == nullptr )
     {
@@ -59,7 +59,7 @@ SpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 typename SpatialObjectPoint< TPointDimension >::PointType
 SpatialObjectPoint< TPointDimension >
-::GetPosition() const
+::GetPositionInWorldSpace() const
 {
   if( m_SpatialObject == nullptr )
     {
@@ -77,7 +77,7 @@ SpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 void
 SpatialObjectPoint< TPointDimension >
-::SetColor(float r, float g, float b, float a)
+::SetColor(double r, double g, double b, double a)
 {
   m_Color.SetRed(r);
   m_Color.SetGreen(g);
