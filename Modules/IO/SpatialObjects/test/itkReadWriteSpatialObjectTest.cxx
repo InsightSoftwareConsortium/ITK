@@ -145,7 +145,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
     {
     SurfacePointType p;
     p.SetPositionInObjectSpace(i,i,i);
-    SurfacePointType::VectorType normal;
+    SurfacePointType::CovariantVectorType normal;
     for(unsigned int j=0;j<3;j++)
       {
       normal[j]=j;
@@ -167,8 +167,8 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
     p.SetGreen(i+1);
     p.SetBlue(i+2);
     p.SetAlpha(i+3);
-    LinePointType::VectorType normal1;
-    LinePointType::VectorType normal2;
+    LinePointType::CovariantVectorType normal1;
+    LinePointType::CovariantVectorType normal2;
     for(unsigned int j=0;j<3;j++)
       {
       normal1[j]=j;
@@ -284,7 +284,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
   image->SetImage(itkImage);
   image->Update();
 
-  tubeN2->AddSpatialObject( image );
+  tubeN2->AddChild( image );
 
   // Create Mask Image
   using itkImageMaskType = ImageMaskType::ImageType;
@@ -314,7 +314,8 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
   // Define a contour
   ContourType::Pointer contour = ContourType::New();
   contour->GetProperty().SetName("My First Contour");
-  contour->SetInterpolationMethod(ContourMethodType::EXPLICIT_INTERPOLATION);
+  contour->SetInterpolationMethod(
+    ContourType::InterpolationMethodType::EXPLICIT_INTERPOLATION );
   contour->SetIsClosed(true);
   contour->SetAttachedToSlice(50);
   contour->SetOrientationInObjectSpace(2);
@@ -322,10 +323,15 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
   for(int i = 0;i<10;i++)
     {
     ContourType::ContourPointType ctrlPt;
+    ContourType::ContourPointType::PointType p;
+    ContourType::ContourPointType::CovariantVectorType n;
     ctrlPt.SetId(i);
-    ctrlPt.SetPickedPointInObjectSpace(-i,-i,-i);
-    ctrlPt.SetPositionInObjectSpace(i,i,i);
-    ctrlPt.SetNormalInObjectSpace(i,i,i);
+    p.Fill( -i );
+    ctrlPt.SetPickedPointInObjectSpace(p);
+    p.Fill( i );
+    ctrlPt.SetPositionInObjectSpace(p);
+    n.Fill( i );
+    ctrlPt.SetNormalInObjectSpace(n);
     ctrlPt.SetRed(i);
     ctrlPt.SetGreen(i+1);
     ctrlPt.SetBlue(i+2);
@@ -338,7 +344,8 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
     iPt.SetGreen(i+1);
     iPt.SetBlue(i+2);
     iPt.SetAlpha(i+3);
-    iPt.SetPositionInObjectSpace(i,i,i);
+    p.Fill( i );
+    iPt.SetPositionInObjectSpace(p);
     contour->GetPoints().push_back(iPt);
     }
 
@@ -862,7 +869,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
 
   for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
     {
-    BlobType::PointListType::const_iterator pit;
+    BlobType::BlobPointListType::const_iterator pit;
     if(!strcmp((*obj)->GetTypeName().c_str(), "BlobSpatialObject"))
       {
       unsigned int value = 0;
@@ -926,7 +933,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
 
   for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
     {
-    SurfaceType::PointListType::const_iterator pit;
+    SurfaceType::SurfacePointListType::const_iterator pit;
     if(!strcmp((*obj)->GetTypeName().c_str(), "SurfaceSpatialObject"))
       {
       unsigned int value = 0;
@@ -1002,7 +1009,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
 
   for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
     {
-    LineType::PointListType::const_iterator pit;
+    LineType::LinePointListType::const_iterator pit;
     if(!strcmp((*obj)->GetTypeName().c_str(), "LineSpatialObject"))
       {
       unsigned int value = 0;
@@ -1012,21 +1019,24 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
         {
         for(unsigned int d=0;d<3;d++)
           {
-          if(itk::Math::NotExactlyEquals((*pit).GetPosition()[d], value))
+          if(itk::Math::NotExactlyEquals((*pit).GetPositionInObjectSpace()[d],
+              value))
             {
             std::cout<<" [FAILED]"<< std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
-          if(itk::Math::NotExactlyEquals(((*pit).GetNormal(0))[d], d))
+          if(itk::Math::NotExactlyEquals(((*pit).GetNormalInObjectSpace(0))[d],
+              d))
             {
             std::cout<<" [FAILED]"<< std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
-          if(itk::Math::NotExactlyEquals(((*pit).GetNormal(1))[d], 2*d))
+          if(itk::Math::NotExactlyEquals(((*pit).GetNormalInObjectSpace(1))[d],
+              2*d))
             {
             std::cout<<" [FAILED]"<< std::endl;
             delete mySceneChildren;
@@ -1073,7 +1083,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
 
   for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
     {
-    LandmarkType::PointListType::const_iterator pit;
+    LandmarkType::LandmarkPointListType::const_iterator pit;
     if(!strcmp((*obj)->GetTypeName().c_str(), "LandmarkSpatialObject"))
       {
       unsigned int value = 0;
@@ -1117,7 +1127,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
         std::cout
           << "The contour should have display orientation == 2 instead of"
           << dynamic_cast<ContourType*>( (*obj).GetPointer())->
-               GetDisplayOrientation()
+               GetOrientationInObjectSpace()
           << std::endl;
         delete mySceneChildren;
         return EXIT_FAILURE;
@@ -1165,7 +1175,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
              ctrl->GetPickedPointInObjectSpace()[d], -value))
             {
             std::cout << "Picked Point [FAILED]"
-              << (*ctrl).GetPickedPoint() << " v.s. " << -value
+              << (*ctrl).GetPickedPointInObjectSpace() << " v.s. " << -value
               << std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
@@ -1227,7 +1237,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
         {
         for(unsigned int d=0;d<3;d++)
           {
-          if((*inter).GetID() != value)
+          if((*inter).GetId() != value)
             {
             std::cout << "Interpolated ID [FAILED]" << std::endl;
             delete mySceneChildren;

@@ -63,7 +63,7 @@ ImageSpatialObject< TDimension,  PixelType >
 template< unsigned int TDimension, typename PixelType >
 bool
 ImageSpatialObject< TDimension,  PixelType >
-::IsInside(const PointType & point, unsigned int depth,
+::IsInsideInWorldSpace(const PointType & point, unsigned int depth,
   const std::string & name) const
 {
   if( this->GetTypeName().find( name ) != std::string::npos )
@@ -84,7 +84,7 @@ ImageSpatialObject< TDimension,  PixelType >
 
   if( depth > 0 )
     {
-    return Superclass::IsInsideChildren(point, depth-1, name);
+    return Superclass::IsInsideInWorldSpaceChildrenInWorldSpace(point, depth-1, name);
     }
 
   return false;
@@ -97,14 +97,14 @@ ImageSpatialObject< TDimension,  PixelType >
 template< unsigned int TDimension, typename PixelType >
 bool
 ImageSpatialObject< TDimension,  PixelType >
-::ValueAt(const PointType & point, double & value, unsigned int depth,
+::ValueAtInWorldSpace(const PointType & point, double & value, unsigned int depth,
   const std::string & name) const
 {
   bool returnValue = false;
 
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    if( IsEvaluableAt(point, 0, name) )
+    if( IsEvaluableAtInWorldSpace(point, 0, name) )
       {
       PointType transformedPoint = this->GetObjectToWorldTransform()->
         GetInverseTransform()->TransformPoint( point );
@@ -127,7 +127,7 @@ ImageSpatialObject< TDimension,  PixelType >
 
   if ( depth > 0 )
     {
-    return Superclass::ValueAtChildren(point, value, depth-1, name);
+    return Superclass::ValueAtInWorldSpaceChildrenInWorldSpace(point, value, depth-1, name);
     }
 
   return false;
@@ -137,7 +137,7 @@ ImageSpatialObject< TDimension,  PixelType >
 template< unsigned int TDimension, typename PixelType >
 bool
 ImageSpatialObject< TDimension,  PixelType >
-::ComputeMyBoundingBox() const
+::ComputeMyBoundingBoxInWorldSpace() const
 {
   itkDebugMacro("Computing ImageSpatialObject bounding box");
 
@@ -187,9 +187,9 @@ ImageSpatialObject< TDimension,  PixelType >
     }
 
   // refresh the bounding box with the transformed corners
-  const_cast< BoundingBoxType * >( this->GetMyBoundingBox() )
+  const_cast< BoundingBoxType * >( this->GetMyBoundingBoxInWorldSpace() )
     ->SetPoints(transformedCorners);
-  this->GetMyBoundingBox()->ComputeBoundingBox();
+  this->GetMyBoundingBoxInWorldSpace()->ComputeBoundingBox();
 
   return true;
 }
@@ -259,7 +259,7 @@ ImageSpatialObject< TDimension,  PixelType >
 template< unsigned int TDimension, typename PixelType >
 void
 ImageSpatialObject< TDimension,  PixelType >
-::SetSlicePosition(unsigned int dimension, int position)
+::SetSlicePositionInWorldSpace(unsigned int dimension, int position)
 {
   m_SlicePosition[dimension] = position;
   this->Modified();

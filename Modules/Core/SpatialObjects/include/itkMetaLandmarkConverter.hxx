@@ -46,13 +46,6 @@ MetaLandmarkConverter< NDimensions >
   LandmarkSpatialObjectPointer landmarkSO =
     LandmarkSpatialObjectType::New();
 
-  unsigned int ndims = landmarkMO->NDims();
-  double       spacing[NDimensions];
-  for ( unsigned int ii = 0; ii < ndims; ii++ )
-    {
-    spacing[ii] = landmarkMO->ElementSpacing()[ii];
-    }
-  landmarkSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
   landmarkSO->GetProperty().SetName( landmarkMO->Name() );
   landmarkSO->SetId( landmarkMO->ID() );
   landmarkSO->SetParentId( landmarkMO->ParentID() );
@@ -72,12 +65,12 @@ MetaLandmarkConverter< NDimensions >
     using PointType = typename LandmarkSpatialObjectType::PointType;
     PointType point;
 
-    for ( unsigned int ii = 0; ii < ndims; ii++ )
+    for ( unsigned int ii = 0; ii < NDimensions; ii++ )
       {
       point[ii] = ( *it2 )->m_X[ii];
       }
 
-    pnt.SetPosition(point);
+    pnt.SetPositionInObjectSpace(point);
 
     pnt.SetRed( ( *it2 )->m_Color[0] );
     pnt.SetGreen( ( *it2 )->m_Color[1] );
@@ -115,7 +108,7 @@ MetaLandmarkConverter< NDimensions >
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {
-      pnt->m_X[d] = ( *it ).GetPosition()[d];
+      pnt->m_X[d] = ( *it ).GetPositionInObjectSpace()[d];
       }
 
     pnt->m_Color[0] = ( *it ).GetRed();

@@ -41,13 +41,15 @@ namespace itk
 
 template< unsigned int TDimension = 3 >
 class ITK_TEMPLATE_EXPORT LineSpatialObject:
-  public PointBasedSpatialObject<  TDimension, SpatialObjectPoint< TDimension> >
+  public PointBasedSpatialObject<  TDimension,
+    LineSpatialObjectPoint< TDimension> >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LineSpatialObject);
 
   using Self = LineSpatialObject;
-  using Superclass = PointBasedSpatialObject< TDimension >;
+  using Superclass = PointBasedSpatialObject< TDimension,
+          LineSpatialObjectPoint< TDimension > >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
 
@@ -71,8 +73,8 @@ public:
 
   /** Returns true if the line is evaluable at the requested point,
    *  false otherwise. */
-  bool IsInside(const PointType & point, unsigned int depth = 0,
-   const std::string & name = nullptr) const override;
+  bool IsInsideInWorldSpace(const PointType & point, unsigned int depth = 0,
+   const std::string & name = "") const override;
 
 protected:
   LineSpatialObject();

@@ -59,14 +59,14 @@ public:
   { return m_RadiusInObjectSpace; }
 
   /** Get R */
-  double GetRadius() const;
+  double GetRadiusInWorldSpace() const;
 
   /** Set R */
   void SetRadiusInObjectSpace(double newR)
   { m_RadiusInObjectSpace = newR; }
 
   /** Set R */
-  void SetRadius(double newR);
+  void SetRadiusInWorldSpace(double newR);
 
   /** Get the tangent in Object Space */
   const VectorType & GetTangentInObjectSpace() const
@@ -87,46 +87,64 @@ public:
   { return m_Normal1InObjectSpace; }
 
   /** Get V1 in World space */
-  const CovariantVectorType & GetNormal1() const;
+  const CovariantVectorType & GetNormal1InWorldSpace() const;
 
   /** Set V1 */
-  void SetNormal1InObjectSpace(const CovariantVectorType & newV1);
+  void SetNormal1InObjectSpace(const CovariantVectorType & newV1)
   { m_Normal1InObjectSpace = newV1; }
 
   /** Set V1 */
-  void SetNormal1(const CovariantVectorType & newV1);
+  void SetNormal1InWorldSpace(const CovariantVectorType & newV1);
 
   /** Get V2 */
   const CovariantVectorType & GetNormal2InObjectSpace() const
   { return m_Normal2InObjectSpace; }
 
   /** Get V2 */
-  const CovariantVectorType & GetNormal2() const;
+  const CovariantVectorType & GetNormal2InWorldSpace() const;
 
   /** Set V2 */
-  void SetNormal2InObjectSpace(const CovariantVectorType & newV2);
+  void SetNormal2InObjectSpace(const CovariantVectorType & newV2)
   { m_Normal2InObjectSpace = newV2; }
 
   /** Set V2 */
-  void SetNormal2(const CovariantVectorType & newV2);
+  void SetNormal2InWorldSpace(const CovariantVectorType & newV2);
 
-  void SetRidgness( double ridgeness )
+  void SetRidgeness( double ridgeness )
   { m_Ridgeness = ridgeness; }
 
-  double GetRidgeness()
+  double GetRidgeness() const
   { return m_Ridgeness; }
 
   void SetMedialness( double medialness )
   { m_Medialness = medialness; }
 
-  double GetMedialness()
+  double GetMedialness() const
   { return m_Medialness; }
 
   void SetBranchness( double branchness )
   { m_Branchness = branchness; }
 
-  double GetBranchness()
+  double GetBranchness() const
   { return m_Branchness; }
+
+  void SetAlpha1( double alpha1 )
+  { m_Alpha1 = alpha1; }
+
+  double GetAlpha1() const
+  { return m_Alpha1; }
+
+  void SetAlpha2( double alpha2 )
+  { m_Alpha2 = alpha2; }
+
+  double GetAlpha2() const
+  { return m_Alpha2; }
+
+  void SetAlpha3( double alpha3 )
+  { m_Alpha3 = alpha3; }
+
+  double GetAlpha3() const
+  { return m_Alpha3; }
 
   /** Copy one TubeSpatialObjectPoint to another */
   Self & operator=(const TubeSpatialObjectPoint & rhs);
@@ -136,6 +154,13 @@ protected:
   VectorType          m_TangentInObjectSpace;
   CovariantVectorType m_Normal1InObjectSpace;
   CovariantVectorType m_Normal2InObjectSpace;
+
+  double m_Branchness;
+  double m_Medialness;
+  double m_Ridgeness;
+  double m_Alpha1;
+  double m_Alpha2;
+  double m_Alpha3;
 
   /** The radius of the tube point */
   double m_RadiusInObjectSpace;

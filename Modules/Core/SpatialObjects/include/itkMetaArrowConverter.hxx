@@ -47,7 +47,7 @@ MetaArrowConverter< NDimensions >
   float  lengthInObjectSpace = metaArrow->Length();
   arrowSO->SetLength(lengthInObjectSpace);
 
-  const double *metaPosition = metaArrow->Position();
+  const double *metaPosition = metaArrow->PositionInObjectSpace();
   const double *metaDirection = metaArrow->Direction();
   typename SpatialObjectType::PointType positionInObjectSpace;
   typename SpatialObjectType::VectorType directionInObjectSpace;
