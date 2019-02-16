@@ -84,7 +84,7 @@ ImageSpatialObject< TDimension,  PixelType >
 
   if( depth > 0 )
     {
-    return Superclass::IsInsideInWorldSpaceChildrenInWorldSpace(point, depth-1, name);
+    return Superclass::IsInsideChildrenInWorldSpace(point, depth-1, name);
     }
 
   return false;
@@ -127,7 +127,7 @@ ImageSpatialObject< TDimension,  PixelType >
 
   if ( depth > 0 )
     {
-    return Superclass::ValueAtInWorldSpaceChildrenInWorldSpace(point, value, depth-1, name);
+    return Superclass::ValueAtChildrenInWorldSpace(point, value, depth-1, name);
     }
 
   return false;

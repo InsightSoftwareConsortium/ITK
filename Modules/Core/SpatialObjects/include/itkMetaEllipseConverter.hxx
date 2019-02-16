@@ -45,8 +45,6 @@ MetaEllipseConverter< NDimensions >
 
   EllipseSpatialObjectPointer ellipseSO = EllipseSpatialObjectType::New();
 
-  double spacing[NDimensions];
-
   typename EllipseSpatialObjectType::ArrayType radius;
 
   ellipseSO->SetRadiusInObjectSpace(radius);
@@ -87,7 +85,7 @@ MetaEllipseConverter< NDimensions >
     {
     ellipseMO->ParentID( ellipseSO->GetParent()->GetId() );
     }
-  ellipseMO->RadiusInObjectSpace(radius);
+  ellipseMO->Radius(radius);
   ellipseMO->ID( ellipseSO->GetId() );
 
   ellipseMO->Color( ellipseSO->GetProperty().GetRed(),
