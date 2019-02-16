@@ -128,7 +128,7 @@ SpatialObject< TDimension >
 {
   if( depth > 0 )
     {
-    return IsInsideInWorldSpaceChildrenInWorldSpace( point, depth-1, name );
+    return IsInsideChildrenInWorldSpace( point, depth-1, name );
     }
   else
     {
@@ -140,7 +140,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 SpatialObject< TDimension >
-::IsInsideInWorldSpaceChildrenInWorldSpace(const PointType &  point, unsigned int depth,
+::IsInsideChildrenInWorldSpace(const PointType &  point, unsigned int depth,
   const std::string & name) const
 {
   typename ChildrenListType::const_iterator it = m_ChildrenList.begin();
@@ -172,7 +172,7 @@ SpatialObject< TDimension >
     {
     if( depth > 0 )
       {
-      return IsEvaluableAtInWorldSpaceChildrenInWorldSpace( point, depth-1, name );
+      return IsEvaluableAtChildrenInWorldSpace( point, depth-1, name );
       }
     else
       {
@@ -185,7 +185,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 SpatialObject< TDimension >
-::IsEvaluableAtInWorldSpaceChildrenInWorldSpace(const PointType & point, unsigned int depth,
+::IsEvaluableAtChildrenInWorldSpace(const PointType & point, unsigned int depth,
   const std::string & name) const
 {
   typename ChildrenListType::const_iterator it = m_ChildrenList.begin();
@@ -226,7 +226,7 @@ SpatialObject< TDimension >
     {
     if( depth > 0 )
       {
-      if( ValueAtInWorldSpaceChildrenInWorldSpace( point, value, depth-1, name ) )
+      if( ValueAtChildrenInWorldSpace( point, value, depth-1, name ) )
         {
         return true;
         }
@@ -241,7 +241,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 SpatialObject< TDimension >
-::ValueAtInWorldSpaceChildrenInWorldSpace(const PointType & point, double & value, unsigned int depth,
+::ValueAtChildrenInWorldSpace(const PointType & point, double & value, unsigned int depth,
           const std::string & name) const
 {
   typename ChildrenListType::const_iterator it = m_ChildrenList.begin();

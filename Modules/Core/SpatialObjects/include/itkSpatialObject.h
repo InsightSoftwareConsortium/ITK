@@ -233,15 +233,15 @@ public:
   /********************************************************/
   /* Helper functions to recurse queries through children */
   /********************************************************/
-  virtual bool IsInsideInWorldSpaceChildrenInWorldSpace(const PointType & point,
+  virtual bool IsInsideChildrenInWorldSpace(const PointType & point,
                         unsigned int depth = 0,
                         const std::string & name = "") const;
 
-  virtual bool ValueAtInWorldSpaceChildrenInWorldSpace(const PointType & point, double & value,
+  virtual bool ValueAtChildrenInWorldSpace(const PointType & point, double & value,
                        unsigned int depth = 0,
                        const std::string & name = "") const;
 
-  virtual bool IsEvaluableAtInWorldSpaceChildrenInWorldSpace(const PointType & point,
+  virtual bool IsEvaluableAtChildrenInWorldSpace(const PointType & point,
                              unsigned int depth = 0,
                              const std::string & name = "") const;
 

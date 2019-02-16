@@ -101,7 +101,7 @@ MetaLandmarkConverter< NDimensions >
   auto * landmarkMO = new MetaLandmark(NDimensions);
 
   // fill in the Landmark information
-  typename LandmarkSpatialObjectType::PointListType::const_iterator it;
+  typename LandmarkSpatialObjectType::LandmarkPointListType::const_iterator it;
   for ( it = landmarkSO->GetPoints().begin(); it != landmarkSO->GetPoints().end(); ++it )
     {
     auto * pnt = new LandmarkPnt(NDimensions);

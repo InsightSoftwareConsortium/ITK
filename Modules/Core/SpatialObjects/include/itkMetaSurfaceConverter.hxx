@@ -61,7 +61,7 @@ MetaSurfaceConverter< NDimensions >
     {
     SurfacePointType pnt;
 
-    using PointType = typename SurfacePointType::PointType;
+    using PointType = typename SurfacePointType::SurfacePointType;
     PointType point;
     using VectorType = typename SurfacePointType::VectorType;
     VectorType normal;
@@ -107,7 +107,7 @@ MetaSurfaceConverter< NDimensions >
   auto * surfaceMO = new MetaSurface(NDimensions);
 
   // fill in the Surface information
-  typename SurfaceSpatialObjectType::PointListType::const_iterator it;
+  typename SurfaceSpatialObjectType::SurfacePointListType::const_iterator it;
   for ( it = surfaceSO->GetPoints().begin();
         it != surfaceSO->GetPoints().end();
         ++it )
