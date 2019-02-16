@@ -63,7 +63,7 @@ public:
 
 protected:
 
-  CovariantVectorType m_Normal;
+  CovariantVectorType m_NormalInObjectSpace;
 
   /** Method to print the object. */
   void PrintSelf(std::ostream & os, Indent indent) const override;

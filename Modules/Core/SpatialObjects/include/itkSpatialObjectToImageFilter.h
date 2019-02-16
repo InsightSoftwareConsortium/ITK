@@ -146,7 +146,7 @@ public:
   itkGetConstMacro(Size, SizeType);
 
   /** If UseObjectValue is set to true, then the filter uses
-   *  the ValueAt() function instead of IsInside() */
+   *  the ValueAtInWorldSpace() function instead of IsInsideInWorldSpace() */
   itkSetMacro(UseObjectValue, bool);
   itkGetConstMacro(UseObjectValue, bool);
 

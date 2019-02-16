@@ -51,7 +51,8 @@ public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BlobSpatialObject);
 
   using Self = BlobSpatialObject;
-  using Superclass = PointBasedSpatialObject< TDimension >;
+  using Superclass = PointBasedSpatialObject< TDimension,
+          SpatialObjectPoint< TDimension > >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
 

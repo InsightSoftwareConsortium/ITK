@@ -47,16 +47,13 @@ LineSpatialObject< TDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   os << indent << "LineSpatialObject(" << this << ")" << std::endl;
-  os << indent << "ID: " << this->GetId() << std::endl;
-  os << indent << "nb of points: "
-     << static_cast< SizeValueType >( m_Points.size() ) << std::endl;
   Superclass::PrintSelf(os, indent);
 }
 
 template< unsigned int TDimension >
 bool
 LineSpatialObject< TDimension >
-::IsInside(const PointType & point, unsigned int depth,
+::IsInsideInWorldSpace(const PointType & point, unsigned int depth,
   const std::string & name) const
 {
   if( this->GetTypeName().find( name ) != std::string::npos )
@@ -67,7 +64,7 @@ LineSpatialObject< TDimension >
     PointType transformedPoint = this->GetObjectToWorldTransform()
       ->GetInverseTransform()->TransformPoint(point);
 
-    if ( this->GetMyBoundingBox()->IsInside(transformedPoint) )
+    if ( this->GetMyBoundingBoxInWorldSpace()->IsInside(transformedPoint) )
       {
       while ( it != itEnd )
         {
@@ -92,7 +89,7 @@ LineSpatialObject< TDimension >
 
   if( depth > 0 )
     {
-    return Superclass::IsInsideChildren( point, depth-1, name );
+    return Superclass::IsInsideInWorldSpaceChildrenInWorldSpace( point, depth-1, name );
     }
 
 

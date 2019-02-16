@@ -98,10 +98,12 @@ ContourSpatialObject< TDimension >
       break;
     case BEZIER_INTERPOLATION:
       // TODO: Implement bezier interpolation
+      {
       ExceptionObject e(__FILE__);
       e.SetLocation( "ContourSpatialObject:Update()");
       e.SetDescription( "Bezier interpolation type not yet defined." );
       throw e;
+      }
       break;
     case LINEAR_INTERPOLATION:
       m_Points.clear();
@@ -111,7 +113,7 @@ ContourSpatialObject< TDimension >
         auto it2 = ++it;
         if( it2 == m_ControlPoints.end() )
           {
-          if( this->IsClosed() )
+          if( this->GetIsClosed() )
             {
             it2 = m_ControlPoints.begin();
             }
@@ -137,13 +139,13 @@ ContourSpatialObject< TDimension >
           }
         SpatialObjectPointType newSOPoint;
         newSOPoint = (*it);
-        newSOPoint->SetPosition( newPoint );
+        newSOPoint.SetPositionInWorldSpace( newPoint );
         m_Points.push_back( newSOPoint );
         }
       break;
     };
 
-  // Call this last to compute MyBoundingBox
+  // Call this last to compute MyBoundingBoxInWorldSpace
   Superclass::Update();
 }
 

@@ -53,14 +53,7 @@ MetaEllipseConverter< NDimensions >
 
   typename EllipseSpatialObjectType::ArrayType radius;
 
-  for ( unsigned int i = 0; i < NDimensions; i++ )
-    {
-    radius[i] = ellipseMO->Radius()[i];
-    spacing[i] = ellipseMO->ElementSpacing()[i];
-    }
-
-  ellipseSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  ellipseSO->SetRadius(radius);
+  ellipseSO->SetRadiusInObjectSpace(radius);
   ellipseSO->GetProperty().SetName( ellipseMO->Name() );
   ellipseSO->SetId( ellipseMO->ID() );
   ellipseSO->SetParentId( ellipseMO->ParentID() );
@@ -91,26 +84,20 @@ MetaEllipseConverter< NDimensions >
 
   for ( unsigned int i = 0; i < NDimensions; i++ )
     {
-    radius[i] = ellipseSO->GetRadius()[i];
+    radius[i] = ellipseSO->GetRadiusInObjectSpace()[i];
     }
 
   if ( ellipseSO->GetParent() )
     {
     ellipseMO->ParentID( ellipseSO->GetParent()->GetId() );
     }
-  ellipseMO->Radius(radius);
+  ellipseMO->RadiusInObjectSpace(radius);
   ellipseMO->ID( ellipseSO->GetId() );
 
   ellipseMO->Color( ellipseSO->GetProperty().GetRed(),
                   ellipseSO->GetProperty().GetGreen(),
                   ellipseSO->GetProperty().GetBlue(),
                   ellipseSO->GetProperty().GetAlpha() );
-
-  for ( unsigned int i = 0; i < NDimensions; i++ )
-    {
-    ellipseMO->ElementSpacing(i, ellipseSO->GetIndexToObjectTransform()
-                            ->GetScaleComponent()[i]);
-    }
 
   delete[] radius;
   return ellipseMO;

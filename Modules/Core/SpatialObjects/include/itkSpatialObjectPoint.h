@@ -56,10 +56,10 @@ public:
 
   using PointType = Point< double, TPointDimension >;
   using VectorType = vnl_vector< double >;
-  using ColorType = RGBAPixel< float >;
+  using ColorType = RGBAPixel< double >;
 
   /** Set the SpatialObjectPoint Id. */
-  void Setid( int id )
+  void SetId( int id )
   { m_Id = id; }
 
   /** Get the SpatialObjectPoint Id. */
@@ -93,11 +93,11 @@ public:
 
   /** Set the position in world coordinates, using the
    *    spatialObject's objectToWorld transform, inverse */
-  void SetPosition( const PointType & point );
+  void SetPositionInWorldSpace( const PointType & point );
 
   /** Returns the position in world coordinates, using the
    *    spatialObject's objectToWorld transform */
-  PointType GetPosition() const;
+  PointType GetPositionInWorldSpace() const;
 
   /** Copy one SpatialObjectPoint to another */
   Self & operator=(const SpatialObjectPoint & rhs );
@@ -110,34 +110,34 @@ public:
   { return m_Color; }
 
   /** Set the color */
-  void SetColor(float r, float g, float b, float a = 1);
+  void SetColor(double r, double g, double b, double a = 1);
 
   /** Set/Get red color of the point */
-  void SetRed(float r)
+  void SetRed(double r)
   { m_Color.SetRed( r ); }
 
-  float GetRed() const
+  double GetRed() const
   { return m_Color.GetRed(); }
 
   /** Set/Get Green color of the point */
-  void SetGreen(float g)
+  void SetGreen(double g)
   { m_Color.SetGreen( g ); }
 
-  float GetGreen() const
+  double GetGreen() const
   { return m_Color.GetGreen(); }
 
   /** Set/Get blue color of the point */
-  void SetBlue(float b)
+  void SetBlue(double b)
   { m_Color.SetBlue( b ); }
 
-  float GetBlue() const
+  double GetBlue() const
   { return m_Color.GetBlue(); }
 
   /** Set/Get alpha value of the point */
-  void SetAlpha(float a)
+  void SetAlpha(double a)
   { m_Color.SetAlpha( a ); }
 
-  float GetAlpha() const
+  double GetAlpha() const
   { return m_Color.GetAlpha(); }
 
   /** PrintSelf method */

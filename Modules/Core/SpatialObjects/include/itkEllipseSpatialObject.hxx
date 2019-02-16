@@ -45,7 +45,7 @@ EllipseSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 EllipseSpatialObject< TDimension >
-::IsInside(const PointType & worldPoint, unsigned int depth,
+::IsInsideInWorldSpace(const PointType & worldPoint, unsigned int depth,
   const std::string & name) const
 {
   if( this->GetTypeName().find( name ) != std::string::npos )
@@ -76,7 +76,7 @@ EllipseSpatialObject< TDimension >
 
   if( depth > 0 )
     {
-    return Superclass::IsInsideChildren( worldPoint, depth-1, name );
+    return Superclass::IsInsideInWorldSpaceChildrenInWorldSpace( worldPoint, depth-1, name );
     }
 
   return false;
@@ -86,7 +86,7 @@ EllipseSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 EllipseSpatialObject< TDimension >
-::ComputeMyBoundingBox() const
+::ComputeMyBoundingBoxInWorldSpace() const
 {
   itkDebugMacro("Computing ellipse bounding box");
 
@@ -127,9 +127,9 @@ EllipseSpatialObject< TDimension >
     }
 
   // refresh the bounding box with the transformed corners
-  const_cast< BoundingBoxType * >( this->GetMyBoundingBox() )
+  const_cast< BoundingBoxType * >( this->GetMyBoundingBoxInWorldSpace() )
     ->SetPoints(transformedCorners);
-  this->GetMyBoundingBox()->ComputeBoundingBox();
+  this->GetMyBoundingBoxInWorldSpace()->ComputeBoundingBox();
 
   return true;
 }

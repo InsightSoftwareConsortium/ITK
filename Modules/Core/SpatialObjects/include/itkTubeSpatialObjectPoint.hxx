@@ -35,6 +35,9 @@ TubeSpatialObjectPoint< TPointDimension >
   m_Medialness = 0;
   m_Ridgeness = 0;
   m_Branchness = 0;
+  m_Alpha1 = 0;
+  m_Alpha2 = 0;
+  m_Alpha3 = 0;
 }
 
 /** Destructor */
@@ -44,9 +47,9 @@ TubeSpatialObjectPoint< TPointDimension >
 
 /** Get the radius */
 template< unsigned int TPointDimension >
-float
+double
 TubeSpatialObjectPoint< TPointDimension >
-::GetRadius() const
+::GetRadiusInWorldSpace() const
 {
   CovariantVectorType cVect;
   cVect.Fill( m_RadiusInObjectSpace );
@@ -65,7 +68,7 @@ TubeSpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 void
 TubeSpatialObjectPoint< TPointDimension >
-::SetRadius(float newR)
+::SetRadiusInWorldSpace(double newR)
 {
   CovariantVectorType cVect;
   cVect.Fill( newR );
@@ -100,7 +103,7 @@ TubeSpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 const typename TubeSpatialObjectPoint< TPointDimension >::CovariantVectorType &
 TubeSpatialObjectPoint< TPointDimension >
-::GetNormal1() const
+::GetNormal1InWorldSpace() const
 {
   return Superclass::m_SpatialObject->GetObjectToWorldTransform()->
     TrasnformCovariantVector( m_Normal1InObjectSpace );
@@ -109,7 +112,7 @@ TubeSpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 void
 TubeSpatialObjectPoint< TPointDimension >
-::SetNormal1(const CovariantVectorType & newV1)
+::SetNormal1InWorldSpace(const CovariantVectorType & newV1)
 {
   m_Normal1InObjectSpace = Superclass::m_SpatialObject->GetObjectToWorldTransform()->
     GetInverseTransform()->TransformCovariantVector( newV1 );
@@ -118,7 +121,7 @@ TubeSpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 const typename TubeSpatialObjectPoint< TPointDimension >::CovariantVectorType &
 TubeSpatialObjectPoint< TPointDimension >
-::GetNormal2() const
+::GetNormal2InWorldSpace() const
 {
   return Superclass::m_SpatialObject->GetObjectToWorldTransform()->
     TrasnformCovariantVector( m_Normal2InObjectSpace );
@@ -127,7 +130,7 @@ TubeSpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 void
 TubeSpatialObjectPoint< TPointDimension >
-::SetNormal2(const CovariantVectorType & newV2)
+::SetNormal2InWorldSpace(const CovariantVectorType & newV2)
 {
   m_Normal2InObjectSpace = Superclass::m_SpatialObject->GetObjectToWorldTransform()->
     GetInverseTransform()->TransformCovariantVector( newV2 );
@@ -150,6 +153,9 @@ TubeSpatialObjectPoint< TPointDimension >
   os << indent << "Medialness: " << m_Medialness << std::endl;
   os << indent << "Branchness: " << m_Branchness << std::endl;
   os << indent << "Ridgeness: " << m_Ridgeness << std::endl;
+  os << indent << "Alpha1: " << m_Alpha1 << std::endl;
+  os << indent << "Alpha2: " << m_Alpha2 << std::endl;
+  os << indent << "Alpha3: " << m_Alpha3 << std::endl;
 }
 
 template< unsigned int TPointDimension >
@@ -173,6 +179,9 @@ TubeSpatialObjectPoint< TPointDimension >
     this->SetRidgeness( rhs.GetRidgeness() );
     this->SetMedialness( rhs.GetMedialness() );
     this->SetBranchness( rhs.GetBranchness() );
+    this->SetAlpha1( rhs.GetAlpha1() );
+    this->SetAlpha2( rhs.GetAlpha2() );
+    this->SetAlpha3( rhs.GetAlpha3() );
     }
   return *this;
 }

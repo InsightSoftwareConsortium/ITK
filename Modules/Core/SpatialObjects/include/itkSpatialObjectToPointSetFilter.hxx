@@ -121,7 +121,7 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
       {
       typename InputSpatialObjectType::PointType transformedPoint =
         inputObject->GetIndexToWorldTransform()->TransformPoint(
-          inputPointSO->GetPoint(i)->GetPosition() );
+          inputPointSO->GetPoint(i)->GetPositionInWorldSpace() );
 
       for ( unsigned int j = 0; j < Self::ObjectDimension; j++ )
         {
@@ -143,7 +143,7 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
       for ( unsigned int i = 0; i < n; i += m_SamplingFactor )
         {
         typename InputSpatialObjectType::PointType transformedPoint =
-          inputObject->GetIndexToWorldTransform()->TransformPoint( pointSO->GetPoint(i)->GetPosition() );
+          inputObject->GetIndexToWorldTransform()->TransformPoint( pointSO->GetPoint(i)->GetPositionInWorldSpace() );
 
         for ( unsigned int j = 0; j < Self::ObjectDimension; j++ )
           {

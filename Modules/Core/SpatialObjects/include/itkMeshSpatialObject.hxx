@@ -32,7 +32,7 @@ MeshSpatialObject< TMesh >
   m_Mesh = MeshType::New();
   this->ComputeBoundingBox();
   m_PixelType = typeid( typename TMesh::PixelType ).name();
-  m_IsInsidePrecision = 1;
+  m_IsInsideInWorldSpacePrecision = 1;
 }
 
 /** Destructor */
@@ -46,12 +46,12 @@ MeshSpatialObject< TMesh >
 template< typename TMesh >
 bool
 MeshSpatialObject< TMesh >
-::IsInside(const PointType & point, unsigned int depth,
+::IsInsideInWorldSpace(const PointType & point, unsigned int depth,
   const std::string & name) const
 {
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    if( this->GetMyBoundingBox().IsInside( point ) )
+    if( this->GetMyBoundingBoxInWorldSpace().IsInsideInWorldSpace( point ) )
       {
       PointType transformedPoint = this->GetObjectToWorldTransform()->
         GetInverseTransform()->TransformPoint(point);
@@ -71,17 +71,17 @@ MeshSpatialObject< TMesh >
         if ( it.Value()->GetNumberOfPoints() == 3 )
           {
           double minDist = 0.0;
-          const bool pointIsInside = it.Value()->EvaluatePosition(
+          const bool pointIsInsideInWorldSpace = it.Value()->EvaluatePositionInWorldSpace(
             position, m_Mesh->GetPoints(), nullptr, nullptr, &minDist, nullptr);
 
-          if ( pointIsInside  && minDist <= this->m_IsInsidePrecision )
+          if ( pointIsInsideInWorldSpace  && minDist <= this->m_IsInsideInWorldSpacePrecision )
             {
             return true;
             }
           }
         else
           {
-          if ( it.Value()->EvaluatePosition(position, m_Mesh->GetPoints(),
+          if ( it.Value()->EvaluatePositionInWorldSpace(position, m_Mesh->GetPoints(),
                                             nullptr, nullptr, nullptr, nullptr) )
             {
             return true;
@@ -94,7 +94,7 @@ MeshSpatialObject< TMesh >
 
   if( depth > 0 )
     {
-    return Superclass::IsInsideChildren( point, depth-1, name );
+    return Superclass::IsInsideInWorldSpaceChildrenInWorldSpace( point, depth-1, name );
     }
 
   return false;
@@ -104,7 +104,7 @@ MeshSpatialObject< TMesh >
 template< typename TMesh >
 bool
 MeshSpatialObject< TMesh >
-::ComputeMyBoundingBox() const
+::ComputeMyBoundingBoxInWorldSpace() const
 {
   PointType pnt1;
   PointType pnt2;
@@ -143,9 +143,9 @@ MeshSpatialObject< TMesh >
     }
 
   // refresh the bounding box with the transformed corners
-  const_cast< BoundingBoxType * >( this->GetMyBoundingBox() )
+  const_cast< BoundingBoxType * >( this->GetMyBoundingBoxInWorldSpace() )
     ->SetPoints(transformedCorners);
-  this->GetMyBoundingBox()->ComputeBoundingBox();
+  this->GetMyBoundingBoxInWorldSpace()->ComputeBoundingBox();
 
   return true;
 }
@@ -185,7 +185,7 @@ MeshSpatialObject< TMesh >
 {
   Superclass::PrintSelf(os, indent);
   os << "Mesh: " << std::endl;
-  os << "m_IsInsidePrecision: " << m_IsInsidePrecision << std::endl;
+  os << "m_IsInsideInWorldSpacePrecision: " << m_IsInsideInWorldSpacePrecision << std::endl;
   os << indent << m_Mesh << std::endl;
 }
 

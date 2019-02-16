@@ -50,13 +50,6 @@ MetaTubeConverter< NDimensions >
   typename TubeSpatialObjectType::Pointer tubeSO = TubeSpatialObjectType::New();
   double spacing[NDimensions];
 
-  unsigned int ndims = tubeMO->NDims();
-  for ( unsigned int i = 0; i < ndims; i++ )
-    {
-    spacing[i] = tubeMO->ElementSpacing()[i];
-    }
-
-  tubeSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
   tubeSO->GetProperty().SetName( tubeMO->Name() );
   tubeSO->SetParentPoint( tubeMO->ParentPoint() );
   tubeSO->SetId( tubeMO->ID() );
@@ -77,22 +70,22 @@ MetaTubeConverter< NDimensions >
     {
     TubePointType pnt;
 
-    pnt.SetPosition( ( *it2 )->m_X );
-    pnt.SetRadius( ( *it2 )->m_R );
+    pnt.SetPositionInObjectSpace( ( *it2 )->m_X );
+    pnt.SetRadiusInObjectSpace( ( *it2 )->m_R );
 
-    for ( unsigned int i = 0; i < ndims; i++ )
+    for ( unsigned int i = 0; i < NDimensions; i++ )
       {
       v[i] = ( *it2 )->m_V1[i];
       }
-    pnt.SetNormal1(v);
+    pnt.SetNormal1InObjectSpace(v);
 
-    for ( unsigned int i = 0; i < ndims; i++ )
+    for ( unsigned int i = 0; i < NDimensions; i++ )
       {
       v[i] = ( *it2 )->m_V2[i];
       }
-    pnt.SetNormal2(v);
+    pnt.SetNormal2InObjectSpace(v);
 
-    for ( unsigned int i = 0; i < ndims; i++ )
+    for ( unsigned int i = 0; i < NDimensions; i++ )
       {
       t[i] = ( *it2 )->m_T[i];
       }
@@ -138,20 +131,20 @@ MetaTubeConverter< NDimensions >
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {
-      pnt->m_X[d] = ( *it ).GetPosition()[d];
+      pnt->m_X[d] = ( *it ).GetPositionInObjectSpace()[d];
       }
 
     pnt->m_ID = ( *it ).GetID();
-    pnt->m_R = ( *it ).GetRadius();
+    pnt->m_R = ( *it ).GetRadiusInObjectSpace();
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {
-      pnt->m_V1[d] = ( *it ).GetNormal1()[d];
+      pnt->m_V1[d] = ( *it ).GetNormal1InObjectSpace()[d];
       }
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {
-      pnt->m_V2[d] = ( *it ).GetNormal2()[d];
+      pnt->m_V2[d] = ( *it ).GetNormal2InObjectSpace()[d];
       }
 
     for ( unsigned int d = 0; d < NDimensions; d++ )

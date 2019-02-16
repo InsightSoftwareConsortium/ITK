@@ -45,13 +45,14 @@ public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ContourSpatialObject);
 
   using Self = ContourSpatialObject;
-  using Superclass = PointBasedSpatialObject< TDimension >;
+  using Superclass = PointBasedSpatialObject< TDimension,
+          ContourSpatialObjectPoint< TDimension > >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
 
   using ScalarType = double;
 
-  using ContourPointType = typename SpatialObjectPoint< TDimension >;
+  using ContourPointType = typename ContourSpatialObjectPoint< TDimension >;
   using ContourPointListType = std::vector< ContourPointType >;
 
   using PointType = typename Superclass::PointType;

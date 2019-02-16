@@ -26,7 +26,6 @@ template< unsigned int TPointDimension >
 ContourSpatialObjectPoint< TPointDimension >
 ::ContourSpatialObjectPoint()
 {
-  this->m_ID = 0;
   m_NormalInObjectSpace.Fill(0);
   m_PickedPointInObjectSpace.Fill(0);
 }
@@ -48,23 +47,23 @@ const typename ContourSpatialObjectPoint< TPointDimension >::PointType &
 ContourSpatialObjectPoint< TPointDimension >
 ::GetPickedPointInObjectSpace() const
 {
-  return m_PickedPoint;
+  return m_PickedPointInObjectSpace;
 }
 
 template< unsigned int TPointDimension >
 void
 ContourSpatialObjectPoint< TPointDimension >
-::SetNormalInObjectSpace(const VectorType & normal)
+::SetNormalInObjectSpace(const CovariantVectorType & normal)
 {
   m_NormalInObjectSpace = normal;
 }
 
 template< unsigned int TPointDimension >
-const typename ContourSpatialObjectPoint< TPointDimension >::VectorType &
+const typename ContourSpatialObjectPoint< TPointDimension >::CovariantVectorType &
 ContourSpatialObjectPoint< TPointDimension >
 ::GetNormalInObjectSpace() const
 {
-  return m_Normal;
+  return m_NormalInObjectSpace;
 }
 
 template< unsigned int TPointDimension >
@@ -74,8 +73,9 @@ ContourSpatialObjectPoint< TPointDimension >
 {
   if(this != &rhs)
     {
-    this->m_ID = rhs.GetID();
-    this->m_X = rhs.GetPosition();
+    this->m_Id = rhs.GetId();
+    this->m_PositionInObjectSpace = rhs.GetPositionInObjectSpace();
+    this->m_Color = rhs.GetColor();
     this->m_NormalInObjectSpace = rhs.GetNormalInObjectSpace();
     this->m_PickedPointInObjectSpace = rhs.GetPickedPointInObjectSpace();
     }

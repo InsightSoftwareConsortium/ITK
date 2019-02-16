@@ -64,7 +64,7 @@ GaussianSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 GaussianSpatialObject< TDimension >
-::IsInside(const PointType & point, unsigned int depth,
+::IsInsideInWorldSpace(const PointType & point, unsigned int depth,
   const std::string & name) const
 {
   if ( m_Radius < itk::Math::eps )
@@ -72,7 +72,7 @@ GaussianSpatialObject< TDimension >
     return false;
     }
 
-  if ( !this->GetMyBoundingBox()->IsInside(point) )
+  if ( !this->GetMyBoundingBoxInWorldSpace()->IsInsideInWorldSpace(point) )
     {
     return false;
     }
@@ -95,7 +95,7 @@ GaussianSpatialObject< TDimension >
 
   if( depth > 0 )
     {
-    return Superclass::IsInsideChildren(point, depth-1, name);
+    return Superclass::IsInsideInWorldSpaceChildrenInWorldSpace(point, depth-1, name);
     }
 
   return false;
@@ -106,7 +106,7 @@ GaussianSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 GaussianSpatialObject< TDimension >
-::ComputeMyBoundingBox() const
+::ComputeMyBoundingBoxInWorldSpace() const
 {
   itkDebugMacro("Computing Guassian bounding box");
 
@@ -147,9 +147,9 @@ GaussianSpatialObject< TDimension >
     }
 
   // refresh the bounding box with the transformed corners
-  const_cast< BoundingBoxType * >( this->GetMyBoundingBox() )
+  const_cast< BoundingBoxType * >( this->GetMyBoundingBoxInWorldSpace() )
     ->SetPoints(transformedCorners);
-  this->GetMyBoundingBox()->ComputeBoundingBox();
+  this->GetMyBoundingBoxInWorldSpace()->ComputeBoundingBox();
 
   return true;
 }
@@ -158,13 +158,13 @@ GaussianSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 GaussianSpatialObject< TDimension >
-::ValueAt(const PointType & point, double & value, unsigned int depth,
+::ValueAtInWorldSpace(const PointType & point, double & value, unsigned int depth,
     const std::string & name) const
 {
   itkDebugMacro("Getting the value of the ellipse at " << point);
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    if( IsInside(point) )
+    if( IsInsideInWorldSpace(point) )
       {
       const double zsq = this->SquaredZScore(point);
       value = m_Maximum * (ScalarType)std::exp(-zsq / 2.0);
@@ -174,7 +174,7 @@ GaussianSpatialObject< TDimension >
 
   if( depth > 0 )
     {
-    if( Superclass::ValueAtChildren(point, value, depth-1, name) )
+    if( Superclass::ValueAtInWorldSpaceChildrenInWorldSpace(point, value, depth-1, name) )
       {
       return true;
       }
@@ -194,15 +194,15 @@ GaussianSpatialObject< TDimension >
   using EllipseType = itk::EllipseSpatialObject< TDimension >;
   typename EllipseType::Pointer ellipse = EllipseType::New();
 
-  ellipse->SetRadius(m_Radius);
-  ellipse->SetCenter(m_Center);
+  ellipse->SetRadiusInWorldSpace(m_Radius);
+  ellipse->SetCenterInWorldSpace(m_Center);
 
   ellipse->GetObjectToWorldTransform()->SetFixedParameters(
     this->GetObjectToWorldTransform()->GetFixedParameters() );
   ellipse->GetObjectToWorldTransform()->SetParameters(
     this->GetObjectToWorldTransform()->GetParameters() );
 
-  ellipse->ComputeMyBoundingBox();
+  ellipse->ComputeMyBoundingBoxInWorldSpace();
 
   return ellipse;
 }
