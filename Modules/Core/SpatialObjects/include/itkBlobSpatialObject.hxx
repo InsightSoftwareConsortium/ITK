@@ -50,9 +50,6 @@ BlobSpatialObject< TDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   os << indent << "BlobSpatialObject(" << this << ")" << std::endl;
-  os << indent << "ID: " << this->GetId() << std::endl;
-  os << indent << "nb of points: "
-     << static_cast< SizeValueType >( m_ObjectPoints.size() ) << std::endl;
   Superclass::PrintSelf(os, indent);
 }
 

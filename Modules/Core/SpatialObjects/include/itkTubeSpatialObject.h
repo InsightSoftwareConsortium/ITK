@@ -100,10 +100,10 @@ public:
   itkGetConstMacro(Root, bool);
 
   /** Compute the boundaries of the tube. */
-  bool ComputeMyBoundingBox() const override;
+  bool ComputeMyBoundingBoxInWorldSpace() const override;
 
   /** Returns true if the point is inside the tube, false otherwise. */
-  bool IsInside(const PointType & point, unsigned int depth = 0,
+  bool IsInsideInWorldSpace(const PointType & point, unsigned int depth = 0,
     const std::string & name = "") const override;
 
 

@@ -26,7 +26,7 @@ namespace itk
 /** \class ImageMaskSpatialObject
  * \brief Implementation of an image mask as spatial object.
  *
- * This class derives from the ImageSpatialObject and overloads the IsInside()
+ * This class derives from the ImageSpatialObject and overloads the IsInsideInWorldSpace()
  * method.  One of the common uses of this class is to serve as Mask for the
  * Image Registration Metrics.
  *
@@ -67,13 +67,13 @@ public:
   itkTypeMacro(ImageMaskSpatialObject, ImageSpatialObject);
 
   /** Returns true if the point is inside, false otherwise. */
-  bool IsInside(const PointType & point, unsigned int depth=0,
+  bool IsInsideInWorldSpace(const PointType & point, unsigned int depth=0,
     const std::string & name="") const override;
 
   /** Get the boundaries of a specific object.  This function needs to
    *  be called every time one of the object's components is
    *  changed. */
-  bool ComputeMyBoundingBox() const override;
+  bool ComputeMyBoundingBoxInWorldSpace() const override;
 
 protected:
   ImageMaskSpatialObject();

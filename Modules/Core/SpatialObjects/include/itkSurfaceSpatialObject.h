@@ -44,7 +44,8 @@ public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SurfaceSpatialObject);
 
   using Self = SurfaceSpatialObject;
-  using Superclass = PointBasedSpatialObject< TDimension >;
+  using Superclass = PointBasedSpatialObject< TDimension,
+          SurfaceSpatialObjectPoint< TDimension > >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
 

@@ -51,12 +51,6 @@ MetaLineConverter< NDimensions >
 
   double spacing[NDimensions];
 
-  unsigned int ndims = lineMO->NDims();
-  for ( unsigned int ii = 0; ii < ndims; ii++ )
-    {
-    spacing[ii] = lineMO->ElementSpacing()[ii];
-    }
-  lineSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
   lineSO->GetProperty().SetName( lineMO->Name() );
   lineSO->SetId( lineMO->ID() );
   lineSO->SetParentId( lineMO->ParentID() );
@@ -77,21 +71,21 @@ MetaLineConverter< NDimensions >
     PointType point;
     using NormalType = typename LinePointType::VectorType;
 
-    for ( unsigned int ii = 0; ii < ndims; ii++ )
+    for ( unsigned int ii = 0; ii < NDimensions; ii++ )
       {
       point[ii] = ( *it2 )->m_X[ii];
       }
 
-    pnt.SetPosition(point);
+    pnt.SetPositionInObjectSpace(point);
 
-    for ( unsigned int ii = 0; ii < ndims - 1; ii++ )
+    for ( unsigned int ii = 0; ii < NDimensions - 1; ii++ )
       {
       NormalType normal;
-      for ( unsigned int jj = 0; jj < ndims; jj++ )
+      for ( unsigned int jj = 0; jj < NDimensions; jj++ )
         {
         normal[jj] = ( *it2 )->m_V[ii][jj];
         }
-      pnt.SetNormal(normal, ii);
+      pnt.SetNormalInObjectSpace(normal, ii);
       }
 
     pnt.SetRed( ( *it2 )->m_Color[0] );
@@ -135,14 +129,14 @@ MetaLineConverter< NDimensions >
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {
-      pnt->m_X[d] = ( *it ).GetPosition()[d];
+      pnt->m_X[d] = ( *it ).GetPositionInObjectSpace()[d];
       }
 
     for ( unsigned int n = 0; n < NDimensions - 1; n++ )
       {
       for ( unsigned int d = 0; d < NDimensions; d++ )
         {
-        pnt->m_V[n][d] = ( ( *it ).GetNormal(n) )[d];
+        pnt->m_V[n][d] = ( ( *it ).GetNormalInObjectSpace(n) )[d];
         }
       }
 

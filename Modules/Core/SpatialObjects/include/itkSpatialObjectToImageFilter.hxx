@@ -298,8 +298,8 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
   for ( i = 0; i < ObjectDimension; i++ )
     {
     size[i] = static_cast<SizeValueType>(
-      InputObject->GetMyBoundingBox()->GetMaximum()[i]
-      - InputObject->GetMyBoundingBox()->GetMinimum()[i] );
+      InputObject->GetMyBoundingBoxInWorldSpace()->GetMaximum()[i]
+      - InputObject->GetMyBoundingBoxInWorldSpace()->GetMinimum()[i] );
     }
 
   typename OutputImageType::IndexType index;
@@ -374,7 +374,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 
   while( !it.IsAtEnd() )
     {
-    // ValueAt requires the point to be in physical coordinate i.e
+    // ValueAtInWorldSpace requires the point to be in physical coordinate i.e
     OutputImage->TransformIndexToPhysicalPoint(it.GetIndex(), imagePoint);
     for ( i = 0; i < ObjectDimension; i++ )
       {
@@ -383,7 +383,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 
     double val = 0;
 
-    bool evaluable = InputObject->ValueAt(objectPoint, val, m_ChildrenDepth);
+    bool evaluable = InputObject->ValueAtInWorldSpace(objectPoint, val, m_ChildrenDepth);
     if ( Math::NotExactlyEquals(m_InsideValue, NumericTraits< ValueType >:: ZeroValue()) || Math::NotExactlyEquals(m_OutsideValue, NumericTraits< ValueType >::ZeroValue()) )
       {
       if ( evaluable )

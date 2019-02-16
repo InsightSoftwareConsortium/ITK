@@ -51,7 +51,7 @@ SpatialObjectReader< NDimensions, PixelType, TMeshTraits >
     {
     typename SceneType::ChildrenListType * list = m_Scene->GetChildren(0);
     auto it = list->begin();
-    if ( !strncmp( ( *it )->GetTypeName(), "Group", 5 ) )
+    if ( !strncmp( ( *it )->GetTypeName().c_str(), "Group", 5 ) )
       {
       m_Group = static_cast< GroupType * >( ( *it ).GetPointer() );
       }

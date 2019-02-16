@@ -49,16 +49,8 @@ MetaGaussianConverter< NDimensions >
 
   GaussianSpatialObjectPointer gaussianSO = GaussianSpatialObjectType::New();
 
-  double spacing[NDimensions];
-
-  for ( unsigned int i = 0; i < NDimensions; i++ )
-    {
-    spacing[i] = metaGaussian->ElementSpacing()[i];
-    }
-
-  gaussianSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
   gaussianSO->SetMaximum(metaGaussian->Maximum());
-  gaussianSO->SetRadius(metaGaussian->Radius());
+  gaussianSO->SetRadiusInObjectSpace(metaGaussian->Radius());
   gaussianSO->SetSigma(metaGaussian->Sigma());
   gaussianSO->GetProperty().SetName( metaGaussian->Name());
   gaussianSO->SetId(metaGaussian->ID());
@@ -90,7 +82,7 @@ MetaGaussianConverter< NDimensions >
     metaGaussian->ParentID( gaussianSO->GetParent()->GetId() );
     }
   metaGaussian->Maximum(gaussianSO->GetMaximum());
-  metaGaussian->Radius(gaussianSO->GetRadius());
+  metaGaussian->Radius(gaussianSO->GetRadiusInObjectSpace());
   metaGaussian->Sigma(gaussianSO->GetSigma());
   metaGaussian->ID(gaussianSO->GetId());
   metaGaussian->BinaryData(true);
@@ -98,12 +90,6 @@ MetaGaussianConverter< NDimensions >
     gaussianSO->GetProperty().GetGreen(),
     gaussianSO->GetProperty().GetBlue(),
     gaussianSO->GetProperty().GetAlpha());
-
-  for ( unsigned int i = 0; i < NDimensions; i++ )
-    {
-    metaGaussian->ElementSpacing(i,
-      gaussianSO->GetIndexToObjectTransform()->GetScaleComponent()[i]);
-    }
 
   return metaGaussian;
 }

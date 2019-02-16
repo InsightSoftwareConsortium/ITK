@@ -81,17 +81,17 @@ public:
   itkGetConstReferenceMacro(LengthInObjectSpace, double);
 
   /** Compute the Object bounding box */
-  bool ComputeMyBoundingBox() const override;
+  bool ComputeMyBoundingBoxInWorldSpace() const override;
 
   /** Returns true if the point is inside the line, false otherwise. */
-  bool IsInside(const PointType & point, unsigned int depth=0,
+  bool IsInsideInWorldSpace(const PointType & point, unsigned int depth=0,
     const std::string & name="") const override;
 
   void Update() override;
 
-  itkGetConstReferenceMacro( Position, PointType );
-  itkGetConstReferenceMacro( Direction, VectorType );
-  itkGetMacro( Length, double );
+  itkGetConstReferenceMacro( PositionInWorldSpace, PointType );
+  itkGetConstReferenceMacro( DirectionInWorldSpace, VectorType );
+  itkGetMacro( LengthInWorldSpace, double );
 
 protected:
 
@@ -105,9 +105,9 @@ private:
   VectorType m_DirectionInObjectSpace;
   PointType  m_PositionInObjectSpace;
   double     m_LengthInObjectSpace;
-  VectorType m_Direction;
-  PointType  m_Position;
-  double     m_Length;
+  VectorType m_DirectionInWorldSpace;
+  PointType  m_PositionInWorldSpace;
+  double     m_LengthInWorldSpace;
 };
 
 } // end namespace itk

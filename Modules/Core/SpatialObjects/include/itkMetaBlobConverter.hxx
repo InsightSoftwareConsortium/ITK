@@ -49,14 +49,6 @@ MetaBlobConverter< NDimensions >
 
   typename BlobSpatialObjectType::Pointer blob = BlobSpatialObjectType::New();
 
-  unsigned int ndims = Blob->NDims();
-  double       spacing[NDimensions];
-  for ( unsigned int ii = 0; ii < ndims; ii++ )
-    {
-    spacing[ii] = Blob->ElementSpacing()[ii];
-    }
-
-  blob->GetIndexToObjectTransform()->SetScaleComponent(spacing);
   blob->GetProperty().SetName( Blob->Name() );
   blob->SetId( Blob->ID() );
   blob->SetParentId( Blob->ParentID() );
@@ -69,7 +61,7 @@ MetaBlobConverter< NDimensions >
 
   auto it2 = Blob->GetPoints().begin();
 
-  vnl_vector< double > v(ndims);
+  vnl_vector< double > v(NDimensions);
 
   for ( unsigned int identifier = 0; identifier < Blob->GetPoints().size(); identifier++ )
     {
@@ -78,12 +70,12 @@ MetaBlobConverter< NDimensions >
     using PointType = typename BlobSpatialObjectType::PointType;
     PointType point;
 
-    for ( unsigned int ii = 0; ii < ndims; ii++ )
+    for ( unsigned int ii = 0; ii < NDimensions; ii++ )
       {
       point[ii] = ( *it2 )->m_X[ii];
       }
 
-    pnt.SetPosition(point);
+    pnt.SetPositionInObjectSpace(point);
 
     pnt.SetRed( ( *it2 )->m_Color[0] );
     pnt.SetGreen( ( *it2 )->m_Color[1] );
@@ -121,7 +113,7 @@ MetaBlobConverter< NDimensions >
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {
-      pnt->m_X[d] = ( *i ).GetPosition()[d];
+      pnt->m_X[d] = ( *i ).GetPositionInObjectSpace()[d];
       }
 
     pnt->m_Color[0] = ( *i ).GetRed();
@@ -155,11 +147,6 @@ MetaBlobConverter< NDimensions >
     }
   Blob->NPoints(Blob->GetPoints().size());
 
-  for ( unsigned int ii = 0; ii < NDimensions; ii++ )
-    {
-    Blob->ElementSpacing(ii, spatialObject->GetIndexToObjectTransform()
-                         ->GetScaleComponent()[ii]);
-    }
   Blob->BinaryData(true);
   return Blob;
 }

@@ -257,13 +257,13 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
       // Create a Circle Spatial Object
       const auto Circle = CircleType::New();
       Circle->SetId(static_cast<int>( circles ));
-      Circle->SetRadius( m_RadiusImage->GetPixel( indexOfMaximum ) );
+      Circle->SetRadiusInObjectSpace( m_RadiusImage->GetPixel( indexOfMaximum ) );
 
       CircleType::PointType center;
       center[0] = indexOfMaximum[0];
       center[1] = indexOfMaximum[1];
-      Circle->SetCenterPoint(center);
-      Circle->ComputeBoundingBox();
+      Circle->SetCenterInObjectSpace(center);
+      Circle->Update();
 
       m_CirclesList.push_back(Circle);
 
@@ -276,7 +276,8 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
       // Remove a black disc from the Hough space domain
       for ( double angle = 0; angle <= 2 * itk::Math::pi; angle += itk::Math::pi / 1000 )
         {
-        for ( double length = 0; length < m_DiscRadiusRatio * Circle->GetRadius()[0]; length += 1 )
+        for ( double length = 0; length < m_DiscRadiusRatio *
+          Circle->GetRadiusInObjectSpace()[0]; length += 1 )
           {
           const Index< 2 > index =
             {{

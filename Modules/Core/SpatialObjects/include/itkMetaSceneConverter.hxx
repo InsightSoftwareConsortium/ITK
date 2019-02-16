@@ -64,7 +64,7 @@ MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
 ::SetTransform(MetaObject *obj, TransformType *transform)
 {
   typename SpatialObjectType::TransformType::InputPointType center =
-    transform->GetCenter();
+    transform->GetCenterInWorldSpace();
   typename SpatialObjectType::TransformType::MatrixType matrix =
     transform->GetMatrix();
   typename SpatialObjectType::TransformType::OffsetType offset =
@@ -220,11 +220,11 @@ MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
       currentSO = converterIt->second->MetaObjectToSpatialObject( *it );
       }
     this->SetTransform(currentSO, *it);
-    soScene->AddSpatialObject(currentSO);
+    soScene->AddChild(currentSO);
     it++;
     }
 
-  soScene->FixHierarchy();
+  soScene->FixParentChildHierarchyUsingParentIds();
 
   return soScene;
 }
@@ -351,8 +351,8 @@ MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
       {
       currentMeta->ParentID( ( *it )->GetParent()->GetId() );
       }
-    currentMeta->Name( ( *it )->GetProperty()->GetName().c_str() );
-    this->SetTransform( currentMeta, ( *it )->GetObjectToParentTransform() );
+    currentMeta->Name( ( *it ).GetProperty()->GetName().c_str() );
+    this->SetTransform( currentMeta, ( *it ).GetObjectToParentTransform() );
     metaScene->AddObject(currentMeta);
     it++;
     }

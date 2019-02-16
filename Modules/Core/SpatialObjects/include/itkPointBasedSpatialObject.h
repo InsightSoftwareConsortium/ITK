@@ -95,11 +95,11 @@ public:
   TSpatialObjectPointType & ClosestPoint(const PointType & worldPoint) const;
 
   /** Returns true if the point is inside the Blob, false otherwise. */
-  bool IsInside(const PointType & worldPoint, unsigned int depth,
-    const std::string & name) const override;
+  bool IsInsideInWorldSpace(const PointType & worldPoint, unsigned int depth=0,
+    const std::string & name="") const override;
 
   /** Compute the boundaries of the Blob. */
-  bool ComputeMyBoundingBox() const override;
+  bool ComputeMyBoundingBoxInWorldSpace() const override;
 
 protected:
   PointBasedSpatialObject();

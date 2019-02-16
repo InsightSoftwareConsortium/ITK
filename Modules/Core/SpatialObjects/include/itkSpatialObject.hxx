@@ -34,17 +34,17 @@ SpatialObject< TDimension >
 {
   m_TypeName = "SpatialObject";
 
-  m_FamilyBoundingBox = BoundingBoxType::New();
+  m_FamilyBoundingBoxInWorldSpace = BoundingBoxType::New();
   typename BoundingBoxType::PointType pnt;
   pnt.Fill( NumericTraits< typename BoundingBoxType::PointType::ValueType >::
     ZeroValue() );
-  m_FamilyBoundingBox->SetMinimum(pnt);
-  m_FamilyBoundingBox->SetMaximum(pnt);
-  m_FamilyBoundingBoxMTime = 0;
+  m_FamilyBoundingBoxInWorldSpace->SetMinimum(pnt);
+  m_FamilyBoundingBoxInWorldSpace->SetMaximum(pnt);
+  m_FamilyBoundingBoxInWorldSpaceMTime = 0;
 
-  m_MyBoundingBox = BoundingBoxType::New();
-  m_MyBoundingBox->SetMinimum(pnt);
-  m_MyBoundingBox->SetMaximum(pnt);
+  m_MyBoundingBoxInWorldSpace = BoundingBoxType::New();
+  m_MyBoundingBoxInWorldSpace->SetMinimum(pnt);
+  m_MyBoundingBoxInWorldSpace->SetMaximum(pnt);
 
   m_ObjectToWorldTransform = TransformType::New();
   m_ObjectToWorldTransform->SetIdentity();
@@ -69,12 +69,12 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 void
 SpatialObject< TDimension >
-::DerivativeAt(const PointType & point, short unsigned int order,
+::DerivativeAtInWorldSpace(const PointType & point, short unsigned int order,
                DerivativeVectorType & value, unsigned int depth,
                const std::string & name,
                const SpacingVectorType & spacing)
 {
-  if ( !IsEvaluableAt(point, depth, name) )
+  if ( !IsEvaluableAtInWorldSpace(point, depth, name) )
     {
     ExceptionObject e(__FILE__);
     e.SetLocation( "SpatialObject::DerivateAt()" );
@@ -86,7 +86,7 @@ SpatialObject< TDimension >
     {
     double r;
 
-    ValueAt(point, r, depth, name);
+    ValueAtInWorldSpace(point, r, depth, name);
     value.Fill(r);
     }
   else
@@ -110,9 +110,9 @@ SpatialObject< TDimension >
       p1[i] -= spacing[i];
       p2[i] += spacing[i];
 
-      // note DerivativeAt might throw.
-      DerivativeAt(p1, order - 1, v1, depth, name, spacingDiv2);
-      DerivativeAt(p2, order - 1, v2, depth, name, spacingDiv2);
+      // note DerivativeAtInWorldSpace might throw.
+      DerivativeAtInWorldSpace(p1, order - 1, v1, depth, name, spacingDiv2);
+      DerivativeAtInWorldSpace(p2, order - 1, v2, depth, name, spacingDiv2);
 
       ( *it ) = ( ( *it_v2 ) - ( *it_v1 ) ) / 2;
       }
@@ -123,12 +123,12 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 SpatialObject< TDimension >
-::IsInside(const PointType &  point, unsigned int depth,
+::IsInsideInWorldSpace(const PointType &  point, unsigned int depth,
   const std::string & name) const
 {
   if( depth > 0 )
     {
-    return IsInsideChildren( point, depth-1, name );
+    return IsInsideInWorldSpaceChildrenInWorldSpace( point, depth-1, name );
     }
   else
     {
@@ -140,14 +140,14 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 SpatialObject< TDimension >
-::IsInsideChildren(const PointType &  point, unsigned int depth,
+::IsInsideInWorldSpaceChildrenInWorldSpace(const PointType &  point, unsigned int depth,
   const std::string & name) const
 {
   typename ChildrenListType::const_iterator it = m_ChildrenList.begin();
 
   while ( it != m_ChildrenList.end() )
     {
-    if ( (*it)->IsInside(point, depth, name) )
+    if ( (*it)->IsInsideInWorldSpace(point, depth, name) )
       {
       return true;
       }
@@ -161,10 +161,10 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 SpatialObject< TDimension >
-::IsEvaluableAt(const PointType & point, unsigned int depth,
+::IsEvaluableAtInWorldSpace(const PointType & point, unsigned int depth,
   const std::string & name) const
 {
-  if( IsInside( point, 0, name ) )
+  if( IsInsideInWorldSpace( point, 0, name ) )
     {
     return true;
     }
@@ -172,7 +172,7 @@ SpatialObject< TDimension >
     {
     if( depth > 0 )
       {
-      return IsEvaluableAtChildren( point, depth-1, name );
+      return IsEvaluableAtInWorldSpaceChildrenInWorldSpace( point, depth-1, name );
       }
     else
       {
@@ -185,14 +185,14 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 SpatialObject< TDimension >
-::IsEvaluableAtChildren(const PointType & point, unsigned int depth,
+::IsEvaluableAtInWorldSpaceChildrenInWorldSpace(const PointType & point, unsigned int depth,
   const std::string & name) const
 {
   typename ChildrenListType::const_iterator it = m_ChildrenList.begin();
 
   while ( it != m_ChildrenList.end() )
     {
-    if ( ( *it )->IsEvaluableAt(point, depth, name) )
+    if ( ( *it )->IsEvaluableAtInWorldSpace(point, depth, name) )
       {
       return true;
       }
@@ -206,12 +206,12 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 SpatialObject< TDimension >
-::ValueAt(const PointType & point, double & value, unsigned int depth,
+::ValueAtInWorldSpace(const PointType & point, double & value, unsigned int depth,
           const std::string & name) const
 {
-  if( IsEvaluableAt( point, 0, name ) )
+  if( IsEvaluableAtInWorldSpace( point, 0, name ) )
     {
-    if( IsInside( point, 0, name ) )
+    if( IsInsideInWorldSpace( point, 0, name ) )
       {
       value = m_DefaultInsideValue;
       return true;
@@ -226,7 +226,7 @@ SpatialObject< TDimension >
     {
     if( depth > 0 )
       {
-      if( ValueAtChildren( point, value, depth-1, name ) )
+      if( ValueAtInWorldSpaceChildrenInWorldSpace( point, value, depth-1, name ) )
         {
         return true;
         }
@@ -241,16 +241,16 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 SpatialObject< TDimension >
-::ValueAtChildren(const PointType & point, double & value, unsigned int depth,
+::ValueAtInWorldSpaceChildrenInWorldSpace(const PointType & point, double & value, unsigned int depth,
           const std::string & name) const
 {
   typename ChildrenListType::const_iterator it = m_ChildrenList.begin();
 
   while ( it != m_ChildrenList.end() )
     {
-    if ( ( *it )->IsEvaluableAt(point, depth, name) )
+    if ( ( *it )->IsEvaluableAtInWorldSpace(point, depth, name) )
       {
-      ( *it )->ValueAt(point, value, depth, name);
+      ( *it )->ValueAtInWorldSpace(point, value, depth, name);
       return true;
       }
     it++;
@@ -268,9 +268,9 @@ SpatialObject< TDimension >
 {
   Superclass::PrintSelf(os, indent);
   os << "Object Bounding Box:" << std::endl;
-  os << indent << m_MyBoundingBox << std::endl;
+  os << indent << m_MyBoundingBoxInWorldSpace << std::endl;
   os << "Bounding Box:" << std::endl;
-  os << indent << m_FamilyBoundingBox << std::endl;
+  os << indent << m_FamilyBoundingBoxInWorldSpace << std::endl;
   os << "Geometric properties:" << std::endl;
   os << indent << "Object to World Transform: " << m_ObjectToWorldTransform
      << std::endl;
@@ -285,9 +285,9 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 typename SpatialObject< TDimension >::BoundingBoxType *
 SpatialObject< TDimension >
-::GetFamilyBoundingBox() const
+::GetFamilyBoundingBoxInWorldSpace() const
 {
-  return m_FamilyBoundingBox.GetPointer();
+  return m_FamilyBoundingBoxInWorldSpace.GetPointer();
 }
 
 /** Add a child to the object */
@@ -411,7 +411,7 @@ SpatialObject< TDimension >
     it++;
     }
 
-  this->ComputeMyBoundingBox();
+  this->ComputeMyBoundingBoxInWorldSpace();
 
   this->Modified();
 }
@@ -483,7 +483,7 @@ SpatialObject< TDimension >
     it++;
     }
 
-  this->ComputeMyBoundingBox();
+  this->ComputeMyBoundingBoxInWorldSpace();
 
   this->Modified();
 }
@@ -496,9 +496,9 @@ SpatialObject< TDimension >
 {
   ModifiedTimeType latestTime = Object::GetMTime();
 
-  if( latestTime < m_FamilyBoundingBoxMTime )
+  if( latestTime < m_FamilyBoundingBoxInWorldSpaceMTime )
     {
-    latestTime = m_FamilyBoundingBoxMTime;
+    latestTime = m_FamilyBoundingBoxInWorldSpaceMTime;
     }
 
   typename ChildrenListType::const_iterator it = m_ChildrenList.begin();
@@ -521,13 +521,13 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 SpatialObject< TDimension >
-::ComputeMyBoundingBox() const
+::ComputeMyBoundingBoxInWorldSpace() const
 {
   typename BoundingBoxType::PointType pnt;
   pnt.Fill( NumericTraits< typename BoundingBoxType::PointType::ValueType >::
     ZeroValue() );
-  m_MyBoundingBox->SetMinimum(pnt);
-  m_MyBoundingBox->SetMaximum(pnt);
+  m_MyBoundingBoxInWorldSpace->SetMinimum(pnt);
+  m_MyBoundingBoxInWorldSpace->SetMaximum(pnt);
 
   return false;
 }
@@ -537,42 +537,42 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 typename SpatialObject< TDimension >::BoundingBoxType *
 SpatialObject< TDimension >
-::GetMyBoundingBox() const
+::GetMyBoundingBoxInWorldSpace() const
 {
-  return m_MyBoundingBox.GetPointer();
+  return m_MyBoundingBoxInWorldSpace.GetPointer();
 }
 
 /**
  * Compute an axis-aligned bounding box for an object and its selected
  * children, down to a specified depth.  After computation, the
- * resulting bounding box is stored in this->m_FamilyBoundingBox.  */
+ * resulting bounding box is stored in this->m_FamilyBoundingBoxInWorldSpace.  */
 template< unsigned int TDimension >
 bool
 SpatialObject< TDimension >
-::ComputeFamilyBoundingBox( unsigned int depth, const std::string & name ) const
+::ComputeFamilyBoundingBoxInWorldSpace( unsigned int depth, const std::string & name ) const
 {
   itkDebugMacro("Computing Bounding Box");
 
   typename BoundingBoxType::PointType pnt;
   pnt.Fill( NumericTraits< typename BoundingBoxType::PointType::ValueType >::
     ZeroValue() );
-  m_FamilyBoundingBox->SetMinimum(pnt);
-  m_FamilyBoundingBox->SetMaximum(pnt);
-  m_FamilyBoundingBoxMTime = this->GetMTime();
+  m_FamilyBoundingBoxInWorldSpace->SetMinimum(pnt);
+  m_FamilyBoundingBoxInWorldSpace->SetMaximum(pnt);
+  m_FamilyBoundingBoxInWorldSpaceMTime = this->GetMTime();
   bool bbDefined = false;
 
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    PointType pointMin = this->GetMyBoundingBox()->GetMinimum();
-    PointType pointMax = this->GetMyBoundingBox()->GetMaximum();
+    PointType pointMin = this->GetMyBoundingBoxInWorldSpace()->GetMinimum();
+    PointType pointMax = this->GetMyBoundingBoxInWorldSpace()->GetMaximum();
     for ( unsigned int i = 0; i < ObjectDimension; i++ )
       {
       if ( Math::NotExactlyEquals(pointMin[i], 0)
            || Math::NotExactlyEquals(pointMax[i], 0) )
         {
         bbDefined = true;
-        m_FamilyBoundingBox->SetMinimum( pointMin );
-        m_FamilyBoundingBox->SetMaximum( pointMax );
+        m_FamilyBoundingBoxInWorldSpace->SetMinimum( pointMin );
+        m_FamilyBoundingBoxInWorldSpace->SetMaximum( pointMax );
         break;
         }
       }
@@ -583,22 +583,22 @@ SpatialObject< TDimension >
     typename ChildrenListType::const_iterator it = m_ChildrenList.begin();
     while( it != m_ChildrenList.end() )
       {
-      ( *it )->ComputeFamilyBoundingBox( depth-1, name );
+      ( *it )->ComputeFamilyBoundingBoxInWorldSpace( depth-1, name );
 
       if( !bbDefined )
         {
-        m_FamilyBoundingBox->SetMinimum(
-          (*it)->GetFamilyBoundingBox()->GetMinimum() );
-        m_FamilyBoundingBox->SetMaximum(
-          (*it)->GetFamilyBoundingBox()->GetMaximum() );
+        m_FamilyBoundingBoxInWorldSpace->SetMinimum(
+          (*it)->GetFamilyBoundingBoxInWorldSpace()->GetMinimum() );
+        m_FamilyBoundingBoxInWorldSpace->SetMaximum(
+          (*it)->GetFamilyBoundingBoxInWorldSpace()->GetMaximum() );
         bbDefined = true;
         }
       else
         {
-        m_FamilyBoundingBox->ConsiderPoint(
-          (*it)->GetFamilyBoundingBox()->GetMinimum() );
-        m_FamilyBoundingBox->ConsiderPoint(
-          (*it)->GetFamilyBoundingBox()->GetMaximum() );
+        m_FamilyBoundingBoxInWorldSpace->ConsiderPoint(
+          (*it)->GetFamilyBoundingBoxInWorldSpace()->GetMinimum() );
+        m_FamilyBoundingBoxInWorldSpace->ConsiderPoint(
+          (*it)->GetFamilyBoundingBoxInWorldSpace()->GetMaximum() );
         }
       it++;
       }
@@ -729,7 +729,7 @@ SpatialObject< TDimension >
   auto it = m_ChildrenList.begin();
   while ( it != m_ChildrenList.end() )
     {
-    SpatialObject< TDimension > * tmp = (*it)->GetObjectById();
+    SpatialObject< TDimension > * tmp = (*it)->GetObjectById( Id );
     if( tmp != nullptr )
       {
       return tmp;
