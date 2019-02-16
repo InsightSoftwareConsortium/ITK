@@ -89,7 +89,7 @@ LineSpatialObject< TDimension >
 
   if( depth > 0 )
     {
-    return Superclass::IsInsideInWorldSpaceChildrenInWorldSpace( point, depth-1, name );
+    return Superclass::IsInsideChildrenInWorldSpace( point, depth-1, name );
     }
 
 

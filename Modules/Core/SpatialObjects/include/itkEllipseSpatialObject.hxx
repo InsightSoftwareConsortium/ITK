@@ -76,7 +76,7 @@ EllipseSpatialObject< TDimension >
 
   if( depth > 0 )
     {
-    return Superclass::IsInsideInWorldSpaceChildrenInWorldSpace( worldPoint, depth-1, name );
+    return Superclass::IsInsideChildrenInWorldSpace( worldPoint, depth-1, name );
     }
 
   return false;

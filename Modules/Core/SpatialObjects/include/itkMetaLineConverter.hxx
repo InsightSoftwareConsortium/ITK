@@ -67,7 +67,7 @@ MetaLineConverter< NDimensions >
     {
     LinePointType pnt;
 
-    using PointType = typename LinePointType::PointType;
+    using PointType = typename LinePointType::LinePointType;
     PointType point;
     using NormalType = typename LinePointType::VectorType;
 
@@ -116,11 +116,11 @@ MetaLineConverter< NDimensions >
 
   // due to a Visual Studio stupidity, can't seem to define
   // a const method to return the points list.
-  const typename LineSpatialObjectType::PointListType &linePoints =
+  const typename LineSpatialObjectType::LinePointListType &linePoints =
     lineSO->GetPoints();
 
   // fill in the Line information
-  typename LineSpatialObjectType::PointListType::const_iterator it;
+  typename LineSpatialObjectType::LinePointListType::const_iterator it;
   for ( it = linePoints.begin();
         it != linePoints.end();
         ++it )

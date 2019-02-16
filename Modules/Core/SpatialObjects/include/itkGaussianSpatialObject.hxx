@@ -29,8 +29,9 @@ GaussianSpatialObject< TDimension >
 ::GaussianSpatialObject()
 {
   this->SetTypeName("GaussianSpatialObject");
-  m_Radius = 1.0;
-  m_Sigma = 1.0;
+  m_CenterInObjectSpace = 0.0;
+  m_RadiusInObjectSpace = 1.0;
+  m_SigmaInObjectSpace = 1.0;
   m_Maximum = 1.0;
 }
 
@@ -44,7 +45,7 @@ GaussianSpatialObject< TDimension >
 template< unsigned int TDimension >
 typename GaussianSpatialObject< TDimension >::ScalarType
 GaussianSpatialObject< TDimension >
-::SquaredZScore(const PointType & point) const
+::SquaredZScoreInWorldSpace(const PointType & point) const
 {
   PointType transformedPoint =
     this->GetObjectToWorldTransform()->GetInverseTransform()
@@ -55,7 +56,7 @@ GaussianSpatialObject< TDimension >
     {
     r += transformedPoint[i] * transformedPoint[i];
     }
-  return r / ( m_Sigma * m_Sigma );
+  return r / ( m_SigmaInObjectSpace * m_SigmaInObjectSpace );
 }
 
 /** Test whether a point is inside or outside the object.
@@ -67,7 +68,7 @@ GaussianSpatialObject< TDimension >
 ::IsInsideInWorldSpace(const PointType & point, unsigned int depth,
   const std::string & name) const
 {
-  if ( m_Radius < itk::Math::eps )
+  if ( m_RadiusInObjectSpace < itk::Math::eps )
     {
     return false;
     }
@@ -77,16 +78,17 @@ GaussianSpatialObject< TDimension >
     return false;
     }
 
-  PointType transformedPoint =
-    this->GetObjectToWorldTransform()->GetInverse()->TransformPoint(point);
+  PointType transformedPoint = this->GetObjectToWorldTransform()->
+    GetInverseTransform()->TransformPoint(point);
 
   double r = 0;
   for ( unsigned int i = 0; i < TDimension; i++ )
     {
-    r += transformedPoint[i] * transformedPoint[i];
+    r += (transformedPoint[i] - m_CenterInObjectSpace[i])
+          * (transformedPoint[i] - m_CenterInObjectSpace[i]);
     }
 
-  r /= ( m_Radius * m_Radius );
+  r /= ( m_RadiusInObjectSpace * m_RadiusInObjectSpace );
 
   if ( r < 1.0 )
     {
@@ -95,7 +97,7 @@ GaussianSpatialObject< TDimension >
 
   if( depth > 0 )
     {
-    return Superclass::IsInsideInWorldSpaceChildrenInWorldSpace(point, depth-1, name);
+    return Superclass::IsInsideChildrenInWorldSpace(point, depth-1, name);
     }
 
   return false;
@@ -118,8 +120,8 @@ GaussianSpatialObject< TDimension >
   unsigned int i;
   for ( i = 0; i < TDimension; i++ )
     {
-    pnt1[i] = m_Center[i] - m_Radius[i];
-    pnt2[i] = m_Center[i] + m_Radius[i];
+    pnt1[i] = m_CenterInObjectSpace[i] - m_RadiusInObjectSpace[i];
+    pnt2[i] = m_CenterInObjectSpace[i] + m_RadiusInObjectSpace[i];
     }
 
   bb->SetMinimum(pnt1);
@@ -166,7 +168,7 @@ GaussianSpatialObject< TDimension >
     {
     if( IsInsideInWorldSpace(point) )
       {
-      const double zsq = this->SquaredZScore(point);
+      const double zsq = this->SquaredZScoreInWorldSpace(point);
       value = m_Maximum * (ScalarType)std::exp(-zsq / 2.0);
       return true;
       }
@@ -174,7 +176,7 @@ GaussianSpatialObject< TDimension >
 
   if( depth > 0 )
     {
-    if( Superclass::ValueAtInWorldSpaceChildrenInWorldSpace(point, value, depth-1, name) )
+    if( Superclass::ValueAtChildrenInWorldSpace(point, value, depth-1, name) )
       {
       return true;
       }
@@ -194,8 +196,8 @@ GaussianSpatialObject< TDimension >
   using EllipseType = itk::EllipseSpatialObject< TDimension >;
   typename EllipseType::Pointer ellipse = EllipseType::New();
 
-  ellipse->SetRadiusInWorldSpace(m_Radius);
-  ellipse->SetCenterInWorldSpace(m_Center);
+  ellipse->SetRadiusInObjectSpace(m_RadiusInObjectSpace);
+  ellipse->SetCenterInObjectSpace(m_CenterInObjectSpace);
 
   ellipse->GetObjectToWorldTransform()->SetFixedParameters(
     this->GetObjectToWorldTransform()->GetFixedParameters() );
@@ -215,8 +217,9 @@ GaussianSpatialObject< TDimension >
 {
   Superclass::PrintSelf(os, indent);
   os << "Maximum: " << m_Maximum << std::endl;
-  os << "Radius: " << m_Radius << std::endl;
-  os << "Sigma: " << m_Sigma << std::endl;
+  os << "Radius: " << m_RadiusInObjectSpace << std::endl;
+  os << "Sigma: " << m_SigmaInObjectSpace << std::endl;
+  os << "Center: " << m_CenterInObjectSpace << std::endl;
 }
 } // end namespace itk
 

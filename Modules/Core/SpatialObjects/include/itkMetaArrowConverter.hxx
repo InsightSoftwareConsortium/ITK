@@ -49,9 +49,9 @@ MetaArrowConverter< NDimensions >
   ArrowSpatialObjectPointer arrowSO = ArrowSpatialObjectType::New();
 
   float  lengthInObjectSpace = metaArrow->Length();
-  arrowSO->SetLength(lengthInObjectSpace);
+  arrowSO->SetLengthInObjectSpace(lengthInObjectSpace);
 
-  const double *metaPosition = metaArrow->PositionInObjectSpace();
+  const double *metaPosition = metaArrow->Position();
   const double *metaDirection = metaArrow->Direction();
   typename SpatialObjectType::PointType positionInObjectSpace;
   typename SpatialObjectType::VectorType directionInObjectSpace;
@@ -60,8 +60,8 @@ MetaArrowConverter< NDimensions >
     positionInObjectSpace[i] = metaPosition[i];
     directionInObjectSpace[i] = metaDirection[i];
     }
-  arrowSO->SetPositionInObjectSpace(position);
-  arrowSO->SetDirectionInObjectSpace(direction);
+  arrowSO->SetPositionInObjectSpace(positionInObjectSpace);
+  arrowSO->SetDirectionInObjectSpace(directionInObjectSpace);
 
   // convert the other fields
   arrowSO->GetProperty().SetName( metaArrow->Name() );
