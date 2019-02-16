@@ -74,13 +74,13 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
   typename MeshType::Pointer mesh = MeshType::New();
 
   // Add Points
-  using PointListType = typename MeshMetaObjectType::PointListType;
+  using PointListType = typename MeshMetaObjectType::MeshPointListType;
   const PointListType points = _mesh->GetPoints();
   auto it_points = points.begin();
 
   while ( it_points != points.end() )
     {
-    typename MeshType::PointType pt;
+    typename MeshType::MeshPointType pt;
     for ( unsigned int i = 0; i < NDimensions; i++ )
       {
       pt[i] = ( ( *it_points )->m_X )[i];

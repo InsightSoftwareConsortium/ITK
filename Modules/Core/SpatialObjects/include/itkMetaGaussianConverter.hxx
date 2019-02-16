@@ -51,7 +51,7 @@ MetaGaussianConverter< NDimensions >
 
   gaussianSO->SetMaximum(metaGaussian->Maximum());
   gaussianSO->SetRadiusInObjectSpace(metaGaussian->Radius());
-  gaussianSO->SetSigma(metaGaussian->Sigma());
+  gaussianSO->SetSigmaInObjectSpace(metaGaussian->Sigma());
   gaussianSO->GetProperty().SetName( metaGaussian->Name());
   gaussianSO->SetId(metaGaussian->ID());
   gaussianSO->SetParentId( metaGaussian->ParentID() );
@@ -83,7 +83,7 @@ MetaGaussianConverter< NDimensions >
     }
   metaGaussian->Maximum(gaussianSO->GetMaximum());
   metaGaussian->Radius(gaussianSO->GetRadiusInObjectSpace());
-  metaGaussian->Sigma(gaussianSO->GetSigma());
+  metaGaussian->Sigma(gaussianSO->GetSigmaInObjectSpace());
   metaGaussian->ID(gaussianSO->GetId());
   metaGaussian->BinaryData(true);
   metaGaussian->Color(gaussianSO->GetProperty().GetRed(),

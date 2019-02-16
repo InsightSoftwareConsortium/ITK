@@ -72,7 +72,7 @@ ImageMaskSpatialObject< TDimension >
     }
   if( depth > 0 )
     {
-    return Superclass::IsInsideInWorldSpaceChildrenInWorldSpace( point, depth, name );
+    return Superclass::IsInsideChildrenInWorldSpace( point, depth, name );
     }
 
   return false;
