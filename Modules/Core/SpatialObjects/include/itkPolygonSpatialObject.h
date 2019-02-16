@@ -75,7 +75,7 @@ public:
   // For ComputeMyBounds - use the implementation in PointBasedSpatialObject
 
   /** Test whether a point is inside or outside the object. */
-  bool IsInside(const PointType & point, unsigned int depth,
+  bool IsInsideInWorldSpace(const PointType & point, unsigned int depth,
     const std::string & name) const override;
 
 protected:

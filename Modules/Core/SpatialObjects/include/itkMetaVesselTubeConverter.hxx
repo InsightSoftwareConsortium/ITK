@@ -43,17 +43,9 @@ MetaVesselTubeConverter< NDimensions >
     itkExceptionMacro(<< "Can't convert MetaObject to MetaVesselTube" );
     }
 
-  TubeSpatialObjectPointer
+  typename VesselTubeSpatialObjectType::Pointer
     vesselTubeSO = VesselTubeSpatialObjectType::New();
-  double spacing[NDimensions];
 
-  unsigned int ndims = vesselTubeMO->NDims();
-  for ( unsigned int ii = 0; ii < ndims; ii++ )
-    {
-    spacing[ii] = vesselTubeMO->ElementSpacing()[ii];
-    }
-
-  vesselTubeSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
   vesselTubeSO->GetProperty().SetName( vesselTubeMO->Name() );
   vesselTubeSO->SetParentPoint( vesselTubeMO->ParentPoint() );
   vesselTubeSO->SetId( vesselTubeMO->ID() );
@@ -72,41 +64,42 @@ MetaVesselTubeConverter< NDimensions >
     vesselTubeSO->GetProperty().SetTagStringValue( "Artery", "false" );
     }
 
-  using VesselTubePointType = itk::VesselTubeSpatialObjectPoint< NDimensions >;
+  using VesselTubePointType = itk::TubeSpatialObjectPoint< NDimensions >;
 
   auto it2 = vesselTubeMO->GetPoints().begin();
 
   itk::CovariantVector< double, NDimensions > v;
   itk::Vector< double, NDimensions >          t;
 
-  for ( unsigned int identifier = 0; identifier < vesselTubeMO->GetPoints().size(); identifier++ )
+  for ( unsigned int identifier = 0;
+    identifier < vesselTubeMO->GetPoints().size();
+    identifier++ )
     {
     VesselTubePointType pnt;
 
-    pnt.SetPosition( ( *it2 )->m_X );
-    pnt.SetRadius( ( *it2 )->m_R );
+    pnt.SetPositionInObjectSpace( ( *it2 )->m_X);
+    pnt.SetRadiusInObjectSpace( ( *it2 )->m_R);
     pnt.SetMedialness( ( *it2 )->m_Medialness );
     pnt.SetRidgeness( ( *it2 )->m_Ridgeness );
     pnt.SetBranchness( ( *it2 )->m_Branchness );
-    pnt.SetMark( ( *it2 )->m_Mark );
 
-    for ( unsigned int ii = 0; ii < ndims; ii++ )
+    for ( unsigned int ii = 0; ii < NDimensions; ii++ )
       {
       v[ii] = ( *it2 )->m_V1[ii];
       }
-    pnt.SetNormal1(v);
+    pnt.SetNormal1InObjectSpace(v);
 
-    for ( unsigned int ii = 0; ii < ndims; ii++ )
+    for ( unsigned int ii = 0; ii < NDimensions; ii++ )
       {
       v[ii] = ( *it2 )->m_V2[ii];
       }
-    pnt.SetNormal2(v);
+    pnt.SetNormal2InObjectSpace(v);
 
-    for ( unsigned int ii = 0; ii < ndims; ii++ )
+    for ( unsigned int ii = 0; ii < NDimensions; ii++ )
       {
       t[ii] = ( *it2 )->m_T[ii];
       }
-    pnt.SetTangent(t);
+    pnt.SetTangentInObjectSpace(t);
 
     pnt.SetAlpha1( ( *it2 )->m_Alpha1 );
     pnt.SetAlpha2( ( *it2 )->m_Alpha2 );
@@ -117,7 +110,7 @@ MetaVesselTubeConverter< NDimensions >
     pnt.SetBlue( ( *it2 )->m_Color[2] );
     pnt.SetAlpha( ( *it2 )->m_Color[3] );
 
-    pnt.SetID( ( *it2 )->m_ID );
+    pnt.SetId( ( *it2 )->m_ID );
 
     vesselTubeSO->GetPoints().push_back(pnt);
 
@@ -133,7 +126,7 @@ typename MetaVesselTubeConverter< NDimensions >::MetaObjectType *
 MetaVesselTubeConverter< NDimensions >
 ::SpatialObjectToMetaObject(const SpatialObjectType *so)
 {
-  const VesselTubeSpatialObjectConstPointer vesselTubeSO =
+  const typename VesselTubeSpatialObjectType::ConstPointer vesselTubeSO =
     dynamic_cast<const VesselTubeSpatialObjectType *>(so);
 
   if(vesselTubeSO.IsNull())
@@ -144,7 +137,7 @@ MetaVesselTubeConverter< NDimensions >
 
   // fill in the tube information
 
-  typename VesselTubeSpatialObjectType::PointListType::const_iterator i;
+  typename VesselTubeSpatialObjectType::TubePointListType::const_iterator i;
   for ( i = vesselTubeSO->GetPoints().begin();
         i != vesselTubeSO->GetPoints().end();
         i++ )
@@ -153,32 +146,31 @@ MetaVesselTubeConverter< NDimensions >
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {
-      pnt->m_X[d] = ( *i ).GetPosition()[d];
+      pnt->m_X[d] = ( *i ).GetPositionInObjectSpace()[d];
       }
 
-    pnt->m_ID = ( *i ).GetID();
-    pnt->m_R = ( *i ).GetRadius();
+    pnt->m_ID = ( *i ).GetId();
+    pnt->m_R = ( *i ).GetRadiusInObjectSpace();
     pnt->m_Alpha1 = ( *i ).GetAlpha1();
     pnt->m_Alpha2 = ( *i ).GetAlpha2();
     pnt->m_Alpha3 = ( *i ).GetAlpha3();
     pnt->m_Medialness = ( *i ).GetMedialness();
     pnt->m_Ridgeness = ( *i ).GetRidgeness();
     pnt->m_Branchness = ( *i ).GetBranchness();
-    pnt->m_Mark = ( *i ).GetMark();
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {
-      pnt->m_V1[d] = ( *i ).GetNormal1()[d];
+      pnt->m_V1[d] = ( *i ).GetNormal1InObjectSpace()[d];
       }
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {
-      pnt->m_V2[d] = ( *i ).GetNormal2()[d];
+      pnt->m_V2[d] = ( *i ).GetNormal2InObjectSpace()[d];
       }
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {
-      pnt->m_T[d] = ( *i ).GetTangent()[d];
+      pnt->m_T[d] = ( *i ).GetTangentInObjectSpace()[d];
       }
 
     pnt->m_Color[0] = ( *i ).GetRed();
@@ -226,8 +218,9 @@ MetaVesselTubeConverter< NDimensions >
 
   for ( unsigned int ii = 0; ii < NDimensions; ii++ )
     {
-    vesselTubeMO->ElementSpacing(ii, vesselTubeSO->GetIndexToObjectTransform()
-                         ->GetScaleComponent()[ii]);
+    vesselTubeMO->ElementSpacing(ii, 1 );
+    // Spacing is no longer used
+    // vesselTubeSO->GetObjectToParentTransform()->GetScaleComponent()[ii]);
     }
   return vesselTubeMO;
 }

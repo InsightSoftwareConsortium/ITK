@@ -122,6 +122,13 @@ SpatialObjectProperty
   return m_ScalarDictionary.find( tag )->second;
 }
 
+std::string
+SpatialObjectProperty
+::GetTagStringValue( const std::string & tag ) const
+{
+  return m_StringDictionary.find( tag )->second;
+}
+
 std::map< std::string, double > &
 SpatialObjectProperty
 ::GetTagScalarDictionary()

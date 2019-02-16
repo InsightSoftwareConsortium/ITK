@@ -253,7 +253,7 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
           index = it.GetIndex();
         typename ReferenceImageType::PointType point;
         refImage->TransformIndexToPhysicalPoint(index,point);
-        unmaskedPixel = maskSpatialObject->IsInside(point);
+        unmaskedPixel = maskSpatialObject->IsInsideInWorldSpace(point);
         }
 
       if ( Math::NotAlmostEquals( b0, itk::NumericTraits< ReferencePixelType >::ZeroValue() ) &&
@@ -373,7 +373,7 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
         typename ReferenceImageType::PointType point;
 
         gradientImagePointer->TransformIndexToPhysicalPoint(index,point);
-        unmaskedPixel = maskSpatialObject->IsInside(point);
+        unmaskedPixel = maskSpatialObject->IsInsideInWorldSpace(point);
         }
 
       if ( Math::NotAlmostEquals( b0, NumericTraits< ReferencePixelType >::ZeroValue() ) &&

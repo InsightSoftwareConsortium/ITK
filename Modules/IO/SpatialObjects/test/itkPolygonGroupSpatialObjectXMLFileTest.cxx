@@ -115,9 +115,9 @@ int testPolygonGroupEquivalence(PolygonGroup3DPointer &p1,
         return EXIT_FAILURE;
         }
       Polygon3DType::PointType curpoint1 =
-        (*pointIt1).GetPosition();
+        (*pointIt1).GetPositionInWorldSpace();
       Polygon3DType::PointType curpoint2 =
-        (*pointIt2).GetPosition();
+        (*pointIt2).GetPositionInWorldSpace();
       if(curpoint1 != curpoint2)
         {
         //Just a silly test to make sure that the positions returned are valid

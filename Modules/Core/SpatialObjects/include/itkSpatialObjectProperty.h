@@ -82,7 +82,7 @@ public:
   void SetTagStringValue( const std::string & tag, const std::string & value );
 
   double      GetTagScalarValue( const std::string & tag ) const;
-  std::string SetTagStringValue( const std::string & tag );
+  std::string GetTagStringValue( const std::string & tag ) const;
 
   std::map< std::string, double > &            GetTagScalarDictionary();
   const std::map< std::string, double > &      GetTagScalarDictionary() const;
