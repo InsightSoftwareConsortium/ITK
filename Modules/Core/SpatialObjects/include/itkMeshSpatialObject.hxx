@@ -30,9 +30,8 @@ MeshSpatialObject< TMesh >
 {
   this->SetTypeName("MeshSpatialObject");
   m_Mesh = MeshType::New();
-  this->ComputeBoundingBox();
   m_PixelType = typeid( typename TMesh::PixelType ).name();
-  m_IsInsideInWorldSpacePrecision = 1;
+  m_IsInsidePrecisionInWorldSpace = 1;
 }
 
 /** Destructor */
@@ -51,7 +50,7 @@ MeshSpatialObject< TMesh >
 {
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    if( this->GetMyBoundingBoxInWorldSpace().IsInsideInWorldSpace( point ) )
+    if( this->GetMyBoundingBoxInWorldSpace()->IsInside( point ) )
       {
       PointType transformedPoint = this->GetObjectToWorldTransform()->
         GetInverseTransform()->TransformPoint(point);
@@ -71,18 +70,18 @@ MeshSpatialObject< TMesh >
         if ( it.Value()->GetNumberOfPoints() == 3 )
           {
           double minDist = 0.0;
-          const bool pointIsInsideInWorldSpace = it.Value()->EvaluatePositionInWorldSpace(
+          const bool pointIsInsideInWorldSpace = it.Value()->EvaluatePosition(
             position, m_Mesh->GetPoints(), nullptr, nullptr, &minDist, nullptr);
 
-          if ( pointIsInsideInWorldSpace  && minDist <= this->m_IsInsideInWorldSpacePrecision )
+          if ( pointIsInsideInWorldSpace  && minDist <= this->m_IsInsidePrecisionInWorldSpace )
             {
             return true;
             }
           }
         else
           {
-          if ( it.Value()->EvaluatePositionInWorldSpace(position, m_Mesh->GetPoints(),
-                                            nullptr, nullptr, nullptr, nullptr) )
+          if ( it.Value()->EvaluatePosition(position, m_Mesh->GetPoints(),
+              nullptr, nullptr, nullptr, nullptr) )
             {
             return true;
             }
@@ -110,8 +109,8 @@ MeshSpatialObject< TMesh >
   PointType pnt2;
   for ( unsigned int i = 0; i < ObjectDimension; i++ )
     {
-    pnt1[i] = m_Mesh->GetBoundingBox()->GetBoundingBox()[2 * i];
-    pnt2[i] = m_Mesh->GetBoundingBox()->GetBoundingBox()[2 * i + 1];
+    pnt1[i] = m_Mesh->GetBoundingBox()->GetBounds()[2 * i];
+    pnt2[i] = m_Mesh->GetBoundingBox()->GetBounds()[2 * i + 1];
     }
 
   pnt1 = this->GetObjectToWorldTransform()->TransformPoint(pnt1);
@@ -185,7 +184,7 @@ MeshSpatialObject< TMesh >
 {
   Superclass::PrintSelf(os, indent);
   os << "Mesh: " << std::endl;
-  os << "m_IsInsideInWorldSpacePrecision: " << m_IsInsideInWorldSpacePrecision << std::endl;
+  os << "m_IsInsidePrecisionInWorldSpace: " << m_IsInsidePrecisionInWorldSpace << std::endl;
   os << indent << m_Mesh << std::endl;
 }
 

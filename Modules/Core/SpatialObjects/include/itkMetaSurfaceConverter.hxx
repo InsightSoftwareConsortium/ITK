@@ -48,8 +48,6 @@ MetaSurfaceConverter< NDimensions >
     }
   typename SurfaceSpatialObjectType::Pointer  surfaceSO = SurfaceSpatialObjectType::New();
 
-  double spacing[NDimensions];
-
   surfaceSO->GetProperty().SetName( surfaceMO->Name() );
   surfaceSO->SetId( surfaceMO->ID() );
   surfaceSO->SetParentId( surfaceMO->ParentID() );
@@ -66,10 +64,10 @@ MetaSurfaceConverter< NDimensions >
     {
     SurfacePointType pnt;
 
-    using PointType = typename SurfacePointType::SurfacePointType;
+    using PointType = typename SurfacePointType::PointType;
     PointType point;
-    using VectorType = typename SurfacePointType::VectorType;
-    VectorType normal;
+    using CovariantVectorType = typename SurfacePointType::CovariantVectorType;
+    CovariantVectorType normal;
 
     for ( unsigned int ii = 0; ii < NDimensions; ii++ )
       {

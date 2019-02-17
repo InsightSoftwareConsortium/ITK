@@ -51,7 +51,7 @@ BoxSpatialObject< TDimension >
 
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    if( this->GetMyBoundingBoxInWorldSpace()->IsInsideInWorldSpace( worldPoint ) )
+    if( this->GetMyBoundingBoxInWorldSpace()->IsInside( worldPoint ) )
       {
       PointType transformedPoint = this->GetObjectToWorldTransform()
         ->GetInverseTransform()->TransformPoint(worldPoint);
@@ -140,10 +140,11 @@ BoxSpatialObject< TDimension >
   bb->ConsiderPoint(pnt2);
   bb->ComputeBoundingBox();
 
-  const PointsContainer *corners = bb->GetCorners();
-  m_Corners = PointsContainer::New();
-  m_Corners->Reserve( static_cast<typename PointsContainer::ElementIdentifier>(
-    corners->size() ) );
+  const PointsContainerType *corners = bb->GetCorners();
+  m_Corners = PointsContainerType::New();
+  m_Corners->Reserve(
+    static_cast<typename PointsContainerType::ElementIdentifier>(
+      corners->size() ) );
 
   auto it = corners->begin();
   auto itWorldCorner = m_Corners->begin();

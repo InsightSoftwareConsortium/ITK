@@ -980,7 +980,8 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
               {
               point[d] += randomizer->GetNormalVariate() * oneThirdVirtualSpacing[d];
               }
-            if( !fixedMaskImage || fixedMaskImage->IsInside( point ) )
+            if( !fixedMaskImage || fixedMaskImage->IsInsideInWorldSpace(
+                point ) )
               {
               samplePointSet->SetPoint( index, point );
               ++index;
@@ -1016,7 +1017,8 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
             {
             point[d] += randomizer->GetNormalVariate() * oneThirdVirtualSpacing[d];
             }
-          if( !fixedMaskImage || fixedMaskImage->IsInside( point ) )
+          if( !fixedMaskImage || fixedMaskImage->IsInsideInWorldSpace(
+              point ) )
             {
             samplePointSet->SetPoint( index, point );
             ++index;

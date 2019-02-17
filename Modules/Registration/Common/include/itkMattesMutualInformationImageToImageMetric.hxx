@@ -124,7 +124,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
         while( !fi.IsAtEnd() )
           {
           this->m_FixedImage->TransformIndexToPhysicalPoint(fi.GetIndex(), fixedSpacePhysicalPoint);
-          const bool shouldCheckPixelIntensity = this->m_FixedImageMask->IsInside( fixedSpacePhysicalPoint  );
+          const bool shouldCheckPixelIntensity = this->m_FixedImageMask->IsInsideInWorldSpace( fixedSpacePhysicalPoint  );
           if( shouldCheckPixelIntensity )
             {
             const PDFValueType & currValue = fi.Get();
@@ -155,7 +155,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
         while( !mi.IsAtEnd() )
           {
           this->m_MovingImage->TransformIndexToPhysicalPoint(mi.GetIndex(), movingSpacePhysicalPoint);
-          const bool shouldCheckPixelIntensity = this->m_MovingImageMask->IsInside(movingSpacePhysicalPoint);
+          const bool shouldCheckPixelIntensity = this->m_MovingImageMask->IsInsideInWorldSpace(movingSpacePhysicalPoint);
           if( shouldCheckPixelIntensity )
             {
             const PDFValueType & currValue = mi.Get();

@@ -58,11 +58,11 @@ int itkPolylineMaskImageFilterTest( int argc, char * argv[] )
   // Generate a synthetic ellipse image
   using EllipseType = itk::EllipseSpatialObject<2>;
   EllipseType::Pointer ellipse = EllipseType::New();
-  EllipseType::TransformType::OffsetType offset;
-  offset.Fill(20);
-  ellipse->GetObjectToParentTransform()->SetOffset(offset);
-  ellipse->ComputeObjectToWorldTransform();
-  ellipse->SetRadius(10);
+  EllipseType::PointType center;
+  center.Fill(20);
+  ellipse->SetCenterInObjectSpace(center);
+  ellipse->SetRadiusInObjectSpace(10);
+  ellipse->Update();
 
   std::cout << "Generating the image of the object..." << std::endl;
 

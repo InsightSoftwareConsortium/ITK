@@ -72,7 +72,7 @@ SpatialObject< TDimension >
 ::DerivativeAtInWorldSpace(const PointType & point, short unsigned int order,
                DerivativeVectorType & value, unsigned int depth,
                const std::string & name,
-               const SpacingVectorType & spacing)
+               const DerivativeOffsetType & offset)
 {
   if ( !IsEvaluableAtInWorldSpace(point, depth, name) )
     {
@@ -97,22 +97,22 @@ SpatialObject< TDimension >
     typename DerivativeVectorType::Iterator it_v1 = v1.Begin();
     typename DerivativeVectorType::Iterator it_v2 = v2.Begin();
 
-    SpacingVectorType spacingDiv2;
+    DerivativeOffsetType offsetDiv2;
     for ( unsigned short i = 0; i < TDimension; i++ )
       {
-      spacingDiv2[i] = spacing[i] / 2.0;
+      offsetDiv2[i] = offset[i] / 2.0;
       }
     for ( unsigned short i = 0; i < TDimension; i++, it++, it_v1++, it_v2++ )
       {
       p1 = point;
       p2 = point;
 
-      p1[i] -= spacing[i];
-      p2[i] += spacing[i];
+      p1[i] -= offset[i];
+      p2[i] += offset[i];
 
       // note DerivativeAtInWorldSpace might throw.
-      DerivativeAtInWorldSpace(p1, order - 1, v1, depth, name, spacingDiv2);
-      DerivativeAtInWorldSpace(p2, order - 1, v2, depth, name, spacingDiv2);
+      DerivativeAtInWorldSpace(p1, order - 1, v1, depth, name, offsetDiv2);
+      DerivativeAtInWorldSpace(p2, order - 1, v2, depth, name, offsetDiv2);
 
       ( *it ) = ( ( *it_v2 ) - ( *it_v1 ) ) / 2;
       }

@@ -34,23 +34,19 @@ int itkContourSpatialObjectPointTest( int, char* [] )
   pickedPoint2D[0] = pickedPointX;
   pickedPoint2D[1] = pickedPointY;
 
-  contourSpatialObjectPoint2D.SetPickedPoint( pickedPoint2D );
-  TEST_SET_GET_VALUE( pickedPoint2D, contourSpatialObjectPoint2D.GetPickedPoint() );
-
-  contourSpatialObjectPoint2D.SetPickedPoint( pickedPointX, pickedPointY );
-  TEST_SET_GET_VALUE( pickedPoint2D, contourSpatialObjectPoint2D.GetPickedPoint() );
+  contourSpatialObjectPoint2D.SetPickedPointInObjectSpace( pickedPoint2D );
+  TEST_SET_GET_VALUE( pickedPoint2D,
+    contourSpatialObjectPoint2D.GetPickedPointInObjectSpace() );
 
   constexpr double normalX = 1.0;
   constexpr double normalY = 1.0;
-  ContourSpatialObjectPoint2DType::VectorType normal2D;
+  ContourSpatialObjectPoint2DType::CovariantVectorType normal2D;
   normal2D[0] = normalX;
   normal2D[1] = normalY;
 
-  contourSpatialObjectPoint2D.SetNormal( normal2D );
-  TEST_SET_GET_VALUE( normal2D, contourSpatialObjectPoint2D.GetNormal() );
-
-  contourSpatialObjectPoint2D.SetNormal( normalX, normalY );
-  TEST_SET_GET_VALUE( normal2D, contourSpatialObjectPoint2D.GetNormal() );
+  contourSpatialObjectPoint2D.SetNormalInObjectSpace( normal2D );
+  TEST_SET_GET_VALUE( normal2D,
+    contourSpatialObjectPoint2D.GetNormalInObjectSpace() );
 
   // Create another ContourSpatialObjectPoint
 
@@ -62,23 +58,28 @@ int itkContourSpatialObjectPointTest( int, char* [] )
   pickedPoint2DAlt[0] = pickedPointXAlt;
   pickedPoint2DAlt[1] = pickedPointYAlt;
 
-  contourSpatialObjectPoint2DAlt.SetPickedPoint( pickedPoint2DAlt );
-  TEST_SET_GET_VALUE( pickedPoint2DAlt, contourSpatialObjectPoint2DAlt.GetPickedPoint() );
+  contourSpatialObjectPoint2DAlt.SetPickedPointInObjectSpace(
+    pickedPoint2DAlt );
+  TEST_SET_GET_VALUE( pickedPoint2DAlt,
+    contourSpatialObjectPoint2DAlt.GetPickedPointInObjectSpace() );
 
   constexpr double normalXAlt = 7.28;
   constexpr double normalYAlt = 14.03;
-  ContourSpatialObjectPoint2DType::VectorType normal2DAlt;
+  ContourSpatialObjectPoint2DType::CovariantVectorType normal2DAlt;
   normal2DAlt[0] = normalXAlt;
   normal2DAlt[1] = normalYAlt;
 
-  contourSpatialObjectPoint2DAlt.SetNormal( normal2DAlt );
-  TEST_SET_GET_VALUE( normal2DAlt, contourSpatialObjectPoint2DAlt.GetNormal() );
+  contourSpatialObjectPoint2DAlt.SetNormalInObjectSpace( normal2DAlt );
+  TEST_SET_GET_VALUE( normal2DAlt,
+    contourSpatialObjectPoint2DAlt.GetNormalInObjectSpace() );
 
   // Assign the old ContourSpatialObjectPoint object to the alternative one
   contourSpatialObjectPoint2DAlt = contourSpatialObjectPoint2D;
 
-  TEST_SET_GET_VALUE( pickedPoint2D, contourSpatialObjectPoint2DAlt.GetPickedPoint() );
-  TEST_SET_GET_VALUE( normal2D, contourSpatialObjectPoint2DAlt.GetNormal() );
+  TEST_SET_GET_VALUE( pickedPoint2D,
+    contourSpatialObjectPoint2DAlt.GetPickedPointInObjectSpace() );
+  TEST_SET_GET_VALUE( normal2D,
+    contourSpatialObjectPoint2DAlt.GetNormalInObjectSpace() );
 
 
   // Test for 3D
@@ -93,23 +94,19 @@ int itkContourSpatialObjectPointTest( int, char* [] )
   pickedPoint3D[1] = pickedPointY;
   pickedPoint3D[2] = pickedPointZ;
 
-  contourSpatialObjectPoint3D.SetPickedPoint( pickedPoint3D );
-  TEST_SET_GET_VALUE( pickedPoint3D, contourSpatialObjectPoint3D.GetPickedPoint() );
-
-  contourSpatialObjectPoint3D.SetPickedPoint( pickedPointX, pickedPointY );
-  TEST_SET_GET_VALUE( pickedPoint3D, contourSpatialObjectPoint3D.GetPickedPoint() );
+  contourSpatialObjectPoint3D.SetPickedPointInObjectSpace( pickedPoint3D );
+  TEST_SET_GET_VALUE( pickedPoint3D,
+    contourSpatialObjectPoint3D.GetPickedPointInObjectSpace() );
 
   constexpr double normalZ = 1.0;
-  ContourSpatialObjectPoint3DType::VectorType normal3D;
+  ContourSpatialObjectPoint3DType::CovariantVectorType normal3D;
   normal3D[0] = normalX;
   normal3D[1] = normalY;
   normal3D[2] = normalZ;
 
   contourSpatialObjectPoint3D.SetNormal( normal3D );
-  TEST_SET_GET_VALUE( normal3D, contourSpatialObjectPoint3D.GetNormal() );
-
-  contourSpatialObjectPoint3D.SetNormal( normalX, normalY, normalZ );
-  TEST_SET_GET_VALUE( normal3D, contourSpatialObjectPoint3D.GetNormal() );
+  TEST_SET_GET_VALUE( normal3D,
+    contourSpatialObjectPoint3D.GetNormalInObjectSpace() );
 
   // Create another ContourSpatialObjectPoint
 
@@ -121,24 +118,27 @@ int itkContourSpatialObjectPointTest( int, char* [] )
   pickedPoint3DAlt[1] = pickedPointYAlt;
   pickedPoint3DAlt[2] = pickedPointZAlt;
 
-  contourSpatialObjectPoint3DAlt.SetPickedPoint( pickedPoint3DAlt );
-  TEST_SET_GET_VALUE( pickedPoint3DAlt, contourSpatialObjectPoint3DAlt.GetPickedPoint() );
+  contourSpatialObjectPoint3DAlt.SetPickedPointInObjectSpace( pickedPoint3DAlt );
+  TEST_SET_GET_VALUE( pickedPoint3DAlt,
+    contourSpatialObjectPoint3DAlt.GetPickedPointInObjectSpace() );
 
   constexpr double normalZAlt = 1.4;
-  ContourSpatialObjectPoint3DType::VectorType normal3DAlt;
+  ContourSpatialObjectPoint3DType::CovariantVectorType normal3DAlt;
   normal3DAlt[0] = normalXAlt;
   normal3DAlt[1] = normalYAlt;
   normal3DAlt[2] = normalZAlt;
 
-  contourSpatialObjectPoint3DAlt.SetNormal( normal3DAlt );
-  TEST_SET_GET_VALUE( normal3DAlt, contourSpatialObjectPoint3DAlt.GetNormal() );
+  contourSpatialObjectPoint3DAlt.SetNormalInObjectSpace( normal3DAlt );
+  TEST_SET_GET_VALUE( normal3DAlt,
+    contourSpatialObjectPoint3DAlt.GetNormalInObjectSpace() );
 
   // Assign the old ContourSpatialObjectPoint object to the alternative one
   contourSpatialObjectPoint3DAlt = contourSpatialObjectPoint3D;
 
-  TEST_SET_GET_VALUE( pickedPoint3D, contourSpatialObjectPoint3DAlt.GetPickedPoint() );
-  TEST_SET_GET_VALUE( normal3D, contourSpatialObjectPoint3DAlt.GetNormal() );
-
+  TEST_SET_GET_VALUE( pickedPoint3D,
+    contourSpatialObjectPoint3DAlt.GetPickedPointInObjectSpace() );
+  TEST_SET_GET_VALUE( normal3D,
+    contourSpatialObjectPoint3DAlt.GetNormalInObjectSpace() );
 
   // Test for 4D
   //
@@ -153,18 +153,20 @@ int itkContourSpatialObjectPointTest( int, char* [] )
   pickedPoint4D[2] = pickedPointZ;
   pickedPoint4D[3] = pickedPointW;
 
-  contourSpatialObjectPoint4D.SetPickedPoint( pickedPoint4D );
-  TEST_SET_GET_VALUE( pickedPoint4D, contourSpatialObjectPoint4D.GetPickedPoint() );
+  contourSpatialObjectPoint4D.SetPickedPointInObjectSpace( pickedPoint4D );
+  TEST_SET_GET_VALUE( pickedPoint4D,
+    contourSpatialObjectPoint4D.GetPickedPointInObjectSpace() );
 
   constexpr double normalW = 3.1;
-  ContourSpatialObjectPoint4DType::VectorType normal4D;
+  ContourSpatialObjectPoint4DType::CovariantVectorType normal4D;
   normal4D[0] = normalX;
   normal4D[1] = normalY;
   normal4D[2] = normalZ;
   normal4D[3] = normalW;
 
-  contourSpatialObjectPoint4D.SetNormal( normal4D );
-  TEST_SET_GET_VALUE( normal4D, contourSpatialObjectPoint4D.GetNormal() );
+  contourSpatialObjectPoint4D.SetNormalInObjectSpace( normal4D );
+  TEST_SET_GET_VALUE( normal4D,
+    contourSpatialObjectPoint4D.GetNormalInObjectSpace() );
 
   // Create another ContourSpatialObjectPoint
 
@@ -177,25 +179,29 @@ int itkContourSpatialObjectPointTest( int, char* [] )
   pickedPoint4DAlt[2] = pickedPointZAlt;
   pickedPoint4DAlt[3] = pickedPointWAlt;
 
-  contourSpatialObjectPoint4DAlt.SetPickedPoint( pickedPoint4DAlt );
-  TEST_SET_GET_VALUE( pickedPoint4DAlt, contourSpatialObjectPoint4DAlt.GetPickedPoint() );
+  contourSpatialObjectPoint4DAlt.SetPickedPointInObjectSpace(
+    pickedPoint4DAlt );
+  TEST_SET_GET_VALUE( pickedPoint4DAlt,
+    contourSpatialObjectPoint4DAlt.GetPickedPointInObjectSpace() );
 
   constexpr double normalWAlt = 4.23;
-  ContourSpatialObjectPoint4DType::VectorType normal4DAlt;
+  ContourSpatialObjectPoint4DType::CovariantVectorType normal4DAlt;
   normal4DAlt[0] = normalXAlt;
   normal4DAlt[1] = normalYAlt;
   normal4DAlt[2] = normalZAlt;
   normal4DAlt[3] = normalWAlt;
 
-  contourSpatialObjectPoint4DAlt.SetNormal( normal4DAlt );
-  TEST_SET_GET_VALUE( normal4DAlt, contourSpatialObjectPoint4DAlt.GetNormal() );
+  contourSpatialObjectPoint4DAlt.SetNormalInObjectSpace( normal4DAlt );
+  TEST_SET_GET_VALUE( normal4DAlt,
+    contourSpatialObjectPoint4DAlt.GetNormalInObjectSpace() );
 
   // Assign the old ContourSpatialObjectPoint object to the alternative one
   contourSpatialObjectPoint4DAlt = contourSpatialObjectPoint4D;
 
-  TEST_SET_GET_VALUE( pickedPoint4D, contourSpatialObjectPoint4DAlt.GetPickedPoint() );
-  TEST_SET_GET_VALUE( normal4D, contourSpatialObjectPoint4DAlt.GetNormal() );
-
+  TEST_SET_GET_VALUE( pickedPoint4D,
+    contourSpatialObjectPoint4DAlt.GetPickedPointInObjectSpace() );
+  TEST_SET_GET_VALUE( normal4D,
+    contourSpatialObjectPoint4DAlt.GetNormalInObjectSpace() );
 
   std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;

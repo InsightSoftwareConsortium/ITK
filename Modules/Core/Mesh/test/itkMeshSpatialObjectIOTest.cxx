@@ -149,7 +149,7 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
 
   // Testing the mesh validity
   MeshSpatialObjectType::ChildrenListType* children = reader->GetGroup()->GetChildren();
-  if(strcmp((*(children->begin()))->GetTypeName(),"MeshSpatialObject"))
+  if(strcmp((*(children->begin()))->GetTypeName().c_str(),"MeshSpatialObject"))
     {
     std::cout<<" [FAILED]"<<std::endl;
     return EXIT_FAILURE;

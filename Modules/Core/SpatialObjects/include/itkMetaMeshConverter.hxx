@@ -54,14 +54,6 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
 
   typename MeshSpatialObjectType::Pointer meshSO = MeshSpatialObjectType::New();
 
-  double spacing[NDimensions];
-
-  unsigned int ndims = _mesh->NDims();
-  for ( unsigned int i = 0; i < ndims; i++ )
-    {
-    spacing[i] = _mesh->ElementSpacing()[i];
-    }
-  meshSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
   meshSO->GetProperty().SetName( _mesh->Name() );
   meshSO->SetId( _mesh->ID() );
   meshSO->SetParentId( _mesh->ParentID() );
@@ -74,13 +66,13 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
   typename MeshType::Pointer mesh = MeshType::New();
 
   // Add Points
-  using PointListType = typename MeshMetaObjectType::MeshPointListType;
+  using PointListType = typename MeshMetaObjectType::PointListType;
   const PointListType points = _mesh->GetPoints();
   auto it_points = points.begin();
 
   while ( it_points != points.end() )
     {
-    typename MeshType::MeshPointType pt;
+    typename MeshType::PointType pt;
     for ( unsigned int i = 0; i < NDimensions; i++ )
       {
       pt[i] = ( ( *it_points )->m_X )[i];
@@ -193,7 +185,7 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
   while ( it_pd != _mesh->GetPointData().end() )
     {
     pointData->InsertElement( ( *it_pd )->m_Id,
-                              static_cast< MeshData< PixelType > * >( *it_pd )->m_Data );
+      static_cast< MeshData< PixelType > * >( *it_pd )->m_Data );
     it_pd++;
     }
   mesh->SetPointData(pointData);
@@ -207,7 +199,7 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
     {
     using CellPixelType = typename MeshType::CellPixelType;
     cellData->InsertElement( ( *it_cd )->m_Id,
-                             static_cast< MeshData< CellPixelType > * >( *it_cd )->m_Data );
+      static_cast< MeshData< CellPixelType > * >( *it_cd )->m_Data );
     it_cd++;
     }
 
