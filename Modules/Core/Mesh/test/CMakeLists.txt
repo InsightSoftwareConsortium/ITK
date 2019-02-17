@@ -183,7 +183,6 @@ itk_add_test(NAME itkCellInterfaceTest COMMAND ITKMeshTestDriver itkCellInterfac
 itk_add_test(NAME itkTriangleCellTest COMMAND ITKMeshTestDriver itkTriangleCellTest)
 itk_add_test(NAME itkQuadrilateralCellTest COMMAND ITKMeshTestDriver itkQuadrilateralCellTest)
 
-
 set_tests_properties(itkVTKPolyDataReaderTest2
    itkVTKPolyDataReaderBadTest0
    itkVTKPolyDataReaderBadTest1
@@ -204,6 +203,12 @@ set_tests_properties(itkVTKPolyDataReaderTest2
    itkVTKPolyDataReaderBadTest16
    itkVTKPolyDataReaderBadTest17
    PROPERTIES WILL_FAIL true)
+
+list(FIND ITK_WRAP_IMAGE_DIMS 3 wrap_3_index)
+if(wrap_3_index GREATER -1)
+  itk_python_expression_add_test(NAME itkTriangleMeshToBinaryImageFilterPythonTest
+    EXPRESSION "instance = itk.TriangleMeshToBinaryImageFilter.New()")
+endif()
 
  itk_python_expression_add_test(NAME itkBYUMeshIOPythonTest
    EXPRESSION "instance = itk.BYUMeshIO.New()")
