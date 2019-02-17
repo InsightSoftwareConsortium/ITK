@@ -75,7 +75,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>
     InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint(index, inputPoint);
 
-    if( this->m_FixedImageMask && !this->m_FixedImageMask->IsInside(inputPoint) )
+    if( this->m_FixedImageMask && !this->m_FixedImageMask->IsInsideInWorldSpace(inputPoint) )
       {
       ++ti;
       continue;
@@ -83,7 +83,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>
 
     OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
 
-    if( this->m_MovingImageMask && !this->m_MovingImageMask->IsInside(transformedPoint) )
+    if( this->m_MovingImageMask && !this->m_MovingImageMask->IsInsideInWorldSpace(transformedPoint) )
       {
       ++ti;
       continue;
@@ -188,7 +188,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>
     InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint(index, inputPoint);
 
-    if( this->m_FixedImageMask && !this->m_FixedImageMask->IsInside(inputPoint) )
+    if( this->m_FixedImageMask && !this->m_FixedImageMask->IsInsideInWorldSpace(inputPoint) )
       {
       ++ti;
       continue;
@@ -196,7 +196,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>
 
     OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
 
-    if( this->m_MovingImageMask && !this->m_MovingImageMask->IsInside(transformedPoint) )
+    if( this->m_MovingImageMask && !this->m_MovingImageMask->IsInsideInWorldSpace(transformedPoint) )
       {
       ++ti;
       continue;
@@ -233,7 +233,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>
     InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint(index, inputPoint);
 
-    if( this->m_FixedImageMask && !this->m_FixedImageMask->IsInside(inputPoint) )
+    if( this->m_FixedImageMask && !this->m_FixedImageMask->IsInsideInWorldSpace(inputPoint) )
       {
       ++ti;
       continue;
@@ -241,7 +241,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>
 
     OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
 
-    if( this->m_MovingImageMask && !this->m_MovingImageMask->IsInside(transformedPoint) )
+    if( this->m_MovingImageMask && !this->m_MovingImageMask->IsInsideInWorldSpace(transformedPoint) )
       {
       ++ti;
       continue;
@@ -381,7 +381,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>
     InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint(index, inputPoint);
 
-    if( this->m_FixedImageMask && !this->m_FixedImageMask->IsInside(inputPoint) )
+    if( this->m_FixedImageMask && !this->m_FixedImageMask->IsInsideInWorldSpace(inputPoint) )
       {
       ++ti;
       continue;
@@ -389,7 +389,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>
 
     OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
 
-    if( this->m_MovingImageMask && !this->m_MovingImageMask->IsInside(transformedPoint) )
+    if( this->m_MovingImageMask && !this->m_MovingImageMask->IsInsideInWorldSpace(transformedPoint) )
       {
       ++ti;
       continue;
@@ -425,7 +425,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>
     InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint(index, inputPoint);
 
-    if( this->m_FixedImageMask && !this->m_FixedImageMask->IsInside(inputPoint) )
+    if( this->m_FixedImageMask && !this->m_FixedImageMask->IsInsideInWorldSpace(inputPoint) )
       {
       ++ti;
       continue;
@@ -433,7 +433,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>
 
     OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
 
-    if( this->m_MovingImageMask && !this->m_MovingImageMask->IsInside(transformedPoint) )
+    if( this->m_MovingImageMask && !this->m_MovingImageMask->IsInsideInWorldSpace(transformedPoint) )
       {
       ++ti;
       continue;

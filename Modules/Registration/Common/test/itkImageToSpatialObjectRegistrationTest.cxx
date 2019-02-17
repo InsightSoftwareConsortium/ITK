@@ -142,7 +142,7 @@ public:
           point[i]=it.GetIndex()[i];
           }
 
-        if(this->m_MovingSpatialObject->IsInside(point,99999))
+        if(this->m_MovingSpatialObject->IsInsideInWorldSpace(point,99999))
           {
           m_PointList.push_back(point);
           }
@@ -215,31 +215,33 @@ int itkImageToSpatialObjectRegistrationTest(int, char* [] )
   EllipseType::Pointer ellipse3 = EllipseType::New();
 
   // Set the radius
-  ellipse1->SetRadius(10);
-  ellipse2->SetRadius(10);
-  ellipse3->SetRadius(10);
+  ellipse1->SetRadiusInObjectSpace(10);
+  ellipse2->SetRadiusInObjectSpace(10);
+  ellipse3->SetRadiusInObjectSpace(10);
 
   // Place each ellipse at the right position to form a triangle
   EllipseType::TransformType::OffsetType offset;
   offset[0]=100;
   offset[1]=40;
-  ellipse1->GetObjectToParentTransform()->SetOffset(offset);
+  ellipse1->SetCenterInObjectSpace(offset);
   ellipse1->ComputeObjectToWorldTransform();
 
   offset[0]=40;
   offset[1]=150;
-  ellipse2->GetObjectToParentTransform()->SetOffset(offset);
+  ellipse2->SetCenterInObjectSpace(offset);
   ellipse2->ComputeObjectToWorldTransform();
 
   offset[0]=150;
   offset[1]=150;
+  // Moving the object using the ObjectToParentTransform should
+  //   be equivalent to setting its CenterInObjectSpace
   ellipse3->GetObjectToParentTransform()->SetOffset(offset);
   ellipse3->ComputeObjectToWorldTransform();
 
   GroupType::Pointer group = GroupType::New();
-  group->AddSpatialObject(ellipse1);
-  group->AddSpatialObject(ellipse2);
-  group->AddSpatialObject(ellipse3);
+  group->AddChild(ellipse1);
+  group->AddChild(ellipse2);
+  group->AddChild(ellipse3);
 
   using ImageType = itk::Image<double,2>;
 

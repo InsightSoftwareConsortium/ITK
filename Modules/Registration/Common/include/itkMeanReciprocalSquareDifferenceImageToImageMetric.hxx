@@ -84,7 +84,8 @@ MeanReciprocalSquareDifferenceImageToImageMetric< TFixedImage, TMovingImage >
     InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint(index, inputPoint);
 
-    if ( this->m_FixedImageMask && !this->m_FixedImageMask->IsInside(inputPoint) )
+    if ( this->m_FixedImageMask
+      && !this->m_FixedImageMask->IsInsideInWorldSpace(inputPoint) )
       {
       ++ti;
       continue;
@@ -93,7 +94,8 @@ MeanReciprocalSquareDifferenceImageToImageMetric< TFixedImage, TMovingImage >
     TransformType const *transform = this->m_Transform;
     OutputPointType      transformedPoint = transform->TransformPoint(inputPoint);
 
-    if ( this->m_MovingImageMask && !this->m_MovingImageMask->IsInside(transformedPoint) )
+    if ( this->m_MovingImageMask
+      && !this->m_MovingImageMask->IsInsideInWorldSpace(transformedPoint) )
       {
       ++ti;
       continue;

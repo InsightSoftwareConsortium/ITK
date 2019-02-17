@@ -70,6 +70,7 @@ int itkImageMaskSpatialObjectTest(int, char* [])
   maskSO->Print(std::cout);
 
   maskSO->SetImage(image);
+  maskSO->Update();
 
   maskSO->ComputeObjectToWorldTransform();
 
@@ -82,13 +83,13 @@ int itkImageMaskSpatialObjectTest(int, char* [])
     const bool reference = insideRegion.IsInside( constIndex );
     ImageType::PointType point;
     image->TransformIndexToPhysicalPoint( constIndex, point );
-    const bool test      = maskSO->IsInside( point );
-      if( test != reference )
-        {
-        std::cerr << "Error in the evaluation of IsInside() " << std::endl;
-        std::cerr << "Index failed = " << constIndex << std::endl;
-        return EXIT_FAILURE;
-        }
+    const bool test      = maskSO->IsInsideInWorldSpace( point );
+    if( test != reference )
+      {
+      std::cerr << "Error in the evaluation of IsInside() " << std::endl;
+      std::cerr << "Index failed = " << constIndex << std::endl;
+      return EXIT_FAILURE;
+      }
     ++itr;
     }
 

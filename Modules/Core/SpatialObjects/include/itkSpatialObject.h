@@ -92,7 +92,7 @@ public:
   using DerivativeVectorType = CovariantVector< ScalarType, VDimension >;
   using DerivativeVectorPointer = DerivativeVectorType *;
 
-  using SpacingVectorType = Vector< double, VDimension>;
+  using DerivativeOffsetType = Vector< double, VDimension>;
 
   using TransformType = AffineTransform< ScalarType, VDimension >;
   using TransformPointer = typename TransformType::Pointer;
@@ -266,7 +266,7 @@ public:
                             CovariantVectorType & value,
                             unsigned int depth = 0,
                             const std::string & name = "",
-                            const SpacingVectorType & spacing = 1);
+                            const DerivativeOffsetType & spacing = 1);
 
 
   /*********************/

@@ -72,13 +72,22 @@ int itkImageMaskSpatialObjectTest3(int, char* [])
     ImageMaskSpatialObjectType::New();
   imageMaskSpatialObject->SetImage(image);
 
-  ImageMaskSpatialObjectType::RegionType maskRegion =
-    imageMaskSpatialObject->GetAxisAlignedBoundingBoxRegion();
-  std::cout << maskRegion << std::endl;
-  ImageMaskSpatialObjectType::RegionType::SizeType regionSize =
-    maskRegion.GetSize();
-  ImageMaskSpatialObjectType::IndexType::IndexType regionIndex =
-    maskRegion.GetIndex();
+  ImageMaskSpatialObject::PointType bndMin = imageMaskSpatialObject->
+    GetMyBoundingBoxInWorldSpace()->GetMinimum();
+  ImageMaskSpatialObject::IndexType bndMinI;
+  image->TransformPhysicalPointToIndex( bndMin, bndMinI );
+  ImageMaskSpatialObject::PointType bndMAx = imageMaskSpatialObject->
+    GetMyBoundingBoxInWorldSpace()->GetMaximum();
+  ImageMaskSpatialObject::IndexType bndMaxI;
+  image->TransformPhysicalPointToIndex( bndMax, bndMaxI );
+
+  ImageMaskSpatialObjectType::RegionType::SizeType regionSize;
+  ImageMaskSpatialObjectType::IndexType::IndexType regionIndex;
+  for( unsigned int i=0; i<NDimensions; ++i )
+    {
+    regionIndex[i] = bndMinI[i];
+    regionSize[i] = bndMaxI[i] - bndMinI[i] + 1;
+    }
 
   for(unsigned int i = 0; i < 3; i++)
     {
@@ -106,10 +115,11 @@ int itkImageMaskSpatialObjectTest3(int, char* [])
     {
     ImageType::PointType point;
     image->TransformIndexToPhysicalPoint(it.GetIndex(),point);
-    if(imageMaskSpatialObject->IsInside(point))
+    if(imageMaskSpatialObject->IsInsideInWorldSpace(point))
       {
-      std::cerr << "Pixel Reported Inside mask, even though mask image is all zeros"
-                << std::endl;
+      std::cerr
+        << "Pixel Reported Inside mask, even though mask image is all zeros"
+        << std::endl;
       retval = EXIT_FAILURE;
       break;
       }
