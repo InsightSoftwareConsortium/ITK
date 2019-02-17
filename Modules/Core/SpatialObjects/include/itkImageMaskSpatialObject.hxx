@@ -25,8 +25,8 @@
 namespace itk
 {
 /** Constructor */
-template< unsigned int TDimension >
-ImageMaskSpatialObject< TDimension >
+template< unsigned int TDimension, typename TPixel >
+ImageMaskSpatialObject< TDimension, TPixel >
 ::ImageMaskSpatialObject()
 {
   this->SetTypeName("ImageMaskSpatialObject");
@@ -35,9 +35,9 @@ ImageMaskSpatialObject< TDimension >
 /** Test whether a point is inside or outside the object
  *  For computational speed purposes, it is faster if the method does not
  *  check the name of the class and the current depth */
-template< unsigned int TDimension >
+template< unsigned int TDimension, typename TPixel >
 bool
-ImageMaskSpatialObject< TDimension >
+ImageMaskSpatialObject< TDimension, TPixel >
 ::IsInsideInWorldSpace(const PointType & point, unsigned int depth,
   const std::string & name ) const
 {
@@ -73,9 +73,9 @@ ImageMaskSpatialObject< TDimension >
   return false;
 }
 
-template< unsigned int TDimension >
+template< unsigned int TDimension, typename TPixel >
 bool
-ImageMaskSpatialObject< TDimension >
+ImageMaskSpatialObject< TDimension, TPixel >
 ::ComputeMyBoundingBoxInWorldSpace() const
 {
   using IteratorType = ImageRegionConstIteratorWithIndex< ImageType >;
@@ -141,9 +141,9 @@ ImageMaskSpatialObject< TDimension >
 }
 
 /** Print the object */
-template< unsigned int TDimension >
+template< unsigned int TDimension, typename TPixel >
 void
-ImageMaskSpatialObject< TDimension >
+ImageMaskSpatialObject< TDimension, TPixel >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

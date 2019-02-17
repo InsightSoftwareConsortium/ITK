@@ -52,18 +52,18 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
   PropertyType::Pointer prop = PropertyType::New();
   box1->SetProperty(prop);
 
-  scene->AddSpatialObject(box1);
-  scene->AddSpatialObject(box2);
+  scene->AddChild(box1);
+  scene->AddChild(box2);
 
   BoxType::SizeType  boxsize1;
   BoxType::SizeType  boxsize2;
 
   boxsize1[0] = 30;
   boxsize1[1] = 30;
-  box1->SetSize( boxsize1 );
+  box1->SetSizeInObjectSpace( boxsize1 );
   boxsize2[0] = 30;
   boxsize2[1] = 30;
-  box2->SetSize( boxsize2 );
+  box2->SetSizeInObjectSpace( boxsize2 );
 
   BoxType::TransformType::OffsetType offset1;
   BoxType::TransformType::OffsetType offset2;
@@ -72,19 +72,17 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
   offset1[1] =  29.0;
   box1->GetObjectToParentTransform()->SetOffset( offset1 );
   box1->ComputeObjectToWorldTransform();
+  box1->Update();
 
   offset2[0] = 50.0;
   offset2[1] = 50.0;
-  box2->GetObjectToParentTransform()->SetOffset( offset2 );
-  box2->ComputeObjectToWorldTransform();
-
-  box1->ComputeBoundingBox();
-  box2->ComputeBoundingBox();
+  box2->SetPositionInObjectSpace( offset2 );
+  box2->Update();
 
   std::cout <<"Test ComputeBoundingBox: " << std::endl;
-  std::cout << box1->GetBoundingBox()->GetBounds() << std::endl;
-  std::cout << box2->GetBoundingBox()->GetBounds() << std::endl;
-  BoxType::BoundingBoxType * boundingBox = box1->GetBoundingBox();
+  std::cout << box1->GetMyBoundingBox()->GetBounds() << std::endl;
+  std::cout << box2->GetMyBoundingBox()->GetBounds() << std::endl;
+  BoxType::BoundingBoxType * boundingBox = box1->GetMyBoundingBox();
 
   if(     itk::Math::NotAlmostEquals(boundingBox->GetBounds()[0], 29)
       ||  itk::Math::NotAlmostEquals(boundingBox->GetBounds()[1], 59)
@@ -97,7 +95,8 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  BoxType::BoundingBoxType * boundingBox2 = box2->GetBoundingBox();
+  box2->ComputeFamilyBoundingBox();
+  BoxType::BoundingBoxType * boundingBox2 = box2->GetFamilyBoundingBox();
   if(     itk::Math::NotAlmostEquals(boundingBox2->GetBounds()[0], 50)
       ||  itk::Math::NotAlmostEquals(boundingBox2->GetBounds()[1], 80)
       ||  itk::Math::NotAlmostEquals(boundingBox2->GetBounds()[2], 50)
@@ -118,12 +117,12 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
   itk::Point<double,2> out;
   out[0]=0;out[1]=4;
 
-  if(!box1->IsInside(in))
+  if(!box1->IsInsideInObjectSpace(in))
   {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
   }
-  if(box1->IsInside(out))
+  if(box1->IsInsideInObjectSpace(out))
   {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;

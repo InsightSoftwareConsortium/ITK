@@ -149,7 +149,8 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 
     // If not inside the fixed mask, ignore the point
     if( this->m_FixedImageMask
-        && !this->m_FixedImageMask->IsInside( ( *iter ).FixedImagePointValue ) )
+        && !this->m_FixedImageMask->IsInsideInWorldSpace(
+          ( *iter ).FixedImagePointValue ) )
       {
       ++randIter; // jump to another random position
       continue;
@@ -172,7 +173,7 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>
     // If the transformed point after transformation does not lie within the
     // MovingImageMask, skip it.
     if( this->m_MovingImageMask
-        && !this->m_MovingImageMask->IsInside(mappedPoint) )
+        && !this->m_MovingImageMask->IsInsideInWorldSpace(mappedPoint) )
       {
       ++randIter;
       continue;

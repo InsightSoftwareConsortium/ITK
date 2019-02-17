@@ -31,8 +31,8 @@ int itkArrowSpatialObjectTest(int, char* [])
 
   // Testing the length
   std::cout << "Testing length : ";
-  myArrow->SetLength(2);
-  if(itk::Math::NotExactlyEquals(myArrow->GetLength(), 2))
+  myArrow->SetLengthInObjectSpace(2);
+  if(itk::Math::NotExactlyEquals(myArrow->GetLengthInObjectSpace(), 2))
     {
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;
@@ -47,10 +47,10 @@ int itkArrowSpatialObjectTest(int, char* [])
   direction.Fill(0);
   direction[1] = 1.0;
 
-  myArrow->SetDirection(direction);
-  if(itk::Math::NotExactlyEquals(myArrow->GetDirection()[0], 0)
-    || itk::Math::NotExactlyEquals(myArrow->GetDirection()[1], 1)
-    || itk::Math::NotExactlyEquals(myArrow->GetDirection()[2], 0)
+  myArrow->SetDirectionInObjectSpace(direction);
+  if(itk::Math::NotExactlyEquals(myArrow->GetDirectionInObjectSpace()[0], 0)
+    || itk::Math::NotExactlyEquals(myArrow->GetDirectionInObjectSpace()[1], 1)
+    || itk::Math::NotExactlyEquals(myArrow->GetDirectionInObjectSpace()[2], 0)
     )
     {
     std::cout << "[FAILURE]" << std::endl;
@@ -65,13 +65,13 @@ int itkArrowSpatialObjectTest(int, char* [])
   itk::Point<double,3> out;
   out[0]=0;out[1]=2.1;out[2]=0;
 
-  if(!myArrow->IsInside(in))
+  if(!myArrow->IsInsideInObjectSpace(in))
   {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
   }
 
-  if(myArrow->IsInside(out))
+  if(myArrow->IsInsideInObjectSpace(out))
   {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
@@ -81,8 +81,8 @@ int itkArrowSpatialObjectTest(int, char* [])
 
 
   std::cout << "ComputeBoundingBox: ";
-  myArrow->ComputeBoundingBox();
-  ArrowType::BoundingBoxType * boundingBox = myArrow->GetBoundingBox();
+  myArrow->Update();
+  ArrowType::BoundingBoxType * boundingBox = myArrow->GetMyBoundingBox();
 
   if( (itk::Math::NotExactlyEquals(boundingBox->GetBounds()[2], 0) )
      || (itk::Math::NotExactlyEquals(boundingBox->GetBounds()[3], 1) )

@@ -32,7 +32,7 @@ int itkPointSetToSpatialObjectDemonsRegistrationTest(int, char* [] )
   EllipseType::Pointer ellipse = EllipseType::New();
 
   // Set the radius
-  ellipse->SetRadius( 50 );
+  ellipse->SetRadiusInObjectSpace( 50 );
 
   // Set its position
   EllipseType::TransformType::OffsetType offset;

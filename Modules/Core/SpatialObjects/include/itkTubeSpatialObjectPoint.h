@@ -70,7 +70,7 @@ public:
 
   /** Get the tangent in Object Space */
   const VectorType & GetTangentInObjectSpace() const
-  { return m_TangetnInObjectSpace; }
+  { return m_TangentInObjectSpace; }
 
   /** Get the tangent in World Space */
   const VectorType & GetTangent() const;

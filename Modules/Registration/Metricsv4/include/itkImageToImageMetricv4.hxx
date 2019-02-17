@@ -294,7 +294,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
     {
     // Check if mapped point is within the support region of the fixed image
     // mask
-    pointIsValid = this->m_FixedImageMask->IsInside( mappedFixedPoint );
+    pointIsValid = this->m_FixedImageMask->IsInsideInWorldSpace( mappedFixedPoint );
     if( ! pointIsValid )
       {
       return pointIsValid;
@@ -342,7 +342,8 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
     {
     // Check if mapped point is within the support region of the fixed image
     // mask
-    pointIsValid = this->m_MovingImageMask->IsInside( mappedMovingPoint );
+    pointIsValid = this->m_MovingImageMask->IsInsideInWorldSpace(
+      mappedMovingPoint );
     if( ! pointIsValid )
       {
       return pointIsValid;

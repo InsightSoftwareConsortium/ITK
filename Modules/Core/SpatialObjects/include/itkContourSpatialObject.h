@@ -54,6 +54,8 @@ public:
 
   using ContourPointType = typename ContourSpatialObjectPoint< TDimension >;
   using ContourPointListType = std::vector< ContourPointType >;
+  using ControlPointType = typename ContourSpatialObjectPoint< TDimension >;
+  using ControlPointListType = std::vector< ControlPointType >;
 
   using PointType = typename Superclass::PointType;
   using TransformType = typename Superclass::TransformType;
@@ -74,18 +76,18 @@ public:
   itkTypeMacro(ContourSpatialObject, PointBasedSpatialObject);
 
   /** Returns a reference to the list of the control points. */
-  ContourPointListType & GetControlPoints()
+  ControlPointListType & GetControlPoints()
   { return m_ControlPoints; }
 
   /** Returns a reference to the list of the control points. */
-  const ContourPointListType & GetControlPoints() const
+  const ControlPointListType & GetControlPoints() const
   { return m_ControlPoints; }
 
   /** Set the list of control points. */
-  void SetControlPoints(ContourPointListType & newPoints);
+  void SetControlPoints(ControlPointListType & newPoints);
 
   /** Return a control point in the list given the index */
-  const ContourPointType * GetControlPoint(IdentifierType id) const
+  const ControlPointType * GetControlPoint(IdentifierType id) const
   { return &( m_ControlPoints[id] ); }
 
   /** Return a control point in the list given the index */
@@ -100,7 +102,7 @@ public:
   itkSetMacro( InterpolationMethod, InterpolationMethodType )
 
   /** Get the interpolation type */
-  itkGetMacro( InterpolationMethod, InterpolationMethodType )
+  itkGetConstMacro( InterpolationMethod, InterpolationMethodType )
 
   /** Set the interpolation factor, e.g., factor of 2 means 2 interpolated
    *    points created for every control point. */

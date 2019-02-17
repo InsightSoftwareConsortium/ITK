@@ -72,25 +72,25 @@ MetaContourConverter< NDimensions >
     PointType point;
     PointType pickedPoint;
 
-    using VectorType = typename ControlPointType::VectorType;
-    VectorType normal;
+    using CovariantVectorType = typename ControlPointType::CovariantVectorType;
+    CovariantVectorType normal;
 
-    for ( unsigned int i = 0; i < ndims; i++ )
+    for ( unsigned int i = 0; i < NDimensions; i++ )
       {
       point[i] = ( *itCP )->m_X[i];
       }
 
-    for ( unsigned int i = 0; i < ndims; i++ )
+    for ( unsigned int i = 0; i < NDimensions; i++ )
       {
       pickedPoint[i] = ( *itCP )->m_XPicked[i];
       }
 
-    for ( unsigned int i = 0; i < ndims; i++ )
+    for ( unsigned int i = 0; i < NDimensions; i++ )
       {
       normal[i] = ( *itCP )->m_V[i];
       }
 
-    pnt.SetID( ( *itCP )->m_ID );
+    pnt.SetId( ( *itCP )->m_Id );
     pnt.SetRed( ( *itCP )->m_Color[0] );
     pnt.SetGreen( ( *itCP )->m_Color[1] );
     pnt.SetBlue( ( *itCP )->m_Color[2] );
@@ -108,19 +108,19 @@ MetaContourConverter< NDimensions >
   using InterpolatedPointType = typename ContourSpatialObjectType::ContourPointType;
   auto itI = contourMO->GetInterpolatedPoints().begin();
 
-  for ( unsigned int identifier = 0; identifier < contourMO->GetPoints().size(); identifier++ )
+  for ( unsigned int identifier = 0; identifier < contourMO->GetInterpolatedPoints().size(); identifier++ )
     {
     InterpolatedPointType pnt;
 
     using PointType = typename ControlPointType::PointType;
     PointType point;
 
-    for ( unsigned int i = 0; i < ndims; i++ )
+    for ( unsigned int i = 0; i < NDimensions; i++ )
       {
       point[i] = ( *itI )->m_X[i];
       }
 
-    pnt.SetID( ( *itI )->m_Id );
+    pnt.SetId( ( *itI )->m_Id );
     pnt.SetRed( ( *itI )->m_Color[0] );
     pnt.SetGreen( ( *itI )->m_Color[1] );
     pnt.SetBlue( ( *itI )->m_Color[2] );
@@ -158,7 +158,7 @@ MetaContourConverter< NDimensions >
     {
     auto * pnt = new ContourControlPnt(NDimensions);
 
-    pnt->m_Id = ( *itCP ).GetID();
+    pnt->m_Id = ( *itCP ).GetId();
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {
@@ -200,7 +200,7 @@ MetaContourConverter< NDimensions >
     {
     auto * pnt = new ContourInterpolatedPnt(NDimensions);
 
-    pnt->m_Id = ( *itI ).GetID();
+    pnt->m_Id = ( *itI ).GetId();
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {
       pnt->m_X[d] = ( *itI ).GetPositionInObjectSpace()[d];
@@ -211,7 +211,7 @@ MetaContourConverter< NDimensions >
     pnt->m_Color[2] = ( *itI ).GetBlue();
     pnt->m_Color[3] = ( *itI ).GetAlpha();
 
-    contourMO->GetPoints().push_back(pnt);
+    contourMO->GetInterpolatedPoints().push_back(pnt);
     }
 
   if ( NDimensions == 2 )
