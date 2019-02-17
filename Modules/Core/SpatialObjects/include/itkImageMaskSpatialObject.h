@@ -34,15 +34,15 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 
-template< unsigned int TDimension = 3 >
+template< unsigned int TDimension = 3, typename TPixel = unsigned char >
 class ITK_TEMPLATE_EXPORT ImageMaskSpatialObject:
-  public ImageSpatialObject< TDimension, unsigned char >
+  public ImageSpatialObject< TDimension, TPixel >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageMaskSpatialObject);
 
-  using Self = ImageMaskSpatialObject< TDimension >;
-  using Superclass = ImageSpatialObject< TDimension >;
+  using Self = ImageMaskSpatialObject< TDimension, TPixel >;
+  using Superclass = ImageSpatialObject< TDimension, TPixel >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
 

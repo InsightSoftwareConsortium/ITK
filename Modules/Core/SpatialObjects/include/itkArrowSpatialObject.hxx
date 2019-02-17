@@ -75,11 +75,11 @@ ArrowSpatialObject< TDimension >
   pnt2 = this->GetObjectToWorldTransform()->TransformPoint(pnt2);
 
   const_cast< typename Superclass::BoundingBoxType * >(
-    this->GetMyBounds() )->SetMinimum(pnt);
+    this->GetMyBoundingBoxInWorldSpace() )->SetMinimum(pnt);
   const_cast< typename Superclass::BoundingBoxType * >(
-    this->GetMyBounds() )->SetMaximum(pnt);
+    this->GetMyBoundingBoxInWorldSpace() )->SetMaximum(pnt);
   const_cast< typename Superclass::BoundingBoxType * >(
-    this->GetMyBounds() )->ConsiderPoint(pnt2);
+    this->GetMyBoundingBoxInWorldSpace() )->ConsiderPoint(pnt2);
 
   return true;
 }
@@ -95,7 +95,7 @@ ArrowSpatialObject< TDimension >
 
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    if ( this->GetMyBounds()->IsInsideInWorldSpace(point) )
+    if ( this->GetMyBoundingBoxInWorldSpace()->IsInside(point) )
       {
       PointType transformedPoint = this->GetObjectToWorldTransform()
         ->GetInverseTransform()->TransformPoint(point);

@@ -3,7 +3,6 @@ set(ITKSpatialObjectsTests
 itkContourSpatialObjectPointTest.cxx
 itkSpatialObjectToImageFilterTest.cxx
 itkLandmarkSpatialObjectTest.cxx
-itkPolygonGroupSpatialObjectTest.cxx
 itkImageSpatialObjectTest.cxx
 itkSpatialObjectToImageStatisticsCalculatorTest.cxx
 itkImageMaskSpatialObjectTest.cxx
@@ -12,17 +11,12 @@ itkImageMaskSpatialObjectTest3.cxx
 itkImageMaskSpatialObjectTest4.cxx
 itkBlobSpatialObjectTest.cxx
 itkContourSpatialObjectTest.cxx
-itkSceneSpatialObjectTest.cxx
 itkSurfaceSpatialObjectTest.cxx
 itkMetaArrowConverterTest.cxx
 itkMetaGaussianConverterTest.cxx
 itkTubeSpatialObjectTest.cxx
 itkSpatialObjectToPointSetFilterTest.cxx
 itkSpatialObjectDuplicatorTest.cxx
-itkPlaneSpatialObjectTest.cxx
-itkCylinderSpatialObjectTest.cxx
-itkSpatialObjectTreeContainerTest.cxx
-itkAffineGeometryFrameTest.cxx
 itkBoxSpatialObjectTest.cxx
 itkGaussianSpatialObjectTest.cxx
 itkPolygonSpatialObjectTest.cxx
@@ -30,7 +24,6 @@ itkEllipseSpatialObjectTest.cxx
 itkMeshSpatialObjectTest.cxx
 itkArrowSpatialObjectTest.cxx
 itkLineSpatialObjectTest.cxx
-itkSpatialObjectTreeContainerIteratorTest.cxx
 itkNewMetaObjectTypeTest.cxx
 )
 
@@ -42,8 +35,6 @@ itk_add_test(NAME itkSpatialObjectToImageFilterTest
       COMMAND ITKSpatialObjectsTestDriver itkSpatialObjectToImageFilterTest)
 itk_add_test(NAME itkLandmarkSpatialObjectTest
       COMMAND ITKSpatialObjectsTestDriver itkLandmarkSpatialObjectTest)
-itk_add_test(NAME itkPolygonGroupSpatialObjectTest
-      COMMAND ITKSpatialObjectsTestDriver itkPolygonGroupSpatialObjectTest)
 itk_add_test(NAME itkImageSpatialObjectTest
       COMMAND ITKSpatialObjectsTestDriver itkImageSpatialObjectTest)
 itk_add_test(NAME itkSpatialObjectToImageStatisticsCalculatorTest
@@ -60,8 +51,6 @@ itk_add_test(NAME itkBlobSpatialObjectTest
       COMMAND ITKSpatialObjectsTestDriver itkBlobSpatialObjectTest)
 itk_add_test(NAME itkContourSpatialObjectTest
       COMMAND ITKSpatialObjectsTestDriver itkContourSpatialObjectTest)
-itk_add_test(NAME itkSceneSpatialObjectTest
-      COMMAND ITKSpatialObjectsTestDriver itkSceneSpatialObjectTest)
 itk_add_test(NAME itkSurfaceSpatialObjectTest
       COMMAND ITKSpatialObjectsTestDriver itkSurfaceSpatialObjectTest)
 itk_add_test(NAME itkMetaArrowConverterTest
@@ -76,14 +65,6 @@ itk_add_test(NAME itkSpatialObjectToPointSetFilterTest
       COMMAND ITKSpatialObjectsTestDriver itkSpatialObjectToPointSetFilterTest)
 itk_add_test(NAME itkSpatialObjectDuplicatorTest
       COMMAND ITKSpatialObjectsTestDriver itkSpatialObjectDuplicatorTest)
-itk_add_test(NAME itkPlaneSpatialObjectTest
-      COMMAND ITKSpatialObjectsTestDriver itkPlaneSpatialObjectTest)
-itk_add_test(NAME itkCylinderSpatialObjectTest
-      COMMAND ITKSpatialObjectsTestDriver itkCylinderSpatialObjectTest)
-itk_add_test(NAME itkSpatialObjectTreeContainerTest
-      COMMAND ITKSpatialObjectsTestDriver itkSpatialObjectTreeContainerTest)
-itk_add_test(NAME itkAffineGeometryFrameTest
-      COMMAND ITKSpatialObjectsTestDriver itkAffineGeometryFrameTest)
 itk_add_test(NAME itkBoxSpatialObjectTest
       COMMAND ITKSpatialObjectsTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/SpatialObjects/BoxSpatialObjectTest.png}
@@ -101,8 +82,6 @@ itk_add_test(NAME itkArrowSpatialObjectTest
       COMMAND ITKSpatialObjectsTestDriver itkArrowSpatialObjectTest)
 itk_add_test(NAME itkLineSpatialObjectTest
       COMMAND ITKSpatialObjectsTestDriver itkLineSpatialObjectTest)
-itk_add_test(NAME itkSpatialObjectTreeContainerIteratorTest
-      COMMAND ITKSpatialObjectsTestDriver itkSpatialObjectTreeContainerIteratorTest)
 itk_add_test(NAME itkNewMetaObjectTypeTest
       COMMAND ITKSpatialObjectsTestDriver itkNewMetaObjectTypeTest
       ${ITK_TEST_OUTPUT_DIR}/NewMetaObjectType.meta)

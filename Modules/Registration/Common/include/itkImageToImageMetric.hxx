@@ -590,7 +590,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
       if ( m_FixedImageMask.IsNotNull() )
         {
         double val;
-        if ( m_FixedImageMask->ValueAt(inputPoint, val) )
+        if ( m_FixedImageMask->ValueAtInWorldSpace(inputPoint, val) )
           {
           if ( Math::AlmostEquals( val, 0.0 ) )
             {
@@ -684,7 +684,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
       if ( m_FixedImageMask.IsNotNull() )
         {
         // If not inside the mask, ignore the point
-        if ( !m_FixedImageMask->IsInside(inputPoint) )
+        if ( !m_FixedImageMask->IsInsideInWorldSpace(inputPoint) )
           {
           ++regionIter; // jump to next pixel
           if ( regionIter.IsAtEnd() )
@@ -947,7 +947,8 @@ ImageToImageMetric< TFixedImage, TMovingImage >
       {
       // Check if mapped point is within the support region of the moving image
       // mask
-      sampleOk = sampleOk && m_MovingImageMask->IsInside(mappedPoint);
+      sampleOk = sampleOk &&
+        m_MovingImageMask->IsInsideInWorldSpace(mappedPoint);
       }
 
     if ( m_InterpolatorIsBSpline )
@@ -1065,8 +1066,11 @@ ImageToImageMetric< TFixedImage, TMovingImage >
     if ( m_MovingImageMask )
       {
       // Check if mapped point is within the support region of the moving image
-      // mask
-      sampleOk = sampleOk && m_MovingImageMask->IsInside(mappedPoint);
+      //   mask
+      // We assume the mask and movingImage are in a common "world" space,
+      //   so we use the mappedPoint which is in the moving image space.
+      sampleOk = sampleOk &&
+        m_MovingImageMask->IsInsideInWorldSpace(mappedPoint);
       }
 
     if ( m_InterpolatorIsBSpline )

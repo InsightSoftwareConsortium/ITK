@@ -102,7 +102,8 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
       // A null mask implies entire space is to be used.
       typename TFixedImage::PointType fixedSpacePhysicalPoint;
       this->m_FixedImage->TransformIndexToPhysicalPoint(fi.GetIndex(), fixedSpacePhysicalPoint);
-      usePoint = this->m_FixedImageMask->IsInside(fixedSpacePhysicalPoint);
+      usePoint = this->m_FixedImageMask->IsInsideInWorldSpace(
+        fixedSpacePhysicalPoint);
       }
     if( usePoint )
       {
@@ -122,8 +123,10 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
     if( ! this->m_MovingImageMask.IsNull() )
       { // A null mask implies entire space is to be used.
       typename TMovingImage::PointType movingSpacePhysicalPoint;
-      this->m_MovingImage->TransformIndexToPhysicalPoint(mi.GetIndex(), movingSpacePhysicalPoint);
-      usePoint = this->m_MovingImageMask->IsInside(movingSpacePhysicalPoint);
+      this->m_MovingImage->TransformIndexToPhysicalPoint(mi.GetIndex(),
+        movingSpacePhysicalPoint);
+      usePoint = this->m_MovingImageMask->IsInsideInWorldSpace(
+        movingSpacePhysicalPoint);
       }
     if( usePoint )
       {

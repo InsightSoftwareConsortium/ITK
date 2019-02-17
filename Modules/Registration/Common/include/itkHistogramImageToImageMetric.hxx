@@ -298,7 +298,7 @@ HistogramImageToImageMetric< TFixedImage, TMovingImage >
       fixedImage->TransformIndexToPhysicalPoint(index, inputPoint);
 
       if ( this->m_FixedImageMask
-           && !this->m_FixedImageMask->IsInside(inputPoint) )
+           && !this->m_FixedImageMask->IsInsideInWorldSpace(inputPoint) )
         {
         ++ti;
         continue;
@@ -308,7 +308,7 @@ HistogramImageToImageMetric< TFixedImage, TMovingImage >
         this->m_Transform->TransformPoint(inputPoint);
 
       if ( this->m_MovingImageMask
-           && !this->m_MovingImageMask->IsInside(transformedPoint) )
+           && !this->m_MovingImageMask->IsInsideInWorldSpace(transformedPoint) )
         {
         ++ti;
         continue;

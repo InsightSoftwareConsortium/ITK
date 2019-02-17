@@ -111,7 +111,10 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
     {
     for ( i = 0; i < TOutputImage::ImageDimension; i++ )
       {
-      m_Spacing[i] = spacing[i];
+      if( spacing[i] != 0 )
+        {
+        m_Spacing[i] = spacing[i];
+        }
       }
     this->Modified();
     }
@@ -136,7 +139,10 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
     {
     for ( i = 0; i < OutputImageDimension; i++ )
       {
-      m_Spacing[i] = spacing[i];
+      if( spacing[i] != 0 )
+        {
+        m_Spacing[i] = spacing[i];
+        }
       }
     this->Modified();
     }
@@ -160,7 +166,10 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
     {
     for ( i = 0; i < OutputImageDimension; i++ )
       {
-      m_Spacing[i] = spacing[i];
+      if( spacing[i] != 0 )
+        {
+        m_Spacing[i] = spacing[i];
+        }
       }
     this->Modified();
     }
@@ -294,12 +303,12 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
   // Generate the image
   SizeType size;
 
-  InputObject->ComputeBoundingBox();
+  InputObject->ComputeFamilyBoundingBoxInWorldSpace( m_ChildrenDepth );
   for ( i = 0; i < ObjectDimension; i++ )
     {
     size[i] = static_cast<SizeValueType>(
-      InputObject->GetMyBoundingBoxInWorldSpace()->GetMaximum()[i]
-      - InputObject->GetMyBoundingBoxInWorldSpace()->GetMinimum()[i] );
+      InputObject->GetFamilyBoundingBoxInWorldSpace()->GetMaximum()[i]
+      - InputObject->GetFamilyBoundingBoxInWorldSpace()->GetMinimum()[i] );
     }
 
   typename OutputImageType::IndexType index;
@@ -334,30 +343,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
   OutputImage->SetLargestPossibleRegion(region);      //
   OutputImage->SetBufferedRegion(region);             // set the region
   OutputImage->SetRequestedRegion(region);            //
-  // If the spacing has been explicitly specified, the filter
-  // will set the output spacing to that explicit spacing, otherwise the spacing
-  // from
-  // the spatial object is used as default.
-
-  specified = false;
-  for ( i = 0; i < OutputImageDimension; i++ )
-    {
-    if ( Math::NotExactlyEquals(m_Spacing[i], 0) )
-      {
-      specified = true;
-      break;
-      }
-    }
-
-  if ( specified )
-    {
-    OutputImage->SetSpacing(this->m_Spacing);         // set spacing
-    }
-  else
-    {
-    // set spacing
-    OutputImage->SetSpacing( InputObject->GetIndexToObjectTransform()->GetScaleComponent() );
-    }
+  OutputImage->SetSpacing(m_Spacing);         // set spacing
   OutputImage->SetOrigin(m_Origin);     //   and origin
   OutputImage->SetDirection(m_Direction);
   OutputImage->Allocate();   // allocate the image
@@ -383,8 +369,12 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 
     double val = 0;
 
-    bool evaluable = InputObject->ValueAtInWorldSpace(objectPoint, val, m_ChildrenDepth);
-    if ( Math::NotExactlyEquals(m_InsideValue, NumericTraits< ValueType >:: ZeroValue()) || Math::NotExactlyEquals(m_OutsideValue, NumericTraits< ValueType >::ZeroValue()) )
+    bool evaluable = InputObject->ValueAtInWorldSpace(objectPoint, val,
+      m_ChildrenDepth);
+    if ( Math::NotExactlyEquals(m_InsideValue,
+          NumericTraits< ValueType >::ZeroValue())
+      || Math::NotExactlyEquals(m_OutsideValue,
+          NumericTraits< ValueType >::ZeroValue()) )
       {
       if ( evaluable )
         {
