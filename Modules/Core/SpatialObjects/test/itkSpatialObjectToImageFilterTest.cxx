@@ -35,7 +35,8 @@ int itkSpatialObjectToImageFilterTest(int, char* [] )
   using EllipseType = itk::EllipseSpatialObject<2>;
 
   EllipseType::Pointer ellipse = EllipseType::New();
-  ellipse->SetRadius(10);
+  ellipse->SetRadiusInObjectSpace(10);
+  ellipse->Update();
 
   // Center the circle in the image
   EllipseType::TransformType::OffsetType offset;
@@ -45,8 +46,10 @@ int itkSpatialObjectToImageFilterTest(int, char* [] )
 
   using ImageType = itk::Image<double,2>;
 
-  using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<EllipseType,ImageType>;
-  SpatialObjectToImageFilterType::Pointer imageFilter = SpatialObjectToImageFilterType::New();
+  using SpatialObjectToImageFilterType =
+    itk::SpatialObjectToImageFilter<EllipseType,ImageType>;
+  SpatialObjectToImageFilterType::Pointer imageFilter =
+    SpatialObjectToImageFilterType::New();
   imageFilter->SetInput(ellipse);
   imageFilter->SetInsideValue(2);
   imageFilter->GetInsideValue();

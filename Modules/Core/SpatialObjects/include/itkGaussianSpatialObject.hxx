@@ -29,7 +29,7 @@ GaussianSpatialObject< TDimension >
 ::GaussianSpatialObject()
 {
   this->SetTypeName("GaussianSpatialObject");
-  m_CenterInObjectSpace = 0.0;
+  m_CenterInObjectSpace.Fill( 0.0 );
   m_RadiusInObjectSpace = 1.0;
   m_SigmaInObjectSpace = 1.0;
   m_Maximum = 1.0;
@@ -68,7 +68,7 @@ GaussianSpatialObject< TDimension >
     return false;
     }
 
-  if ( !this->GetMyBoundingBoxInWorldSpace()->IsInsideInWorldSpace(point) )
+  if ( !this->GetMyBoundingBoxInWorldSpace()->IsInside(point) )
     {
     return false;
     }
@@ -115,8 +115,8 @@ GaussianSpatialObject< TDimension >
   unsigned int i;
   for ( i = 0; i < TDimension; i++ )
     {
-    pnt1[i] = m_CenterInObjectSpace[i] - m_RadiusInObjectSpace[i];
-    pnt2[i] = m_CenterInObjectSpace[i] + m_RadiusInObjectSpace[i];
+    pnt1[i] = m_CenterInObjectSpace[i] - m_RadiusInObjectSpace;
+    pnt2[i] = m_CenterInObjectSpace[i] + m_RadiusInObjectSpace;
     }
 
   bb->SetMinimum(pnt1);

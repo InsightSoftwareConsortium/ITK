@@ -72,6 +72,9 @@ public:
   itkSetMacro(SigmaInObjectSpace, ScalarType);
   itkGetConstReferenceMacro(SigmaInObjectSpace, ScalarType);
 
+  itkSetMacro(CenterInObjectSpace, PointType);
+  itkGetConstReferenceMacro(CenterInObjectSpace, PointType);
+
   /** The maximum value of the Gaussian (its value at the origin of
    * the spatial object coordinate system). */
   itkSetMacro(Maximum, ScalarType);
@@ -102,6 +105,7 @@ protected:
   ScalarType m_Maximum;
   ScalarType m_RadiusInObjectSpace;
   ScalarType m_SigmaInObjectSpace;
+  PointType m_CenterInObjectSpace;
 
   /** Print the object information in a stream. */
   void PrintSelf(std::ostream & os, Indent indent) const override;

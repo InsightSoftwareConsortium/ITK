@@ -80,7 +80,7 @@ public:
 
 protected:
   PolygonSpatialObject();
-  ~PolygonSpatialObject() override;
+  ~PolygonSpatialObject() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

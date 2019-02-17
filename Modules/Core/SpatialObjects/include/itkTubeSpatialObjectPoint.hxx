@@ -92,7 +92,7 @@ TubeSpatialObjectPoint< TPointDimension >
 ::SetTangent(const VectorType & newT)
 {
   m_TangentInObjectSpace = Superclass::m_SpatialObject->GetObjectToWorldTransform()->
-    GetInveseTransform()->TransformVector( newT );
+    GetInverseTransform()->TransformVector( newT );
 }
 
 template< unsigned int TPointDimension >

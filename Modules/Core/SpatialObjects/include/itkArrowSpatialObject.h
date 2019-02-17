@@ -56,22 +56,16 @@ public:
   /** Method for creation through the object factory. */
   itkTypeMacro(ArrowSpatialObject, SpatialObject);
 
-  /** Set the position of the arrow */
-  void SetPositionInObjectSpace(const PointType & positionInObjectSpace)
-  {
-    m_PositionInObjectSpace = p;
-    this->Modified();
-  }
+  /** Set the position of the arrow : this is the point of the arrow */
+  itkSetMacro( PositionInObjectSpace, PointType );
 
+  /** Get the position of the arrow : this is the point of the arrow */
   itkGetConstMacro(PositionInObjectSpace, PointType);
 
-  /** Set the direction of the arrow */
-  void SetDirectionInObjectSpace(const VectorType & d)
-  {
-    m_DirectionInObjectSpace = d;
-    this->Modified();
-  }
+  /** Set the direction of the arrow : this is the direction from the point */
+  itkSetMacro( DirectionInObjectSpace, VectorType );
 
+  /** Get the direction of the arrow : this is the direction from the point */
   itkGetConstMacro(DirectionInObjectSpace, VectorType);
 
   /** Set the length of the arrow */

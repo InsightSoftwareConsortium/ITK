@@ -88,14 +88,15 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
   constexpr unsigned int INSIDE_SIZE = 30;
   constexpr unsigned int INSIDE_INDEX = 10;
     {
-    const ImageType::SizeType insideSize   = {{ INSIDE_SIZE, INSIDE_SIZE, INSIDE_SIZE }};
+    const ImageType::SizeType insideSize   =
+      {{ INSIDE_SIZE, INSIDE_SIZE, INSIDE_SIZE }};
     insideRegion.SetSize( insideSize );
     }
     {
-    const ImageType::IndexType insideIndex = {{ INSIDE_INDEX, INSIDE_INDEX, INSIDE_INDEX }};
+    const ImageType::IndexType insideIndex =
+      {{ INSIDE_INDEX, INSIDE_INDEX, INSIDE_INDEX }};
     insideRegion.SetIndex( insideIndex );
     }
-
 
   Iterator it( image, insideRegion );
   it.GoToBegin();
@@ -109,6 +110,7 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
   ImageMaskSpatialObject::Pointer maskSO = ImageMaskSpatialObject::New();
 
   maskSO->SetImage(image);
+  maskSO->Update();
 
   maskSO->ComputeObjectToWorldTransform();
 
@@ -122,7 +124,7 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
 
     ImageType::PointType point;
     image->TransformIndexToPhysicalPoint( constIndex, point );
-    const bool test      = maskSO->IsInside( point );
+    const bool test      = maskSO->IsInsideInWorldSpace( point );
     if( test != reference )
       {
       std::cerr << "Error in the evaluation of IsInside() " << std::endl;
@@ -170,15 +172,18 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
   for (int i=0; i<numberOfSteps; i++)
     {
     point += incrementVector;
-    const bool isInside = maskSO->IsInside( point );
+    const bool isInside = maskSO->IsInsideInWorldSpace( point );
     double value = itk::NumericTraits< PixelType >::ZeroValue();
-    maskSO->ValueAt( point, value );
-    const bool isZero = (itk::Math::ExactlyEquals(value, itk::NumericTraits< PixelType >::ZeroValue()));
+    maskSO->ValueAtInWorldSpace( point, value );
+    const bool isZero = (itk::Math::ExactlyEquals(value,
+        itk::NumericTraits< PixelType >::ZeroValue()));
     if( (isInside && isZero) || (!isInside && !isZero) )
       {
       ImageType::IndexType pointIndex;
       image->TransformPhysicalPointToIndex( point, pointIndex );
-      std::cerr << "Error in the evaluation ValueAt and IsInside (all the points inside the mask shall have non-zero value) " << std::endl;
+      std::cerr
+        << "Error in the evaluation ValueAt and IsInside (all the points inside the mask shall have non-zero value) "
+        << std::endl;
       std::cerr << "isInside = " << isInside << std::endl;
       std::cerr << "value = " << value << std::endl;
       std::cerr << "Index failed = " << pointIndex << std::endl;
@@ -226,14 +231,15 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
   constexpr unsigned int INSIDE_SIZE = 30;
   constexpr unsigned int INSIDE_INDEX = 10;
     {
-    const ImageType::SizeType insideSize   = {{ INSIDE_SIZE, INSIDE_SIZE, INSIDE_SIZE }};
+    const ImageType::SizeType insideSize   =
+      {{ INSIDE_SIZE, INSIDE_SIZE, INSIDE_SIZE }};
     insideRegion.SetSize( insideSize );
     }
     {
-    const ImageType::IndexType insideIndex = {{ INSIDE_INDEX, INSIDE_INDEX, INSIDE_INDEX }};
+    const ImageType::IndexType insideIndex =
+      {{ INSIDE_INDEX, INSIDE_INDEX, INSIDE_INDEX }};
     insideRegion.SetIndex( insideIndex );
     }
-
 
   Iterator2 it( image, insideRegion );
   it.GoToBegin();
@@ -247,6 +253,7 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
   ImageMaskSpatialObject::Pointer maskSO = ImageMaskSpatialObject::New();
 
   maskSO->SetImage(image);
+  maskSO->Update();
 
   maskSO->ComputeObjectToWorldTransform();
 
@@ -259,7 +266,7 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
     const bool reference = insideRegion.IsInside( constIndex );
     ImageType::PointType point;
     image->TransformIndexToPhysicalPoint( constIndex, point );
-    const bool test      = maskSO->IsInside( point );
+    const bool test      = maskSO->IsInsideInWorldSpace( point );
     if( test != reference )
       {
       std::cerr << "Error in the evaluation of IsInside() " << std::endl;

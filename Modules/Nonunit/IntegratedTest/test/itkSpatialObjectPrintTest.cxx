@@ -16,30 +16,61 @@
  *
  *=========================================================================*/
 
+#include "itkArrowSpatialObject.h"
+#include "itkBlobSpatialObject.h"
+#include "itkBoxSpatialObject.h"
+#include "itkContourSpatialObject.h"
+#include "itkDTITubeSpatialObject.h"
 #include "itkEllipseSpatialObject.h"
+#include "itkGaussianSpatialObject.h"
+#include "itkGroupSpatialObject.h"
+#include "itkImageMaskSpatialObject.h"
 #include "itkImageSpatialObject.h"
 #include "itkLandmarkSpatialObject.h"
 #include "itkLineSpatialObject.h"
 #include "itkMeshSpatialObject.h"
-#include "itkPlaneSpatialObject.h"
-#include "itkPolygonGroupSpatialObject.h"
-#include "itkSceneSpatialObject.h"
+#include "itkPolygonSpatialObject.h"
 #include "itkSurfaceSpatialObject.h"
 #include "itkTubeSpatialObject.h"
+#include "itkTubeSpatialObjectPoint.h"
 
 int itkSpatialObjectPrintTest(int , char* [])
 {
+  itk::ArrowSpatialObject<3>::Pointer ArrowSpatialObjectObj =
+    itk::ArrowSpatialObject<3>::New();
+  std::cout << "----------ArrowSpatialObject " << ArrowSpatialObjectObj;
+
   itk::BlobSpatialObject<3>::Pointer BlobSpatialObjectObj =
     itk::BlobSpatialObject<3>::New();
   std::cout << "----------BlobSpatialObject " << BlobSpatialObjectObj;
+
+  itk::BoxSpatialObject<3>::Pointer BoxSpatialObjectObj =
+    itk::BoxSpatialObject<3>::New();
+  std::cout << "----------BoxSpatialObject " << BoxSpatialObjectObj;
+
+  itk::ContourSpatialObject<3>::Pointer ContourSpatialObjectObj =
+    itk::ContourSpatialObject<3>::New();
+  std::cout << "----------ContourSpatialObject " << ContourSpatialObjectObj;
+
+  itk::DTITubeSpatialObject<3>::Pointer DTITubeSpatialObjectObj =
+    itk::DTITubeSpatialObject<3>::New();
+  std::cout << "----------DTITubeSpatialObject " << DTITubeSpatialObjectObj;
 
   itk::EllipseSpatialObject<3>::Pointer EllipseSpatialObjectObj =
     itk::EllipseSpatialObject<3>::New();
   std::cout << "----------EllipseSpatialObject " << EllipseSpatialObjectObj;
 
+  itk::GaussianSpatialObject<3>::Pointer GaussianSpatialObjectObj =
+    itk::GaussianSpatialObject<3>::New();
+  std::cout << "----------GaussianSpatialObject " << GaussianSpatialObjectObj;
+
   itk::GroupSpatialObject<3>::Pointer GroupSpatialObjectObj =
     itk::GroupSpatialObject<3>::New();
   std::cout << "----------GroupSpatialObject " << GroupSpatialObjectObj;
+
+  itk::ImageMaskSpatialObject<3>::Pointer ImageMaskSpatialObjectObj =
+    itk::ImageMaskSpatialObject<3>::New();
+  std::cout << "----------ImageMaskSpatialObject " << ImageMaskSpatialObjectObj;
 
   using Pixel = unsigned short;
   itk::ImageSpatialObject<3,Pixel>::Pointer ImageSpatialObjectObj =
@@ -62,49 +93,38 @@ int itkSpatialObjectPrintTest(int , char* [])
     itk::MeshSpatialObject<>::New();
   std::cout << "----------MeshSpatialObject " << MeshSpatialObjectObj;
 
-  itk::PlaneSpatialObject<3>::Pointer PlaneSpatialObjectObj =
-    itk::PlaneSpatialObject<3>::New();
-  std::cout << "----------PlaneSpatialObject " << PlaneSpatialObjectObj;
-
-  itk::PolygonGroupSpatialObject<3>::Pointer PolygonGroupSpatialObjectObj =
-    itk::PolygonGroupSpatialObject<3>::New();
-  std::cout << "----------PolygonGroupSpatialObject " << PolygonGroupSpatialObjectObj;
-
   itk::PolygonSpatialObject<3>::Pointer PolygonSpatialObjectObj =
     itk::PolygonSpatialObject<3>::New();
   std::cout << "----------PolygonSpatialObject " << PolygonSpatialObjectObj;
-
-  itk::SceneSpatialObject<3>::Pointer SceneObj =
-    itk::SceneSpatialObject<3>::New();
-  std::cout << "----------Scene " << SceneObj;
 
   itk::SpatialObject<3>::Pointer SpatialObjectObj =
     itk::SpatialObject<3>::New();
   std::cout << "----------SpatialObject " << SpatialObjectObj;
 
   auto * SpatialObjectPointObj = new itk::SpatialObjectPoint<3>;
-  std::cout << "----------SpatialObjectPoint " << SpatialObjectPointObj;
+  std::cout << "----------SpatialObjectPoint ";
+  SpatialObjectPointObj->Print( std::cout );
   delete SpatialObjectPointObj;
 
-  itk::SpatialObjectProperty<float>::Pointer SpatialObjectPropertyObj =
-    itk::SpatialObjectProperty<float>::New();
-  std::cout << "----------SpatialObjectProperty " << SpatialObjectPropertyObj;
+  itk::SpatialObjectProperty SpatialObjectPropertyObj;
+  std::cout << "----------SpatialObjectProperty ";
+  SpatialObjectPropertyObj.Print( std::cout );
 
   itk::SurfaceSpatialObject<3>::Pointer SurfaceSpatialObjectObj =
     itk::SurfaceSpatialObject<3>::New();
   std::cout << "----------SurfaceSpatialObject " << SurfaceSpatialObjectObj;
 
-  auto * SurfaceSpatialObjectPointObj = new itk::SurfaceSpatialObjectPoint<3>;
-  std::cout << "----------SurfaceSpatialObjectPoint " << SurfaceSpatialObjectPointObj;
-  delete SurfaceSpatialObjectPointObj;
+  itk::SurfaceSpatialObjectPoint<3> SurfaceSpatialObjectPointObj;
+  std::cout << "----------SurfaceSpatialObjectPoint ";
+  SurfaceSpatialObjectPointObj.Print( std::cout );
 
   itk::TubeSpatialObject<3>::Pointer TubeSpatialObjectObj =
     itk::TubeSpatialObject<3>::New();
   std::cout << "----------TubeSpatialObject " << TubeSpatialObjectObj;
 
-  auto * TubeSpatialObjectPointObj = new itk::TubeSpatialObjectPoint<3>;
-  std::cout << "----------TubeSpatialObjectPoint " << TubeSpatialObjectPointObj;
-  delete TubeSpatialObjectPointObj;
+  itk::TubeSpatialObjectPoint<3> TubeSpatialObjectPointObj;
+  std::cout << "----------TubeSpatialObjectPoint ";
+  TubeSpatialObjectPointObj.Print( std::cout );
 
   return 0;
 }

@@ -89,7 +89,8 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
     InputPointType fixedInputPoint;
     fixedImage->TransformIndexToPhysicalPoint(fixedIndex, fixedInputPoint);
 
-    if( this->m_FixedImageMask && !this->m_FixedImageMask->IsInside(fixedInputPoint) )
+    if( this->m_FixedImageMask
+      && !this->m_FixedImageMask->IsInsideInWorldSpace(fixedInputPoint) )
       {
       ++fi;
       continue;
@@ -112,7 +113,8 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
     OutputPointType
       transformedPoint = this->m_Transform->TransformPoint(fixedInputPoint);
 
-    if( this->m_MovingImageMask && !this->m_MovingImageMask->IsInside(transformedPoint) )
+    if( this->m_MovingImageMask
+      && !this->m_MovingImageMask->IsInsideInWorldSpace(transformedPoint) )
       {
       ++fi;
       continue;
@@ -211,7 +213,8 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
     InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint(index, inputPoint);
 
-    if( this->m_FixedImageMask && !this->m_FixedImageMask->IsInside(inputPoint) )
+    if( this->m_FixedImageMask
+      && !this->m_FixedImageMask->IsInsideInWorldSpace(inputPoint) )
       {
       ++ti;
       continue;
@@ -225,7 +228,8 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
 
     OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
 
-    if( this->m_MovingImageMask && !this->m_MovingImageMask->IsInside(transformedPoint) )
+    if( this->m_MovingImageMask
+      && !this->m_MovingImageMask->IsInsideInWorldSpace(transformedPoint) )
       {
       ++ti;
       continue;

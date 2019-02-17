@@ -45,8 +45,6 @@ MetaLineConverter< NDimensions >
 
   LineSpatialObjectPointer lineSO = LineSpatialObjectType::New();
 
-  double spacing[NDimensions];
-
   lineSO->GetProperty().SetName( lineMO->Name() );
   lineSO->SetId( lineMO->ID() );
   lineSO->SetParentId( lineMO->ParentID() );
@@ -63,9 +61,9 @@ MetaLineConverter< NDimensions >
     {
     LinePointType pnt;
 
-    using PointType = typename LinePointType::LinePointType;
+    using PointType = typename LinePointType::PointType;
     PointType point;
-    using NormalType = typename LinePointType::VectorType;
+    using NormalType = typename LinePointType::CovariantVectorType;
 
     for ( unsigned int ii = 0; ii < NDimensions; ii++ )
       {

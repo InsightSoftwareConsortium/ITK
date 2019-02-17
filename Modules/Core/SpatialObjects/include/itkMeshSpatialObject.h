@@ -90,16 +90,16 @@ public:
    *  This is used when the cell is a triangle, in this case, it's more likely
    *  that the given point will not be falling exactly on the triangle surface.
    *  If the distance from the point to the surface is <= to
-   *  m_IsInsideInWorldSpacePrecision the point is considered inside the mesh.
+   *  m_IsInsidePrecisionInWorldSpacethe point is considered inside the mesh.
    *  The default value is 1. */
-  itkSetMacro(IsInsideInWorldSpacePrecision, double);
-  itkGetMacro(IsInsideInWorldSpacePrecision, double);
+  itkSetMacro(IsInsidePrecisionInWorldSpace, double);
+  itkGetMacro(IsInsidePrecisionInWorldSpace, double);
 
 protected:
 
   MeshPointer m_Mesh;
   std::string m_PixelType;
-  double      m_IsInsideInWorldSpacePrecision;
+  double      m_IsInsidePrecisionInWorldSpace;
 
   MeshSpatialObject();
   ~MeshSpatialObject() override = default;
