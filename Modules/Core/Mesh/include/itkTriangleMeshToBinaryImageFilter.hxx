@@ -69,7 +69,7 @@ typename TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >::InputMeshT
 TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
 ::GetInput()
 {
-  return static_cast< TInputMesh * >( this->GetInput() );
+  return static_cast< TInputMesh * >( this->ProcessObject::GetInput(0) );
 }
 
 /** Get the input Mesh */
