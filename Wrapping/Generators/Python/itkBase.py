@@ -212,6 +212,12 @@ def LoadModule(name, namespace=None):
         if 'snake_case_functions' in data:
             for snakeCaseFunction in data['snake_case_functions']:
                 namespace[snakeCaseFunction] = getattr(module, snakeCaseFunction)
+                init_name = snakeCaseFunction + "_init_docstring"
+                init_function = getattr(module, init_name)
+                try:
+                    init_function()
+                except AttributeError:
+                    pass
 
     if itkConfig.ImportCallback:
         itkConfig.ImportCallback(name, 1)
