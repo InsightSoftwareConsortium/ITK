@@ -1062,31 +1062,32 @@ public:
   static const Self ITKCommon_EXPORT Zero;
   static const Self ITKCommon_EXPORT One;
 
-  static Self min() { return std::numeric_limits< ValueType >::min(); }
-  static Self max() { return std::numeric_limits< ValueType >::max(); }
-  static Self min(Self) { return min(); }
-  static Self max(Self) { return max(); }
-  static ValueType epsilon() { return std::numeric_limits<ValueType>::epsilon(); }
-  static Self NonpositiveMin()
+  static constexpr Self min() { return std::numeric_limits< ValueType >::min(); }
+  static constexpr Self max() { return std::numeric_limits< ValueType >::max(); }
+  static constexpr Self min(Self) { return min(); }
+  static constexpr Self max(Self) { return max(); }
+  static constexpr ValueType epsilon() { return std::numeric_limits<ValueType>::epsilon(); }
+  static constexpr Self NonpositiveMin()
   {
     return Self(NumericTraits< ValueType >::NonpositiveMin(), 0);
   }
 
-  static bool IsPositive(Self val) { return val.real() > 0; }
-  static bool IsNonpositive(Self val) { return val.real() <= 0; }
-  static bool IsNegative(Self val) { return val.real() < 0; }
-  static bool IsNonnegative(Self val) { return val.real() >= 0; }
+  static constexpr bool IsPositive(Self val) { return val.real() > 0; }
+  static constexpr bool IsNonpositive(Self val) { return val.real() <= 0; }
+  static constexpr bool IsNegative(Self val) { return val.real() < 0; }
+  static constexpr bool IsNonnegative(Self val) { return val.real() >= 0; }
 
   static constexpr bool IsSigned = NumericTraits< ValueType >::IsSigned;
   static constexpr bool IsInteger = false;
   static constexpr bool IsComplex = true;
   static Self ZeroValue() { return Zero; }
   static Self OneValue() { return One; }
-  static unsigned int GetLength(const Self &) { return 2; }
-  static unsigned int GetLength() { return 2; }
-  static Self NonpositiveMin(const Self &) { return NonpositiveMin(); }
+  static constexpr unsigned int GetLength(const Self &) { return 2; }
+  static constexpr unsigned int GetLength() { return 2; }
+  static constexpr Self NonpositiveMin(const Self &) { return NonpositiveMin(); }
   static Self ZeroValue(const Self &) { return ZeroValue(); }
   static Self OneValue(const Self &) { return OneValue(); }
+
   template<typename TArray>
   static void AssignToArray( const Self & v, TArray & mv )
   {
