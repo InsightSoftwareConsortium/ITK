@@ -3,18 +3,14 @@ ITKCuberille
 
 .. |CircleCI| image:: https://circleci.com/gh/InsightSoftwareConsortium/ITKCuberille.svg?style=shield
     :target: https://circleci.com/gh/InsightSoftwareConsortium/ITKCuberille
-
-.. |TravisCI| image:: https://travis-ci.org/InsightSoftwareConsortium/ITKCuberille.svg?branch=master
-    :target: https://travis-ci.org/InsightSoftwareConsortium/ITKCuberille
-
 .. |AppVeyor| image:: https://img.shields.io/appveyor/ci/itkrobot/ITKCuberille.svg
     :target: https://ci.appveyor.com/project/itkrobot/ITKCuberille
 
-=========== =========== ===========
-   Linux      macOS       Windows
-=========== =========== ===========
-|CircleCI|  |TravisCI|  |AppVeyor|
-=========== =========== ===========
+=========== ===========
+   Linux      Windows
+=========== ===========
+|CircleCI|  |AppVeyor|
+=========== ===========
 
 Overview
 --------
