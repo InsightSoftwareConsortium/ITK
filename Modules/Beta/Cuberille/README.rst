@@ -1,16 +1,17 @@
 ITKCuberille
 ============
 
-.. |CircleCI| image:: https://circleci.com/gh/InsightSoftwareConsortium/ITKCuberille.svg?style=shield
-    :target: https://circleci.com/gh/InsightSoftwareConsortium/ITKCuberille
-.. |AppVeyor| image:: https://img.shields.io/appveyor/ci/itkrobot/ITKCuberille.svg
-    :target: https://ci.appveyor.com/project/itkrobot/ITKCuberille
+.. image:: https://dev.azure.com/InsightSoftwareConsortium/ITKModules/_apis/build/status/InsightSoftwareConsortium.ITKCuberille?branchName=master
+    :target: https://dev.azure.com/InsightSoftwareConsortium/ITKModules/_build/latest?definitionId=2&branchName=master
+    :alt: Build status
 
-=========== ===========
-   Linux      Windows
-=========== ===========
-|CircleCI|  |AppVeyor|
-=========== ===========
+.. image:: https://img.shields.io/pypi/v/itk-cuberille.svg
+    :target: https://pypi.python.org/pypi/itk-cuberille
+    :alt: PyPI
+
+.. image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
+    :target: https://github.com/InsightSoftwareConsortium/ITKCuberille/blob/master/LICENSE)
+    :alt: License
 
 Overview
 --------
