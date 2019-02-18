@@ -1,20 +1,17 @@
 ITKMontage
 =================================
 
-.. |CircleCI| image:: https://circleci.com/gh/InsightSoftwareConsortium/ITKMontage.svg?style=shield
-    :target: https://circleci.com/gh/InsightSoftwareConsortium/ITKMontage
+.. image:: https://dev.azure.com/InsightSoftwareConsortium/ITKModules/_apis/build/status/InsightSoftwareConsortium.ITKMontage?branchName=master
+    :target: https://dev.azure.com/InsightSoftwareConsortium/ITKModules/_build/latest?definitionId=2&branchName=master
+    :alt: Build status
 
-.. |TravisCI| image:: https://travis-ci.org/InsightSoftwareConsortium/ITKMontage.svg?branch=master
-    :target: https://travis-ci.org/InsightSoftwareConsortium/ITKMontage
+.. image:: https://img.shields.io/pypi/v/itk-montage.svg
+    :target: https://pypi.python.org/pypi/itk-montage
+    :alt: PyPI
 
-.. |AppVeyor| image:: https://img.shields.io/appveyor/ci/itkrobot/itkmontage.svg
-    :target: https://ci.appveyor.com/project/itkrobot/itkmontage
-
-=========== =========== ===========
-   Linux      macOS       Windows
-=========== =========== ===========
-|CircleCI|  |TravisCI|  |AppVeyor|
-=========== =========== ===========
+.. image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
+    :target: https://github.com/InsightSoftwareConsortium/ITKMontage/blob/master/LICENSE)
+    :alt: License
 
 Montaging for microscopy imaging files.
 
