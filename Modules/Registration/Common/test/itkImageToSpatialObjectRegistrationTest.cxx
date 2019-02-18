@@ -142,7 +142,7 @@ public:
           point[i]=it.GetIndex()[i];
           }
 
-        if(this->m_MovingSpatialObject->IsInside(point,99999))
+        if(this->m_MovingSpatialObject->IsInsideInWorldSpace(point,99999))
           {
           m_PointList.push_back(point);
           }

@@ -57,7 +57,7 @@ int itkLandmarkSpatialObjectTest(int, char* [])
   LandmarkPointer landmark = LandmarkType::New();
   landmark->Print(std::cout);
 
-  landmark->GetProperty()->SetName("Landmark 1");
+  landmark->GetProperty().SetName("Landmark 1");
   landmark->SetId(1);
   landmark->SetPoints(list);
   landmark->Update();
@@ -81,7 +81,8 @@ int itkLandmarkSpatialObjectTest(int, char* [])
   // Point consistency
   std::cout << "Point consistency: ";
 
-  LandmarkType::PointListType::const_iterator it = landmark->GetPoints().begin();
+  LandmarkType::LandmarkPointListType::const_iterator it =
+    landmark->GetPoints().begin();
 
   i=0;
   while(it != landmark->GetPoints().end())
@@ -107,13 +108,15 @@ int itkLandmarkSpatialObjectTest(int, char* [])
   itk::Point<double,3> out;
   out[0]=0;out[1]=0;out[2]=0;
 
-  if(!landmark->IsInside(in,9999,nullptr))
+  if(!landmark->IsInsideInWorldSpace(in, LandmarkType::MaximumDepth,
+      ""))
   {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
   }
 
-  if(landmark->IsInside(out,9999,nullptr))
+  if(landmark->IsInsideInWorldSpace(out, LandmarkType::MaximumDepth,
+      ""))
   {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
@@ -160,7 +163,8 @@ int itkLandmarkSpatialObjectTest(int, char* [])
 
   // Testing IsEvaluableAt()
   std::cout << "Testing IsEvaluableAt() : ";
-  if(!landmark->IsEvaluableAtInWorldSpace(in,9999,nullptr))
+  if(!landmark->IsEvaluableAtInWorldSpace(in,
+      LandmarkType::MaximumDepth, ""))
     {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
@@ -170,7 +174,8 @@ int itkLandmarkSpatialObjectTest(int, char* [])
   // Testing ValueAt()
   std::cout << "Testing ValueAt() : ";
   double val = 0;
-  if(!landmark->ValueAtInWorldSpace(in,val,9999,nullptr))
+  if(!landmark->ValueAtInWorldSpace(in, val,
+      LandmarkType::MaximumDepth, ""))
     {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;

@@ -64,7 +64,7 @@ int itkBlobSpatialObjectTest(int, char* [])
   BlobPointer blob = BlobType::New();
   blob->Print(std::cout);
 
-  blob->GetProperty()->SetName("Blob 1");
+  blob->GetProperty().SetName("Blob 1");
   blob->SetId(1);
   blob->SetPoints(list);
   blob->Update();
