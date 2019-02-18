@@ -4,7 +4,7 @@ trigger:
     - master
     - release*
 variables:
-  ExternalDataVersion: 5.0b03
+  ExternalDataVersion: 5.0rc01
 jobs:
 - job: macOS
   timeoutInMinutes: 0
@@ -20,25 +20,25 @@ jobs:
         if [ -n "$(System.PullRequest.SourceCommitId)" ]; then
           git checkout $(System.PullRequest.SourceCommitId)
         fi
-
       displayName: Checkout pull request HEAD
+
     - bash: |
         set -x
-
-        sudo pip3 install ninja
-
+        sudo python3 -m pip install ninja
+        sudo python3 -m pip install --upgrade setuptools
+        sudo python3 -m pip install scikit-ci-addons
       displayName: Install dependencies
+
     - bash: |
         set -x
-
         git clone -b dashboard --single-branch https://github.com/InsightSoftwareConsortium/ITK.git ITK-dashboard
 
         curl -L https://github.com/InsightSoftwareConsortium/ITK/releases/download/v$(ExternalDataVersion)/InsightData-$(ExternalDataVersion).tar.gz -O
         cmake -E tar xfz InsightData-$(ExternalDataVersion).tar.gz
         cmake -E rename InsightToolkit-$(ExternalDataVersion)/.ExternalData/MD5 $(Build.SourcesDirectory)/.ExternalData/MD5
-
-      displayName: Download dashboard script and testing data
       workingDirectory: $(Agent.BuildDirectory)
+      displayName: Download dashboard script and testing data
+
     - script: |
         set -x
 
@@ -49,5 +49,17 @@ jobs:
         export CTEST_OUTPUT_ON_FAILURE=1
 
         ctest -S ITK-dashboard/azure_dashboard.cmake -V -j 4
-      displayName: Build and test
       workingDirectory: $(Agent.BuildDirectory)
+      displayName: Build and test
+
+    - script: |
+        ci_addons ctest_junit_formatter $(Build.SourcesDirectory)-build > $(Agent.BuildDirectory)/JUnitTestResults.xml
+      condition: succeededOrFailed()
+      displayName: 'Format CTest output in JUnit format'
+
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFiles: "$(Agent.BuildDirectory)/JUnitTestResults.xml"
+        testRunTitle: 'CTest $(Agent.OS)'
+      condition: succeededOrFailed()
+      displayName: 'Publish test results'

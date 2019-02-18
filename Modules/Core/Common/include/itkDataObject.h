@@ -30,6 +30,7 @@
 
 #include "itkObject.h"
 #include "itkMacro.h"
+#include "itkSingletonMacro.h"
 #include "itkWeakPointer.h"
 #include "itkRealTimeStamp.h"
 
@@ -504,7 +505,7 @@ private:
   ModifiedTimeType m_PipelineMTime;
 
   /** Static member that controls global data release after use by filter. */
-  static bool m_GlobalReleaseDataFlag;
+  static bool *m_GlobalReleaseDataFlag;
 
   /** Connect the specified process object to the data object. This
    * should only be called from a process object. The second parameter
@@ -521,6 +522,10 @@ private:
    * match the name cached when the data object was connected to the
    * pipeline (see ConnectSource), then nothing is done. */
   bool DisconnectSource(ProcessObject *s, const DataObjectIdentifierType & name);
+
+  /** Only used to synchronize the global variable across static libraries.*/
+  itkGetGlobalDeclarationMacro(bool, GlobalReleaseDataFlag);
+
 
   /** Friends of DataObject */
   friend class ProcessObject;

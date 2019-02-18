@@ -22,6 +22,7 @@ export sets environmental variable LC_COLLATE to POSIX so sorting deals with the
 The nm command extracts all global/external symbols from the library.
 The grep command extracts all the public symbols from the library. (Text, Data, Read-only data, Small objects).
 The first awk command prints out only the third column which is the symbol name (the first 2 columns are location and type) (also removes the leading underscore on macOS).
+Symbols starting with an underscore belong to the standard library and should not be added to the mangle list.
 The second awk command prints remove any "itk_" prefix that exists already.
 The sed command mangles the symbols and formats the output in such a way to be copy and pasted below.
 The sort commands sorts the lines alphabetically and discards duplicates.
@@ -29,13 +30,14 @@ The sort commands sorts the lines alphabetically and discards duplicates.
 The following commands are used to generate the suggested symbols on Windows systems:
 
 dumpbin /symbols libitkhdf5* > symbol_table.txt (Must be done from the Visual Studio Command Prompt)
-cat symbol_table.txt | grep "External" | grep -i "HDF5" | awk '{print $(NF) }' | awk '!/itk_/ { print }' | awk '{ if (a[$1]++ == 0) print $0; }' "$@" | sed 's \(.*\) \1\ itk_\1 ' | sed 's/^/#define /' (Must be done in git bash)
+cat symbol_table.txt | grep "External" | grep -i "H5" | awk '{print $(NF) }' | awk '!/itk_/ { print }' | awk '{ if (a[$1]++ == 0) print $0; }' "$@" | sed 's \(.*\) \1\ itk_\1 ' | sed 's/^/#define /' (Must be done in git bash)
 
 For the bash commands:
-cat is just used to start piping the symbol_table file
-first grep extracts all the external symbols
-second grep only extracts those symbols with HDF5 in them (case-insensitive)
-from awk onwards the process is the same as for Linux and Mac
+
+- `cat` is just used to start piping the symbol_table file.
+- The first grep extracts all the external symbols.
+- The second grep only extracts those symbols with H5 in them (case-insensitive).
+- From awk onwards the process is the same as for Linux and Mac.
 
 The developer will then need to *MANUALLY* add the symbols to the list below.
 
@@ -993,6 +995,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5E_print itk_H5E_print
 #define H5E_printf_stack itk_H5E_printf_stack
 #define H5E_push_stack itk_H5E_push_stack
+#define H5E_stack_g itk_H5E_stack_g
 #define H5E_set_auto itk_H5E_set_auto
 #define H5E_term_interface itk_H5E_term_interface
 #define H5E_term_package itk_H5E_term_package
@@ -3808,6 +3811,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5_chunk_elmts_blk_free_list itk_H5_chunk_elmts_blk_free_list
 #define H5_chunk_image_blk_free_list itk_H5_chunk_image_blk_free_list
 #define H5_combine_path itk_H5_combine_path
+#define H5_debug_g itk_H5_debug_g
 #define H5_direct_block_blk_free_list itk_H5_direct_block_blk_free_list
 #define H5_ea_native_elmt_blk_free_list itk_H5_ea_native_elmt_blk_free_list
 #define H5_fa_native_elmt_blk_free_list itk_H5_fa_native_elmt_blk_free_list

@@ -252,6 +252,13 @@ macro(itk_wrap_module_python library_name)
   set(ITK_WRAP_PYTHON_LIBRARY_DECLS )
   set(ITK_WRAP_PYTHON_LIBRARY_CALLS )
   set(ITK_WRAP_PYTHON_CXX_FILES )
+  if(MSVC)
+    get_filename_component(python_library_directory ${PYTHON_LIBRARY} DIRECTORY)
+    # It should use the following code inside `itk_end_wrap_module_python` but
+    # `target_link_directories()` was only added to CMake 3.13.
+    # target_link_directories(${lib} PUBLIC ${python_library_directory})
+    link_directories(${python_library_directory})
+  endif()
 endmacro()
 
 
@@ -392,56 +399,32 @@ macro(itk_end_wrap_module_python)
   set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_CALLS )
   if(NOT BUILD_SHARED_LIBS)
     if(WRAPPER_LIBRARY_NAME STREQUAL "ITKCommon")
+
+      if(WIN32)
+        set(DO_NOT_WAIT_FOR_THREADS_DECLS "#include \"itkThreadPool.h\"")
+        set(DO_NOT_WAIT_FOR_THREADS_CALLS "itk::ThreadPool::SetDoNotWaitForThreads( true );")
+      endif()
+
       set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_DECLS "
 #define _ITKCommonPython_MODULE
 #include \"itkPyITKCommonCAPI.h\"
+${DO_NOT_WAIT_FOR_THREADS_DECLS}
 
 static
-_ITKCommonPython_GetGlobalTimeStamp_RETURN
-_ITKCommonPython_GetGlobalTimeStamp
-_ITKCommonPython_GetGlobalTimeStamp_PROTO
+_ITKCommonPython_GetGlobalSingletonIndex_RETURN
+_ITKCommonPython_GetGlobalSingletonIndex
+_ITKCommonPython_GetGlobalSingletonIndex_PROTO
 {
-  return itk::TimeStamp::GetGlobalTimeStamp();
-}
-
-static
-_ITKCommonPython_GetObjectFactoryBase_RETURN
-_ITKCommonPython_GetObjectFactoryBase
-_ITKCommonPython_GetObjectFactoryBase_PROTO
-{
-  return itk::ObjectFactoryBase::GetObjectFactoryBase();
-}
-
-static
-_ITKCommonPython_GetThreadPoolGlobals_RETURN
-_ITKCommonPython_GetThreadPoolGlobals
-_ITKCommonPython_GetThreadPoolGlobals_PROTO
-{
-  return itk::ThreadPool::GetThreadPoolGlobals();
-}
-
-static
-_ITKCommonPython_GetMultiThreaderBaseGlobals_RETURN
-_ITKCommonPython_GetMultiThreaderBaseGlobals
-_ITKCommonPython_GetMultiThreaderBaseGlobals_PROTO
-{
-  return itk::MultiThreaderBase::GetMultiThreaderBaseGlobals();
+  return itk::SingletonIndex::GetInstance();
 }
 
 ")
-
-if(WIN32)
-  set(DO_NOT_WAIT_FOR_THREADS "itk::ThreadPool::SetDoNotWaitForThreads( true );")
-endif()
 
       set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_CALLS "
   static void * _ITKCommonPython_API[_ITKCommonPython_API_pointers];
 
   /* Initialize the C API pointer array */
-  _ITKCommonPython_API[_ITKCommonPython_GetGlobalTimeStamp_NUM] = (void *)_ITKCommonPython_GetGlobalTimeStamp;
-  _ITKCommonPython_API[_ITKCommonPython_GetObjectFactoryBase_NUM] = (void *)_ITKCommonPython_GetObjectFactoryBase;
-  _ITKCommonPython_API[_ITKCommonPython_GetThreadPoolGlobals_NUM] = (void *)_ITKCommonPython_GetThreadPoolGlobals;
-  _ITKCommonPython_API[_ITKCommonPython_GetMultiThreaderBaseGlobals_NUM] = (void *)_ITKCommonPython_GetMultiThreaderBaseGlobals;
+  _ITKCommonPython_API[_ITKCommonPython_GetGlobalSingletonIndex_NUM] = (void *)_ITKCommonPython_GetGlobalSingletonIndex;
 
   /* Create a Capsule containing the API pointer array's address */
   PyObject * cAPIObject = PyCapsule_New((void *)_ITKCommonPython_API,
@@ -451,11 +434,12 @@ endif()
     {
     PyModule_AddObject( m, \"_C_API\", cAPIObject );
     }
-  ${DO_NOT_WAIT_FOR_THREADS}
+  ${DO_NOT_WAIT_FOR_THREADS_CALLS}
 ")
     elseif("ITKCommon" IN_LIST WRAPPER_LIBRARY_LINK_LIBRARIES)
       set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_DECLS "
 #include \"itkPyITKCommonCAPI.h\"
+${DO_NOT_WAIT_FOR_THREADS_DECLS}
 ")
       set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_CALLS "
   if( import__ITKCommonPython() < 0 )
@@ -466,11 +450,8 @@ endif()
     return;
 #endif
     }
-  itk::TimeStamp::SetGlobalTimeStamp( _ITKCommonPython_GetGlobalTimeStamp() );
-  itk::ObjectFactoryBase::SynchronizeObjectFactoryBase( _ITKCommonPython_GetObjectFactoryBase() );
-  itk::ThreadPool::SetThreadPoolGlobals( _ITKCommonPython_GetThreadPoolGlobals() );
-  itk::MultiThreaderBase::SetMultiThreaderBaseGlobals( _ITKCommonPython_GetMultiThreaderBaseGlobals() );
-  ${DO_NOT_WAIT_FOR_THREADS}
+  itk::SingletonIndex::SetInstance( _ITKCommonPython_GetGlobalSingletonIndex() );
+  ${DO_NOT_WAIT_FOR_THREADS_CALLS}
 ")
     endif()
   endif()

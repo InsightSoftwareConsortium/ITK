@@ -19,8 +19,14 @@
 #include <iostream>
 
 #include "itkSymmetricSecondRankTensor.h"
+#include "itkArray2D.h"
 #include <iomanip>
 #include <array>
+
+
+// Test template instantiations for various supported template arguments:
+template class itk::SymmetricEigenAnalysis<vnl_matrix<double>, itk::FixedArray<double, 6>, itk::Matrix<double, 6, 6>>;
+template class itk::SymmetricEigenAnalysis<itk::Array2D<double>, vnl_diag_matrix<double>>;
 
 
 int itkSymmetricEigenAnalysisTest(int argc, char* argv[] )

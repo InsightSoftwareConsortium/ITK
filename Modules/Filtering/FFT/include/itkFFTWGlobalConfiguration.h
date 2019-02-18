@@ -25,7 +25,7 @@
 
 #include "ITKFFTExport.h"
 #include <mutex>
-
+#include "itkSingletonMacro.h"
 #include "itksys/SystemTools.hxx"
 #include "itksys/SystemInformation.hxx"
 #if defined( ITK_USE_CUFFTW )
@@ -35,6 +35,8 @@
 #endif
 #include <algorithm>
 #include <cctype>
+
+struct FFTWGlobalConfigurationGlobals;
 
 //* The fftw utilities help control the various strategies
 //available for controlling optimizations for the FFTW library.
@@ -64,6 +66,9 @@ namespace itk
  * A set of functions for defining wisdom filename
  * generation strategies.
  */
+
+struct FFTWGlobalConfigurationGlobals;
+
 #ifdef _WIN32
 #define FFTWPathSep "\\"
 #else
@@ -297,14 +302,16 @@ private:
   /** Return the singleton instance with no reference counting. */
   static Pointer GetInstance();
 
+  itkGetGlobalDeclarationMacro(FFTWGlobalConfigurationGlobals, PimplGlobals);
+
+
   /** This is a singleton pattern New.  There will only be ONE
    * reference to a FFTWGlobalConfiguration object per process.
    * The single instance will be unreferenced when
    * the program exits. */
   itkFactorylessNewMacro(Self);
 
-  static Pointer                m_Instance;
-  static std::mutex    m_CreationLock;
+  static FFTWGlobalConfigurationGlobals *m_PimplGlobals;
 
   std::mutex           m_Lock;
   bool                          m_NewWisdomAvailable;

@@ -18,10 +18,7 @@
 #ifndef itkPyITKCommonCAPI_h
 #define itkPyITKCommonCAPI_h
 
-#include "itkTimeStamp.h"
-#include "itkObjectFactoryBase.h"
-#include "itkThreadPool.h"
-#include "itkMultiThreaderBase.h"
+#include "itkSingleton.h"
 
 /* Header file for the _ITKCommonPython C API exposed via an PyCapsule.
  *
@@ -40,47 +37,26 @@ extern "C" {
 #endif
 
 /* C API functions */
-#define _ITKCommonPython_GetGlobalTimeStamp_NUM 0
-#define _ITKCommonPython_GetGlobalTimeStamp_RETURN itk::TimeStamp::GlobalTimeStampType *
-#define _ITKCommonPython_GetGlobalTimeStamp_PROTO ()
+#define _ITKCommonPython_GetGlobalSingletonIndex_NUM 0
+#define _ITKCommonPython_GetGlobalSingletonIndex_RETURN itk::SingletonIndex *
+#define _ITKCommonPython_GetGlobalSingletonIndex_PROTO ()
 
-#define _ITKCommonPython_GetObjectFactoryBase_NUM 1
-#define _ITKCommonPython_GetObjectFactoryBase_RETURN itk::ObjectFactoryBasePrivate *
-#define _ITKCommonPython_GetObjectFactoryBase_PROTO ()
-
-#define _ITKCommonPython_GetThreadPoolGlobals_NUM 2
-#define _ITKCommonPython_GetThreadPoolGlobals_RETURN itk::ThreadPoolGlobals *
-#define _ITKCommonPython_GetThreadPoolGlobals_PROTO ()
-
-#define _ITKCommonPython_GetMultiThreaderBaseGlobals_NUM 3
-#define _ITKCommonPython_GetMultiThreaderBaseGlobals_RETURN itk::MultiThreaderBaseGlobals *
-#define _ITKCommonPython_GetMultiThreaderBaseGlobals_PROTO ()
 /* Total number of C API pointers */
-#define _ITKCommonPython_API_pointers 4
+#define _ITKCommonPython_API_pointers 1
 
 
 #ifdef _ITKCommonPython_MODULE
 /* This section is used when compiling ITKCommonPython.cpp */
 
-static _ITKCommonPython_GetGlobalTimeStamp_RETURN _ITKCommonPython_GetGlobalTimeStamp _ITKCommonPython_GetGlobalTimeStamp_PROTO;
-static _ITKCommonPython_GetObjectFactoryBase_RETURN _ITKCommonPython_GetObjectFactoryBase _ITKCommonPython_GetObjectFactoryBase_PROTO;
-static _ITKCommonPython_GetThreadPoolGlobals_RETURN _ITKCommonPython_GetThreadPoolGlobals _ITKCommonPython_GetThreadPoolGlobals_PROTO;
-static _ITKCommonPython_GetMultiThreaderBaseGlobals_RETURN _ITKCommonPython_GetMultiThreaderBaseGlobals _ITKCommonPython_GetMultiThreaderBaseGlobals_PROTO;
+static _ITKCommonPython_GetGlobalSingletonIndex_RETURN _ITKCommonPython_GetInstance _ITKCommonPython_GetGlobalSingletonIndex_PROTO;
 
 #else
 /* This section is used in modules that use _ITKCommonPython's C API */
 
 static void **_ITKCommonPython_API;
 
-#define _ITKCommonPython_GetGlobalTimeStamp \
- (*(_ITKCommonPython_GetGlobalTimeStamp_RETURN (*)_ITKCommonPython_GetGlobalTimeStamp_PROTO) _ITKCommonPython_API[_ITKCommonPython_GetGlobalTimeStamp_NUM])
-#define _ITKCommonPython_GetObjectFactoryBase \
- (*(_ITKCommonPython_GetObjectFactoryBase_RETURN (*)_ITKCommonPython_GetObjectFactoryBase_PROTO) _ITKCommonPython_API[_ITKCommonPython_GetObjectFactoryBase_NUM])
-#define _ITKCommonPython_GetThreadPoolGlobals \
- (*(_ITKCommonPython_GetThreadPoolGlobals_RETURN (*)_ITKCommonPython_GetThreadPoolGlobals_PROTO) _ITKCommonPython_API[_ITKCommonPython_GetThreadPoolGlobals_NUM])
-#define _ITKCommonPython_GetMultiThreaderBaseGlobals \
- (*(_ITKCommonPython_GetMultiThreaderBaseGlobals_RETURN (*)_ITKCommonPython_GetMultiThreaderBaseGlobals_PROTO) _ITKCommonPython_API[_ITKCommonPython_GetMultiThreaderBaseGlobals_NUM])
-
+#define _ITKCommonPython_GetGlobalSingletonIndex \
+ (*(_ITKCommonPython_GetGlobalSingletonIndex_RETURN (*)_ITKCommonPython_GetGlobalSingletonIndex_PROTO) _ITKCommonPython_API[_ITKCommonPython_GetGlobalSingletonIndex_NUM])
 /* Return -1 on error, 0 on success.
  * PyCapsule_Import will set an exception if there's an error.
  */

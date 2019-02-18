@@ -29,6 +29,8 @@
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
+#include "itkSingletonMacro.h"
+
 
 namespace itk
 {
@@ -113,11 +115,6 @@ public:
   static bool GetDoNotWaitForThreads();
   static void SetDoNotWaitForThreads(bool doNotWaitForThreads);
 
-  /** Set/Get the pointer to ThreadPoolGlobals.
-   * Note that SetThreadPoolGlobals is not concurrent thread safe. */
-  static ThreadPoolGlobals * GetThreadPoolGlobals();
-  static void SetThreadPoolGlobals(::itk::ThreadPoolGlobals * globals);
-
 protected:
 
   /* We need access to the mutex in AddWork, and the variable is only
@@ -128,6 +125,9 @@ protected:
   ~ThreadPool() override;
 
 private:
+
+  /** Only used to synchronize the global variable across static libraries.*/
+  itkGetGlobalDeclarationMacro(ThreadPoolGlobals, PimplGlobals);
 
   /** This is a list of jobs submitted to the thread pool.
    * This is the only place where the jobs are submitted.
@@ -146,7 +146,7 @@ private:
   bool m_Stopping{ false };
 
   /** To lock on the internal variables */
-  static ThreadPoolGlobals * m_ThreadPoolGlobals;
+  static ThreadPoolGlobals * m_PimplGlobals;
 
   /** The continuously running thread function */
   static void ThreadExecute();

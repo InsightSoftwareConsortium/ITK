@@ -32,23 +32,26 @@ namespace itk
 void FloatingPointExceptions
 ::Enable()
 {
+  itkInitGlobalsMacro(PimplGlobals);
   // enable floating point exceptions on MSVC
   _controlfp(_EM_DENORMAL | _EM_UNDERFLOW | _EM_INEXACT, _MCW_EM);
-  FloatingPointExceptions::m_Enabled = true;
+  FloatingPointExceptions::m_PimplGlobals->m_Enabled = true;
 }
 
 void FloatingPointExceptions
 ::Disable()
 {
+  itkInitGlobalsMacro(PimplGlobals);
   // disable floating point exceptions on MSVC
   _controlfp(_EM_INVALID | _EM_DENORMAL | _EM_ZERODIVIDE | _EM_OVERFLOW |
              _EM_UNDERFLOW | _EM_INEXACT, _MCW_EM);
-  FloatingPointExceptions::m_Enabled = false;
+  FloatingPointExceptions::m_PimplGlobals->m_Enabled = false;
 }
 
 bool FloatingPointExceptions
 ::HasFloatingPointExceptionsSupport()
 {
+  itkInitGlobalsMacro(PimplGlobals);
   return true;
 }
 
@@ -59,18 +62,21 @@ bool FloatingPointExceptions
 void FloatingPointExceptions
 ::Enable()
 {
+  itkInitGlobalsMacro(PimplGlobals);
   itkFloatingPointExceptionsNotSupported();
 }
 
 void FloatingPointExceptions
 ::Disable()
 {
+  itkInitGlobalsMacro(PimplGlobals);
   itkFloatingPointExceptionsNotSupported();
 }
 
 bool FloatingPointExceptions
 ::HasFloatingPointExceptionsSupport()
 {
+  itkInitGlobalsMacro(PimplGlobals);
   return false;
 }
 

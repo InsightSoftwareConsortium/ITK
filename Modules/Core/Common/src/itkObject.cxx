@@ -28,12 +28,16 @@
 #include "itkCommand.h"
 #include <algorithm>
 
+#include "itkSingleton.h"
+
 namespace itk
 {
 /**
  * Initialize static member that controls warning display.
  */
-bool Object:: m_GlobalWarningDisplay = true;
+itkGetGlobalValueMacro(Object, bool, GlobalWarningDisplay, true);
+
+bool * Object::m_GlobalWarningDisplay;
 
 class ITKCommon_HIDDEN Observer
 {
@@ -477,7 +481,8 @@ void
 Object
 ::SetGlobalWarningDisplay(bool val)
 {
-  m_GlobalWarningDisplay = val;
+  itkInitGlobalsMacro(GlobalWarningDisplay);
+  *m_GlobalWarningDisplay = val;
 }
 
 /**
@@ -487,7 +492,7 @@ bool
 Object
 ::GetGlobalWarningDisplay()
 {
-  return m_GlobalWarningDisplay;
+  return *Object::GetGlobalWarningDisplayPointer();
 }
 
 unsigned long
