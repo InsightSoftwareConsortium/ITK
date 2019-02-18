@@ -18,7 +18,6 @@
 #ifndef itkTubeSpatialObjectPoint_h
 #define itkTubeSpatialObjectPoint_h
 
-#include "itkTubeSpatialObject.h"
 #include "itkSpatialObjectPoint.h"
 #include "itkCovariantVector.h"
 #include "vnl/vnl_vector_fixed.h"
