@@ -16,6 +16,15 @@ endif()
 
 project(Montage)
 
+# Suppress warnings about potentially uninstantiated static members
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  include(CheckCXXCompilerFlag)
+  CHECK_CXX_COMPILER_FLAG("-Wno-undefined-var-template" COMPILER_HAS_NO_UNDEFINED_VAR_TEMPLATE)
+  if(COMPILER_HAS_NO_UNDEFINED_VAR_TEMPLATE)
+    set(CMAKE_CXX_FLAGS "-Wno-undefined-var-template ${CMAKE_CXX_FLAGS}")
+  endif()
+endif()
+
 set(Montage_LIBRARIES Montage)
 
 if(NOT ITK_SOURCE_DIR)
