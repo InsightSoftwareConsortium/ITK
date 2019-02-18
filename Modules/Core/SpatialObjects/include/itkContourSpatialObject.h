@@ -91,7 +91,7 @@ public:
   { return &( m_ControlPoints[id] ); }
 
   /** Return a control point in the list given the index */
-  typename Superclass::SpatialObjectPointType * GetControlPoint(IdentifierType id)
+  ControlPointType * GetControlPoint(IdentifierType id)
   { return &( m_ControlPoints[id] ); }
 
   /** Return the number of control points in the list */
