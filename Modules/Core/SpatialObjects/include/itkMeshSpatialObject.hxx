@@ -107,7 +107,7 @@ MeshSpatialObject< TMesh >
 {
   PointType pnt1;
   PointType pnt2;
-  for ( unsigned int i = 0; i < ObjectDimension; i++ )
+  for ( unsigned int i = 0; i < this->ObjectDimension; i++ )
     {
     pnt1[i] = m_Mesh->GetBoundingBox()->GetBounds()[2 * i];
     pnt2[i] = m_Mesh->GetBoundingBox()->GetBounds()[2 * i + 1];

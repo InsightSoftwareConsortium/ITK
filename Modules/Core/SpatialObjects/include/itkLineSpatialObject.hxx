@@ -58,8 +58,8 @@ LineSpatialObject< TDimension >
 {
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    auto it = m_Points.begin();
-    auto itEnd = m_Points.end();
+    auto it = this->m_Points.begin();
+    auto itEnd = this->m_Points.end();
 
     PointType transformedPoint = this->GetObjectToWorldTransform()
       ->GetInverseTransform()->TransformPoint(point);
@@ -69,7 +69,7 @@ LineSpatialObject< TDimension >
       while ( it != itEnd )
         {
         bool match = true;
-        for( unsigned int i=0; i<ObjectDimension; ++i )
+        for( unsigned int i=0; i<TDimension; ++i )
           {
           if ( ! Math::AlmostEquals( ( *it ).GetPositionInObjectSpace()[i],
                    transformedPoint[i] ) )

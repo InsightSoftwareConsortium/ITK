@@ -106,7 +106,7 @@ ContourSpatialObject< TDimension >
       }
       break;
     case LINEAR_INTERPOLATION:
-      m_Points.clear();
+      this->m_Points.clear();
       auto it = m_ControlPoints.begin();
       while( it != m_ControlPoints.end() )
         {
@@ -125,22 +125,22 @@ ContourSpatialObject< TDimension >
         PointType pnt = it->GetPositionInObjectSpace();
         PointType pnt2 = it2->GetPositionInObjectSpace();
         PointType step;
-        for( unsigned int d=0; d<ObjectDimension; ++d )
+        for( unsigned int d=0; d<TDimension; ++d )
           {
           step[d] = (pnt2[d] - pnt[d]) / m_InterpolationFactor;
           }
         PointType newPoint;
         for( unsigned int i=0; i<m_InterpolationFactor; ++i )
           {
-          for( unsigned int d=0; d<ObjectDimension; ++d )
+          for( unsigned int d=0; d<TDimension; ++d )
             {
             newPoint = pnt[d] + i * step[d];
             }
           }
-        SpatialObjectPointType newSOPoint;
+        typename Superclass::SpatialObjectPointType newSOPoint;
         newSOPoint = (*it);
         newSOPoint.SetPositionInWorldSpace( newPoint );
-        m_Points.push_back( newSOPoint );
+        this->m_Points.push_back( newSOPoint );
         }
       break;
     };
