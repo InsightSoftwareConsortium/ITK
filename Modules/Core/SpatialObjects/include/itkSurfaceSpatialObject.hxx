@@ -46,7 +46,7 @@ SurfaceSpatialObject< TDimension >
   os << indent << "SurfaceSpatialObject(" << this << ")" << std::endl;
   os << indent << "ID: " << this->GetId() << std::endl;
   os << indent << "nb of points: "
-     << static_cast< SizeValueType >( m_Points.size() ) << std::endl;
+     << static_cast< SizeValueType >( this->m_Points.size() ) << std::endl;
   Superclass::PrintSelf(os, indent);
 }
 
@@ -61,13 +61,13 @@ SurfaceSpatialObject< TDimension >
     itkExceptionMacro("Approximate3DNormals works only in 3D");
     }
 
-  if ( m_Points.size() < 3 )
+  if ( this->m_Points.size() < 3 )
     {
     itkExceptionMacro("Approximate3DNormals requires at least 3 points");
     }
 
-  typename SurfacePointListType::iterator it = m_Points.begin();
-  typename SurfacePointListType::iterator itEnd = m_Points.end();
+  typename SurfacePointListType::iterator it = this->m_Points.begin();
+  typename SurfacePointListType::iterator itEnd = this->m_Points.end();
 
   while ( it != itEnd )
     {
@@ -89,10 +89,10 @@ SurfaceSpatialObject< TDimension >
       max[1] = 99999999;
       max[2] = 99999999;
 
-      typename SurfacePointListType::const_iterator it2 = m_Points.begin();
+      typename SurfacePointListType::const_iterator it2 = this->m_Points.begin();
 
       int i = 0;
-      while ( it2 != m_Points.end() )
+      while ( it2 != this->m_Points.end() )
         {
         if ( it2 == it )
           {
@@ -127,7 +127,7 @@ SurfaceSpatialObject< TDimension >
         bool valid = true;
         for (auto & j : identifier)
           {
-          PointType p = m_Points[j].GetPositionInObjectSpace();
+          PointType p = this->m_Points[j].GetPositionInObjectSpace();
           float     d = pos2.EuclideanDistance( p );
           if ( Math::AlmostEquals( d, 0.0f ) )
             {
@@ -177,9 +177,9 @@ SurfaceSpatialObject< TDimension >
         return false;
         }
 
-      PointType v1 = m_Points[identifier[0]].GetPositionInObjectSpace();
-      PointType v2 = m_Points[identifier[1]].GetPositionInObjectSpace();
-      PointType v3 = m_Points[identifier[2]].GetPositionInObjectSpace();
+      PointType v1 = this->m_Points[identifier[0]].GetPositionInObjectSpace();
+      PointType v2 = this->m_Points[identifier[1]].GetPositionInObjectSpace();
+      PointType v3 = this->m_Points[identifier[2]].GetPositionInObjectSpace();
 
       double coa = -( v1[1] * ( v2[2] - v3[2] )
                       + v2[1] * ( v3[2] - v1[2] )
@@ -208,14 +208,14 @@ SurfaceSpatialObject< TDimension >
         }
       }
     while ( ( Math::AlmostEquals( absvec, 0.0 ) )
-      && ( badId.size() < m_Points.size() - 1 ) );
+      && ( badId.size() < this->m_Points.size() - 1 ) );
 
     if ( Math::AlmostEquals( absvec, 0.0 ) )
       {
       std::cout << "Approximate3DNormals Failed!" << std::endl;
       std::cout << identifier[0] << " : " << identifier[1] << " : "
         << identifier[2] << std::endl;
-      std::cout << badId.size() << " : " << m_Points.size() - 1 << std::endl;
+      std::cout << badId.size() << " : " << this->m_Points.size() - 1 << std::endl;
       return false;
       }
 

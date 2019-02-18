@@ -49,7 +49,7 @@ ImageMaskSpatialObject< TDimension, TPixel >
         TransformPoint(point);
 
       typename Superclass::InterpolatorType::ContinuousIndexType index;
-      bool inside_image = m_Image->TransformPhysicalPointToContinuousIndex( p,
+      bool inside_image = this->m_Image->TransformPhysicalPointToContinuousIndex( p,
         index );
       if( inside_image ){
           using InterpolatorOutputType = typename InterpolatorType::OutputType;
@@ -79,8 +79,8 @@ ImageMaskSpatialObject< TDimension, TPixel >
 ::ComputeMyBoundingBoxInWorldSpace() const
 {
   using IteratorType = ImageRegionConstIteratorWithIndex< ImageType >;
-  IteratorType it( m_Image, m_Image->GetLargestPossibleRegion() );
-  IteratorType prevIt( m_Image, m_Image->GetLargestPossibleRegion() );
+  IteratorType it( this->m_Image, this->m_Image->GetLargestPossibleRegion() );
+  IteratorType prevIt( this->m_Image, this->m_Image->GetLargestPossibleRegion() );
   it.GoToBegin();
   prevIt = it;
 
@@ -107,7 +107,7 @@ ImageMaskSpatialObject< TDimension, TPixel >
         {
         tmpIndex = it.GetIndex();
         }
-      m_Image->TransformIndexToPhysicalPoint( tmpIndex, tmpPoint );
+      this->m_Image->TransformIndexToPhysicalPoint( tmpIndex, tmpPoint );
       transformedPoint =
         this->GetObjectToWorldTransform()->TransformPoint( tmpPoint );
       if( first )
