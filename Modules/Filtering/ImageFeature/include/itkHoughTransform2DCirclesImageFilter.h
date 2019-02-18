@@ -210,7 +210,7 @@ private:
   double                m_MinimumRadius{ 0.0 };
   double                m_MaximumRadius{ 10.0 };
   double                m_Threshold{ 0.0 };
-  double                m_GradientNormThreshold;
+  double                m_GradientNormThreshold{ 1.0 };
   double                m_SigmaGradient{ 1.0 };
 
   RadiusImagePointer    m_RadiusImage;
@@ -218,7 +218,7 @@ private:
   CirclesListSizeType   m_NumberOfCircles{ 1 };
   double                m_DiscRadiusRatio{ 1 };
   double                m_Variance{ 10 };
-  bool                  m_UseImageSpacing;
+  bool                  m_UseImageSpacing{ true };
   ModifiedTimeType      m_OldModifiedTime{ 0 };
 };
 } // end namespace itk
