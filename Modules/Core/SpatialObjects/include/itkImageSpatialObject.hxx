@@ -104,7 +104,7 @@ ImageSpatialObject< TDimension,  PixelType >
 
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    if( IsEvaluableAtInWorldSpace(point, 0, name) )
+    if( this->IsEvaluableAtInWorldSpace(point, 0, name) )
       {
       PointType transformedPoint = this->GetObjectToWorldTransform()->
         GetInverseTransform()->TransformPoint( point );
@@ -145,7 +145,7 @@ ImageSpatialObject< TDimension,  PixelType >
   typename BoundingBoxType::Pointer indexSpaceBB = BoundingBoxType::New();
 
   IndexType    index = m_Image->GetLargestPossibleRegion().GetIndex();
-  SizeType     size = m_Image->GetLargestPossibleRegion().GetSize();
+  typename ImageType::SizeType     size = m_Image->GetLargestPossibleRegion().GetSize();
 
   PointType    pnt1;
   PointType    pnt2;

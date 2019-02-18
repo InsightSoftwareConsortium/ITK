@@ -52,9 +52,9 @@ public:
 
   using ScalarType = double;
 
-  using ContourPointType = typename ContourSpatialObjectPoint< TDimension >;
+  using ContourPointType = ContourSpatialObjectPoint< TDimension >;
   using ContourPointListType = std::vector< ContourPointType >;
-  using ControlPointType = typename ContourSpatialObjectPoint< TDimension >;
+  using ControlPointType = ContourSpatialObjectPoint< TDimension >;
   using ControlPointListType = std::vector< ControlPointType >;
 
   using PointType = typename Superclass::PointType;
@@ -91,7 +91,7 @@ public:
   { return &( m_ControlPoints[id] ); }
 
   /** Return a control point in the list given the index */
-  SpatialObjectPointType * GetControlPoint(IdentifierType id)
+  ControlPointType * GetControlPoint(IdentifierType id)
   { return &( m_ControlPoints[id] ); }
 
   /** Return the number of control points in the list */
