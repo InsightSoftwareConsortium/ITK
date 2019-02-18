@@ -59,7 +59,7 @@ PolygonSpatialObject< TDimension >
     {
     PointType curpoint = this->GetObjectToWorldTransform()->TransformPoint(
       ( *it ).GetPositionInObjectSpace() );
-    for ( unsigned int i = 0; i < ObjectDimension; i++ )
+    for ( unsigned int i = 0; i < TDimension; i++ )
       {
       if ( minPnt[i] > curpoint[i] )
         {
@@ -73,7 +73,7 @@ PolygonSpatialObject< TDimension >
     it++;
     }
   m_OrientationInObjectSpace = -1;
-  for ( unsigned int i = 0; i < ObjectDimension; i++ )
+  for ( unsigned int i = 0; i < TDimension; i++ )
     {
     if ( Math::ExactlyEquals(minPnt[0], maxPnt[0]) )
       {
@@ -124,7 +124,7 @@ PolygonSpatialObject< TDimension >
     return 0;
     }
 
-  for( unsigned int i=0; i<ObjectDimension ++i )
+  for( unsigned int i=0; i<TDimension; ++i )
     {
     if( this->GetOrientationInObjectSpace() != i )
       {
@@ -220,7 +220,7 @@ PolygonSpatialObject< TDimension >
 
       if ( numpoints >= 3 )
         {
-        for( unsigned int i=0; i<ObjectDimension; ++i )
+        for( unsigned int i=0; i<TDimension; ++i )
           {
           if( this->GetOrientationInObjectSpace() != i )
             {
