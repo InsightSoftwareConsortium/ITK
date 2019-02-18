@@ -104,7 +104,7 @@ int itkContourSpatialObjectPointTest( int, char* [] )
   normal3D[1] = normalY;
   normal3D[2] = normalZ;
 
-  contourSpatialObjectPoint3D.SetNormal( normal3D );
+  contourSpatialObjectPoint3D.SetNormalInObjectSpace( normal3D );
   TEST_SET_GET_VALUE( normal3D,
     contourSpatialObjectPoint3D.GetNormalInObjectSpace() );
 
