@@ -71,12 +71,12 @@ int itkMeshSpatialObjectTest(int, char * [] )
 
   std::cout << "Testing Bounding Box: ";
 
-  if( (itk::Math::NotExactlyEquals(meshSO->GetBoundingBox()->GetBounds()[0], 0))
-   || (itk::Math::NotExactlyEquals(meshSO->GetBoundingBox()->GetBounds()[1], 9))
-   || (itk::Math::NotExactlyEquals(meshSO->GetBoundingBox()->GetBounds()[2], 0))
-   || (itk::Math::NotExactlyEquals(meshSO->GetBoundingBox()->GetBounds()[3], 9))
-   || (itk::Math::NotExactlyEquals(meshSO->GetBoundingBox()->GetBounds()[4], 0))
-   || (itk::Math::NotExactlyEquals(meshSO->GetBoundingBox()->GetBounds()[5], 9))
+  if( (itk::Math::NotExactlyEquals(meshSO->GetMyBoundingBoxInWorldSpace()->GetBounds()[0], 0))
+   || (itk::Math::NotExactlyEquals(meshSO->GetMyBoundingBoxInWorldSpace()->GetBounds()[1], 9))
+   || (itk::Math::NotExactlyEquals(meshSO->GetMyBoundingBoxInWorldSpace()->GetBounds()[2], 0))
+   || (itk::Math::NotExactlyEquals(meshSO->GetMyBoundingBoxInWorldSpace()->GetBounds()[3], 9))
+   || (itk::Math::NotExactlyEquals(meshSO->GetMyBoundingBoxInWorldSpace()->GetBounds()[4], 0))
+   || (itk::Math::NotExactlyEquals(meshSO->GetMyBoundingBoxInWorldSpace()->GetBounds()[5], 9))
    )
     {
     std::cout<<"[FAILED]"<<std::endl;

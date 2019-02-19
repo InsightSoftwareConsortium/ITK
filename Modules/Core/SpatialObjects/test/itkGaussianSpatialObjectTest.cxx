@@ -125,7 +125,7 @@ int itkGaussianSpatialObjectTest(int, char* [])
 
   std::cout << "ComputeMyBoundingBoxInWorldSpace: ";
   myGaussian->ComputeMyBoundingBoxInWorldSpace();
-  GaussianType::BoundingBoxType * boundingBox = myGaussian->GetBoundingBox();
+  GaussianType::BoundingBoxType * boundingBox = myGaussian->GetMyBoundingBoxInWorldSpace();
 
   for(unsigned int i=0;i<3;i++)
     {

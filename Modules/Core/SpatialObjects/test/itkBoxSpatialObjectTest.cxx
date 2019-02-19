@@ -117,12 +117,12 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
   itk::Point<double,2> out;
   out[0]=0;out[1]=4;
 
-  if(!box1->IsInsideInObjectSpace(in))
+  if(!box1->IsInsideInWorldSpace(in))
   {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
   }
-  if(box1->IsInsideInObjectSpace(out))
+  if(box1->IsInsideInWorldSpace(out))
   {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
