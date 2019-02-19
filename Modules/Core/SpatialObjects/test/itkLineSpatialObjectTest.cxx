@@ -33,7 +33,7 @@ int itkLineSpatialObjectTest(int, char* [])
   std::cout<<"=================================="<<std::endl;
   std::cout<<"Testing LineSpatialObject:"<<std::endl<<std::endl;
 
-  LineType::PointListType list;
+  LineType::LinePointListType list;
   unsigned int i;
   for(i=0; i<10; i++)
   {
@@ -47,8 +47,8 @@ int itkLineSpatialObjectTest(int, char* [])
       normal2[j]=j*2;
     }
 
-    p.SetNormal(normal1,0);
-    p.SetNormal(normal2,1);
+    p.SetNormalInObjectSpace(normal1,0);
+    p.SetNormalInObjectSpace(normal2,1);
     list.push_back(p);
   }
 
@@ -95,13 +95,13 @@ int itkLineSpatialObjectTest(int, char* [])
         return EXIT_FAILURE;
         }
 
-      if(itk::Math::NotExactlyEquals(((*it).GetNormal(0))[d], d))
+      if(itk::Math::NotExactlyEquals(((*it).GetNormalInObjectSpace(0))[d], d))
         {
         std::cout<<"[FAILED]"<<std::endl;
         return EXIT_FAILURE;
         }
 
-      if(itk::Math::NotExactlyEquals(((*it).GetNormal(1))[d], 2*d))
+      if(itk::Math::NotExactlyEquals(((*it).GetNormalInObjectSpace(1))[d], 2*d))
         {
         std::cout<<"[FAILED]"<<std::endl;
         return EXIT_FAILURE;
@@ -136,7 +136,7 @@ int itkLineSpatialObjectTest(int, char* [])
 
   // Testing IsEvaluableAt()
   std::cout << "IsEvaluableAt: ";
-  if(!Line->IsEvaluableAt(in) || Line->IsEvaluableAt(out))
+  if(!Line->IsEvaluableAtInWorldSpace(in) || Line->IsEvaluableAtInWorldSpace(out))
   {
      std::cout<<"[FAILED]"<<std::endl;
      return EXIT_FAILURE;
@@ -148,7 +148,7 @@ int itkLineSpatialObjectTest(int, char* [])
   std::cout << "ValueAt: ";
 
   double value;
-  if(!Line->ValueAt(in,value))
+  if(!Line->ValueAtInWorldSpace(in,value))
   {
      std::cout<<"[FAILED]"<<std::endl;
      return EXIT_FAILURE;

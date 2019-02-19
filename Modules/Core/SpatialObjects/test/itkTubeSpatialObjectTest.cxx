@@ -66,14 +66,14 @@ int itkTubeSpatialObjectTest(int, char * [] )
     {
     TubePointType p;
     p.SetPositionInObjectSpace(i,i,i);
-    p.SetRadius(1);
+    p.SetRadiusInObjectSpace(1);
     list.push_back(p);
     }
 
   // For coverage
   TubePointType p;
   p.SetPositionInObjectSpace(1,2,3);
-  p.SetRadius(1);
+  p.SetRadiusInObjectSpace(1);
   p.Print(std::cout);
 
   tube1->SetPoints(list);
@@ -428,9 +428,9 @@ int itkTubeSpatialObjectTest(int, char * [] )
   std::cout << "ComputeTangentAndNormals: ";
   tube1->ComputeTangentAndNormals();
 
-  TubePointType::VectorType t = static_cast<const TubePointType*>(tube1->GetPoint(1))->GetTangent();
-  TubePointType::CovariantVectorType n1 = static_cast<const TubePointType*>(tube1->GetPoint(1))->GetNormal1();
-  TubePointType::CovariantVectorType n2 = static_cast<const TubePointType*>(tube1->GetPoint(1))->GetNormal2();
+  TubePointType::VectorType t = static_cast<const TubePointType*>(tube1->GetPoint(1))->GetTangentInWorldSpace();
+  TubePointType::CovariantVectorType n1 = static_cast<const TubePointType*>(tube1->GetPoint(1))->GetNormal1InWorldSpace();
+  TubePointType::CovariantVectorType n2 = static_cast<const TubePointType*>(tube1->GetPoint(1))->GetNormal2InWorldSpace();
 
   if(  (std::fabs(t[0]-0.57735)>0.0001)
     || (std::fabs(t[1]-0.57735)>0.0001)

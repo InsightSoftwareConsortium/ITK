@@ -116,14 +116,14 @@ int itkMeshSpatialObjectTest(int, char * [] )
   // Testing is valueAt
   std::cout << "Testing ValueAt: ";
   double value;
-  meshSO->ValueAt(inside,value);
+  meshSO->ValueAtInWorldSpace(inside,value);
   if(!value)
     {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
     }
 
-  meshSO->ValueAt(outside,value);
+  meshSO->ValueAtInWorldSpace(outside,value);
   if(value)
     {
     std::cout<<"[FAILED]"<<std::endl;

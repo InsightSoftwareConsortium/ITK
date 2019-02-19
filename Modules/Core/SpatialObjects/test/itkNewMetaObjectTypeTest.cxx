@@ -205,7 +205,7 @@ int itkNewMetaObjectTypeTest(int, char* [])
 {
   const float Pi(3.1415926);
 
-  using SceneType = itk::SceneSpatialObject<3>;
+  using SceneType = itk::GroupSpatialObject<3>;
   using DummyType = itk::DummySpatialObject<3>;
   using MetaSceneConverterType = itk::MetaSceneConverter<3,unsigned short>;
 
@@ -218,7 +218,7 @@ int itkNewMetaObjectTypeTest(int, char* [])
   dummy->SetId(1);
   dummy->SetValue(Pi);
 
-  scene->AddSpatialObject(dummy);
+  scene->AddChild(dummy);
 
   DummyConverterType::Pointer dummyConverter(DummyConverterType::New());
 
@@ -234,15 +234,15 @@ int itkNewMetaObjectTypeTest(int, char* [])
     delete metaScene;
     return EXIT_FAILURE;
     }
-  if(myScene->GetNumberOfObjects(1) != 1)
+  if(myScene->GetNumberOfChildren(1) != 1)
     {
-    std::cout << "found " << myScene->GetNumberOfObjects(1) << " instead of 1 [FAILED]"
+    std::cout << "found " << myScene->GetNumberOfChildren(1) << " instead of 1 [FAILED]"
               << std::endl;
     delete metaScene;
     return EXIT_FAILURE;
     }
   SceneType::ObjectListType *mySceneChildren =
-    myScene->GetObjects();
+    myScene->GetChildren();
   SceneType::ObjectListType::const_iterator obj;
 
   for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)

@@ -30,7 +30,7 @@ int itkSpatialObjectToPointSetFilterTest( int, char* [] )
   using TubeType = itk::TubeSpatialObject< 2 >;
   using TubePointer = TubeType::Pointer;
   using PointSetType = itk::PointSet< PixelType, 2 >;
-  using TubePointListType = TubeType::PointListType;
+  using TubePointListType = TubeType::TubePointListType;
   using TubePointType = TubeType::TubePointType;
 
   TubePointer tube1 = TubeType::New();
@@ -40,7 +40,7 @@ int itkSpatialObjectToPointSetFilterTest( int, char* [] )
     {
     TubePointType p;
     p.SetPositionInObjectSpace(i,i);
-    p.SetRadius(1);
+    p.SetRadiusInObjectSpace(1);
     list.push_back(p);
     }
 
@@ -108,10 +108,10 @@ int itkSpatialObjectToPointSetFilterTest( int, char* [] )
   // Create a group spatial object
   using Group3DType = itk::PointBasedSpatialObject< 3 >;
   using Tube3DType = itk::TubeSpatialObject< 3 >;
-  using Tube3DPointListType = Tube3DType::PointListType;
+  using Tube3DPointListType = Tube3DType::TubePointListType;
   using Tube3DPointType = Tube3DType::TubePointType;
   using Line3DType = itk::LineSpatialObject<3>;
-  using Line3DPointListType = Line3DType::PointListType;
+  using Line3DPointListType = Line3DType::LinePointListType;
   using Line3DPointType = Line3DType::LinePointType;
 
   Group3DType::Pointer group3D = Group3DType::New();
@@ -124,7 +124,7 @@ int itkSpatialObjectToPointSetFilterTest( int, char* [] )
     {
     Tube3DPointType p;
     p.SetPositionInObjectSpace( i, i+1, i+2 );
-    p.SetRadius(1);
+    p.SetRadiusInObjectSpace(1);
     tubePointList.push_back(p);
     }
 
