@@ -38,7 +38,7 @@ int itkLineSpatialObjectTest(int, char* [])
   for(i=0; i<10; i++)
   {
     LinePointType p;
-    p.SetPosition(i,i+1,i+2);
+    p.SetPositionInObjectSpace(i,i+1,i+2);
     VectorType normal1;
     VectorType normal2;
     for(unsigned int j=0;j<3;j++)
@@ -54,15 +54,15 @@ int itkLineSpatialObjectTest(int, char* [])
 
   // For coverage
   LinePointType p;
-  p.SetPosition(0,1,2);
+  p.SetPositionInObjectSpace(0,1,2);
   p.Print(std::cout);
 
   // Create a Line Spatial Object
   LinePointer Line = LineType::New();
-  Line->GetProperty()->SetName("Line 1");
+  Line->GetProperty().SetName("Line 1");
   Line->SetId(1);
   Line->SetPoints(list);
-  Line->ComputeBoundingBox();
+  Line->ComputeMyBoundingBoxInWorldSpace();
 
  // Number of points
   std::cout << "Testing Consistency: " << std::endl;
@@ -89,7 +89,7 @@ int itkLineSpatialObjectTest(int, char* [])
     {
     for(unsigned int d=0;d<3;d++)
       {
-      if(itk::Math::NotExactlyEquals((*it).GetPosition()[d], i+d))
+      if(itk::Math::NotExactlyEquals((*it).GetPositionInWorldSpace()[d], i+d))
         {
         std::cout<<"[FAILED]"<<std::endl;
         return EXIT_FAILURE;
@@ -121,13 +121,13 @@ int itkLineSpatialObjectTest(int, char* [])
   itk::Point<double,3> out;
   out[0]=0;out[1]=0;out[2]=0;
 
-  if(!Line->IsInside(in))
+  if(!Line->IsInsideInWorldSpace(in))
   {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
   }
 
-  if(Line->IsInside(out))
+  if(Line->IsInsideInWorldSpace(out))
   {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;

@@ -72,7 +72,7 @@ public:
   { return m_TangentInObjectSpace; }
 
   /** Get the tangent in World Space */
-  const VectorType & GetTangent() const;
+  const VectorType GetTangent() const;
 
   /** Set the tangent in object space. */
   void SetTangentInObjectSpace(const VectorType & newT)

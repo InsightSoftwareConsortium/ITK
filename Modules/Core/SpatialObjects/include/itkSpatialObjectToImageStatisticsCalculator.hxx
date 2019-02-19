@@ -112,7 +112,7 @@ SpatialObjectToImageStatisticsCalculator< TInputImage, TInputSpatialObject, TSam
 
   // If this is an ImageMaskSpatialObject we cannot use the flood filled
   // iterator
-  if ( !strcmp(m_SpatialObject->GetTypeName(), "ImageMaskSpatialObject") )
+  if ( !strcmp(m_SpatialObject->GetTypeName().c_str(), "ImageMaskSpatialObject") )
     {
     using MaskImageType = Image< unsigned char, Self::ObjectDimension >;
     using MaskSOType = ImageMaskSpatialObject< Self::ObjectDimension >;
@@ -152,7 +152,7 @@ SpatialObjectToImageStatisticsCalculator< TInputImage, TInputSpatialObject, TSam
     {
     // Get the bounding box
     typename SpatialObjectType::BoundingBoxType::Pointer boundingBox;
-    m_SpatialObject->ComputeBoundingBox();
+    m_SpatialObject->ComputeMyBoundingBoxInWorldSpace();
     boundingBox = m_SpatialObject->GetMyBoundingBoxInWorldSpace();
 
     Point< double, Self::ObjectDimension > pt;

@@ -75,13 +75,13 @@ int itkGaussianSpatialObjectTest(int, char* [])
 
   std::cout << "Is Inside: ";
 
-  if(!myGaussian->IsInside(in))
+  if(!myGaussian->IsInsideInWorldSpace(in))
     {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
     }
 
-  if(myGaussian->IsInside(out))
+  if(myGaussian->IsInsideInWorldSpace(out))
     {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
@@ -123,8 +123,8 @@ int itkGaussianSpatialObjectTest(int, char* [])
   std::cout<<"[PASSED]"<<std::endl;
 
 
-  std::cout << "ComputeBoundingBox: ";
-  myGaussian->ComputeBoundingBox();
+  std::cout << "ComputeMyBoundingBoxInWorldSpace: ";
+  myGaussian->ComputeMyBoundingBoxInWorldSpace();
   GaussianType::BoundingBoxType * boundingBox = myGaussian->GetBoundingBox();
 
   for(unsigned int i=0;i<3;i++)
