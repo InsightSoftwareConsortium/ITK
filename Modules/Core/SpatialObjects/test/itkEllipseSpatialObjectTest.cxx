@@ -40,8 +40,8 @@ int itkEllipseSpatialObjectTest(int, char* [])
 
   std::cout << "Testing radii : ";
 
-  myEllipse->SetRadius(radius);
-  EllipseType::ArrayType radius2 = myEllipse->GetRadius();
+  myEllipse->SetRadiusInObjectSpace(radius);
+  EllipseType::ArrayType radius2 = myEllipse->GetRadiusInObjectSpace();
   for(unsigned int i = 0; i<4;i++)
   {
     if(itk::Math::NotExactlyEquals(radius2[i],i))
@@ -52,8 +52,8 @@ int itkEllipseSpatialObjectTest(int, char* [])
   }
   std::cout << "[PASSED]" << std::endl;
 
-  myEllipse->SetRadius(3);
- EllipseType::ArrayType radius3 = myEllipse->GetRadius();
+  myEllipse->SetRadiusInObjectSpace(3);
+ EllipseType::ArrayType radius3 = myEllipse->GetRadiusInObjectSpace();
   std::cout << "Testing Global radii : ";
   for(unsigned int i = 0; i<4;i++)
   {

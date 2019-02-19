@@ -26,7 +26,7 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
 {
   using EllipseType = itk::EllipseSpatialObject<3>;
   EllipseType::Pointer ellipse = EllipseType::New();
-  ellipse->SetRadius(3);
+  ellipse->SetRadiusInObjectSpace(3);
   ellipse->GetProperty().SetColor(0,1,1);
 
   using DuplicatorType = itk::SpatialObjectDuplicator<EllipseType>;
@@ -56,7 +56,7 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
   GroupType::ChildrenListType* children = group_copy->GetChildren();
 
   EllipseType::Pointer ellipse_copy2 = static_cast<EllipseType*>((*(children->begin())).GetPointer());
-  std::cout << ellipse_copy2->GetRadius() << std::endl;
+  std::cout << ellipse_copy2->GetRadiusInObjectSpace() << std::endl;
 
   delete children;
 
@@ -66,13 +66,13 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
   using DTITubePointType = itk::DTITubeSpatialObjectPoint<3>;
 
   // Tubes
-  DTITubeType::PointListType    list3;
+  DTITubeType::DTITubePointListType    list3;
 
   for( unsigned int i=0; i<7; i++)
     {
     DTITubePointType p;
     p.SetPositionInObjectSpace(i*3,i*3,i*3);
-    p.SetRadius(i);
+    p.SetRadiusInObjectSpace(i);
     p.SetRed(i);
     p.SetGreen(i+1);
     p.SetBlue(i+2);

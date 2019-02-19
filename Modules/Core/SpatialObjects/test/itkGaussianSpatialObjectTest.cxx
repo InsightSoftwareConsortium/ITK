@@ -39,9 +39,9 @@ int itkGaussianSpatialObjectTest(int, char* [])
       return EXIT_FAILURE;
     }
 
-  myGaussian->SetRadius(3);
+  myGaussian->SetRadiusInObjectSpace(3);
   GaussianType::ScalarType radius =
-    myGaussian->GetRadius();
+    myGaussian->GetRadiusInObjectSpace();
   std::cout << "Testing Radius: ";
   if( itk::Math::NotExactlyEquals(radius, 3) )
     {
@@ -49,9 +49,9 @@ int itkGaussianSpatialObjectTest(int, char* [])
       return EXIT_FAILURE;
     }
 
-  myGaussian->SetSigma(1.5);
+  myGaussian->SetSigmaInObjectSpace(1.5);
   GaussianType::ScalarType sigma =
-    myGaussian->GetSigma();
+    myGaussian->GetSigmaInObjectSpace();
   std::cout << "Testing Sigma: ";
   if( sigma != 1.5 )
     {
@@ -70,7 +70,7 @@ int itkGaussianSpatialObjectTest(int, char* [])
   out[0]=0; out[1]=4; out[2]=0; out[3]=0;
 
   double value;
-  myGaussian->ValueAt(in, value);
+  myGaussian->ValueAtInWorldSpace(in, value);
   std::cout << "ValueAt(" << in << ") = " << value << std::endl;
 
   std::cout << "Is Inside: ";

@@ -161,7 +161,7 @@ MetaDTITubeConverter< NDimensions >
         ++(td[1]); // x -> y -> z
         t[ii] = ( *it2 )->GetField( td );
         }
-      pnt.SetTangent(t);
+      pnt.SetTangentInWorldSpace(t);
       }
 
     if ( Math::NotExactlyEquals(( *it2 )->GetField("red"), -1) )
@@ -245,7 +245,7 @@ MetaDTITubeConverter< NDimensions >
         {
         writeNormal2 = true;
         }
-      if ( Math::NotExactlyEquals(( *it ).GetTangent()[d], 0) )
+      if ( Math::NotExactlyEquals(( *it ).GetTangentInWorldSpace()[d], 0) )
         {
         writeTangent = true;
         }

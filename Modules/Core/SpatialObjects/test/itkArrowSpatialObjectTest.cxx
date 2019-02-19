@@ -82,7 +82,7 @@ int itkArrowSpatialObjectTest(int, char* [])
 
   std::cout << "ComputeMyBoundingBoxInWorldSpace: ";
   myArrow->Update();
-  ArrowType::BoundingBoxType * boundingBox = myArrow->GetMyBoundingBox();
+  ArrowType::BoundingBoxType * boundingBox = myArrow->GetMyBoundingBoxInWorldSpace();
 
   if( (itk::Math::NotExactlyEquals(boundingBox->GetBounds()[2], 0) )
      || (itk::Math::NotExactlyEquals(boundingBox->GetBounds()[3], 1) )

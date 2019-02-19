@@ -88,7 +88,7 @@ MetaTubeConverter< NDimensions >
       {
       t[i] = ( *it2 )->m_T[i];
       }
-    pnt.SetTangent(t);
+    pnt.SetTangentInWorldSpace(t);
 
     pnt.SetRed( ( *it2 )->m_Color[0] );
     pnt.SetGreen( ( *it2 )->m_Color[1] );
@@ -148,7 +148,7 @@ MetaTubeConverter< NDimensions >
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {
-      pnt->m_T[d] = ( *it ).GetTangent()[d];
+      pnt->m_T[d] = ( *it ).GetTangentInWorldSpace()[d];
       }
 
     pnt->m_Color[0] = ( *it ).GetRed();
