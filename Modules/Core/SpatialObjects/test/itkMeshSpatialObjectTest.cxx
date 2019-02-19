@@ -98,14 +98,14 @@ int itkMeshSpatialObjectTest(int, char * [] )
   outside[1] = 3;
   outside[2] = 0;
 
-  if(!meshSO->IsInside(inside) || meshSO->IsInside(outside))
+  if(!meshSO->IsInsideInWorldSpace(inside) || meshSO->IsInsideInWorldSpace(outside))
     {
     std::cout<<"[FAILED]"<<std::endl;
-    if(!meshSO->IsInside(inside))
+    if(!meshSO->IsInsideInWorldSpace(inside))
       {
       std::cout << inside << " is not inside the mesh!" << std::endl;
       }
-    if(meshSO->IsInside(outside))
+    if(meshSO->IsInsideInWorldSpace(outside))
       {
       std::cout << outside << " is inside the mesh!" << std::endl;
       }
@@ -175,7 +175,7 @@ int itkMeshSpatialObjectTest(int, char * [] )
   pOut[0] = 60;
   pOut[1] = 102;
   pOut[2] = 64;
-  if(!meshTriangleSO->IsInside(pIn) || meshTriangleSO->IsInside(pOut))
+  if(!meshTriangleSO->IsInsideInWorldSpace(pIn) || meshTriangleSO->IsInsideInWorldSpace(pOut))
     {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;

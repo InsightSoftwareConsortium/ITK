@@ -39,7 +39,7 @@ int itkSpatialObjectToPointSetFilterTest( int, char* [] )
   for( unsigned int i = 0; i < 10; ++i )
     {
     TubePointType p;
-    p.SetPosition(i,i);
+    p.SetPositionInObjectSpace(i,i);
     p.SetRadius(1);
     list.push_back(p);
     }
@@ -123,7 +123,7 @@ int itkSpatialObjectToPointSetFilterTest( int, char* [] )
   for( unsigned int i = 0; i < 10; ++i )
     {
     Tube3DPointType p;
-    p.SetPosition( i, i+1, i+2 );
+    p.SetPositionInObjectSpace( i, i+1, i+2 );
     p.SetRadius(1);
     tubePointList.push_back(p);
     }
@@ -137,7 +137,7 @@ int itkSpatialObjectToPointSetFilterTest( int, char* [] )
   for( unsigned int i = 10; i < 20; ++i )
     {
     Line3DPointType p;
-    p.SetPosition(i, i+1, i+2);
+    p.SetPositionInObjectSpace(i, i+1, i+2);
     linePointList.push_back(p);
     }
 

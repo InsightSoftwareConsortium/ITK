@@ -27,7 +27,7 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
   using EllipseType = itk::EllipseSpatialObject<3>;
   EllipseType::Pointer ellipse = EllipseType::New();
   ellipse->SetRadius(3);
-  ellipse->GetProperty()->SetColor(0,1,1);
+  ellipse->GetProperty().SetColor(0,1,1);
 
   using DuplicatorType = itk::SpatialObjectDuplicator<EllipseType>;
   DuplicatorType::Pointer duplicator = DuplicatorType::New();
@@ -40,7 +40,7 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
   EllipseType::Pointer ellipse_copy = duplicator->GetOutput();
 
   std::cout << ellipse_copy->GetRadius() << std::endl;
-  std::cout << ellipse_copy->GetProperty()->GetColor() << std::endl;
+  std::cout << ellipse_copy->GetProperty().GetColor() << std::endl;
 
   // Test with a group
   using GroupType = itk::GroupSpatialObject<3>;
@@ -71,7 +71,7 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
   for( unsigned int i=0; i<7; i++)
     {
     DTITubePointType p;
-    p.SetPosition(i*3,i*3,i*3);
+    p.SetPositionInObjectSpace(i*3,i*3,i*3);
     p.SetRadius(i);
     p.SetRed(i);
     p.SetGreen(i+1);
@@ -97,7 +97,7 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
     }
 
   DTITubeType::Pointer dtiTube = DTITubeType::New();
-  dtiTube->GetProperty()->SetName("Tube 3");
+  dtiTube->GetProperty().SetName("Tube 3");
   dtiTube->SetId(3);
   dtiTube->SetPoints(list3);
 
@@ -129,9 +129,9 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
       {
       for(unsigned int d=0;d<3;d++)
         {
-        if( itk::Math::NotAlmostEquals( (*jdti).GetPosition()[d], value * dtiTube_copy->GetId() ) )
+        if( itk::Math::NotAlmostEquals( (*jdti).GetPositionInWorldSpace()[d], value * dtiTube_copy->GetId() ) )
           {
-          std::cout<<" [FAILED] (Position is: " << (*jdti).GetPosition()[d] << " expected : "<< value * dtiTube_copy->GetId()<< " ) " <<std::endl;
+          std::cout<<" [FAILED] (Position is: " << (*jdti).GetPositionInWorldSpace()[d] << " expected : "<< value * dtiTube_copy->GetId()<< " ) " <<std::endl;
           return EXIT_FAILURE;
           }
         }
