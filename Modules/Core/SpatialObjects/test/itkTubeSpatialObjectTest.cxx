@@ -449,8 +449,8 @@ int itkTubeSpatialObjectTest(int, char * [] )
 
   std::cout << "[PASSED]" << std::endl;
 
-  // Testing IsInside() with m_EndType set to 1 (rounded end-type);
-  std::cout << "IsInside() with m_EndType=1: ";
+  // Testing IsInside() with m_EndType set to rounded end-type;
+  std::cout << "IsInside() with m_RoundedEnd=True: ";
   p1.Fill(19.5);
 
   if(tube1->IsInsideInWorldSpace(p1))
@@ -459,7 +459,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
     return EXIT_FAILURE;
     }
 
-  tube1->SetEndType(1);
+  tube1->SetEndRounded(true);
 
   if(!tube1->IsInsideInWorldSpace(p1))
     {

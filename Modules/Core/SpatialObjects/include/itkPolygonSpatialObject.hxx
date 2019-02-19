@@ -34,7 +34,7 @@ PolygonSpatialObject< TDimension >
   m_IsClosedMTime = this->GetMyMTime();
   m_OrientationInObjectSpace = -1;
   m_OrientationInObjectSpaceMTime = this->GetMyMTime();
-  m_Thickness = 0.0;
+  m_ThicknessInObjectSpace = 0.0;
 }
 
 template< unsigned int TDimension >
@@ -166,7 +166,7 @@ double
 PolygonSpatialObject< TDimension >
 ::MeasureVolume() const
 {
-  return m_Thickness * this->MeasureArea();
+  return m_ThicknessInObjectSpace * this->MeasureArea();
 }
 
 template< unsigned int TDimension >
@@ -310,7 +310,8 @@ PolygonSpatialObject< TDimension >
     os << indent << "IsClosed: True" << std::endl;
     }
   os << indent << "IsClosed Time: " << m_IsClosedMTime << std::endl;
-  os << indent << "Thickness: " << m_Thickness << std::endl;
+  os << indent << "ThicknessInObjectSpace: " << m_ThicknessInObjectSpace
+    << std::endl;
 }
 
 } //namespace
