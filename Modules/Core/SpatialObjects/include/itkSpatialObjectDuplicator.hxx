@@ -79,7 +79,7 @@ SpatialObjectDuplicator< TInputSpatialObject >
 
   // We make the copy
   newSO->CopyInformation(source);
-  destination->AddSpatialObject(newSO);
+  destination->AddChild(newSO);
 
   using ChildrenListType = typename TInputSpatialObject::ChildrenListType;
   ChildrenListType *children = source->GetChildren(0);

@@ -65,13 +65,13 @@ int itkArrowSpatialObjectTest(int, char* [])
   itk::Point<double,3> out;
   out[0]=0;out[1]=2.1;out[2]=0;
 
-  if(!myArrow->IsInsideInObjectSpace(in))
+  if(!myArrow->IsInsideInWorldSpace(in))
   {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
   }
 
-  if(myArrow->IsInsideInObjectSpace(out))
+  if(myArrow->IsInsideInWorldSpace(out))
   {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
@@ -80,9 +80,9 @@ int itkArrowSpatialObjectTest(int, char* [])
   std::cout<<"[PASSED]"<<std::endl;
 
 
-  std::cout << "ComputeBoundingBox: ";
+  std::cout << "ComputeMyBoundingBoxInWorldSpace: ";
   myArrow->Update();
-  ArrowType::BoundingBoxType * boundingBox = myArrow->GetMyBoundingBox();
+  ArrowType::BoundingBoxType * boundingBox = myArrow->GetMyBoundingBoxInWorldSpace();
 
   if( (itk::Math::NotExactlyEquals(boundingBox->GetBounds()[2], 0) )
      || (itk::Math::NotExactlyEquals(boundingBox->GetBounds()[3], 1) )
