@@ -1,8 +1,7 @@
 ---
-name: 'FEATURE_REQUEST.md'
-title: 'Feature Request'
-labels: 'type:Enhancement'
-:about: 'Suggest a feature request or idea to improve ITK'
+name: Feature Request
+labels: type:Enhancement
+about: Suggest a feature request or idea to improve ITK
 ---
 
 [Before submitting an issue, please check that your issue hasn't been already

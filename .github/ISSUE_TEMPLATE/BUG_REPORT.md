@@ -1,8 +1,7 @@
 ---
-name: 'BUG_REPORT.md'
-title: 'Bug Report'
-labels: 'type:Bug'
-:about: 'File a bug report to help us improve ITK'
+name: Bug Report
+labels: type:Bug
+about: File a bug report to help us improve ITK
 ---
 
 [Before submitting an issue, please check that your issue hasn't been already
