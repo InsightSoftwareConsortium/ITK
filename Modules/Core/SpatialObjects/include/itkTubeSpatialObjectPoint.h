@@ -72,14 +72,14 @@ public:
   { return m_TangentInObjectSpace; }
 
   /** Get the tangent in World Space */
-  const VectorType & GetTangent() const;
+  const VectorType GetTangentInWorldSpace() const;
 
   /** Set the tangent in object space. */
   void SetTangentInObjectSpace(const VectorType & newT)
   { m_TangentInObjectSpace = newT; }
 
   /** Set the tangent in World Space. */
-  void SetTangent(const VectorType & newT);
+  void SetTangentInWorldSpace(const VectorType & newT);
 
   /** Get V1 in Object space */
   const CovariantVectorType & GetNormal1InObjectSpace() const

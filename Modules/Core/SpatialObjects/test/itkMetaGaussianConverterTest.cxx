@@ -67,8 +67,8 @@ int itkMetaGaussianConverterTest(int argc, char* argv[])
   SpatialObjectType::ScalarType sigma = 1.5;
 
   GaussianSpatialObj->SetMaximum(maximum);
-  GaussianSpatialObj->SetRadius(radius);
-  GaussianSpatialObj->SetSigma(sigma);
+  GaussianSpatialObj->SetRadiusInObjectSpace(radius);
+  GaussianSpatialObj->SetSigmaInObjectSpace(sigma);
 
   // color
   float color[4];
@@ -77,14 +77,14 @@ int itkMetaGaussianConverterTest(int argc, char* argv[])
   color[2] = .25; // Blue (B)
   color[3] = 1; // Alpha
 
-  GaussianSpatialObj->GetProperty()->SetRed(color[0]);
-  GaussianSpatialObj->GetProperty()->SetGreen(color[1]);
-  GaussianSpatialObj->GetProperty()->SetBlue(color[2]);
-  GaussianSpatialObj->GetProperty()->SetAlpha(color[3]);
+  GaussianSpatialObj->GetProperty().SetRed(color[0]);
+  GaussianSpatialObj->GetProperty().SetGreen(color[1]);
+  GaussianSpatialObj->GetProperty().SetBlue(color[2]);
+  GaussianSpatialObj->GetProperty().SetAlpha(color[3]);
 
   SpatialObjectParentType::Pointer parentSpatialObj = SpatialObjectParentType::New();
   parentSpatialObj->SetId(1);
-  parentSpatialObj->AddSpatialObject(GaussianSpatialObj);
+  parentSpatialObj->AddChild(GaussianSpatialObj);
 
   // Set up a MetaGaussian object
   auto * metaGaussian = new MetaGaussian(Dimensions);
@@ -199,7 +199,7 @@ int itkMetaGaussianConverterTest(int argc, char* argv[])
     newGaussianSpatialObj->GetMaximum() << std::endl;
 
   // Check radius
-  if (std::fabs(newGaussianSpatialObj->GetRadius() - metaGaussian->Radius()) >
+  if (std::fabs(newGaussianSpatialObj->GetRadiusInObjectSpace() - metaGaussian->Radius()) >
     precisionLimit)
     {
     std::cout << "[FAILED] Conversion to SpatialObject failed to convert radius"
@@ -207,10 +207,10 @@ int itkMetaGaussianConverterTest(int argc, char* argv[])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] MetaObject -> SpatialObject: radius: " <<
-    newGaussianSpatialObj->GetRadius() << std::endl;
+    newGaussianSpatialObj->GetRadiusInObjectSpace() << std::endl;
 
   // Check sigma
-  if (std::fabs(newGaussianSpatialObj->GetSigma() - metaGaussian->Sigma()) >
+  if (std::fabs(newGaussianSpatialObj->GetSigmaInObjectSpace() - metaGaussian->Sigma()) >
     precisionLimit)
     {
     std::cout << "[FAILED] Conversion to SpatialObject failed to convert sigma"
@@ -218,7 +218,7 @@ int itkMetaGaussianConverterTest(int argc, char* argv[])
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] MetaObject -> SpatialObject: sigma: " <<
-    newGaussianSpatialObj->GetSigma() << std::endl;
+    newGaussianSpatialObj->GetSigmaInObjectSpace() << std::endl;
 
 
   // metaGaussian had served its purpose,
@@ -227,20 +227,20 @@ int itkMetaGaussianConverterTest(int argc, char* argv[])
 
 
   // Check color
-  if (itk::Math::NotExactlyEquals(newGaussianSpatialObj->GetProperty()->GetRed(), color[0]) ||
-      itk::Math::NotExactlyEquals(newGaussianSpatialObj->GetProperty()->GetGreen(), color[1]) ||
-      itk::Math::NotExactlyEquals(newGaussianSpatialObj->GetProperty()->GetBlue(), color[2]) ||
-      itk::Math::NotExactlyEquals(newGaussianSpatialObj->GetProperty()->GetAlpha(), color[3]))
+  if (itk::Math::NotExactlyEquals(newGaussianSpatialObj->GetProperty().GetRed(), color[0]) ||
+      itk::Math::NotExactlyEquals(newGaussianSpatialObj->GetProperty().GetGreen(), color[1]) ||
+      itk::Math::NotExactlyEquals(newGaussianSpatialObj->GetProperty().GetBlue(), color[2]) ||
+      itk::Math::NotExactlyEquals(newGaussianSpatialObj->GetProperty().GetAlpha(), color[3]))
     {
     std::cout << "[FAILED] Conversion to SpatialObject failed to convert color"
       << std::endl;
     //return EXIT_FAILURE;
     }
   std::cout << "[PASSED] MetaObject -> SpatialObject: color : "
-    << "R: " << newGaussianSpatialObj->GetProperty()->GetRed() << "; "
-    << "G: " << newGaussianSpatialObj->GetProperty()->GetGreen() << "; "
-    << "B: " << newGaussianSpatialObj->GetProperty()->GetBlue() << "; "
-    << "Alpha: " << newGaussianSpatialObj->GetProperty()->GetAlpha() << "; "
+    << "R: " << newGaussianSpatialObj->GetProperty().GetRed() << "; "
+    << "G: " << newGaussianSpatialObj->GetProperty().GetGreen() << "; "
+    << "B: " << newGaussianSpatialObj->GetProperty().GetBlue() << "; "
+    << "Alpha: " << newGaussianSpatialObj->GetProperty().GetAlpha() << "; "
     << std::endl;
 
   // Check parent id
@@ -282,36 +282,36 @@ int itkMetaGaussianConverterTest(int argc, char* argv[])
     << std::endl;
 
   // Check radius
-  if (std::fabs(reLoad->GetRadius() - radius) > precisionLimit)
+  if (std::fabs(reLoad->GetRadiusInObjectSpace() - radius) > precisionLimit)
     {
     std::cout << "[FAILED] Didn't read radius properly" << std::endl;
     return EXIT_FAILURE;
     }
-  std::cout << "[PASSED] Reading: radius: " << reLoad->GetRadius()
+  std::cout << "[PASSED] Reading: radius: " << reLoad->GetRadiusInObjectSpace()
     << std::endl;
 
   // Check sigma
-  if (std::fabs(reLoad->GetSigma() - sigma) > precisionLimit)
+  if (std::fabs(reLoad->GetSigmaInObjectSpace() - sigma) > precisionLimit)
     {
     std::cout << "[FAILED] Didn't read sigma properly" << std::endl;
     return EXIT_FAILURE;
     }
-  std::cout << "[PASSED] Reading: sigma: " << reLoad->GetSigma() << std::endl;
+  std::cout << "[PASSED] Reading: sigma: " << reLoad->GetSigmaInObjectSpace() << std::endl;
 
   // Check color
-  if (itk::Math::NotExactlyEquals(reLoad->GetProperty()->GetRed(), color[0]) ||
-      itk::Math::NotExactlyEquals(reLoad->GetProperty()->GetGreen(), color[1]) ||
-      itk::Math::NotExactlyEquals(reLoad->GetProperty()->GetBlue(), color[2]) ||
-      itk::Math::NotExactlyEquals(reLoad->GetProperty()->GetAlpha(), color[3]))
+  if (itk::Math::NotExactlyEquals(reLoad->GetProperty().GetRed(), color[0]) ||
+      itk::Math::NotExactlyEquals(reLoad->GetProperty().GetGreen(), color[1]) ||
+      itk::Math::NotExactlyEquals(reLoad->GetProperty().GetBlue(), color[2]) ||
+      itk::Math::NotExactlyEquals(reLoad->GetProperty().GetAlpha(), color[3]))
     {
     std::cout << "[FAILED] Didn't read color properly" << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] Reading: color : "
-    << "R: " << reLoad->GetProperty()->GetRed() << "; "
-    << "G: " << reLoad->GetProperty()->GetGreen() << "; "
-    << "B: " << reLoad->GetProperty()->GetBlue() << "; "
-    << "Alpha: " << reLoad->GetProperty()->GetAlpha()
+    << "R: " << reLoad->GetProperty().GetRed() << "; "
+    << "G: " << reLoad->GetProperty().GetGreen() << "; "
+    << "B: " << reLoad->GetProperty().GetBlue() << "; "
+    << "Alpha: " << reLoad->GetProperty().GetAlpha()
     << std::endl;
 
 

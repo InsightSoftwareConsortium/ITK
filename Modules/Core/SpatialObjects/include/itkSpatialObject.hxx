@@ -1131,6 +1131,7 @@ SpatialObject< TDimension >
 ::Update()
 {
   Superclass::Update();
+  this->ComputeMyBoundingBoxInWorldSpace();
 }
 
 /** Return the type of the spatial object as a string

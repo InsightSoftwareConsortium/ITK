@@ -83,9 +83,9 @@ TubeSpatialObjectPoint< TPointDimension >
 }
 
 template< unsigned int TPointDimension >
-const typename TubeSpatialObjectPoint< TPointDimension >::VectorType &
+const typename TubeSpatialObjectPoint< TPointDimension >::VectorType
 TubeSpatialObjectPoint< TPointDimension >
-::GetTangent() const
+::GetTangentInWorldSpace() const
 {
   return Superclass::m_SpatialObject->GetObjectToWorldTransform()->
     TransformVector( m_TangentInObjectSpace );
@@ -94,7 +94,7 @@ TubeSpatialObjectPoint< TPointDimension >
 template< unsigned int TPointDimension >
 void
 TubeSpatialObjectPoint< TPointDimension >
-::SetTangent(const VectorType & newT)
+::SetTangentInWorldSpace(const VectorType & newT)
 {
   m_TangentInObjectSpace = Superclass::m_SpatialObject->GetObjectToWorldTransform()->
     GetInverseTransform()->TransformVector( newT );
