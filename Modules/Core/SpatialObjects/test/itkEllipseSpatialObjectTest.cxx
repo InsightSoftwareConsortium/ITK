@@ -120,7 +120,7 @@ int itkEllipseSpatialObjectTest(int, char* [])
 
   std::cout << "ComputeMyBoundingBoxInWorldSpace: ";
   myEllipse->ComputeMyBoundingBoxInWorldSpace();
-  EllipseType::BoundingBoxType * boundingBox = myEllipse->GetBoundingBox();
+  EllipseType::BoundingBoxType * boundingBox = myEllipse->GetMyBoundingBoxInWorldSpace();
 
   for(unsigned int i=0;i<3;i++)
   {
