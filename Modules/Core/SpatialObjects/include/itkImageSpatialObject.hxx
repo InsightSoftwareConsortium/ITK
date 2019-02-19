@@ -100,7 +100,7 @@ ImageSpatialObject< TDimension,  PixelType >
 ::ValueAtInWorldSpace(const PointType & point, double & value, unsigned int depth,
   const std::string & name) const
 {
-    if( this->GetTypeName().find( name ) != std::string::npos )
+  if( this->GetTypeName().find( name ) != std::string::npos )
     {
     if( this->IsEvaluableAtInWorldSpace(point, 0, name) )
       {
