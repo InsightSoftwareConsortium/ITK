@@ -100,7 +100,6 @@ public:
 protected:
   DummySpatialObject()
     {
-      this->SetDimension(TDimension);
       this->SetTypeName ("DummySpatialObject");
       this->GetProperty().SetRed(1);
       this->GetProperty().SetGreen(0);

@@ -106,7 +106,7 @@ TubeSpatialObjectPoint< TPointDimension >
 ::GetNormal1InWorldSpace() const
 {
   return Superclass::m_SpatialObject->GetObjectToWorldTransform()->
-    TrasnformCovariantVector( m_Normal1InObjectSpace );
+    TransformCovariantVector( m_Normal1InObjectSpace );
 }
 
 template< unsigned int TPointDimension >
@@ -124,7 +124,7 @@ TubeSpatialObjectPoint< TPointDimension >
 ::GetNormal2InWorldSpace() const
 {
   return Superclass::m_SpatialObject->GetObjectToWorldTransform()->
-    TrasnformCovariantVector( m_Normal2InObjectSpace );
+    TransformCovariantVector( m_Normal2InObjectSpace );
 }
 
 template< unsigned int TPointDimension >

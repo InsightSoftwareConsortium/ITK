@@ -72,9 +72,9 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 
 /** Determine closest point in world space */
 template< unsigned int TDimension, class TSpatialObjectPointType >
-TSpatialObjectPointType &
+TSpatialObjectPointType
 PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
-::ClosestPoint( const PointType & point ) const
+::ClosestPointInWorldSpace( const PointType & point ) const
 {
   auto it = m_Points.begin();
   auto itend = m_Points.end();
@@ -87,17 +87,16 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
     throw exception;
     }
 
-  SpatialObjectPointType closestPoint = 0;
+  SpatialObjectPointType closestPoint;
   double closestPointDistance = NumericTraits< double >::max();
   while ( it != itend )
     {
     typename SpatialObjectPoint< TDimension >::PointType curpos =
-      this->GetObjectToWorldTransform()->TransformPoint(
-        ( *it ).GetPositionInObjectSpace() );
+      ( *it ).GetPositionInWorldSpace();
     double curdistance = curpos.EuclideanDistanceTo(point);
     if ( curdistance < closestPointDistance )
       {
-      closestPoint = &(*it);
+      closestPoint = (*it);
       closestPointDistance = curdistance;
       }
     it++;
