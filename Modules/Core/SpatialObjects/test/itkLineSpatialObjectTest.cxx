@@ -82,7 +82,7 @@ int itkLineSpatialObjectTest(int, char* [])
   // Point consistency
   std::cout << "Point consistency: ";
 
-  LineType::PointListType::const_iterator it = Line->GetPoints().begin();
+  LineType::LinePointListType::const_iterator it = Line->GetPoints().begin();
 
   i=0;
   while(it != Line->GetPoints().end())

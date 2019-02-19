@@ -143,8 +143,8 @@ int itkSpatialObjectToPointSetFilterTest( int, char* [] )
 
   line3D->SetPoints(linePointList);
 
-  group3D->AddSpatialObject(tube3D);
-  group3D->AddSpatialObject(line3D);
+  group3D->AddChild(tube3D);
+  group3D->AddChild(line3D);
 
 
   // Create the 3D filter

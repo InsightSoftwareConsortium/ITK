@@ -92,8 +92,8 @@ int itkEllipseSpatialObjectTest(int, char* [])
 
   // Create myEllipse2 as a child of myEllipse
   EllipseType::Pointer myEllipse2 = EllipseType::New();
-  myEllipse2->SetRadius(1);
-  myEllipse->AddSpatialObject(myEllipse2);
+  myEllipse2->SetRadiusInObjectSpace(1);
+  myEllipse->AddChild(myEllipse2);
 
   EllipseType::TransformType::OffsetType offset;
   offset.Fill(10);

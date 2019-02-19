@@ -96,7 +96,7 @@ int itkGaussianSpatialObjectTest(int, char* [])
 
   // Create myGaussian2 as a child of myGaussian
   GaussianType::Pointer myGaussian2 = GaussianType::New();
-  myGaussian->AddSpatialObject(myGaussian2);
+  myGaussian->AddChild(myGaussian2);
 
   GaussianType::TransformType::OffsetType offset;
   offset.Fill(10);
