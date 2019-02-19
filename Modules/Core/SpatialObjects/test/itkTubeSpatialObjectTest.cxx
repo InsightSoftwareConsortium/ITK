@@ -93,12 +93,12 @@ int itkTubeSpatialObjectTest(int, char * [] )
     std::cout<<"[PASSED]"<<std::endl;
     }
 
-  TubeType::OutputVectorType derivative;
+  TubeType::CovariantVectorType derivative;
 
   std::cout<<"DerivativeAt()...";
   try
     {
-    tube1->DerivativeAt(in,1,derivative);
+    tube1->DerivativeAtInWorldSpace(in,1,derivative);
     }
   catch(...)
     {
@@ -106,7 +106,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
     return EXIT_FAILURE;
     }
 
-  TubeType::OutputVectorType expectedDerivative;
+  TubeType::CovariantVectorType expectedDerivative;
   expectedDerivative.Fill(0);
 
   if( expectedDerivative != derivative )
@@ -330,7 +330,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
   std::cout<<"DerivativeAt()...";
   try
     {
-    tubeNet1->DerivativeAt(in,(unsigned short)1,derivative,true);
+    tubeNet1->DerivativeAtInWorldSpace(in,(unsigned short)1,derivative,true);
     }
   catch(...)
     {
