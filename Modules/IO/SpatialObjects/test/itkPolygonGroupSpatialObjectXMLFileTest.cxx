@@ -40,7 +40,7 @@ buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
         = itk::PolygonSpatialObject<3>::New();
 
       PolygonGroup->AddChild(strand);
-      strand->SetThickness(1.0);
+      strand->SetThicknessInObjectSpace(1.0);
 
       //
       // add all points to this strand.
