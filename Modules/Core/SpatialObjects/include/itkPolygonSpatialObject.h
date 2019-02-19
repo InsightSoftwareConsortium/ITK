@@ -55,10 +55,10 @@ public:
   int GetOrientationInObjectSpace() const;
 
   /** Method sets the thickness of the current strand */
-  itkSetMacro(Thickness, double);
+  itkSetMacro(ThicknessInObjectSpace, double);
 
   /** Method gets the thickness of the current strand */
-  itkGetMacro(Thickness, double);
+  itkGetMacro(ThicknessInObjectSpace, double);
 
   /** Returns if the polygon is closed */
   bool IsClosed() const;
@@ -89,7 +89,7 @@ private:
   mutable ModifiedTimeType  m_OrientationInObjectSpaceMTime;
   mutable bool              m_IsClosed;
   mutable ModifiedTimeType  m_IsClosedMTime;
-  double                    m_Thickness;
+  double                    m_ThicknessInObjectSpace;
 };
 
 }
