@@ -63,7 +63,7 @@ int itkContourSpatialObjectTest(int, char* [])
 
 
   //
-  // Test ComputeBoundingBox before data added
+  // Test ComputeMyBoundingBoxInWorldSpace before data added
   //
   contour->Update();
 
@@ -223,10 +223,10 @@ int itkContourSpatialObjectTest(int, char* [])
   interpPointList.push_back(intPt1);
   interpPointList.push_back(intPt2);
 
-  contour->SetInterpolatedPoints(interpPointList);
+  contour->SetControlPoints(interpPointList);
 
   // check number of points
-  if (contour->GetNumberOfInterpolatedPoints() != 2)
+  if (contour->GetNumberOfControlPoints() != 2)
     {
     std::cout << "[FAILED] Did not add the right number of interpolated points"
       << std::endl;
@@ -237,16 +237,16 @@ int itkContourSpatialObjectTest(int, char* [])
   // check values of points
   if (itk::Math::NotAlmostEquals(
         contour->GetPoints()[0].GetPositionInObjectSpace()[0],
-        intPt1.GetPosition()[0]) ||
+        intPt1.GetPositionInObjectSpace()[0]) ||
       itk::Math::NotAlmostEquals(
         contour->GetPoints()[0].GetPositionInObjectSpace()[1],
-        intPt1.GetPosition()[1]) ||
+        intPt1.GetPositionInObjectSpace()[1]) ||
       itk::Math::NotAlmostEquals(
         contour->GetPoints()[1].GetPositionInObjectSpace()[0],
-        intPt2.GetPosition()[0]) ||
+        intPt2.GetPositionInObjectSpace()[0]) ||
       itk::Math::NotAlmostEquals(
         contour->GetPoints()[1].GetPositionInObjectSpace()[1],
-        intPt2.GetPosition()[1]))
+        intPt2.GetPositionInObjectSpace()[1]))
     {
     std::cout
       << "[FAILED] Did not add/retrieve interpolated point list correctly"
@@ -258,10 +258,10 @@ int itkContourSpatialObjectTest(int, char* [])
   // check retrieval of a single point
   if (itk::Math::NotAlmostEquals(
         contour->GetPoint(0)->GetPositionInObjectSpace()[0],
-        intPt1.GetPosition()[0]) ||
+        intPt1.GetPositionInObjectSpace()[0]) ||
       itk::Math::NotAlmostEquals(
         contour->GetPoint(0)->GetPositionInObjectSpace()[1],
-        intPt1.GetPosition()[1]))
+        intPt1.GetPositionInObjectSpace()[1]))
     {
     std::cout << "[FAILED] Did not retrieve single interpolated point correctly"
       << std::endl;

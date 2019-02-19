@@ -39,9 +39,9 @@ int itkGaussianSpatialObjectTest(int, char* [])
       return EXIT_FAILURE;
     }
 
-  myGaussian->SetRadius(3);
+  myGaussian->SetRadiusInObjectSpace(3);
   GaussianType::ScalarType radius =
-    myGaussian->GetRadius();
+    myGaussian->GetRadiusInObjectSpace();
   std::cout << "Testing Radius: ";
   if( itk::Math::NotExactlyEquals(radius, 3) )
     {
@@ -49,9 +49,9 @@ int itkGaussianSpatialObjectTest(int, char* [])
       return EXIT_FAILURE;
     }
 
-  myGaussian->SetSigma(1.5);
+  myGaussian->SetSigmaInObjectSpace(1.5);
   GaussianType::ScalarType sigma =
-    myGaussian->GetSigma();
+    myGaussian->GetSigmaInObjectSpace();
   std::cout << "Testing Sigma: ";
   if( sigma != 1.5 )
     {
@@ -70,18 +70,18 @@ int itkGaussianSpatialObjectTest(int, char* [])
   out[0]=0; out[1]=4; out[2]=0; out[3]=0;
 
   double value;
-  myGaussian->ValueAt(in, value);
+  myGaussian->ValueAtInWorldSpace(in, value);
   std::cout << "ValueAt(" << in << ") = " << value << std::endl;
 
   std::cout << "Is Inside: ";
 
-  if(!myGaussian->IsInside(in))
+  if(!myGaussian->IsInsideInWorldSpace(in))
     {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
     }
 
-  if(myGaussian->IsInside(out))
+  if(myGaussian->IsInsideInWorldSpace(out))
     {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
@@ -96,7 +96,7 @@ int itkGaussianSpatialObjectTest(int, char* [])
 
   // Create myGaussian2 as a child of myGaussian
   GaussianType::Pointer myGaussian2 = GaussianType::New();
-  myGaussian->AddSpatialObject(myGaussian2);
+  myGaussian->AddChild(myGaussian2);
 
   GaussianType::TransformType::OffsetType offset;
   offset.Fill(10);
@@ -123,9 +123,9 @@ int itkGaussianSpatialObjectTest(int, char* [])
   std::cout<<"[PASSED]"<<std::endl;
 
 
-  std::cout << "ComputeBoundingBox: ";
-  myGaussian->ComputeBoundingBox();
-  GaussianType::BoundingBoxType * boundingBox = myGaussian->GetBoundingBox();
+  std::cout << "ComputeMyBoundingBoxInWorldSpace: ";
+  myGaussian->ComputeMyBoundingBoxInWorldSpace();
+  GaussianType::BoundingBoxType * boundingBox = myGaussian->GetMyBoundingBoxInWorldSpace();
 
   for(unsigned int i=0;i<3;i++)
     {

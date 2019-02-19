@@ -40,8 +40,8 @@ int itkEllipseSpatialObjectTest(int, char* [])
 
   std::cout << "Testing radii : ";
 
-  myEllipse->SetRadius(radius);
-  EllipseType::ArrayType radius2 = myEllipse->GetRadius();
+  myEllipse->SetRadiusInObjectSpace(radius);
+  EllipseType::ArrayType radius2 = myEllipse->GetRadiusInObjectSpace();
   for(unsigned int i = 0; i<4;i++)
   {
     if(itk::Math::NotExactlyEquals(radius2[i],i))
@@ -52,8 +52,8 @@ int itkEllipseSpatialObjectTest(int, char* [])
   }
   std::cout << "[PASSED]" << std::endl;
 
-  myEllipse->SetRadius(3);
- EllipseType::ArrayType radius3 = myEllipse->GetRadius();
+  myEllipse->SetRadiusInObjectSpace(3);
+ EllipseType::ArrayType radius3 = myEllipse->GetRadiusInObjectSpace();
   std::cout << "Testing Global radii : ";
   for(unsigned int i = 0; i<4;i++)
   {
@@ -73,13 +73,13 @@ int itkEllipseSpatialObjectTest(int, char* [])
   itk::Point<double,4> out;
   out[0]=0;out[1]=4;out[2]=0;out[3]=0;
 
-  if(!myEllipse->IsInside(in))
+  if(!myEllipse->IsInsideInWorldSpace(in))
   {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
   }
 
-  if(myEllipse->IsInside(out))
+  if(myEllipse->IsInsideInWorldSpace(out))
   {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
@@ -92,8 +92,8 @@ int itkEllipseSpatialObjectTest(int, char* [])
 
   // Create myEllipse2 as a child of myEllipse
   EllipseType::Pointer myEllipse2 = EllipseType::New();
-  myEllipse2->SetRadius(1);
-  myEllipse->AddSpatialObject(myEllipse2);
+  myEllipse2->SetRadiusInObjectSpace(1);
+  myEllipse->AddChild(myEllipse2);
 
   EllipseType::TransformType::OffsetType offset;
   offset.Fill(10);
@@ -118,9 +118,9 @@ int itkEllipseSpatialObjectTest(int, char* [])
   }
   std::cout<<"[PASSED]"<<std::endl;
 
-  std::cout << "ComputeBoundingBox: ";
-  myEllipse->ComputeBoundingBox();
-  EllipseType::BoundingBoxType * boundingBox = myEllipse->GetBoundingBox();
+  std::cout << "ComputeMyBoundingBoxInWorldSpace: ";
+  myEllipse->ComputeMyBoundingBoxInWorldSpace();
+  EllipseType::BoundingBoxType * boundingBox = myEllipse->GetMyBoundingBoxInWorldSpace();
 
   for(unsigned int i=0;i<3;i++)
   {

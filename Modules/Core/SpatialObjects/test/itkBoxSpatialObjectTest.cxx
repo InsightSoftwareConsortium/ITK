@@ -79,10 +79,10 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
   box2->SetPositionInObjectSpace( offset2 );
   box2->Update();
 
-  std::cout <<"Test ComputeBoundingBox: " << std::endl;
-  std::cout << box1->GetMyBoundingBox()->GetBounds() << std::endl;
-  std::cout << box2->GetMyBoundingBox()->GetBounds() << std::endl;
-  BoxType::BoundingBoxType * boundingBox = box1->GetMyBoundingBox();
+  std::cout <<"Test ComputeMyBoundingBoxInWorldSpace: " << std::endl;
+  std::cout << box1->GetMyBoundingBoxInWorldSpace()->GetBounds() << std::endl;
+  std::cout << box2->GetMyBoundingBoxInWorldSpace()->GetBounds() << std::endl;
+  BoxType::BoundingBoxType * boundingBox = box1->GetMyBoundingBoxInWorldSpace();
 
   if(     itk::Math::NotAlmostEquals(boundingBox->GetBounds()[0], 29)
       ||  itk::Math::NotAlmostEquals(boundingBox->GetBounds()[1], 59)
@@ -90,20 +90,20 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
       ||  itk::Math::NotAlmostEquals(boundingBox->GetBounds()[3], 59) )
     {
     std::cout << "[FAILED] Test returned" << std::endl;
-    std::cout << box1->GetBoundingBox()->GetBounds() << std::endl;
+    std::cout << box1->GetMyBoundingBoxInWorldSpace()->GetBounds() << std::endl;
     std::cout << "Instead of [29 59 29 59]" << std::endl;
     return EXIT_FAILURE;
     }
 
-  box2->ComputeFamilyBoundingBox();
-  BoxType::BoundingBoxType * boundingBox2 = box2->GetFamilyBoundingBox();
+  box2->ComputeFamilyBoundingBoxInWorldSpace();
+  BoxType::BoundingBoxType * boundingBox2 = box2->GetFamilyBoundingBoxInWorldSpace();
   if(     itk::Math::NotAlmostEquals(boundingBox2->GetBounds()[0], 50)
       ||  itk::Math::NotAlmostEquals(boundingBox2->GetBounds()[1], 80)
       ||  itk::Math::NotAlmostEquals(boundingBox2->GetBounds()[2], 50)
       ||  itk::Math::NotAlmostEquals(boundingBox2->GetBounds()[3], 80) )
     {
     std::cout << "[FAILED] Test returned" << std::endl;
-    std::cout << box2->GetBoundingBox()->GetBounds() << std::endl;
+    std::cout << box2->GetMyBoundingBoxInWorldSpace()->GetBounds() << std::endl;
     std::cout << "Instead of [50 80 50 80]" << std::endl;
     return EXIT_FAILURE;
     }
@@ -117,12 +117,12 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
   itk::Point<double,2> out;
   out[0]=0;out[1]=4;
 
-  if(!box1->IsInsideInObjectSpace(in))
+  if(!box1->IsInsideInWorldSpace(in))
   {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
   }
-  if(box1->IsInsideInObjectSpace(out))
+  if(box1->IsInsideInWorldSpace(out))
   {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
