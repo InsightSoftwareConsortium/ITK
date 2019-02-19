@@ -50,7 +50,7 @@ int Test3dImageMask()
   sizeArray[0] = 1;
   sizeArray[1] = 1;
   sizeArray[2] = 1;
-  box1->SetSize( sizeArray );
+  box1->SetSizeInObjectSpace( sizeArray );
   box1->SetDefaultInsideValue(1);
   box1->SetDefaultOutsideValue(0);
 
@@ -65,8 +65,8 @@ int Test3dImageMask()
 
   box1->SetObjectToWorldTransform( transform );
 
-  box1->ComputeBoundingBox();
-  BoxType::BoundingBoxType::Pointer box1BoundingBox = box1->GetBoundingBox();
+  box1->Update();
+  BoxType::BoundingBoxType::Pointer box1BoundingBox = box1->GetMyBoundingBoxInWorldSpace();
   BoxType::BoundingBoxType::BoundsArrayType box1Bounds = box1BoundingBox->GetBounds();
   if ( itk::Math::NotAlmostEquals( box1Bounds[0], 7.0 ) || itk::Math::NotAlmostEquals( box1Bounds[2], 7.0 ) || itk::Math::NotAlmostEquals( box1Bounds[4], 7.0 ) ||
        itk::Math::NotAlmostEquals( box1Bounds[1], 8.0 ) || itk::Math::NotAlmostEquals( box1Bounds[3], 8.0 ) || itk::Math::NotAlmostEquals( box1Bounds[5], 8.0 ) )
@@ -117,9 +117,9 @@ int Test3dImageMask()
   ImageMaskSpatialObjectType::Pointer maskSpatialObject = ImageMaskSpatialObjectType::New();
   maskSpatialObject->SetImage(imageFilter->GetOutput());
 
-  maskSpatialObject->ComputeBoundingBox();
+  maskSpatialObject->Update();
 
-  ImageMaskSpatialObjectType::BoundingBoxType::Pointer maskBoundingBox = maskSpatialObject->GetBoundingBox();
+  ImageMaskSpatialObjectType::BoundingBoxType::Pointer maskBoundingBox = maskSpatialObject->GetMyBoundingBoxInWorldSpace();
   ImageMaskSpatialObjectType::BoundingBoxType::BoundsArrayType maskBounds = maskBoundingBox->GetBounds();
 
   //Test a few points...
@@ -127,17 +127,17 @@ int Test3dImageMask()
 
   std::cout << "Mask -- Bounds : " <<  maskBounds << std::endl;
   point[0] = 0;point[1] = 0;point[2] = 0;
-  std::cout << "   " << point << " isInside?  : " << maskSpatialObject->IsInside(point) << std::endl;
+  std::cout << "   " << point << " isInside?  : " << maskSpatialObject->IsInsideInWorldSpace(point) << std::endl;
   point[0] = 6;point[1] = 7;point[2] = 7;
-  std::cout << "   " << point << " isInside?  : " << maskSpatialObject->IsInside(point) << std::endl;
+  std::cout << "   " << point << " isInside?  : " << maskSpatialObject->IsInsideInWorldSpace(point) << std::endl;
   point[0] = 7;point[1] = 7;point[2] = 7;
-  std::cout << "   " << point << " isInside?  : " << maskSpatialObject->IsInside(point) << std::endl;
+  std::cout << "   " << point << " isInside?  : " << maskSpatialObject->IsInsideInWorldSpace(point) << std::endl;
   point[0] = 8;point[1] = 7;point[2] = 7;
-  std::cout << "   " << point << " isInside?  : " << maskSpatialObject->IsInside(point) << std::endl;
+  std::cout << "   " << point << " isInside?  : " << maskSpatialObject->IsInsideInWorldSpace(point) << std::endl;
   point[0] = 8;point[1] = 8;point[2] = 8;
-  std::cout << "   " << point << " isInside?  : " << maskSpatialObject->IsInside(point) << std::endl;
+  std::cout << "   " << point << " isInside?  : " << maskSpatialObject->IsInsideInWorldSpace(point) << std::endl;
   point[0] = 9;point[1] = 7;point[2] = 7;
-  std::cout << "   " << point << " isInside?  : " << maskSpatialObject->IsInside(point) << std::endl;
+  std::cout << "   " << point << " isInside?  : " << maskSpatialObject->IsInsideInWorldSpace(point) << std::endl;
 
   if(    itk::Math::NotAlmostEquals(maskBounds[0], 7.0)
       || itk::Math::NotAlmostEquals(maskBounds[1], 8.5)
@@ -147,7 +147,7 @@ int Test3dImageMask()
       || itk::Math::NotAlmostEquals(maskBounds[5], 8.5) )
     {
     std::cout << "[FAILED] " << std::endl;
-    std::cout << "Test returned : " << maskSpatialObject->GetBoundingBox()->GetBounds() << std::endl;
+    std::cout << "Test returned : " << maskSpatialObject->GetMyBoundingBoxInWorldSpace()->GetBounds() << std::endl;
     std::cout << "Instead of    : [7, 8.5, 7, 8.5, 7, 8.5]" << std::endl;
     return EXIT_FAILURE;
     }
@@ -169,7 +169,7 @@ int Test2dImageMask()
   BoxType::SizeType                  sizeArray;
   sizeArray[0] = 1;
   sizeArray[1] = 1;
-  box1->SetSize( sizeArray );
+  box1->SetSizeInObjectSpace( sizeArray );
   box1->SetDefaultInsideValue(1);
   box1->SetDefaultOutsideValue(0);
 
@@ -183,8 +183,8 @@ int Test2dImageMask()
 
   box1->SetObjectToWorldTransform( transform );
 
-  box1->ComputeBoundingBox();
-  BoxType::BoundingBoxType::Pointer box1BoundingBox = box1->GetBoundingBox();
+  box1->Update();
+  BoxType::BoundingBoxType::Pointer box1BoundingBox = box1->GetMyBoundingBoxInWorldSpace();
   BoxType::BoundingBoxType::BoundsArrayType box1Bounds = box1BoundingBox->GetBounds();
   if ( itk::Math::NotAlmostEquals( box1Bounds[0], 7.0 ) || itk::Math::NotAlmostEquals( box1Bounds[2], 7.0 ) ||
        itk::Math::NotAlmostEquals( box1Bounds[1], 8.0 ) || itk::Math::NotAlmostEquals( box1Bounds[3], 8.0 ) )
@@ -231,9 +231,9 @@ int Test2dImageMask()
   ImageMaskSpatialObjectType::Pointer maskSpatialObject = ImageMaskSpatialObjectType::New();
   maskSpatialObject->SetImage(imageFilter->GetOutput());
 
-  maskSpatialObject->ComputeBoundingBox();
+  maskSpatialObject->Update();
 
-  ImageMaskSpatialObjectType::BoundingBoxType::Pointer maskBoundingBox = maskSpatialObject->GetBoundingBox();
+  ImageMaskSpatialObjectType::BoundingBoxType::Pointer maskBoundingBox = maskSpatialObject->GetMyBoundingBoxInWorldSpace();
   ImageMaskSpatialObjectType::BoundingBoxType::BoundsArrayType maskBounds = maskBoundingBox->GetBounds();
 
   //Test a few points...
@@ -241,17 +241,17 @@ int Test2dImageMask()
 
   std::cout << "Mask -- Bounds : " <<  maskBounds << std::endl;
   point[0] = 0;point[1] = 0;
-  std::cout << "   " << point << " isInside?  : " << maskSpatialObject->IsInside(point) << std::endl;
+  std::cout << "   " << point << " isInside?  : " << maskSpatialObject->IsInsideInWorldSpace(point) << std::endl;
   point[0] = 6;point[1] = 7;
-  std::cout << "   " << point << " isInside?  : " << maskSpatialObject->IsInside(point) << std::endl;
+  std::cout << "   " << point << " isInside?  : " << maskSpatialObject->IsInsideInWorldSpace(point) << std::endl;
   point[0] = 7;point[1] = 7;
-  std::cout << "   " << point << " isInside?  : " << maskSpatialObject->IsInside(point) << std::endl;
+  std::cout << "   " << point << " isInside?  : " << maskSpatialObject->IsInsideInWorldSpace(point) << std::endl;
   point[0] = 8;point[1] = 7;
-  std::cout << "   " << point << " isInside?  : " << maskSpatialObject->IsInside(point) << std::endl;
+  std::cout << "   " << point << " isInside?  : " << maskSpatialObject->IsInsideInWorldSpace(point) << std::endl;
   point[0] = 8;point[1] = 8;
-  std::cout << "   " << point << " isInside?  : " << maskSpatialObject->IsInside(point) << std::endl;
+  std::cout << "   " << point << " isInside?  : " << maskSpatialObject->IsInsideInWorldSpace(point) << std::endl;
   point[0] = 9;point[1] = 7;
-  std::cout << "   " << point << " isInside?  : " << maskSpatialObject->IsInside(point) << std::endl;
+  std::cout << "   " << point << " isInside?  : " << maskSpatialObject->IsInsideInWorldSpace(point) << std::endl;
 
   if(    itk::Math::NotAlmostEquals(maskBounds[0], 7.0)
       || itk::Math::NotAlmostEquals(maskBounds[1], 8.5)
@@ -259,7 +259,7 @@ int Test2dImageMask()
       || itk::Math::NotAlmostEquals(maskBounds[3], 8.5))
     {
     std::cout << "[FAILED] " << std::endl;
-    std::cout << "Test returned : " << maskSpatialObject->GetBoundingBox()->GetBounds() << std::endl;
+    std::cout << "Test returned : " << maskSpatialObject->GetMyBoundingBoxInWorldSpace()->GetBounds() << std::endl;
     std::cout << "Instead of    : [7, 8.5, 7, 8.5]" << std::endl;
     return EXIT_FAILURE;
     }

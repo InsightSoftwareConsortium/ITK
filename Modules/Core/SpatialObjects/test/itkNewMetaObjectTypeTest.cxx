@@ -102,10 +102,10 @@ protected:
     {
       this->SetDimension(TDimension);
       this->SetTypeName ("DummySpatialObject");
-      this->GetProperty()->SetRed(1);
-      this->GetProperty()->SetGreen(0);
-      this->GetProperty()->SetBlue(0);
-      this->GetProperty()->SetAlpha(1);
+      this->GetProperty().SetRed(1);
+      this->GetProperty().SetGreen(0);
+      this->GetProperty().SetBlue(0);
+      this->GetProperty().SetAlpha(1);
     }
   ~DummySpatialObject() override = default;
 
@@ -156,13 +156,13 @@ public:
     DummySpatialObjectPointer dummySO = DummySpatialObjectType::New();
     dummySO->SetValue(dummyMO->GetValue());
 
-    dummySO->GetProperty()->SetName( dummyMO->Name() );
+    dummySO->GetProperty().SetName( dummyMO->Name() );
     dummySO->SetId( dummyMO->ID() );
     dummySO->SetParentId( dummyMO->ParentID() );
-    dummySO->GetProperty()->SetRed(dummyMO->Color()[0]);
-    dummySO->GetProperty()->SetGreen(dummyMO->Color()[1]);
-    dummySO->GetProperty()->SetBlue(dummyMO->Color()[2]);
-    dummySO->GetProperty()->SetAlpha(dummyMO->Color()[3]);
+    dummySO->GetProperty().SetRed(dummyMO->Color()[0]);
+    dummySO->GetProperty().SetGreen(dummyMO->Color()[1]);
+    dummySO->GetProperty().SetBlue(dummyMO->Color()[2]);
+    dummySO->GetProperty().SetAlpha(dummyMO->Color()[3]);
 
     return dummySO.GetPointer();
   }
@@ -180,10 +180,10 @@ public:
     dummyMO->SetValue(dummySO->GetValue());
 
     dummyMO->ID( dummySO->GetId() );
-    dummyMO->Color( dummySO->GetProperty()->GetRed(),
-                    dummySO->GetProperty()->GetGreen(),
-                    dummySO->GetProperty()->GetBlue(),
-                    dummySO->GetProperty()->GetAlpha() );
+    dummyMO->Color( dummySO->GetProperty().GetRed(),
+                    dummySO->GetProperty().GetGreen(),
+                    dummySO->GetProperty().GetBlue(),
+                    dummySO->GetProperty().GetAlpha() );
 
     return dummyMO;
   }
@@ -214,7 +214,7 @@ int itkNewMetaObjectTypeTest(int, char* [])
   SceneType::Pointer scene(SceneType::New());
 
   DummyType::Pointer dummy(DummyType::New());
-  dummy->GetProperty()->SetName("Dummy");
+  dummy->GetProperty().SetName("Dummy");
   dummy->SetId(1);
   dummy->SetValue(Pi);
 

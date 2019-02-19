@@ -78,7 +78,7 @@ TubeSpatialObjectPoint< TPointDimension >
 }
 
 template< unsigned int TPointDimension >
-const typename TubeSpatialObjectPoint< TPointDimension >::VectorType &
+const typename TubeSpatialObjectPoint< TPointDimension >::VectorType
 TubeSpatialObjectPoint< TPointDimension >
 ::GetTangent() const
 {

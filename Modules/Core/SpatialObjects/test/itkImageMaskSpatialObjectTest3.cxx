@@ -72,13 +72,13 @@ int itkImageMaskSpatialObjectTest3(int, char* [])
     ImageMaskSpatialObjectType::New();
   imageMaskSpatialObject->SetImage(image);
 
-  ImageMaskSpatialObject::PointType bndMin = imageMaskSpatialObject->
+  ImageMaskSpatialObjectType::PointType bndMin = imageMaskSpatialObject->
     GetMyBoundingBoxInWorldSpace()->GetMinimum();
-  ImageMaskSpatialObject::IndexType bndMinI;
+  ImageMaskSpatialObjectType::IndexType bndMinI;
   image->TransformPhysicalPointToIndex( bndMin, bndMinI );
-  ImageMaskSpatialObject::PointType bndMAx = imageMaskSpatialObject->
+  ImageMaskSpatialObjectType::PointType bndMax = imageMaskSpatialObject->
     GetMyBoundingBoxInWorldSpace()->GetMaximum();
-  ImageMaskSpatialObject::IndexType bndMaxI;
+  ImageMaskSpatialObjectType::IndexType bndMaxI;
   image->TransformPhysicalPointToIndex( bndMax, bndMaxI );
 
   ImageMaskSpatialObjectType::RegionType::SizeType regionSize;

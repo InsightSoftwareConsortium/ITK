@@ -73,13 +73,13 @@ int itkEllipseSpatialObjectTest(int, char* [])
   itk::Point<double,4> out;
   out[0]=0;out[1]=4;out[2]=0;out[3]=0;
 
-  if(!myEllipse->IsInside(in))
+  if(!myEllipse->IsInsideInWorldSpace(in))
   {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
   }
 
-  if(myEllipse->IsInside(out))
+  if(myEllipse->IsInsideInWorldSpace(out))
   {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
@@ -118,8 +118,8 @@ int itkEllipseSpatialObjectTest(int, char* [])
   }
   std::cout<<"[PASSED]"<<std::endl;
 
-  std::cout << "ComputeBoundingBox: ";
-  myEllipse->ComputeBoundingBox();
+  std::cout << "ComputeMyBoundingBoxInWorldSpace: ";
+  myEllipse->ComputeMyBoundingBoxInWorldSpace();
   EllipseType::BoundingBoxType * boundingBox = myEllipse->GetBoundingBox();
 
   for(unsigned int i=0;i<3;i++)
