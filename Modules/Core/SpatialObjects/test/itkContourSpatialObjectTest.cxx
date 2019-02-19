@@ -237,16 +237,16 @@ int itkContourSpatialObjectTest(int, char* [])
   // check values of points
   if (itk::Math::NotAlmostEquals(
         contour->GetPoints()[0].GetPositionInObjectSpace()[0],
-        intPt1.GetPositionInWorldSpace()[0]) ||
+        intPt1.GetPositionInObjectSpace()[0]) ||
       itk::Math::NotAlmostEquals(
         contour->GetPoints()[0].GetPositionInObjectSpace()[1],
-        intPt1.GetPositionInWorldSpace()[1]) ||
+        intPt1.GetPositionInObjectSpace()[1]) ||
       itk::Math::NotAlmostEquals(
         contour->GetPoints()[1].GetPositionInObjectSpace()[0],
-        intPt2.GetPositionInWorldSpace()[0]) ||
+        intPt2.GetPositionInObjectSpace()[0]) ||
       itk::Math::NotAlmostEquals(
         contour->GetPoints()[1].GetPositionInObjectSpace()[1],
-        intPt2.GetPositionInWorldSpace()[1]))
+        intPt2.GetPositionInObjectSpace()[1]))
     {
     std::cout
       << "[FAILED] Did not add/retrieve interpolated point list correctly"
@@ -258,10 +258,10 @@ int itkContourSpatialObjectTest(int, char* [])
   // check retrieval of a single point
   if (itk::Math::NotAlmostEquals(
         contour->GetPoint(0)->GetPositionInObjectSpace()[0],
-        intPt1.GetPositionInWorldSpace()[0]) ||
+        intPt1.GetPositionInObjectSpace()[0]) ||
       itk::Math::NotAlmostEquals(
         contour->GetPoint(0)->GetPositionInObjectSpace()[1],
-        intPt1.GetPositionInWorldSpace()[1]))
+        intPt1.GetPositionInObjectSpace()[1]))
     {
     std::cout << "[FAILED] Did not retrieve single interpolated point correctly"
       << std::endl;
