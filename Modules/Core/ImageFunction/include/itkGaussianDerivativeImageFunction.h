@@ -167,7 +167,7 @@ private:
   double                            m_Extent[ImageDimension2];
 
   /** Flag to indicate whether to use image spacing. */
-  bool m_UseImageSpacing;
+  bool m_UseImageSpacing{ true };
 
   /** Neighborhood Image Function. */
   const GaussianDerivativeFunctionPointer m_GaussianDerivativeFunction;

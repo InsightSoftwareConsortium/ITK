@@ -34,7 +34,6 @@ template< typename TInputImage, typename TOutput >
 GaussianDerivativeImageFunction< TInputImage, TOutput >
 ::GaussianDerivativeImageFunction()
   :
-  m_UseImageSpacing{true},
   m_GaussianDerivativeFunction{ GaussianDerivativeFunctionType::New() }
 {
   std::fill_n(m_Sigma, Self::ImageDimension2, 1.0);
