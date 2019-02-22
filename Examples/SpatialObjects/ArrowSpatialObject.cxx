@@ -45,20 +45,37 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// The length of the arrow in the local coordinate frame is done using the
-// \code{SetLength()} method. By default the length is set to 1.
+// The position of the arrow in the object (local) coordinate frame is done
+// using the \code{SetPositionInObjectSpace()} method. By default the position
+// is set to the origin of the space.  This is the "tip" of the arrow.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  myArrow->SetLength(2);
+  ArrowType::PointType pos;
+  pos.Fill(1);
+  myArrow->SetPositionInObjectSpace(pos);
+// Software Guide : EndCodeSnippet
+
+// Software Guide : BeginLatex
+// Software Guide : BeginLatex
+//
+// The length of the arrow in the local coordinate frame is done using the
+// \code{SetLengthInObjectSpace()} method. By default the length is set to 1.
+// This is the euclidean distance spanned by the arrow's tail from its
+// tip (position).
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
+  myArrow->SetLengthInObjectSpace(2);
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
 //
-// The direction of the arrow can be set using the \code{SetDirection()} method.
-// Calling \code{SetDirection()} modifies the \code{ObjectToParentTransform}
-// (not the \code{IndexToObjectTransform}).
+// The direction of the arrow can be set using the
+// \code{SetDirectionInObjectSpace()} method.
+// This is the direction the tail of the arrow extends from the position.
 // By default the direction is set along the X axis (first direction).
 //
 // Software Guide : EndLatex
@@ -67,7 +84,7 @@ int main( int , char *[] )
   ArrowType::VectorType direction;
   direction.Fill(0);
   direction[1] = 1.0;
-  myArrow->SetDirection(direction);
+  myArrow->SetDirectionInObjectSpace(direction);
 // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;
