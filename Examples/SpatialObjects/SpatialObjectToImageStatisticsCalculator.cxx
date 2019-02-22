@@ -45,7 +45,7 @@ int main(int, char * [] )
   using ImageType = itk::Image< unsigned char, 2 >;
   using RandomImageSourceType = itk::RandomImageSource< ImageType >;
   RandomImageSourceType::Pointer randomImageSource
-                                               = RandomImageSourceType::New();
+    = RandomImageSourceType::New();
   ImageType::SizeValueType size[2];
   size[0] = 10;
   size[1] = 10;
@@ -57,19 +57,18 @@ int main(int, char * [] )
 // Software Guide : BeginLatex
 //
 // Next we create an \doxygen{EllipseSpatialObject} with a radius of 2.
-// We also move the ellipse to the center of the image by increasing
-// the offset of the IndexToObjectTransform.
+// We also move the ellipse to the center of the image.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   using EllipseType = itk::EllipseSpatialObject<2>;
   EllipseType::Pointer ellipse = EllipseType::New();
-  ellipse->SetRadius(2);
-  EllipseType::VectorType offset;
+  ellipse->SetRadiusInObjectSpace(2);
+  EllipseType::PointType offset;
   offset.Fill(5);
-  ellipse->GetIndexToObjectTransform()->SetOffset(offset);
-  ellipse->ComputeObjectToParentTransform();
+  ellipse->SetCenterInObjectSpace(offset);
+  ellipse->Update();
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex

@@ -47,8 +47,11 @@ int main( int , char *[] )
 // Software Guide : BeginCodeSnippet
   using TubeType = itk::TubeSpatialObject<3>;
   using TubePointer = TubeType::Pointer;
-  using TubePointType = itk::TubeSpatialObjectPoint<3>;
-  using VectorType = TubePointType::CovariantVectorType;
+
+  using TubePointType = TubeType::TubePointType;
+
+  using PointType = TubeType::PointType;
+  using CovariantVectorType = TubePointType::CovariantVectorType;
 
   TubePointer tube = TubeType::New();
 // Software Guide : EndCodeSnippet
@@ -68,22 +71,26 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  TubeType::PointListType list;
+  TubeType::TubePointListType list;
   for (i=0; i<5; ++i)
     {
     TubePointType p;
-    p.SetPosition(i,i+1,i+2);
-    p.SetRadius(1);
-    VectorType normal1;
-    VectorType normal2;
+    PointType pnt;
+    pnt[0] = i;
+    pnt[1] = i+1;
+    pnt[2] = i+2;
+    p.SetPositionInObjectSpace(pnt);
+    p.SetRadiusInObjectSpace(1);
+    CovariantVectorType normal1;
+    CovariantVectorType normal2;
     for (unsigned int j=0; j<3; ++j)
       {
       normal1[j]=j;
       normal2[j]=j*2;
       }
 
-    p.SetNormal1(normal1);
-    p.SetNormal2(normal2);
+    p.SetNormal1InObjectSpace(normal1);
+    p.SetNormal2InObjectSpace(normal2);
     p.SetColor(1,0,0,1);
 
     list.push_back(p);
@@ -99,9 +106,10 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  tube->GetProperty()->SetName("Tube1");
+  tube->GetProperty().SetName("Tube1");
   tube->SetId(1);
   tube->SetPoints(list);
+  tube->Update();
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
@@ -112,7 +120,7 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  TubeType::PointListType pointList = tube->GetPoints();
+  TubeType::TubePointListType pointList = tube->GetPoints();
   std::cout << "Number of points representing the tube: ";
   std::cout << pointList.size() << std::endl;
 // Software Guide : EndCodeSnippet
@@ -139,17 +147,19 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  TubeType::PointListType::const_iterator it = tube->GetPoints().begin();
+  TubeType::TubePointListType::const_iterator it = tube->GetPoints().begin();
   i=0;
   while(it != tube->GetPoints().end())
     {
     std::cout << std::endl;
     std::cout << "Point #" << i << std::endl;
-    std::cout << "Position: " << (*it).GetPosition() << std::endl;
-    std::cout << "Radius: " << (*it).GetRadius() << std::endl;
-    std::cout << "Tangent: " << (*it).GetTangent() << std::endl;
-    std::cout << "First Normal: " << (*it).GetNormal1() << std::endl;
-    std::cout << "Second Normal: " << (*it).GetNormal2() << std::endl;
+    std::cout << "Position: " << (*it).GetPositionInObjectSpace() << std::endl;
+    std::cout << "Radius: " << (*it).GetRadiusInObjectSpace() << std::endl;
+    std::cout << "Tangent: " << (*it).GetTangentInObjectSpace() << std::endl;
+    std::cout << "First Normal: " << (*it).GetNormal1InObjectSpace()
+      << std::endl;
+    std::cout << "Second Normal: " << (*it).GetNormal2InObjectSpace()
+      << std::endl;
     std::cout << "Color = " << (*it).GetColor() << std::endl;
     it++;
     i++;

@@ -64,7 +64,7 @@ int main(int, char* [])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  myGaussian->SetRadius(3);
+  myGaussian->SetRadiusInObjectSpace(3);
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -80,8 +80,8 @@ int main(int, char* [])
   pt[1]=2;
   pt[2]=1;
   double value;
-  myGaussian->ValueAt(pt, value);
-  std::cout << "ValueAt(" << pt << ") = " << value << std::endl;
+  myGaussian->ValueAtInWorldSpace(pt, value);
+  std::cout << "ValueAtInWorldSpace(" << pt << ") = " << value << std::endl;
   // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;

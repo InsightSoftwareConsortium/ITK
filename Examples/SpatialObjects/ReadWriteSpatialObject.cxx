@@ -64,7 +64,7 @@ int main( int , char *[] )
 // Software Guide : BeginCodeSnippet
   using EllipseType = itk::EllipseSpatialObject<3>;
   EllipseType::Pointer ellipse = EllipseType::New();
-  ellipse->SetRadius(3);
+  ellipse->SetRadiusInObjectSpace(3);
 // Software Guide : EndCodeSnippet
 // Software Guide : BeginLatex
 //
@@ -109,16 +109,13 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// To get the objects in the file you can call the \code{GetScene()} method
-// or the \code{GetGroup()} method.  \code{GetScene()} returns an pointer to
-// a \doxygen{SceneSpatialObject}.
+// To get the objects in the file you can call the \code{GetGroup()} method.
+// Calls to \code{GetGroup()} returns an pointer to a
+// \doxygen{GroupSpatialObject}.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  ReaderType::SceneType * scene = reader->GetScene();
-  std::cout << "Number of objects in the scene: ";
-  std::cout << scene->GetNumberOfObjects() << std::endl;
   ReaderType::GroupType * group = reader->GetGroup();
   std::cout << "Number of objects in the group: ";
   std::cout << group->GetNumberOfChildren() << std::endl;

@@ -18,15 +18,15 @@
 
 // Software Guide : BeginLatex
 //
-// \index{itk::SceneSpatialObject}
-// This example describes how to use the \doxygen{SceneSpatialObject}.
-// A SceneSpatialObject contains a collection of SpatialObjects. This
+// \index{itk::GroupSpatialObject}
+// This example describes how to use the \doxygen{GroupSpatialObject}.
+// A GroupSpatialObject contains a collection of SpatialObjects. This
 // example begins by including the appropriate header file.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-#include "itkSceneSpatialObject.h"
+#include "itkGroupSpatialObject.h"
 // Software Guide : EndCodeSnippet
 #include "itkEllipseSpatialObject.h"
 
@@ -34,17 +34,17 @@ int main( int , char *[] )
 {
 // Software Guide : BeginLatex
 //
-// An SceneSpatialObject is templated over the dimension of the
-// space which requires all the objects referenced by the SceneSpatialObject to
+// An GroupSpatialObject is templated over the dimension of the
+// space which requires all the objects referenced by the GroupSpatialObject to
 // have the same dimension.
 //
-// First we define some type definitions and we create the SceneSpatialObject.
+// First we define some type definitions and we create the GroupSpatialObject.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  using SceneSpatialObjectType = itk::SceneSpatialObject<3>;
-  SceneSpatialObjectType::Pointer scene = SceneSpatialObjectType::New();
+  using GroupSpatialObjectType = itk::GroupSpatialObject<3>;
+  GroupSpatialObjectType::Pointer scene = GroupSpatialObjectType::New();
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
@@ -56,29 +56,29 @@ int main( int , char *[] )
 // Software Guide : BeginCodeSnippet
   using EllipseType = itk::EllipseSpatialObject<3>;
   EllipseType::Pointer ellipse1 = EllipseType::New();
-  ellipse1->SetRadius(1);
+  ellipse1->SetRadiusInObjectSpace(1);
   ellipse1->SetId(1);
   EllipseType::Pointer ellipse2 = EllipseType::New();
   ellipse2->SetId(2);
-  ellipse2->SetRadius(2);
+  ellipse2->SetRadiusInObjectSpace(2);
 // Software Guide : EndCodeSnippet
 
 
 // Software Guide : BeginLatex
 //
-// Then we add the two ellipses into the SceneSpatialObject.
+// Then we add the two ellipses into the GroupSpatialObject.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  scene->AddSpatialObject(ellipse1);
-  scene->AddSpatialObject(ellipse2);
+  scene->AddChild(ellipse1);
+  scene->AddChild(ellipse2);
 // Software Guide : EndCodeSnippet
 
 
 // Software Guide : BeginLatex
 //
-// We can query the number of object in the SceneSpatialObject with the
+// We can query the number of object in the GroupSpatialObject with the
 // \code{GetNumberOfObjects()} function. This function takes two optional
 // arguments: the depth at which we should count the number of objects
 // (default is set to infinity) and the name of the object to count (default
@@ -88,46 +88,46 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  std::cout << "Number of objects in the SceneSpatialObject = ";
-  std::cout << scene->GetNumberOfObjects() << std::endl;
+  std::cout << "Number of objects in the GroupSpatialObject = ";
+  std::cout << scene->GetNumberOfChildren() << std::endl;
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
 //
 // The \code{GetObjectById()} returns the first object in the
-// SceneSpatialObject that has the specified identification number.
+// GroupSpatialObject that has the specified identification number.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  std::cout << "Object in the SceneSpatialObject with an ID == 2: "
+  std::cout << "Object in the GroupSpatialObject with an ID == 2: "
             << std::endl;
   scene->GetObjectById(2)->Print(std::cout);
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
 //
-// Objects can also be removed from the SceneSpatialObject using the
+// Objects can also be removed from the GroupSpatialObject using the
 // \code{RemoveSpatialObject()} function.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  scene->RemoveSpatialObject(ellipse1);
+  scene->RemoveChild(ellipse1);
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
 //
-// The list of current objects in the SceneSpatialObject can be retrieved
-// using the \code{GetObjects()} method.  Like the
-// \code{GetNumberOfObjects()} method, \code{GetObjects()} can take two
+// The list of current objects in the GroupSpatialObject can be retrieved
+// using the \code{GetChildren()} method.  Like the
+// \code{GetNumberOfChildren()} method, \code{GetChildren()} can take two
 // arguments: a search depth and a matching name.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  SceneSpatialObjectType::ObjectListType * myObjectList =  scene->GetObjects();
-  std::cout << "Number of objects in the SceneSpatialObject = ";
+  GroupSpatialObjectType::ObjectListType * myObjectList =  scene->GetChildren();
+  std::cout << "Number of children in the GroupSpatialObject = ";
   std::cout << myObjectList->size() << std::endl;
 // Software Guide : EndCodeSnippet
 
@@ -136,24 +136,26 @@ int main( int , char *[] )
 //
 // In some cases, it is useful to define the hierarchy by using
 // \code{ParentId()} and the current identification number. This results in
-// having a flat list of SpatialObjects in the SceneSpatialObject. Therefore,
-// the SceneSpatialObject provides the \code{FixHierarchy()} method which
+// having a flat list of SpatialObjects in the GroupSpatialObject. Therefore,
+// the GroupSpatialObject provides the
+// \code{FixParentChildHierarchyUsingParentIds()} method which
 // reorganizes the Parent-Child hierarchy based on identification numbers.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  scene->FixHierarchy();
+  scene->FixParentChildHierarchyUsingParentIds();
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
 //
-// The scene can also be cleared by using the \code{Clear()} function.
+// The scene can also be cleared by using the \code{RemoveAllChildren()}
+// function.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  scene->Clear();
+  scene->RemoveAllChildren();
 // Software Guide : EndCodeSnippet
 
 

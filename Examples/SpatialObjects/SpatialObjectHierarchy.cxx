@@ -43,10 +43,10 @@ int main( int , char *[] )
   using SpatialObjectType = itk::SpatialObject<3>;
 
   SpatialObjectType::Pointer object1 = SpatialObjectType ::New();
-  object1->GetProperty()->SetName("First Object");
+  object1->GetProperty().SetName("First Object");
 
   SpatialObjectType::Pointer object2 = SpatialObjectType ::New();
-  object2->GetProperty()->SetName("Second Object");
+  object2->GetProperty().SetName("Second Object");
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
@@ -58,7 +58,7 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  object1->AddSpatialObject(object2);
+  object1->AddChild(object2);
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
@@ -74,7 +74,7 @@ int main( int , char *[] )
   if(object2->HasParent())
     {
     std::cout << "Name of the parent of the object2: ";
-    std::cout << object2->GetParent()->GetProperty()->GetName() << std::endl;
+    std::cout << object2->GetParent()->GetProperty().GetName() << std::endl;
     }
 // Software Guide : EndCodeSnippet
 
@@ -90,11 +90,11 @@ int main( int , char *[] )
   std::cout << "object1 has " << childrenList->size() << " child" << std::endl;
 
   SpatialObjectType::ChildrenListType::const_iterator it
-                                                      = childrenList->begin();
+    = childrenList->begin();
   while(it != childrenList->end())
     {
     std::cout << "Name of the child of the object 1: ";
-    std::cout << (*it)->GetProperty()->GetName() << std::endl;
+    std::cout << (*it)->GetProperty().GetName() << std::endl;
     ++it;
     }
 // Software Guide : EndCodeSnippet
@@ -118,7 +118,7 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  object1->RemoveSpatialObject(object2);
+  object1->RemoveChild(object2);
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
@@ -142,7 +142,7 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  object1->Clear();
+  object1->RemoveAllChildren();
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex

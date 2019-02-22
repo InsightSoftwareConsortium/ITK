@@ -451,7 +451,7 @@ TubeSpatialObject< TDimension, TTubePointType >
   // copy the internal info
   this->SetRoot( source->GetRoot() );
   this->SetParentPoint( source->GetParentPoint() );
-  this->SetEndType( source->GetEndType() );
+  this->SetEndRounded( source->GetEndRounded() );
 
   // We copy the points
   TubePointListType source_list = source->GetPoints();
@@ -462,7 +462,7 @@ TubeSpatialObject< TDimension, TTubePointType >
   while ( it_source != source_list.end() )
     {
     this->m_Points.push_back(*it_source);
-    this->m_Points.back()->SetSpatialObject( this );
+    this->m_Points.back().SetSpatialObject( this );
     it_source++;
     }
 }

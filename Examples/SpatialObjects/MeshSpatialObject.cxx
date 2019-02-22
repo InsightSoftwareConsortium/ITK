@@ -93,8 +93,8 @@ int main(int, char * [] )
 
   // Software Guide : BeginCodeSnippet
   using MeshSpatialObjectType = itk::MeshSpatialObject< MeshType >;
-  MeshSpatialObjectType::Pointer myMeshSpatialObject =
-                                        MeshSpatialObjectType::New();
+  MeshSpatialObjectType::Pointer myMeshSpatialObject
+    = MeshSpatialObjectType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -105,6 +105,7 @@ int main(int, char * [] )
 
   // Software Guide : BeginCodeSnippet
   myMeshSpatialObject->SetMesh(myMesh);
+  myMeshSpatialObject->Update();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -126,12 +127,13 @@ int main(int, char * [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  std::cout << "Mesh bounds : " <<
-    myMeshSpatialObject->GetBoundingBox()->GetBounds() << std::endl;
+  std::cout << "Mesh bounds : "
+    << myMeshSpatialObject->GetMyBoundingBoxInWorldSpace()->GetBounds()
+    << std::endl;
   MeshSpatialObjectType::PointType myPhysicalPoint;
   myPhysicalPoint.Fill(1);
-  std::cout << "Is my physical point inside? : " <<
-    myMeshSpatialObject->IsInside(myPhysicalPoint) << std::endl;
+  std::cout << "Is my physical point inside? : "
+    << myMeshSpatialObject->IsInsideInWorldSpace(myPhysicalPoint) << std::endl;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

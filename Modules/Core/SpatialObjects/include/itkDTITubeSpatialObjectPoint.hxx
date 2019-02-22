@@ -185,7 +185,25 @@ DTITubeSpatialObjectPoint< TPointDimension >
 {
   if(this != &rhs)
     {
-    // Copy the extra fields
+    // Point
+    this->SetId( rhs.GetId() );
+    this->SetPositionInObjectSpace( rhs.GetPositionInObjectSpace() );
+    this->SetColor( rhs.GetColor() );
+
+    // Tube
+    this->SetRadiusInObjectSpace( rhs.GetRadiusInObjectSpace() );
+    this->SetTangentInObjectSpace( rhs.GetTangentInObjectSpace() );
+    this->SetNormal1InObjectSpace( rhs.GetNormal1InObjectSpace() );
+    this->SetNormal2InObjectSpace( rhs.GetNormal2InObjectSpace() );
+
+    this->SetRidgeness( rhs.GetRidgeness() );
+    this->SetMedialness( rhs.GetMedialness() );
+    this->SetBranchness( rhs.GetBranchness() );
+    this->SetAlpha1( rhs.GetAlpha1() );
+    this->SetAlpha2( rhs.GetAlpha2() );
+    this->SetAlpha3( rhs.GetAlpha3() );
+
+    // Class
     m_Fields.clear();
     const FieldListType &         fields = rhs.GetFields();
     auto it = fields.begin();
@@ -194,21 +212,10 @@ DTITubeSpatialObjectPoint< TPointDimension >
       this->AddField( ( *it ).first.c_str(), ( *it ).second );
       it++;
       }
-
-    this->m_ID = rhs.m_ID;
-
     for ( unsigned int i = 0; i < 6; i++ )
       {
       m_TensorMatrix[i] = rhs.m_TensorMatrix[i];
       }
-
-    this->m_NumDimensions = rhs.m_NumDimensions;
-    this->m_X = rhs.m_X;
-    this->m_T = rhs.m_T;
-    this->m_R = rhs.m_R;
-    this->m_Normal1 = rhs.m_Normal1;
-    this->m_Normal2 = rhs.m_Normal2;
-    this->m_Color = rhs.m_Color;
     }
   return *this;
 }

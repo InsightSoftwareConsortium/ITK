@@ -57,7 +57,7 @@ int main( int , char *[] )
     radius[i] = i;
     }
 
-  myEllipse->SetRadius(radius);
+  myEllipse->SetRadiusInObjectSpace(radius);
 // Software Guide : EndCodeSnippet
 // Software Guide : BeginLatex
 //
@@ -65,7 +65,7 @@ int main( int , char *[] )
 //
 // Software Guide : EndLatex
 // Software Guide : BeginCodeSnippet
-  myEllipse->SetRadius(2.0);
+  myEllipse->SetRadiusInObjectSpace(2.0);
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
@@ -75,22 +75,22 @@ int main( int , char *[] )
 //
 // Software Guide : EndLatex
 // Software Guide : BeginCodeSnippet
-  EllipseType::ArrayType myCurrentRadius = myEllipse->GetRadius();
+  EllipseType::ArrayType myCurrentRadius = myEllipse->GetRadiusInObjectSpace();
   std::cout << "Current radius is " << myCurrentRadius << std::endl;
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
 //
 // Like other SpatialObjects, we can query the object if a point is inside
-// the object by using the IsInside(itk::Point) function. This function expects
-// the point to be in world coordinates.
+// the object by using the IsInsideInWorldSpace(itk::Point) function.
+// This function expects the point to be in world coordinates.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   itk::Point<double,3> insidePoint;
   insidePoint.Fill(1.0);
-  if (myEllipse->IsInside(insidePoint))
+  if (myEllipse->IsInsideInWorldSpace(insidePoint))
     {
     std::cout << "The point " << insidePoint;
     std::cout << " is really inside the ellipse" << std::endl;
@@ -98,7 +98,7 @@ int main( int , char *[] )
 
   itk::Point<double,3> outsidePoint;
   outsidePoint.Fill(3.0);
-  if (!myEllipse->IsInside(outsidePoint))
+  if (!myEllipse->IsInsideInWorldSpace(outsidePoint))
     {
     std::cout << "The point " << outsidePoint;
     std::cout << " is really outside the ellipse" << std::endl;
@@ -108,13 +108,13 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // All spatial objects can be queried for a value at a point.  The
-// \code{IsEvaluableAt()} function returns a boolean to know if the object is
-// evaluable at a particular point.
+// \code{IsEvaluableAtInWorldSpace()} function returns a boolean to know
+// if the object is evaluable at a particular point.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-   if (myEllipse->IsEvaluableAt(insidePoint))
+   if (myEllipse->IsEvaluableAtInWorldSpace(insidePoint))
     {
     std::cout << "The point " << insidePoint;
     std::cout << " is evaluable at the point " << insidePoint << std::endl;
@@ -134,21 +134,21 @@ int main( int , char *[] )
 
 // Software Guide : BeginCodeSnippet
   double value;
-  myEllipse->ValueAt(insidePoint,value);
+  myEllipse->ValueAtInWorldSpace(insidePoint,value);
   std::cout << "The value inside the ellipse is: " << value << std::endl;
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
 //
 // Like other spatial objects, we can also query the bounding box of the
-// object by using \code{GetBoundingBox()}. The resulting bounding box is
-// expressed in the local frame.
+// object by using \code{GetMyBoundingBoxInWorldSpace()}. The resulting
+// bounding box is the world space.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  myEllipse->ComputeBoundingBox();
-  EllipseType::BoundingBoxType * boundingBox = myEllipse->GetBoundingBox();
+  EllipseType::BoundingBoxType * boundingBox
+    = myEllipse->GetMyBoundingBoxInWorldSpace();
   std::cout << "Bounding Box: " << boundingBox->GetBounds() << std::endl;
 // Software Guide : EndCodeSnippet
 

@@ -42,7 +42,8 @@ int main( int , char *[] )
 // Software Guide : BeginCodeSnippet
   using LandmarkType = itk::LandmarkSpatialObject<3>;
   using LandmarkPointer = LandmarkType::Pointer;
-  using LandmarkPointType = itk::SpatialObjectPoint<3>;
+  using LandmarkPointType = LandmarkType::LandmarkPointType;
+  using PointType = LandmarkType::PointType;
 
   LandmarkPointer landmark = LandmarkType::New();
 // Software Guide : EndCodeSnippet
@@ -54,7 +55,7 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  landmark->GetProperty()->SetName("Landmark1");
+  landmark->GetProperty().SetName("Landmark1");
   landmark->SetId(1);
 // Software Guide : EndCodeSnippet
 
@@ -66,12 +67,16 @@ int main( int , char *[] )
 //
 // Software Guide : EndLatex
 // Software Guide : BeginCodeSnippet
-  LandmarkType::PointListType list;
+  LandmarkType::LandmarkPointListType list;
 
   for (unsigned int i=0; i<5; ++i)
     {
     LandmarkPointType p;
-    p.SetPosition(i,i+1,i+2);
+    PointType pnt;
+    pnt[0] = i;
+    pnt[1] = i+1;
+    pnt[2] = i+2;
+    p.SetPositionInObjectSpace(pnt);
     p.SetColor(1,0,0,1);
     list.push_back(p);
     }
@@ -80,10 +85,13 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // Then we add  the list to the object using the \code{SetPoints()} method.
+// Calling \code{Update()} afterwards ensures that World Space representations
+// are also updated to match changes in the SpatialObject's parameters.
 //
 // Software Guide : EndLatex
 // Software Guide : BeginCodeSnippet
   landmark->SetPoints(list);
+  landmark->Update();
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
@@ -96,11 +104,11 @@ int main( int , char *[] )
   size_t nPoints = landmark->GetPoints().size();
   std::cout << "Number of Points in the landmark: " << nPoints << std::endl;
 
-  LandmarkType::PointListType::const_iterator it
-                                              = landmark->GetPoints().begin();
+  LandmarkType::LandmarkPointListType::const_iterator it
+    = landmark->GetPoints().begin();
   while(it != landmark->GetPoints().end())
     {
-    std::cout << "Position: " << (*it).GetPosition() << std::endl;
+    std::cout << "Position: " << (*it).GetPositionInObjectSpace() << std::endl;
     std::cout << "Color: " << (*it).GetColor() << std::endl;
     ++it;
     }

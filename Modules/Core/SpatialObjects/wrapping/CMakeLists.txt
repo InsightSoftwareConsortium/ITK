@@ -2,16 +2,30 @@ itk_wrap_module(ITKSpatialObjects)
 
 set(WRAPPER_SUBMODULE_ORDER
   itkSpatialObjectProperty
-  itkAffineGeometryFrame
   itkSpatialObjectBase
   itkSpatialObjectPoint
-  itkContourSpatialObjectPoint
-  itkDTITubeSpatialObjectPoint
-  itkVesselTubeSpatialObjectPoint
   itkPointBasedSpatialObject
-  itkImageSpatialObject
+  itkContourSpatialObjectPoint
+  itkContourSpatialObject
+  itkTubeSpatialObjectPoint
+  itkTubeSpatialObject
+  itkDTITubeSpatialObjectPoint
+  itkDTITubeSpatialObject
+  itkLineSpatialObject
+  itkLineSpatialObjectPoint
+  itkSurfaceSpatialObject
+  itkSurfaceSpatialObjectPoint
+  itkLandmarkSpatialObject
   itkBlobSpatialObject
   itkPolygonSpatialObject
+  itkImageSpatialObject
+  itkImageMaskSpatialObject
+  itkArrowSpatialObject
+  itkBoxSpatialObject
+  itkEllipseSpatialObject
+  itkGaussianSpatialObject
+  itkGroupSpatialObject
+  itkSpatialObjectToImageFilter
 )
 itk_auto_load_submodules()
 itk_end_wrap_module()

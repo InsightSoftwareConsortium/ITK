@@ -6,9 +6,6 @@ target_link_libraries(ArrowSpatialObject  ${ITK_LIBRARIES})
 add_executable(BlobSpatialObject BlobSpatialObject.cxx)
 target_link_libraries(BlobSpatialObject  ${ITK_LIBRARIES})
 
-add_executable(CylinderSpatialObject CylinderSpatialObject.cxx)
-target_link_libraries(CylinderSpatialObject  ${ITK_LIBRARIES})
-
 add_executable(EllipseSpatialObject EllipseSpatialObject.cxx)
 target_link_libraries(EllipseSpatialObject  ${ITK_LIBRARIES})
 
@@ -44,9 +41,6 @@ target_link_libraries(SpatialObjectHierarchy  ${ITK_LIBRARIES})
 
 add_executable(SpatialObjectTransforms SpatialObjectTransforms.cxx)
 target_link_libraries(SpatialObjectTransforms  ${ITK_LIBRARIES})
-
-add_executable(SpatialObjectTreeContainer SpatialObjectTreeContainer.cxx)
-target_link_libraries(SpatialObjectTreeContainer  ${ITK_LIBRARIES})
 
 add_executable(SpatialObjectToImageStatisticsCalculator SpatialObjectToImageStatisticsCalculator.cxx)
 target_link_libraries(SpatialObjectToImageStatisticsCalculator  ${ITK_LIBRARIES})
