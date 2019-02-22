@@ -1,3 +1,37 @@
 itk_wrap_class("itk::ImageDuplicator" POINTER)
-  itk_wrap_image_filter("${WRAP_ITK_ALL_TYPES}" 1)
+  # Making sure that all types wrapped in PyBuffer are also wrapped for ImageDuplicator
+  # as this filter is used in the Python NumPy  bridge.
+  UNIQUE(types "${WRAP_ITK_SCALAR};UC;D;US;UI;UL;SC;SS;SI;SL;F")
+  foreach(t ${types})
+    string(REGEX MATCHALL "(V${t}|CV${t})" VectorTypes ${WRAP_ITK_VECTOR})
+    set(PixelType ${t})
+    foreach(d ${ITK_WRAP_DIMS})
+      if( DEFINED ITKT_I${t}${d} )
+        itk_wrap_template("${ITKM_I${t}${d}}" "${ITKT_I${t}${d}}")
+      endif()
+
+      # Wraps Symmetric Second Rank tensor images
+      if( DEFINED ITKM_ISSRT${t}${d}${d})
+        itk_wrap_template("${ITKM_ISSRT${t}${d}${d}}" "${ITKT_ISSRT${t}${d}${d}}")
+      endif()
+
+      # Wraps RGB and RGBA types that have been selected to be wrapped.
+      # We have to recompute them all to extract the pixel component type.
+      foreach(p RGB;RGBA)
+        set(WRAP_RGBA_RGB "${WRAP_ITK_RGB};${WRAP_ITK_RGBA}")
+        list(FIND WRAP_RGBA_RGB "${p}${t}" pos)
+        if( NOT ${pos} EQUAL -1 AND DEFINED ITKT_I${p}${t}${d})
+          itk_wrap_template("${ITKM_I${p}${t}${d}}" "${ITKT_I${p}${t}${d}}")
+        endif()
+      endforeach(p)
+      # Image Vector types
+      foreach(vec_dim ${ITK_WRAP_VECTOR_COMPONENTS})
+        foreach(vec_type ${VectorTypes})
+           if( DEFINED ITKM_I${vec_type}${vec_dim}${d})
+             itk_wrap_template("${ITKM_I${vec_type}${vec_dim}${d}}" "${ITKT_I${vec_type}${vec_dim}${d}}")
+             endif()
+          endforeach()
+       endforeach()
+    endforeach(d)
+  endforeach(t)
 itk_end_wrap_class()
