@@ -22,14 +22,6 @@ namespace itk
 {
 
 template<typename TParametersValueType>
-TransformIOFactoryTemplate<TParametersValueType>
-::TransformIOFactoryTemplate() = default;
-
-template<typename TParametersValueType>
-TransformIOFactoryTemplate<TParametersValueType>
-::~TransformIOFactoryTemplate() = default;
-
-template<typename TParametersValueType>
 typename TransformIOBaseTemplate<TParametersValueType>::Pointer
 TransformIOFactoryTemplate<TParametersValueType>
 ::CreateTransformIO(const char *path, TransformIOFactoryFileModeType mode)

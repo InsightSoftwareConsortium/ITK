@@ -168,7 +168,7 @@ public:
 
 protected:
   MetaImageIO();
-  ~MetaImageIO() override;
+  ~MetaImageIO() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

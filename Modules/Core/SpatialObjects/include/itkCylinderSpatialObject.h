@@ -89,7 +89,7 @@ public:
 
 protected:
   CylinderSpatialObject();
-  ~CylinderSpatialObject() override;
+  ~CylinderSpatialObject() override = default;
 
   double m_Radius;
   double m_Height;

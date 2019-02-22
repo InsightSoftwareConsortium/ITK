@@ -34,8 +34,6 @@ VTKImageIO::VTKImageIO()
   this->AddSupportedWriteExtension(".vtk");
 }
 
-VTKImageIO::~VTKImageIO() = default;
-
 int VTKImageIO::GetNextLine(std::ifstream& ifs, std::string& line, bool lowerCase, SizeValueType count)
 {
   // The terminal condition for this recursive calls

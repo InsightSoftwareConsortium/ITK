@@ -19,14 +19,6 @@
 
 namespace itk
 {
-SegmentationRegion
-::SegmentationRegion(void)
-
-{}
-
-SegmentationRegion
-::~SegmentationRegion() = default;
-
 /**
  * PrintSelf
  */

@@ -19,13 +19,6 @@
 
 namespace itk
 {
-SegmentationBorder
-::SegmentationBorder(void)
-
-{}
-
-SegmentationBorder
-::~SegmentationBorder() = default;
 
 /**
  * PrintSelf

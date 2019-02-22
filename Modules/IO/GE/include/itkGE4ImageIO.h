@@ -120,8 +120,8 @@ public:
   // virtual void Write(const void* buffer);
 
 protected:
-  GE4ImageIO();
-  ~GE4ImageIO() override;
+  GE4ImageIO() = default;
+  ~GE4ImageIO() = default;
   // Implemented in Superclass
   // void PrintSelf(std::ostream& os, Indent indent) const;
   GEImageHeader * ReadHeader(const char *FileNameToRead) override;

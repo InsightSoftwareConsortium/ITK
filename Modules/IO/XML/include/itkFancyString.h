@@ -45,7 +45,7 @@ namespace itk
 class ITKIOXML_EXPORT FancyString
 {
 public:
-  FancyString();
+  FancyString() = default;
   FancyString( const std::string& str );
   FancyString( const char* s );
 

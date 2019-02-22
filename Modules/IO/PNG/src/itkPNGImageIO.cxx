@@ -306,8 +306,6 @@ PNGImageIO::PNGImageIO() :
     }
 }
 
-PNGImageIO::~PNGImageIO() = default;
-
 void PNGImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

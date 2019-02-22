@@ -80,7 +80,7 @@ public:
 
 protected:
   NrrdImageIO();
-  ~NrrdImageIO() override;
+  ~NrrdImageIO() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Utility functions for converting between enumerated data type

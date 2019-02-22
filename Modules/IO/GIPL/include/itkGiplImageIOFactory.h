@@ -60,7 +60,7 @@ public:
 
 protected:
   GiplImageIOFactory();
-  ~GiplImageIOFactory() override;
+  ~GiplImageIOFactory() override = default;
 };
 } // end namespace itk
 

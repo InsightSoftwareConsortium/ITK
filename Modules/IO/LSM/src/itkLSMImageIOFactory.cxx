@@ -40,8 +40,6 @@ LSMImageIOFactory::LSMImageIOFactory()
                           CreateObjectFunction< LSMImageIO >::New() );
 }
 
-LSMImageIOFactory::~LSMImageIOFactory() = default;
-
 const char *
 LSMImageIOFactory::GetITKSourceVersion() const
 {

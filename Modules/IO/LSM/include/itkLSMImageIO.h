@@ -88,7 +88,7 @@ public:
 
 protected:
   LSMImageIO();
-  ~LSMImageIO() override;
+  ~LSMImageIO() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

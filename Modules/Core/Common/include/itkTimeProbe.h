@@ -60,7 +60,7 @@ public:
   TimeProbe();
 
   /** Destructor */
-  ~TimeProbe() override;
+  ~TimeProbe() override = default;
 
   /** Get the current time.
    *  Warning: the returned value is not the elapsed time since the last Start() call.

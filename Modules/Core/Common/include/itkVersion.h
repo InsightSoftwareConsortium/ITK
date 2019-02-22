@@ -87,8 +87,8 @@ public:
   static const char * GetITKSourceVersion();
 
 protected:
-  Version();
-  ~Version() override;
+  Version() = default;
+  ~Version() override = default;
 };
 } // end namespace itk
 

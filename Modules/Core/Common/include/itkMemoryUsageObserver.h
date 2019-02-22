@@ -50,7 +50,7 @@ public:
   using MemoryLoadType = SizeValueType;
 
   /** destructor */
-  virtual ~MemoryUsageObserverBase();
+  virtual ~MemoryUsageObserverBase() = default;
 
   /** Returns the memory load in kO */
   virtual MemoryLoadType GetMemoryUsage() = 0;
@@ -94,7 +94,7 @@ class ITKCommon_EXPORT MacOSXMemoryUsageObserver:public MemoryUsageObserverBase
 {
 public:
   /** destructor */
-  ~MacOSXMemoryUsageObserver() override;
+  ~MacOSXMemoryUsageObserver() override = default;
   MemoryLoadType GetMemoryUsage() override;
 };
 #endif // Mac OS X
@@ -114,7 +114,7 @@ class ITKCommon_EXPORT SysResourceMemoryUsageObserver:public MemoryUsageObserver
 {
 public:
   /** destructor */
-  ~SysResourceMemoryUsageObserver() override;
+  ~SysResourceMemoryUsageObserver() override = default;
   MemoryLoadType GetMemoryUsage() override;
 };
 
@@ -157,7 +157,7 @@ class ITKCommon_EXPORT MemoryUsageObserver:
 {
 public:
   /** destructor */
-  ~MemoryUsageObserver() override;
+  ~MemoryUsageObserver() override = default;
 };
 } // end of namespace itk
 

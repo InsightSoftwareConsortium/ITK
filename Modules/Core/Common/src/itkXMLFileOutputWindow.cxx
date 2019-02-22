@@ -22,15 +22,6 @@
 
 namespace itk
 {
-/**
- * Prompting off by default
- */
-XMLFileOutputWindow
-::XMLFileOutputWindow() = default;
-
-XMLFileOutputWindow
-::~XMLFileOutputWindow() = default;
-
 void
 XMLFileOutputWindow
 ::PrintSelf(std::ostream & os, Indent indent) const

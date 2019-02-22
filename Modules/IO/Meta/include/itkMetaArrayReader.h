@@ -243,7 +243,7 @@ public:
 protected:
 
   MetaArrayReader();
-  ~MetaArrayReader() override;
+  ~MetaArrayReader() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

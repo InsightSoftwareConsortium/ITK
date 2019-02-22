@@ -26,6 +26,4 @@ void SingleValuedCostFunction::GetValueAndDerivative(const ParametersType & para
     value = this->GetValue(parameters);
     this->GetDerivative(parameters, derivative);
 }
-
-SingleValuedCostFunction::~SingleValuedCostFunction() = default;
 }

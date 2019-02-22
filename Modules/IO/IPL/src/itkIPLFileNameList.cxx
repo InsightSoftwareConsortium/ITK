@@ -126,8 +126,6 @@ public:
   }
 };
 
-IPLFileSortInfo::~IPLFileSortInfo() = default;
-
 IPLSetMacroDefinition(IPLFileSortInfo, ImageFileName, std::string);
 IPLGetMacroDefinition(IPLFileSortInfo, ImageFileName, std::string);
 IPLSetMacroDefinition(IPLFileSortInfo, SliceLocation, float);

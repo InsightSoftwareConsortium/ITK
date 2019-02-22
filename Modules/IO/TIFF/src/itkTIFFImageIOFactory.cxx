@@ -30,8 +30,6 @@ TIFFImageIOFactory::TIFFImageIOFactory()
                           CreateObjectFunction< TIFFImageIO >::New() );
 }
 
-TIFFImageIOFactory::~TIFFImageIOFactory() = default;
-
 const char *
 TIFFImageIOFactory::GetITKSourceVersion() const
 {

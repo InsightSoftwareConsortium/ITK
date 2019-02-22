@@ -60,7 +60,7 @@ public:
 
 protected:
   NrrdImageIOFactory();
-  ~NrrdImageIOFactory() override;
+  ~NrrdImageIOFactory() override = default;
 };
 } // end namespace itk
 

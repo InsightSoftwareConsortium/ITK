@@ -89,7 +89,7 @@ public:
   void Write(const void *buffer) override;
 
   BMPImageIO();
-  ~BMPImageIO() override;
+  ~BMPImageIO() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

@@ -243,7 +243,7 @@ public:
 
 protected:
   MersenneTwisterRandomVariateGenerator();
-  ~MersenneTwisterRandomVariateGenerator() override;
+  ~MersenneTwisterRandomVariateGenerator() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Period parameter */

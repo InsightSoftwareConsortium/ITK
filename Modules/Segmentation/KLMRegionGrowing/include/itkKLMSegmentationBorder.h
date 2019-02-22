@@ -181,7 +181,7 @@ protected:
   KLMSegmentationBorder();
 
   /** Destructor. */
-  ~KLMSegmentationBorder() override;
+  ~KLMSegmentationBorder() override = default;
 
   /** Print self identity */
   void PrintSelf(std::ostream & os, Indent indent) const override;

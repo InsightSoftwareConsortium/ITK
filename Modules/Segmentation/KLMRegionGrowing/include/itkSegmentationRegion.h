@@ -79,8 +79,8 @@ public:
   itkGetConstReferenceMacro(RegionArea, double);
 
 protected:
-  SegmentationRegion();
-  ~SegmentationRegion() override;
+  SegmentationRegion() = default;
+  ~SegmentationRegion() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

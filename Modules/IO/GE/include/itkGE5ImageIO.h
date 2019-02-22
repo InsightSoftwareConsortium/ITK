@@ -115,8 +115,8 @@ public:
   //      virtual void Write(const void* buffer);
 
 protected:
-  GE5ImageIO();
-  ~GE5ImageIO() override;
+  GE5ImageIO() = default;
+  ~GE5ImageIO() override = default;
 
   GEImageHeader * ReadHeader(const char *FileNameToRead) override;
 

@@ -268,9 +268,6 @@ JPEGImageIO::JPEGImageIO()
     this->AddSupportedReadExtension(ext);
     }
 }
-
-JPEGImageIO::~JPEGImageIO() = default;
-
 void JPEGImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

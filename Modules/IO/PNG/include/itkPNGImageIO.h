@@ -92,7 +92,7 @@ public:
 
 protected:
   PNGImageIO();
-  ~PNGImageIO() override;
+  ~PNGImageIO() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void WriteSlice(const std::string & fileName, const void *buffer);

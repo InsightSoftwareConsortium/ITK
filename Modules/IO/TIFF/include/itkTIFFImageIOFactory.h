@@ -61,7 +61,7 @@ public:
 
 protected:
   TIFFImageIOFactory();
-  ~TIFFImageIOFactory() override;
+  ~TIFFImageIOFactory() override = default;
 };
 } // end namespace itk
 

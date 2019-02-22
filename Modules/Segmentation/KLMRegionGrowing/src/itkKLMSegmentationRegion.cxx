@@ -25,9 +25,6 @@ KLMSegmentationRegion
   m_MeanRegionIntensity = 0;
 }
 
-KLMSegmentationRegion
-::~KLMSegmentationRegion() = default;
-
 void
 KLMSegmentationRegion
 ::PrintSelf(std::ostream & os, Indent indent) const

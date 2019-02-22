@@ -40,8 +40,6 @@ VTKImageIOFactory::VTKImageIOFactory()
                           CreateObjectFunction< VTKImageIO >::New() );
 }
 
-VTKImageIOFactory::~VTKImageIOFactory() = default;
-
 const char *
 VTKImageIOFactory::GetITKSourceVersion() const
 {

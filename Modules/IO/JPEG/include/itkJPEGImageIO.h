@@ -87,7 +87,7 @@ public:
 
 protected:
   JPEGImageIO();
-  ~JPEGImageIO() override;
+  ~JPEGImageIO() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void WriteSlice(std::string & fileName, const void *buffer);

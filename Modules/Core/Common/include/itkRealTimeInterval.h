@@ -59,7 +59,7 @@ public:
   RealTimeInterval( SecondsDifferenceType, MicroSecondsDifferenceType );
 
   /** Destructor */
-  ~RealTimeInterval();
+  ~RealTimeInterval() = default;
 
   /** Native type used to represent the time in different time units. */
   using TimeRepresentationType = double;

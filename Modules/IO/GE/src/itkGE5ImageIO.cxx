@@ -31,13 +31,6 @@
 namespace itk
 {
 static constexpr char GE_PROD_STR[] = "SIGNA";
-// Default constructor
-GE5ImageIO::GE5ImageIO() = default;
-
-GE5ImageIO::~GE5ImageIO()
-{
-  //Purposefully left blank
-}
 
 int GE5ImageIO
 ::CheckGE5xImages(char const *const imageFileTemplate, std::string & reason)

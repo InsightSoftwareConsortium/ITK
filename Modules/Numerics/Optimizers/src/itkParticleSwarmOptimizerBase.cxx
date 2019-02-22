@@ -38,10 +38,6 @@ ParticleSwarmOptimizerBase
   this->m_UseSeed = false;
 }
 
-ParticleSwarmOptimizerBase
-::~ParticleSwarmOptimizerBase() = default;
-
-
 void
 ParticleSwarmOptimizerBase
 ::SetNumberOfParticles( unsigned int n )

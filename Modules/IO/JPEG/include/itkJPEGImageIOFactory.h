@@ -61,7 +61,7 @@ public:
 
 protected:
   JPEGImageIOFactory();
-  ~JPEGImageIOFactory() override;
+  ~JPEGImageIOFactory() override = default;
 };
 } // end namespace itk
 

@@ -33,8 +33,6 @@ GE4ImageIOFactory::GE4ImageIOFactory()
                           CreateObjectFunction< GE4ImageIO >::New() );
 }
 
-GE4ImageIOFactory::~GE4ImageIOFactory() = default;
-
 const char *
 GE4ImageIOFactory::GetITKSourceVersion() const
 {

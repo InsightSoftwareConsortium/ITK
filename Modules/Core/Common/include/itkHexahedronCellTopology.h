@@ -39,8 +39,8 @@ namespace itk
 class ITKCommon_EXPORT HexahedronCellTopology
 {
 public:
-  HexahedronCellTopology();
-  virtual ~HexahedronCellTopology();
+  HexahedronCellTopology() = default;
+  virtual ~HexahedronCellTopology() = default;
 
 protected:
 

@@ -123,8 +123,8 @@ public:
   void Write() override;
 
 protected:
-  HDF5TransformIOTemplate();
-  ~HDF5TransformIOTemplate() override;
+  HDF5TransformIOTemplate() = default;
+  ~HDF5TransformIOTemplate() override = default;
 
 private:
   /** Read a parameter array from the file location name */

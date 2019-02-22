@@ -28,9 +28,6 @@ CylinderSpatialObject::CylinderSpatialObject()
   m_Height = 1.0;
 }
 
-/** Destructor */
-CylinderSpatialObject::~CylinderSpatialObject() = default;
-
 /** Test whether a point is inside or outside the object
  *  For computational speed purposes, it is faster if the method does not
  *  check the name of the class and the current depth */

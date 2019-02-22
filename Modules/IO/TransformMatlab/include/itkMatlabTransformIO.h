@@ -63,8 +63,8 @@ public:
   void Write() override;
 
 protected:
-  MatlabTransformIOTemplate();
-  ~MatlabTransformIOTemplate() override;
+  MatlabTransformIOTemplate() = default;
+  ~MatlabTransformIOTemplate() override = default;
 };
 
 /** This helps to meet backward compatibility */

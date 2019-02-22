@@ -60,8 +60,8 @@ public:
   CreateTransformIO(const char *path, TransformIOFactoryFileModeType mode);
 
 protected:
-  TransformIOFactoryTemplate();
-  ~TransformIOFactoryTemplate() override;
+  TransformIOFactoryTemplate() = default;
+  ~TransformIOFactoryTemplate() override = default;
 };
 
 /** This helps to meet backward compatibility */

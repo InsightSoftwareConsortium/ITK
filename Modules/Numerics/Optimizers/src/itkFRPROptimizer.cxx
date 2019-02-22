@@ -31,9 +31,6 @@ FRPROptimizer
   m_OptimizationType = PolakRibiere;
 }
 
-FRPROptimizer
-::~FRPROptimizer() = default;
-
 void
 FRPROptimizer
 ::GetValueAndDerivative(ParametersType & p, double *val,

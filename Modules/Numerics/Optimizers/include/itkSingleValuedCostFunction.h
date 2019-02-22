@@ -76,7 +76,7 @@ public:
 
 protected:
   SingleValuedCostFunction() = default;
-  ~SingleValuedCostFunction() override;
+  ~SingleValuedCostFunction() override = default;
 };
 } // end namespace itk
 

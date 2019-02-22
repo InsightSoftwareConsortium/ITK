@@ -33,8 +33,6 @@ GE5ImageIOFactory::GE5ImageIOFactory()
                           CreateObjectFunction< GE5ImageIO >::New() );
 }
 
-GE5ImageIOFactory::~GE5ImageIOFactory() = default;
-
 const char *
 GE5ImageIOFactory::GetITKSourceVersion() const
 {

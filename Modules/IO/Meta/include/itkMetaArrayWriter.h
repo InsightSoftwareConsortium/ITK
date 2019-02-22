@@ -155,7 +155,7 @@ public:
 protected:
 
   MetaArrayWriter();
-  ~MetaArrayWriter() override;
+  ~MetaArrayWriter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

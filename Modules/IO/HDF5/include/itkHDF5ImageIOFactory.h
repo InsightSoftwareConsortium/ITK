@@ -63,7 +63,7 @@ public:
 
 protected:
   HDF5ImageIOFactory();
-  ~HDF5ImageIOFactory() override;
+  ~HDF5ImageIOFactory() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end namespace itk

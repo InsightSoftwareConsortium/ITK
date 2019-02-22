@@ -50,9 +50,6 @@ PowellOptimizer
   m_StopConditionDescription << this->GetNameOfClass() << ": ";
 }
 
-PowellOptimizer
-::~PowellOptimizer() = default;
-
 void
 PowellOptimizer
 ::SetLine(const PowellOptimizer::ParametersType & origin,

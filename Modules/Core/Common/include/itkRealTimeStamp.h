@@ -54,7 +54,7 @@ public:
   RealTimeStamp();
 
   /** Destructor */
-  ~RealTimeStamp();
+  ~RealTimeStamp() = default;
 
   /** Native type used to represent the time in different time units. */
   using TimeRepresentationType = RealTimeInterval::TimeRepresentationType;

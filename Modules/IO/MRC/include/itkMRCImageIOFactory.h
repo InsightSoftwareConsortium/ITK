@@ -78,7 +78,7 @@ public:
 
 protected:
   MRCImageIOFactory();
-  ~MRCImageIOFactory() override;
+  ~MRCImageIOFactory() override = default;
 };
 } // end namespace itk
 

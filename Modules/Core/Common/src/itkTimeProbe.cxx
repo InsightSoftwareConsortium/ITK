@@ -25,9 +25,6 @@ TimeProbe
   m_RealTimeClock   = RealTimeClock::New();
 }
 
-TimeProbe
-::~TimeProbe() = default;
-
 TimeProbe::TimeStampType
 TimeProbe
 ::GetInstantValue() const

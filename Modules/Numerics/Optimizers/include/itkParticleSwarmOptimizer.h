@@ -96,7 +96,7 @@ public:
 
 protected:
   ParticleSwarmOptimizer();
-  ~ParticleSwarmOptimizer() override;
+  ~ParticleSwarmOptimizer() override = default;
   void PrintSelf(std::ostream& os, Indent indent) const override;
   void UpdateSwarm() override;
 

@@ -71,8 +71,8 @@ public:
   virtual void ApplySegmentationBorder(){}
 
 protected:
-  SegmentationBorder();
-  ~SegmentationBorder() override;
+  SegmentationBorder() = default;
+  ~SegmentationBorder() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

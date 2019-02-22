@@ -106,7 +106,7 @@ public:
 
 protected:
   VTKImageIO();
-  ~VTKImageIO() override;
+  ~VTKImageIO() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

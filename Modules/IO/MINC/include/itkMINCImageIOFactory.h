@@ -70,7 +70,7 @@ public:
 
 protected:
   MINCImageIOFactory();
-  ~MINCImageIOFactory() override;
+  ~MINCImageIOFactory() override = default;
 };
 } // end namespace itk
 

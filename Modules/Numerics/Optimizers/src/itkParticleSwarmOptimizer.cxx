@@ -32,10 +32,6 @@ ParticleSwarmOptimizer
   this->m_GlobalCoefficient = 1.49609;
 }
 
-
-ParticleSwarmOptimizer
-::~ParticleSwarmOptimizer() = default;
-
 void
 ParticleSwarmOptimizer
 ::PrintSelf( std::ostream& os, Indent indent ) const

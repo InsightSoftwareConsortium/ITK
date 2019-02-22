@@ -29,10 +29,6 @@
 
 namespace itk
 {
-Version::Version() = default;
-
-Version::~Version() = default;
-
 const char *
 Version::GetITKVersion()
 {

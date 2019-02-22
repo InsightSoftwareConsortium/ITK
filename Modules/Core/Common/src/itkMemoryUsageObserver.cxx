@@ -56,8 +56,6 @@
 
 namespace itk
 {
-MemoryUsageObserverBase::~MemoryUsageObserverBase() = default;
-
 #if defined( WIN32 ) || defined( _WIN32 )
 
 /**         ----         Windows Memory Usage Observer       ----       */
@@ -313,8 +311,6 @@ LinuxMemoryUsageObserver::GetMemoryUsage()
 
 /**         ----         Mac OS X Memory Usage Observer       ----       */
 
-MacOSXMemoryUsageObserver::~MacOSXMemoryUsageObserver() = default;
-
 MemoryUsageObserverBase::MemoryLoadType
 MacOSXMemoryUsageObserver::GetMemoryUsage()
 {
@@ -430,8 +426,6 @@ SunSolarisMemoryUsageObserver::GetMemoryUsage()
 
 /**         ----         SysResource Memory Usage Observer       ----       */
 
-SysResourceMemoryUsageObserver::~SysResourceMemoryUsageObserver() = default;
-
 MemoryUsageObserverBase::MemoryLoadType
 SysResourceMemoryUsageObserver::GetMemoryUsage()
 {
@@ -469,7 +463,4 @@ MallinfoMemoryUsageObserver::GetMemoryUsage()
 
 #endif // Unix and Mac Platforms !defined(WIN32) && !defined(_WIN32)
 
-
-//Destructor for MemoryUsageObserver
-MemoryUsageObserver::~MemoryUsageObserver()= default;
 } //end namespace itk

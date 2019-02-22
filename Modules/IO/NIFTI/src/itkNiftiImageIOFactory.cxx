@@ -33,8 +33,6 @@ NiftiImageIOFactory::NiftiImageIOFactory()
                           CreateObjectFunction< NiftiImageIO >::New() );
 }
 
-NiftiImageIOFactory::~NiftiImageIOFactory() = default;
-
 const char *
 NiftiImageIOFactory::GetITKSourceVersion() const
 {

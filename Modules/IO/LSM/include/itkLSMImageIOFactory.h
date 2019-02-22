@@ -70,7 +70,7 @@ public:
 
 protected:
   LSMImageIOFactory();
-  ~LSMImageIOFactory() override;
+  ~LSMImageIOFactory() override = default;
 };
 } // end namespace itk
 

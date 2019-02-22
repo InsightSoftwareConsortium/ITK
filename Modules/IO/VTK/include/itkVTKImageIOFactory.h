@@ -70,7 +70,7 @@ public:
 
 protected:
   VTKImageIOFactory();
-  ~VTKImageIOFactory() override;
+  ~VTKImageIOFactory() override = default;
 };
 } // end namespace itk
 

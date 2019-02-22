@@ -50,9 +50,6 @@ BMPImageIO::BMPImageIO() :
     }
 }
 
-/** Destructor */
-BMPImageIO::~BMPImageIO() = default;
-
 bool BMPImageIO::CanReadFile(const char *filename)
 {
   // First check the filename

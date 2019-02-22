@@ -88,8 +88,8 @@ public:
   }
 
 protected:
-  SpatialObjectFactoryBase();
-  ~SpatialObjectFactoryBase() override;
+  SpatialObjectFactoryBase() = default;
+  ~SpatialObjectFactoryBase() override = default;
 
 private:
   static ITKSpatialObjectExport SpatialObjectFactoryBase *m_Factory;

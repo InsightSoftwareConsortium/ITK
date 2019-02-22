@@ -60,7 +60,7 @@ public:
 
 protected:
   BMPImageIOFactory();
-  ~BMPImageIOFactory() override;
+  ~BMPImageIOFactory() override = default;
 };
 } // end namespace itk
 

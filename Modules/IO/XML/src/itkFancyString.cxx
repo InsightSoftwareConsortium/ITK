@@ -21,9 +21,6 @@
 
 namespace itk
 {
-
-FancyString::FancyString() = default; // : std::string()
-
 FancyString::FancyString( const std::string& str )// : std::string( str )
 {
   this->m_Value = str;

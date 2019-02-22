@@ -41,9 +41,6 @@ OutputWindow
   m_PromptUser = false;
 }
 
-OutputWindow
-::~OutputWindow() = default;
-
 void
 OutputWindowDisplayText(const char *message)
 {

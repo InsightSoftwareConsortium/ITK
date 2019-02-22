@@ -30,8 +30,6 @@ GDCMImageIOFactory::GDCMImageIOFactory()
                           CreateObjectFunction< GDCMImageIO >::New() );
 }
 
-GDCMImageIOFactory::~GDCMImageIOFactory() = default;
-
 const char * GDCMImageIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;

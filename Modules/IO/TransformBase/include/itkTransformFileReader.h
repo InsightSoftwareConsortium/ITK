@@ -87,7 +87,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   TransformFileReaderTemplate();
-  ~TransformFileReaderTemplate() override;
+  ~TransformFileReaderTemplate() override = default;
 
   TransformListType                 m_TransformList;
   typename TransformIOType::Pointer m_TransformIO;

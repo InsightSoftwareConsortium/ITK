@@ -82,8 +82,8 @@ public:
   virtual void DisplayTag(const char *);
 
 protected:
-  XMLFileOutputWindow();
-  ~XMLFileOutputWindow() override;
+  XMLFileOutputWindow() = default;
+  ~XMLFileOutputWindow() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void Initialize();

@@ -477,7 +477,7 @@ public:
 
 protected:
   DataObject();
-  ~DataObject() override;
+  ~DataObject() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Propagate a call to ResetPipeline(). Called only from ProcessObject. */

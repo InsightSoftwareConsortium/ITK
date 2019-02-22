@@ -61,7 +61,7 @@ public:
 
 protected:
   PNGImageIOFactory();
-  ~PNGImageIOFactory() override;
+  ~PNGImageIOFactory() override = default;
 };
 } // end namespace itk
 

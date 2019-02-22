@@ -24,13 +24,6 @@
 
 namespace itk
 {
-template<typename ParametersValueType>
-MatlabTransformIOTemplate<ParametersValueType>
-::MatlabTransformIOTemplate() = default;
-
-template<typename ParametersValueType>
-MatlabTransformIOTemplate<ParametersValueType>
-::~MatlabTransformIOTemplate() = default;
 
 template<typename ParametersValueType>
 bool

@@ -219,7 +219,7 @@ public:
 
 protected:
   KLMSegmentationRegion();
-  ~KLMSegmentationRegion() override;
+  ~KLMSegmentationRegion() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

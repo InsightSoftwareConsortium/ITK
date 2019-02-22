@@ -92,7 +92,7 @@ public:
     m_Data = data;
   }
 
-  virtual ~IPLFileSortInfo();
+  virtual ~IPLFileSortInfo() = default;
 
   IPLSetMacroDeclaration(ImageFileName, std::string);
   IPLGetMacroDeclaration(ImageFileName, std::string);

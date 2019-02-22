@@ -103,8 +103,6 @@ LSMImageIO::LSMImageIO()
   this->AddSupportedReadExtension(".LSM");
 }
 
-LSMImageIO::~LSMImageIO() = default;
-
 // This method will only test if the header looks like a
 // LSM image file.
 bool LSMImageIO::CanReadFile(const char *filename)

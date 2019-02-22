@@ -65,7 +65,7 @@ public:
 
   /** Destructor.  MeshRegion is a lightweight object and is not reference
    * counted. */
-  ~MeshRegion() override;
+  ~MeshRegion() override = default;
 
   /** Return the region type. Meshes are described with unstructured regions. */
   RegionType GetRegionType() const override

@@ -75,12 +75,6 @@ TransformFileReaderTemplate<TParametersValueType>
 {
 }
 
-
-template<typename TParametersValueType>
-TransformFileReaderTemplate<TParametersValueType>
-::~TransformFileReaderTemplate() = default;
-
-
 template<typename TParametersValueType>
 void TransformFileReaderTemplate<TParametersValueType>
 ::Update()

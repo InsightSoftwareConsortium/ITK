@@ -101,7 +101,7 @@ public:
 
 protected:
   OutputWindow();
-  ~OutputWindow() override;
+  ~OutputWindow() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

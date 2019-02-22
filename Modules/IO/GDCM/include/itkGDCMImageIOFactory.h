@@ -60,7 +60,7 @@ public:
 
 protected:
   GDCMImageIOFactory();
-  ~GDCMImageIOFactory() override;
+  ~GDCMImageIOFactory() override = default;
 };
 } // end namespace itk
 

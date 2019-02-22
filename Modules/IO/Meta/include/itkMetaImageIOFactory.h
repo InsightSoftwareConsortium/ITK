@@ -60,7 +60,7 @@ public:
 
 protected:
   MetaImageIOFactory();
-  ~MetaImageIOFactory() override;
+  ~MetaImageIOFactory() override = default;
 };
 } // end namespace itk
 

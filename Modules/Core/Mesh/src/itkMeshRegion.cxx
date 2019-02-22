@@ -29,9 +29,4 @@ MeshRegion
   m_Region = 0;
 }
 
-/**
- * Destructor for the MeshRegion class.
- */
-MeshRegion
-::~MeshRegion() = default;
 } // end namespace itk

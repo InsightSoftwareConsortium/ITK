@@ -199,7 +199,7 @@ public:
 
 protected:
   ParticleSwarmOptimizerBase();
-  ~ParticleSwarmOptimizerBase() override;
+  ~ParticleSwarmOptimizerBase() override = default;
   void PrintSelf( std::ostream& os, Indent indent ) const override;
   void PrintParamtersType(  const ParametersType& x, std::ostream& os ) const;
 

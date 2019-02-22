@@ -81,11 +81,6 @@ RealTimeStamp::RealTimeStamp( SecondsCounterType seconds, MicroSecondsCounterTyp
 }
 
 /**
- * Destructor.
- */
-RealTimeStamp::~RealTimeStamp() = default;
-
-/**
  * Return time in microseconds.
  */
 RealTimeStamp::TimeRepresentationType

@@ -61,7 +61,7 @@ public:
 
 protected:
   GE5ImageIOFactory();
-  ~GE5ImageIOFactory() override;
+  ~GE5ImageIOFactory() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end namespace itk

@@ -43,8 +43,6 @@ NrrdImageIO::NrrdImageIO()
     }
 }
 
-NrrdImageIO::~NrrdImageIO() = default;
-
 bool NrrdImageIO::SupportsDimension(unsigned long dim)
 {
   if ( 1 == this->GetNumberOfComponents() )
