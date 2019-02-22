@@ -271,7 +271,7 @@ protected:
   AffineTransform();
 
   /** Destroy an AffineTransform object   */
-  ~AffineTransform() override;
+  ~AffineTransform() override = default;
 
   /** Print contents of an AffineTransform */
   void PrintSelf(std::ostream & s, Indent indent) const override;

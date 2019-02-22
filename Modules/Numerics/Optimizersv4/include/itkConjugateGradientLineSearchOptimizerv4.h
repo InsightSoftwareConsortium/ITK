@@ -83,10 +83,10 @@ protected:
   void AdvanceOneStep() override;
 
   /** Default constructor */
-  ConjugateGradientLineSearchOptimizerv4Template();
+  ConjugateGradientLineSearchOptimizerv4Template() = default;
 
   /** Destructor */
-  ~ConjugateGradientLineSearchOptimizerv4Template() override;
+  ~ConjugateGradientLineSearchOptimizerv4Template() override = default;
 
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 

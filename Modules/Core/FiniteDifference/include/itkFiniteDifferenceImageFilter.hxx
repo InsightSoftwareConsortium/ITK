@@ -41,10 +41,6 @@ FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 }
 
 template< typename TInputImage, typename TOutputImage >
-FiniteDifferenceImageFilter< TInputImage, TOutputImage >
-::~FiniteDifferenceImageFilter() = default;
-
-template< typename TInputImage, typename TOutputImage >
 void
 FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::GenerateData()

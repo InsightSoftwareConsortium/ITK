@@ -49,10 +49,6 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
 }
 
 template<typename TInternalComputationValueType>
-QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
-::~QuasiNewtonOptimizerv4Template() = default;
-
-template<typename TInternalComputationValueType>
 void
 QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const

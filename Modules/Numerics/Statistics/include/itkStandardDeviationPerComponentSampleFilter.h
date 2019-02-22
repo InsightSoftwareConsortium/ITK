@@ -94,7 +94,7 @@ public:
 
 protected:
   StandardDeviationPerComponentSampleFilter();
-  ~StandardDeviationPerComponentSampleFilter() override;
+  ~StandardDeviationPerComponentSampleFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** DataObject pointer */

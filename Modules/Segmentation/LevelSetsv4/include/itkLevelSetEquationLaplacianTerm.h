@@ -110,7 +110,7 @@ public:
 protected:
   LevelSetEquationLaplacianTerm();
 
-  ~LevelSetEquationLaplacianTerm() override;
+  ~LevelSetEquationLaplacianTerm() override = default;
 
   /** Return the spatial speed dependence a given pixel location
    * Usually, it is constant across the image domain */

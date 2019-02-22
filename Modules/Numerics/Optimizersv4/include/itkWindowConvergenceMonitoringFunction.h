@@ -78,7 +78,7 @@ public:
 protected:
   WindowConvergenceMonitoringFunction();
 
-  ~WindowConvergenceMonitoringFunction() override;
+  ~WindowConvergenceMonitoringFunction() override = default;
 
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 

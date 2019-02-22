@@ -31,10 +31,6 @@ PointsLocator<TPointsContainer>
 }
 
 template<typename TPointsContainer>
-PointsLocator<TPointsContainer>
-::~PointsLocator() = default;
-
-template<typename TPointsContainer>
 void
 PointsLocator<TPointsContainer>
 ::Initialize()

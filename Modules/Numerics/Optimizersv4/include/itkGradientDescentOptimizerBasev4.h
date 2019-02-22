@@ -170,7 +170,7 @@ protected:
 
   /** Default constructor */
   GradientDescentOptimizerBasev4Template();
-  ~GradientDescentOptimizerBasev4Template() override;
+  ~GradientDescentOptimizerBasev4Template() override = default;
 
   /** Flag to control use of the ScalesEstimator (if set) for
    * automatic learning step estimation at *each* iteration.

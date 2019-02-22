@@ -30,9 +30,6 @@ FrustumSpatialFunction< VDimension, TInput >::FrustumSpatialFunction() :
 }
 
 template< unsigned int VDimension, typename TInput >
-FrustumSpatialFunction< VDimension, TInput >::~FrustumSpatialFunction() = default;
-
-template< unsigned int VDimension, typename TInput >
 typename FrustumSpatialFunction< VDimension, TInput >::OutputType
 FrustumSpatialFunction< VDimension, TInput >
 ::Evaluate(const InputType & position) const

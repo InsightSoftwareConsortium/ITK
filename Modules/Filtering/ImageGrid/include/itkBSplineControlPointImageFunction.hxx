@@ -54,10 +54,6 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
 }
 
 template<typename TInputImage, typename TCoordRep>
-BSplineControlPointImageFunction<TInputImage, TCoordRep>
-::~BSplineControlPointImageFunction() = default;
-
-template<typename TInputImage, typename TCoordRep>
 void
 BSplineControlPointImageFunction<TInputImage, TCoordRep>
 ::SetSplineOrder( const unsigned int order )

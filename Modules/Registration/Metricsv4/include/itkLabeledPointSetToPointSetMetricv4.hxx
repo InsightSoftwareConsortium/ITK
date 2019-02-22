@@ -39,11 +39,6 @@ LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComp
   this->m_UsePointSetData = true;
 }
 
-/** Destructor */
-template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
-LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::~LabeledPointSetToPointSetMetricv4() = default;
-
 template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void
 LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>

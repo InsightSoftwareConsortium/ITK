@@ -105,7 +105,7 @@ protected:
 
   ShiSparseLevelSetImage();
 
-  ~ShiSparseLevelSetImage() override;
+  ~ShiSparseLevelSetImage() override = default;
 
   /** Initialize the sparse field layers */
   void InitializeLayers() override;

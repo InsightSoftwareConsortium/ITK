@@ -37,10 +37,6 @@ LevelSetEquationCurvatureTerm< TInput, TLevelSetContainer, TCurvatureImage >
 }
 
 template< typename TInput, typename TLevelSetContainer, typename TCurvatureImage >
-LevelSetEquationCurvatureTerm< TInput, TLevelSetContainer, TCurvatureImage >
-::~LevelSetEquationCurvatureTerm() = default;
-
-template< typename TInput, typename TLevelSetContainer, typename TCurvatureImage >
 void
 LevelSetEquationCurvatureTerm< TInput, TLevelSetContainer, TCurvatureImage >
 ::SetCurvatureImage( CurvatureImageType* iImage )

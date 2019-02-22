@@ -224,7 +224,7 @@ public:
 
 protected:
   TranslationTransform();
-  ~TranslationTransform() override;
+  ~TranslationTransform() override = default;
   /** Print contents of an TranslationTransform. */
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

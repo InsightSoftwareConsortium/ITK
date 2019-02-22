@@ -25,20 +25,6 @@
 namespace itk
 {
 
-/**
- * Constructor
- */
-template<typename TParametersValueType, unsigned int NDimensions>
-TimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>
-::TimeVaryingVelocityFieldTransform() = default;
-
-/**
- * Destructor
- */
-template<typename TParametersValueType, unsigned int NDimensions>
-TimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>::
-~TimeVaryingVelocityFieldTransform() = default;
-
 template<typename TParametersValueType, unsigned int NDimensions>
 void
 TimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>

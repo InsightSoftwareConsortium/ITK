@@ -203,7 +203,7 @@ public:
 protected:
 
   ObjectToObjectMultiMetricv4();
-  ~ObjectToObjectMultiMetricv4() override;
+  ~ObjectToObjectMultiMetricv4() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

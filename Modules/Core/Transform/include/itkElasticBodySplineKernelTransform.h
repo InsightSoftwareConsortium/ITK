@@ -90,7 +90,7 @@ public:
 
 protected:
   ElasticBodySplineKernelTransform();
-  ~ElasticBodySplineKernelTransform() override;
+  ~ElasticBodySplineKernelTransform() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   using GMatrixType = typename Superclass::GMatrixType;

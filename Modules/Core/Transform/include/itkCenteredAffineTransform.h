@@ -113,7 +113,7 @@ protected:
   CenteredAffineTransform();
 
   /** Destroy an CenteredAffineTransform object */
-  ~CenteredAffineTransform() override;
+  ~CenteredAffineTransform() override = default;
 
 private:
   CenteredAffineTransform(const Self & other) = delete;

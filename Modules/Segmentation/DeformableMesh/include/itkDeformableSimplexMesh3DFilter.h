@@ -203,7 +203,7 @@ public:
 
 protected:
   DeformableSimplexMesh3DFilter();
-  ~DeformableSimplexMesh3DFilter() override;
+  ~DeformableSimplexMesh3DFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** */

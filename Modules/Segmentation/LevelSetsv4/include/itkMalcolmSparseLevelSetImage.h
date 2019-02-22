@@ -107,7 +107,7 @@ protected:
 
   MalcolmSparseLevelSetImage();
 
-  ~MalcolmSparseLevelSetImage() override;
+  ~MalcolmSparseLevelSetImage() override = default;
 
   /** Initialize the sparse field layers */
   void InitializeLayers() override;

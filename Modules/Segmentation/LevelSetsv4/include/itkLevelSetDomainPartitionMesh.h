@@ -61,8 +61,8 @@ public:
   itkSetObjectMacro( Mesh, MeshType );
 
 protected:
-  LevelSetDomainPartitionMesh();
-  virtual ~LevelSetDomainPartitionMesh();
+  LevelSetDomainPartitionMesh() = default;
+  virtual ~LevelSetDomainPartitionMesh() = default;
 
   /** Populate a list mesh with each node being a list of overlapping
    *  level set support at that pixel */

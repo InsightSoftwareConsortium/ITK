@@ -93,7 +93,7 @@ public:
     const ContinuousIndexType & index) const override;
 
 protected:
-  VectorLinearInterpolateImageFunction();
+  VectorLinearInterpolateImageFunction() = default;
   ~VectorLinearInterpolateImageFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

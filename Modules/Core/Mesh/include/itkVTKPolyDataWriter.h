@@ -95,7 +95,7 @@ public:
 
 protected:
   VTKPolyDataWriter();
-  ~VTKPolyDataWriter() override;
+  ~VTKPolyDataWriter() override = default;
 
   virtual void GenerateData();
 

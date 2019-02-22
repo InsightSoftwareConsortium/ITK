@@ -131,7 +131,7 @@ public:
 
 protected:
   RandomImageSource();
-  ~RandomImageSource() override;
+  ~RandomImageSource() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;

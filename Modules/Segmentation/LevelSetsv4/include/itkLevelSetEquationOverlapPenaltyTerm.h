@@ -115,7 +115,7 @@ public:
 protected:
   LevelSetEquationOverlapPenaltyTerm();
 
-  ~LevelSetEquationOverlapPenaltyTerm() override;
+  ~LevelSetEquationOverlapPenaltyTerm() override = default;
 
   /** Returns the term contribution for a given location index */
   LevelSetOutputRealType Value( const LevelSetInputIndexType& index ) override;

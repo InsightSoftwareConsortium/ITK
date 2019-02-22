@@ -49,10 +49,6 @@ BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, 
 }
 
 template< typename TFixedImage, typename TMovingImage, typename TFeatures, typename TDisplacements, typename TSimilarities >
-BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, TSimilarities >
-::~BlockMatchingImageFilter() = default;
-
-template< typename TFixedImage, typename TMovingImage, typename TFeatures, typename TDisplacements, typename TSimilarities >
 void
 BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, TSimilarities >
 ::PrintSelf( std::ostream & os, Indent indent ) const

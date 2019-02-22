@@ -30,11 +30,6 @@ ScaleVersor3DTransform<TParametersValueType>
   m_Scale.Fill(1.0);
 }
 
-// Destructor
-template<typename TParametersValueType>
-ScaleVersor3DTransform<TParametersValueType>
-::~ScaleVersor3DTransform() = default;
-
 // Constructor with arguments
 template<typename TParametersValueType>
 ScaleVersor3DTransform<TParametersValueType>::ScaleVersor3DTransform(unsigned int parametersDimension) :

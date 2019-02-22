@@ -45,9 +45,6 @@ OnePlusOneEvolutionaryOptimizer
   m_FrobeniusNorm = 0.0;
 }
 
-OnePlusOneEvolutionaryOptimizer
-::~OnePlusOneEvolutionaryOptimizer() = default;
-
 void
 OnePlusOneEvolutionaryOptimizer
 ::SetNormalVariateGenerator(NormalVariateGeneratorType *generator)

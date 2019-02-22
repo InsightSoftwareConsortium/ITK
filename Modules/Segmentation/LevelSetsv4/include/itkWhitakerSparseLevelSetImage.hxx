@@ -32,12 +32,6 @@ WhitakerSparseLevelSetImage< TOutput, VDimension >
   this->InitializeInternalLabelList();
 }
 
-
-template< typename TOutput, unsigned int VDimension >
-WhitakerSparseLevelSetImage< TOutput, VDimension >
-::~WhitakerSparseLevelSetImage() = default;
-
-
 template< typename TOutput, unsigned int VDimension >
 typename WhitakerSparseLevelSetImage< TOutput, VDimension >::OutputType
 WhitakerSparseLevelSetImage< TOutput, VDimension >

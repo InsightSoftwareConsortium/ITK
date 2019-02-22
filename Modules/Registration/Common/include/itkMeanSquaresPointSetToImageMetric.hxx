@@ -24,13 +24,6 @@
 namespace itk
 {
 /**
- * Constructor
- */
-template <typename TFixedPointSet, typename TMovingImage>
-MeanSquaresPointSetToImageMetric<TFixedPointSet, TMovingImage>
-::MeanSquaresPointSetToImageMetric() = default;
-
-/**
  * Get the match Measure
  */
 template <typename TFixedPointSet, typename TMovingImage>

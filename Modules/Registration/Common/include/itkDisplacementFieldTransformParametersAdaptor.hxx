@@ -37,10 +37,6 @@ DisplacementFieldTransformParametersAdaptor<TTransform>
 }
 
 template<typename TTransform>
-DisplacementFieldTransformParametersAdaptor<TTransform>
-::~DisplacementFieldTransformParametersAdaptor() = default;
-
-template<typename TTransform>
 void
 DisplacementFieldTransformParametersAdaptor<TTransform>
 ::SetRequiredSize( const SizeType & size )

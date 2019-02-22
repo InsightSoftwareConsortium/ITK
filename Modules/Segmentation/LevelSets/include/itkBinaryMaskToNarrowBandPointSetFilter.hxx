@@ -57,13 +57,6 @@ BinaryMaskToNarrowBandPointSetFilter< TInputImage, TOutputMesh >
  *
  */
 template< typename TInputImage, typename TOutputMesh >
-BinaryMaskToNarrowBandPointSetFilter< TInputImage, TOutputMesh >
-::~BinaryMaskToNarrowBandPointSetFilter() = default;
-
-/**
- *
- */
-template< typename TInputImage, typename TOutputMesh >
 void
 BinaryMaskToNarrowBandPointSetFilter< TInputImage, TOutputMesh >
 ::PrintSelf(std::ostream & os, Indent indent) const

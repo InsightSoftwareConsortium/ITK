@@ -91,8 +91,8 @@ public:
 #endif
 
 protected:
-  VoronoiPartitioningImageFilter();
-  ~VoronoiPartitioningImageFilter() override;
+  VoronoiPartitioningImageFilter() = default;
+  ~VoronoiPartitioningImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   // Classify all the voronoi cells as interior , exterior or boundary.

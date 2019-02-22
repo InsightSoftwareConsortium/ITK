@@ -39,10 +39,6 @@ MeanSampleFilter< TSample >
 }
 
 template< typename TSample >
-MeanSampleFilter< TSample >
-::~MeanSampleFilter() = default;
-
-template< typename TSample >
 void
 MeanSampleFilter< TSample >
 ::PrintSelf(std::ostream & os, Indent indent) const

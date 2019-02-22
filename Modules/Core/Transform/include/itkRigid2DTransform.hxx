@@ -50,12 +50,6 @@ Rigid2DTransform<TParametersValueType>
   m_Angle = NumericTraits<TParametersValueType>::ZeroValue();
 }
 
-
-template<typename TParametersValueType>
-Rigid2DTransform<TParametersValueType>::
-~Rigid2DTransform() = default;
-
-
 template<typename TParametersValueType>
 void
 Rigid2DTransform<TParametersValueType>

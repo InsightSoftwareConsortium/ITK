@@ -47,14 +47,6 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
 }
 
 /*
- * destructor
- */
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage,
- typename TParametersValueType>
-ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>
-::~ObjectToObjectMetric() = default;
-
-/*
  * Initialize
  */
 template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage,

@@ -107,7 +107,7 @@ public:
 
 protected:
   ParametricBlindLeastSquaresDeconvolutionImageFilter();
-  ~ParametricBlindLeastSquaresDeconvolutionImageFilter() override;
+  ~ParametricBlindLeastSquaresDeconvolutionImageFilter() override = default;
 
   void Initialize(ProgressAccumulator * progress,
                           float progressWeight,

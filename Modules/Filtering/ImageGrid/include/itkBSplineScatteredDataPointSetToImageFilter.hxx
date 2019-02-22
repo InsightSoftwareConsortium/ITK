@@ -72,10 +72,6 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 }
 
 template<typename TInputPointSet, typename TOutputImage>
-BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
-::~BSplineScatteredDataPointSetToImageFilter() = default;
-
-template<typename TInputPointSet, typename TOutputImage>
 void
 BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 ::SetSplineOrder( unsigned int order )

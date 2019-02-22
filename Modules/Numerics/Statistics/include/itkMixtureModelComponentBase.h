@@ -129,7 +129,7 @@ public:
 
 protected:
   MixtureModelComponentBase();
-  ~MixtureModelComponentBase() override;
+  ~MixtureModelComponentBase() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** stores the pointer to the membership function.

@@ -195,7 +195,7 @@ public:
 
 protected:
   SyNImageRegistrationMethod();
-  ~SyNImageRegistrationMethod() override;
+  ~SyNImageRegistrationMethod() override = default;
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 
   /** Perform the registration. */

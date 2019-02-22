@@ -90,8 +90,8 @@ public:
   void PopulateListDomain() override;
 
 protected:
-  LevelSetDomainPartitionImage();
-  ~LevelSetDomainPartitionImage() override;
+  LevelSetDomainPartitionImage() = default;
+  ~LevelSetDomainPartitionImage() override = default;
 
   /** Allocate a list image with each pixel being a list of overlapping
    *  level set support at that pixel */

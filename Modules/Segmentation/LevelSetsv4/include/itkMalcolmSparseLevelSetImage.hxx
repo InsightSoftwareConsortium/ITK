@@ -34,13 +34,6 @@ MalcolmSparseLevelSetImage< VDimension >
 
 // ----------------------------------------------------------------------------
 template< unsigned int VDimension >
-MalcolmSparseLevelSetImage< VDimension >
-::~MalcolmSparseLevelSetImage() = default;
-
-// ----------------------------------------------------------------------------
-
-// ----------------------------------------------------------------------------
-template< unsigned int VDimension >
 typename MalcolmSparseLevelSetImage< VDimension >::OutputType
 MalcolmSparseLevelSetImage< VDimension >::Evaluate( const InputType& inputPixel ) const
 {

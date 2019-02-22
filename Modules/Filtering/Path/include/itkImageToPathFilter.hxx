@@ -40,12 +40,6 @@ ImageToPathFilter< TInputImage, TOutputPath >
   this->SetNumberOfRequiredInputs(1);
 }
 
-
-template< typename TInputImage, typename TOutputPath >
-ImageToPathFilter< TInputImage, TOutputPath >
-::~ImageToPathFilter() = default;
-
-
 template< typename TInputImage, typename TOutputPath >
 void
 ImageToPathFilter< TInputImage, TOutputPath >

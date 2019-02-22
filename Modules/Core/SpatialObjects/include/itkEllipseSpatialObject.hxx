@@ -33,11 +33,6 @@ EllipseSpatialObject< TDimension >
   this->SetDimension(TDimension);
 }
 
-/** Destructor */
-template< unsigned int TDimension >
-EllipseSpatialObject< TDimension >
-::~EllipseSpatialObject() = default;
-
 /** Set all radii to the same radius value */
 template< unsigned int TDimension >
 void

@@ -128,7 +128,7 @@ public:
 
 protected:
   MeshFileWriter();
-  ~MeshFileWriter() override;
+  ~MeshFileWriter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   template< typename Output >

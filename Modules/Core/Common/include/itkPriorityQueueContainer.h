@@ -128,7 +128,7 @@ public:
   MinPriorityQueueElementWrapper(ElementType element,
                                  ElementPriorityType priority);
 
-  ~MinPriorityQueueElementWrapper() override;
+  ~MinPriorityQueueElementWrapper() override = default;
 
   bool operator>(const MinPriorityQueueElementWrapper & other) const;
 
@@ -223,7 +223,7 @@ public:
 
 public:
   PriorityQueueContainer();
-  ~PriorityQueueContainer() override;
+  ~PriorityQueueContainer() override = default;
 
   template< typename TInputIterator >
   PriorityQueueContainer(TInputIterator first, TInputIterator last):

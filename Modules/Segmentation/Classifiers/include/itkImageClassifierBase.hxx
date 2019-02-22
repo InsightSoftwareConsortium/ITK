@@ -21,16 +21,6 @@
 
 namespace itk
 {
-template< typename TInputImage,
-          typename TClassifiedImage >
-ImageClassifierBase< TInputImage, TClassifiedImage >
-::ImageClassifierBase() = default;
-
-template< typename TInputImage,
-          typename TClassifiedImage >
-ImageClassifierBase< TInputImage, TClassifiedImage >
-::~ImageClassifierBase() = default;
-
 /**
  * PrintSelf
  */

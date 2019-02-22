@@ -188,7 +188,7 @@ protected:
   void AdvanceOneStep() override;
 
   QuasiNewtonOptimizerv4Template();
-  ~QuasiNewtonOptimizerv4Template() override;
+  ~QuasiNewtonOptimizerv4Template() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

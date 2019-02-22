@@ -116,7 +116,7 @@ public:
 
 protected:
   HistogramToImageFilter();
-  ~HistogramToImageFilter() override;
+  ~HistogramToImageFilter() override = default;
 
   void GenerateOutputInformation() override;
 

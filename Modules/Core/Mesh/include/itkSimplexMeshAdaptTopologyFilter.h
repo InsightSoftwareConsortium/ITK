@@ -244,7 +244,7 @@ public:
 protected:
 
   SimplexMeshAdaptTopologyFilter();
-  ~SimplexMeshAdaptTopologyFilter() override;
+  ~SimplexMeshAdaptTopologyFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

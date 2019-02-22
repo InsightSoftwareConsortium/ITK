@@ -119,7 +119,7 @@ protected:
   CenteredEuler3DTransform();
   CenteredEuler3DTransform(const MatrixType & matrix, const OutputPointType & offset);
   CenteredEuler3DTransform(unsigned int ParametersDimension);
-  ~CenteredEuler3DTransform() override;
+  ~CenteredEuler3DTransform() override = default;
 
   /**
    * Print contents of an CenteredEuler3DTransform

@@ -52,11 +52,6 @@ ImageFileWriter< TInputImage >
 
 //---------------------------------------------------------
 template< typename TInputImage >
-ImageFileWriter< TInputImage >
-::~ImageFileWriter() = default;
-
-//---------------------------------------------------------
-template< typename TInputImage >
 void
 ImageFileWriter< TInputImage >
 ::SetInput(const InputImageType *input)

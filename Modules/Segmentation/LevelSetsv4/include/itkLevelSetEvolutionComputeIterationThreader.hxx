@@ -26,10 +26,6 @@ namespace itk
 {
 
 template< typename TImage, typename TLevelSetEvolution >
-LevelSetEvolutionComputeIterationThreader< LevelSetDenseImage< TImage >, ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
-::LevelSetEvolutionComputeIterationThreader() = default;
-
-template< typename TImage, typename TLevelSetEvolution >
 void
 LevelSetEvolutionComputeIterationThreader< LevelSetDenseImage< TImage >, ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
 ::ThreadedExecution( const DomainType & imageSubRegion,
@@ -109,13 +105,6 @@ LevelSetEvolutionComputeIterationThreader< LevelSetDenseImage< TImage >, Threade
 }
 
 template< typename TImage, typename TLevelSetEvolution >
-LevelSetEvolutionComputeIterationThreader<
-  LevelSetDenseImage< TImage >,
-  ThreadedIteratorRangePartitioner< typename TLevelSetEvolution::DomainMapImageFilterType::DomainMapType::const_iterator >,
-    TLevelSetEvolution >
-::LevelSetEvolutionComputeIterationThreader() = default;
-
-template< typename TImage, typename TLevelSetEvolution >
 void
 LevelSetEvolutionComputeIterationThreader<
   LevelSetDenseImage< TImage >,
@@ -158,13 +147,6 @@ LevelSetEvolutionComputeIterationThreader<
     ++mapIt;
     }
 }
-
-template< typename TOutput, unsigned int VDimension, typename TLevelSetEvolution >
-LevelSetEvolutionComputeIterationThreader<
-      WhitakerSparseLevelSetImage< TOutput, VDimension >,
-      ThreadedIteratorRangePartitioner< typename WhitakerSparseLevelSetImage< TOutput, VDimension >::LayerConstIterator >,
-      TLevelSetEvolution >
-::LevelSetEvolutionComputeIterationThreader() = default;
 
 template< typename TOutput, unsigned int VDimension, typename TLevelSetEvolution >
 void

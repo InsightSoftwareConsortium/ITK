@@ -131,7 +131,7 @@ protected:
 
   void EnlargeOutputRequestedRegion(DataObject *output) override;
 
-  BSplineUpsampleImageFilter();
+  BSplineUpsampleImageFilter() = default;
   ~BSplineUpsampleImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 };

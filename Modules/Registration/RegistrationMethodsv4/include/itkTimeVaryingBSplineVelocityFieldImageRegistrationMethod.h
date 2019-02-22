@@ -204,7 +204,7 @@ public:
 
 protected:
   TimeVaryingBSplineVelocityFieldImageRegistrationMethod();
-  ~TimeVaryingBSplineVelocityFieldImageRegistrationMethod() override;
+  ~TimeVaryingBSplineVelocityFieldImageRegistrationMethod() override = default;
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 
   /** Perform the registration. */

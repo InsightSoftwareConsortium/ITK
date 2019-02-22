@@ -315,7 +315,7 @@ protected:
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 
   BSplineBaseTransform();
-  ~BSplineBaseTransform() override;
+  ~BSplineBaseTransform() override = default;
 
   /** Get/Set to allow subclasses to access and manipulate the weights function. */
   itkSetObjectMacro( WeightsFunction, WeightsFunctionType );

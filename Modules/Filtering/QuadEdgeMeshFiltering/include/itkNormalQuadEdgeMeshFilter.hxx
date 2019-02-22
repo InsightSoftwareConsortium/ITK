@@ -31,10 +31,6 @@ NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 }
 
 template< typename TInputMesh, typename TOutputMesh >
-NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
-::~NormalQuadEdgeMeshFilter() = default;
-
-template< typename TInputMesh, typename TOutputMesh >
 typename NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::OutputFaceNormalType
 NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 ::ComputeFaceNormal(OutputPolygonType *iPoly)

@@ -32,10 +32,6 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder,TRealValueType>
 }
 
 template<unsigned int VSplineOrder, typename TRealValueType>
-CoxDeBoorBSplineKernelFunction<VSplineOrder,TRealValueType>
-::~CoxDeBoorBSplineKernelFunction() = default;
-
-template<unsigned int VSplineOrder, typename TRealValueType>
 void
 CoxDeBoorBSplineKernelFunction<VSplineOrder,TRealValueType>
 ::SetSplineOrder( const unsigned int order )

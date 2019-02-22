@@ -125,7 +125,7 @@ public:
 
 protected:
   DisplacementFieldTransformParametersAdaptor();
-  ~DisplacementFieldTransformParametersAdaptor() override;
+  ~DisplacementFieldTransformParametersAdaptor() override = default;
 }; //class DisplacementFieldTransformParametersAdaptor
 }  // namespace itk
 

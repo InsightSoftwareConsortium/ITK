@@ -58,13 +58,6 @@ ConstantVelocityFieldTransform<TParametersValueType, NDimensions>
   this->m_Parameters.SetHelper( helper );
 }
 
-/**
- * Destructor
- */
-template<typename TParametersValueType, unsigned int NDimensions>
-ConstantVelocityFieldTransform<TParametersValueType, NDimensions>::
-~ConstantVelocityFieldTransform() = default;
-
 template<typename TParametersValueType, unsigned int NDimensions>
 void
 ConstantVelocityFieldTransform<TParametersValueType, NDimensions>

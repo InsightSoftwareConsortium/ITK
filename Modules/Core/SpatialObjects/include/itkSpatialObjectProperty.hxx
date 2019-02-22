@@ -35,10 +35,6 @@ SpatialObjectProperty< TComponentType >
 }
 
 template< typename TComponentType >
-SpatialObjectProperty< TComponentType >
-::~SpatialObjectProperty() = default;
-
-template< typename TComponentType >
 const typename SpatialObjectProperty< TComponentType >::PixelType &
 SpatialObjectProperty< TComponentType >
 ::GetColor() const

@@ -95,7 +95,7 @@ protected:
 
   /**-PROTECTED METHODS------------------------------------------------------*/
   RingBuffer();
-  ~RingBuffer() override;
+  ~RingBuffer() override = default;
   void PrintSelf(std::ostream &os, Indent indent) const override;
 
   /** Get the proper buffer index from an offset */

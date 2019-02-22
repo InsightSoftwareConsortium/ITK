@@ -122,7 +122,7 @@ protected:
   void BeforeTemporalStreamingGenerateData() override;
 
   VideoToVideoFilter();
-  ~VideoToVideoFilter() override;
+  ~VideoToVideoFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

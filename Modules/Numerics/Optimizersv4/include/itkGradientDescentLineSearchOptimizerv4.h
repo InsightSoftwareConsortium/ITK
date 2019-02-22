@@ -118,7 +118,7 @@ protected:
   GradientDescentLineSearchOptimizerv4Template();
 
   /** Destructor */
-  ~GradientDescentLineSearchOptimizerv4Template() override;
+  ~GradientDescentLineSearchOptimizerv4Template() override = default;
 
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 

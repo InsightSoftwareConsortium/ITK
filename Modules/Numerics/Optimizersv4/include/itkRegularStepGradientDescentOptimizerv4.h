@@ -126,7 +126,7 @@ protected:
   RegularStepGradientDescentOptimizerv4();
 
   /** Destructor. */
-  ~RegularStepGradientDescentOptimizerv4() override;
+  ~RegularStepGradientDescentOptimizerv4() override = default;
 
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 

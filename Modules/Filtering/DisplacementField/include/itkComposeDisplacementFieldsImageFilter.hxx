@@ -43,10 +43,6 @@ ComposeDisplacementFieldsImageFilter<InputImage, TOutputImage>
 }
 
 template<typename InputImage, typename TOutputImage>
-ComposeDisplacementFieldsImageFilter<InputImage, TOutputImage>
-::~ComposeDisplacementFieldsImageFilter() = default;
-
-template<typename InputImage, typename TOutputImage>
 void
 ComposeDisplacementFieldsImageFilter<InputImage, TOutputImage>
 ::SetInterpolator( InterpolatorType *interpolator )

@@ -33,10 +33,6 @@ ClassifierBase< TDataContainer >
 }
 
 template< typename TDataContainer >
-ClassifierBase< TDataContainer >
-::~ClassifierBase() = default;
-
-template< typename TDataContainer >
 void
 ClassifierBase< TDataContainer >
 ::PrintSelf(std::ostream & os, Indent indent) const

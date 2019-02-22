@@ -30,10 +30,6 @@ LevelSetDomainPartitionImageWithKdTree< TImage >
 }
 
 template< typename TImage >
-LevelSetDomainPartitionImageWithKdTree< TImage >
-::~LevelSetDomainPartitionImageWithKdTree() = default;
-
-template< typename TImage >
 void LevelSetDomainPartitionImageWithKdTree< TImage >
 ::PopulateListDomain()
 {

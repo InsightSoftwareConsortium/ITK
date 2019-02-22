@@ -443,7 +443,7 @@ public:
 
 protected:
   ImageRegistrationMethodv4();
-  ~ImageRegistrationMethodv4() override;
+  ~ImageRegistrationMethodv4() override = default;
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 
   /** Perform the registration. */

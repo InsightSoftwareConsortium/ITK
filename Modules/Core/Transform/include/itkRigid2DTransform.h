@@ -243,7 +243,7 @@ protected:
   Rigid2DTransform(unsigned int parametersDimension);
   Rigid2DTransform();
 
-  ~Rigid2DTransform() override;
+  ~Rigid2DTransform() override = default;
 
   /**
     * Print contents of an Rigid2DTransform

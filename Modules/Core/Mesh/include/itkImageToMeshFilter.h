@@ -86,7 +86,7 @@ public:
 
 protected:
   ImageToMeshFilter();
-  ~ImageToMeshFilter() override;
+  ~ImageToMeshFilter() override = default;
 };
 } // end namespace itk
 

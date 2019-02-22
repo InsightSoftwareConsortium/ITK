@@ -307,7 +307,7 @@ public:
 
 protected:
   MRFImageFilter();
-  ~MRFImageFilter() override;
+  ~MRFImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Allocate memory for labelled images. */

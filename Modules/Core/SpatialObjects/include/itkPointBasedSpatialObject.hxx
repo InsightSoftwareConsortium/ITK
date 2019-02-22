@@ -32,11 +32,6 @@ PointBasedSpatialObject< TDimension >
   this->SetTypeName("PointBasedSpatialObject");
 }
 
-/** Destructor */
-template< unsigned int TDimension >
-PointBasedSpatialObject< TDimension >
-::~PointBasedSpatialObject() = default;
-
 /** Print the object */
 template< unsigned int TDimension >
 void

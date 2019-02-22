@@ -54,7 +54,7 @@ public:
   LineSpatialObjectPoint();
 
   /** Destructor */
-  ~LineSpatialObjectPoint() override;
+  ~LineSpatialObjectPoint() override = default;
 
   /** Get Normal */
   const VectorType & GetNormal(unsigned int index) const;

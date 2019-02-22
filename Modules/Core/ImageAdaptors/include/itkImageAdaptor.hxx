@@ -37,13 +37,6 @@ ImageAdaptor< TImage, TAccessor >
   m_Image = TImage::New();
 }
 
-/**
- * Destructor
- */
-template< typename TImage, typename TAccessor >
-ImageAdaptor< TImage, TAccessor >
-::~ImageAdaptor() = default;
-
 template< typename TImage, typename TAccessor >
 void
 ImageAdaptor< TImage, TAccessor >

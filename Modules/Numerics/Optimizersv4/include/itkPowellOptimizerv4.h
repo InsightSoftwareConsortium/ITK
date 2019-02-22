@@ -127,7 +127,7 @@ public:
 protected:
   PowellOptimizerv4();
   PowellOptimizerv4(const PowellOptimizerv4 &);
-  ~PowellOptimizerv4() override;
+  ~PowellOptimizerv4() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   itkSetMacro(CurrentCost, double);

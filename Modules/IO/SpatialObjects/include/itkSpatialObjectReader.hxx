@@ -32,10 +32,6 @@ SpatialObjectReader< NDimensions, PixelType, TMeshTraits >
 }
 
 template< unsigned int NDimensions, typename PixelType, typename TMeshTraits >
-SpatialObjectReader< NDimensions, PixelType, TMeshTraits >
-::~SpatialObjectReader() = default;
-
-template< unsigned int NDimensions, typename PixelType, typename TMeshTraits >
 void
 SpatialObjectReader< NDimensions, PixelType, TMeshTraits >
 ::Update()

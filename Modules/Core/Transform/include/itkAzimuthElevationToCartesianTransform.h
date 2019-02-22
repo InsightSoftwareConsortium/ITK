@@ -222,7 +222,7 @@ protected:
   AzimuthElevationToCartesianTransform();
 
   /** Destroy an AzimuthElevationToCartesianTransform object. */
-  ~AzimuthElevationToCartesianTransform() override;
+  ~AzimuthElevationToCartesianTransform() override = default;
 
   /** Print contents of an AzimuthElevationTransform. */
   void PrintSelf(std::ostream & s, Indent indent) const override;

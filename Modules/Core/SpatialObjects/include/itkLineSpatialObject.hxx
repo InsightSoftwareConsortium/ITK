@@ -37,11 +37,6 @@ LineSpatialObject< TDimension >
   this->ComputeBoundingBox();
 }
 
-/** Destructor */
-template< unsigned int TDimension >
-LineSpatialObject< TDimension >
-::~LineSpatialObject() = default;
-
 /** Set the list of Line points. */
 template< unsigned int TDimension >
 void

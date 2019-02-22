@@ -66,12 +66,6 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
   this->SetCoefficientImageInformationFromFixedParameters();
 }
 
-
-template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
-BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
-::~BSplineTransform() = default;
-
-
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 std::string BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
 ::GetTransformTypeAsString() const

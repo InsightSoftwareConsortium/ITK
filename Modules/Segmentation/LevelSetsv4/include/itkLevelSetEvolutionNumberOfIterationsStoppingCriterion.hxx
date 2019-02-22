@@ -24,15 +24,6 @@
 namespace itk
 {
 template< typename TLevelSetContainer >
-LevelSetEvolutionNumberOfIterationsStoppingCriterion< TLevelSetContainer >::
-LevelSetEvolutionNumberOfIterationsStoppingCriterion() = default;
-
-template< typename TLevelSetContainer >
-LevelSetEvolutionNumberOfIterationsStoppingCriterion< TLevelSetContainer >::
-~LevelSetEvolutionNumberOfIterationsStoppingCriterion() = default;
-
-
-template< typename TLevelSetContainer >
 bool
 LevelSetEvolutionNumberOfIterationsStoppingCriterion< TLevelSetContainer >::
 IsSatisfied() const

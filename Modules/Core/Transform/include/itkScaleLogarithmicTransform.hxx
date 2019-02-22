@@ -22,16 +22,6 @@
 
 namespace itk
 {
-// Constructor with default arguments
-template<typename TParametersValueType, unsigned int NDimensions>
-ScaleLogarithmicTransform<TParametersValueType, NDimensions>
-::ScaleLogarithmicTransform() = default;
-
-// Destructor
-template<typename TParametersValueType, unsigned int NDimensions>
-ScaleLogarithmicTransform<TParametersValueType, NDimensions>::
-~ScaleLogarithmicTransform() = default;
-
 // Set the parameters
 template<typename TParametersValueType, unsigned int NDimensions>
 void

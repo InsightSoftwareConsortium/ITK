@@ -48,10 +48,6 @@ TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>
 }
 
 template<typename TTransform>
-TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>
-::~TimeVaryingBSplineVelocityFieldTransformParametersAdaptor() = default;
-
-template<typename TTransform>
 void
 TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>
 ::SetRequiredTransformDomainOrigin( const OriginType & origin )

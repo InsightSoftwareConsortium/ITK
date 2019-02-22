@@ -32,10 +32,6 @@ ContourSpatialObjectPoint< TPointDimension >
 }
 
 template< unsigned int TPointDimension >
-ContourSpatialObjectPoint< TPointDimension >
-::~ContourSpatialObjectPoint() = default;
-
-template< unsigned int TPointDimension >
 void
 ContourSpatialObjectPoint< TPointDimension >
 ::SetPickedPoint(const PointType & point)

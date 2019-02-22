@@ -166,7 +166,7 @@ protected:
   int                       m_AttachedToSlice;
 
   ContourSpatialObject();
-  ~ContourSpatialObject() override;
+  ~ContourSpatialObject() override = default;
 
   /** Method to print the object. */
   void PrintSelf(std::ostream & os, Indent indent) const override;

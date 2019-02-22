@@ -103,7 +103,7 @@ public:
 protected:
   LevelSetEquationBinaryMaskTerm();
 
-  ~LevelSetEquationBinaryMaskTerm() override;
+  ~LevelSetEquationBinaryMaskTerm() override = default;
 
   /** Returns the term contribution for a given location iP, i.e.
    *  \f$ \omega_i( p ) \f$. */

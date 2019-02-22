@@ -119,7 +119,7 @@ public:
 protected:
   LevelSetEvolutionBase();
 
-  ~LevelSetEvolutionBase() override;
+  ~LevelSetEvolutionBase() override = default;
 
   void CheckSetUp();
 

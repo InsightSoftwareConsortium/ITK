@@ -32,11 +32,6 @@ HistogramToImageFilter< THistogram, TImage, TFunction >
   this->SetNumberOfRequiredInputs(1);
 }
 
-/** Destructor */
-template< typename THistogram, typename TImage, typename TFunction >
-HistogramToImageFilter< THistogram, TImage, TFunction >
-::~HistogramToImageFilter() = default;
-
 /** Set the Input Histogram */
 template< typename THistogram, typename TImage, typename TFunction >
 void

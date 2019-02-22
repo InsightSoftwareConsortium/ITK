@@ -68,10 +68,10 @@ public:
 
 protected:
   /** Constructor */
-  LevelSetEvolutionNumberOfIterationsStoppingCriterion();
+  LevelSetEvolutionNumberOfIterationsStoppingCriterion() = default;
 
   /** Destructor */
-  ~LevelSetEvolutionNumberOfIterationsStoppingCriterion() override;
+  ~LevelSetEvolutionNumberOfIterationsStoppingCriterion() override = default;
  };
  }
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -118,7 +118,7 @@ public:
 
 protected:
   CorrelationImageToImageMetricv4();
-  ~CorrelationImageToImageMetricv4() override;
+  ~CorrelationImageToImageMetricv4() override = default;
 
   /** Perform any initialization required before each evaluation of
    * \c GetValueAndDerivative. This is distinct from Initialize, which

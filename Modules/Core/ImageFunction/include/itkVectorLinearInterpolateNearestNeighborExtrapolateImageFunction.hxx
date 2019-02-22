@@ -33,13 +33,6 @@ VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCo
 ::m_Neighbors = 1 << TInputImage::ImageDimension;
 
 /**
- * Constructor
- */
-template< typename TInputImage, typename TCoordRep >
-VectorLinearInterpolateNearestNeighborExtrapolateImageFunction< TInputImage, TCoordRep >
-::VectorLinearInterpolateNearestNeighborExtrapolateImageFunction() = default;
-
-/**
  * PrintSelf
  */
 template< typename TInputImage, typename TCoordRep >

@@ -22,14 +22,6 @@
 
 namespace itk
 {
-/** Constructor */
-template< unsigned int TDimension >
-SpatialObjectTreeContainer< TDimension >::SpatialObjectTreeContainer() = default;
-
-/** Destructor */
-template< unsigned int TDimension >
-SpatialObjectTreeContainer< TDimension >::~SpatialObjectTreeContainer() = default;
-
 /** Set the root */
 template< unsigned int TDimension >
 bool

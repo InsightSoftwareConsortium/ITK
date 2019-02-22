@@ -54,10 +54,6 @@ RandomImageSource< TOutputImage >
 }
 
 template< typename TOutputImage >
-RandomImageSource< TOutputImage >
-::~RandomImageSource() = default;
-
-template< typename TOutputImage >
 void
 RandomImageSource< TOutputImage >
 ::SetSize(SizeValueArrayType sizeArray)

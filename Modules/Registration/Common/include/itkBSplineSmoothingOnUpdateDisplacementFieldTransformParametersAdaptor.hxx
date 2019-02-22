@@ -33,10 +33,6 @@ BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
   this->m_NumberOfControlPointsForTheTotalFieldSetTime = 0;
 }
 
-template<typename TTransform>
-BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
-::~BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor() = default;
-
 /**
  * set mesh size for update field
  */

@@ -40,12 +40,6 @@ BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>
   this->m_WeightsFunction = WeightsFunctionType::New();
 }
 
-// Destructor
-template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
-BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>
-::~BSplineBaseTransform() = default;
-
-
 // Set the parameters
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 void

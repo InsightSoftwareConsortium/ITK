@@ -41,10 +41,6 @@ AutomaticTopologyMeshSource< TOutputMesh >
 }
 
 template< typename TOutputMesh >
-AutomaticTopologyMeshSource< TOutputMesh >
-::~AutomaticTopologyMeshSource() = default;
-
-template< typename TOutputMesh >
 typename AutomaticTopologyMeshSource< TOutputMesh >::IdentifierType
 AutomaticTopologyMeshSource< TOutputMesh >
 ::AddPoint(const PointType & p0)

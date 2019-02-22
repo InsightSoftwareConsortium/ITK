@@ -89,7 +89,7 @@ public:
 
 protected:
   PlaneSpatialObject();
-  ~PlaneSpatialObject() override;
+  ~PlaneSpatialObject() override = default;
 
   PointType m_LowerPoint;
   PointType m_UpperPoint;

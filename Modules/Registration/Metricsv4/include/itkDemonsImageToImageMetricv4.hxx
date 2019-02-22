@@ -42,10 +42,6 @@ DemonsImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComp
 }
 
 template < typename TFixedImage, typename TMovingImage, typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits >
-DemonsImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::~DemonsImageToImageMetricv4() = default;
-
-template < typename TFixedImage, typename TMovingImage, typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits >
 void
 DemonsImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::Initialize()

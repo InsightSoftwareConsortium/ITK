@@ -43,10 +43,6 @@ MRFImageFilter< TInputImage, TClassifiedImage >
 }
 
 template< typename TInputImage, typename TClassifiedImage >
-MRFImageFilter< TInputImage, TClassifiedImage >
-::~MRFImageFilter() = default;
-
-template< typename TInputImage, typename TClassifiedImage >
 void
 MRFImageFilter< TInputImage, TClassifiedImage >
 ::PrintSelf(std::ostream & os, Indent indent) const

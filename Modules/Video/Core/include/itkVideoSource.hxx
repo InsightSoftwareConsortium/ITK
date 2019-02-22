@@ -38,12 +38,6 @@ VideoSource<TOutputVideoStream>::VideoSource()
 }
 
 //
-// Destructor
-//
-template<typename TOutputVideoStream>
-VideoSource<TOutputVideoStream>::~VideoSource() = default;
-
-//
 // PrintSelf
 //
 template<typename TOutputVideoStream>

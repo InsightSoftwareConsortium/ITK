@@ -254,8 +254,8 @@ public:
 
 protected:
 
-  LevelSetEquationContainer();
-  ~LevelSetEquationContainer() override;
+  LevelSetEquationContainer() = default;
+  ~LevelSetEquationContainer() override = default;
 
   LevelSetContainerPointer  m_LevelSetContainer;
   MapContainerType          m_Container;

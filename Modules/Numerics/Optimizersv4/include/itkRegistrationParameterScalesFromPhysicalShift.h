@@ -64,7 +64,7 @@ public:
   using VirtualImageConstPointer = typename Superclass::VirtualImageConstPointer;
 
 protected:
-  RegistrationParameterScalesFromPhysicalShift();
+  RegistrationParameterScalesFromPhysicalShift() = default;
   ~RegistrationParameterScalesFromPhysicalShift() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;

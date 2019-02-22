@@ -177,7 +177,7 @@ public:
 
 protected:
   BSplineSmoothingOnUpdateDisplacementFieldTransform();
-  ~BSplineSmoothingOnUpdateDisplacementFieldTransform() override;
+  ~BSplineSmoothingOnUpdateDisplacementFieldTransform() override = default;
 
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 

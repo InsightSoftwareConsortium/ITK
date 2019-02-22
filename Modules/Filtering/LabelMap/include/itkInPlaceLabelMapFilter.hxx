@@ -42,20 +42,6 @@
 
 namespace itk
 {
-/**
- *
- */
-template< typename TInputImage >
-InPlaceLabelMapFilter< TInputImage >
-::InPlaceLabelMapFilter()
-{}
-
-/**
- *
- */
-template< typename TInputImage >
-InPlaceLabelMapFilter< TInputImage >
-::~InPlaceLabelMapFilter() = default;
 
 template< typename TInputImage >
 void

@@ -57,10 +57,6 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>
   this->DynamicMultiThreadingOn();
 }
 
-template<typename InputImage, typename TOutputImage>
-BSplineControlPointImageFilter<InputImage, TOutputImage>
-::~BSplineControlPointImageFilter() = default;
-
 template<typename TInputImage, typename TOutputImage>
 void
 BSplineControlPointImageFilter<TInputImage, TOutputImage>

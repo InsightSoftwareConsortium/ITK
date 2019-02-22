@@ -94,10 +94,6 @@ MapFileParser< TMapDataType >
 //      SmapsFileParser
 //---------------------------------
 
-template< typename TSmapsDataType >
-SmapsFileParser< TSmapsDataType >
-::~SmapsFileParser() = default;
-
 /* SmapsFileParser implementation */
 template< typename TSmapsDataType >
 void SmapsFileParser< TSmapsDataType >::ReadFile(const std::string & mapFileLocation)
@@ -139,10 +135,6 @@ void SmapsFileParser< TSmapsDataType >::ReadFile(const std::string & mapFileLoca
     }
   this->m_MapFilePath = filename.str();
 }
-
-template< typename TVMMapDataType >
-VMMapFileParser< TVMMapDataType >
-::~VMMapFileParser() = default;
 
 /* VMapFileParser implementation */
 template< typename TVMMapDataType >

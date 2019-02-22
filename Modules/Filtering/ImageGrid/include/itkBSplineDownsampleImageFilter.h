@@ -136,7 +136,7 @@ protected:
 
   void EnlargeOutputRequestedRegion(DataObject *output) override;
 
-  BSplineDownsampleImageFilter();
+  BSplineDownsampleImageFilter() = default;
   ~BSplineDownsampleImageFilter() override = default;
 };
 } // namespace itk

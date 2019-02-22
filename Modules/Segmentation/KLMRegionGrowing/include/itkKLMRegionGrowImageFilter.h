@@ -299,7 +299,7 @@ public:
 
 protected:
   KLMRegionGrowImageFilter();
-  ~KLMRegionGrowImageFilter() override;
+  ~KLMRegionGrowImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**

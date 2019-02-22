@@ -39,11 +39,6 @@ LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 
 // ----------------------------------------------------------------------------
 template< typename TInputImage, typename TLevelSetContainer >
-LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
-::~LevelSetEquationTermBase() = default;
-
-// ----------------------------------------------------------------------------
-template< typename TInputImage, typename TLevelSetContainer >
 const typename LevelSetEquationTermBase< TInputImage, TLevelSetContainer >::RequiredDataType &
 LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 ::GetRequiredData() const

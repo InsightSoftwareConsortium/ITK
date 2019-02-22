@@ -141,7 +141,7 @@ public:
 
 protected:
   ImagePCAShapeModelEstimator();
-  ~ImagePCAShapeModelEstimator() override;
+  ~ImagePCAShapeModelEstimator() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This filter must produce all of the outputs at once, as such it

@@ -399,7 +399,7 @@ public:
 protected:
 
   ImageAdaptor();
-  ~ImageAdaptor() override;
+  ~ImageAdaptor() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
   void Graft(const DataObject *data) override;
   using Superclass::Graft;

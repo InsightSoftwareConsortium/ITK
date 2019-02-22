@@ -126,11 +126,6 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
 
 template< typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer >
-BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
-::~BoundingBox() = default;
-
-template< typename TPointIdentifier, int VPointDimension,
-          typename TCoordRep, typename TPointsContainer >
 bool
 BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
 ::ComputeBoundingBox() const

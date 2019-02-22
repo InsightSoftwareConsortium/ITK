@@ -79,8 +79,8 @@ public:
     MeasureType &, LocalDerivativeType &, const PixelType & pixel = 0 ) const override;
 
 protected:
-  EuclideanDistancePointSetToPointSetMetricv4();
-  ~EuclideanDistancePointSetToPointSetMetricv4() override;
+  EuclideanDistancePointSetToPointSetMetricv4() = default;
+  ~EuclideanDistancePointSetToPointSetMetricv4() override = default;
 
   /** PrintSelf function */
   void PrintSelf( std::ostream & os, Indent indent ) const override;

@@ -125,7 +125,7 @@ public:
 protected:
   LevelSetEquationAdvectionTerm();
 
-  ~LevelSetEquationAdvectionTerm() override;
+  ~LevelSetEquationAdvectionTerm() override = default;
 
   AdvectionImagePointer m_AdvectionImage;
 

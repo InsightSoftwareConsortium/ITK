@@ -37,10 +37,6 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
 }
 
 template<typename TTransform>
-TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
-::~TimeVaryingVelocityFieldTransformParametersAdaptor() = default;
-
-template<typename TTransform>
 void
 TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
 ::SetRequiredSize( const SizeType & size )

@@ -35,11 +35,6 @@ MeshSpatialObject< TMesh >
   m_IsInsidePrecision = 1;
 }
 
-/** Destructor */
-template< typename TMesh >
-MeshSpatialObject< TMesh >
-::~MeshSpatialObject() = default;
-
 /** Return true if the given point is inside the Mesh */
 template< typename TMesh >
 bool

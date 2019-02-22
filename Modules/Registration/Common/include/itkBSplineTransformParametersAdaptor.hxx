@@ -42,10 +42,6 @@ BSplineTransformParametersAdaptor<TTransform>
 }
 
 template<typename TTransform>
-BSplineTransformParametersAdaptor<TTransform>
-::~BSplineTransformParametersAdaptor() = default;
-
-template<typename TTransform>
 void
 BSplineTransformParametersAdaptor<TTransform>
 ::SetRequiredTransformDomainOrigin( const OriginType & origin )

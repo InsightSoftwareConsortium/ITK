@@ -158,7 +158,7 @@ protected:
                    const OutputVectorType & offset);
   Rigid3DTransform(unsigned int paramDim);
   Rigid3DTransform();
-  ~Rigid3DTransform() override;
+  ~Rigid3DTransform() override = default;
 
   /**
    * Print contents of an Rigid3DTransform

@@ -193,7 +193,7 @@ public:
 protected:
 
   VelocityFieldTransform();
-  ~VelocityFieldTransform() override;
+  ~VelocityFieldTransform() override = default;
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   /** Clone the current transform */

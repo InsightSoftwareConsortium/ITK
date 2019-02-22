@@ -43,11 +43,6 @@ ArrowSpatialObject< TDimension >
   this->ComputeBoundingBox();
 }
 
-/** Destructor */
-template< unsigned int TDimension >
-ArrowSpatialObject< TDimension >
-::~ArrowSpatialObject() = default;
-
 /** Set the length of the arrow */
 template< unsigned int TDimension >
 void

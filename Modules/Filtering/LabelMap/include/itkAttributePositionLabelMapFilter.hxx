@@ -36,10 +36,6 @@
 namespace itk {
 
 template <typename TImage, typename TAttributeAccessor, bool VPhysicalPosition>
-AttributePositionLabelMapFilter<TImage, TAttributeAccessor, VPhysicalPosition>
-::AttributePositionLabelMapFilter() = default;
-
-template <typename TImage, typename TAttributeAccessor, bool VPhysicalPosition>
 void
 AttributePositionLabelMapFilter<TImage, TAttributeAccessor, VPhysicalPosition>
 ::ThreadedProcessLabelObject( LabelObjectType * labelObject )

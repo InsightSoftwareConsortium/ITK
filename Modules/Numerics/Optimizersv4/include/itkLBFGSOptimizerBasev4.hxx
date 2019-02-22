@@ -79,10 +79,6 @@ LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
 }
 
 template<typename TInternalVnlOptimizerType>
-LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
-::~LBFGSOptimizerBasev4() = default;
-
-template<typename TInternalVnlOptimizerType>
 void
 LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -110,7 +110,7 @@ public:
 
 protected:
   LevelSetEquationChanAndVeseExternalTerm();
-  ~LevelSetEquationChanAndVeseExternalTerm() override;
+  ~LevelSetEquationChanAndVeseExternalTerm() override = default;
 
 private:
   DomainMapImageFilterType *m_DomainMapImageFilter;
