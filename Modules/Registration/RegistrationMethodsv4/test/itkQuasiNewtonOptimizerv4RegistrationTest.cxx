@@ -353,7 +353,4 @@ int itkQuasiNewtonOptimizerv4RegistrationTest(int argc, char *argv[])
     std::cerr << "Dimension supported: 2 3" << std::endl;
     return EXIT_FAILURE;
     }
-
-  return EXIT_SUCCESS;
-
 }

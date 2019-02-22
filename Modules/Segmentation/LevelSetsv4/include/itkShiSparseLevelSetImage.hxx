@@ -89,9 +89,6 @@ ShiSparseLevelSetImage< VDimension >
                             <<" If it was required for regularization purpose, "
                             <<" you better check recommended regularization methods"
                             <<" for Shi's representation" );
-  HessianType hessian;
-  hessian.Fill( NumericTraits< OutputRealType >::ZeroValue() );
-  return hessian;
 }
 
 
@@ -105,9 +102,6 @@ ShiSparseLevelSetImage< VDimension >
                             <<" If it was required for regularization purpose, "
                             <<" you better check recommended regularization methods"
                             <<" for Shi's representation" );
-
-  OutputRealType laplacian = NumericTraits< OutputRealType >::ZeroValue();
-  return laplacian;
 }
 
 
@@ -121,9 +115,6 @@ ShiSparseLevelSetImage< VDimension >
                             <<" If it was required for regularization purpose, "
                             <<" you better check recommended regularization methods"
                             <<" for Shi's representation" );
-
-  OutputRealType meanCurvature = NumericTraits< OutputRealType >::ZeroValue();
-  return meanCurvature;
 }
 
 

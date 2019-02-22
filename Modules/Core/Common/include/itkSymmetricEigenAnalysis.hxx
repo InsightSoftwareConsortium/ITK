@@ -36,16 +36,6 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValues(con
     {
     return ComputeEigenValuesLegacy(A, D);
     }
-
-#ifndef NDEBUG
-  if(m_UseEigenLibrary && m_OrderEigenValues == DoNotOrder)
-    {
-    std::cout << "Options UseEigenLibrary=true and OrderEigenValues = DoNotOrder are incompatible." << std::endl;
-    std::cout << "The Eigen library always order eigen values as in the default option OrderByValue." << std::endl;
-    std::cout << "To disable this warning use SetUseEigenLibraryOff(), or remove the DoNotOrder option" << std::endl;
-    std::cout << "Disabling the computation with EigenLibrary for reproducibility reasons." << std::endl;
-    }
-#endif
 }
 
 template< typename TMatrix, typename TVector, typename TEigenMatrix >
