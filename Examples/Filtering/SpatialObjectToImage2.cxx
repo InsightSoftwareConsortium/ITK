@@ -181,9 +181,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  metaBall1->SetRadius(  size[0] * spacing[0] * 0.2 );
-  metaBall2->SetRadius(  size[0] * spacing[0] * 0.2 );
-  metaBall3->SetRadius(  size[0] * spacing[0] * 0.2 );
+  metaBall1->SetRadiusInObjectSpace(  size[0] * spacing[0] * 0.2 );
+  metaBall2->SetRadiusInObjectSpace(  size[0] * spacing[0] * 0.2 );
+  metaBall3->SetRadiusInObjectSpace(  size[0] * spacing[0] * 0.2 );
   // Software Guide : EndCodeSnippet
 
   metaBall1->SetMaximum( 1000.0 );
@@ -250,9 +250,13 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   GroupType::Pointer group = GroupType::New();
-  group->AddSpatialObject( metaBall1 );
-  group->AddSpatialObject( metaBall2 );
-  group->AddSpatialObject( metaBall3 );
+  group->AddChild( metaBall1 );
+  group->AddChild( metaBall2 );
+  group->AddChild( metaBall3 );
+
+  metaBall1->Update();
+  metaBall2->Update();
+  metaBall3->Update();
 
   imageFilter->SetInput(  group  );
   // Software Guide : EndCodeSnippet

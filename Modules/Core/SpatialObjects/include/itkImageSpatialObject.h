@@ -90,8 +90,6 @@ public:
   bool ValueAtInWorldSpace(const PointType & point, double & value, unsigned int depth = 0,
     const std::string & name = "") const override;
 
-
-
   /** Returns the latest modified time of the object and its component. */
   ModifiedTimeType GetMTime() const override;
 
@@ -103,9 +101,7 @@ public:
   { return m_SlicePosition[dimension]; }
 
   const char * GetPixelTypeName()
-  {
-    return m_PixelType.c_str();
-  }
+  { return m_PixelType.c_str(); }
 
   /** Set/Get the interpolator */
   void SetInterpolator(InterpolatorType *interpolator);
@@ -126,29 +122,23 @@ protected:
 
   template <typename T>
   void SetPixelTypeName(const T *)
-  {
-    itkWarningMacro("itk::ImageSpatialObject() : PixelType not recognized");
-  }
+  { itkWarningMacro("itk::ImageSpatialObject() : PixelType not recognized"); }
+
   void SetPixelTypeName(const short *)
-  {
-    m_PixelType = "short";
-  }
+  { m_PixelType = "short"; }
+
   void SetPixelTypeName(const unsigned char *)
-  {
-    m_PixelType = "unsigned char";
-  }
+  { m_PixelType = "unsigned char"; }
+
   void SetPixelTypeName(const unsigned short *)
-  {
-    m_PixelType = "unsigned short";
-  }
+  { m_PixelType = "unsigned short"; }
+
   void SetPixelTypeName(const float *)
-  {
-    m_PixelType = "float";
-  }
+  { m_PixelType = "float"; }
+
   void SetPixelTypeName(const double *)
-  {
-    m_PixelType = "double";
-  }
+  { m_PixelType = "double"; }
+
 };
 } // end of namespace itk
 
