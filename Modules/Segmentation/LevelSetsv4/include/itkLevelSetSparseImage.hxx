@@ -190,7 +190,6 @@ LevelSetSparseImage< TOutput, VDimension >
   if( this->m_InternalLabelList.empty() )
     {
     itkGenericExceptionMacro( << "this->m_InternalLabelList empty" );
-    return object;
     }
 
   auto lIt = this->m_InternalLabelList.begin();

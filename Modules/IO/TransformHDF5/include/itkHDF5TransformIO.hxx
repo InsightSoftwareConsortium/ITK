@@ -119,8 +119,6 @@ HDF5TransformIOTemplate<TParametersValueType>
   itkExceptionMacro(<< "Wrong data precision type "
                     << NameParametersValueTypeString
                     << "for writing in HDF5 File");
-
-  return H5::PredType::NATIVE_DOUBLE;
 }
 
 /** Write a Parameter array to the location specified by name */

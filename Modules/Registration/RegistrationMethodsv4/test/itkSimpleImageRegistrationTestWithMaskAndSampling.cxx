@@ -439,5 +439,4 @@ int itkSimpleImageRegistrationTestWithMaskAndSampling( int argc, char *argv[] )
       std::cerr << "Unsupported dimension" << std::endl;
       exit( EXIT_FAILURE );
    }
-  return EXIT_SUCCESS;
 }

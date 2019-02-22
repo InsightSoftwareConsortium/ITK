@@ -168,8 +168,6 @@ private:
   inline TRealValueType Evaluate( const DispatchBase&, const TRealValueType& ) const
     {
     itkExceptionMacro( "Evaluate not implemented for spline order " << SplineOrder );
-    return NumericTraits< TRealValueType >::ZeroValue(); // This is to avoid compiler warning about missing
-    // return statement. It should never be evaluated.
     }
 };
 } // end namespace itk
