@@ -20,8 +20,8 @@
 //
 // \index{itk::BlobSpatialObject}
 //
-// \doxygen{BlobSpatialObject} defines an N-dimensional blob. Like other
-// SpatialObjects this class derives from \doxygen{itkSpatialObject}.  A blob
+// \doxygen{BlobSpatialObject} defines an N-dimensional blob.
+// This class derives from \doxygen{itkPointBasedSpatialObject}.  A blob
 // is defined as a list of points which compose the object.
 //
 // Let's start by including the appropriate header file.
@@ -48,31 +48,44 @@ int main( int, char *[] )
 {
 // Software Guide : BeginLatex
 //
-// First we declare some type definitions.
+// First we declare several standard type definitions.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   using BlobType = itk::BlobSpatialObject<3>;
   using BlobPointer = BlobType::Pointer;
-  using BlobPointType = itk::SpatialObjectPoint<3>;
+// Software Guide : BeginLatex
+//
+// Every Point-Based SpatialObject also provides type definitions for
+// their SpatialObject point type (e.g., \code{BlobPointType} for
+// \code{BlobSpatialObject}) as well as for a physical space point
+// (e.g., an \code{itk::Point}).
+//
+// Software Guide : EndLatex
+  using BlobPointType = BlobType::BlobPointType;
+  using PointType = BlobType::PointType;
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
 //
 // Then, we create a list of points and we set the position of each point in
-// the local coordinate system using the \code{SetPosition()} method. We also
-// set the color of each point to be red.
+// the local coordinate system using the \code{SetPositionInObjectSpace()}
+// method. We also set the color of each point to be red.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
- BlobType::PointListType list;
+ BlobType::BlobPointListType list;
 
   for( unsigned int i=0; i<4; i++)
     {
     BlobPointType p;
-    p.SetPosition(i,i+1,i+2);
+    PointType pnt;
+    pnt[0] = i;
+    pnt[1] = i+1;
+    pnt[2] = i+2;
+    p.SetPositionInObjectSpace(pnt);
     p.SetRed(1);
     p.SetGreen(0);
     p.SetBlue(0);
@@ -91,7 +104,7 @@ int main( int, char *[] )
 
 // Software Guide : BeginCodeSnippet
   BlobPointer blob = BlobType::New();
-  blob->GetProperty()->SetName("My Blob");
+  blob->GetProperty().SetName("My Blob");
   blob->SetId(1);
   blob->SetPoints(list);
 // Software Guide : EndCodeSnippet
@@ -104,7 +117,7 @@ int main( int, char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-   BlobType::PointListType pointList = blob->GetPoints();
+   BlobType::BlobPointListType pointList = blob->GetPoints();
    std::cout << "The blob contains " << pointList.size();
    std::cout << " points" << std::endl;
 // Software Guide : EndCodeSnippet
@@ -113,16 +126,22 @@ int main( int, char *[] )
 // Software Guide : BeginLatex
 //
 // Then we can access the points using standard STL iterators and
-// \code{GetPosition()} and \code{GetColor()} functions return respectively
-// the position and the color of the point.
+// \code{GetPositionInWorldSpace()} and \code{GetColor()} functions return
+// respectively the position and the color of the point.
+//
+// GetPositionInWorldSpace applies the objectToParent transforms of all of
+// the parent objects to this point.   Since this object has no parents
+// and since this object's objecttoParent transform is the identify transform
+// (by default), these world space positions are the same as the object space
+// positions that were set.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  BlobType::PointListType::const_iterator it = blob->GetPoints().begin();
+  BlobType::BlobPointListType::const_iterator it = blob->GetPoints().begin();
   while(it != blob->GetPoints().end())
     {
-    std::cout << "Position = " << (*it).GetPosition() << std::endl;
+    std::cout << "Position = " << (*it).GetPositionInWorldSpace() << std::endl;
     std::cout << "Color = " << (*it).GetColor() << std::endl;
     ++it;
     }

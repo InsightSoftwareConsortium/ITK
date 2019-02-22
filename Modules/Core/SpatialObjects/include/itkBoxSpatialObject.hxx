@@ -162,9 +162,9 @@ BoxSpatialObject< TDimension >
 {
   if( m_Corners != nullptr )
     {
-    if( cornerNumber < m_Corners.size() )
+    if( cornerNumber < m_Corners->size() )
        {
-       return m_Corners[ cornerNumber ];
+       return m_Corners->ElementAt( cornerNumber );
        }
     }
 }

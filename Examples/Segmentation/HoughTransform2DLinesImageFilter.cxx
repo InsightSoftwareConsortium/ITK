@@ -244,18 +244,19 @@ int main( int argc, char *argv[] )
     //  Software Guide : EndLatex
 
     // Software Guide : BeginCodeSnippet
-    using PointListType = HoughTransformFilterType::LineType::PointListType;
+    using LinePointListType =
+      HoughTransformFilterType::LineType::LinePointListType;
 
-    PointListType                   pointsList = (*itLines)->GetPoints();
-    PointListType::const_iterator   itPoints = pointsList.begin();
+    LinePointListType                   pointsList = (*itLines)->GetPoints();
+    LinePointListType::const_iterator   itPoints = pointsList.begin();
 
     double u[2];
-    u[0] = (*itPoints).GetPosition()[0];
-    u[1] = (*itPoints).GetPosition()[1];
+    u[0] = (*itPoints).GetPositionInObjectSpace()[0];
+    u[1] = (*itPoints).GetPositionInObjectSpace()[1];
     itPoints++;
     double v[2];
-    v[0] = u[0]-(*itPoints).GetPosition()[0];
-    v[1] = u[1]-(*itPoints).GetPosition()[1];
+    v[0] = u[0]-(*itPoints).GetPositionInObjectSpace()[0];
+    v[1] = u[1]-(*itPoints).GetPositionInObjectSpace()[1];
 
     double norm = std::sqrt(v[0]*v[0]+v[1]*v[1]);
     v[0] /= norm;
