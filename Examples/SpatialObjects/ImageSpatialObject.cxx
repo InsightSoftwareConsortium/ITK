@@ -88,6 +88,7 @@ int main( int , char *[] )
 
 // Software Guide : BeginCodeSnippet
   imageSO->SetImage(image);
+  imageSO->Update();
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
@@ -103,7 +104,7 @@ int main( int , char *[] )
   Point insidePoint;
   insidePoint.Fill(9);
 
-  if( imageSO->IsInside(insidePoint) )
+  if( imageSO->IsInsideInWorldSpace(insidePoint) )
     {
     std::cout << insidePoint << " is inside the image." << std::endl;
     }
@@ -111,14 +112,14 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-//  The \code{ValueAt()} returns the value of the closest pixel, i.e no interpolation, to
-//  a given physical point.
+//  The \code{ValueAtInWorldSpace()} returns the value of the closest pixel,
+//  i.e no interpolation, to a given physical point.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   double returnedValue;
-  imageSO->ValueAt(insidePoint,returnedValue);
+  imageSO->ValueAtInWorldSpace(insidePoint,returnedValue);
   std::cout << "ValueAt(" << insidePoint << ") = " << returnedValue
             << std::endl;
 // Software Guide : EndCodeSnippet
@@ -136,8 +137,8 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  ImageSpatialObject::OutputVectorType returnedDerivative;
-  imageSO->DerivativeAt(insidePoint,1,returnedDerivative);
+  ImageSpatialObject::DerivativeVectorType returnedDerivative;
+  imageSO->DerivativeAtInWorldSpace(insidePoint,1,returnedDerivative);
   std::cout << "First derivative at " << insidePoint;
   std::cout << " = " << returnedDerivative << std::endl;
 // Software Guide : EndCodeSnippet

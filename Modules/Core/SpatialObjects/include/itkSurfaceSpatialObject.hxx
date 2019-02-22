@@ -121,14 +121,14 @@ SurfaceSpatialObject< TDimension >
           }
 
         PointType pos2 = ( *it2 ).GetPositionInObjectSpace();
-        float  distance = pos2.EuclideanDistance( pos );
+        float  distance = pos2.EuclideanDistanceTo( pos );
 
         // Check that the point is not the same as some previously defined
         bool valid = true;
         for (auto & j : identifier)
           {
           PointType p = this->m_Points[j].GetPositionInObjectSpace();
-          float     d = pos2.EuclideanDistance( p );
+          float     d = pos2.EuclideanDistanceTo( p );
           if ( Math::AlmostEquals( d, 0.0f ) )
             {
             valid = false;

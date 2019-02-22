@@ -51,14 +51,13 @@
 //  SpatialObjects.
 //
 //  \index{itk::EllipseSpatialObject!header}
-//  \index{itk::CylinderSpatialObject!header}
 //
 //  Software Guide : EndLatex
 
 
 // Software Guide : BeginCodeSnippet
 #include "itkEllipseSpatialObject.h"
-#include "itkCylinderSpatialObject.h"
+#include "itkTubeSpatialObject.h"
 // Software Guide : EndCodeSnippet
 
 
@@ -113,7 +112,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   using EllipseType = itk::EllipseSpatialObject< Dimension >;
-  using CylinderType = itk::CylinderSpatialObject;
+  using TubeType = itk::TubeSpatialObject< Dimension >;
   using GroupType = itk::GroupSpatialObject< Dimension >;
   // Software Guide : EndCodeSnippet
 
@@ -170,8 +169,8 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   EllipseType::Pointer ellipse    = EllipseType::New();
-  CylinderType::Pointer cylinder1 = CylinderType::New();
-  CylinderType::Pointer cylinder2 = CylinderType::New();
+  TubeType::Pointer tube1 = TubeType::New();
+  TubeType::Pointer tube2 = TubeType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -179,18 +178,43 @@ int main( int argc, char *argv[] )
   //
   //  The Elementary shapes have internal parameters of their own. These
   //  parameters define the geometrical characteristics of the basic shapes.
-  //  For example, a cylinder is defined by its radius and height.
+  //  For example, a tube is defined by its radius and height.
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ellipse->SetRadius(  size[0] * 0.2 * spacing[0] );
+  ellipse->SetRadiusInObjectSpace(  size[0] * 0.2 * spacing[0] );
 
-  cylinder1->SetRadius(  size[0] * 0.2 * spacing[0] );
-  cylinder2->SetRadius(  size[0] * 0.2 * spacing[0] );
+  typename TubeType::PointType point;
+  typename TubeType::TubePointType tubePoint;
+  typename TubeType::TubePointListType tubePointList;
+  point[0] =  size[0] * 0.2 * spacing[0];
+  point[1] =  size[1] * 0.2 * spacing[1];
+  tubePoint.SetPositionInObjectSpace( point );
+  tubePoint.SetRadiusInObjectSpace( size[0] * 0.05 * spacing[0] );
+  tubePointList.push_back( tubePoint );
 
-  cylinder1->SetHeight( size[2] * 0.30 * spacing[2]);
-  cylinder2->SetHeight( size[2] * 0.30 * spacing[2]);
+  point[0] =  size[0] * 0.8 * spacing[0];
+  point[1] =  size[1] * 0.2 * spacing[1];
+  tubePoint.SetPositionInObjectSpace( point );
+  tubePoint.SetRadiusInObjectSpace( size[0] * 0.05 * spacing[0] );
+  tubePointList.push_back( tubePoint );
+  tube1->SetPoints( tubePointList );
+
+  tubePointList.clear();
+  point[0] =  size[0] * 0.2 * spacing[0];
+  point[1] =  size[1] * 0.8 * spacing[1];
+  tubePoint.SetPositionInObjectSpace( point );
+  tubePoint.SetRadiusInObjectSpace( size[0] * 0.05 * spacing[0] );
+  tubePointList.push_back( tubePoint );
+
+  point[0] =  size[0] * 0.8 * spacing[0];
+  point[1] =  size[1] * 0.8 * spacing[1];
+  tubePoint.SetPositionInObjectSpace( point );
+  tubePoint.SetRadiusInObjectSpace( size[0] * 0.05 * spacing[0] );
+  tubePointList.push_back( tubePoint );
+  tube2->SetPoints( tubePointList );
+
   // Software Guide : EndCodeSnippet
 
 
@@ -240,8 +264,9 @@ int main( int argc, char *argv[] )
   transform3->Translate( translation, false );
 
   ellipse->SetObjectToParentTransform( transform1 );
-  cylinder1->SetObjectToParentTransform( transform2 );
-  cylinder2->SetObjectToParentTransform( transform3 );
+  tube1->SetObjectToParentTransform( transform2 );
+  tube2->SetObjectToParentTransform( transform3 );
+
   // Software Guide : EndCodeSnippet
 
 
@@ -254,9 +279,13 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   GroupType::Pointer group = GroupType::New();
-  group->AddSpatialObject( ellipse );
-  group->AddSpatialObject( cylinder1 );
-  group->AddSpatialObject( cylinder2 );
+  group->AddChild( ellipse );
+  group->AddChild( tube1 );
+  group->AddChild( tube2 );
+
+  ellipse->Update();
+  tube1->Update();
+  tube2->Update();
 
   imageFilter->SetInput(  group  );
   // Software Guide : EndCodeSnippet
@@ -279,12 +308,12 @@ int main( int argc, char *argv[] )
   constexpr PixelType boneHounsfieldUnits  = 800;
 
   ellipse->SetDefaultInsideValue(   boneHounsfieldUnits );
-  cylinder1->SetDefaultInsideValue( boneHounsfieldUnits );
-  cylinder2->SetDefaultInsideValue( boneHounsfieldUnits );
+  tube1->SetDefaultInsideValue( boneHounsfieldUnits );
+  tube2->SetDefaultInsideValue( boneHounsfieldUnits );
 
   ellipse->SetDefaultOutsideValue(   airHounsfieldUnits );
-  cylinder1->SetDefaultOutsideValue( airHounsfieldUnits );
-  cylinder2->SetDefaultOutsideValue( airHounsfieldUnits );
+  tube1->SetDefaultOutsideValue( airHounsfieldUnits );
+  tube2->SetDefaultOutsideValue( airHounsfieldUnits );
 
   imageFilter->SetUseObjectValue( true );
 

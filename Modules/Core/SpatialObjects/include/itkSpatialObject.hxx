@@ -396,12 +396,13 @@ SpatialObject< TDimension >
   m_ObjectToWorldTransform->SetFixedParameters(
     this->GetObjectToParentTransform()->GetFixedParameters() );
   m_ObjectToWorldTransform->SetParameters(
-    this->GetObjectToParentTransform()->GetFixedParameters() );
+    this->GetObjectToParentTransform()->GetParameters() );
   if( this->HasParent() )
     {
     m_ObjectToWorldTransform->Compose( this->GetParent()->
       GetObjectToWorldTransform(), false );
     }
+  Update();
 
   // Propagate the changes to the children
   typename ChildrenListType::iterator it = m_ChildrenList.begin();
@@ -410,8 +411,6 @@ SpatialObject< TDimension >
     ( *it )->ComputeObjectToWorldTransform();
     it++;
     }
-
-  this->ComputeMyBoundingBoxInWorldSpace();
 
   this->Modified();
 }
@@ -464,8 +463,10 @@ void
 SpatialObject< TDimension >
 ::ComputeObjectToParentTransform()
 {
-  m_ObjectToParentTransform->SetFixedParameters( m_ObjectToWorldTransform->GetFixedParameters() );
-  m_ObjectToParentTransform->SetParameters( m_ObjectToWorldTransform->GetParameters() );
+  m_ObjectToParentTransform->SetFixedParameters(
+    m_ObjectToWorldTransform->GetFixedParameters() );
+  m_ObjectToParentTransform->SetParameters(
+    m_ObjectToWorldTransform->GetParameters() );
 
   if( this->HasParent() )
     {
@@ -475,6 +476,8 @@ SpatialObject< TDimension >
       m_ObjectToParentTransform->Compose(inverse, true);
       }
     }
+  Update();
+
   // Propagate the changes to the children
   typename ChildrenListType::iterator it = m_ChildrenList.begin();
   while ( it != m_ChildrenList.end() )
@@ -482,8 +485,6 @@ SpatialObject< TDimension >
     ( *it )->ComputeObjectToWorldTransform();
     it++;
     }
-
-  this->ComputeMyBoundingBoxInWorldSpace();
 
   this->Modified();
 }
@@ -549,7 +550,8 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 SpatialObject< TDimension >
-::ComputeFamilyBoundingBoxInWorldSpace( unsigned int depth, const std::string & name ) const
+::ComputeFamilyBoundingBoxInWorldSpace( unsigned int depth,
+  const std::string & name ) const
 {
   itkDebugMacro("Computing Bounding Box");
 

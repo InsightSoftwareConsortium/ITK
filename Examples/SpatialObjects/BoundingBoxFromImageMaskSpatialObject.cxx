@@ -70,10 +70,10 @@ int main( int argc, char * argv [] )
   ImageMaskSpatialObject::Pointer maskSO = ImageMaskSpatialObject::New();
 
   maskSO->SetImage ( reader->GetOutput() );
+  maskSO->Update();
 
-  RegionType boundingBoxRegion  = maskSO->GetAxisAlignedBoundingBoxRegion();
-
-  std::cout << "Bounding Box Region: " << boundingBoxRegion << std::endl;
+  std::cout << "Bounding Box Region: "
+    << maskSO->GetMyBoundingBoxInWorldSpace()->GetBounds() << std::endl;
 
   return EXIT_SUCCESS;
 }
