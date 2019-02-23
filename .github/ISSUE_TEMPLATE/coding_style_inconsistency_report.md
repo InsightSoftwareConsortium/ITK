@@ -1,7 +1,7 @@
 ---
-name: Coding Style Inconsistency Report
+name: "Coding Style Inconsistency Report \U0001F4DD"
 labels: type:Style
-about: File a coding style report to improve consistency in ITK
+about: "File a coding style report to improve consistency in ITK"
 ---
 
 <!-- The text within this markup is a comment, and is intended to provide

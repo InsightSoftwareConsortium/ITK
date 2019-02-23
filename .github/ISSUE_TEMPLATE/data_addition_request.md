@@ -1,7 +1,7 @@
 ---
-name: Data Addition Request
+name: "Data Addition Request \U0001F4AF"
 labels: type:Style
-about: File a data addition request to add testing data to ITK
+about: "File a data addition request to add testing data to ITK"
 ---
 
 <!-- The text within this markup is a comment, and is intended to provide
