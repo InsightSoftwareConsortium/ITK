@@ -965,7 +965,7 @@ endmacro()
 if(NOT EXTERNAL_WRAP_ITK_PROJECT)
 
   # Add the Python tests
-  if(BUILD_TESTING AND ITK_SOURCE_DIR)
+  if(BUILD_TESTING AND ITK_SOURCE_DIR AND ITK_BUILD_DEFAULT_MODULES)
     add_subdirectory(Tests)
   endif()
 
