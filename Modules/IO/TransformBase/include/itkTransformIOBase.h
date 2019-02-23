@@ -201,10 +201,6 @@ using TransformIOBase = itk::TransformIOBaseTemplate<double>;
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTransformIOBase.hxx"
-#endif
-
 #endif // itkTransformIOBase_h
 
 /** Explicit instantiations */
