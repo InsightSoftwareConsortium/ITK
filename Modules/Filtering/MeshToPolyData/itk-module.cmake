@@ -18,6 +18,7 @@ itk_module(MeshToPolyData
     ITKMesh
   TEST_DEPENDS
     ITKTestKernel
+    ITKIOMeshVTK
   DESCRIPTION
     "${DOCUMENTATION}"
   EXCLUDE_FROM_DEFAULT
