@@ -142,7 +142,7 @@ HDF5TransformIOTemplate<TParametersValueType>
 
   // Set the storage format type
   const H5::PredType h5StorageIdentifier{ GetH5TypeFromString( ) };
-  if(this->m_UseCompression)
+  if(this->GetUseCompression())
   {
     // Set compression information
     // set up properties for chunked, compressed writes.
