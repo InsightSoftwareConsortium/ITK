@@ -9,5 +9,5 @@ CreateTestDriver(MeshToPolyData "${MeshToPolyData-Test_LIBRARIES}" "${MeshToPoly
 itk_add_test(NAME itkMeshToPolyDataFilterTest
   COMMAND MeshToPolyDataTestDriver
   itkMeshToPolyDataFilterTest
-    ${ITK_TEST_OUTPUT_DIR}/itkMeshToPolyDataFilterTestOutput.mha
+    DATA{Input/cow.vtk}
   )
