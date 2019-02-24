@@ -580,7 +580,7 @@ void PNGImageIO::WriteSlice(const std::string & fileName, const void *buffer)
 
 //  VS 7.1 has problems with setjmp/longjmp in C++ code
 #if !defined( _MSC_VER ) || _MSC_VER != 1310
-  png_set_error_fn(png_ptr, png_ptr,
+  png_set_error_fn(png_ptr, (png_voidp)nullptr,
                    itkPNGWriteErrorFunction, itkPNGWriteWarningFunction);
   if ( wrapSetjmp( png_ptr) )
     {
