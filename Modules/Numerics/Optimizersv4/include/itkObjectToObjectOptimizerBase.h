@@ -276,12 +276,7 @@ using ObjectToObjectOptimizerBase = ObjectToObjectOptimizerBaseTemplate<double>;
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkObjectToObjectOptimizerBase.hxx"
 #endif
-
-#endif
-
 
 /** Explicit instantiations */
 #ifndef ITK_TEMPLATE_EXPLICIT_ObjectToObjectOptimizerBaseTemplate
