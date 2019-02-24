@@ -171,6 +171,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     itkTypes
     itkExtras
     itkLazy
+    itkHelpers
     )
   # Done listing files.
 

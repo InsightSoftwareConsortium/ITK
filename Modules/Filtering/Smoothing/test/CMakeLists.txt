@@ -102,6 +102,11 @@ if(ITK_WRAP_unsigned_char AND wrap_2_index GREATER -1)
       ${ITK_TEST_OUTPUT_DIR}/PythonMedianImageFilterTest.png
       3
     )
+  if(ITK_WRAP_DOC)
+  itk_python_add_test(NAME PythonMedianImageFilterFunctionalDocumentationTest
+  COMMAND MedianImageFilterFunctionalDocumentationTest.py
+  )
+  endif()
   itk_python_add_test(NAME PythonAutoPipelineTest
     TEST_DRIVER_ARGS
       --compare ${ITK_TEST_OUTPUT_DIR}/PythonAutoPipelineTest.png
