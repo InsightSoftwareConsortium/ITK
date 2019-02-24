@@ -20,45 +20,30 @@
 
 #include "itkMeshToPolyDataFilter.h"
 
-#include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
-
 namespace itk
 {
 
-template< typename TInputImage, typename TOutputImage >
-MeshToPolyDataFilter< TInputImage, TOutputImage >
+template< typename TInputMesh >
+MeshToPolyDataFilter< TInputMesh >
 ::MeshToPolyDataFilter()
 {
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template< typename TInputMesh >
 void
-MeshToPolyDataFilter< TInputImage, TOutputImage >
+MeshToPolyDataFilter< TInputMesh >
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template< typename TInputMesh >
 void
-MeshToPolyDataFilter< TInputImage, TOutputImage >
-::DynamicThreadedGenerateData( const OutputRegionType & outputRegion)
+MeshToPolyDataFilter< TInputMesh >
+::GenerateData()
 {
-  OutputImageType * output = this->GetOutput();
-  const InputImageType * input = this->GetInput();
-  using InputRegionType = typename InputImageType::RegionType;
-  InputRegionType inputRegion = InputRegionType(outputRegion.GetSize());
-
-  itk::ImageRegionConstIterator<InputImageType> in(input, inputRegion);
-  itk::ImageRegionIterator<OutputImageType> out(output, outputRegion);
-
-  for (in.GoToBegin(), out.GoToBegin(); !in.IsAtEnd() && !out.IsAtEnd(); ++in, ++out)
-  {
-    out.Set( in.Get() );
-  }
 }
 
 } // end namespace itk
