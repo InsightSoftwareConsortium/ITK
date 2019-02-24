@@ -10,8 +10,6 @@
 #include <string>
 #include <vector>
 
-#include <@KWSYS_NAMESPACE@/String.hxx>
-
 #include <sys/types.h>
 // include sys/stat.h after sys/types.h
 #include <sys/stat.h>
@@ -56,6 +54,9 @@ class @KWSYS_NAMESPACE@_EXPORT SystemToolsManager
 public:
   SystemToolsManager();
   ~SystemToolsManager();
+
+  SystemToolsManager(const SystemToolsManager&) = delete;
+  SystemToolsManager& operator=(const SystemToolsManager&) = delete;
 };
 
 // This instance will show up in any translation unit that uses
@@ -197,9 +198,9 @@ public:
       s starts with a / then the first element of the returned array will
       be /, so /foo/bar will be [/, foo, bar]
   */
-  static std::vector<String> SplitString(const std::string& s,
-                                         char separator = '/',
-                                         bool isPath = false);
+  static std::vector<std::string> SplitString(const std::string& s,
+                                              char separator = '/',
+                                              bool isPath = false);
   /**
    * Perform a case-independent string comparison
    */
@@ -579,6 +580,13 @@ public:
    */
   static bool FilesDiffer(const std::string& source,
                           const std::string& destination);
+
+  /**
+   * Compare the contents of two files, ignoring line ending differences.
+   * Return true if different
+   */
+  static bool TextFilesDiffer(const std::string& path1,
+                              const std::string& path2);
 
   /**
    * Return true if the two files are the same file
