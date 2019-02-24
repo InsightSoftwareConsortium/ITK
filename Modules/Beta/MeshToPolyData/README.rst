@@ -1,20 +1,20 @@
 ITKMeshToPolyData
 =================================
 
-.. |CircleCI| image:: https://circleci.com/gh/InsightSoftwareConsortium/ITKMeshToPolyData.svg?style=shield
-    :target: https://circleci.com/gh/InsightSoftwareConsortium/ITKMeshToPolyData
+.. image:: https://dev.azure.com/InsightSoftwareConsortium/ITKModules/_apis/build/status/InsightSoftwareConsortium.ITKMeshToPolyData?branchName=master
+    :target: https://dev.azure.com/InsightSoftwareConsortium/ITKModules/_build/latest?definitionId=2&branchName=master
+    :alt: Build status
 
-.. |TravisCI| image:: https://travis-ci.org/InsightSoftwareConsortium/ITKMeshToPolyData.svg?branch=master
-    :target: https://travis-ci.org/InsightSoftwareConsortium/ITKMeshToPolyData
+.. image:: https://img.shields.io/pypi/v/itk-meshtopolydata.svg
+    :target: https://pypi.python.org/pypi/itk-meshtopolydata
+    :alt: PyPI
 
-.. |AppVeyor| image:: https://img.shields.io/appveyor/ci/thewtex/itkmeshtopolydata.svg
-    :target: https://ci.appveyor.com/project/thewtex/itkmeshtopolydata
+.. image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
+    :target: https://github.com/InsightSoftwareConsortium/ITKMeshToPolyData/blob/master/LICENSE)
+    :alt: License
 
-=========== =========== ===========
-   Linux      macOS       Windows
-=========== =========== ===========
-|CircleCI|  |TravisCI|  |AppVeyor|
-=========== =========== ===========
+Overview
+--------
 
 Convert an ITK Mesh to a simple data structure compatible with vtkPolyData.
 
