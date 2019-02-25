@@ -72,10 +72,8 @@ public:
   /** Method returns the length of the perimeter */
   double MeasurePerimeter() const;
 
-  // For ComputeMyBounds - use the implementation in PointBasedSpatialObject
-
   /** Test whether a point is inside or outside the object. */
-  bool IsInsideInWorldSpace(const PointType & point, unsigned int depth,
+  bool IsInsideInObjectSpace(const PointType & point, unsigned int depth,
     const std::string & name) const override;
 
 protected:

@@ -87,16 +87,16 @@ public:
   itkGetConstReferenceMacro(CenterInObjectSpace, PointType);
 
   /** Test whether a point is inside or outside the object */
-  bool IsInsideInWorldSpace(const PointType & point, unsigned int depth=0,
+  bool IsInsideInObjectSpace(const PointType & point, unsigned int depth=0,
     const std::string & name="" ) const override;
 
   /** Get the boundaries of a specific object.  This function needs to
    *  be called every time one of the object's components is
    *  changed. */
-  bool ComputeMyBoundingBoxInWorldSpace() const override;
+  bool ComputeMyBoundingBox() const override;
 
   /** world-space property getters */
-  itkGetConstReferenceMacro( Center, PointType );
+  itkGetConstReferenceMacro( CenterInWorldSpace, PointType );
 
   void Update() override;
 
@@ -108,7 +108,7 @@ protected:
   ArrayType m_RadiusInObjectSpace;
   PointType m_CenterInObjectSpace;
   /* world space */
-  PointType m_Center;
+  PointType m_CenterInWorldSpace;
 
   /** Print the object informations in a stream. */
   void PrintSelf(std::ostream & os, Indent indent) const override;

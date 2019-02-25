@@ -111,7 +111,7 @@ int itkGaussianSpatialObjectTest(int, char* [])
 
   GaussianType::TransformType::OffsetType offset3;
 
-  offset3 = myGaussian2->GetObjectToParentTransform()->GetOffset();
+  offset3 = myGaussian2->GetModifiableObjectToParentTransform()->GetOffset();
 
   if(    itk::Math::NotAlmostEquals(offset3[0], 5.0) || itk::Math::NotAlmostEquals(offset3[1], 5.0)
       || itk::Math::NotAlmostEquals(offset3[2], 5.0) || itk::Math::NotAlmostEquals(offset3[3], 5.0)
@@ -123,8 +123,8 @@ int itkGaussianSpatialObjectTest(int, char* [])
   std::cout<<"[PASSED]"<<std::endl;
 
 
-  std::cout << "ComputeMyBoundingBoxInWorldSpace: ";
-  myGaussian->ComputeMyBoundingBoxInWorldSpace();
+  std::cout << "ComputeMyBoundingBox: ";
+  myGaussian->ComputeMyBoundingBox();
   GaussianType::BoundingBoxType * boundingBox = myGaussian->GetMyBoundingBoxInWorldSpace();
 
   for(unsigned int i=0;i<3;i++)

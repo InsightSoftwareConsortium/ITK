@@ -39,23 +39,20 @@ EllipseSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 EllipseSpatialObject< TDimension >
-::IsInsideInWorldSpace(const PointType & worldPoint, unsigned int depth,
+::IsInsideInObjectSpace(const PointType & point, unsigned int depth,
   const std::string & name) const
 {
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    PointType transformedPoint = this->GetObjectToWorldTransform()
-      ->GetInverseTransform()->TransformPoint(worldPoint);
-
     double r = 0;
     for ( unsigned int i = 0; i < TDimension; i++ )
       {
       if ( m_RadiusInObjectSpace[i] != 0.0 )
         {
-        r += ( transformedPoint[i] * transformedPoint[i] )
+        r += ( point[i] * point[i] )
              / ( m_RadiusInObjectSpace[i] * m_RadiusInObjectSpace[i] );
         }
-      else if ( transformedPoint[i] > 0.0 )  // Degenerate ellipse
+      else if ( point[i] > 0.0 )  // Degenerate ellipse
         {
         r = 2; // Keeps function from returning true here
         break;
@@ -70,7 +67,7 @@ EllipseSpatialObject< TDimension >
 
   if( depth > 0 )
     {
-    return Superclass::IsInsideChildrenInWorldSpace( worldPoint, depth-1, name );
+    return Superclass::IsInsideChildrenInObjectSpace( point, depth-1, name );
     }
 
   return false;
@@ -80,50 +77,22 @@ EllipseSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 EllipseSpatialObject< TDimension >
-::ComputeMyBoundingBoxInWorldSpace() const
+::ComputeMyBoundingBox() const
 {
   itkDebugMacro("Computing ellipse bounding box");
 
-  // First we compute the bounding box in the object space
-  typename BoundingBoxType::Pointer bb = BoundingBoxType::New();
-
   PointType    pnt1;
   PointType    pnt2;
-  unsigned int i;
-  for ( i = 0; i < TDimension; i++ )
+  for ( unsigned int i = 0; i < TDimension; i++ )
     {
     pnt1[i] = m_CenterInObjectSpace[i] - m_RadiusInObjectSpace[i];
     pnt2[i] = m_CenterInObjectSpace[i] + m_RadiusInObjectSpace[i];
     }
 
-  bb->SetMinimum(pnt1);
-  bb->SetMaximum(pnt1);
-  bb->ConsiderPoint(pnt2);
-  bb->ComputeBoundingBox();
-
-  // Next Transform the corners of the bounding box
-  using PointsContainer = typename BoundingBoxType::PointsContainer;
-  const PointsContainer *corners = bb->GetCorners();
-  typename PointsContainer::Pointer transformedCorners =
-    PointsContainer::New();
-  transformedCorners->Reserve(
-    static_cast<typename PointsContainer::ElementIdentifier>(
-      corners->size() ) );
-
-  auto it = corners->begin();
-  auto itTrans = transformedCorners->begin();
-  while ( it != corners->end() )
-    {
-    PointType pnt = this->GetObjectToWorldTransform()->TransformPoint(*it);
-    *itTrans = pnt;
-    ++it;
-    ++itTrans;
-    }
-
-  // refresh the bounding box with the transformed corners
-  const_cast< BoundingBoxType * >( this->GetMyBoundingBoxInWorldSpace() )
-    ->SetPoints(transformedCorners);
-  this->GetMyBoundingBoxInWorldSpace()->ComputeBoundingBox();
+  this->GetMyBoundingBoxInObjectSpace()->SetMinimum(pnt1);
+  this->GetMyBoundingBoxInObjectSpace()->SetMaximum(pnt1);
+  this->GetMyBoundingBoxInObjectSpace()->ConsiderPoint(pnt2);
+  this->GetMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
 
   return true;
 }
@@ -137,10 +106,10 @@ EllipseSpatialObject< TDimension >
   PointType center = this->GetCenterInObjectSpace();
   PointType worldCenter;
 
-  worldCenter = this->GetObjectToWorldTransform()->TransformPoint( center );
-  m_Center = worldCenter;
-
   Superclass::Update();
+
+  worldCenter = this->GetObjectToWorldTransform()->TransformPoint( center );
+  m_CenterInWorldSpace = worldCenter;
 }
 
 /** Print Self function */
@@ -153,7 +122,7 @@ EllipseSpatialObject< TDimension >
   Superclass::PrintSelf(os, indent);
   os << "Object Radius: " << m_RadiusInObjectSpace << std::endl;
   os << "Object Center: " << m_CenterInObjectSpace << std::endl;
-  os << "World Center: " << m_Center << std::endl;
+  os << "World Center: " << m_CenterInWorldSpace << std::endl;
 }
 
 } // end namespace itk

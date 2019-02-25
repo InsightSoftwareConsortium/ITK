@@ -31,7 +31,7 @@ ImageSpatialObject< TDimension,  PixelType >
 {
   this->SetTypeName("ImageSpatialObject");
   m_Image = ImageType::New();
-  m_SlicePosition.Fill( 0 );
+  m_SliceNumber.Fill( 0 );
 
   this->SetPixelTypeName(static_cast<const PixelType *>(nullptr));
 
@@ -63,19 +63,13 @@ ImageSpatialObject< TDimension,  PixelType >
 template< unsigned int TDimension, typename PixelType >
 bool
 ImageSpatialObject< TDimension,  PixelType >
-::IsInsideInWorldSpace(const PointType & point, unsigned int depth,
+::IsInsideInObjectSpace(const PointType & point, unsigned int depth,
   const std::string & name) const
 {
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    PointType transformedPoint =
-      this->GetObjectToWorldTransform()->GetInverseTransform()
-        ->TransformPoint(point);
-
     IndexType index;
-    bool isInside = m_Image->TransformPhysicalPointToIndex( transformedPoint,
-      index );
-
+    bool isInside = m_Image->TransformPhysicalPointToIndex( point, index );
     if( isInside )
       {
       return true;
@@ -84,7 +78,7 @@ ImageSpatialObject< TDimension,  PixelType >
 
   if( depth > 0 )
     {
-    return Superclass::IsInsideChildrenInWorldSpace(point, depth-1, name);
+    return Superclass::IsInsideChildrenInObjectSpace(point, depth-1, name);
     }
 
   return false;
@@ -97,19 +91,16 @@ ImageSpatialObject< TDimension,  PixelType >
 template< unsigned int TDimension, typename PixelType >
 bool
 ImageSpatialObject< TDimension,  PixelType >
-::ValueAtInWorldSpace(const PointType & point, double & value, unsigned int depth,
-  const std::string & name) const
+::ValueAtInObjectSpace(const PointType & point, double & value,
+  unsigned int depth, const std::string & name) const
 {
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    if( this->IsEvaluableAtInWorldSpace(point, 0, name) )
+    if( this->IsEvaluableAtInObjectSpace(point, 0, name) )
       {
-      PointType transformedPoint = this->GetObjectToWorldTransform()->
-        GetInverseTransform()->TransformPoint( point );
-
       ContinuousIndexType cIndex;
-      bool isInside = m_Image->TransformPhysicalPointToContinuousIndex(
-        transformedPoint, cIndex );
+      bool isInside = m_Image->TransformPhysicalPointToContinuousIndex( point,
+        cIndex );
 
       if( isInside )
         {
@@ -125,7 +116,8 @@ ImageSpatialObject< TDimension,  PixelType >
 
   if ( depth > 0 )
     {
-    return Superclass::ValueAtChildrenInWorldSpace(point, value, depth-1, name);
+    return Superclass::ValueAtChildrenInObjectSpace(point, value, depth-1,
+      name);
     }
 
   return false;
@@ -135,59 +127,28 @@ ImageSpatialObject< TDimension,  PixelType >
 template< unsigned int TDimension, typename PixelType >
 bool
 ImageSpatialObject< TDimension,  PixelType >
-::ComputeMyBoundingBoxInWorldSpace() const
+::ComputeMyBoundingBox() const
 {
   itkDebugMacro("Computing ImageSpatialObject bounding box");
 
-  // First we compute the bounding box in the index space
-  typename BoundingBoxType::Pointer indexSpaceBB = BoundingBoxType::New();
+  IndexType index = m_Image->GetLargestPossibleRegion().GetIndex();
+  typename ImageType::SizeType size
+    = m_Image->GetLargestPossibleRegion().GetSize();
 
-  IndexType    index = m_Image->GetLargestPossibleRegion().GetIndex();
-  typename ImageType::SizeType     size = m_Image->GetLargestPossibleRegion().GetSize();
-
+  IndexType index2;
+  for( unsigned int i = 0; i<TDimension; ++i )
+    {
+    index2[i] = index[i] + size[i];
+    }
   PointType    pnt1;
   PointType    pnt2;
-  for ( unsigned int i = 0; i < TDimension; i++ )
-    {
-    pnt1[i] = index[i];
-    pnt2[i] = index[i] + size[i];
-    }
+  m_Image->TransformIndexToPhysicalPoint( index, pnt1 );
+  m_Image->TransformIndexToPhysicalPoint( index2, pnt2 );
 
-  indexSpaceBB->SetMinimum(pnt1);
-  indexSpaceBB->SetMaximum(pnt1);
-  indexSpaceBB->ConsiderPoint(pnt2);
-  indexSpaceBB->ComputeBoundingBox();
-
-  // Next Transform the corners of the bounding box
-  using PointsContainer = typename BoundingBoxType::PointsContainer;
-  const PointsContainer *indexSpaceCorners = indexSpaceBB->GetCorners();
-  typename PointsContainer::Pointer transformedCorners =
-    PointsContainer::New();
-  transformedCorners->Reserve(
-    static_cast<typename PointsContainer::ElementIdentifier>(
-      indexSpaceCorners->size() ) );
-
-  auto it = indexSpaceCorners->begin();
-  auto itTrans = transformedCorners->begin();
-  while ( it != indexSpaceCorners->end() )
-    {
-    IndexType ind;
-    for (unsigned int i = 0; i < TDimension; i++){
-        ind[i] = (*it)[i];
-    }
-    PointType objectSpacePoint;
-    m_Image->TransformIndexToPhysicalPoint(ind, objectSpacePoint);
-    PointType pnt = this->GetObjectToWorldTransform()
-      ->TransformPoint(objectSpacePoint);
-    *itTrans = pnt;
-    ++it;
-    ++itTrans;
-    }
-
-  // refresh the bounding box with the transformed corners
-  const_cast< BoundingBoxType * >( this->GetMyBoundingBoxInWorldSpace() )
-    ->SetPoints(transformedCorners);
-  this->GetMyBoundingBoxInWorldSpace()->ComputeBoundingBox();
+  this->GetMyBoundingBoxInObjectSpace()->SetMinimum(pnt1);
+  this->GetMyBoundingBoxInObjectSpace()->SetMaximum(pnt1);
+  this->GetMyBoundingBoxInObjectSpace()->ConsiderPoint(pnt2);
+  this->GetMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
 
   return true;
 }
@@ -232,7 +193,7 @@ ImageSpatialObject< TDimension,  PixelType >
   os << indent << m_Image << std::endl;
   os << indent << "Interpolator: " << std::endl;
   os << indent << m_Interpolator << std::endl;
-  os << indent << "SlicePosition: " << m_SlicePosition << std::endl;
+  os << indent << "SliceNumber: " << m_SliceNumber << std::endl;
   os << indent << "PixelType: " << m_PixelType << std::endl;
 }
 
@@ -257,9 +218,9 @@ ImageSpatialObject< TDimension,  PixelType >
 template< unsigned int TDimension, typename PixelType >
 void
 ImageSpatialObject< TDimension,  PixelType >
-::SetSlicePositionInWorldSpace(unsigned int dimension, int position)
+::SetSliceNumber(unsigned int dimension, int position)
 {
-  m_SlicePosition[dimension] = position;
+  m_SliceNumber[dimension] = position;
   this->Modified();
 }
 } // end namespace itk

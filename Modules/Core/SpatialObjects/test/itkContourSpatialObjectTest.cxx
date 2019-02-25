@@ -63,7 +63,7 @@ int itkContourSpatialObjectTest(int, char* [])
 
 
   //
-  // Test ComputeMyBoundingBoxInWorldSpace before data added
+  // Test ComputeMyBoundingBox before data added
   //
   contour->Update();
 
@@ -224,6 +224,9 @@ int itkContourSpatialObjectTest(int, char* [])
   interpPointList.push_back(intPt2);
 
   contour->SetControlPoints(interpPointList);
+  contour->SetInterpolationMethod(
+    SpatialObjectType::InterpolationMethodType::NO_INTERPOLATION);
+  contour->Update();
 
   // check number of points
   if (contour->GetNumberOfControlPoints() != 2)
@@ -273,7 +276,7 @@ int itkContourSpatialObjectTest(int, char* [])
   //
   // Test ComputeLocalBoundingBox
   //
-  if (!contour->ComputeMyBoundingBoxInWorldSpace())
+  if (!contour->ComputeMyBoundingBox())
     {
     std::cout << "[FAILED] faild bounding box computation" << std::endl;
     return EXIT_FAILURE;

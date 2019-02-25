@@ -55,26 +55,16 @@ ArrowSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 ArrowSpatialObject< TDimension >
-::ComputeMyBoundingBoxInWorldSpace() const
+::ComputeMyBoundingBox() const
 {
   itkDebugMacro("Computing Rectangle bounding box");
 
   PointType pnt = this->GetPositionInObjectSpace();
-  PointType pnt2;
-  for ( unsigned int i = 0; i < TDimension; i++ )
-    {
-    pnt2[i] = pnt[i] + m_LengthInObjectSpace * m_DirectionInObjectSpace[i];
-    }
-
-  pnt = this->GetObjectToWorldTransform()->TransformPoint(pnt);
-  pnt2 = this->GetObjectToWorldTransform()->TransformPoint(pnt2);
 
   const_cast< typename Superclass::BoundingBoxType * >(
-    this->GetMyBoundingBoxInWorldSpace() )->SetMinimum(pnt);
+    this->GetMyBoundingBoxInObjectSpace() )->SetMinimum(pnt);
   const_cast< typename Superclass::BoundingBoxType * >(
-    this->GetMyBoundingBoxInWorldSpace() )->SetMaximum(pnt);
-  const_cast< typename Superclass::BoundingBoxType * >(
-    this->GetMyBoundingBoxInWorldSpace() )->ConsiderPoint(pnt2);
+    this->GetMyBoundingBoxInObjectSpace() )->SetMaximum(pnt);
 
   return true;
 }
@@ -83,42 +73,37 @@ ArrowSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 ArrowSpatialObject< TDimension >
-::IsInsideInWorldSpace(const PointType & point, unsigned int depth,
+::IsInsideInObjectSpace(const PointType & point, unsigned int depth,
   const std::string & name) const
 {
   itkDebugMacro("Checking the point [" << point << "] is on the Line");
 
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    if ( this->GetMyBoundingBoxInWorldSpace()->IsInside(point) )
+    PointType pnt = this->GetPositionInObjectSpace();
+
+    PointType tPnt = this->GetObjectToWorldTransform()
+      ->GetInverseTransform()->TransformPoint(point);
+
+    bool isInside = true;
+    for ( unsigned int i = 0; i < TDimension; i++ )
       {
-      PointType transformedPoint = this->GetObjectToWorldTransform()
-        ->GetInverseTransform()->TransformPoint(point);
-
-      PointType pnt = this->GetPositionInObjectSpace();
-      PointType pnt2;
-      for ( unsigned int i = 0; i < TDimension; i++ )
+      if( Math::NotExactlyEquals( pnt[i], tPnt[i] ) )
         {
-        pnt2[i] = pnt[i] + m_LengthInObjectSpace * m_DirectionInObjectSpace[i];
+        isInside = false;
+        break;
         }
-
-      VectorType v = pnt2 - pnt;
-      VectorType v2 = transformedPoint - pnt;
-
-      v.Normalize();
-      v2.Normalize();
-
-      if ( Math::AlmostEquals( dot_product( v.GetVnlVector(), v2.GetVnlVector() ),
-          NumericTraits< typename VectorType::ValueType >::OneValue() ) )
-        {
-        return true;
-        }
+      }
+    if( isInside )
+      {
+      return true;
       }
     }
 
   if( depth > 0 )
     {
-    return Superclass::IsInsideChildrenInWorldSpace( point, depth-1, name );
+    std::cout << "Testing children" << std::endl;
+    return Superclass::IsInsideChildrenInObjectSpace( point, depth-1, name );
     }
 
   return false;

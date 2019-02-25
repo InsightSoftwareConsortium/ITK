@@ -57,8 +57,7 @@ PolygonSpatialObject< TDimension >
   maxPnt.Fill( NumericTraits< double >::NonpositiveMin() );
   while ( it != itend )
     {
-    PointType curpoint = this->GetObjectToWorldTransform()->TransformPoint(
-      ( *it ).GetPositionInObjectSpace() );
+    PointType curpoint = ( *it ).GetPositionInObjectSpace();
     for ( unsigned int i = 0; i < TDimension; i++ )
       {
       if ( minPnt[i] > curpoint[i] )
@@ -75,7 +74,7 @@ PolygonSpatialObject< TDimension >
   m_OrientationInObjectSpace = -1;
   for ( unsigned int i = 0; i < TDimension; i++ )
     {
-    if ( Math::ExactlyEquals(minPnt[0], maxPnt[0]) )
+    if ( Math::ExactlyEquals(minPnt[i], maxPnt[i]) )
       {
       m_OrientationInObjectSpace = i;
       break;
@@ -207,12 +206,13 @@ PolygonSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 PolygonSpatialObject< TDimension >
-::IsInsideInWorldSpace(const PointType & worldPoint, unsigned int depth,
+::IsInsideInObjectSpace(const PointType & point, unsigned int depth,
   const std::string & name) const
 {
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    if( this->IsClosed() && this->GetMyBoundingBoxInWorldSpace()->IsInside( worldPoint ) )
+    if( this->IsClosed()
+      && this->GetMyBoundingBoxInObjectSpace()->IsInside( point ) )
       {
       int    numpoints = this->GetNumberOfPoints();
       int    X = -1;
@@ -236,9 +236,6 @@ PolygonSpatialObject< TDimension >
             }
           }
 
-        PointType transformedPoint = this->GetObjectToWorldTransform()->
-          GetInverseTransform()->TransformPoint( worldPoint );
-
         const PolygonPointListType & points = this->GetPoints();
         auto it = points.begin();
         auto itend = points.end();
@@ -261,8 +258,8 @@ PolygonSpatialObject< TDimension >
             continue;
             }
 
-          const double x = transformedPoint[X];
-          const double y = transformedPoint[Y];
+          const double x = point[X];
+          const double y = point[Y];
 
           if ( ( node1[Y] < y && node2[Y] >= y )
                || ( node2[Y] < y && node1[Y] >= y ) )
@@ -285,7 +282,7 @@ PolygonSpatialObject< TDimension >
 
   if( depth > 0 )
     {
-    return Superclass::IsInsideChildrenInWorldSpace( worldPoint, depth-1, name );
+    return Superclass::IsInsideChildrenInObjectSpace( point, depth-1, name );
     }
 
   return false;
