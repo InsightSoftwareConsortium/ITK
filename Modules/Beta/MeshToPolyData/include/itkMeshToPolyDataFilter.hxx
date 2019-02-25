@@ -27,6 +27,8 @@ template< typename TInputMesh >
 MeshToPolyDataFilter< TInputMesh >
 ::MeshToPolyDataFilter()
 {
+  // Modify superclass default values, can be overridden by subclasses
+  this->SetNumberOfRequiredInputs(1);
 }
 
 
@@ -36,6 +38,34 @@ MeshToPolyDataFilter< TInputMesh >
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );
+}
+
+
+template< typename TInputMesh >
+void
+MeshToPolyDataFilter< TInputMesh >
+::SetInput(const TInputMesh *input)
+{
+  // Process object is not const-correct so the const_cast is required here
+  this->ProcessObject::SetNthInput( 0, const_cast< TInputMesh * >( input ) );
+}
+
+
+template< typename TInputMesh >
+const typename MeshToPolyDataFilter< TInputMesh >::InputMeshType *
+MeshToPolyDataFilter< TInputMesh >
+::GetInput() const
+{
+  return itkDynamicCastInDebugMode< const TInputMesh * >( this->GetPrimaryInput() );
+}
+
+
+template< typename TInputMesh >
+const typename MeshToPolyDataFilter< TInputMesh >::InputMeshType *
+MeshToPolyDataFilter< TInputMesh >
+::GetInput(unsigned int idx) const
+{
+  return dynamic_cast< const TInputMesh * > ( this->ProcessObject::GetInput(idx) );
 }
 
 
