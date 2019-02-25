@@ -75,7 +75,7 @@ int itkImageSpatialObjectTest(int, char* [])
   ImageSpatialObject::TransformType::OffsetType offset;
   offset.Fill(5);
 
-  imageSO->GetObjectToParentTransform()->SetOffset(offset);
+  imageSO->GetModifiableObjectToParentTransform()->SetOffset(offset);
   imageSO->ComputeObjectToWorldTransform();
 
   PointType q;
@@ -86,7 +86,7 @@ int itkImageSpatialObjectTest(int, char* [])
   r.Fill(9);
   q.Fill(15);
 
-  imageSO->ComputeMyBoundingBoxInWorldSpace();
+  imageSO->ComputeMyBoundingBox();
   std::cout << "Bounding Box = "
     << imageSO->GetMyBoundingBoxInWorldSpace()->GetBounds() << std::endl;
   std::cout<<"IsInside()...";

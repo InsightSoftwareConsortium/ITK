@@ -11,10 +11,10 @@ set(WRAPPER_SUBMODULE_ORDER
   itkTubeSpatialObject
   itkDTITubeSpatialObjectPoint
   itkDTITubeSpatialObject
-  itkLineSpatialObject
   itkLineSpatialObjectPoint
-  itkSurfaceSpatialObject
+  itkLineSpatialObject
   itkSurfaceSpatialObjectPoint
+  itkSurfaceSpatialObject
   itkLandmarkSpatialObject
   itkBlobSpatialObject
   itkPolygonSpatialObject

@@ -75,10 +75,10 @@ public:
   itkGetConstReferenceMacro(LengthInObjectSpace, double);
 
   /** Compute the Object bounding box */
-  bool ComputeMyBoundingBoxInWorldSpace() const override;
+  bool ComputeMyBoundingBox() const override;
 
   /** Returns true if the point is inside the line, false otherwise. */
-  bool IsInsideInWorldSpace(const PointType & point, unsigned int depth=0,
+  bool IsInsideInObjectSpace(const PointType & point, unsigned int depth=0,
     const std::string & name="") const override;
 
   void Update() override;
