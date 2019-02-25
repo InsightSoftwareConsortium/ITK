@@ -19,7 +19,8 @@
 #include "itkMeshToPolyDataFilter.h"
 
 #include "itkCommand.h"
-#include "itkImageFileWriter.h"
+#include "itkMeshFileReader.h"
+#include "itkMesh.h"
 #include "itkTestingMacros.h"
 
 namespace{
@@ -51,45 +52,54 @@ public:
 };
 }
 
+
 int itkMeshToPolyDataFilterTest( int argc, char * argv[] )
 {
-  if( argc < 2 )
+  if( argc < 3 )
     {
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " outputImage";
+    std::cerr << " inputMesh outputPolyData";
     std::cerr << std::endl;
     return EXIT_FAILURE;
     }
-  const char * outputImageFileName  = argv[1];
+  const char * inputMeshFileName = argv[1];
+  const char * outputPolyDataFileName = argv[1];
 
-  const unsigned int Dimension = 2;
+  const unsigned int Dimension = 3;
   using PixelType = float;
-  using ImageType = itk::Image< PixelType, Dimension >;
+  using MeshType = itk::Mesh< PixelType, Dimension >;
 
-  using FilterType = itk::MeshToPolyDataFilter< ImageType, ImageType >;
+  using MeshReaderType = itk::MeshFileReader< MeshType >;
+  MeshReaderType::Pointer meshReader = MeshReaderType::New();
+  meshReader->SetFileName( inputMeshFileName );
+  meshReader->Update();
+
+  using FilterType = itk::MeshToPolyDataFilter< MeshType >;
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, MeshToPolyDataFilter, ImageToImageFilter );
+  EXERCISE_BASIC_OBJECT_METHODS( filter, MeshToPolyDataFilter, ProcessObject );
 
-  // Create input image to avoid test dependencies.
-  ImageType::SizeType size;
-  size.Fill( 128 );
-  ImageType::Pointer image = ImageType::New();
-  image->SetRegions( size );
-  image->Allocate();
-  image->FillBuffer(1.1f);
+  filter->SetInput( meshReader->GetOutput() );
 
-  ShowProgress::Pointer showProgress = ShowProgress::New();
-  filter->AddObserver( itk::ProgressEvent(), showProgress );
-  filter->SetInput(image);
+  //// Create input image to avoid test dependencies.
+  //ImageType::SizeType size;
+  //size.Fill( 128 );
+  //ImageType::Pointer image = ImageType::New();
+  //image->SetRegions( size );
+  //image->Allocate();
+  //image->FillBuffer(1.1f);
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( outputImageFileName );
-  writer->SetInput( filter->GetOutput() );
-  writer->SetUseCompression(true);
+  //ShowProgress::Pointer showProgress = ShowProgress::New();
+  //filter->AddObserver( itk::ProgressEvent(), showProgress );
+  //filter->SetInput(image);
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  //typedef itk::ImageFileWriter< ImageType > WriterType;
+  //WriterType::Pointer writer = WriterType::New();
+  //writer->SetFileName( outputImageFileName );
+  //writer->SetInput( filter->GetOutput() );
+  //writer->SetUseCompression(true);
+
+  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
 
   return EXIT_SUCCESS;

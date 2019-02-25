@@ -10,4 +10,5 @@ itk_add_test(NAME itkMeshToPolyDataFilterTest
   COMMAND MeshToPolyDataTestDriver
   itkMeshToPolyDataFilterTest
     DATA{Input/cow.vtk}
+    ${ITK_TEST_OUTPUT_DIR}/itkMeshToPolyDataFilterTest.vtk
   )

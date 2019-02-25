@@ -20,45 +20,60 @@
 
 #include "itkMeshToPolyDataFilter.h"
 
-#include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIterator.h"
-
 namespace itk
 {
 
-template< typename TInputImage, typename TOutputImage >
-MeshToPolyDataFilter< TInputImage, TOutputImage >
+template< typename TInputMesh >
+MeshToPolyDataFilter< TInputMesh >
 ::MeshToPolyDataFilter()
 {
+  // Modify superclass default values, can be overridden by subclasses
+  this->SetNumberOfRequiredInputs(1);
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template< typename TInputMesh >
 void
-MeshToPolyDataFilter< TInputImage, TOutputImage >
+MeshToPolyDataFilter< TInputMesh >
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );
 }
 
 
-template< typename TInputImage, typename TOutputImage >
+template< typename TInputMesh >
 void
-MeshToPolyDataFilter< TInputImage, TOutputImage >
-::DynamicThreadedGenerateData( const OutputRegionType & outputRegion)
+MeshToPolyDataFilter< TInputMesh >
+::SetInput(const TInputMesh *input)
 {
-  OutputImageType * output = this->GetOutput();
-  const InputImageType * input = this->GetInput();
-  using InputRegionType = typename InputImageType::RegionType;
-  InputRegionType inputRegion = InputRegionType(outputRegion.GetSize());
+  // Process object is not const-correct so the const_cast is required here
+  this->ProcessObject::SetNthInput( 0, const_cast< TInputMesh * >( input ) );
+}
 
-  itk::ImageRegionConstIterator<InputImageType> in(input, inputRegion);
-  itk::ImageRegionIterator<OutputImageType> out(output, outputRegion);
 
-  for (in.GoToBegin(), out.GoToBegin(); !in.IsAtEnd() && !out.IsAtEnd(); ++in, ++out)
-  {
-    out.Set( in.Get() );
-  }
+template< typename TInputMesh >
+const typename MeshToPolyDataFilter< TInputMesh >::InputMeshType *
+MeshToPolyDataFilter< TInputMesh >
+::GetInput() const
+{
+  return itkDynamicCastInDebugMode< const TInputMesh * >( this->GetPrimaryInput() );
+}
+
+
+template< typename TInputMesh >
+const typename MeshToPolyDataFilter< TInputMesh >::InputMeshType *
+MeshToPolyDataFilter< TInputMesh >
+::GetInput(unsigned int idx) const
+{
+  return dynamic_cast< const TInputMesh * > ( this->ProcessObject::GetInput(idx) );
+}
+
+
+template< typename TInputMesh >
+void
+MeshToPolyDataFilter< TInputMesh >
+::GenerateData()
+{
 }
 
 } // end namespace itk
