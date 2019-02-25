@@ -40,7 +40,7 @@ int itkSpatialObjectToImageStatisticsCalculatorTest(int, char * [] )
 
   EllipseType::VectorType offset;
   offset.Fill(25);
-  ellipse->GetObjectToParentTransform()->SetOffset(offset);
+  ellipse->GetModifiableObjectToParentTransform()->SetOffset(offset);
   ellipse->ComputeObjectToParentTransform();
 
 
@@ -55,7 +55,7 @@ int itkSpatialObjectToImageStatisticsCalculatorTest(int, char * [] )
   ImageType::Pointer image = filter->GetOutput();
 
   offset.Fill(25);
-  ellipse->GetObjectToParentTransform()->SetOffset(offset);
+  ellipse->GetModifiableObjectToParentTransform()->SetOffset(offset);
   ellipse->ComputeObjectToParentTransform();
 
 
@@ -82,7 +82,7 @@ int itkSpatialObjectToImageStatisticsCalculatorTest(int, char * [] )
   std::cout << "[PASSED]" << std::endl;
 
   offset.Fill(20);
-  ellipse->GetObjectToParentTransform()->SetOffset(offset);
+  ellipse->GetModifiableObjectToParentTransform()->SetOffset(offset);
   ellipse->ComputeObjectToParentTransform();
   ellipse->Update();
   calculator->Update();
@@ -104,7 +104,7 @@ int itkSpatialObjectToImageStatisticsCalculatorTest(int, char * [] )
   std::cout << " --- Ellipse and Image mismatched right --- " << std::endl;
 
   offset.Fill(30);
-  ellipse->GetObjectToParentTransform()->SetOffset(offset);
+  ellipse->GetModifiableObjectToParentTransform()->SetOffset(offset);
   ellipse->ComputeObjectToParentTransform();
   ellipse->Update();
   calculator->Update();
@@ -183,7 +183,7 @@ int itkSpatialObjectToImageStatisticsCalculatorTest(int, char * [] )
   Ellipse3DType::VectorType offset3D;
   offset3D.Fill(25);
   offset3D[2]=0; // first slice
-  ellipse3D->GetObjectToParentTransform()->SetOffset(offset3D);
+  ellipse3D->GetModifiableObjectToParentTransform()->SetOffset(offset3D);
   ellipse3D->ComputeObjectToParentTransform();
 
   // Create a new calculator with a sample size of 3
