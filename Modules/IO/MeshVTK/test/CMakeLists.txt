@@ -5,6 +5,7 @@ set(ITKIOMeshVTKTests
   itkMeshFileWriteReadTensorTest.cxx
   itkMeshFileReadWriteVectorAttributeTest.cxx
   itkPolylineReadWriteTest.cxx
+  itkVTKPolyDataMeshCanReadImageTest.cxx
 )
 
 CreateTestDriver(ITKIOMeshVTK "${ITKIOMeshVTK-Test_LIBRARIES}" "${ITKIOMeshVTKTests}" )
@@ -34,4 +35,8 @@ itk_add_test(NAME itkMeshFileWriteReadTensorTest
   COMMAND ITKIOMeshVTKTestDriver itkMeshFileWriteReadTensorTest
   ${ITK_TEST_OUTPUT_DIR}/itkMeshFileWriteReadTensorTest2D.vtk
   ${ITK_TEST_OUTPUT_DIR}/itkMeshFileWriteReadTensorTest3D.vtk
+)
+itk_add_test(NAME itkVTKPolyDataMeshCanReadImageTest
+      COMMAND ITKIOMeshVTKTestDriver itkVTKPolyDataMeshCanReadImageTest
+      DATA{Input/ironProt.vtk}
 )

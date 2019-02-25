@@ -74,7 +74,9 @@ bool VTKImageIO::CanReadFile(const char *filename)
   std::string   fname(filename);
 
   if ( !this->HasSupportedReadExtension(filename))
+    {
     return false;
+    }
 
   try
     {
