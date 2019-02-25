@@ -18,7 +18,7 @@
 #ifndef itkMeshToPolyDataFilter_h
 #define itkMeshToPolyDataFilter_h
 
-#include "itkImageToImageFilter.h"
+#include "itkProcessObject.h"
 
 namespace itk
 {
@@ -33,49 +33,47 @@ namespace itk
  * \ingroup MeshToPolyData
  *
  */
-template< typename TInputImage, typename TOutputImage >
-class MeshToPolyDataFilter: public ImageToImageFilter< TInputImage, TOutputImage >
+template< typename TInputMesh >
+class MeshToPolyDataFilter: public ProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MeshToPolyDataFilter);
 
-  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
-  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
+  static constexpr unsigned int PointDimension = TInputMesh::PointDimension;
 
-  using InputImageType = TInputImage;
-  using OutputImageType = TInputImage;
-  using InputPixelType = typename InputImageType::PixelType;
-  using OutputPixelType = typename OutputImageType::PixelType;
+  using InputMeshType = TInputMesh;
 
   /** Standard class typedefs. */
-  using Self = MeshToPolyDataFilter< InputImageType, OutputImageType >;
-  using Superclass = ImageToImageFilter< InputImageType, OutputImageType >;
+  using Self = MeshToPolyDataFilter< InputMeshType >;
+  using Superclass = ProcessObject;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information. */
-  itkTypeMacro( MeshToPolyDataFilter, ImageToImageFilter );
+  itkTypeMacro( MeshToPolyDataFilter, ProcessObject );
 
   /** Standard New macro. */
   itkNewMacro( Self );
 
+  /** Set the mesh input of this process object.  */
+  using Superclass::SetInput;
+  void SetInput(const InputMeshType *input);
+
+  /** Get the mesh input of this process object.  */
+  const InputMeshType * GetInput() const;
+
+  const InputMeshType * GetInput(unsigned int idx) const;
+
 protected:
   MeshToPolyDataFilter();
-  virtual ~MeshToPolyDataFilter() override {}
+  ~MeshToPolyDataFilter() override {}
 
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 
-  typedef typename OutputImageType::RegionType OutputRegionType;
-
-  virtual void DynamicThreadedGenerateData( const OutputRegionType & outputRegion) override;
+  void GenerateData() override;
 
 private:
 
-
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Add concept checking such as
-  // itkConceptMacro( FloatingPointPixel, ( itk::Concept::IsFloatingPoint< typename InputImageType::PixelType > ) );
-#endif
 };
 }
 
