@@ -39,9 +39,11 @@ montage2D( const itk::TileLayout2D& stageTiles, itk::TileLayout2D& actualTiles,
   using PCMType = itk::PhaseCorrelationImageRegistrationMethod< ScalarImageType, ScalarImageType >;
   typename ScalarImageType::SpacingType sp;
   sp.Fill( 1.0 ); // most data assumes unit spacing, even if the files themselves have something else (72 DPI, 96 DPI, 300 DPI etc)
-  unsigned yMontageSize = stageTiles.size();
-  unsigned xMontageSize = stageTiles[0].size();
-  const itk::Point< double, Dimension > stageStrideXY = stageTiles[1][1].Position;
+  const unsigned yMontageSize = stageTiles.size();
+  const unsigned xMontageSize = stageTiles[0].size();
+  const unsigned origin1x = xMontageSize > 1 ? 1 : 0; // support 1xN montages
+  const unsigned origin1y = yMontageSize > 1 ? 1 : 0; // support Nx1 montages
+  const itk::Point< double, Dimension > stageStrideXY = stageTiles[origin1y][origin1x].Position;
 
   using PeakInterpolationType = typename itk::MaxPhaseCorrelationOptimizer< PCMType >::PeakInterpolationMethod;
   using PeakFinderUnderlying = typename std::underlying_type< PeakInterpolationType >::type;
@@ -95,7 +97,11 @@ int main( int argc, char *argv[] )
 
   constexpr unsigned Dimension = 2;
 
-  std::string inputPath = itksys::SystemTools::GetFilenamePath( argv[1] ) + '/';
+  std::string inputPath = itksys::SystemTools::GetFilenamePath( argv[1] );
+  if ( !inputPath.empty() ) // a path was given in addition to file name
+    {
+    inputPath += '/';
+    }
 
   itk::TileLayout2D stageTiles = itk::ParseTileConfiguration2D( argv[1] );
   itk::TileLayout2D actualTiles = stageTiles; // result - only positions need to be updated

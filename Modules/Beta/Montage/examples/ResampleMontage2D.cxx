@@ -36,8 +36,8 @@ montage2D( const itk::TileLayout2D& actualTiles, const std::string& inputPath,
   using OriginalImageType = itk::Image< PixelType, Dimension >; // possibly RGB instead of scalar
   typename OriginalImageType::SpacingType sp;
   sp.Fill( 1.0 ); // most data assumes unit spacing, even if the files themselves have something else (72 DPI, 96 DPI, 300 DPI etc)
-  unsigned yMontageSize = actualTiles.size();
-  unsigned xMontageSize = actualTiles[0].size();
+  const unsigned yMontageSize = actualTiles.size();
+  const unsigned xMontageSize = actualTiles[0].size();
 
   // write generated mosaic
   using Resampler = itk::TileMergeImageFilter< OriginalImageType, AccumulatePixelType >;
@@ -110,7 +110,11 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  std::string inputPath = itksys::SystemTools::GetFilenamePath( argv[1] ) + '/';
+  std::string inputPath = itksys::SystemTools::GetFilenamePath( argv[1] );
+  if ( !inputPath.empty() ) // a path was given in addition to file name
+    {
+    inputPath += '/';
+    }
   itk::TileLayout2D actualTiles = itk::ParseTileConfiguration2D( argv[1] );
 
   try
