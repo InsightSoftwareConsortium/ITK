@@ -85,6 +85,18 @@ itk_add_test(NAME itkMontagePCMTestFiles16
     5.3629
   )
 
+itk_add_test(NAME itkMontagePCMTestFilesFocus
+  COMMAND MontageTestDriver
+  itkMontagePCMTestFiles
+    DATA{Input/Synthetic/FocusSample.png}
+    DATA{Input/Synthetic/FocusBackground.png}
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestFilesFocus.nrrd
+    0.0
+    0.0
+    0.0
+    0.0
+  )
+
 itk_add_test(NAME itkMontagePCMTestFilesSynthetic1
   COMMAND MontageTestDriver
   itkMontagePCMTestFiles
