@@ -110,9 +110,9 @@ MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
     center[i] = ( meta->CenterOfRotation() )[i];
     }
 
-  so->GetObjectToParentTransform()->SetCenter(center);
-  so->GetObjectToParentTransform()->SetMatrix(matrix);
-  so->GetObjectToParentTransform()->SetOffset(offset);
+  so->GetModifiableObjectToParentTransform()->SetCenter(center);
+  so->GetModifiableObjectToParentTransform()->SetMatrix(matrix);
+  so->GetModifiableObjectToParentTransform()->SetOffset(offset);
 }
 
 /** Convert a metaScene into a Composite Spatial Object

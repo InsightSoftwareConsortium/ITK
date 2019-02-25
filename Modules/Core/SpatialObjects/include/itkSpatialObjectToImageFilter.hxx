@@ -298,7 +298,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
   // Generate the image
   SizeType size;
 
-  InputObject->ComputeFamilyBoundingBoxInWorldSpace( m_ChildrenDepth );
+  InputObject->ComputeFamilyBoundingBox( m_ChildrenDepth );
   for ( i = 0; i < ObjectDimension; i++ )
     {
     size[i] = static_cast<SizeValueType>(

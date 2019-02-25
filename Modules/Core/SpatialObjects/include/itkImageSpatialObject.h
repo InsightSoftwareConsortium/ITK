@@ -79,26 +79,26 @@ public:
   const ImageType * GetImage() const;
 
   /** Compute the boundaries of the image spatial object. */
-  bool ComputeMyBoundingBoxInWorldSpace() const override;
+  bool ComputeMyBoundingBox() const override;
 
   /** Returns true if the point is inside, false otherwise. */
-  bool IsInsideInWorldSpace(const PointType & point, unsigned int depth=0,
+  bool IsInsideInObjectSpace(const PointType & point, unsigned int depth=0,
     const std::string & name = "") const override;
 
   /** Returns the value of the image at the requested point.
    *  Returns true if that value is valid */
-  bool ValueAtInWorldSpace(const PointType & point, double & value, unsigned int depth = 0,
-    const std::string & name = "") const override;
+  bool ValueAtInObjectSpace(const PointType & point, double & value,
+    unsigned int depth = 0, const std::string & name = "") const override;
 
   /** Returns the latest modified time of the object and its component. */
   ModifiedTimeType GetMTime() const override;
 
   /** Set the slice position */
-  void SetSlicePositionInWorldSpace(unsigned int dimension, int position);
+  void SetSliceNumber(unsigned int dimension, int position);
 
   /** Get the slice position */
-  int GetSlicePositionInWorldSpace(unsigned int dimension)
-  { return m_SlicePosition[dimension]; }
+  int GetSliceNumber(unsigned int dimension)
+  { return m_SliceNumber[dimension]; }
 
   const char * GetPixelTypeName()
   { return m_PixelType.c_str(); }
@@ -115,7 +115,7 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  IndexType       m_SlicePosition;
+  IndexType       m_SliceNumber;
   std::string     m_PixelType;
 
   typename InterpolatorType::Pointer m_Interpolator;

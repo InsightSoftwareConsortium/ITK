@@ -31,7 +31,7 @@ MeshSpatialObject< TMesh >
   this->SetTypeName("MeshSpatialObject");
   m_Mesh = MeshType::New();
   m_PixelType = typeid( typename TMesh::PixelType ).name();
-  m_IsInsidePrecisionInWorldSpace = 1;
+  m_IsInsidePrecisionInObjectSpace = 1;
 }
 
 /** Test whether a point is inside or outside the object
@@ -40,16 +40,13 @@ MeshSpatialObject< TMesh >
 template< typename TMesh >
 bool
 MeshSpatialObject< TMesh >
-::IsInsideInWorldSpace(const PointType & point, unsigned int depth,
+::IsInsideInObjectSpace(const PointType & point, unsigned int depth,
   const std::string & name) const
 {
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    if( this->GetMyBoundingBoxInWorldSpace()->IsInside( point ) )
+    if( this->GetMyBoundingBoxInObjectSpace()->IsInside( point ) )
       {
-      PointType transformedPoint = this->GetObjectToWorldTransform()->
-        GetInverseTransform()->TransformPoint(point);
-
       typename MeshType::CellsContainerPointer cells =  m_Mesh->GetCells();
       typename MeshType::CellsContainer::ConstIterator it = cells->Begin();
       while ( it != cells->End() )
@@ -58,17 +55,18 @@ MeshSpatialObject< TMesh >
         CoordRepType position[Dimension];
         for ( unsigned int i = 0; i < Dimension; i++ )
           {
-          position[i] = transformedPoint[i];
+          position[i] = point[i];
           }
 
         // If this is a triangle cell we need to check the distance
         if ( it.Value()->GetNumberOfPoints() == 3 )
           {
           double minDist = 0.0;
-          const bool pointIsInsideInWorldSpace = it.Value()->EvaluatePosition(
+          const bool pointIsInsideInObjectSpace = it.Value()->EvaluatePosition(
             position, m_Mesh->GetPoints(), nullptr, nullptr, &minDist, nullptr);
 
-          if ( pointIsInsideInWorldSpace  && minDist <= this->m_IsInsidePrecisionInWorldSpace )
+          if ( pointIsInsideInObjectSpace
+            && minDist <= this->m_IsInsidePrecisionInObjectSpace )
             {
             return true;
             }
@@ -88,7 +86,7 @@ MeshSpatialObject< TMesh >
 
   if( depth > 0 )
     {
-    return Superclass::IsInsideChildrenInWorldSpace( point, depth-1, name );
+    return Superclass::IsInsideChildrenInObjectSpace( point, depth-1, name );
     }
 
   return false;
@@ -98,7 +96,7 @@ MeshSpatialObject< TMesh >
 template< typename TMesh >
 bool
 MeshSpatialObject< TMesh >
-::ComputeMyBoundingBoxInWorldSpace() const
+::ComputeMyBoundingBox() const
 {
   PointType pnt1;
   PointType pnt2;
@@ -108,38 +106,11 @@ MeshSpatialObject< TMesh >
     pnt2[i] = m_Mesh->GetBoundingBox()->GetBounds()[2 * i + 1];
     }
 
-  pnt1 = this->GetObjectToWorldTransform()->TransformPoint(pnt1);
-  pnt2 = this->GetObjectToWorldTransform()->TransformPoint(pnt2);
-
-  typename BoundingBoxType::Pointer bb = BoundingBoxType::New();
-  bb->SetMinimum(pnt1);
-  bb->SetMaximum(pnt1);
-  bb->ConsiderPoint(pnt2);
-  bb->ComputeBoundingBox();
-
-  // Next Transform the corners of the bounding box
-  using PointsContainer = typename BoundingBoxType::PointsContainer;
-  const PointsContainer *corners = bb->GetCorners();
-  typename PointsContainer::Pointer transformedCorners =
-    PointsContainer::New();
-  transformedCorners->Reserve(
-    static_cast<typename PointsContainer::ElementIdentifier>(
-      corners->size() ) );
-
-  auto it = corners->begin();
-  auto itTrans = transformedCorners->begin();
-  while ( it != corners->end() )
-    {
-    PointType pnt = this->GetObjectToWorldTransform()->TransformPoint(*it);
-    *itTrans = pnt;
-    ++it;
-    ++itTrans;
-    }
-
-  // refresh the bounding box with the transformed corners
-  const_cast< BoundingBoxType * >( this->GetMyBoundingBoxInWorldSpace() )
-    ->SetPoints(transformedCorners);
-  this->GetMyBoundingBoxInWorldSpace()->ComputeBoundingBox();
+  this->GetMyBoundingBoxInObjectSpace()->SetMinimum(
+    m_Mesh->GetBoundingBox()->GetMinimum() );
+  this->GetMyBoundingBoxInObjectSpace()->SetMaximum(
+    m_Mesh->GetBoundingBox()->GetMaximum() );
+  this->GetMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
 
   return true;
 }
@@ -179,7 +150,8 @@ MeshSpatialObject< TMesh >
 {
   Superclass::PrintSelf(os, indent);
   os << "Mesh: " << std::endl;
-  os << "m_IsInsidePrecisionInWorldSpace: " << m_IsInsidePrecisionInWorldSpace << std::endl;
+  os << "m_IsInsidePrecisionInObjectSpace: "
+    << m_IsInsidePrecisionInObjectSpace << std::endl;
   os << indent << m_Mesh << std::endl;
 }
 

@@ -134,7 +134,8 @@ ContourSpatialObject< TDimension >
           }
         typename Superclass::SpatialObjectPointType newSOPoint;
         newSOPoint = (*it);
-        newSOPoint.SetPositionInWorldSpace( newPoint );
+        newSOPoint.SetSpatialObject( this );
+        newSOPoint.SetPositionInObjectSpace( newPoint );
         this->m_Points.push_back( newSOPoint );
         }
       break;

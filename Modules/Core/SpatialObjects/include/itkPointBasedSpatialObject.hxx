@@ -68,6 +68,41 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 template< unsigned int TDimension, class TSpatialObjectPointType >
 TSpatialObjectPointType
 PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
+::ClosestPointInObjectSpace( const PointType & point ) const
+{
+  auto it = m_Points.begin();
+  auto itend = m_Points.end();
+
+  if ( it == itend )
+    {
+    ExceptionObject exception(__FILE__, __LINE__);
+    exception.SetDescription(
+      "SpatialObject: ClosestPoint called using an empty point list");
+    throw exception;
+    }
+
+  SpatialObjectPointType closestPoint;
+  double closestPointDistance = NumericTraits< double >::max();
+  while ( it != itend )
+    {
+    typename SpatialObjectPoint< TDimension >::PointType curpos =
+      ( *it ).GetPositionInObjectSpace();
+    double curdistance = curpos.EuclideanDistanceTo(point);
+    if ( curdistance < closestPointDistance )
+      {
+      closestPoint = (*it);
+      closestPointDistance = curdistance;
+      }
+    it++;
+    }
+
+  return closestPoint;
+}
+
+/** Determine closest point in world space */
+template< unsigned int TDimension, class TSpatialObjectPointType >
+TSpatialObjectPointType
+PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 ::ClosestPointInWorldSpace( const PointType & point ) const
 {
   auto it = m_Points.begin();
@@ -99,11 +134,11 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
   return closestPoint;
 }
 
-/** Compute bounding box of just this object in world space */
+/** Compute bounding box of just this object */
 template< unsigned int TDimension, class TSpatialObjectPointType >
 bool
 PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
-::ComputeMyBoundingBoxInWorldSpace() const
+::ComputeMyBoundingBox() const
 {
   itkDebugMacro("Computing blob bounding box");
 
@@ -117,42 +152,16 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 
   PointType pt = ( *it ).GetPositionInObjectSpace();
 
-  // Compute a bounding box in object space
-  typename BoundingBoxType::Pointer bb = BoundingBoxType::New();
-
-  bb->SetMinimum(pt);
-  bb->SetMaximum(pt);
+  this->GetMyBoundingBoxInObjectSpace()->SetMinimum(pt);
+  this->GetMyBoundingBoxInObjectSpace()->SetMaximum(pt);
   it++;
   while ( it != end )
     {
-    bb->ConsiderPoint( ( *it ).GetPositionInObjectSpace() );
+    this->GetMyBoundingBoxInObjectSpace()->ConsiderPoint(
+      ( *it ).GetPositionInObjectSpace() );
     it++;
     }
-  bb->ComputeBoundingBox();
-
-  // Next Transform the corners of the bounding box into world space
-  using PointsContainer = typename BoundingBoxType::PointsContainer;
-  const PointsContainer *corners = bb->GetCorners();
-  typename PointsContainer::Pointer transformedCorners =
-    PointsContainer::New();
-  transformedCorners->Reserve(
-    static_cast<typename PointsContainer::ElementIdentifier>(
-      corners->size() ) );
-
-  auto itCorners = corners->begin();
-  auto itTrans = transformedCorners->begin();
-  while ( itCorners != corners->end() )
-    {
-    PointType pnt = this->GetObjectToWorldTransform()->TransformPoint(*itCorners);
-    *itTrans = pnt;
-    ++itCorners;
-    ++itTrans;
-    }
-
-  // refresh the object's bounding box with the transformed corners
-  const_cast< BoundingBoxType * >( this->GetMyBoundingBoxInWorldSpace() )
-    ->SetPoints(transformedCorners);
-  this->GetMyBoundingBoxInWorldSpace()->ComputeBoundingBox();
+  this->GetMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
 
   return true;
 }
@@ -162,26 +171,22 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 template< unsigned int TDimension, class TSpatialObjectPointType >
 bool
 PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
-::IsInsideInWorldSpace( const PointType & point, unsigned int depth,
+::IsInsideInObjectSpace( const PointType & point, unsigned int depth,
     const std::string & name) const
 {
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    if( this->GetMyBoundingBoxInWorldSpace()->IsInside( point ) )
+    if( this->GetMyBoundingBoxInObjectSpace()->IsInside( point ) )
       {
       auto it = m_Points.begin();
       auto itEnd = m_Points.end();
-
-      PointType transformedPoint =
-        this->GetObjectToWorldTransform()->GetInverseTransform()->
-          TransformPoint(point);
 
       while ( it != itEnd )
         {
         bool equals = true;
         for( unsigned int i=0; i<TDimension; ++i )
           {
-          if( ! Math::AlmostEquals( transformedPoint[i],
+          if( ! Math::AlmostEquals( point[i],
               it->GetPositionInObjectSpace()[i] ) )
             {
             equals = false;
@@ -199,7 +204,7 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 
   if( depth > 0 )
     {
-    return Superclass::IsInsideChildrenInWorldSpace(point, depth-1, name);
+    return Superclass::IsInsideChildrenInObjectSpace(point, depth-1, name);
     }
 
   return false;

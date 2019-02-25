@@ -80,18 +80,20 @@ public:
   itkSetMacro(Maximum, ScalarType);
   itkGetConstReferenceMacro(Maximum, ScalarType);
 
+  ScalarType SquaredZScoreInObjectSpace(const PointType & point) const;
+
   ScalarType SquaredZScoreInWorldSpace(const PointType & point) const;
 
   /** Test whether a point is inside or outside the object */
-  bool IsInsideInWorldSpace(const PointType & point, unsigned int depth = 0,
+  bool IsInsideInObjectSpace(const PointType & point, unsigned int depth = 0,
     const std::string & name = "") const override;
 
   /** This function needs to be called every time one of the object's
    *  components is changed. */
-  bool ComputeMyBoundingBoxInWorldSpace() const override;
+  bool ComputeMyBoundingBox() const override;
 
   /** Returns the value of the Gaussian at the given point.  */
-  bool ValueAtInWorldSpace(const PointType & point, double & value,
+  bool ValueAtInObjectSpace(const PointType & point, double & value,
     unsigned int depth = 0, const std::string & name = "") const override;
 
   /** Returns the sigma=m_Radius level set of the Gaussian function, as an

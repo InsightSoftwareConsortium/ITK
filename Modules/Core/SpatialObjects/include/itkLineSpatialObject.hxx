@@ -48,7 +48,7 @@ LineSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 LineSpatialObject< TDimension >
-::IsInsideInWorldSpace(const PointType & point, unsigned int depth,
+::IsInsideInObjectSpace(const PointType & point, unsigned int depth,
   const std::string & name) const
 {
   if( this->GetTypeName().find( name ) != std::string::npos )
@@ -56,10 +56,7 @@ LineSpatialObject< TDimension >
     auto it = this->m_Points.begin();
     auto itEnd = this->m_Points.end();
 
-    PointType transformedPoint = this->GetObjectToWorldTransform()
-      ->GetInverseTransform()->TransformPoint(point);
-
-    if ( this->GetMyBoundingBoxInWorldSpace()->IsInside(transformedPoint) )
+    if ( this->GetMyBoundingBoxInObjectSpace()->IsInside(point) )
       {
       while ( it != itEnd )
         {
@@ -67,7 +64,7 @@ LineSpatialObject< TDimension >
         for( unsigned int i=0; i<TDimension; ++i )
           {
           if ( ! Math::AlmostEquals( ( *it ).GetPositionInObjectSpace()[i],
-                   transformedPoint[i] ) )
+                   point[i] ) )
             {
             match = false;
             break;
@@ -84,7 +81,7 @@ LineSpatialObject< TDimension >
 
   if( depth > 0 )
     {
-    return Superclass::IsInsideChildrenInWorldSpace( point, depth-1, name );
+    return Superclass::IsInsideChildrenInObjectSpace( point, depth-1, name );
     }
 
 

@@ -38,36 +38,33 @@ ImageMaskSpatialObject< TDimension, TPixel >
 template< unsigned int TDimension, typename TPixel >
 bool
 ImageMaskSpatialObject< TDimension, TPixel >
-::IsInsideInWorldSpace(const PointType & point, unsigned int depth,
+::IsInsideInObjectSpace(const PointType & point, unsigned int depth,
   const std::string & name ) const
 {
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    if( this->GetMyBoundingBoxInWorldSpace()->IsInside(point) )
+    if( this->GetMyBoundingBoxInObjectSpace()->IsInside(point) )
       {
-      PointType p = this->GetObjectToWorldTransform()->GetInverseTransform()->
-        TransformPoint(point);
-
       typename Superclass::InterpolatorType::ContinuousIndexType index;
-      bool inside_image = this->m_Image->TransformPhysicalPointToContinuousIndex( p,
-        index );
-      if( inside_image ){
-          using InterpolatorOutputType = typename InterpolatorType::OutputType;
-          bool insideMask = (
-            Math::NotExactlyEquals(
-              DefaultConvertPixelTraits<InterpolatorOutputType>::GetScalarValue(
-                this->m_Interpolator->EvaluateAtContinuousIndex(index)),
-              NumericTraits<PixelType>::ZeroValue() ) );
-          if( insideMask )
-            {
-            return true;
-            }
+      if( this->m_Image->TransformPhysicalPointToContinuousIndex( point,
+          index ) )
+        {
+        using InterpolatorOutputType = typename InterpolatorType::OutputType;
+        bool insideMask = (
+          Math::NotExactlyEquals(
+            DefaultConvertPixelTraits<InterpolatorOutputType>::GetScalarValue(
+              this->m_Interpolator->EvaluateAtContinuousIndex(index)),
+            NumericTraits<PixelType>::ZeroValue() ) );
+        if( insideMask )
+          {
+          return true;
           }
+        }
       }
     }
   if( depth > 0 )
     {
-    return Superclass::IsInsideChildrenInWorldSpace( point, depth, name );
+    return Superclass::IsInsideChildrenInObjectSpace( point, depth, name );
     }
 
   return false;
@@ -76,23 +73,22 @@ ImageMaskSpatialObject< TDimension, TPixel >
 template< unsigned int TDimension, typename TPixel >
 bool
 ImageMaskSpatialObject< TDimension, TPixel >
-::ComputeMyBoundingBoxInWorldSpace() const
+::ComputeMyBoundingBox() const
 {
   using IteratorType = ImageRegionConstIteratorWithIndex< ImageType >;
-  IteratorType it( this->m_Image, this->m_Image->GetLargestPossibleRegion() );
-  IteratorType prevIt( this->m_Image, this->m_Image->GetLargestPossibleRegion() );
+  IteratorType it( this->m_Image,
+    this->m_Image->GetLargestPossibleRegion() );
+  IteratorType prevIt( this->m_Image,
+    this->m_Image->GetLargestPossibleRegion() );
   it.GoToBegin();
   prevIt = it;
 
-  // TODO: Could be made faster by computing BB in object space and
-  //   then transforming its corners to world space.
   bool first = true;
   PixelType outsideValue = NumericTraits< PixelType >::ZeroValue();
   PixelType value = outsideValue;
   PixelType prevValue = outsideValue;
   IndexType tmpIndex;
   PointType tmpPoint;
-  PointType transformedPoint;
   while ( !it.IsAtEnd() )
     {
     value = it.Get();
@@ -108,17 +104,15 @@ ImageMaskSpatialObject< TDimension, TPixel >
         tmpIndex = it.GetIndex();
         }
       this->m_Image->TransformIndexToPhysicalPoint( tmpIndex, tmpPoint );
-      transformedPoint =
-        this->GetObjectToWorldTransform()->TransformPoint( tmpPoint );
       if( first )
         {
         first = false;
-        this->GetMyBoundingBoxInWorldSpace()->SetMinimum( transformedPoint );
-        this->GetMyBoundingBoxInWorldSpace()->SetMaximum( transformedPoint );
+        this->GetMyBoundingBoxInObjectSpace()->SetMinimum( tmpPoint );
+        this->GetMyBoundingBoxInObjectSpace()->SetMaximum( tmpPoint );
         }
       else
         {
-        this->GetMyBoundingBoxInWorldSpace()->ConsiderPoint( transformedPoint );
+        this->GetMyBoundingBoxInObjectSpace()->ConsiderPoint( tmpPoint );
         }
       }
     prevIt = it;
@@ -127,12 +121,12 @@ ImageMaskSpatialObject< TDimension, TPixel >
 
   if( first )
     {
-    transformedPoint.Fill(
+    tmpPoint.Fill(
       NumericTraits< typename BoundingBoxType::PointType::ValueType >::
       ZeroValue() );
 
-    this->GetMyBoundingBoxInWorldSpace()->SetMinimum( transformedPoint );
-    this->GetMyBoundingBoxInWorldSpace()->SetMaximum( transformedPoint );
+    this->GetMyBoundingBoxInObjectSpace()->SetMinimum( tmpPoint );
+    this->GetMyBoundingBoxInObjectSpace()->SetMaximum( tmpPoint );
 
     return false;
     }

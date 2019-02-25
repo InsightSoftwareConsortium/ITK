@@ -68,8 +68,7 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
 
   offset1[0] =  29.0;
   offset1[1] =  29.0;
-  box1->GetObjectToParentTransform()->SetOffset( offset1 );
-  box1->ComputeObjectToWorldTransform();
+  box1->GetModifiableObjectToParentTransform()->SetOffset( offset1 );
   box1->Update();
 
   offset2[0] = 50.0;
@@ -77,7 +76,9 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
   box2->SetPositionInObjectSpace( offset2 );
   box2->Update();
 
-  std::cout <<"Test ComputeMyBoundingBoxInWorldSpace: " << std::endl;
+  scene->ComputeObjectToWorldTransform();
+
+  std::cout <<"Test ComputeMyBoundingBox: " << std::endl;
   std::cout << box1->GetMyBoundingBoxInWorldSpace()->GetBounds() << std::endl;
   std::cout << box2->GetMyBoundingBoxInWorldSpace()->GetBounds() << std::endl;
   BoxType::BoundingBoxType * boundingBox = box1->GetMyBoundingBoxInWorldSpace();
@@ -93,8 +94,9 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  box2->ComputeFamilyBoundingBoxInWorldSpace();
-  BoxType::BoundingBoxType * boundingBox2 = box2->GetFamilyBoundingBoxInWorldSpace();
+  box2->ComputeFamilyBoundingBox();
+  BoxType::BoundingBoxType * boundingBox2
+    = box2->GetFamilyBoundingBoxInWorldSpace();
   if(     itk::Math::NotAlmostEquals(boundingBox2->GetBounds()[0], 50)
       ||  itk::Math::NotAlmostEquals(boundingBox2->GetBounds()[1], 80)
       ||  itk::Math::NotAlmostEquals(boundingBox2->GetBounds()[2], 50)
@@ -111,36 +113,27 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
   // Point consistency
   std::cout << "Test Is Inside: ";
   itk::Point<double,2> in;
-  in[0]=30.0;in[1]=30.0;
+  in[0]=30.0;
+  in[1]=30.0;
   itk::Point<double,2> out;
-  out[0]=0;out[1]=4;
+  out[0]=0;
+  out[1]=4;
 
   if(!box1->IsInsideInWorldSpace(in))
-  {
+    {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
-  }
+    }
   if(box1->IsInsideInWorldSpace(out))
-  {
+    {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
-  }
+    }
   std::cout << "[PASSED]" << std::endl;
 
-  std::cout << "Test ObjectToWorldTransform " << std::endl;
-
-  BoxType::TransformType::OffsetType translation;
-  translation[0] =  5.0;
-  translation[1] =  5.0;
-  box1->GetObjectToParentTransform()->Translate( translation );
-  box1->GetObjectToParentTransform()->SetOffset( offset1 );
-  box1->ComputeObjectToWorldTransform();
-  box2->GetObjectToParentTransform()->Translate( translation );
-  box2->GetObjectToParentTransform()->SetOffset( offset2 );
-  box2->ComputeObjectToWorldTransform();
-
-  SpatialObjectToImageFilterType::Pointer imageFilter =
-                            SpatialObjectToImageFilterType::New();
+  std::cout << "Test SpatialObjectToImageFilter / IsInside " << std::endl;
+  SpatialObjectToImageFilterType::Pointer imageFilter
+    = SpatialObjectToImageFilterType::New();
   imageFilter->SetInput(  scene  );
 
   OutputImageType::SizeType size;
@@ -169,7 +162,7 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
     {
     std::cout << "ExceptionObject caught !" << std::endl;
     std::cout << err << std::endl;
-    return -1;
+    return EXIT_FAILURE;
     }
   box1->Print(std::cout);
   return EXIT_SUCCESS;
