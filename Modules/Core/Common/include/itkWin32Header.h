@@ -43,19 +43,12 @@
 // decorated name length exceeded, name was truncated
 #pragma warning ( disable : 4503 )
 
-// 'type' : forcing value to bool 'true' or 'false' (performance warning)
-#pragma warning ( disable : 4800 )
-
 // 'identifier' : class 'type' needs to have dll-interface to be used by
 // clients of class 'type2'
 #pragma warning ( disable : 4251 )
 
 // non dll-interface class 'type' used as base for dll-interface class 'type2'
 #pragma warning ( disable : 4275 )
-
-// C++ exception specification ignored except to indicate a
-// function is not __declspec(nothrow)
-#pragma warning ( disable : 4290 )
 
 // 'type' : inconsistent dll linkage.  dllexport assumed.
 #pragma warning ( disable : 4273 )
@@ -65,9 +58,6 @@
 
 // unreferenced local function has been removed
 #pragma warning ( disable : 4505 )
-
-// 'identifier' : identifier was truncated to 'number' characters in the debug information
-#pragma warning ( disable : 4786 )
 
 // nonstandard extension used : 'extern' before template explicit instantiation
 #pragma warning ( disable : 4231 )
