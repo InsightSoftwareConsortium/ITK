@@ -71,11 +71,11 @@ public:
   const MeshType *GetMesh() const;
 
   /** Returns true if the point is inside, false otherwise. */
-  bool IsInsideInWorldSpace(const PointType & point, unsigned int depth=0,
+  bool IsInsideInObjectSpace(const PointType & point, unsigned int depth=0,
     const std::string & name="") const override;
 
   /** Compute the boundaries of the iamge spatial object. */
-  bool ComputeMyBoundingBoxInWorldSpace() const override;
+  bool ComputeMyBoundingBox() const override;
 
   /** Returns the latest modified time of the object and its component. */
   ModifiedTimeType GetMTime() const override;
@@ -86,20 +86,20 @@ public:
     return m_PixelType.c_str();
   }
 
-  /** Set/Get the precision for the IsInsideInWorldSpace function.
+  /** Set/Get the precision for the IsInsideInObjectSpace function.
    *  This is used when the cell is a triangle, in this case, it's more likely
    *  that the given point will not be falling exactly on the triangle surface.
    *  If the distance from the point to the surface is <= to
-   *  m_IsInsidePrecisionInWorldSpacethe point is considered inside the mesh.
+   *  m_IsInsidePrecisionInObjectSpace the point is considered inside the mesh.
    *  The default value is 1. */
-  itkSetMacro(IsInsidePrecisionInWorldSpace, double);
-  itkGetMacro(IsInsidePrecisionInWorldSpace, double);
+  itkSetMacro(IsInsidePrecisionInObjectSpace, double);
+  itkGetMacro(IsInsidePrecisionInObjectSpace, double);
 
 protected:
 
   MeshPointer m_Mesh;
   std::string m_PixelType;
-  double      m_IsInsidePrecisionInWorldSpace;
+  double      m_IsInsidePrecisionInObjectSpace;
 
   MeshSpatialObject();
   ~MeshSpatialObject() override;

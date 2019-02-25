@@ -59,7 +59,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
 
   TubeType::TransformType::OffsetType offset;
   offset.Fill(10);
-  tube1->GetObjectToParentTransform()->SetOffset(offset);
+  tube1->GetModifiableObjectToParentTransform()->SetOffset(offset);
   tube1->ComputeObjectToWorldTransform();
 
   for( unsigned int i=0; i<10; i++)
@@ -77,7 +77,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
   p.Print(std::cout);
 
   tube1->SetPoints(list);
-  tube1->ComputeMyBoundingBoxInWorldSpace();
+  tube1->ComputeMyBoundingBox();
 
   in.Fill(15);
   out.Fill(5);
@@ -144,13 +144,13 @@ int itkTubeSpatialObjectTest(int, char * [] )
   tube2->GetProperty().SetName("Tube 2");
   tube2->SetId(2);
   tube2->SetPoints(list);
-  tube2->ComputeMyBoundingBoxInWorldSpace();
+  tube2->ComputeMyBoundingBox();
 
   TubePointer tube3 = TubeType::New();
   tube3->GetProperty().SetName("Tube 3");
   tube3->SetId(3);
   tube3->SetPoints(list);
-  tube3->ComputeMyBoundingBoxInWorldSpace();
+  tube3->ComputeMyBoundingBox();
 
   GroupPointer tubeNet1 = GroupType::New();
   tubeNet1->GetProperty().SetName("tube network 1");
@@ -280,7 +280,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
     std::cout<<"[PASSED]"<<std::endl;
     }
 
-  tubeNet1->ComputeMyBoundingBoxInWorldSpace();
+  tubeNet1->ComputeMyBoundingBox();
 
   std::cout<<"HasParent()...";
   if( !tube2->HasParent() )
@@ -294,17 +294,17 @@ int itkTubeSpatialObjectTest(int, char * [] )
     }
 
   translation.Fill(10);
-  tubeNet1->GetObjectToParentTransform()->Translate(translation,false);
+  tubeNet1->GetModifiableObjectToParentTransform()->Translate(translation,false);
   tubeNet1->ComputeObjectToWorldTransform();
 
   axis.Fill(0);
   axis[1] = 1;
   angle = itk::Math::pi_over_2;
-  tube2->GetObjectToParentTransform()->Rotate3D(axis,angle);
+  tube2->GetModifiableObjectToParentTransform()->Rotate3D(axis,angle);
   tube2->ComputeObjectToWorldTransform();
 
   angle = -itk::Math::pi_over_2;
-  tube3->GetObjectToParentTransform()->Rotate3D(axis,angle);
+  tube3->GetModifiableObjectToParentTransform()->Rotate3D(axis,angle);
   tube3->ComputeObjectToWorldTransform();
 
   in.Fill(25);
@@ -474,7 +474,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
   using PointBasedType = itk::PointBasedSpatialObject<3>;
   PointBasedType::Pointer pBSO = PointBasedType::New();
   pBSO->GetPoint(0);
-  pBSO->ComputeMyBoundingBoxInWorldSpace();
+  pBSO->ComputeMyBoundingBox();
   std::cout << "[PASSED]" << std::endl;
 
   std::cout << "[DONE]" << std::endl;

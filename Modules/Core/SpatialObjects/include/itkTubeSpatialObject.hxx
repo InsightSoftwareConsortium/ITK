@@ -64,7 +64,7 @@ TubeSpatialObject< TDimension, TTubePointType >
 template< unsigned int TDimension, typename TTubePointType >
 bool
 TubeSpatialObject< TDimension, TTubePointType >
-::ComputeMyBoundingBoxInWorldSpace() const
+::ComputeMyBoundingBox() const
 {
   itkDebugMacro("Computing tube bounding box");
 
@@ -81,18 +81,18 @@ TubeSpatialObject< TDimension, TTubePointType >
 
   // Compute a bounding box in object space
   PointType tmpPt;
-  typename BoundingBoxType::Pointer bb = BoundingBoxType::New();
   for( unsigned int d=0; d<TDimension; ++d )
     {
     tmpPt[d] = pt[d] - ptRadius;
     }
-  bb->SetMinimum(tmpPt);
+  this->GetMyBoundingBoxInObjectSpace()->SetMinimum(tmpPt);
+  this->GetMyBoundingBoxInObjectSpace()->SetMaximum(tmpPt);
 
   for( unsigned int d=0; d<TDimension; ++d )
     {
     tmpPt[d] = pt[d] + ptRadius;
     }
-  bb->SetMaximum(tmpPt);
+  this->GetMyBoundingBoxInObjectSpace()->ConsiderPoint(tmpPt);
 
   it++;
   while ( it != end )
@@ -103,41 +103,17 @@ TubeSpatialObject< TDimension, TTubePointType >
       {
       tmpPt[d] = pt[d] - ptRadius;
       }
-    bb->ConsiderPoint(tmpPt);
+    this->GetMyBoundingBoxInObjectSpace()->ConsiderPoint(tmpPt);
 
     for( unsigned int d=0; d<TDimension; ++d )
       {
       tmpPt[d] = pt[d] + ptRadius;
       }
-    bb->ConsiderPoint(tmpPt);
+    this->GetMyBoundingBoxInObjectSpace()->ConsiderPoint(tmpPt);
 
     it++;
     }
-  bb->ComputeBoundingBox();
-
-  // Next Transform the corners of the bounding box into world space
-  using PointsContainer = typename BoundingBoxType::PointsContainer;
-  const PointsContainer *corners = bb->GetCorners();
-  typename PointsContainer::Pointer transformedCorners =
-    PointsContainer::New();
-  transformedCorners->Reserve(
-    static_cast<typename PointsContainer::ElementIdentifier>(
-      corners->size() ) );
-
-  auto itCorner = corners->begin();
-  auto itTrans = transformedCorners->begin();
-  while ( itCorner != corners->end() )
-    {
-    PointType pnt = this->GetObjectToWorldTransform()->TransformPoint(*itCorner);
-    *itTrans = pnt;
-    ++itCorner;
-    ++itTrans;
-    }
-
-  // refresh the object's bounding box with the transformed corners
-  const_cast< BoundingBoxType * >( this->GetMyBoundingBoxInWorldSpace() )
-    ->SetPoints(transformedCorners);
-  this->GetMyBoundingBoxInWorldSpace()->ComputeBoundingBox();
+  this->GetMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
 
   return true;
 }
@@ -148,12 +124,12 @@ TubeSpatialObject< TDimension, TTubePointType >
 template< unsigned int TDimension, typename TTubePointType >
 bool
 TubeSpatialObject< TDimension, TTubePointType >
-::IsInsideInWorldSpace(const PointType & point, unsigned int depth,
+::IsInsideInObjectSpace(const PointType & point, unsigned int depth,
   const std::string & name ) const
 {
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    if( this->GetMyBoundingBoxInWorldSpace()->IsInside(point) )
+    if( this->GetMyBoundingBoxInObjectSpace()->IsInside(point) )
       {
       double minSquareDist = 999999.0;
       double tempSquareDist;
@@ -161,9 +137,6 @@ TubeSpatialObject< TDimension, TTubePointType >
       auto it2 = this->m_Points.begin();
       auto end = this->m_Points.end();
       auto minIt = it;
-
-      PointType transformedPoint = this->GetObjectToWorldTransform()->
-        GetInverseTransform()->TransformPoint(point);
 
       if ( !m_EndRounded ) // flat end-type
         {
@@ -179,7 +152,7 @@ TubeSpatialObject< TDimension, TTubePointType >
 
           for ( unsigned int i = 0; i < TDimension; i++ )
             {
-            A += ( b[i] - a[i] ) * ( transformedPoint[i] - a[i] );
+            A += ( b[i] - a[i] ) * ( point[i] - a[i] );
             B += ( b[i] - a[i] ) * ( b[i] - a[i] );
             }
 
@@ -210,7 +183,7 @@ TubeSpatialObject< TDimension, TTubePointType >
               }
 
             // TODO: Verify not squared?
-            tempSquareDist = transformedPoint.EuclideanDistanceTo(p);
+            tempSquareDist = point.EuclideanDistanceTo(p);
 
             double R;
             if ( lambda >= 0 )
@@ -239,7 +212,7 @@ TubeSpatialObject< TDimension, TTubePointType >
         {
         while ( it != end )
           {
-          tempSquareDist = transformedPoint.SquaredEuclideanDistanceTo(
+          tempSquareDist = point.SquaredEuclideanDistanceTo(
             ( *it ).GetPositionInObjectSpace() );
           if ( tempSquareDist <= minSquareDist )
             {
@@ -250,7 +223,7 @@ TubeSpatialObject< TDimension, TTubePointType >
           }
 
         double dist = std::sqrt(minSquareDist);
-        if ( dist <= ( minIt->GetRadiusInWorldSpace() ) )
+        if ( dist <= ( minIt->GetRadiusInObjectSpace() ) )
           {
           return true;
           }
@@ -260,7 +233,7 @@ TubeSpatialObject< TDimension, TTubePointType >
 
   if( depth > 0 )
     {
-    return Superclass::IsInsideChildrenInWorldSpace( point, depth-1, name );
+    return Superclass::IsInsideChildrenInObjectSpace( point, depth-1, name );
     }
 
   return false;

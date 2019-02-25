@@ -73,7 +73,7 @@ public:
 
   /** Returns true if the line is evaluable at the requested point,
    *  false otherwise. */
-  bool IsInsideInWorldSpace(const PointType & point, unsigned int depth = 0,
+  bool IsInsideInObjectSpace(const PointType & point, unsigned int depth = 0,
    const std::string & name = "") const override;
 
 protected:

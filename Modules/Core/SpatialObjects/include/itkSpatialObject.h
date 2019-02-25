@@ -168,6 +168,7 @@ public:
    *  By setting this transform, the object transform is updated */
   void SetObjectToWorldTransform( const TransformType * transform);
   itkGetModifiableObjectMacro(ObjectToWorldTransform, TransformType);
+  itkGetConstObjectMacro(ObjectToWorldTransformInverse, TransformType);
 
   /** Compute the World transform when the local transform is set
    *  This function should be called each time the local transform
@@ -177,36 +178,29 @@ public:
   /** Transforms points from the object-specific "physical" space
    * to the "physical" space of its parent object.  */
   void SetObjectToParentTransform( const TransformType *transform);
-  TransformType * GetObjectToParentTransform();
-  const TransformType * GetObjectToParentTransform() const;
+  itkGetModifiableObjectMacro(ObjectToParentTransform, TransformType);
+  itkGetConstObjectMacro(ObjectToParentTransformInverse, TransformType);
 
   /** Compute the Local transform when the global transform is set */
   void ComputeObjectToParentTransform();
 
-  /** Return the Modified time of the LocalToWorldTransform */
-  ModifiedTimeType GetObjectToParentTransformMTime();
-
-  /** Return the Modified time of the WorldToLocalTransform */
-  ModifiedTimeType GetObjectToWorldTransformMTime();
-
-
   /**********************************************************************/
   /* These are the three member functions that a subclass will typically
    *    overwrite.
-   *    * ComputeMyBoundingBoxInWorldSpace
-   *    * IsInsideInWorldSpace
+   *    * ComputeMyBoundingBox
+   *    * IsInsideInObjectSpace
    *    * Update
    *  Optionally, a subclass may also wish to overwrite
-   *    * ValueAtInWorldSpace
-   *    * IsEvaluableAtInWorldSpace - if the extent is beyond IsInisde.
+   *    * ValueAtInObjectSpace
+   *    * IsEvaluableAtInObjectSpace - if the extent is beyond IsInisde.
    */
   /**********************************************************************/
 
   /** Compute bounding box for the object in world space */
-  virtual bool ComputeMyBoundingBoxInWorldSpace() const;
+  virtual bool ComputeMyBoundingBox() const;
 
   /** Returns true if a point is inside the object in world space. */
-  virtual bool IsInsideInWorldSpace(const PointType & point,
+  virtual bool IsInsideInObjectSpace(const PointType & point,
                         unsigned int depth = 0,
                         const std::string & name = "") const;
 
@@ -216,32 +210,31 @@ public:
 
 
   /** Returns the value at a point. Returns true if that value is valid */
-  virtual bool ValueAtInWorldSpace(const PointType & point, double & value,
+  virtual bool ValueAtInObjectSpace(const PointType & point, double & value,
                        unsigned int depth = 0,
                        const std::string & name = "") const;
 
   /** Returns true if the object can provide a "meaningful" value at
-   * a point.   Often defaults to returning same answer as IsInsideInWorldSpace, but
-   * certain objects influence space beyond their spatial extent,
-   * e.g., an RFA Needle Spatial Object can cause a burn
+   * a point.   Often defaults to returning same answer as
+   * IsInsideInWorldSpace, but certain objects influence space beyond their
+   * spatial extent, e.g., an RFA Needle Spatial Object can cause a burn
    * that extends beyond the tip of the needle.
    */
-  virtual bool IsEvaluableAtInWorldSpace(const PointType & point,
+  virtual bool IsEvaluableAtInObjectSpace(const PointType & point,
                              unsigned int depth = 0,
                              const std::string & name = "") const;
 
   /********************************************************/
   /* Helper functions to recurse queries through children */
   /********************************************************/
-  virtual bool IsInsideChildrenInWorldSpace(const PointType & point,
-                        unsigned int depth = 0,
-                        const std::string & name = "") const;
+  virtual bool IsInsideChildrenInObjectSpace(const PointType & point,
+    unsigned int depth = 0, const std::string & name = "") const;
 
-  virtual bool ValueAtChildrenInWorldSpace(const PointType & point, double & value,
-                       unsigned int depth = 0,
-                       const std::string & name = "") const;
+  virtual bool ValueAtChildrenInObjectSpace(const PointType & point,
+    double & value, unsigned int depth = 0,
+    const std::string & name = "") const;
 
-  virtual bool IsEvaluableAtChildrenInWorldSpace(const PointType & point,
+  virtual bool IsEvaluableAtChildrenInObjectSpace(const PointType & point,
                              unsigned int depth = 0,
                              const std::string & name = "") const;
 
@@ -259,6 +252,30 @@ public:
    *  Default is 0.0 */
   itkSetMacro(DefaultOutsideValue, double);
   itkGetConstMacro(DefaultOutsideValue, double);
+
+  /** World space equivalent to ValueAtInObjectSpace */
+  virtual bool ValueAtInWorldSpace(const PointType & point, double & value,
+                       unsigned int depth = 0,
+                       const std::string & name = "") const;
+
+  /** World space equivalent to IsInsideInObjectSpace */
+  virtual bool IsInsideInWorldSpace(const PointType & point,
+                        unsigned int depth = 0,
+                        const std::string & name = "") const;
+
+  /** World space equivalent to IsEvaluableAtInObjectSpace */
+  virtual bool IsEvaluableAtInWorldSpace(const PointType & point,
+                             unsigned int depth = 0,
+                             const std::string & name = "") const;
+
+
+  /** Return the n-th order derivative value at the specified point. */
+  virtual void DerivativeAtInObjectSpace(const PointType & point,
+                            short unsigned int order,
+                            CovariantVectorType & value,
+                            unsigned int depth = 0,
+                            const std::string & name = "",
+                            const DerivativeOffsetType & spacing = 1);
 
   /** Return the n-th order derivative value at the specified point. */
   virtual void DerivativeAtInWorldSpace(const PointType & point,
@@ -319,8 +336,8 @@ public:
   virtual ChildrenListType * GetChildren(unsigned int depth = 0,
     const std::string & name = "") const;
 
-  virtual void AddChildrenToList(ChildrenListType * children, unsigned int depth = 0,
-    const std::string & name = "") const;
+  virtual void AddChildrenToList(ChildrenListType * children,
+    unsigned int depth = 0, const std::string & name = "") const;
 
   /** Returns the number of children currently assigned to the object. */
   unsigned int GetNumberOfChildren(unsigned int depth = 0,
@@ -349,14 +366,25 @@ public:
   /**********************/
 
   /** Get a pointer to the axis-aligned bounding box of the object in world
-   *   space. This box is computed by ComputeMyBoundingBoxInWorldSpace which is called by
-   *   Update().  */
+   *   space. This box is computed by ComputeMyBoundingBox which
+   *   is called by Update().  */
+  virtual BoundingBoxType * GetMyBoundingBoxInObjectSpace() const
+  { return this->m_MyBoundingBoxInObjectSpace.GetPointer(); }
+
+  /** Get a pointer to the axis-aligned bounding box of the object in world
+   *   space. This box is computed by ComputeMyBoundingBox which
+   *   is called by Update().  */
   virtual BoundingBoxType * GetMyBoundingBoxInWorldSpace() const;
 
   /** Compute an axis-aligned bounding box for an object and its selected
-   * children, down to a specified depth, in world space. */
-  virtual bool ComputeFamilyBoundingBoxInWorldSpace( unsigned int depth = 0,
+   * children, down to a specified depth, in object space. */
+  virtual bool ComputeFamilyBoundingBox( unsigned int depth = 0,
     const std::string & name = "" ) const;
+
+  /** Get a pointer to the bounding box of the object.
+   *  The extents and the position of the box are not computed. */
+  virtual BoundingBoxType * GetFamilyBoundingBoxInObjectSpace() const
+  { return this->m_FamilyBoundingBoxInObjectSpace.GetPointer(); }
 
   /** Get a pointer to the bounding box of the object.
    *  The extents and the position of the box are not computed. */
@@ -485,11 +513,11 @@ protected:
 
   itkSetMacro(TypeName, std::string);
 
-  virtual BoundingBoxType * GetModifiableMyBoundingBoxInWorldSpace()
-  { return m_MyBoundingBoxInWorldSpace.GetPointer(); }
-
-  virtual BoundingBoxType * GetModifiableFamilyBoundingBoxInWorldSpace()
-  { return m_FamilyBoundingBoxInWorldSpace.GetPointer(); }
+  //virtual BoundingBoxType * GetModifiableMyBoundingBoxInObjectSpace()
+  //{ return this->m_MyBoundingBoxInObjectSpace.GetPointer(); }
+//
+  //virtual BoundingBoxType * GetModifiableFamilyBoundingBoxInObjectSpace()
+  //{ return this->m_FamilyBoundingBoxInObjectSpace.GetPointer(); }
 
 private:
 
@@ -508,13 +536,14 @@ private:
   RegionType      m_RequestedRegion;
   RegionType      m_BufferedRegion;
 
-  BoundingBoxPointer       m_MyBoundingBoxInWorldSpace;
-
-  BoundingBoxPointer       m_FamilyBoundingBoxInWorldSpace;
-  mutable ModifiedTimeType m_FamilyBoundingBoxInWorldSpaceMTime;
+  BoundingBoxPointer m_MyBoundingBoxInObjectSpace;
+  BoundingBoxPointer m_FamilyBoundingBoxInObjectSpace;
 
   TransformPointer m_ObjectToParentTransform;
+  TransformPointer m_ObjectToParentTransformInverse;
+
   TransformPointer m_ObjectToWorldTransform;
+  TransformPointer m_ObjectToWorldTransformInverse;
 
   ChildrenListType m_ChildrenList;
 

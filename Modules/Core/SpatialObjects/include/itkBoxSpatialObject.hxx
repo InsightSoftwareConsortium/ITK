@@ -44,38 +44,22 @@ BoxSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 BoxSpatialObject< TDimension >
-::IsInsideInWorldSpace(const PointType & worldPoint, unsigned int depth,
+::IsInsideInObjectSpace(const PointType & point, unsigned int depth,
   const std::string & name) const
 {
-  itkDebugMacro("Checking the point [" << worldPoint << "] is in the box");
+  itkDebugMacro("Checking the point [" << point << "] is in the box");
 
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    if( this->GetMyBoundingBoxInWorldSpace()->IsInside( worldPoint ) )
+    if( this->GetMyBoundingBoxInObjectSpace()->IsInside( point ) )
       {
-      PointType transformedPoint = this->GetObjectToWorldTransform()
-        ->GetInverseTransform()->TransformPoint(worldPoint);
-
-      bool isOutside = false;
-      for ( unsigned int i = 0; i < TDimension; i++ )
-        {
-        if ( ( transformedPoint[i] - m_PositionInObjectSpace[i] > m_SizeInObjectSpace[i] )
-          || ( transformedPoint[i] - m_PositionInObjectSpace[i] < 0 ) )
-          {
-          isOutside = true;
-          break;
-          }
-        }
-      if( !isOutside )
-        {
-        return true;
-        }
+      return true;
       }
     }
 
   if( depth > 0 )
     {
-    return Superclass::IsInsideChildrenInWorldSpace(worldPoint, depth-1, name);
+    return Superclass::IsInsideChildrenInObjectSpace(point, depth-1, name);
     }
 
   return false;
@@ -85,7 +69,7 @@ BoxSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 BoxSpatialObject< TDimension >
-::ComputeMyBoundingBoxInWorldSpace() const
+::ComputeMyBoundingBox() const
 {
   itkDebugMacro("Computing BoxSpatialObject bounding box");
 
@@ -97,16 +81,13 @@ BoxSpatialObject< TDimension >
     pnt2[i] = m_PositionInObjectSpace[i] + m_SizeInObjectSpace[i];
     }
 
-  pnt1 = this->GetObjectToWorldTransform()->TransformPoint(pnt1);
-  pnt2 = this->GetObjectToWorldTransform()->TransformPoint(pnt2);
-
-  const_cast< BoundingBoxType * >( this->GetMyBoundingBoxInWorldSpace() )
+  const_cast< BoundingBoxType * >( this->GetMyBoundingBoxInObjectSpace() )
     ->SetMinimum(pnt1);
-  const_cast< BoundingBoxType * >( this->GetMyBoundingBoxInWorldSpace() )
+  const_cast< BoundingBoxType * >( this->GetMyBoundingBoxInObjectSpace() )
     ->SetMaximum(pnt1);
-  const_cast< BoundingBoxType * >( this->GetMyBoundingBoxInWorldSpace() )
+  const_cast< BoundingBoxType * >( this->GetMyBoundingBoxInObjectSpace() )
     ->ConsiderPoint(pnt2);
-  this->GetMyBoundingBoxInWorldSpace()->ComputeBoundingBox();
+  this->GetMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
 
   return true;
 }

@@ -41,7 +41,7 @@ int itkSpatialObjectToImageFilterTest(int, char* [] )
   // Center the circle in the image
   EllipseType::TransformType::OffsetType offset;
   offset.Fill(25);
-  ellipse->GetObjectToParentTransform()->SetOffset(offset);
+  ellipse->GetModifiableObjectToParentTransform()->SetOffset(offset);
   ellipse->ComputeObjectToWorldTransform();
 
   using ImageType = itk::Image<double,2>;

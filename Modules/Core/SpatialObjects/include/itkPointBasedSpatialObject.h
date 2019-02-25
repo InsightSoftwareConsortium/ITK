@@ -92,14 +92,18 @@ public:
   { return static_cast<SizeValueType>( m_Points.size() ); }
 
   /** Method returns the Point closest to the given point */
-  TSpatialObjectPointType ClosestPointInWorldSpace(const PointType & worldPoint) const;
+  TSpatialObjectPointType ClosestPointInWorldSpace(
+    const PointType & point) const;
+
+  TSpatialObjectPointType ClosestPointInObjectSpace(
+    const PointType & point) const;
 
   /** Returns true if the point is inside the Blob, false otherwise. */
-  bool IsInsideInWorldSpace(const PointType & worldPoint, unsigned int depth=0,
+  bool IsInsideInObjectSpace(const PointType & worldPoint, unsigned int depth=0,
     const std::string & name="") const override;
 
   /** Compute the boundaries of the Blob. */
-  bool ComputeMyBoundingBoxInWorldSpace() const override;
+  bool ComputeMyBoundingBox() const override;
 
 protected:
   PointBasedSpatialObject();
