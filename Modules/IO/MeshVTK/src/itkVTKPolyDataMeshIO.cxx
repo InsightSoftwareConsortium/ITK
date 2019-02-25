@@ -44,6 +44,42 @@ VTKPolyDataMeshIO
 VTKPolyDataMeshIO
 ::~VTKPolyDataMeshIO() = default;
 
+
+int
+VTKPolyDataMeshIO
+::GetNextLine(std::ifstream& ifs, std::string& line, bool lowerCase, SizeValueType count)
+{
+  // The terminal condition for this recursive calls
+  if(count >5)
+    {
+    itkExceptionMacro(<<"Error of GetNextLine due to consecutive 5 empty lines in the given .*vtk file ");
+    }
+
+  // Get a next line from a given *.vtk file
+  std::getline(ifs, line);
+
+  // Check the End-of-File of the file
+  if(ifs.eof())
+    {
+    itkExceptionMacro(<<"Premature EOF in reading a line");
+    }
+
+  // Convert characters of the line to lowercas
+  if(lowerCase)
+    {
+    std::transform(line.begin(), line.end(), line.begin(), ::tolower);
+    }
+
+  // Check an empty line with the size of a read line from *.vtk file
+  if(line.empty())
+    {
+    return GetNextLine(ifs, line, lowerCase, ++count);
+    }
+
+  return 1;
+}
+
+
 bool
 VTKPolyDataMeshIO
 ::CanReadFile(const char *fileName)
@@ -58,7 +94,28 @@ VTKPolyDataMeshIO
     return false;
     }
 
-  return true;
+  std::ifstream file;
+  file.open(fileName, std::ios::in);
+  if( !file.is_open() )
+    {
+    return false;
+    }
+
+  // Check to see if it is a vtk PolyData file
+  std::string line;
+  this->GetNextLine(file, line);
+  this->GetNextLine(file, line);
+  this->GetNextLine(file, line);
+  this->GetNextLine(file, line);
+
+  if ( line.find("polydata") < line.length() )
+    {
+    return true;
+    }
+  else
+    {
+    return false;
+    }
 }
 
 bool
