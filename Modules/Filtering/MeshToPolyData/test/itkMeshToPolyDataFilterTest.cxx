@@ -69,10 +69,17 @@ int itkMeshToPolyDataFilterTest( int argc, char * argv[] )
   using PixelType = float;
   using MeshType = itk::Mesh< PixelType, Dimension >;
 
+  using MeshReaderType = itk::MeshFileReader< MeshType >;
+  MeshReaderType::Pointer meshReader = MeshReaderType::New();
+  meshReader->SetFileName( inputMeshFileName );
+  meshReader->Update();
+
   using FilterType = itk::MeshToPolyDataFilter< MeshType >;
   FilterType::Pointer filter = FilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( filter, MeshToPolyDataFilter, ProcessObject );
+
+  filter->SetInput( meshReader->GetOutput() );
 
   //// Create input image to avoid test dependencies.
   //ImageType::SizeType size;
@@ -92,7 +99,7 @@ int itkMeshToPolyDataFilterTest( int argc, char * argv[] )
   //writer->SetInput( filter->GetOutput() );
   //writer->SetUseCompression(true);
 
-  //TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
 
   return EXIT_SUCCESS;

@@ -55,6 +55,15 @@ public:
   /** Standard New macro. */
   itkNewMacro( Self );
 
+  /** Set the mesh input of this process object.  */
+  using Superclass::SetInput;
+  void SetInput(const InputMeshType *input);
+
+  /** Get the mesh input of this process object.  */
+  const InputMeshType * GetInput() const;
+
+  const InputMeshType * GetInput(unsigned int idx) const;
+
 protected:
   MeshToPolyDataFilter();
   ~MeshToPolyDataFilter() override {}
