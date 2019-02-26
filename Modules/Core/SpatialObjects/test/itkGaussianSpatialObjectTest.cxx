@@ -38,6 +38,7 @@ int itkGaussianSpatialObjectTest(int, char* [])
     std::cout << "[FAILURE]" << std::endl;
       return EXIT_FAILURE;
     }
+  std::cout << "[PASSED]" << std::endl;
 
   myGaussian->SetRadiusInObjectSpace(3);
   GaussianType::ScalarType radius =
@@ -48,6 +49,7 @@ int itkGaussianSpatialObjectTest(int, char* [])
     std::cout << "[FAILURE]" << std::endl;
       return EXIT_FAILURE;
     }
+  std::cout << "[PASSED]" << std::endl;
 
   myGaussian->SetSigmaInObjectSpace(1.5);
   GaussianType::ScalarType sigma =
@@ -58,16 +60,23 @@ int itkGaussianSpatialObjectTest(int, char* [])
     std::cout << "[FAILURE]" << std::endl;
       return EXIT_FAILURE;
     }
-
-
   std::cout << "[PASSED]" << std::endl;
 
   // Point consistency
 
   itk::Point<double,4> in;
-  in[0]=1; in[1]=2; in[2]=1; in[3]=1;
+  in[0]=1;
+  in[1]=2;
+  in[2]=1;
+  in[3]=1;
   itk::Point<double,4> out;
-  out[0]=0; out[1]=4; out[2]=0; out[3]=0;
+  out[0]=0;
+  out[1]=4;
+  out[2]=0;
+  out[3]=0;
+
+  // Once all values of the Gaussian have been set, it must be updated
+  myGaussian->Update();
 
   double value;
   myGaussian->ValueAtInWorldSpace(in, value);
@@ -89,32 +98,48 @@ int itkGaussianSpatialObjectTest(int, char* [])
 
   std::cout<<"[PASSED]"<<std::endl;
 
-  std::cout << "GetEllipsoid:\n"
-            << myGaussian->GetEllipsoid() << std::endl;
+  std::cout << "GetEllipsoid:" << std::endl;
+  std::cout << myGaussian->GetEllipsoid() << std::endl;
 
-  std::cout << "ObjectToWorldTransform : ";
+  std::cout << "ObjectToWorldTransform" << std::endl;
 
   // Create myGaussian2 as a child of myGaussian
   GaussianType::Pointer myGaussian2 = GaussianType::New();
+  std::cout << "AddChild" << std::endl;
   myGaussian->AddChild(myGaussian2);
 
+  // Once you add children, update their objectToWorldTransform individually
+  //   or by calling it at the top level object
+  std::cout << "ComputeObjectToWorld" << std::endl;
+  myGaussian->ComputeObjectToWorldTransform();
+
+  std::cout << "SetOffset" << std::endl;
   GaussianType::TransformType::OffsetType offset;
   offset.Fill(10);
-
   myGaussian->GetModifiableObjectToWorldTransform()->SetOffset(offset);
   myGaussian->ComputeObjectToParentTransform();
 
+  // Once you change an object's transform, you must call ComputeObjectToWorld
+  //   for it and its children to update their cached transforms
+  myGaussian->ComputeObjectToWorldTransform();
+
+  std::cout << "SetOffset2" << std::endl;
   GaussianType::TransformType::OffsetType offset2;
   offset2.Fill(15);
   myGaussian2->GetModifiableObjectToWorldTransform()->SetOffset(offset2);
   myGaussian2->ComputeObjectToParentTransform();
 
+  // Once you change an object's transform, you must call ComputeObjectToWorld
+  //   for it and its children to update their cached transforms
+  myGaussian2->ComputeObjectToWorldTransform();
+
   GaussianType::TransformType::OffsetType offset3;
+  offset3 = myGaussian2->GetObjectToParentTransform()->GetOffset();
 
-  offset3 = myGaussian2->GetModifiableObjectToParentTransform()->GetOffset();
-
-  if(    itk::Math::NotAlmostEquals(offset3[0], 5.0) || itk::Math::NotAlmostEquals(offset3[1], 5.0)
-      || itk::Math::NotAlmostEquals(offset3[2], 5.0) || itk::Math::NotAlmostEquals(offset3[3], 5.0)
+  if( itk::Math::NotAlmostEquals(offset3[0], 5.0)
+    || itk::Math::NotAlmostEquals(offset3[1], 5.0)
+    || itk::Math::NotAlmostEquals(offset3[2], 5.0)
+    || itk::Math::NotAlmostEquals(offset3[3], 5.0)
     )
     {
     std::cout<<"[FAILED]"<<std::endl;
@@ -123,10 +148,13 @@ int itkGaussianSpatialObjectTest(int, char* [])
   std::cout<<"[PASSED]"<<std::endl;
 
 
-  std::cout << "ComputeMyBoundingBox: ";
-  myGaussian->ComputeMyBoundingBox();
-  GaussianType::BoundingBoxType * boundingBox = myGaussian->GetMyBoundingBoxInWorldSpace();
-
+  std::cout << "ComputeFamilyBoundingBox: ";
+  myGaussian->ComputeFamilyBoundingBox( GaussianType::MaximumDepth );
+  GaussianType::BoundingBoxType * boundingBox
+    = myGaussian->GetFamilyBoundingBoxInWorldSpace();
+  std::cout << "World bounds = " << boundingBox->GetBounds() << std::endl;
+  std::cout << "World Center = " << myGaussian->GetCenterInObjectSpace() << std::endl;
+  std::cout << "World Radius = " << myGaussian->GetRadiusInObjectSpace() << std::endl;
   for(unsigned int i=0;i<3;i++)
     {
     if(  itk::Math::NotAlmostEquals(boundingBox->GetBounds()[2*i], 7.0 )

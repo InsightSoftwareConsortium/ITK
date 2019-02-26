@@ -65,6 +65,7 @@ int itkArrowSpatialObjectTest(int, char* [])
 
   myArrow->SetDirectionInObjectSpace(direction);
   myArrow->Update();
+
   if(itk::Math::NotExactlyEquals(myArrow->GetDirectionInObjectSpace()[0], 0)
     || itk::Math::NotExactlyEquals(myArrow->GetDirectionInObjectSpace()[1], 1)
     || itk::Math::NotExactlyEquals(myArrow->GetDirectionInObjectSpace()[2], 0)

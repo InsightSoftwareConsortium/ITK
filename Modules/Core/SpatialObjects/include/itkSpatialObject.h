@@ -129,8 +129,8 @@ public:
   itkTypeMacro(SpatialObject, DataObject);
 
   /** Get/Set the ID */
+  void SetId(int id);
   itkGetConstReferenceMacro(Id, int);
-  itkSetMacro(Id, int);
 
   /** Get the typename of the SpatialObject */
   virtual const std::string GetTypeName() const
@@ -168,7 +168,7 @@ public:
    *  By setting this transform, the object transform is updated */
   void SetObjectToWorldTransform( const TransformType * transform);
   itkGetModifiableObjectMacro(ObjectToWorldTransform, TransformType);
-  itkGetConstObjectMacro(ObjectToWorldTransformInverse, TransformType);
+  const TransformType * GetObjectToWorldTransformInverse() const;
 
   /** Compute the World transform when the local transform is set
    *  This function should be called each time the local transform
@@ -179,7 +179,7 @@ public:
    * to the "physical" space of its parent object.  */
   void SetObjectToParentTransform( const TransformType *transform);
   itkGetModifiableObjectMacro(ObjectToParentTransform, TransformType);
-  itkGetConstObjectMacro(ObjectToParentTransformInverse, TransformType);
+  const TransformType * GetObjectToParentTransformInverse() const;
 
   /** Compute the Local transform when the global transform is set */
   void ComputeObjectToParentTransform();
@@ -537,7 +537,9 @@ private:
   RegionType      m_BufferedRegion;
 
   BoundingBoxPointer m_MyBoundingBoxInObjectSpace;
+  BoundingBoxPointer m_MyBoundingBoxInWorldSpace;
   BoundingBoxPointer m_FamilyBoundingBoxInObjectSpace;
+  BoundingBoxPointer m_FamilyBoundingBoxInWorldSpace;
 
   TransformPointer m_ObjectToParentTransform;
   TransformPointer m_ObjectToParentTransformInverse;

@@ -87,13 +87,10 @@ ArrowSpatialObject< TDimension >
     {
     PointType pnt = this->GetPositionInObjectSpace();
 
-    PointType tPnt = this->GetObjectToWorldTransform()
-      ->GetInverseTransform()->TransformPoint(point);
-
     bool isInside = true;
     for ( unsigned int i = 0; i < TDimension; i++ )
       {
-      if( Math::NotExactlyEquals( pnt[i], tPnt[i] ) )
+      if( Math::NotExactlyEquals( point[i], pnt[i] ) )
         {
         isInside = false;
         break;
