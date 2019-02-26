@@ -95,11 +95,6 @@ public:
    *  changed. */
   bool ComputeMyBoundingBox() const override;
 
-  /** world-space property getters */
-  itkGetConstReferenceMacro( CenterInWorldSpace, PointType );
-
-  void Update() override;
-
 protected:
   EllipseSpatialObject();
   ~EllipseSpatialObject() override = default;
@@ -107,8 +102,6 @@ protected:
   /* object space */
   ArrayType m_RadiusInObjectSpace;
   PointType m_CenterInObjectSpace;
-  /* world space */
-  PointType m_CenterInWorldSpace;
 
   /** Print the object informations in a stream. */
   void PrintSelf(std::ostream & os, Indent indent) const override;

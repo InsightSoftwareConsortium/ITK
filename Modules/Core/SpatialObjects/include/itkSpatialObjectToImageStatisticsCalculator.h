@@ -19,7 +19,6 @@
 #define itkSpatialObjectToImageStatisticsCalculator_h
 
 #include "itkObject.h"
-#include "itkFloodFilledSpatialFunctionConditionalConstIterator.h"
 #include "itkMatrix.h"
 #include "itkNumericTraits.h"
 #include "itkListSample.h"
@@ -57,6 +56,9 @@ public:
   using ImageConstPointer = typename TInputImage::ConstPointer;
   using PixelType = typename TInputImage::PixelType;
   using IndexType = typename TInputImage::IndexType;
+  using PointType = typename TInputImage::PointType;
+  using RegionType = typename TInputImage::RegionType;
+  using SizeType = typename RegionType::SizeType;
 
   using AccumulateType = typename NumericTraits< PixelType >::AccumulateType;
 
@@ -70,10 +72,6 @@ public:
   using SpatialObjectType = TInputSpatialObject;
   using SpatialObjectPointer = typename SpatialObjectType::Pointer;
   using SpatialObjectConstPointer = typename SpatialObjectType::ConstPointer;
-
-  /** Type definition of the flood fill iterator */
-  using IteratorType = itk::FloodFilledSpatialFunctionConditionalConstIterator< ImageType,
-                                                                   SpatialObjectType >;
 
   /** Vector and Matrix Type */
   using VectorType = Vector< double, TSampleDimension >;

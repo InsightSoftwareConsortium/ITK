@@ -33,6 +33,8 @@ GaussianSpatialObject< TDimension >
   m_RadiusInObjectSpace = 1.0;
   m_SigmaInObjectSpace = 1.0;
   m_Maximum = 1.0;
+
+  this->ComputeMyBoundingBox();
 }
 
 /** The z-score is the root mean square of the z-scores along
@@ -88,7 +90,7 @@ GaussianSpatialObject< TDimension >
 
         r /= ( m_RadiusInObjectSpace * m_RadiusInObjectSpace );
 
-        if ( r < 1.0 )
+        if ( r <= 1.0 )
           {
           return true;
           }
@@ -115,8 +117,7 @@ GaussianSpatialObject< TDimension >
 
   PointType    pnt1;
   PointType    pnt2;
-  unsigned int i;
-  for ( i = 0; i < TDimension; i++ )
+  for ( unsigned int i = 0; i < TDimension; i++ )
     {
     pnt1[i] = m_CenterInObjectSpace[i] - m_RadiusInObjectSpace;
     pnt2[i] = m_CenterInObjectSpace[i] + m_RadiusInObjectSpace;
