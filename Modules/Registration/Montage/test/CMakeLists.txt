@@ -184,6 +184,24 @@ AddInMemoryMontageTest(5 FALSE)
 AddInMemoryMontageTest(6 FALSE)
 AddInMemoryMontageTest(7 FALSE)
 
+itk_add_test(NAME itkMontageTest-10-129-C_2
+  COMMAND MontageTestDriver
+  itkMontageTest2D
+    DATA{Input/10-129-C_2/,REGEX:.*}
+    ${TESTING_OUTPUT_PATH}/itkMontageTest-10-129-C_2
+    ${TESTING_OUTPUT_PATH}/itkPairsMontageTest-10-129-C_2
+    0 2 0 1 0
+  )
+
+itk_add_test(NAME itkMontageTest-S200-6-C
+  COMMAND MontageTestDriver
+  itkMontageTest2D
+    DATA{Input/S200-6-C/,REGEX:.*}
+    ${TESTING_OUTPUT_PATH}/itkMontageTest-S200-6-C
+    ${TESTING_OUTPUT_PATH}/itkPairsMontageTest-S200-6-C
+    0 2 1 1 0
+  )
+
 if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/FlatFielded/36/1000.tif)
 
   set(flatFolder "${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/FlatFielded/36")
@@ -252,27 +270,5 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/NoisyTiles/NoisyImage_10_10.tif)
       ${TESTING_OUTPUT_PATH}/itkMontageTestNoisyTiles
       ${TESTING_OUTPUT_PATH}/itkMockMontageTestNoisyTiles
       0 -1 1 1 0
-    )
-endif()
-
-if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/10-129-C_2/10-129-C_2_p45.jpg)
-  itk_add_test(NAME itkMontageTest-10-129-C_2
-    COMMAND MontageTestDriver
-    itkMontageTest2D
-      ${CMAKE_CURRENT_LIST_DIR}/Input/10-129-C_2
-      ${TESTING_OUTPUT_PATH}/itkMontageTest-10-129-C_2
-      ${TESTING_OUTPUT_PATH}/itkPairsMontageTest-10-129-C_2
-      0 2 0 1 0
-    )
-endif()
-
-if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/S200-6-C/S200-6-320x_p305.jpg)
-  itk_add_test(NAME itkMontageTest-S200-6-C
-    COMMAND MontageTestDriver
-    itkMontageTest2D
-      ${CMAKE_CURRENT_LIST_DIR}/Input/S200-6-C
-      ${TESTING_OUTPUT_PATH}/itkMontageTest-S200-6-C
-      ${TESTING_OUTPUT_PATH}/itkPairsMontageTest-S200-6-C
-      0 2 1 1 0
     )
 endif()
