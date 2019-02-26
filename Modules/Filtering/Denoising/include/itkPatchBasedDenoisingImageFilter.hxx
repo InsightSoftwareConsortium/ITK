@@ -105,7 +105,6 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
                       << m_ThreadData.size()
                       << ") was initialized.");
     }
-  return ThreadDataStruct(); // keep the compiler happy
 }
 
 template <typename TInputImage, typename TOutputImage>

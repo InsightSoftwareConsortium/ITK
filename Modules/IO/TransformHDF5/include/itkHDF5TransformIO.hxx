@@ -119,8 +119,6 @@ HDF5TransformIOTemplate<TParametersValueType>
   itkExceptionMacro(<< "Wrong data precision type "
                     << NameParametersValueTypeString
                     << "for writing in HDF5 File");
-
-  return H5::PredType::NATIVE_DOUBLE;
 }
 
 /** Write a Parameter array to the location specified by name */
@@ -142,7 +140,7 @@ HDF5TransformIOTemplate<TParametersValueType>
 
   // Set the storage format type
   const H5::PredType h5StorageIdentifier{ GetH5TypeFromString( ) };
-  if(this->m_UseCompression)
+  if(this->GetUseCompression())
   {
     // Set compression information
     // set up properties for chunked, compressed writes.

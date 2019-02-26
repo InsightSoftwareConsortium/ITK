@@ -1121,6 +1121,23 @@ def ipython_kw_matches(text):
         # drop the .New at this end, so we can search in the class members
         if callableMatch.endswith(".New"):
             callableMatch = callableMatch[:-4]
+        elif not re.findall('([A-Z])', callableMatch):  # True if snake case
+            # Split at the last '.' occurence
+            splitted = callableMatch.split('.')
+            namespace = splitted[:-1]
+            function_name = splitted[-1]
+            # Find corresponding object name
+            object_name = _snake_to_camel(function_name)
+            # Check that this object actually exists
+            try:
+                objectCallableMatch = ".".join(namespace + [object_name])
+                eval(objectCallableMatch, ip.Completer.namespace)
+                # Reconstruct full object name
+                callableMatch = objectCallableMatch
+            except AttributeError:
+                # callableMatch is not a snake case function with a
+                # corresponding object.
+                pass
         try:
             object = eval(callableMatch, ip.Completer.namespace)
             if isinstance(object, itkTemplate.itkTemplate):

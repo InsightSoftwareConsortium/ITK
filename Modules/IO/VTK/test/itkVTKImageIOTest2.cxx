@@ -35,7 +35,7 @@ int itkVTKImageIOTest2(int argc, char* argv[] )
 
   constexpr unsigned int Dimension = 3;
 
-  // Testing to write images of vectors as VTK images.
+  // Test writing images of vectors as VTK images.
 
   using PixelComponentType = float;
   using PixelType = itk::Vector< PixelComponentType, Dimension >;

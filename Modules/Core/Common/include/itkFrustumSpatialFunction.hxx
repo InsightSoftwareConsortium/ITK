@@ -122,7 +122,6 @@ FrustumSpatialFunction< VDimension, TInput >
     {
     itkExceptionMacro(<< "Rotation plane not set or set to an unsupported value!");
     }
-  return 0;
 }
 
 template< unsigned int VDimension, typename TInput >

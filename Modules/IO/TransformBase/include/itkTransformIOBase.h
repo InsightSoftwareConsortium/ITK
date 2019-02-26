@@ -138,6 +138,14 @@ protected:
 
   void CreateTransform(TransformPointer & ptr, const std::string & ClassName);
 
+  /* The following struct returns the string name of computation type */
+  /* default implementation */
+  static inline const std::string GetTypeNameString()
+    {
+    itkGenericExceptionMacro(<< "Unknown ScalarType" << typeid(ScalarType).name());
+    }
+
+private:
   std::string            m_FileName;
   TransformListType      m_ReadTransformList;
   ConstTransformListType m_WriteTransformList;
@@ -145,12 +153,6 @@ protected:
   /** Should we compress the data? */
   bool                   m_UseCompression{false};
 
-  /* The following struct returns the string name of computation type */
-  /* default implementation */
-  static inline const std::string GetTypeNameString()
-    {
-    itkGenericExceptionMacro(<< "Unknown ScalarType" << typeid(ScalarType).name());
-    }
 };
 
 
@@ -200,10 +202,6 @@ TransformIOBaseTemplate<double>
 using TransformIOBase = itk::TransformIOBaseTemplate<double>;
 
 } // end namespace itk
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkTransformIOBase.hxx"
-#endif
 
 #endif // itkTransformIOBase_h
 

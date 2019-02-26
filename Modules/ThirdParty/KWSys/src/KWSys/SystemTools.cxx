@@ -82,6 +82,10 @@
 #  include <signal.h> /* sigprocmask */
 #endif
 
+#ifdef __linux
+#  include <linux/fs.h>
+#endif
+
 // Windows API.
 #if defined(_WIN32)
 #  include <windows.h>
@@ -412,6 +416,9 @@ public:
     {
     }
     ~Free() { free(const_cast<envchar*>(this->Env)); }
+
+    Free(const Free&) = delete;
+    Free& operator=(const Free&) = delete;
   };
 
   const envchar* Release(const envchar* env)
@@ -469,7 +476,7 @@ void SystemTools::GetPath(std::vector<std::string>& path, const char* env)
   }
 
   // A hack to make the below algorithm work.
-  if (!pathEnv.empty() && *pathEnv.rbegin() != pathSep) {
+  if (!pathEnv.empty() && pathEnv.back() != pathSep) {
     pathEnv += pathSep;
   }
   std::string::size_type start = 0;
@@ -686,7 +693,7 @@ public:
     for (iterator i = this->begin(); i != this->end(); ++i) {
 #  if defined(_WIN32)
       const std::string s = Encoding::ToNarrow(*i);
-      kwsysUnPutEnv(s.c_str());
+      kwsysUnPutEnv(s);
 #  else
       kwsysUnPutEnv(*i);
 #  endif
@@ -1197,9 +1204,27 @@ bool SystemTools::FileExists(const std::string& filename)
   }
   return access(filename.c_str(), R_OK) == 0;
 #elif defined(_WIN32)
-  return (
-    GetFileAttributesW(Encoding::ToWindowsExtendedPath(filename).c_str()) !=
-    INVALID_FILE_ATTRIBUTES);
+  DWORD attr =
+    GetFileAttributesW(Encoding::ToWindowsExtendedPath(filename).c_str());
+  if (attr == INVALID_FILE_ATTRIBUTES) {
+    return false;
+  }
+
+  if (attr & FILE_ATTRIBUTE_REPARSE_POINT) {
+    // Using 0 instead of GENERIC_READ as it allows reading of file attributes
+    // even if we do not have permission to read the file itself
+    HANDLE handle =
+      CreateFileW(Encoding::ToWindowsExtendedPath(filename).c_str(), 0, 0,
+                  NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
+
+    if (handle == INVALID_HANDLE_VALUE) {
+      return false;
+    }
+
+    CloseHandle(handle);
+  }
+
+  return true;
 #else
 // SCO OpenServer 5.0.7/3.2's command has 711 permission.
 #  if defined(_SCO_DS)
@@ -1337,39 +1362,15 @@ bool SystemTools::Touch(const std::string& filename, bool create)
   }
   CloseHandle(h);
 #elif KWSYS_CXX_HAS_UTIMENSAT
-  struct timespec times[2] = { { 0, UTIME_OMIT }, { 0, UTIME_NOW } };
-  if (utimensat(AT_FDCWD, filename.c_str(), times, 0) < 0) {
+  // utimensat is only available on newer Unixes and macOS 10.13+
+  if (utimensat(AT_FDCWD, filename.c_str(), NULL, 0) < 0) {
     return false;
   }
 #else
-  struct stat st;
-  if (stat(filename.c_str(), &st) < 0) {
+  // fall back to utimes
+  if (utimes(filename.c_str(), NULL) < 0) {
     return false;
   }
-  struct timeval mtime;
-  gettimeofday(&mtime, 0);
-#  if KWSYS_CXX_HAS_UTIMES
-  struct timeval atime;
-#    if KWSYS_CXX_STAT_HAS_ST_MTIM
-  atime.tv_sec = st.st_atim.tv_sec;
-  atime.tv_usec = st.st_atim.tv_nsec / 1000;
-#    elif KWSYS_CXX_STAT_HAS_ST_MTIMESPEC
-  atime.tv_sec = st.st_atimespec.tv_sec;
-  atime.tv_usec = st.st_atimespec.tv_nsec / 1000;
-#    else
-  atime.tv_sec = st.st_atime;
-  atime.tv_usec = 0;
-#    endif
-  struct timeval times[2] = { atime, mtime };
-  if (utimes(filename.c_str(), times) < 0) {
-    return false;
-  }
-#  else
-  struct utimbuf times = { st.st_atime, mtime.tv_sec };
-  if (utime(filename.c_str(), &times) < 0) {
-    return false;
-  }
-#  endif
 #endif
   return true;
 }
@@ -1752,11 +1753,11 @@ std::string SystemTools::CropString(const std::string& s, size_t max_len)
   return n;
 }
 
-std::vector<kwsys::String> SystemTools::SplitString(const std::string& p,
-                                                    char sep, bool isPath)
+std::vector<std::string> SystemTools::SplitString(const std::string& p,
+                                                  char sep, bool isPath)
 {
   std::string path = p;
-  std::vector<kwsys::String> paths;
+  std::vector<std::string> paths;
   if (path.empty()) {
     return paths;
   }
@@ -1945,7 +1946,7 @@ void SystemTools::ConvertToUnixSlashes(std::string& path)
   // a single /
   pathCString = path.c_str();
   size_t size = path.size();
-  if (size > 1 && *path.rbegin() == '/') {
+  if (size > 1 && path.back() == '/') {
     // if it is c:/ then do not remove the trailing slash
     if (!((size == 3 && pathCString[1] == ':'))) {
       path.resize(size - 1);
@@ -1973,7 +1974,7 @@ std::string SystemTools::ConvertToUnixOutputPath(const std::string& path)
   }
   // escape spaces and () in the path
   if (ret.find_first_of(" ") != std::string::npos) {
-    std::string result = "";
+    std::string result;
     char lastch = 1;
     for (const char* ch = ret.c_str(); *ch != '\0'; ++ch) {
       // if it is already escaped then don't try to escape it again
@@ -2163,6 +2164,146 @@ bool SystemTools::FilesDiffer(const std::string& source,
   return false;
 }
 
+bool SystemTools::TextFilesDiffer(const std::string& path1,
+                                  const std::string& path2)
+{
+  kwsys::ifstream if1(path1.c_str());
+  kwsys::ifstream if2(path2.c_str());
+  if (!if1 || !if2) {
+    return true;
+  }
+
+  for (;;) {
+    std::string line1, line2;
+    bool hasData1 = GetLineFromStream(if1, line1);
+    bool hasData2 = GetLineFromStream(if2, line2);
+    if (hasData1 != hasData2) {
+      return true;
+    }
+    if (!hasData1) {
+      break;
+    }
+    if (line1 != line2) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * Blockwise copy source to destination file
+ */
+static bool CopyFileContentBlockwise(const std::string& source,
+                                     const std::string& destination)
+{
+// Open files
+#if defined(_WIN32)
+  kwsys::ifstream fin(
+    Encoding::ToNarrow(Encoding::ToWindowsExtendedPath(source)).c_str(),
+    std::ios::in | std::ios::binary);
+#else
+  kwsys::ifstream fin(source.c_str(), std::ios::in | std::ios::binary);
+#endif
+  if (!fin) {
+    return false;
+  }
+
+  // try and remove the destination file so that read only destination files
+  // can be written to.
+  // If the remove fails continue so that files in read only directories
+  // that do not allow file removal can be modified.
+  SystemTools::RemoveFile(destination);
+
+#if defined(_WIN32)
+  kwsys::ofstream fout(
+    Encoding::ToNarrow(Encoding::ToWindowsExtendedPath(destination)).c_str(),
+    std::ios::out | std::ios::trunc | std::ios::binary);
+#else
+  kwsys::ofstream fout(destination.c_str(),
+                       std::ios::out | std::ios::trunc | std::ios::binary);
+#endif
+  if (!fout) {
+    return false;
+  }
+
+  // This copy loop is very sensitive on certain platforms with
+  // slightly broken stream libraries (like HPUX).  Normally, it is
+  // incorrect to not check the error condition on the fin.read()
+  // before using the data, but the fin.gcount() will be zero if an
+  // error occurred.  Therefore, the loop should be safe everywhere.
+  while (fin) {
+    const int bufferSize = 4096;
+    char buffer[bufferSize];
+
+    fin.read(buffer, bufferSize);
+    if (fin.gcount()) {
+      fout.write(buffer, fin.gcount());
+    } else {
+      break;
+    }
+  }
+
+  // Make sure the operating system has finished writing the file
+  // before closing it.  This will ensure the file is finished before
+  // the check below.
+  fout.flush();
+
+  fin.close();
+  fout.close();
+
+  if (!fout) {
+    return false;
+  }
+
+  return true;
+}
+
+/**
+ * Clone the source file to the destination file
+ *
+ * If available, the Linux FICLONE ioctl is used to create a check
+ * copy-on-write clone of the source file.
+ *
+ * The method returns false for the following cases:
+ * - The code has not been compiled on Linux or the ioctl was unknown
+ * - The source and destination is on different file systems
+ * - The underlying filesystem does not support file cloning
+ * - An unspecified error occurred
+ */
+static bool CloneFileContent(const std::string& source,
+                             const std::string& destination)
+{
+#if defined(__linux) && defined(FICLONE)
+  int in = open(source.c_str(), O_RDONLY);
+  if (in < 0) {
+    return false;
+  }
+
+  SystemTools::RemoveFile(destination);
+
+  int out =
+    open(destination.c_str(), O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+  if (out < 0) {
+    close(in);
+    return false;
+  }
+
+  int result = ioctl(out, FICLONE, in);
+  close(in);
+  close(out);
+
+  if (result < 0) {
+    return false;
+  }
+
+  return true;
+#else
+  (void)source;
+  (void)destination;
+  return false;
+#endif
+}
+
 /**
  * Copy a file named by "source" to the file named by "destination".
  */
@@ -2180,9 +2321,6 @@ bool SystemTools::CopyFileAlways(const std::string& source,
   if (SystemTools::FileIsDirectory(source)) {
     SystemTools::MakeDirectory(destination);
   } else {
-    const int bufferSize = 4096;
-    char buffer[bufferSize];
-
     // If destination is a directory, try to create a file with the same
     // name as the source in that directory.
 
@@ -2201,61 +2339,11 @@ bool SystemTools::CopyFileAlways(const std::string& source,
 
     SystemTools::MakeDirectory(destination_dir);
 
-// Open files
-#if defined(_WIN32)
-    kwsys::ifstream fin(
-      Encoding::ToNarrow(Encoding::ToWindowsExtendedPath(source)).c_str(),
-      std::ios::in | std::ios::binary);
-#else
-    kwsys::ifstream fin(source.c_str(), std::ios::in | std::ios::binary);
-#endif
-    if (!fin) {
-      return false;
-    }
-
-    // try and remove the destination file so that read only destination files
-    // can be written to.
-    // If the remove fails continue so that files in read only directories
-    // that do not allow file removal can be modified.
-    SystemTools::RemoveFile(real_destination);
-
-#if defined(_WIN32)
-    kwsys::ofstream fout(
-      Encoding::ToNarrow(Encoding::ToWindowsExtendedPath(real_destination))
-        .c_str(),
-      std::ios::out | std::ios::trunc | std::ios::binary);
-#else
-    kwsys::ofstream fout(real_destination.c_str(),
-                         std::ios::out | std::ios::trunc | std::ios::binary);
-#endif
-    if (!fout) {
-      return false;
-    }
-
-    // This copy loop is very sensitive on certain platforms with
-    // slightly broken stream libraries (like HPUX).  Normally, it is
-    // incorrect to not check the error condition on the fin.read()
-    // before using the data, but the fin.gcount() will be zero if an
-    // error occurred.  Therefore, the loop should be safe everywhere.
-    while (fin) {
-      fin.read(buffer, bufferSize);
-      if (fin.gcount()) {
-        fout.write(buffer, fin.gcount());
-      } else {
-        break;
+    if (!CloneFileContent(source, real_destination)) {
+      // if cloning did not succeed, fall back to blockwise copy
+      if (!CopyFileContentBlockwise(source, real_destination)) {
+        return false;
       }
-    }
-
-    // Make sure the operating system has finished writing the file
-    // before closing it.  This will ensure the file is finished before
-    // the check below.
-    fout.flush();
-
-    fin.close();
-    fout.close();
-
-    if (!fout) {
-      return false;
     }
   }
   if (perms) {
@@ -2607,7 +2695,7 @@ std::string SystemTools::FindName(const std::string& name,
     for (std::vector<std::string>::iterator i = path.begin(); i != path.end();
          ++i) {
       std::string& p = *i;
-      if (p.empty() || *p.rbegin() != '/') {
+      if (p.empty() || p.back() != '/') {
         p += "/";
       }
     }
@@ -2725,7 +2813,7 @@ std::string SystemTools::FindProgram(const std::string& name,
     for (std::vector<std::string>::iterator i = path.begin(); i != path.end();
          ++i) {
       std::string& p = *i;
-      if (p.empty() || *p.rbegin() != '/') {
+      if (p.empty() || p.back() != '/') {
         p += "/";
       }
     }
@@ -2803,7 +2891,7 @@ std::string SystemTools::FindLibrary(const std::string& name,
     for (std::vector<std::string>::iterator i = path.begin(); i != path.end();
          ++i) {
       std::string& p = *i;
-      if (p.empty() || *p.rbegin() != '/') {
+      if (p.empty() || p.back() != '/') {
         p += "/";
       }
     }
@@ -2920,10 +3008,36 @@ bool SystemTools::FileIsDirectory(const std::string& inName)
 bool SystemTools::FileIsSymlink(const std::string& name)
 {
 #if defined(_WIN32)
-  DWORD attr =
-    GetFileAttributesW(Encoding::ToWindowsExtendedPath(name).c_str());
+  std::wstring path = Encoding::ToWindowsExtendedPath(name);
+  DWORD attr = GetFileAttributesW(path.c_str());
   if (attr != INVALID_FILE_ATTRIBUTES) {
-    return (attr & FILE_ATTRIBUTE_REPARSE_POINT) != 0;
+    if ((attr & FILE_ATTRIBUTE_REPARSE_POINT) != 0) {
+      // FILE_ATTRIBUTE_REPARSE_POINT means:
+      // * a file or directory that has an associated reparse point, or
+      // * a file that is a symbolic link.
+      HANDLE hFile = CreateFileW(
+        path.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING,
+        FILE_FLAG_OPEN_REPARSE_POINT | FILE_FLAG_BACKUP_SEMANTICS, NULL);
+      if (hFile == INVALID_HANDLE_VALUE) {
+        return false;
+      }
+      byte buffer[MAXIMUM_REPARSE_DATA_BUFFER_SIZE];
+      DWORD bytesReturned = 0;
+      if (!DeviceIoControl(hFile, FSCTL_GET_REPARSE_POINT, NULL, 0, buffer,
+                           MAXIMUM_REPARSE_DATA_BUFFER_SIZE, &bytesReturned,
+                           NULL)) {
+        CloseHandle(hFile);
+        // Since FILE_ATTRIBUTE_REPARSE_POINT is set this file must be
+        // a symbolic link if it is not a reparse point.
+        return GetLastError() == ERROR_NOT_A_REPARSE_POINT;
+      }
+      CloseHandle(hFile);
+      ULONG reparseTag =
+        reinterpret_cast<PREPARSE_GUID_DATA_BUFFER>(&buffer[0])->ReparseTag;
+      return (reparseTag == IO_REPARSE_TAG_SYMLINK) ||
+        (reparseTag == IO_REPARSE_TAG_MOUNT_POINT);
+    }
+    return false;
   } else {
     return false;
   }
@@ -3123,10 +3237,10 @@ void SystemTools::AddTranslationPath(const std::string& a,
     if (SystemTools::FileIsFullPath(path_b) &&
         path_b.find("..") == std::string::npos) {
       // Before inserting make sure path ends with '/'
-      if (!path_a.empty() && *path_a.rbegin() != '/') {
+      if (!path_a.empty() && path_a.back() != '/') {
         path_a += '/';
       }
-      if (!path_b.empty() && *path_b.rbegin() != '/') {
+      if (!path_b.empty() && path_b.back() != '/') {
         path_b += '/';
       }
       if (!(path_a == path_b)) {
@@ -3140,7 +3254,7 @@ void SystemTools::AddTranslationPath(const std::string& a,
 void SystemTools::AddKeepPath(const std::string& dir)
 {
   std::string cdir;
-  Realpath(SystemTools::CollapseFullPath(dir).c_str(), cdir);
+  Realpath(SystemTools::CollapseFullPath(dir), cdir);
   SystemTools::AddTranslationPath(cdir, dir);
 }
 
@@ -3279,13 +3393,12 @@ std::string SystemTools::RelativePath(const std::string& local,
   std::string r = SystemTools::CollapseFullPath(remote);
 
   // split up both paths into arrays of strings using / as a separator
-  std::vector<kwsys::String> localSplit =
-    SystemTools::SplitString(l, '/', true);
-  std::vector<kwsys::String> remoteSplit =
+  std::vector<std::string> localSplit = SystemTools::SplitString(l, '/', true);
+  std::vector<std::string> remoteSplit =
     SystemTools::SplitString(r, '/', true);
-  std::vector<kwsys::String>
+  std::vector<std::string>
     commonPath; // store shared parts of path in this array
-  std::vector<kwsys::String> finalPath; // store the final relative path here
+  std::vector<std::string> finalPath; // store the final relative path here
   // count up how many matching directory names there are from the start
   unsigned int sameCount = 0;
   while (((sameCount <= (localSplit.size() - 1)) &&
@@ -3325,7 +3438,7 @@ std::string SystemTools::RelativePath(const std::string& local,
   }
   // for each entry that is not common in the remote path add it
   // to the final path.
-  for (std::vector<String>::iterator vit = remoteSplit.begin();
+  for (std::vector<std::string>::iterator vit = remoteSplit.begin();
        vit != remoteSplit.end(); ++vit) {
     if (!vit->empty()) {
       finalPath.push_back(*vit);
@@ -3334,9 +3447,9 @@ std::string SystemTools::RelativePath(const std::string& local,
   std::string relativePath; // result string
   // now turn the array of directories into a unix path by puttint /
   // between each entry that does not already have one
-  for (std::vector<String>::iterator vit1 = finalPath.begin();
+  for (std::vector<std::string>::iterator vit1 = finalPath.begin();
        vit1 != finalPath.end(); ++vit1) {
-    if (!relativePath.empty() && *relativePath.rbegin() != '/') {
+    if (!relativePath.empty() && relativePath.back() != '/') {
       relativePath += "/";
     }
     relativePath += *vit1;
@@ -3538,7 +3651,7 @@ void SystemTools::SplitPath(const std::string& p,
       }
 #endif
       if (!homedir.empty() &&
-          (*homedir.rbegin() == '/' || *homedir.rbegin() == '\\')) {
+          (homedir.back() == '/' || homedir.back() == '\\')) {
         homedir.resize(homedir.size() - 1);
       }
       SystemTools::SplitPath(homedir, components);
@@ -3623,11 +3736,11 @@ bool SystemTools::Split(const std::string& str,
   while (lpos < data.length()) {
     std::string::size_type rpos = data.find_first_of(separator, lpos);
     if (rpos == std::string::npos) {
-      // Line ends at end of string without a newline.
+      // String ends at end of string without a separator.
       lines.push_back(data.substr(lpos));
       return false;
     } else {
-      // Line ends in a "\n", remove the character.
+      // String ends in a separator, remove the character.
       lines.push_back(data.substr(lpos, rpos - lpos));
     }
     lpos = rpos + 1;
@@ -3641,7 +3754,7 @@ bool SystemTools::Split(const std::string& str,
   std::string data(str);
   std::string::size_type lpos = 0;
   while (lpos < data.length()) {
-    std::string::size_type rpos = data.find_first_of("\n", lpos);
+    std::string::size_type rpos = data.find_first_of('\n', lpos);
     if (rpos == std::string::npos) {
       // Line ends at end of string without a newline.
       lines.push_back(data.substr(lpos));
@@ -3906,7 +4019,7 @@ bool SystemTools::LocateFileInDir(const char* filename, const char* dir,
         filename_dir = SystemTools::GetFilenamePath(filename_dir);
         filename_dir_base = SystemTools::GetFilenameName(filename_dir);
 #if defined(_WIN32)
-        if (filename_dir_base.empty() || *filename_dir_base.rbegin() == ':')
+        if (filename_dir_base.empty() || filename_dir_base.back() == ':')
 #else
         if (filename_dir_base.empty())
 #endif
@@ -3982,7 +4095,7 @@ bool SystemTools::GetShortPath(const std::string& path, std::string& shortPath)
   std::string tempPath = path; // create a buffer
 
   // if the path passed in has quotes around it, first remove the quotes
-  if (!path.empty() && path[0] == '"' && *path.rbegin() == '"') {
+  if (!path.empty() && path[0] == '"' && path.back() == '"') {
     tempPath = path.substr(1, path.length() - 2);
   }
 
@@ -4059,7 +4172,7 @@ bool SystemTools::GetLineFromStream(std::istream& is, std::string& line,
   bool haveData = !line.empty() || !is.eof();
   if (!line.empty()) {
     // Avoid storing a carriage return character.
-    if (*line.rbegin() == '\r') {
+    if (line.back() == '\r') {
       line.resize(line.size() - 1);
     }
 
@@ -4197,7 +4310,7 @@ bool SystemTools::IsSubDirectory(const std::string& cSubdir,
   if (subdir.size() <= dir.size() || dir.empty()) {
     return false;
   }
-  bool isRootPath = *dir.rbegin() == '/'; // like "/" or "C:/"
+  bool isRootPath = dir.back() == '/'; // like "/" or "C:/"
   size_t expectedSlashPosition = isRootPath ? dir.size() - 1u : dir.size();
   if (subdir[expectedSlashPosition] != '/') {
     return false;

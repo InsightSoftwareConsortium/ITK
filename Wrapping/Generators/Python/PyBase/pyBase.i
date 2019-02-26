@@ -324,6 +324,36 @@ str = str
                     return itk.down_cast(self.GetOutput(item))
 
             def __call__(self, *args, **kargs):
+                """Deprecated procedural interface function.
+
+                Use snake case function instead. This function is now
+                merely a wrapper around the snake case function.
+
+                Create a process object, update with the inputs and
+                attributes, and return the result.
+
+                The syntax is the same as the one used in New().
+                UpdateLargestPossibleRegion() is ran once the input are changed, and
+                the current output, or tuple of outputs, if there is more than
+                one, is returned. Something like 'filter(input_image, threshold=10)[0]' would
+                return the first up-to-date output of a filter with multiple
+                outputs.
+                """
+                import itkHelpers
+                import warnings
+
+                name = self.GetNameOfClass()
+                snake = itkHelpers.camel_to_snake_case(name)
+
+                warnings.warn("WrapITK warning: itk.%s() is deprecated for procedural"
+                " interface. Use snake case function itk.%s() instead."
+                % (name, snake), DeprecationWarning)
+
+                filt = self.New(*args, **kargs)
+                return filt.__internal_call__()
+
+
+            def __internal_call__(self):
                 """Create a process object, update with the inputs and
                 attributes, and return the result.
 
@@ -334,13 +364,20 @@ str = str
                 return the first up-to-date output of a filter with multiple
                 outputs.
                 """
-                filt = self.New(*args, **kargs)
-                filt.UpdateLargestPossibleRegion()
-                if filt.GetNumberOfIndexedOutputs() == 1:
-                    result = filt.GetOutput()
-                else:
-                    result = tuple([filt.GetOutput(idx) for idx in range(filt.GetNumberOfIndexedOutputs())])
-                return result
+                self.UpdateLargestPossibleRegion()
+                try:
+                    if self.GetNumberOfIndexedOutputs() == 0:
+                        result = None
+                    elif self.GetNumberOfIndexedOutputs() == 1:
+                        result = self.GetOutput()
+                    else:
+                        result = tuple([self.GetOutput(idx) for idx in range(self.GetNumberOfIndexedOutputs())])
+                    return result
+                except AttributeError as e:
+                    # In theory, filters should declare that they don't return any output
+                    # and therefore the `GetOutput()` method should not be called. However,
+                    # there is no garranty that this is always the case.
+                    print("This filter cannot be called functionally. Use Object call instead.")
             %}
     }
 

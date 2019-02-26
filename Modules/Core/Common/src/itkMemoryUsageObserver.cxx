@@ -217,7 +217,6 @@ WindowsMemoryUsageObserver::GetMemoryUsage()
     {
     itkGenericExceptionMacro(<< "The file ntdll.dll is not supported. "
                              << "You should probably disable SUPPORT_TOOLHELP32");
-    return mem;
     }
 
   DWORD             pid = GetCurrentProcessId();

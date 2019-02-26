@@ -113,6 +113,9 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
+  // Internal function to get next line from a given file (*.vtk)
+  int GetNextLine(std::ifstream& ifs, std::string& line, bool lowerCase = true, SizeValueType count= 0);
+
   template< typename T >
   void UpdateCellInformation(T *buffer)
   {
