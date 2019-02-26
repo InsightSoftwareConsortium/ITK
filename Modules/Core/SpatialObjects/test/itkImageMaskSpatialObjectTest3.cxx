@@ -36,7 +36,6 @@
 int itkImageMaskSpatialObjectTest3(int, char* [])
 {
   constexpr unsigned int NDimensions = 3;
-  int retval=EXIT_SUCCESS;
 
   using ImageMaskSpatialObjectType = itk::ImageMaskSpatialObject<NDimensions>;
   using PixelType = ImageMaskSpatialObjectType::PixelType;
@@ -45,14 +44,15 @@ int itkImageMaskSpatialObjectTest3(int, char* [])
   ImageType::Pointer image = ImageType::New();
   ImageType::SizeType size = {{ 5, 5, 5 }};
   ImageType::PointType origin;
-  origin[0] = origin[1] =  origin[2]=0.0;
+  origin.Fill( 0 );
   image->SetOrigin(origin);
 
   ImageType::SpacingType spacing;
-  spacing[0] = spacing[1] = spacing[2]=1.0;
+  spacing.Fill( 1 );
   image->SetSpacing( spacing );
 
-  ImageType::IndexType index = {{ 0, 0, 0 }};
+  ImageType::IndexType index;
+  index.Fill( 0 );
 
   ImageType::DirectionType direction;
   direction.Fill(0.0);
@@ -71,11 +71,13 @@ int itkImageMaskSpatialObjectTest3(int, char* [])
   ImageMaskSpatialObjectType::Pointer imageMaskSpatialObject =
     ImageMaskSpatialObjectType::New();
   imageMaskSpatialObject->SetImage(image);
+  imageMaskSpatialObject->Update();
 
   ImageMaskSpatialObjectType::PointType bndMin = imageMaskSpatialObject->
     GetMyBoundingBoxInWorldSpace()->GetMinimum();
   ImageMaskSpatialObjectType::IndexType bndMinI;
   image->TransformPhysicalPointToIndex( bndMin, bndMinI );
+
   ImageMaskSpatialObjectType::PointType bndMax = imageMaskSpatialObject->
     GetMyBoundingBoxInWorldSpace()->GetMaximum();
   ImageMaskSpatialObjectType::IndexType bndMaxI;
@@ -91,38 +93,32 @@ int itkImageMaskSpatialObjectTest3(int, char* [])
 
   for(unsigned int i = 0; i < 3; i++)
     {
-    if(regionSize[i] != 0)
+    if(regionSize[i] != 1)
       {
-      std::cerr << "Invalid Region Size " << regionSize << std::endl;
-      retval = EXIT_FAILURE;
-      break;
+      std::cout << "Invalid Region Size " << regionSize << std::endl;
+      return EXIT_FAILURE;
       }
-    if(regionIndex[i] < 0 || regionIndex[i] >= (int)size[i])
+    if(regionIndex[i] != 0)
       {
-      std::cerr << "Invalid Region Index " << regionIndex << std::endl;
-      retval = EXIT_FAILURE;
-      break;
+      std::cout << "Invalid Region Index " << regionIndex << std::endl;
+      return EXIT_FAILURE;
       }
-    }
-  if(retval == EXIT_FAILURE)
-    {
-    return retval;
     }
 
   using ImageRegionIteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
-  ImageRegionIteratorType it(image,image->GetLargestPossibleRegion());
+  ImageRegionIteratorType it(image, image->GetLargestPossibleRegion());
   for(it.GoToBegin(); !it.IsAtEnd(); ++it)
     {
     ImageType::PointType point;
-    image->TransformIndexToPhysicalPoint(it.GetIndex(),point);
+    image->TransformIndexToPhysicalPoint(it.GetIndex(), point);
     if(imageMaskSpatialObject->IsInsideInWorldSpace(point))
       {
-      std::cerr
+      std::cout
         << "Pixel Reported Inside mask, even though mask image is all zeros"
         << std::endl;
-      retval = EXIT_FAILURE;
-      break;
+      return EXIT_FAILURE;
       }
     }
-  return retval;
+
+  return EXIT_SUCCESS;
 }

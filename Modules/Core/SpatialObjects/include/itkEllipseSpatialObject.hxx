@@ -29,7 +29,7 @@ EllipseSpatialObject< TDimension >
 {
   this->SetTypeName("EllipseSpatialObject");
   m_RadiusInObjectSpace.Fill(1.0);
-  m_CenterInObjectSpace.Fill(1.0);
+  m_CenterInObjectSpace.Fill(0.0);
   this->Update();
 }
 
@@ -97,21 +97,6 @@ EllipseSpatialObject< TDimension >
   return true;
 }
 
-/** Update world coordinate representation */
-template < unsigned int TDimension >
-void
-EllipseSpatialObject< TDimension >
-::Update()
-{
-  PointType center = this->GetCenterInObjectSpace();
-  PointType worldCenter;
-
-  Superclass::Update();
-
-  worldCenter = this->GetObjectToWorldTransform()->TransformPoint( center );
-  m_CenterInWorldSpace = worldCenter;
-}
-
 /** Print Self function */
 template< unsigned int TDimension >
 void
@@ -122,7 +107,6 @@ EllipseSpatialObject< TDimension >
   Superclass::PrintSelf(os, indent);
   os << "Object Radius: " << m_RadiusInObjectSpace << std::endl;
   os << "Object Center: " << m_CenterInObjectSpace << std::endl;
-  os << "World Center: " << m_CenterInWorldSpace << std::endl;
 }
 
 } // end namespace itk

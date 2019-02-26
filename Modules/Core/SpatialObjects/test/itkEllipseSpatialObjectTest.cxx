@@ -102,7 +102,6 @@ int itkEllipseSpatialObjectTest(int, char* [])
   EllipseType::Pointer myEllipse2 = EllipseType::New();
   myEllipse2->SetRadiusInObjectSpace(1);
   myEllipse->AddChild(myEllipse2);
-  myEllipse->ComputeObjectToWorldTransform();
 
   EllipseType::TransformType::OffsetType offset;
   offset.Fill(10);
@@ -128,7 +127,8 @@ int itkEllipseSpatialObjectTest(int, char* [])
   }
   std::cout<<"[PASSED]"<<std::endl;
 
-  myEllipse->ComputeMyBoundingBox();
+  myEllipse->ComputeFamilyBoundingBox( EllipseType::MaximumDepth );
+  myEllipse->ComputeObjectToWorldTransform();
   EllipseType::BoundingBoxType * boundingBox
     = myEllipse->GetFamilyBoundingBoxInWorldSpace();
   std::cout << "Bounds = " << boundingBox->GetBounds() << std::endl;
