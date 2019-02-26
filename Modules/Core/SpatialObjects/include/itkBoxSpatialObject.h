@@ -55,30 +55,16 @@ public:
   itkTypeMacro(BoxSpatialObject, SpatialObject);
 
   /** Set the size of the box spatial object in object space. */
-  void SetSizeInObjectSpace( const SizeType & size )
-  {
-    this->m_SizeInObjectSpace = size;
-    this->Modified();
-  }
+  itkSetMacro( SizeInObjectSpace, SizeType );
 
   /** Get the size of the box spatial object in object space. */
   itkGetConstReferenceMacro(SizeInObjectSpace, SizeType);
 
   /** Set the position of the box spatial object in object space. */
-  void SetPositionInObjectSpace( const PointType & pos )
-  {
-    this->m_PositionInObjectSpace = pos;
-    this->Modified();
-  }
+  itkSetMacro( PositionInObjectSpace, PointType );
 
   /** Get the position of the box spatial object in object space. */
   itkGetConstReferenceMacro(PositionInObjectSpace, PointType);
-
-  /** Update position of corners in world space */
-  void Update() override;
-
-  const PointType & GetCorner( unsigned int cornerNumber ) const;
-  itkGetConstObjectMacro(Corners, PointsContainerType);
 
   /** Test whether a point is inside or outside the object */
   bool IsInsideInObjectSpace(const PointType & point, unsigned int depth = 0,
@@ -89,9 +75,6 @@ public:
    *  changed. */
   bool ComputeMyBoundingBox() const override;
 
-  /** world-space getters */
-  itkGetConstReferenceMacro( Position, PointType );
-
 protected:
   BoxSpatialObject();
   ~BoxSpatialObject() override = default;
@@ -99,10 +82,6 @@ protected:
   /** object space */
   SizeType  m_SizeInObjectSpace;
   PointType m_PositionInObjectSpace;
-
-  /** world space */
-  PointType m_Position;
-  typename PointsContainerType::Pointer m_Corners;
 
   /** Print the object informations in a stream. */
   void PrintSelf(std::ostream & os, Indent indent) const override;
