@@ -31,7 +31,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 ::SpatialObjectToImageFilter()
 {
   this->SetNumberOfRequiredInputs(1);
-  m_ChildrenDepth = 999999;
+  m_ChildrenDepth = TInputSpatialObject::MaximumDepth;
   m_Size.Fill(0);
   m_Direction.SetIdentity();
 
@@ -59,7 +59,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 {
   // Process object is not const-correct so the const_cast is required here
   this->ProcessObject::SetNthInput( 0,
-                                    const_cast< InputSpatialObjectType * >( input ) );
+    const_cast< InputSpatialObjectType * >( input ) );
 }
 
 /** Connect one of the operands  */
@@ -70,7 +70,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
 {
   // Process object is not const-correct so the const_cast is required here
   this->ProcessObject::SetNthInput( index,
-                                    const_cast< TInputSpatialObject * >( object ) );
+    const_cast< TInputSpatialObject * >( object ) );
 }
 
 /** Get the input Spatial Object */
