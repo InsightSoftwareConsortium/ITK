@@ -3,6 +3,9 @@ if( POLICY CMP0063 )
   cmake_policy(SET CMP0063 NEW)
 endif()
 PROJECT (HDF5_SRC C CXX)
+if(POLICY CMP0083)
+  cmake_policy(SET CMP0083 NEW) # CMake 3.14.0: Add PIE options when linking executable.
+endif()
 
 #-----------------------------------------------------------------------------
 # Apply Definitions to compiler in this directory and below

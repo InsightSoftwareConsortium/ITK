@@ -7,6 +7,9 @@ endif()
 if( POLICY CMP0075 )
   cmake_policy(SET CMP0075 NEW)
 endif()
+if(POLICY CMP0083)
+  cmake_policy(SET CMP0083 NEW) # CMake 3.14.0: Add PIE options when linking executable.
+endif()
 
 PROJECT (HDF5 C CXX)
 
