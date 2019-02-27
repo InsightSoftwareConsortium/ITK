@@ -3684,3 +3684,4 @@ H5F__format_convert(H5F_t *f)
 done:
     FUNC_LEAVE_NOAPI_VOL(ret_value)
 } /* H5F__format_convert() */
+
