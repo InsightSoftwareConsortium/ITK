@@ -91,7 +91,11 @@ public:
 
   const char * GetEventName() const override { return "TreeNodeChangeEvent"; }
 
-  bool CheckEvent(const::itk::EventObject *e) const override { return dynamic_cast< const Self * >( e ); }
+  bool CheckEvent(const::itk::EventObject *e) const override
+  {
+    auto eSelf = dynamic_cast< const Self* >( e );
+    return eSelf != nullptr;
+  }
 
   ::itk::EventObject * MakeObject() const override { return new Self(*this->m_ChangePosition); }
 
