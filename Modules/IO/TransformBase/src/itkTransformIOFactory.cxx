@@ -18,10 +18,51 @@
 
 #define ITK_TEMPLATE_EXPLICIT_TransformIOFactory
 #include "itkTransformIOFactory.h"
-#include "itkTransformIOFactory.hxx"
-
 namespace itk
 {
+
+template<typename TParametersValueType>
+TransformIOFactoryTemplate<TParametersValueType>
+::TransformIOFactoryTemplate() = default;
+
+template<typename TParametersValueType>
+TransformIOFactoryTemplate<TParametersValueType>
+::~TransformIOFactoryTemplate() = default;
+
+template<typename TParametersValueType>
+typename TransformIOBaseTemplate<TParametersValueType>::Pointer
+TransformIOFactoryTemplate<TParametersValueType>
+::CreateTransformIO(const char *path, TransformIOFactoryFileModeType mode)
+{
+  typename std::list< typename TransformIOBaseTemplate<TParametersValueType>::Pointer > possibleTransformIO;
+  for (auto & allobject : ObjectFactoryBase::CreateAllInstance("itkTransformIOBaseTemplate") )
+    {
+    auto * io = dynamic_cast< TransformIOBaseTemplate<TParametersValueType> * >( allobject.GetPointer() );
+    if ( io )
+      {
+      possibleTransformIO.push_back(io);
+      }
+    }
+  for ( auto k = possibleTransformIO.begin();
+        k != possibleTransformIO.end(); ++k )
+    {
+    if ( mode == ReadMode )
+      {
+      if ( ( *k )->CanReadFile(path) )
+        {
+        return *k;
+        }
+      }
+    else if ( mode == WriteMode )
+      {
+      if ( ( *k )->CanWriteFile(path) )
+        {
+        return *k;
+        }
+      }
+    }
+  return nullptr;
+}
 
 #ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
   ITK_GCC_PRAGMA_DIAG_PUSH()
