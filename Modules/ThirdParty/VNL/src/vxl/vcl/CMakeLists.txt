@@ -88,11 +88,11 @@ write_compiler_detection_header(
 # Install platform-specific compiler detection files
 #
 if("${VXL_INSTALL_INCLUDE_DIR}" STREQUAL "include/vxl")
-  set(_compilers_destination ${VXL_INSTALL_INCLUDE_DIR}/vcl/compilers)
-  set(_complier_detection_destination ${VXL_INSTALL_INCLUDE_DIR}/vcl)
+  set(_compilers_destination vcl/compilers)
+  set(_complier_detection_destination vcl)
 else()
-  set(_compilers_destination ${VXL_INSTALL_INCLUDE_DIR}/compilers)
-  set(_complier_detection_destination ${VXL_INSTALL_INCLUDE_DIR})
+  set(_compilers_destination compilers)
+  set(_complier_detection_destination .)
 endif()
 file(GLOB VXL_COMPILER_DETECTION_FILES ${CMAKE_CURRENT_BINARY_DIR}/compilers/*)
 install(FILES ${VXL_COMPILER_DETECTION_FILES}
