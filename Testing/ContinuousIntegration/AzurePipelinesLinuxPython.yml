@@ -20,8 +20,12 @@ jobs:
         if [ -n "$(System.PullRequest.SourceCommitId)" ]; then
           git checkout $(System.PullRequest.SourceCommitId)
         fi
-
       displayName: Checkout pull request HEAD
+
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.7'
+
     - bash: |
         set -x
 
