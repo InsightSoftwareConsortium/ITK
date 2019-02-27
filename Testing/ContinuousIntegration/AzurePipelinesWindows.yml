@@ -20,7 +20,7 @@ jobs:
         if DEFINED SYSTEM_PULLREQUEST_SOURCECOMMITID git checkout $(System.PullRequest.SourceCommitId)
       displayName: Checkout pull request HEAD
 
-    - script: |
+    - bash: |
         pip3 install ninja
         pip3 install --upgrade setuptools
         pip3 install scikit-ci-addons
@@ -50,7 +50,7 @@ jobs:
       workingDirectory: $(Agent.BuildDirectory)
       displayName: Build and test
 
-    - script: |
+    - bash: |
         ci_addons ctest_junit_formatter $(Build.SourcesDirectory)-build > $(Agent.BuildDirectory)/JUnitTestResults.xml
       condition: succeededOrFailed()
       displayName: 'Format CTest output in JUnit format'
