@@ -133,6 +133,10 @@ install(FILES
   DESTINATION ${ITK3P_INSTALL_INCLUDE_DIR}/itkzlib # itk_zlib.h #include "itkzlib/zlib.h"
   COMPONENT Development)
 
+IF(ITK_LIBRARY_PROPERTIES)
+  set_target_properties(itkzlib PROPERTIES ${ITK_LIBRARY_PROPERTIES})
+ENDIF(ITK_LIBRARY_PROPERTIES)
+
 if (FALSE) # XXX(kitware): skip all the original build/install commands
 
 if(NOT MINGW)

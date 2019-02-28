@@ -97,7 +97,7 @@ XMLReaderBase::parse()
     exception.SetDescription("File Read Error");
     throw exception;
     }
-  const auto result = static_cast<bool>(XML_Parse(Parser, buffer, inputstream.gcount(), false));
+  const auto result = XML_Parse(Parser, buffer, inputstream.gcount(), false);
   delete[] buffer;
   if ( !result )
     {
