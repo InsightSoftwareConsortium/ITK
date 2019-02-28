@@ -47,7 +47,8 @@ int itkMeshSpatialObjectTest(int, char * [] )
     mesh->SetPoint(i, PointType(testPointCoords[i]));
     }
 
-  mesh->SetCellsAllocationMethod( MeshType::CellsAllocatedDynamicallyCellByCell );
+  mesh->SetCellsAllocationMethod(
+    MeshType::CellsAllocatedDynamicallyCellByCell );
   CellAutoPointer testCell1;
   testCell1.TakeOwnership(  new TetraCellType );
   testCell1->SetPointIds(tetraPoints);
@@ -59,6 +60,7 @@ int itkMeshSpatialObjectTest(int, char * [] )
   meshSO->Print(std::cout);
 
   meshSO->SetMesh(mesh);
+  meshSO->Update();
 
   std::cout << "Testing GetMesh(): ";
 
@@ -71,12 +73,18 @@ int itkMeshSpatialObjectTest(int, char * [] )
 
   std::cout << "Testing Bounding Box: ";
 
-  if( (itk::Math::NotExactlyEquals(meshSO->GetMyBoundingBoxInWorldSpace()->GetBounds()[0], 0))
-   || (itk::Math::NotExactlyEquals(meshSO->GetMyBoundingBoxInWorldSpace()->GetBounds()[1], 9))
-   || (itk::Math::NotExactlyEquals(meshSO->GetMyBoundingBoxInWorldSpace()->GetBounds()[2], 0))
-   || (itk::Math::NotExactlyEquals(meshSO->GetMyBoundingBoxInWorldSpace()->GetBounds()[3], 9))
-   || (itk::Math::NotExactlyEquals(meshSO->GetMyBoundingBoxInWorldSpace()->GetBounds()[4], 0))
-   || (itk::Math::NotExactlyEquals(meshSO->GetMyBoundingBoxInWorldSpace()->GetBounds()[5], 9))
+  if( (itk::Math::NotExactlyEquals(
+        meshSO->GetMyBoundingBoxInWorldSpace()->GetBounds()[0], 0))
+   || (itk::Math::NotExactlyEquals(
+       meshSO->GetMyBoundingBoxInWorldSpace()->GetBounds()[1], 9))
+   || (itk::Math::NotExactlyEquals(
+       meshSO->GetMyBoundingBoxInWorldSpace()->GetBounds()[2], 0))
+   || (itk::Math::NotExactlyEquals(
+       meshSO->GetMyBoundingBoxInWorldSpace()->GetBounds()[3], 9))
+   || (itk::Math::NotExactlyEquals(
+       meshSO->GetMyBoundingBoxInWorldSpace()->GetBounds()[4], 0))
+   || (itk::Math::NotExactlyEquals(
+       meshSO->GetMyBoundingBoxInWorldSpace()->GetBounds()[5], 9))
    )
     {
     std::cout<<"[FAILED]"<<std::endl;
@@ -98,7 +106,8 @@ int itkMeshSpatialObjectTest(int, char * [] )
   outside[1] = 3;
   outside[2] = 0;
 
-  if(!meshSO->IsInsideInWorldSpace(inside) || meshSO->IsInsideInWorldSpace(outside))
+  if(!meshSO->IsInsideInWorldSpace(inside)
+    || meshSO->IsInsideInWorldSpace(outside))
     {
     std::cout<<"[FAILED]"<<std::endl;
     if(!meshSO->IsInsideInWorldSpace(inside))
@@ -152,7 +161,8 @@ int itkMeshSpatialObjectTest(int, char * [] )
 
   MeshType::PointIdentifier trianglePoint2[] = {1,2,3};
 
-  meshTriangle->SetCellsAllocationMethod( MeshType::CellsAllocatedDynamicallyCellByCell );
+  meshTriangle->SetCellsAllocationMethod(
+    MeshType::CellsAllocatedDynamicallyCellByCell );
   CellAutoPointer testCell3;
   testCell3.TakeOwnership(  new TriangleCellType );
   testCell3->SetPointIds(trianglePoint1);
@@ -166,6 +176,7 @@ int itkMeshSpatialObjectTest(int, char * [] )
   // Create the mesh Spatial Object
   MeshSpatialObjectType::Pointer meshTriangleSO = MeshSpatialObjectType::New();
   meshTriangleSO->SetMesh(meshTriangle);
+  meshTriangleSO->Update();
 
   itk::Point<double,3> pIn;
   pIn[0] = 60;
@@ -175,7 +186,8 @@ int itkMeshSpatialObjectTest(int, char * [] )
   pOut[0] = 60;
   pOut[1] = 102;
   pOut[2] = 64;
-  if(!meshTriangleSO->IsInsideInWorldSpace(pIn) || meshTriangleSO->IsInsideInWorldSpace(pOut))
+  if(!meshTriangleSO->IsInsideInWorldSpace(pIn)
+    || meshTriangleSO->IsInsideInWorldSpace(pOut))
     {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
