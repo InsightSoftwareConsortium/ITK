@@ -1,5 +1,5 @@
 ---
-name: Improve Coverage Report
+name: Coverage Improvement Report
 labels: type:Coverage
 about: File a coverage report to improve code coverage in ITK
 ---
