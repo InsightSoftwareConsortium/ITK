@@ -24,7 +24,7 @@ if(ITK_USE_SYSTEM_EIGEN)
   set(Eigen3_DIR_INSTALL ${Eigen3_DIR})
   set(Eigen3_DIR_BUILD ${Eigen3_DIR})
 else()
-  set(Eigen3_DIR_INSTALL "${ITK_MODULES_DIR}")  
+  set(Eigen3_DIR_INSTALL "\${ITK_MODULES_DIR}")  
   set(Eigen3_DIR_BUILD "${CMAKE_CURRENT_BINARY_DIR}/src/itkeigen")
 endif()
 
