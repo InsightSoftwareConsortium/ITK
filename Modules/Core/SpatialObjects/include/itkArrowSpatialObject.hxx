@@ -46,16 +46,6 @@ template< unsigned int TDimension >
 ArrowSpatialObject< TDimension >
 ::~ArrowSpatialObject() = default;
 
-/** Set the length of the arrow */
-template< unsigned int TDimension >
-void
-ArrowSpatialObject< TDimension >
-::SetLengthInObjectSpace(double length)
-{
-  m_LengthInObjectSpace = length;
-  this->Modified();
-}
-
 /** Compute the bounding box */
 template< unsigned int TDimension >
 bool
@@ -111,11 +101,22 @@ ArrowSpatialObject< TDimension >
   return false;
 }
 
-/** Update world coordinate representation */
 template< unsigned int TDimension >
-void
+typename ArrowSpatialObject< TDimension >::PointType
 ArrowSpatialObject< TDimension >
-::Update()
+::GetPositionInWorldSpace( void ) const
+{
+  PointType pnt = this->GetPositionInObjectSpace();
+
+  pnt = this->GetObjectToWorldTransform()->TransformPoint( pnt );
+
+  return pnt;
+}
+
+template< unsigned int TDimension >
+typename ArrowSpatialObject< TDimension >::VectorType
+ArrowSpatialObject< TDimension >
+::GetDirectionInWorldSpace( void ) const
 {
   PointType pnt = this->GetPositionInObjectSpace();
   PointType pnt2;
@@ -127,12 +128,30 @@ ArrowSpatialObject< TDimension >
   pnt = this->GetObjectToWorldTransform()->TransformPoint( pnt );
   pnt2 = this->GetObjectToWorldTransform()->TransformPoint( pnt2 );
 
-  m_PositionInWorldSpace = pnt;
-  m_DirectionInWorldSpace = pnt2 - pnt;
-  m_DirectionInWorldSpace.Normalize();
-  m_LengthInWorldSpace = pnt.EuclideanDistanceTo( pnt2 );
+  VectorType dir = pnt2 - pnt;
+  dir.Normalize();
 
-  Superclass::Update();
+  return dir;
+}
+
+template< unsigned int TDimension >
+double
+ArrowSpatialObject< TDimension >
+::GetLengthInWorldSpace( void ) const
+{
+  PointType pnt = this->GetPositionInObjectSpace();
+  PointType pnt2;
+  for ( unsigned int i = 0; i < TDimension; i++ )
+    {
+    pnt2[i] = pnt[i] + m_LengthInObjectSpace * m_DirectionInObjectSpace[i];
+    }
+
+  pnt = this->GetObjectToWorldTransform()->TransformPoint( pnt );
+  pnt2 = this->GetObjectToWorldTransform()->TransformPoint( pnt2 );
+
+  double len = pnt.EuclideanDistanceTo( pnt2 );
+
+  return len;
 }
 
 template< unsigned int TDimension >
@@ -145,9 +164,6 @@ ArrowSpatialObject< TDimension >
   os << indent << "Object Position = " << m_PositionInObjectSpace << std::endl;
   os << indent << "Object Direction = " << m_DirectionInObjectSpace << std::endl;
   os << indent << "Object Length = " << m_LengthInObjectSpace << std::endl;
-  os << indent << "World Position = " << m_PositionInWorldSpace << std::endl;
-  os << indent << "World Direction = " << m_DirectionInWorldSpace << std::endl;
-  os << indent << "World Length = " << m_LengthInWorldSpace << std::endl;
 }
 } // end namespace itk
 
