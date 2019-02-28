@@ -130,9 +130,12 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
           sImage->SetOrigin( stageTiles[y][x].Position );
           sImages[y][x] = sImage;
           }
+        std::cout << '.';
         }
+      std::cout << '|';
       }
     }
+  std::cout << std::endl;
 
   for ( auto padMethod = static_cast< PadMethodUnderlying >( PCMType::PaddingMethod::Zero );
         padMethod <= static_cast< PadMethodUnderlying >( PCMType::PaddingMethod::Last );
