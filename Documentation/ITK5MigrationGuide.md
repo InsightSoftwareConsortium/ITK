@@ -320,6 +320,9 @@ type (`TRadiusPixelType`), a floating point type is often preferred, whereas for
 output pixel type (`TOutputPixelType`), an unsigned integer type is often more appropriate.
 
 `GaussianDerivativeImageFunction::ImageDimension2` is renamed to `GaussianDerivativeImageFunction::ImageDimension`.
+The nested `GaussianDerivativeImageFunction` types `GaussianDerivativeFunctionType` and
+`GaussianDerivativeFunctionPointer` are renamed to `GaussianDerivativeSpatialFunctionType` and
+`GaussianDerivativeSpatialFunctionPointer`, respectively.
 
 With ITK 5.0, `itk::ProcessObject::VerifyPreconditions()`  and
 `itk::ProcessObject::VerifyInputInformation` are now declared `const`,

@@ -34,11 +34,11 @@ template< typename TInputImage, typename TOutput >
 GaussianDerivativeImageFunction< TInputImage, TOutput >
 ::GaussianDerivativeImageFunction()
   :
-  m_GaussianDerivativeFunction{ GaussianDerivativeFunctionType::New() }
+  m_GaussianDerivativeSpatialFunction{ GaussianDerivativeSpatialFunctionType::New() }
 {
   std::fill_n(m_Sigma, Self::ImageDimension, 1.0);
   std::fill_n(m_Extent, Self::ImageDimension, 1.0);
-  m_GaussianDerivativeFunction->SetNormalized(false); // faster
+  m_GaussianDerivativeSpatialFunction->SetNormalized(false); // faster
 }
 
 template< typename TInputImage, typename TOutput >
@@ -168,16 +168,16 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
       {
       // Set the derivative of the Gaussian first
       OperatorNeighborhoodType dogNeighborhood;
-      typename GaussianDerivativeFunctionType::InputType pt;
+      typename GaussianDerivativeSpatialFunctionType::InputType pt;
       typename NeighborhoodType::SizeType size;
       size.Fill(0);
       size[direction] = static_cast<SizeValueType>( m_Sigma[direction] * m_Extent[direction] );
       dogNeighborhood.SetRadius(size);
       m_ImageNeighborhoodOffsets[direction] = Experimental::GenerateRectangularImageNeighborhoodOffsets(size);
 
-      typename GaussianDerivativeFunctionType::ArrayType s;
+      typename GaussianDerivativeSpatialFunctionType::ArrayType s;
       s[0] = m_Sigma[direction];
-      m_GaussianDerivativeFunction->SetSigma(s);
+      m_GaussianDerivativeSpatialFunction->SetSigma(s);
 
       typename OperatorNeighborhoodType::Iterator it = dogNeighborhood.Begin();
 
@@ -189,7 +189,7 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
       while ( it != dogNeighborhood.End() )
         {
         pt[0] = dogNeighborhood.GetOffset(i)[direction] * directionSpacing;
-        ( *it ) = m_GaussianDerivativeFunction->Evaluate(pt);
+        ( *it ) = m_GaussianDerivativeSpatialFunction->Evaluate(pt);
         ++i;
         ++it;
         }
@@ -270,8 +270,8 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
   os << indent << "Extent: " << m_Extent << std::endl;
 
   os << indent << "OperatorArray: " << m_OperatorArray << std::endl;
-  os << indent << "GaussianDerivativeFunction: "
-     << m_GaussianDerivativeFunction << std::endl;
+  os << indent << "GaussianDerivativeSpatialFunction: "
+     << m_GaussianDerivativeSpatialFunction << std::endl;
 }
 
 } // end namespace itk

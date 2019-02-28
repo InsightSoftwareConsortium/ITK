@@ -18,7 +18,7 @@
 
 #include "itkGaussianDerivativeImageFunction.h"
 #include "itkTestingMacros.h"
-
+#include <type_traits> // For std::is_same.
 
 template< typename TPixel >
 int TestGaussianDerivativeImageFunction()
@@ -158,6 +158,14 @@ int itkGaussianDerivativeImageFunctionTest( int, char* [] )
 #if !defined( ITK_LEGACY_REMOVE )
   static_assert(DoGFunctionType::ImageDimension2 == DoGFunctionType::ImageDimension,
     "Check legacy support for ImageDimension2");
+  static_assert(std::is_same<
+    DoGFunctionType::GaussianDerivativeFunctionType,
+    DoGFunctionType::GaussianDerivativeSpatialFunctionType>::value,
+    "Check legacy support for GaussianDerivativeFunctionType");
+  static_assert(std::is_same<
+    DoGFunctionType::GaussianDerivativeFunctionPointer,
+    DoGFunctionType::GaussianDerivativeSpatialFunctionPointer>::value,
+    "Check legacy support for GaussianDerivativeFunctionPointer");
 #endif
 
   DoGFunctionType::Pointer DoG = DoGFunctionType::New();

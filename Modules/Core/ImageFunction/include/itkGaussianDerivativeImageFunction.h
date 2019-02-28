@@ -91,8 +91,13 @@ public:
   using OutputType = typename Superclass::OutputType;
   using OperatorArrayType = FixedArray< OperatorNeighborhoodType, Self::ImageDimension >;
 
-  using GaussianDerivativeFunctionType = GaussianDerivativeSpatialFunction< TOutput, 1 >;
-  using GaussianDerivativeFunctionPointer = typename GaussianDerivativeFunctionType::Pointer;
+  using GaussianDerivativeSpatialFunctionType = GaussianDerivativeSpatialFunction< TOutput, 1 >;
+  using GaussianDerivativeSpatialFunctionPointer = typename GaussianDerivativeSpatialFunctionType::Pointer;
+
+#if !defined( ITK_LEGACY_REMOVE )
+  using GaussianDerivativeFunctionType = GaussianDerivativeSpatialFunctionType;
+  using GaussianDerivativeFunctionPointer = GaussianDerivativeSpatialFunctionPointer;
+#endif
 
   /** Point type alias support */
   // using PointType = Point< TOutput, Self::ImageDimension >;
@@ -174,7 +179,7 @@ private:
   bool m_UseImageSpacing{ true };
 
   /** Neighborhood Image Function. */
-  const GaussianDerivativeFunctionPointer m_GaussianDerivativeFunction;
+  const GaussianDerivativeSpatialFunctionPointer m_GaussianDerivativeSpatialFunction;
 };
 } // namespace itk
 
