@@ -36,6 +36,9 @@ file(RELATIVE_PATH dashboard_source_name "${workspace}" "$ENV{BUILD_SOURCESDIREC
 set_from_env(CTEST_CMAKE_GENERATOR "CTEST_CMAKE_GENERATOR" DEFAULT "Ninja")
 set_from_env(CTEST_BUILD_CONFIGURATION "CTEST_BUILD_CONFIGURATION" DEFAULT "Release")
 
+set_from_env(dashboard_do_coverage "DASHBOARD_DO_COVERAGE" DEFAULT 0)
+set_from_env(CTEST_COVERAGE_COMMAND "CTEST_COVERAGE_COMMAND")
+
 set_from_env(BUILD_SHARED_LIBS "BUILD_SHARED_LIBS" DEFAULT "OFF")
 set_from_env(BUILD_EXAMPLES "BUILD_EXAMPLES" DEFAULT "ON")
 set_from_env(ITK_WRAP_PYTHON "ITK_WRAP_PYTHON" DEFAULT "OFF")
@@ -71,13 +74,15 @@ if(NOT CTEST_BUILD_NAME)
     "$ENV{AGENT_OS}-Build$ENV{BUILD_BUILDID}${pr}${branch}${wrapping}")
 endif()
 
-set(dashboard_cache "
+set(_dashboard_cache "
     BUILD_EXAMPLES:BOOL=${BUILD_EXAMPLES}
     BUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
     ITK_BUILD_DEFAULT_MODULES:BOOL=${ITK_BUILD_DEFAULT_MODULES}
     ITKGroup_Core:BOOL=ON
     ITK_WRAP_PYTHON:BOOL=${ITK_WRAP_PYTHON}
 " )
+
+set_from_env(dashboard_cache "CTEST_CACHE" DEFAULT ${_dashboard_cache})
 
 string(TIMESTAMP build_date "%Y-%m-%d")
 message("CDash Build Identifier: ${build_date} ${CTEST_BUILD_NAME}")
