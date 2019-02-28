@@ -221,16 +221,7 @@ public:
   { return ConstIterator(this, this->m_ActiveIndexList.end()); }
 
   /** Default constructor */
-  ConstShapedNeighborhoodIterator()
-  {
-    InitializeConstShapedNeighborhoodIterator();
-  }
-
-  /** Initialize the iterator. */
-  void InitializeConstShapedNeighborhoodIterator()
-  {
-    m_CenterIsActive = false;
-  }
+  ConstShapedNeighborhoodIterator() = default;
 
   /** Virtual destructor */
   ~ConstShapedNeighborhoodIterator() override = default;
@@ -242,7 +233,6 @@ public:
                                   const RegionType & region):
     Superclass (radius, const_cast< ImageType * >( ptr ), region)
   {
-    InitializeConstShapedNeighborhoodIterator();
   }
 
   // Expose the following methods from the superclass.  This is a
@@ -377,7 +367,7 @@ protected:
   ITK_ITERATOR_VIRTUAL void DeactivateIndex( NeighborIndexType ) ITK_ITERATOR_FINAL;
 
 
-  bool          m_CenterIsActive;
+  bool          m_CenterIsActive{ false };
   IndexListType m_ActiveIndexList;
 
 private:
