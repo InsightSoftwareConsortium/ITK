@@ -69,7 +69,7 @@ public:
   itkGetConstMacro(DirectionInObjectSpace, VectorType);
 
   /** Set the length of the arrow */
-  void SetLengthInObjectSpace(double length);
+  itkSetMacro( LengthInObjectSpace, double);
 
   /** Get the length of the arrow */
   itkGetConstReferenceMacro(LengthInObjectSpace, double);
@@ -81,11 +81,9 @@ public:
   bool IsInsideInObjectSpace(const PointType & point, unsigned int depth=0,
     const std::string & name="") const override;
 
-  void Update() override;
-
-  itkGetConstReferenceMacro( PositionInWorldSpace, PointType );
-  itkGetConstReferenceMacro( DirectionInWorldSpace, VectorType );
-  itkGetMacro( LengthInWorldSpace, double );
+  PointType GetPositionInWorldSpace() const;
+  VectorType GetDirectionInWorldSpace() const;
+  double GetLengthInWorldSpace() const;
 
 protected:
 
@@ -99,9 +97,6 @@ private:
   VectorType m_DirectionInObjectSpace;
   PointType  m_PositionInObjectSpace;
   double     m_LengthInObjectSpace;
-  VectorType m_DirectionInWorldSpace;
-  PointType  m_PositionInWorldSpace;
-  double     m_LengthInWorldSpace;
 };
 
 } // end namespace itk
