@@ -71,6 +71,7 @@ MetaArrowConverter< NDimensions >
   arrowSO->GetProperty().SetGreen(metaArrow->Color()[1]);
   arrowSO->GetProperty().SetBlue(metaArrow->Color()[2]);
   arrowSO->GetProperty().SetAlpha(metaArrow->Color()[3]);
+  arrowSO->Update();
 
   return arrowSO.GetPointer();
 }
