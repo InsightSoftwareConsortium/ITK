@@ -75,23 +75,27 @@ public:
   using IndexType = typename InputImageType::IndexType;
 
   /** Dimension of the underlying image. */
-  static constexpr unsigned int ImageDimension2 = InputImageType::ImageDimension;
+  static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
+
+#if !defined( ITK_LEGACY_REMOVE )
+  static constexpr unsigned int ImageDimension2 = ImageDimension;
+#endif
 
   using ContinuousIndexType =
-      ContinuousIndex< SpacePrecisionType, Self::ImageDimension2 >;
+      ContinuousIndex< SpacePrecisionType, Self::ImageDimension >;
 
-  using NeighborhoodType = Neighborhood< InputPixelType, Self::ImageDimension2 >;
-  using OperatorNeighborhoodType = Neighborhood< TOutput, Self::ImageDimension2 >;
+  using NeighborhoodType = Neighborhood< InputPixelType, Self::ImageDimension >;
+  using OperatorNeighborhoodType = Neighborhood< TOutput, Self::ImageDimension >;
 
-  using VectorType = Vector< TOutput, Self::ImageDimension2 >;
+  using VectorType = Vector< TOutput, Self::ImageDimension >;
   using OutputType = typename Superclass::OutputType;
-  using OperatorArrayType = FixedArray< OperatorNeighborhoodType, Self::ImageDimension2 >;
+  using OperatorArrayType = FixedArray< OperatorNeighborhoodType, Self::ImageDimension >;
 
   using GaussianDerivativeFunctionType = GaussianDerivativeSpatialFunction< TOutput, 1 >;
   using GaussianDerivativeFunctionPointer = typename GaussianDerivativeFunctionType::Pointer;
 
   /** Point type alias support */
-  // using PointType = Point< TOutput, Self::ImageDimension2 >;
+  // using PointType = Point< TOutput, Self::ImageDimension >;
   using PointType = typename InputImageType::PointType;
 
   /** Evaluate the function at the specified point. */
@@ -155,16 +159,16 @@ protected:
 
 private:
 
-  double                            m_Sigma[ImageDimension2];
+  double                            m_Sigma[ImageDimension];
 
   /** Array of 1D operators. Contains a derivative kernel for
    * each dimension. Note: A future version of ITK could extend this array
    * to include a Gaussian blurring kernel for each dimension.*/
   OperatorArrayType         m_OperatorArray;
 
-  std::vector<Offset<ImageDimension2>> m_ImageNeighborhoodOffsets[ImageDimension2];
+  std::vector<Offset<ImageDimension>> m_ImageNeighborhoodOffsets[ImageDimension];
 
-  double                            m_Extent[ImageDimension2];
+  double                            m_Extent[ImageDimension];
 
   /** Flag to indicate whether to use image spacing. */
   bool m_UseImageSpacing{ true };

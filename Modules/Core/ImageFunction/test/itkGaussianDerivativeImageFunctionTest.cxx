@@ -155,6 +155,11 @@ int itkGaussianDerivativeImageFunctionTest( int, char* [] )
 
   using DoGFunctionType = itk::GaussianDerivativeImageFunction< ImageType >;
 
+#if !defined( ITK_LEGACY_REMOVE )
+  static_assert(DoGFunctionType::ImageDimension2 == DoGFunctionType::ImageDimension,
+    "Check legacy support for ImageDimension2");
+#endif
+
   DoGFunctionType::Pointer DoG = DoGFunctionType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( DoG, GaussianDerivativeImageFunction, ImageFunction );

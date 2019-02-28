@@ -36,8 +36,8 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
   :
   m_GaussianDerivativeFunction{ GaussianDerivativeFunctionType::New() }
 {
-  std::fill_n(m_Sigma, Self::ImageDimension2, 1.0);
-  std::fill_n(m_Extent, Self::ImageDimension2, 1.0);
+  std::fill_n(m_Sigma, Self::ImageDimension, 1.0);
+  std::fill_n(m_Extent, Self::ImageDimension, 1.0);
   m_GaussianDerivativeFunction->SetNormalized(false); // faster
 }
 
@@ -57,16 +57,16 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 {
   unsigned int i;
 
-  for ( i = 0; i < Self::ImageDimension2; i++ )
+  for ( i = 0; i < Self::ImageDimension; i++ )
     {
     if ( sigma[i] != m_Sigma[i] )
       {
       break;
       }
     }
-  if ( i < Self::ImageDimension2 )
+  if ( i < Self::ImageDimension )
     {
-    for ( i = 0; i < Self::ImageDimension2; i++ )
+    for ( i = 0; i < Self::ImageDimension; i++ )
       {
       m_Sigma[i] = sigma[i];
       }
@@ -81,16 +81,16 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 {
   unsigned int i;
 
-  for ( i = 0; i < Self::ImageDimension2; i++ )
+  for ( i = 0; i < Self::ImageDimension; i++ )
     {
     if ( Math::NotExactlyEquals(sigma, m_Sigma[i]) )
       {
       break;
       }
     }
-  if ( i < Self::ImageDimension2 )
+  if ( i < Self::ImageDimension )
     {
-    for ( i = 0; i < Self::ImageDimension2; i++ )
+    for ( i = 0; i < Self::ImageDimension; i++ )
       {
       m_Sigma[i] = sigma;
       }
@@ -105,16 +105,16 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 {
   unsigned int i;
 
-  for ( i = 0; i < Self::ImageDimension2; i++ )
+  for ( i = 0; i < Self::ImageDimension; i++ )
     {
     if ( extent[i] != m_Extent[i] )
       {
       break;
       }
     }
-  if ( i < Self::ImageDimension2 )
+  if ( i < Self::ImageDimension )
     {
-    for ( i = 0; i < Self::ImageDimension2; i++ )
+    for ( i = 0; i < Self::ImageDimension; i++ )
       {
       m_Extent[i] = extent[i];
       }
@@ -129,16 +129,16 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 {
   unsigned int i;
 
-  for ( i = 0; i < Self::ImageDimension2; i++ )
+  for ( i = 0; i < Self::ImageDimension; i++ )
     {
     if ( Math::NotExactlyEquals(extent, m_Extent[i]) )
       {
       break;
       }
     }
-  if ( i < Self::ImageDimension2 )
+  if ( i < Self::ImageDimension )
     {
-    for ( i = 0; i < Self::ImageDimension2; i++ )
+    for ( i = 0; i < Self::ImageDimension; i++ )
       {
       m_Extent[i] = extent;
       }
@@ -164,7 +164,7 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
     using SpacingType = typename TInputImage::SpacingType;
     const SpacingType spacing = m_UseImageSpacing ? inputImage->GetSpacing() : SpacingType(1);
 
-    for ( unsigned int direction = 0; direction < Self::ImageDimension2; ++direction )
+    for ( unsigned int direction = 0; direction < Self::ImageDimension; ++direction )
       {
       // Set the derivative of the Gaussian first
       OperatorNeighborhoodType dogNeighborhood;
@@ -211,7 +211,7 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 
   const TInputImage* const image = this->GetInputImage();
 
-  for ( unsigned int direction = 0; direction < Self::ImageDimension2; ++direction )
+  for ( unsigned int direction = 0; direction < Self::ImageDimension; ++direction )
     {
     // Note: A future version of ITK should do Gaussian blurring here.
 
