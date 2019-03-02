@@ -118,7 +118,7 @@ protected:
   double      m_IsInsidePrecision;
 
   MeshSpatialObject();
-  ~MeshSpatialObject() override;
+  ~MeshSpatialObject() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 };

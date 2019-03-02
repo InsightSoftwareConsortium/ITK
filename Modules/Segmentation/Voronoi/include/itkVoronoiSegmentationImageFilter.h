@@ -123,8 +123,8 @@ public:
 #endif
 
 protected:
-  VoronoiSegmentationImageFilter();
-  ~VoronoiSegmentationImageFilter() override;
+  VoronoiSegmentationImageFilter() = default;
+  ~VoronoiSegmentationImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

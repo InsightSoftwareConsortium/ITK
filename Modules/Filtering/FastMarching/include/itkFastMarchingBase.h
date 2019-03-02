@@ -210,7 +210,7 @@ protected:
   FastMarchingBase();
 
   /** \brief Destructor */
-  ~FastMarchingBase() override;
+  ~FastMarchingBase() override = default;
 
   StoppingCriterionPointer m_StoppingCriterion;
 

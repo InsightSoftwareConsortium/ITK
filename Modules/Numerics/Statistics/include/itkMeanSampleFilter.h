@@ -99,7 +99,7 @@ public:
 
 protected:
   MeanSampleFilter();
-  ~MeanSampleFilter() override;
+  ~MeanSampleFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** DataObject pointer */

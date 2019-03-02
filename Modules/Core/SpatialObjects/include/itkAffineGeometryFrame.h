@@ -99,7 +99,7 @@ public:
 protected:
 
   AffineGeometryFrame();
-  ~AffineGeometryFrame() override;
+  ~AffineGeometryFrame() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** used in clone to initialize the newly created geometry */

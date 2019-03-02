@@ -45,10 +45,6 @@ OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>
 }
 
 template<typename TInternalComputationValueType>
-OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>
-::~OnePlusOneEvolutionaryOptimizerv4() = default;
-
-template<typename TInternalComputationValueType>
 void
 OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>
 ::SetNormalVariateGenerator(NormalVariateGeneratorType *generator)

@@ -69,7 +69,7 @@ public:
   using LevelSetOutputRealType = typename LevelSetEvolutionType::LevelSetOutputRealType;
 
 protected:
-  LevelSetEvolutionUpdateLevelSetsThreader();
+  LevelSetEvolutionUpdateLevelSetsThreader() = default;
 
   void BeforeThreadedExecution() override;
 

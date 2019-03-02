@@ -31,11 +31,5 @@ LevelSetImage< TInput, VDimension, TOutput >
   this->m_NeighborhoodScales.Fill( NumericTraits< OutputRealType >::OneValue() );
   this->m_DomainOffset.Fill( NumericTraits< OffsetValueType >::ZeroValue() );
 }
-
-// ----------------------------------------------------------------------------
-template< typename TInput, unsigned int VDimension, typename TOutput >
-LevelSetImage< TInput, VDimension, TOutput >
-::~LevelSetImage() = default;
-
 }
 #endif // itkLevelSetImage_hxx

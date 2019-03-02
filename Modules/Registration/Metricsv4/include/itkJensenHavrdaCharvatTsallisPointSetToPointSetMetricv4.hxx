@@ -38,11 +38,6 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
 {
 }
 
-/** Destructor */
-template<typename TPointSet, class TInternalComputationValueType>
-JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputationValueType>
-::~JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4() = default;
-
 /** Initialize the metric */
 template<typename TPointSet, class TInternalComputationValueType>
 void

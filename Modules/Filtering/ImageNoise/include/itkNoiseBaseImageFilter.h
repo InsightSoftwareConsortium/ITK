@@ -63,7 +63,7 @@ public:
 protected:
   NoiseBaseImageFilter();
 
-  ~NoiseBaseImageFilter() override = 0;
+  ~NoiseBaseImageFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

@@ -112,7 +112,7 @@ public:
 
 protected:
   PointsLocator();
-  ~PointsLocator() override;
+  ~PointsLocator() override = default;
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
 private:

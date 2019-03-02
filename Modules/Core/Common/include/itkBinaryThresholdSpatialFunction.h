@@ -92,7 +92,7 @@ public:
 protected:
 
   BinaryThresholdSpatialFunction();
-  ~BinaryThresholdSpatialFunction() override;
+  ~BinaryThresholdSpatialFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   FunctionOutputType m_LowerThreshold;

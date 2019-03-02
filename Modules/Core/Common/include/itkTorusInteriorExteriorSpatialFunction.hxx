@@ -31,10 +31,6 @@ TorusInteriorExteriorSpatialFunction< VDimension, TInput >
 }
 
 template< unsigned int VDimension, typename TInput >
-TorusInteriorExteriorSpatialFunction< VDimension, TInput >
-::~TorusInteriorExteriorSpatialFunction() = default;
-
-template< unsigned int VDimension, typename TInput >
 typename TorusInteriorExteriorSpatialFunction< VDimension, TInput >::OutputType
 TorusInteriorExteriorSpatialFunction< VDimension, TInput >
 ::Evaluate(const InputType & position) const

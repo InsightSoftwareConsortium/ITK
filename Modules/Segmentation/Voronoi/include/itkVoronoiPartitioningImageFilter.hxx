@@ -23,18 +23,6 @@
 
 namespace itk
 {
-/* constructor: seting the default value of the parameters */
-template< typename TInputImage, typename TOutputImage >
-VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
-::VoronoiPartitioningImageFilter()
-
-{}
-
-/* destructor */
-template< typename TInputImage, typename TOutputImage >
-VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
-::~VoronoiPartitioningImageFilter() = default;
-
 template< typename TInputImage, typename TOutputImage >
 void
 VoronoiPartitioningImageFilter< TInputImage, TOutputImage >

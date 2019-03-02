@@ -37,13 +37,6 @@ VTKPolyDataWriter< TInputMesh >
 }
 
 //
-// Destructor
-//
-template< typename TInputMesh >
-VTKPolyDataWriter< TInputMesh >
-::~VTKPolyDataWriter() = default;
-
-//
 // Set the input mesh
 //
 template< typename TInputMesh >

@@ -37,10 +37,6 @@ ConstantVelocityFieldTransformParametersAdaptor<TTransform>
 }
 
 template<typename TTransform>
-ConstantVelocityFieldTransformParametersAdaptor<TTransform>
-::~ConstantVelocityFieldTransformParametersAdaptor() = default;
-
-template<typename TTransform>
 void
 ConstantVelocityFieldTransformParametersAdaptor<TTransform>
 ::SetRequiredSize( const SizeType & size )

@@ -69,7 +69,7 @@ protected:
   /** Create the specific MetaObject for this class */
   MetaObjectType *CreateMetaObject() override;
 
-  MetaVesselTubeConverter();
+  MetaVesselTubeConverter() = default;
   ~MetaVesselTubeConverter() override = default;
 };
 

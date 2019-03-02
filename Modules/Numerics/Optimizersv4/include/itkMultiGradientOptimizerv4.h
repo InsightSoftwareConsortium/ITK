@@ -124,7 +124,7 @@ public:
 
   /** Default constructor */
   MultiGradientOptimizerv4Template();
-  ~MultiGradientOptimizerv4Template() override;
+  ~MultiGradientOptimizerv4Template() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

@@ -128,7 +128,7 @@ public:
 
 protected:
   WhitakerSparseLevelSetImage();
-  ~WhitakerSparseLevelSetImage() override;
+  ~WhitakerSparseLevelSetImage() override = default;
 
   /** Initialize the sparse field layers */
   void InitializeLayers() override;

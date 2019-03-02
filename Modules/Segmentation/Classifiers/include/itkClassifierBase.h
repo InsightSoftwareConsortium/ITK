@@ -150,7 +150,7 @@ public:
 
 protected:
   ClassifierBase();
-  ~ClassifierBase() override;
+  ~ClassifierBase() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** The real classification logic implementaion. All the subclasses

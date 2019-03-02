@@ -49,10 +49,6 @@ TreeContainer< TValue >::TreeContainer(TreeContainer< TValue > & )
   m_DefaultChildrenCount = 3;
 }
 
-/** Destructor */
-template< typename TValue >
-TreeContainer< TValue >::~TreeContainer() = default;
-
 /** Set the root of the tree */
 template< typename TValue >
 bool

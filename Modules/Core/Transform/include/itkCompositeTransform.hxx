@@ -33,13 +33,6 @@ CompositeTransform<TParametersValueType, NDimensions>::CompositeTransform()
   this->m_PreviousTransformsToOptimizeUpdateTime = 0;
 }
 
-
-template
-<typename TParametersValueType, unsigned int NDimensions>
-CompositeTransform<TParametersValueType, NDimensions>::
-~CompositeTransform() = default;
-
-
 template
 <typename TParametersValueType, unsigned int NDimensions>
 typename CompositeTransform<TParametersValueType, NDimensions>::TransformCategoryType

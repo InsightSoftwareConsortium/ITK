@@ -470,7 +470,7 @@ protected:
   MatrixOffsetTransformBase();
 
   /** Destroy an MatrixOffsetTransformBase object */
-  ~MatrixOffsetTransformBase() override;
+  ~MatrixOffsetTransformBase() override = default;
 
   /** Print contents of an MatrixOffsetTransformBase */
   void PrintSelf(std::ostream & s, Indent indent) const override;

@@ -32,11 +32,6 @@ ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
   m_NumberOfPrincipalComponentsRequired = 0;
   this->SetNumberOfPrincipalComponentsRequired(1);
 }
-
-template< typename TInputImage, typename TOutputImage >
-ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
-::~ImagePCAShapeModelEstimator() = default;
-
 /**
  * PrintSelf
  */

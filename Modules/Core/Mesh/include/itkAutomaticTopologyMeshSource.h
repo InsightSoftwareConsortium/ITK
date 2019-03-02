@@ -382,7 +382,7 @@ public:
 
 protected:
   AutomaticTopologyMeshSource();
-  ~AutomaticTopologyMeshSource() override;
+  ~AutomaticTopologyMeshSource() override = default;
 
   void GenerateData() override {}  // GenerateData is a no-op, since the entries override
                           // are controlled manually

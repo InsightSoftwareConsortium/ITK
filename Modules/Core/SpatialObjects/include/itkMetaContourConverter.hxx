@@ -23,11 +23,6 @@
 namespace itk
 {
 
-/** Constructor */
-template< unsigned int NDimensions >
-MetaContourConverter< NDimensions >
-::MetaContourConverter() = default;
-
 template< unsigned int NDimensions >
 typename MetaContourConverter< NDimensions >::MetaObjectType *
 MetaContourConverter< NDimensions>

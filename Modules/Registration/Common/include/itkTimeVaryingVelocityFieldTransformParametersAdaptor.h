@@ -124,7 +124,7 @@ public:
 
 protected:
   TimeVaryingVelocityFieldTransformParametersAdaptor();
-  ~TimeVaryingVelocityFieldTransformParametersAdaptor() override;
+  ~TimeVaryingVelocityFieldTransformParametersAdaptor() override = default;
 }; //class TimeVaryingVelocityFieldTransformParametersAdaptor
 }  // namespace itk
 

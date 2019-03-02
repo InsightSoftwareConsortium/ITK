@@ -39,11 +39,6 @@ UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
 }
 
 template< unsigned int VDimension, typename TEquationContainer >
-UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
-::~UpdateMalcolmSparseLevelSet() = default;
-
-
-template< unsigned int VDimension, typename TEquationContainer >
 void
 UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
 ::Update()

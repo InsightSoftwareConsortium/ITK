@@ -36,10 +36,6 @@ Clamp< TInput, TOutput >
   {}
 
 template< typename TInput, typename TOutput >
-Clamp< TInput, TOutput >
-::~Clamp() = default;
-
-template< typename TInput, typename TOutput >
 typename Clamp< TInput, TOutput >::OutputType
 Clamp< TInput, TOutput >
 ::GetLowerBound() const
@@ -83,11 +79,6 @@ Clamp< TInput, TOutput >
   }
 
 } // end namespace Functor
-
-
-template <typename TInputImage, typename TOutputImage>
-ClampImageFilter< TInputImage, TOutputImage >
-::ClampImageFilter() = default;
 
 template <typename TInputImage, typename TOutputImage>
 typename ClampImageFilter< TInputImage, TOutputImage >::OutputPixelType

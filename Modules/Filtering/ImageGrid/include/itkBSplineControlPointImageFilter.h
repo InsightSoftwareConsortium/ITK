@@ -206,7 +206,7 @@ public:
 
 protected:
   BSplineControlPointImageFilter();
-  ~BSplineControlPointImageFilter() override;
+  ~BSplineControlPointImageFilter() override = default;
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   /** Multi-threaded function which generates the output sampled B-spline object. */

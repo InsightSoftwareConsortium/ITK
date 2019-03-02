@@ -113,7 +113,7 @@ public:
 
 protected:
   GaussianSpatialObject();
-  ~GaussianSpatialObject() override;
+  ~GaussianSpatialObject() override = default;
 
   ScalarType m_Maximum;
   ScalarType m_Radius;

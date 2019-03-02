@@ -34,13 +34,6 @@ PointSetFunction<TInputPointSet, TOutput, TCoordRep>
 }
 
 /**
- * Destructor
- */
-template <typename TInputPointSet, typename TOutput, typename TCoordRep>
-PointSetFunction<TInputPointSet, TOutput, TCoordRep>
-::~PointSetFunction() = default;
-
-/**
  * Standard "PrintSelf" method
  */
 template <typename TInputPointSet, typename TOutput, typename TCoordRep>

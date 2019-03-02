@@ -36,11 +36,6 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
   m_Size.Fill(0);
 }
 
-/* Destructor. */
-template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
-VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
-::~VoronoiSegmentationImageFilterBase() = default;
-
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >

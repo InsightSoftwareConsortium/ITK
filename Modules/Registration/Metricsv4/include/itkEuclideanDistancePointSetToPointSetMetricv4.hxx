@@ -23,16 +23,6 @@
 namespace itk
 {
 
-/** Constructor */
-template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
-EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::EuclideanDistancePointSetToPointSetMetricv4() = default;
-
-/** Destructor */
-template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
-EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::~EuclideanDistancePointSetToPointSetMetricv4() = default;
-
 template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 typename EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
 ::MeasureType

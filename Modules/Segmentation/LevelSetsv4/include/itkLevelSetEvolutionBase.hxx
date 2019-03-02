@@ -36,10 +36,6 @@ LevelSetEvolutionBase< TEquationContainer, TLevelSet >
 }
 
 template< typename TEquationContainer, typename TLevelSet >
-LevelSetEvolutionBase< TEquationContainer, TLevelSet >
-::~LevelSetEvolutionBase() = default;
-
-template< typename TEquationContainer, typename TLevelSet >
 void
 LevelSetEvolutionBase< TEquationContainer, TLevelSet >
 ::SetTimeStep( const LevelSetOutputRealType& iDt )

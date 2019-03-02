@@ -32,11 +32,6 @@ LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
 }
 
 template< typename TInput, typename TLevelSetContainer >
-LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
-::~LevelSetEquationLaplacianTerm() = default;
-
-
-template< typename TInput, typename TLevelSetContainer >
 void
 LevelSetEquationLaplacianTerm< TInput, TLevelSetContainer >
 ::InitializeParameters()

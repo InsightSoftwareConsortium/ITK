@@ -194,7 +194,7 @@ public:
 
 protected:
   MattesMutualInformationImageToImageMetricv4();
-  ~MattesMutualInformationImageToImageMetricv4() override;
+  ~MattesMutualInformationImageToImageMetricv4() override = default;
 
   friend class MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >;
   friend class MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;

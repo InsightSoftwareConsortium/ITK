@@ -31,12 +31,6 @@
 #include "itkImageLinearIteratorWithIndex.h"
 namespace itk
 {
-/**
- * Constructor
- */
-template< typename TInputImage, typename TOutputImage >
-BSplineL2ResampleImageFilterBase< TInputImage, TOutputImage >
-::BSplineL2ResampleImageFilterBase() = default;
 
 /**
  * Standard "PrintSelf" method

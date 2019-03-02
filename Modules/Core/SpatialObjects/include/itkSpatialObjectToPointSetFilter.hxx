@@ -32,10 +32,6 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
 }
 
 template< typename TInputSpatialObject, typename TOutputPointSet >
-SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
-::~SpatialObjectToPointSetFilter() = default;
-
-template< typename TInputSpatialObject, typename TOutputPointSet >
 void
 SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
 ::SetInput(const InputSpatialObjectType *input)

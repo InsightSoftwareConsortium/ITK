@@ -107,7 +107,7 @@ public:
 
 protected:
   EllipseSpatialObject();
-  ~EllipseSpatialObject() override;
+  ~EllipseSpatialObject() override = default;
 
   ArrayType m_Radius;
 

@@ -39,11 +39,6 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>
 
 //-------------------------------------------------------------------
 template<typename TInternalComputationValueType>
-MultiGradientOptimizerv4Template<TInternalComputationValueType>
-::~MultiGradientOptimizerv4Template() = default;
-
-//-------------------------------------------------------------------
-template<typename TInternalComputationValueType>
 void
 MultiGradientOptimizerv4Template<TInternalComputationValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const

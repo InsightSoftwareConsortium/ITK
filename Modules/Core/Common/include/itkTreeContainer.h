@@ -105,7 +105,7 @@ public:
 protected:
 
   TreeContainer();
-  ~TreeContainer() override;
+  ~TreeContainer() override = default;
 
   typename TreeNodeType::Pointer m_Root;
 

@@ -41,10 +41,6 @@ MeshFileWriter< TInputMesh >
 }
 
 template< typename TInputMesh >
-MeshFileWriter< TInputMesh >
-::~MeshFileWriter() = default;
-
-template< typename TInputMesh >
 void
 MeshFileWriter< TInputMesh >
 ::SetInput(const InputMeshType *input)

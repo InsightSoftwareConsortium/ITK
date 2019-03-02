@@ -38,10 +38,6 @@ StandardDeviationPerComponentSampleFilter< TSample >
 }
 
 template< typename TSample >
-StandardDeviationPerComponentSampleFilter< TSample >
-::~StandardDeviationPerComponentSampleFilter() = default;
-
-template< typename TSample >
 void
 StandardDeviationPerComponentSampleFilter< TSample >
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -78,9 +78,9 @@ public:
   void Evaluate( const InputType& inputIndex, LevelSetDataType& data ) const override;
 
 protected:
-  LevelSetDenseImage();
+  LevelSetDenseImage() = default;
 
-  ~LevelSetDenseImage() override;
+  ~LevelSetDenseImage() override = default;
 
   ImagePointer m_Image;
 

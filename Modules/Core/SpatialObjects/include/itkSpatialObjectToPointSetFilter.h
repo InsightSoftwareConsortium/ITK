@@ -90,7 +90,7 @@ public:
 
 protected:
   SpatialObjectToPointSetFilter();
-  ~SpatialObjectToPointSetFilter() override;
+  ~SpatialObjectToPointSetFilter() override = default;
 
   void GenerateOutputInformation() override {}  // do nothing
   void GenerateData() override;

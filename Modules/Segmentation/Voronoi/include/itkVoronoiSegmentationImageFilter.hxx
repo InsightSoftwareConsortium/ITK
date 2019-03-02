@@ -25,17 +25,6 @@ namespace itk
 {
 
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
-VoronoiSegmentationImageFilter< TInputImage, TOutputImage, TBinaryPriorImage >
-::VoronoiSegmentationImageFilter()
-
-{
-}
-
-template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
-VoronoiSegmentationImageFilter< TInputImage, TOutputImage, TBinaryPriorImage >
-::~VoronoiSegmentationImageFilter() = default;
-
-template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 void
 VoronoiSegmentationImageFilter< TInputImage, TOutputImage, TBinaryPriorImage >
 ::SetMeanPercentError(double x)

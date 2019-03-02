@@ -25,14 +25,6 @@ namespace itk
 {
 
 template< typename TIdentifier, typename TLevelSet >
-LevelSetContainerBase< TIdentifier, TLevelSet >
-::LevelSetContainerBase() = default;
-
-template< typename TIdentifier, typename TLevelSet >
-LevelSetContainerBase< TIdentifier, TLevelSet >
-::~LevelSetContainerBase() = default;
-
-template< typename TIdentifier, typename TLevelSet >
 const typename
 LevelSetContainerBase< TIdentifier, TLevelSet >::LevelSetContainerType&
 LevelSetContainerBase< TIdentifier, TLevelSet >::GetContainer() const

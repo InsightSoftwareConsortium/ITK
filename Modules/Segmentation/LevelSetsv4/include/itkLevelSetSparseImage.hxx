@@ -25,16 +25,6 @@ namespace itk
 {
 
 template< typename TOutput, unsigned int VDimension >
-LevelSetSparseImage< TOutput, VDimension >
-::LevelSetSparseImage() = default;
-
-
-template< typename TOutput, unsigned int VDimension >
-LevelSetSparseImage< TOutput, VDimension >
-::~LevelSetSparseImage() = default;
-
-
-template< typename TOutput, unsigned int VDimension >
 typename LevelSetSparseImage< TOutput, VDimension >::LayerIdType
 LevelSetSparseImage< TOutput, VDimension >
 ::Status( const InputType& inputIndex ) const

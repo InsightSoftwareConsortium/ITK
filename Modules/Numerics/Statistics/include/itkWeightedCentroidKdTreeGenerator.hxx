@@ -24,9 +24,6 @@ namespace itk
 {
 namespace Statistics
 {
-template< typename TSample >
-WeightedCentroidKdTreeGenerator< TSample >
-::WeightedCentroidKdTreeGenerator() = default;
 
 template< typename TSample >
 void

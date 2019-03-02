@@ -32,12 +32,6 @@ ShiSparseLevelSetImage< VDimension >
   this->InitializeInternalLabelList();
 }
 
-
-template< unsigned int VDimension >
-ShiSparseLevelSetImage< VDimension >
-::~ShiSparseLevelSetImage() = default;
-
-
 template< unsigned int VDimension >
 typename ShiSparseLevelSetImage< VDimension >::OutputType
 ShiSparseLevelSetImage< VDimension >

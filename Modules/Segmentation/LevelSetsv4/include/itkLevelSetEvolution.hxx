@@ -36,10 +36,6 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImage< TImage > >
 }
 
 template< typename TEquationContainer, typename TImage >
-LevelSetEvolution< TEquationContainer, LevelSetDenseImage< TImage > >
-::~LevelSetEvolution() = default;
-
-template< typename TEquationContainer, typename TImage >
 void
 LevelSetEvolution< TEquationContainer, LevelSetDenseImage< TImage > >
 ::AllocateUpdateBuffer()
@@ -369,13 +365,6 @@ LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDi
 }
 
 // Shi
-template< typename TEquationContainer, unsigned int VDimension >
-LevelSetEvolution< TEquationContainer, ShiSparseLevelSetImage< VDimension > >
-::LevelSetEvolution() = default;
-
-template< typename TEquationContainer, unsigned int VDimension >
-LevelSetEvolution< TEquationContainer, ShiSparseLevelSetImage< VDimension > >
-::~LevelSetEvolution() = default;
 
 template< typename TEquationContainer, unsigned int VDimension >
 void LevelSetEvolution< TEquationContainer, ShiSparseLevelSetImage< VDimension > >
@@ -409,13 +398,6 @@ void LevelSetEvolution< TEquationContainer, ShiSparseLevelSetImage< VDimension >
 }
 
 // Malcolm
-template< typename TEquationContainer, unsigned int VDimension >
-LevelSetEvolution< TEquationContainer, MalcolmSparseLevelSetImage< VDimension > >
-::LevelSetEvolution() = default;
-
-template< typename TEquationContainer, unsigned int VDimension >
-LevelSetEvolution< TEquationContainer, MalcolmSparseLevelSetImage< VDimension > >
-::~LevelSetEvolution() = default;
 
 template< typename TEquationContainer, unsigned int VDimension >
 void LevelSetEvolution< TEquationContainer, MalcolmSparseLevelSetImage< VDimension > >

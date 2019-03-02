@@ -196,7 +196,7 @@ public:
 
 protected:
   ImageFileWriter();
-  ~ImageFileWriter() override;
+  ~ImageFileWriter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Does the real work. */

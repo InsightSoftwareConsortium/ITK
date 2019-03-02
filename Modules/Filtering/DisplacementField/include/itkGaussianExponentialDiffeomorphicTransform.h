@@ -115,7 +115,7 @@ public:
 
 protected:
   GaussianExponentialDiffeomorphicTransform();
-  ~GaussianExponentialDiffeomorphicTransform() override;
+  ~GaussianExponentialDiffeomorphicTransform() override = default;
 
   /** Type of Gaussian Operator used during smoothing. Define here
    * so we can use a member var during the operation. */

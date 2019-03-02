@@ -91,7 +91,7 @@ public:
 
 protected:
   DeformableSimplexMesh3DBalloonForceFilter();
-  ~DeformableSimplexMesh3DBalloonForceFilter() override;
+  ~DeformableSimplexMesh3DBalloonForceFilter() override = default;
   DeformableSimplexMesh3DBalloonForceFilter(const Self &)
   {}
 

@@ -37,10 +37,6 @@ GaussianExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>
 }
 
 template<typename TParametersValueType, unsigned int NDimensions>
-GaussianExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>::
-~GaussianExponentialDiffeomorphicTransform() = default;
-
-template<typename TParametersValueType, unsigned int NDimensions>
 void
 GaussianExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>
 ::UpdateTransformParameters( const DerivativeType & update, ScalarType factor )

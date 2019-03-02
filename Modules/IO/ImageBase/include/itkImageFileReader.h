@@ -120,7 +120,7 @@ public:
 
 protected:
   ImageFileReader();
-  ~ImageFileReader() override;
+  ~ImageFileReader() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Convert a block of pixels from one type to another. */

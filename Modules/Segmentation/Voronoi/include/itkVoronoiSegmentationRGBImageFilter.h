@@ -149,7 +149,7 @@ public:
 
 protected:
   VoronoiSegmentationRGBImageFilter();
-  ~VoronoiSegmentationRGBImageFilter() override;
+  ~VoronoiSegmentationRGBImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

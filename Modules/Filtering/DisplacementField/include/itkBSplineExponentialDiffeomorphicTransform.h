@@ -161,7 +161,7 @@ public:
 
 protected:
   BSplineExponentialDiffeomorphicTransform();
-  ~BSplineExponentialDiffeomorphicTransform() override;
+  ~BSplineExponentialDiffeomorphicTransform() override = default;
 
   void PrintSelf( std::ostream &, Indent ) const override;
 

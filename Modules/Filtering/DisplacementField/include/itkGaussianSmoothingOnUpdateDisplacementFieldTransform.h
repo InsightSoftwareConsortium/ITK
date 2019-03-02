@@ -104,7 +104,7 @@ public:
 
 protected:
   GaussianSmoothingOnUpdateDisplacementFieldTransform();
-  ~GaussianSmoothingOnUpdateDisplacementFieldTransform() override;
+  ~GaussianSmoothingOnUpdateDisplacementFieldTransform() override = default;
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   /** Clone the current transform */

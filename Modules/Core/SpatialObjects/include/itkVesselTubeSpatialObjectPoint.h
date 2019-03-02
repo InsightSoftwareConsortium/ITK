@@ -50,7 +50,7 @@ public:
   VesselTubeSpatialObjectPoint();
 
   /** Default destructor. */
-  ~VesselTubeSpatialObjectPoint() override;
+  ~VesselTubeSpatialObjectPoint() override = default;
 
   /** Get Medialness */
   float GetMedialness() const;

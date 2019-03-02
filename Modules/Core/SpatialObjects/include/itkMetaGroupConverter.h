@@ -69,7 +69,7 @@ protected:
   /** Create the specific MetaObject for this class */
   MetaObjectType *CreateMetaObject() override;
 
-  MetaGroupConverter();
+  MetaGroupConverter() = default;
   ~MetaGroupConverter() override = default;
 };
 } // end namespace itk

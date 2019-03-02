@@ -100,7 +100,7 @@ public:
   void ClearChangeMap();
 
 protected:
-  ChangeLabelLabelMapFilter();
+  ChangeLabelLabelMapFilter() = default;
   ~ChangeLabelLabelMapFilter() override = default;
 
   void GenerateData() override;

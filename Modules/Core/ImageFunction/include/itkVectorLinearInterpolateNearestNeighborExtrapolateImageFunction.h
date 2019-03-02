@@ -129,7 +129,7 @@ public:
   OutputType EvaluateAtIndex(const IndexType & index) const override;
 
 protected:
-  VectorLinearInterpolateNearestNeighborExtrapolateImageFunction();
+  VectorLinearInterpolateNearestNeighborExtrapolateImageFunction() = default;
   ~VectorLinearInterpolateNearestNeighborExtrapolateImageFunction() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;

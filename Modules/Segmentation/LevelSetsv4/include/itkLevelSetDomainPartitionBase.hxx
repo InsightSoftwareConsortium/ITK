@@ -30,11 +30,6 @@ LevelSetDomainPartitionBase()
 {
   this->m_NumberOfLevelSetFunctions = NumericTraits< IdentifierType >::OneValue();
 }
-
-template< typename TDomain >
-LevelSetDomainPartitionBase< TDomain >::
-~LevelSetDomainPartitionBase() = default;
-
 } //end namespace itk
 
 #endif

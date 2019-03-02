@@ -173,7 +173,7 @@ public:
 
 protected:
   BoundingBox();
-  ~BoundingBox() override;
+  ~BoundingBox() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   using ConstIterator = typename PointsContainer::ConstIterator;

@@ -45,11 +45,6 @@ PathToImageFilter< TInputPath, TOutputImage >
   m_BackgroundValue = NumericTraits< ValueType >::ZeroValue();
 }
 
-/** Destructor */
-template< typename TInputPath, typename TOutputImage >
-PathToImageFilter< TInputPath, TOutputImage >
-::~PathToImageFilter() = default;
-
 /** Set the Input SpatialObject */
 template< typename TInputPath, typename TOutputImage >
 void

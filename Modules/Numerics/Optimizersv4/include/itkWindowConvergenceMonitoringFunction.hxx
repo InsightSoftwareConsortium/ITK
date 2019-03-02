@@ -39,10 +39,6 @@ WindowConvergenceMonitoringFunction<TScalar>
 {}
 
 template<typename TScalar>
-WindowConvergenceMonitoringFunction<TScalar>
-::~WindowConvergenceMonitoringFunction() = default;
-
-template<typename TScalar>
 void
 WindowConvergenceMonitoringFunction<TScalar>
 ::AddEnergyValue( const EnergyValueType value )

@@ -113,7 +113,7 @@ protected:
   PointListType m_Points;
 
   LandmarkSpatialObject();
-  ~LandmarkSpatialObject() override;
+  ~LandmarkSpatialObject() override = default;
 
   /** Method to print the object. */
   void PrintSelf(std::ostream & os, Indent indent) const override;

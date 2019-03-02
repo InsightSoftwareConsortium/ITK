@@ -79,7 +79,7 @@ public:
 
 protected:
   LevelSetDomainPartitionImageWithKdTree();
-  ~LevelSetDomainPartitionImageWithKdTree() override;
+  ~LevelSetDomainPartitionImageWithKdTree() override = default;
 
   /** Populate a list image with each pixel being a list of overlapping
    *  level set support at that pixel */

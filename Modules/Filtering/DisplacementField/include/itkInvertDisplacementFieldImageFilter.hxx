@@ -50,10 +50,6 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
 }
 
 template<typename TInputImage, typename TOutputImage>
-InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
-::~InvertDisplacementFieldImageFilter() = default;
-
-template<typename TInputImage, typename TOutputImage>
 void
 InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
 ::SetInterpolator( InterpolatorType *interpolator )

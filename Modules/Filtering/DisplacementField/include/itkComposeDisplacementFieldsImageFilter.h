@@ -127,7 +127,7 @@ protected:
   ComposeDisplacementFieldsImageFilter();
 
   /** Deconstructor */
-  ~ComposeDisplacementFieldsImageFilter() override;
+  ~ComposeDisplacementFieldsImageFilter() override = default;
 
   /** Standard print self function **/
   void PrintSelf( std::ostream& os, Indent indent ) const override;

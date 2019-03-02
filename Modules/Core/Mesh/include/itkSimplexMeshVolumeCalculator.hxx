@@ -23,19 +23,6 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
-template< typename TInputMesh >
-SimplexMeshVolumeCalculator< TInputMesh >
-::SimplexMeshVolumeCalculator()
-
-{
-}
-
-template< typename TInputMesh >
-SimplexMeshVolumeCalculator< TInputMesh >
-::~SimplexMeshVolumeCalculator() = default;
 
 template< typename TInputMesh >
 void SimplexMeshVolumeCalculator< TInputMesh >

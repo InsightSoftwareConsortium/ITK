@@ -38,11 +38,6 @@ LineSpatialObjectPoint< TPointDimension >
     }
 }
 
-/** Destructor */
-template< unsigned int TPointDimension >
-LineSpatialObjectPoint< TPointDimension >
-::~LineSpatialObjectPoint() = default;
-
 /** Get the specified normal */
 template< unsigned int TPointDimension >
 const typename LineSpatialObjectPoint< TPointDimension >::VectorType &

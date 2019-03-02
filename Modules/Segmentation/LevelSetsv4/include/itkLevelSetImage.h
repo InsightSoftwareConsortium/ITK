@@ -70,7 +70,7 @@ public:
 protected:
   LevelSetImage();
 
-  ~LevelSetImage() override;
+  ~LevelSetImage() override = default;
 
   using ScalingType = GradientType;
   ScalingType m_NeighborhoodScales;

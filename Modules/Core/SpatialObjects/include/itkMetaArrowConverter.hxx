@@ -22,10 +22,6 @@
 
 namespace itk
 {
-/** Constructor */
-template< unsigned int NDimensions >
-MetaArrowConverter< NDimensions >
-::MetaArrowConverter() = default;
 
 template< unsigned int NDimensions >
 typename MetaArrowConverter< NDimensions >::MetaObjectType *

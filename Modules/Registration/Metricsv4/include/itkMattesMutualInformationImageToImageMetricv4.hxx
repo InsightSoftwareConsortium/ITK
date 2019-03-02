@@ -55,11 +55,6 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
   this->m_CubicBSplineDerivativeKernel = CubicBSplineDerivativeFunctionType::New();
 }
 
-template <typename TFixedImage, typename TMovingImage, typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
-MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::~MattesMutualInformationImageToImageMetricv4() = default;
-
-
 /**
  * Initialize
  */

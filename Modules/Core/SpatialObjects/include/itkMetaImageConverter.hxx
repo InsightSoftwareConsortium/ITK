@@ -25,11 +25,6 @@
 
 namespace itk
 {
-/** Constructor */
-template< unsigned int NDimensions, typename PixelType , typename TSpatialObjectType >
-MetaImageConverter< NDimensions, PixelType, TSpatialObjectType >
-::MetaImageConverter() = default;
-
 template< unsigned int NDimensions, typename PixelType , typename TSpatialObjectType >
 typename MetaImageConverter< NDimensions, PixelType, TSpatialObjectType >::MetaObjectType *
 MetaImageConverter< NDimensions, PixelType, TSpatialObjectType >

@@ -42,12 +42,6 @@ m_MaxStatus( LevelSetType::PlusThreeLayer() )
 template< unsigned int VDimension,
           typename TLevelSetValueType,
           typename TEquationContainer >
-UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationContainer >
-::~UpdateWhitakerSparseLevelSet() = default;
-
-template< unsigned int VDimension,
-          typename TLevelSetValueType,
-          typename TEquationContainer >
 void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationContainer >
 ::SetUpdate( const LevelSetLayerType& update )
 {

@@ -36,10 +36,6 @@ WeightedMeanSampleFilter< TSample >
 }
 
 template< typename TSample >
-WeightedMeanSampleFilter< TSample >
-::~WeightedMeanSampleFilter() = default;
-
-template< typename TSample >
 void
 WeightedMeanSampleFilter< TSample >
 ::PrintSelf(std::ostream & os, Indent indent) const

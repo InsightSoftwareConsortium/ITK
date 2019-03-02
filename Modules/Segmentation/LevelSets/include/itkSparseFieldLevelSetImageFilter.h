@@ -325,7 +325,7 @@ public:
 
 protected:
   SparseFieldLevelSetImageFilter();
-  ~SparseFieldLevelSetImageFilter() override;
+  ~SparseFieldLevelSetImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**This function allows a subclass to override the way in which updates to

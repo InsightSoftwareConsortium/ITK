@@ -35,10 +35,6 @@ LevelSetEquationOverlapPenaltyTerm< TInput, TLevelSetContainer >
 }
 
 template< typename TInput, typename TLevelSetContainer >
-LevelSetEquationOverlapPenaltyTerm< TInput, TLevelSetContainer >
-::~LevelSetEquationOverlapPenaltyTerm() = default;
-
-template< typename TInput, typename TLevelSetContainer >
 void LevelSetEquationOverlapPenaltyTerm< TInput, TLevelSetContainer >
 ::Update()
 {

@@ -40,10 +40,6 @@ SampleToHistogramFilter< TSample, THistogram >
 }
 
 template< typename TSample, typename THistogram >
-SampleToHistogramFilter< TSample, THistogram >
-::~SampleToHistogramFilter() = default;
-
-template< typename TSample, typename THistogram >
 void
 SampleToHistogramFilter< TSample, THistogram >
 ::SetInput(const SampleType *sample)

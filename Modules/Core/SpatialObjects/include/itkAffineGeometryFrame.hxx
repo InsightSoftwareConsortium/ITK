@@ -37,11 +37,6 @@ AffineGeometryFrame< TScalar, NDimensions >
   m_IndexToWorldTransform = nullptr;
 }
 
-/** Destructor */
-template< typename TScalar, unsigned int NDimensions >
-AffineGeometryFrame< TScalar, NDimensions >
-::~AffineGeometryFrame() = default;
-
 /** Initialize the transform */
 template< typename TScalar, unsigned int NDimensions >
 void AffineGeometryFrame< TScalar, NDimensions >

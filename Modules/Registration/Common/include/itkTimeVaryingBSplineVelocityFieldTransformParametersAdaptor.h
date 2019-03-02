@@ -188,7 +188,7 @@ public:
 
 protected:
   TimeVaryingBSplineVelocityFieldTransformParametersAdaptor();
-  ~TimeVaryingBSplineVelocityFieldTransformParametersAdaptor() override;
+  ~TimeVaryingBSplineVelocityFieldTransformParametersAdaptor() override = default;
 
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 

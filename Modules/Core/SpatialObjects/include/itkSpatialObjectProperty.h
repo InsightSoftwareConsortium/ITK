@@ -72,7 +72,7 @@ public:
   TComponentType GetAlpha() const;
 
   SpatialObjectProperty();
-  ~SpatialObjectProperty() override;
+  ~SpatialObjectProperty() override = default;
 
   void SetName(const char *name);
 

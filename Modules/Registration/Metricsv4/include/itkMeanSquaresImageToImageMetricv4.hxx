@@ -34,10 +34,6 @@ MeanSquaresImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage,TInternal
 }
 
 template < typename TFixedImage, typename TMovingImage, typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits >
-MeanSquaresImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType,TMetricTraits>
-::~MeanSquaresImageToImageMetricv4() = default;
-
-template < typename TFixedImage, typename TMovingImage, typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits >
 void
 MeanSquaresImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType,TMetricTraits>
 ::PrintSelf(std::ostream& os, Indent indent) const

@@ -248,7 +248,7 @@ public:
 
 protected:
   PatchBasedDenoisingBaseImageFilter();
-  ~PatchBasedDenoisingBaseImageFilter() override;
+  ~PatchBasedDenoisingBaseImageFilter() override = default;
 
   void PrintSelf(std::ostream& os, Indent indent) const override;
 

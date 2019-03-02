@@ -47,11 +47,6 @@ ImageSeriesWriter< TInputImage, TOutputImage >
 
 //---------------------------------------------------------
 template< typename TInputImage, typename TOutputImage >
-ImageSeriesWriter< TInputImage, TOutputImage >
-::~ImageSeriesWriter() = default;
-
-//---------------------------------------------------------
-template< typename TInputImage, typename TOutputImage >
 void
 ImageSeriesWriter< TInputImage, TOutputImage >
 ::SetInput(const InputImageType *input)

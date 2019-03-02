@@ -31,12 +31,6 @@ ScaleTransform<TParametersValueType, NDimensions>
   m_Scale.Fill(NumericTraits<ScalarType>::OneValue());
 }
 
-
-template<typename TParametersValueType, unsigned int NDimensions>
-ScaleTransform<TParametersValueType, NDimensions>::
-~ScaleTransform() = default;
-
-
 template<typename TParametersValueType, unsigned int NDimensions>
 void
 ScaleTransform<TParametersValueType, NDimensions>

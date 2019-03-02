@@ -69,7 +69,7 @@ protected:
   /** Create the specific MetaObject for this class */
   MetaObjectType *CreateMetaObject() override;
 
-  MetaSurfaceConverter();
+  MetaSurfaceConverter() = default;
   ~MetaSurfaceConverter() override = default;
 };
 

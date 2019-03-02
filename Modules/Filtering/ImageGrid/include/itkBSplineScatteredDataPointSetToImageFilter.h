@@ -277,7 +277,7 @@ public:
 
 protected:
   BSplineScatteredDataPointSetToImageFilter();
-  ~BSplineScatteredDataPointSetToImageFilter() override;
+  ~BSplineScatteredDataPointSetToImageFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

@@ -37,12 +37,6 @@ ContourExtractor2DImageFilter< TInputImage >
   this->m_NumberOfContoursCreated = 0;
 }
 
-
-template< typename TInputImage >
-ContourExtractor2DImageFilter< TInputImage >
-::~ContourExtractor2DImageFilter() = default;
-
-
 template< typename TInputImage >
 void
 ContourExtractor2DImageFilter< TInputImage >

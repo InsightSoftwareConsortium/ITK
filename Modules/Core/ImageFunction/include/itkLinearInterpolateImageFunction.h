@@ -102,8 +102,8 @@ public:
   }
 
 protected:
-  LinearInterpolateImageFunction();
-  ~LinearInterpolateImageFunction() override;
+  LinearInterpolateImageFunction() = default;
+  ~LinearInterpolateImageFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

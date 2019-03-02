@@ -35,11 +35,6 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
 {
 }
 
-/** Destructor */
-template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
-ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::~ExpectationBasedPointSetToPointSetMetricv4() = default;
-
 template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void
 ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>

@@ -99,7 +99,7 @@ public:
   using KernelRegionType = typename KernelImageType::RegionType;
 
 protected:
-  ConvolutionImageFilter();
+  ConvolutionImageFilter() = default;
   ~ConvolutionImageFilter() override = default;
 
   /** ConvolutionImageFilter needs the entire image kernel, which in

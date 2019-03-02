@@ -37,11 +37,6 @@ GroupSpatialObject< TDimension >
   this->ComputeBoundingBox();
 }
 
-/** Destructor */
-template< unsigned int TDimension >
-GroupSpatialObject< TDimension >
-::~GroupSpatialObject() = default;
-
 /** Print the object */
 template< unsigned int TDimension >
 void

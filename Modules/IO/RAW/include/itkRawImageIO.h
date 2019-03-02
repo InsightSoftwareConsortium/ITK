@@ -135,7 +135,7 @@ public:
 
 protected:
   RawImageIO();
-  ~RawImageIO() override;
+  ~RawImageIO() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   //void ComputeInternalFileName(unsigned long slice);

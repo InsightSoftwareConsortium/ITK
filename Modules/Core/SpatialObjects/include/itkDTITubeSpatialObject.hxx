@@ -33,11 +33,6 @@ DTITubeSpatialObject< TDimension >
   this->SetTypeName("DTITubeSpatialObject");
 }
 
-/** Destructor */
-template< unsigned int TDimension >
-DTITubeSpatialObject< TDimension >
-::~DTITubeSpatialObject() = default;
-
 /** Print the object */
 template< unsigned int TDimension >
 void

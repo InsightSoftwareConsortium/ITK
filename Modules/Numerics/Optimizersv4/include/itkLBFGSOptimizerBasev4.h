@@ -135,7 +135,7 @@ public:
 
 protected:
   LBFGSOptimizerBasev4();
-  ~LBFGSOptimizerBasev4() override;
+  ~LBFGSOptimizerBasev4() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;

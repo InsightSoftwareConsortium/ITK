@@ -25,10 +25,6 @@ namespace itk
 namespace Statistics
 {
 template< typename TMeasurementVector >
-ListSample< TMeasurementVector >
-::ListSample() = default;
-
-template< typename TMeasurementVector >
 void
 ListSample< TMeasurementVector >
 ::Resize(InstanceIdentifier newsize)

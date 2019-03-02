@@ -24,9 +24,6 @@
 
 namespace itk
 {
-template< typename TImage >
-ChangeLabelLabelMapFilter< TImage >
-::ChangeLabelLabelMapFilter() = default;
 
 template< typename TImage >
 void

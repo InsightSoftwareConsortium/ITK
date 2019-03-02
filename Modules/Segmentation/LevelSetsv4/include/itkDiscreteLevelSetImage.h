@@ -105,9 +105,9 @@ public:
   void EvaluateBackwardGradient( const InputType& inputIndex, LevelSetDataType& data ) const override;
 
 protected:
-  DiscreteLevelSetImage();
+  DiscreteLevelSetImage() = default;
 
-  ~DiscreteLevelSetImage() override;
+  ~DiscreteLevelSetImage() override = default;
 
   /** Initial the level set pointer */
   void Initialize() override;

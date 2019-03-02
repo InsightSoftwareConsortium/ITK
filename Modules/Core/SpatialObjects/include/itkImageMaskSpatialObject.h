@@ -91,7 +91,7 @@ public:
 
 protected:
   ImageMaskSpatialObject();
-  ~ImageMaskSpatialObject() override;
+  ~ImageMaskSpatialObject() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 };

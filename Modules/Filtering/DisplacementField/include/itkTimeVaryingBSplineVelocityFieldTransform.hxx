@@ -46,13 +46,6 @@ TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, NDimensions>
   this->m_VelocityFieldDirection.SetIdentity();
 }
 
-/**
- * Destructor
- */
-template<typename TParametersValueType, unsigned int NDimensions>
-TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, NDimensions>::
-~TimeVaryingBSplineVelocityFieldTransform() = default;
-
 template<typename TParametersValueType, unsigned int NDimensions>
 void
 TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, NDimensions>

@@ -36,10 +36,6 @@ LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
 }
 
 template< typename TInput, typename TLevelSetContainer >
-LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
-::~LevelSetEquationChanAndVeseInternalTerm() = default;
-
-template< typename TInput, typename TLevelSetContainer >
 void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
 ::Update()
 {

@@ -126,7 +126,7 @@ public:
 
 protected:
   RegionGrowImageFilter();
-  ~RegionGrowImageFilter() override;
+  ~RegionGrowImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

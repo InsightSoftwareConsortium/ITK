@@ -29,10 +29,6 @@ ElasticBodySplineKernelTransform<TParametersValueType, NDimensions>::ElasticBody
 }
 
 template<typename TParametersValueType, unsigned int NDimensions>
-ElasticBodySplineKernelTransform<TParametersValueType, NDimensions>::
-~ElasticBodySplineKernelTransform() = default;
-
-template<typename TParametersValueType, unsigned int NDimensions>
 void
 ElasticBodySplineKernelTransform<TParametersValueType, NDimensions>
 ::ComputeG(const InputVectorType & x, GMatrixType & gmatrix) const

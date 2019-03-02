@@ -23,14 +23,6 @@
 namespace itk
 {
 template< typename TImage >
-LevelSetDomainPartitionImage< TImage >
-::LevelSetDomainPartitionImage() = default;
-
-template< typename TImage >
-LevelSetDomainPartitionImage< TImage >
-::~LevelSetDomainPartitionImage() = default;
-
-template< typename TImage >
 void
 LevelSetDomainPartitionImage< TImage >
 ::SetLevelSetDomainRegionVector( const LevelSetDomainRegionVectorType& domain )

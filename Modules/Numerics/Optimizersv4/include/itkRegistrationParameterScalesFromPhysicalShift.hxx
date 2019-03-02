@@ -24,10 +24,6 @@ namespace itk
 {
 
 template< typename TMetric >
-RegistrationParameterScalesFromPhysicalShift< TMetric >
-::RegistrationParameterScalesFromPhysicalShift() = default;
-
-template< typename TMetric >
 void
 RegistrationParameterScalesFromPhysicalShift< TMetric >
 ::ComputeSampleShifts(const ParametersType &deltaParameters, ScalesType &sampleShifts)

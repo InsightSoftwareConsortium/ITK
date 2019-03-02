@@ -49,7 +49,7 @@ public:
   SurfaceSpatialObjectPoint();
 
   /** Destructor */
-  ~SurfaceSpatialObjectPoint() override;
+  ~SurfaceSpatialObjectPoint() override = default;
 
   /** Get Normal */
   const VectorType & GetNormal() const;

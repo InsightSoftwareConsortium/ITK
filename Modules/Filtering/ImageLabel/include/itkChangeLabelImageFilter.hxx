@@ -36,13 +36,6 @@ namespace itk
  *
  */
 template< typename TInputImage, typename TOutputImage >
-ChangeLabelImageFilter< TInputImage, TOutputImage >
-::ChangeLabelImageFilter() = default;
-
-/**
- *
- */
-template< typename TInputImage, typename TOutputImage >
 void
 ChangeLabelImageFilter< TInputImage, TOutputImage >
 ::SetChange(const InputPixelType & original, const OutputPixelType & result)

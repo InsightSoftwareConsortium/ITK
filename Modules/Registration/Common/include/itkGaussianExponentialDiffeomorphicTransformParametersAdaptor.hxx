@@ -34,10 +34,6 @@ GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 }
 
 template<typename TTransform>
-GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
-::~GaussianExponentialDiffeomorphicTransformParametersAdaptor() = default;
-
-template<typename TTransform>
 void
 GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
 ::SetGaussianSmoothingVarianceForTheConstantVelocityField( ScalarType variance )

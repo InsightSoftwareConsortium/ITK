@@ -39,11 +39,6 @@ RingBuffer< TElement >
   this->SetNumberOfBuffers(3);
 }
 
-template< typename TElement >
-RingBuffer< TElement >
-::~RingBuffer() = default;
-
-
 //
 // PrintSelf
 //

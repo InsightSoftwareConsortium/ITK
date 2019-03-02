@@ -40,11 +40,6 @@ ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
   m_CurrentNumberOfCodewords = 1;
 }
 
-template< typename TInputImage,
-          typename TMembershipFunction >
-ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
-::~ImageKmeansModelEstimator() = default;
-
 /**
  * PrintSelf
  */

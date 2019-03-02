@@ -107,7 +107,7 @@ public:
 
 protected:
   UpdateShiSparseLevelSet();
-  ~UpdateShiSparseLevelSet() override;
+  ~UpdateShiSparseLevelSet() override = default;
 
   // output
   LevelSetPointer   m_OutputLevelSet;

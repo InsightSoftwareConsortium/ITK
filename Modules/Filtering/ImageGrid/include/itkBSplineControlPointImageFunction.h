@@ -270,7 +270,7 @@ public:
 
 protected:
   BSplineControlPointImageFunction();
-  ~BSplineControlPointImageFunction() override;
+  ~BSplineControlPointImageFunction() override = default;
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 
 private:

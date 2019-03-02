@@ -157,7 +157,7 @@ public:
 
 protected:
   TimeVaryingVelocityFieldImageRegistrationMethodv4();
-  ~TimeVaryingVelocityFieldImageRegistrationMethodv4() override;
+  ~TimeVaryingVelocityFieldImageRegistrationMethodv4() override = default;
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 
   /** Perform the registration. */

@@ -31,12 +31,6 @@ VoronoiDiagram2D< TCoordRepType >
   m_NumberOfSeeds = 0;
 }
 
-
-template< typename TCoordRepType >
-VoronoiDiagram2D< TCoordRepType >
-::~VoronoiDiagram2D() = default;
-
-
 template< typename TCoordRepType >
 void
 VoronoiDiagram2D< TCoordRepType >

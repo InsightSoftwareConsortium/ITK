@@ -53,12 +53,6 @@ FastMarchingBase()
 
 // -----------------------------------------------------------------------------
 template< typename TInput, typename TOutput >
-FastMarchingBase< TInput, TOutput >::
-~FastMarchingBase() = default;
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-template< typename TInput, typename TOutput >
 void
 FastMarchingBase< TInput, TOutput >::
 PrintSelf( std::ostream & os, Indent indent ) const

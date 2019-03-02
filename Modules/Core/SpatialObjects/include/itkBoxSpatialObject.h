@@ -87,7 +87,7 @@ public:
 
 protected:
   BoxSpatialObject();
-  ~BoxSpatialObject() override;
+  ~BoxSpatialObject() override = default;
 
   SizeType m_Size;
 

@@ -57,13 +57,6 @@ VelocityFieldTransform<TParametersValueType, NDimensions>
   this->m_VelocityFieldSetTime = 0;
 }
 
-/**
- * Destructor
- */
-template<typename TParametersValueType, unsigned int NDimensions>
-VelocityFieldTransform<TParametersValueType, NDimensions>::
-~VelocityFieldTransform() = default;
-
 template<typename TParametersValueType, unsigned int NDimensions>
 void
 VelocityFieldTransform<TParametersValueType, NDimensions>

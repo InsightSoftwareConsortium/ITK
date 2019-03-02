@@ -145,7 +145,7 @@ public:
 
 protected:
   MaskFeaturePointSelectionFilter();
-  ~MaskFeaturePointSelectionFilter() override;
+  ~MaskFeaturePointSelectionFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GenerateData() override;

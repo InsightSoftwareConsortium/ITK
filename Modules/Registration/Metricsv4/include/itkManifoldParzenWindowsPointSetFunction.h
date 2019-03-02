@@ -179,7 +179,7 @@ public:
 
 protected:
   ManifoldParzenWindowsPointSetFunction();
-  ~ManifoldParzenWindowsPointSetFunction() override;
+  ~ManifoldParzenWindowsPointSetFunction() override = default;
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   void GenerateData();

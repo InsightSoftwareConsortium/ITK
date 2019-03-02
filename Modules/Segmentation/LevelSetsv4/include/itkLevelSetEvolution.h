@@ -122,9 +122,10 @@ public:
   /** Set the maximum number of threads to be used. */
   ThreadIdType GetNumberOfWorkUnits() const;
 
+  ~LevelSetEvolution() override = default;
+
 protected:
   LevelSetEvolution();
-  ~LevelSetEvolution() override;
 
   /** Initialize the update buffers for all level sets to hold the updates of
    *  equations in each iteration */
@@ -334,9 +335,10 @@ public:
   using UpdateLevelSetFilterType = UpdateShiSparseLevelSet< ImageDimension, EquationContainerType >;
   using UpdateLevelSetFilterPointer = typename UpdateLevelSetFilterType::Pointer;
 
+  LevelSetEvolution() = default;
+  ~LevelSetEvolution() override = default;
+
 protected:
-  LevelSetEvolution();
-  ~LevelSetEvolution() override;
 
   /** Update the levelset by 1 iteration from the computed updates */
   void UpdateLevelSets() override;
@@ -412,12 +414,11 @@ public:
   using UpdateLevelSetFilterType = UpdateMalcolmSparseLevelSet< ImageDimension, EquationContainerType >;
   using UpdateLevelSetFilterPointer = typename UpdateLevelSetFilterType::Pointer;
 
+  LevelSetEvolution() = default;
+  ~LevelSetEvolution() override = default;
+
 protected:
-  LevelSetEvolution();
-  ~LevelSetEvolution() override;
-
   void UpdateLevelSets() override;
-
   void UpdateEquations() override;
 };
 }

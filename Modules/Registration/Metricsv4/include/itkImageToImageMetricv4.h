@@ -734,7 +734,7 @@ protected:
   bool                                    m_UseVirtualSampledPointSet;
 
   ImageToImageMetricv4();
-  ~ImageToImageMetricv4() override;
+  ~ImageToImageMetricv4() override = default;
 
   void PrintSelf(std::ostream& os, Indent indent) const override;
 

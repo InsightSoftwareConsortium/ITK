@@ -91,7 +91,7 @@ public:
 
 protected:
   /** Constructor */
-  WeightedCentroidKdTreeGenerator();
+  WeightedCentroidKdTreeGenerator() = default;
 
   /** Destructor */
   ~WeightedCentroidKdTreeGenerator() override = default;

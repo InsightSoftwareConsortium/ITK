@@ -275,10 +275,10 @@ public:
 
 protected:
   /** \brief Default Constructor */
-  LevelSetContainerBase();
+  LevelSetContainerBase() = default;
 
   /** \brief Default Destructor */
-  ~LevelSetContainerBase() override;
+  ~LevelSetContainerBase() override = default;
 
   const LevelSetContainerType& GetContainer() const;
   void SetContainer( const LevelSetContainerType& iContainer );

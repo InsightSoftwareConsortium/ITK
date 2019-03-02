@@ -33,11 +33,6 @@ VesselTubeSpatialObject< TDimension >
   this->SetTypeName("VesselTubeSpatialObject");
 }
 
-/** Destructor */
-template< unsigned int TDimension >
-VesselTubeSpatialObject< TDimension >
-::~VesselTubeSpatialObject() = default;
-
 /** Print the object */
 template< unsigned int TDimension >
 void

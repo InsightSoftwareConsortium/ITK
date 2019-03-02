@@ -25,11 +25,6 @@
 
 namespace itk {
 
-template <typename TInputImage, typename TOutputImage>
-LabelMapToRGBImageFilter<TInputImage, TOutputImage>
-::LabelMapToRGBImageFilter() = default;
-
-
 template<typename TInputImage, typename TOutputImage>
 void
 LabelMapToRGBImageFilter<TInputImage, TOutputImage>

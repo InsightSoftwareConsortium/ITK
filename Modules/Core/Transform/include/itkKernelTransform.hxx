@@ -39,12 +39,6 @@ KernelTransform<TParametersValueType, NDimensions>::KernelTransform() : Supercla
   this->m_Stiffness = 0.0;
 }
 
-
-template<typename TParametersValueType, unsigned int NDimensions>
-KernelTransform<TParametersValueType, NDimensions>::
-~KernelTransform() = default;
-
-
 template<typename TParametersValueType, unsigned int NDimensions>
 void
 KernelTransform<TParametersValueType, NDimensions>::SetSourceLandmarks(PointSetType *landmarks)

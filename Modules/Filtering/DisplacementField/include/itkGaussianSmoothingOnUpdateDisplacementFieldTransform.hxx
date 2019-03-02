@@ -41,10 +41,6 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimen
 }
 
 template<typename TParametersValueType, unsigned int NDimensions>
-GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimensions>::
-~GaussianSmoothingOnUpdateDisplacementFieldTransform() = default;
-
-template<typename TParametersValueType, unsigned int NDimensions>
 void
 GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimensions>
 ::UpdateTransformParameters( const DerivativeType & update, ScalarType factor)

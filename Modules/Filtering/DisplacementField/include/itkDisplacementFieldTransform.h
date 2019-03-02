@@ -428,7 +428,7 @@ public:
 protected:
 
   DisplacementFieldTransform();
-  ~DisplacementFieldTransform() override;
+  ~DisplacementFieldTransform() override = default;
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   /** The displacement field and its inverse (if it exists). */

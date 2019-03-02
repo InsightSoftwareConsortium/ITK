@@ -114,10 +114,10 @@ protected:
   ObjectListType m_Objects;
 
   /** constructor */
-  SceneSpatialObject();
+  SceneSpatialObject() = default;
 
   /** destructor */
-  ~SceneSpatialObject() override;
+  ~SceneSpatialObject() override = default;
 
   /** Print the object informations in a stream. */
   void PrintSelf(std::ostream & os, Indent indent) const override;

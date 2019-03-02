@@ -43,11 +43,6 @@ TubeSpatialObject< TDimension, TTubePointType >
   m_EndType = 0; // default end-type is flat
 }
 
-/** Destructor */
-template< unsigned int TDimension, typename TTubePointType >
-TubeSpatialObject< TDimension, TTubePointType >
-::~TubeSpatialObject() = default;
-
 /** Get the list of points composing the tube */
 template< unsigned int TDimension, typename TTubePointType >
 typename TubeSpatialObject< TDimension, TTubePointType >::PointListType &

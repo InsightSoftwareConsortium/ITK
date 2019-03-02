@@ -31,10 +31,5 @@ LevelSetEvolutionStoppingCriterion< TLevelSetContainer >
   this->m_NumberOfIterations = NumericTraits< IterationIdType >::ZeroValue();
   this->m_CurrentIteration = NumericTraits< IterationIdType >::ZeroValue();
 }
-
-template< typename TLevelSetContainer >
-LevelSetEvolutionStoppingCriterion< TLevelSetContainer >
-::~LevelSetEvolutionStoppingCriterion() = default;
-
 }
 #endif

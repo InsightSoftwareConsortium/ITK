@@ -121,7 +121,7 @@ public:
 
 protected:
   LabeledPointSetToPointSetMetricv4();
-  ~LabeledPointSetToPointSetMetricv4() override;
+  ~LabeledPointSetToPointSetMetricv4() override = default;
 
   /** PrintSelf function */
   void PrintSelf( std::ostream & os, Indent indent ) const override;

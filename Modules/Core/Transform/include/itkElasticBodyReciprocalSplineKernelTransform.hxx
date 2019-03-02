@@ -29,10 +29,6 @@ ElasticBodyReciprocalSplineKernelTransform<TParametersValueType, NDimensions>::E
 }
 
 template<typename TParametersValueType, unsigned int NDimensions>
-ElasticBodyReciprocalSplineKernelTransform<TParametersValueType, NDimensions>::
-~ElasticBodyReciprocalSplineKernelTransform() = default;
-
-template<typename TParametersValueType, unsigned int NDimensions>
 void
 ElasticBodyReciprocalSplineKernelTransform<TParametersValueType, NDimensions>
 ::ComputeG(const InputVectorType & x, GMatrixType & gmatrix) const

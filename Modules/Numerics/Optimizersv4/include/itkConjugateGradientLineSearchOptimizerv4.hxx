@@ -24,21 +24,6 @@ namespace itk
 {
 
 /**
- * Default constructor
- */
-template<typename TInternalComputationValueType>
-ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>
-::ConjugateGradientLineSearchOptimizerv4Template() = default;
-
-/**
- * Destructor
- */
-template<typename TInternalComputationValueType>
-ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>
-::~ConjugateGradientLineSearchOptimizerv4Template() = default;
-
-
-/**
  *PrintSelf
  */
 template<typename TInternalComputationValueType>

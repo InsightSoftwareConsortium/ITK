@@ -41,13 +41,6 @@ BSplineExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>
 }
 
 /**
- * Destructor
- */
-template<typename TParametersValueType, unsigned int NDimensions>
-BSplineExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>::
-~BSplineExponentialDiffeomorphicTransform() = default;
-
-/**
  * set mesh size for update field
  */
 template<typename TParametersValueType, unsigned int NDimensions>

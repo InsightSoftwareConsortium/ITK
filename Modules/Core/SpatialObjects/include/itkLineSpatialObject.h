@@ -117,7 +117,7 @@ protected:
   PointListType m_Points;
 
   LineSpatialObject();
-  ~LineSpatialObject() override;
+  ~LineSpatialObject() override = default;
 
   /** Method to print the object. */
   void PrintSelf(std::ostream & os, Indent indent) const override;

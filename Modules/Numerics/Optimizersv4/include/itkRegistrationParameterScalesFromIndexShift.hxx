@@ -24,10 +24,6 @@ namespace itk
 {
 
 template< typename TMetric >
-RegistrationParameterScalesFromIndexShift< TMetric >
-::RegistrationParameterScalesFromIndexShift() = default;
-
-template< typename TMetric >
 void
 RegistrationParameterScalesFromIndexShift< TMetric >
 ::ComputeSampleShifts(const ParametersType &deltaParameters, ScalesType &sampleShifts)

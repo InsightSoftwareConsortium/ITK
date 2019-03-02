@@ -35,10 +35,6 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 }
 
 template< typename TInput, typename TOutput >
-FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
-::~FastMarchingQuadEdgeMeshFilterBase() = default;
-
-template< typename TInput, typename TOutput >
 IdentifierType
 FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 ::GetTotalNumberOfNodes() const

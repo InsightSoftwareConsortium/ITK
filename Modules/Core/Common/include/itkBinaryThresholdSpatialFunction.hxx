@@ -32,10 +32,6 @@ BinaryThresholdSpatialFunction< TFunction >
 }
 
 template< typename TFunction >
-BinaryThresholdSpatialFunction< TFunction >
-::~BinaryThresholdSpatialFunction() = default;
-
-template< typename TFunction >
 void
 BinaryThresholdSpatialFunction< TFunction >
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -41,10 +41,6 @@ LabelMapFilter< TInputImage, TOutputImage >
 }
 
 template< typename TInputImage, typename TOutputImage >
-LabelMapFilter< TInputImage, TOutputImage >
-::~LabelMapFilter() = default;
-
-template< typename TInputImage, typename TOutputImage >
 void
 LabelMapFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()

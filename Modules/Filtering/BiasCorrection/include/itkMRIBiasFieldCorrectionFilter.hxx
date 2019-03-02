@@ -380,10 +380,6 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 }
 
 template< typename TInputImage, typename TOutputImage, typename TMaskImage >
-MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
-::~MRIBiasFieldCorrectionFilter() = default;
-
-template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 ::SetInputMask(ImageMaskType *inputMask)

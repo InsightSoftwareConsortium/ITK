@@ -108,7 +108,7 @@ public:
 #endif
 
 protected:
-  TobogganImageFilter();
+  TobogganImageFilter() = default;
   ~TobogganImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 };                                   // end of class

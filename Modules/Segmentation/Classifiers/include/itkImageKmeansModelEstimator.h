@@ -212,7 +212,7 @@ public:
 
 protected:
   ImageKmeansModelEstimator();
-  ~ImageKmeansModelEstimator() override;
+  ~ImageKmeansModelEstimator() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Starts the image modelling process */

@@ -36,9 +36,6 @@ VideoToVideoFilter()
 {
   this->SetNumberOfRequiredInputs(1);
 }
-template<typename TInputVideoStream, typename TOutputVideoStream>
-VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>
-::~VideoToVideoFilter() = default;
 
 template<typename TInputVideoStream, typename TOutputVideoStream>
 void

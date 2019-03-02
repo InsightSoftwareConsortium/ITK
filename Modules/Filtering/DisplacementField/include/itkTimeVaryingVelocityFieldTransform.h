@@ -125,8 +125,8 @@ public:
   void IntegrateVelocityField() override;
 
 protected:
-  TimeVaryingVelocityFieldTransform();
-  ~TimeVaryingVelocityFieldTransform() override;
+  TimeVaryingVelocityFieldTransform() = default;
+  ~TimeVaryingVelocityFieldTransform() override = default;
 };
 
 } // end namespace itk

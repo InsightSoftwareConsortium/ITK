@@ -58,11 +58,6 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
   this->m_CalculateValueAndDerivativeInTangentSpace = false;
 }
 
-/** Destructor */
-template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
-PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::~PointSetToPointSetMetricv4() = default;
-
 /** Initialize the metric */
 template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void

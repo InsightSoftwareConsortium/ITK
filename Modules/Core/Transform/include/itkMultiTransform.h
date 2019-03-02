@@ -284,7 +284,7 @@ public:
 
 protected:
   MultiTransform();
-  ~MultiTransform() override;
+  ~MultiTransform() override = default;
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   virtual void PushFrontTransform( TransformTypePointer t  )

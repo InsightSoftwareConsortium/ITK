@@ -165,7 +165,7 @@ protected:
   bool m_Artery;
 
   TubeSpatialObject();
-  ~TubeSpatialObject() override;
+  ~TubeSpatialObject() override = default;
 
   /** Method to print the object. */
   void PrintSelf(std::ostream & os, Indent indent) const override;
