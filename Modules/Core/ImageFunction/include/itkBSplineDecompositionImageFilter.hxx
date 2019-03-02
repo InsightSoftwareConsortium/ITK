@@ -31,6 +31,7 @@
 #include "itkImageAlgorithm.h"
 #include "itkProgressReporter.h"
 #include "itkVector.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -55,20 +56,14 @@ void
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 ::PrintSelf( std::ostream & os, Indent indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Scratch: " << std::endl;
-  for( unsigned int i = 0; i < m_Scratch.size(); ++i )
-    {
-    os << indent << "[" << i << "]: " << m_Scratch[i] << std::endl;
-    }
+  os << indent << "Scratch: " << m_Scratch << std::endl;
   os << indent << "Data Length: " << m_DataLength << std::endl;
   os << indent << "Spline Order: " << m_SplineOrder << std::endl;
-  os << indent << "SplinePoles: " << std::endl;
-  for( unsigned int i = 0; i < m_SplinePoles.size(); ++i )
-    {
-    os << indent << "[" << i << "]" << m_SplinePoles[i] << std::endl;
-    }
+  os << indent << "SplinePoles: " << m_SplinePoles << std::endl;
   os << indent << "Number Of Poles: " << m_NumberOfPoles << std::endl;
   os << indent << "Tolerance: " << m_Tolerance << std::endl;
   os << indent << "Iterator Direction: " << m_IteratorDirection << std::endl;

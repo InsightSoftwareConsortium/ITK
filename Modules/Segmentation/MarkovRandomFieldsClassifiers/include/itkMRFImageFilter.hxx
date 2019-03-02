@@ -18,6 +18,7 @@
 #ifndef itkMRFImageFilter_hxx
 #define itkMRFImageFilter_hxx
 #include "itkMRFImageFilter.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -47,8 +48,9 @@ void
 MRFImageFilter< TInputImage, TClassifiedImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
-  unsigned int i;
 
   os << indent << " MRF Image filter object " << std::endl;
 
@@ -66,13 +68,7 @@ MRFImageFilter< TInputImage, TClassifiedImage >
   os << indent << " Number of elements in MRF neighborhood :"
      << static_cast< SizeValueType >( m_MRFNeighborhoodWeight.size() ) << std::endl;
 
-  os << indent << " Neighborhood weight : [";
-  const auto neighborhoodWeightSize = static_cast< unsigned int >( m_MRFNeighborhoodWeight.size() );
-  for ( i = 0; i + 1 < neighborhoodWeightSize; i++ )
-    {
-    os << m_MRFNeighborhoodWeight[i] << ", ";
-    }
-  os << m_MRFNeighborhoodWeight[i] << "]" << std::endl;
+  os << indent << " Neighborhood weight : " << m_MRFNeighborhoodWeight << std::endl;
 
   os << indent << " Smoothing factor for the MRF neighborhood:"
      << m_SmoothingFactor << std::endl;
