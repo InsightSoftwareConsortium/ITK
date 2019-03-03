@@ -18,6 +18,7 @@
 
 #include "itkKappaSigmaThresholdImageCalculator.h"
 #include "itkImageFileReader.h"
+#include "itkTestingMacros.h"
 
 
 int itkKappaSigmaThresholdImageCalculatorTest( int argc, char * argv [] )
@@ -26,7 +27,7 @@ int itkKappaSigmaThresholdImageCalculatorTest( int argc, char * argv [] )
     {
     std::cerr << "Missing arguments" << std::endl;
     std::cerr << "Usage:" << std::endl;
-    std::cerr << argv[0] << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << std::endl;
     std::cerr << "inputImage numberOfIterations sigmaFactor expectedThreshold" << std::endl;
     return EXIT_FAILURE;
     }

@@ -27,7 +27,7 @@ int itkScalarImageKmeansImageFilterTest(int argc, char* argv [] )
   if( argc < 5 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0];
+    std::cerr << itkNameOfTestExecutableMacro(argv);
     std::cerr << " inputScalarImage outputLabeledImage numberOfClasses mean1 mean2... meanN " << std::endl;
     return EXIT_FAILURE;
     }

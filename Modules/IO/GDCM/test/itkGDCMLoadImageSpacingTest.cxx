@@ -20,6 +20,7 @@
 #include "itkGDCMImageIO.h"
 #include "itkImageFileReader.h"
 #include "gdcmImageHelper.h"
+#include "itkTestingMacros.h"
 
 //
 // This test is specifically for a problem detected in GDCMImageIO
@@ -38,7 +39,7 @@ int itkGDCMLoadImageSpacingTest(int argc, char *argv[])
 {
   if(argc < 4)
     {
-    std::cerr << "Usage: " << argv[0] << " Image Spacing0 Spacing1" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Image Spacing0 Spacing1" << std::endl;
     return EXIT_FAILURE;
     }
 

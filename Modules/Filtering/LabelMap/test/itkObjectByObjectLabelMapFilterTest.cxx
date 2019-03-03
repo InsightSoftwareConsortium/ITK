@@ -22,6 +22,7 @@
 #include "itkObjectByObjectLabelMapFilter.h"
 #include "itkFlatStructuringElement.h"
 #include "itkBinaryDilateImageFilter.h"
+#include "itkTestingMacros.h"
 
 
 int itkObjectByObjectLabelMapFilterTest(int argc, char * argv[])
@@ -29,7 +30,7 @@ int itkObjectByObjectLabelMapFilterTest(int argc, char * argv[])
 
   if( argc != 4 )
     {
-    std::cerr << "usage: " << argv[0] << " input output keepLabel" << std::endl;
+    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " input output keepLabel" << std::endl;
     // std::cerr << "  : " << std::endl;
     exit(1);
     }

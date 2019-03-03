@@ -20,6 +20,7 @@
 #include "itkImageRegionConstIterator.h"
 #include "itkMesh.h"
 #include "itkParametricSpaceToImageSpaceMeshFilter.h"
+#include "itkTestingMacros.h"
 
 template< class TPosition >
 struct helper
@@ -64,7 +65,7 @@ int InternalTest(int argc, char* argv[])
 {
   if( argc != 2 )
     {
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " input ";
     std::cerr << std::endl;
     return EXIT_FAILURE;

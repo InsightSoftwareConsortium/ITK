@@ -28,7 +28,7 @@ int itkShotNoiseImageFilterTest(int argc, char * argv[])
 
   if( argc < 3 )
     {
-    std::cerr << "usage: " << argv[0] << " input output [scale]" << std::endl;
+    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " input output [scale]" << std::endl;
     return EXIT_FAILURE;
     }
 

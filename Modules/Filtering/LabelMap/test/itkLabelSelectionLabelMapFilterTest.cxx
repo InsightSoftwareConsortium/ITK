@@ -22,6 +22,7 @@
 #include "itkLabelImageToLabelMapFilter.h"
 #include "itkLabelSelectionLabelMapFilter.h"
 #include "itkLabelMapToLabelImageFilter.h"
+#include "itkTestingMacros.h"
 
 
 int itkLabelSelectionLabelMapFilterTest(int argc, char * argv[])
@@ -29,7 +30,7 @@ int itkLabelSelectionLabelMapFilterTest(int argc, char * argv[])
 
   if( argc != 5 )
     {
-    std::cerr << "usage: " << argv[0] << " input output exclude label" << std::endl;
+    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " input output exclude label" << std::endl;
     // std::cerr << "  : " << std::endl;
     exit(1);
     }

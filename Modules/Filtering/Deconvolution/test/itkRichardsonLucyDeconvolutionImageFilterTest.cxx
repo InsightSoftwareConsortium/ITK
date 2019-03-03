@@ -22,12 +22,13 @@
 #include "itkRichardsonLucyDeconvolutionImageFilter.h"
 #include "itkDeconvolutionIterationCommand.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int itkRichardsonLucyDeconvolutionImageFilterTest(int argc, char* argv[])
 {
   if ( argc < 5 )
     {
-    std::cerr << "Usage: " << argv[0]
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
               << " <input image> <kernel image> <output image> <iterations> [convolution image]"
               << std::endl;
     return EXIT_FAILURE;

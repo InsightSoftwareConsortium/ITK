@@ -19,6 +19,7 @@
 #include "itkIterativeInverseDisplacementFieldImageFilter.h"
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 
 int itkIterativeInverseDisplacementFieldImageFilterTest( int argc, char * argv[] )
@@ -27,7 +28,7 @@ int itkIterativeInverseDisplacementFieldImageFilterTest( int argc, char * argv[]
   if( argc < 2 )
     {
     std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " outputImage" << std::endl;
     return EXIT_FAILURE;
     }

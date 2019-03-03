@@ -29,12 +29,13 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkGDCMImageIO.h"
 #include "itkGDCMSeriesFileNames.h"
+#include "itkTestingMacros.h"
 
 int itkGDCMSeriesReadImageWriteTest( int argc, char* argv[] )
 {
   if( argc < 3 )
     {
-    std::cerr << "Usage: " << argv[0] <<
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) <<
       " DicomDirectory  outputFile OutputDicomDirectory" << std::endl;
     return EXIT_FAILURE;
     }

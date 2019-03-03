@@ -20,6 +20,7 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageSeriesWriter.h"
+#include "itkTestingMacros.h"
 
 int itkImageToVectorImageFilterTest(int argc, char *argv[] )
 {
@@ -37,7 +38,7 @@ int itkImageToVectorImageFilterTest(int argc, char *argv[] )
   if (argc < 3)
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  input1 input2 ... inputn output" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "  input1 input2 ... inputn output" << std::endl;
     return EXIT_FAILURE;
     }
 

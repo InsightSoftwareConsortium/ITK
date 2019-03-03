@@ -22,6 +22,7 @@
 #include "itkPointSetToListSampleAdaptor.h"
 #include "itkWeightedCentroidKdTreeGenerator.h"
 #include "itkKdTreeBasedKmeansEstimator.h"
+#include "itkTestingMacros.h"
 
 int itkKdTreeBasedKmeansEstimatorTest(int argc, char* argv[] )
 {
@@ -31,7 +32,7 @@ int itkKdTreeBasedKmeansEstimatorTest(int argc, char* argv[] )
     {
     std::cerr << "Missing Arguments" << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "inputFileName  bucketSize minStandardDeviation tolerancePercent" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "inputFileName  bucketSize minStandardDeviation tolerancePercent" << std::endl;
     return EXIT_FAILURE;
     }
 

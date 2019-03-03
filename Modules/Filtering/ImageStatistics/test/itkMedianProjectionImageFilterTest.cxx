@@ -20,6 +20,7 @@
 #include "itkSimpleFilterWatcher.h"
 
 #include "itkMedianProjectionImageFilter.h"
+#include "itkTestingMacros.h"
 
 
 int itkMedianProjectionImageFilterTest(int argc, char * argv[])
@@ -27,7 +28,7 @@ int itkMedianProjectionImageFilterTest(int argc, char * argv[])
   if( argc < 3 )
     {
     std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " InputImage OutputImage " << std::endl;
     return EXIT_FAILURE;
     }

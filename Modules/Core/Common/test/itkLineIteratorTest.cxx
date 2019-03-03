@@ -22,6 +22,7 @@
 #include <fstream>
 #include "itkLineIterator.h"
 #include "itkTimeProbe.h"
+#include "itkTestingMacros.h"
 
 
 int itkLineIteratorTest(int argc, char*argv[])
@@ -34,7 +35,7 @@ int itkLineIteratorTest(int argc, char*argv[])
  if (argc < 2)
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "   baselinefilename" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "   baselinefilename" << std::endl;
     return EXIT_FAILURE;
     }
 

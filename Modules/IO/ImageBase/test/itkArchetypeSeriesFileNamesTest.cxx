@@ -17,13 +17,14 @@
  *=========================================================================*/
 
 #include "itkArchetypeSeriesFileNames.h"
+#include "itkTestingMacros.h"
 
 int itkArchetypeSeriesFileNamesTest(int argc, char* argv[])
 {
 
   if(argc < 2)
     {
-    std::cerr << "Usage: " << argv[0]
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
               << "One or more filenames (with directory)";
     return EXIT_FAILURE;
     }

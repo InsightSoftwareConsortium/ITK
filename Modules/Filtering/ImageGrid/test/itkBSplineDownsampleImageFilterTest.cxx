@@ -32,6 +32,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int itkBSplineDownsampleImageFilterTest( int argc, char * argv [] )
 {
@@ -40,7 +41,7 @@ int itkBSplineDownsampleImageFilterTest( int argc, char * argv [] )
     {
     std::cerr << "Error: Missing arguments" << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "inputImage outputImage splineOrder" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "inputImage outputImage splineOrder" << std::endl;
     return EXIT_FAILURE;
     }
 

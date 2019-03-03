@@ -30,6 +30,7 @@
 #include "itkStatisticsImageFilter.h"
 
 #include "itkTimeProbesCollectorBase.h"
+#include "itkTestingMacros.h"
 
 template<typename TFilter>
 class CommandIterationUpdate : public itk::Command
@@ -108,7 +109,7 @@ int PerformExpImageRegistration( int argc, char *argv[] )
 {
   if( argc < 6 )
     {
-    std::cout << argv[0] << " imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations" << std::endl;
+    std::cout << itkNameOfTestExecutableMacro(argv) << " imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations" << std::endl;
     exit( 1 );
     }
 
@@ -422,7 +423,7 @@ int itkExponentialImageRegistrationTest( int argc, char *argv[] )
 {
   if( argc < 6 )
     {
-    std::cout << argv[0] << " imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations" << std::endl;
+    std::cout << itkNameOfTestExecutableMacro(argv) << " imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations" << std::endl;
     exit( 1 );
     }
 

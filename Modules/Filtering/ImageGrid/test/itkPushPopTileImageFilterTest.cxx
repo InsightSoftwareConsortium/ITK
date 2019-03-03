@@ -19,6 +19,7 @@
 #include "itkTileImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageSeriesWriter.h"
+#include "itkTestingMacros.h"
 
 int itkPushPopTileImageFilterTest(int argc, char *argv[] )
 {
@@ -36,7 +37,7 @@ int itkPushPopTileImageFilterTest(int argc, char *argv[] )
   if (argc != 6)
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  input1 input2 input3 input4 output" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "  input1 input2 input3 input4 output" << std::endl;
     return EXIT_FAILURE;
     }
 

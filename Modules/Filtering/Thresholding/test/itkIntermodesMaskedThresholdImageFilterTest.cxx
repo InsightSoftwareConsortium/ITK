@@ -27,7 +27,7 @@ int itkIntermodesMaskedThresholdImageFilterTest(int argc, char* argv[] )
 {
   if( argc < 4 )
     {
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " inputImageFile maskImageFile outputImageFile";
     std::cerr << std::endl;
     return EXIT_FAILURE;

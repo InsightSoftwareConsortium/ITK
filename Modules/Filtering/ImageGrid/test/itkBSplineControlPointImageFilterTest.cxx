@@ -136,7 +136,7 @@ int itkBSplineControlPointImageFilterTest( int argc, char *argv[] )
 {
   if ( argc < 5 )
     {
-    std::cerr << "Usage: " << argv[0] << " imageDimension inputControlPointImage"
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " imageDimension inputControlPointImage"
               << " outputSampledBSplineObject outputSampledBSplineObjectRefined"
               << std::endl;
     exit( EXIT_FAILURE );

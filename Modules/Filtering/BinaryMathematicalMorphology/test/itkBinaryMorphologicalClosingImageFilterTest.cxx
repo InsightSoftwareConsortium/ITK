@@ -21,13 +21,14 @@
 
 #include "itkBinaryMorphologicalClosingImageFilter.h"
 #include "itkBinaryBallStructuringElement.h"
+#include "itkTestingMacros.h"
 
 int itkBinaryMorphologicalClosingImageFilterTest(int argc, char * argv[])
 {
   if( argc < 6 )
     {
     std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " InputImage OutputImage Radius SafeBorder Foreground" << std::endl;
     return EXIT_FAILURE;
     }

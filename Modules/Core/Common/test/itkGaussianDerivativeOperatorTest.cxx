@@ -17,6 +17,7 @@
  *=========================================================================*/
 #include "itkGaussianDerivativeOperator.h"
 #include "itkStdStreamStateSave.h"
+#include "itkTestingMacros.h"
 
 namespace
 {
@@ -100,7 +101,7 @@ int itkGaussianDerivativeOperatorTest( int argc, char *argv[] )
     }
   else if ( argc > 1 )
     {
-    std::cerr << "Usage: " << argv[0] << " [ variance error width order ]" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " [ variance error width order ]" << std::endl;
     return EXIT_FAILURE;
     }
 

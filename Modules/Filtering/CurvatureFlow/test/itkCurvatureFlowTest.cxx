@@ -23,6 +23,7 @@
 #include "itkTextOutput.h"
 #include "itkCastImageFilter.h"
 #include "itkStreamingImageFilter.h"
+#include "itkTestingMacros.h"
 
 
 namespace
@@ -87,7 +88,7 @@ int itkCurvatureFlowTest(int argc, char* argv[] )
   if( argc < 2 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  outputFile" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "  outputFile" << std::endl;
     return EXIT_FAILURE;
     }
 

@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 #include "itkCoxDeBoorBSplineKernelFunction.h"
+#include "itkTestingMacros.h"
 
 /**
  * In this test, we check to see that the coefficients that are
@@ -25,7 +26,7 @@ int itkCoxDeBoorBSplineKernelFunctionTest( int argc, char * argv [] )
 {
   if ( argc < 1 )
     {
-    std::cerr << "Usage: " << argv[0] << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << std::endl;
     return EXIT_FAILURE;
     }
 

@@ -28,7 +28,7 @@ int itkHMaximaImageFilterTest( int argc, char * argv[] )
     {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0]
+    std::cerr << itkNameOfTestExecutableMacro(argv)
       << " inputImageFile"
       << " outputImageFile"
       << " height"

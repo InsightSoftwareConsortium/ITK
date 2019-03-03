@@ -20,6 +20,7 @@
 #include "itkMorphologicalGradientImageFilter.h"
 #include "itkBinaryBallStructuringElement.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int itkMorphologicalGradientImageFilterTest(int argc, char * argv[])
 {
@@ -27,7 +28,7 @@ int itkMorphologicalGradientImageFilterTest(int argc, char * argv[])
   {
     std::cerr << "Missing Arguments" << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " inputImage outputImage " << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImage outputImage " << std::endl;
     return EXIT_FAILURE;
   }
 

@@ -88,7 +88,7 @@ int itkEuclideanDistancePointMetricTest( int argc, char* argv [] )
 
   if ( argc < 2 )
     {
-    std::cout << "Usage: " << argv[0]
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv)
       << " computeSquaredDistance " << std::endl;
     return EXIT_FAILURE;
     }

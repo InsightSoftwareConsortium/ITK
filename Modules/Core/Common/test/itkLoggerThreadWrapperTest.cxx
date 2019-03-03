@@ -22,6 +22,7 @@
 #include "itkStdStreamLogOutput.h"
 #include "itkLoggerBase.h"
 #include "itkMultiThreaderBase.h"
+#include "itkTestingMacros.h"
 
 /** \class SimpleLogger
  *  \brief Class SimpleLogger is meant to demonstrate how to change the formatting of the LoggerBase mechanism
@@ -180,7 +181,7 @@ int itkLoggerThreadWrapperTest( int argc, char * argv[] )
     {
     if (argc < 2)
       {
-      std::cout << "Usage: " << argv[0] << " logFilename [num threads, default = 10]" << std::endl;
+      std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " logFilename [num threads, default = 10]" << std::endl;
       return EXIT_FAILURE;
       }
 

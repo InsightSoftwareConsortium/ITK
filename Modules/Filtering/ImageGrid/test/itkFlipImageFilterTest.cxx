@@ -28,7 +28,7 @@ int itkFlipImageFilterTest( int argc, char* argv[] )
   if( argc != 2 )
     {
     std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << argv[0] << " FlipAboutOrigin" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " FlipAboutOrigin" << std::endl;
     return EXIT_FAILURE;
     }
 

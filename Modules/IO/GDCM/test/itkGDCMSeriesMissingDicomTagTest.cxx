@@ -29,12 +29,13 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkGDCMImageIO.h"
 #include "itkGDCMSeriesFileNames.h"
+#include "itkTestingMacros.h"
 
 int itkGDCMSeriesMissingDicomTagTest( int argc, char* argv[] )
 {
   if( argc < 2)
     {
-    std::cerr << "Usage: " << argv[0] <<
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) <<
       " DicomDirectory" << std::endl;
     return EXIT_FAILURE;
     }

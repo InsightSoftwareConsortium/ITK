@@ -20,13 +20,14 @@
 #include "itkLabelMap.h"
 #include "itkLabelObject.h"
 #include "itkLabelMapToLabelImageFilter.h"
+#include "itkTestingMacros.h"
 
 int itkLabelMapToLabelImageFilterTest(int argc, char * argv[])
 {
 
   if( argc != 1 )
     {
-    std::cerr << "usage: " << argv[0] << "" << std::endl;
+    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << "" << std::endl;
     return EXIT_FAILURE;
     }
 

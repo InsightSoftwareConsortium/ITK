@@ -34,7 +34,7 @@ int itkDiscreteGaussianDerivativeImageFilterTest( int argc, char* argv[] )
   if( argc < 6 )
     {
     std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << argv[0]
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
       << "inputFileName"
         " outputFileName"
         " orderX"

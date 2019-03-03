@@ -20,6 +20,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageSeriesWriter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int itkTileImageFilterTest(int argc, char *argv[] )
 {
@@ -37,7 +38,7 @@ int itkTileImageFilterTest(int argc, char *argv[] )
   if (argc < 6)
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  iSize jSize kSize input1 input2 ... inputn output" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "  iSize jSize kSize input1 input2 ... inputn output" << std::endl;
     return EXIT_FAILURE;
     }
 

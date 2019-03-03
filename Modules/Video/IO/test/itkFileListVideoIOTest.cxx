@@ -286,7 +286,7 @@ int itkFileListVideoIOTest( int argc, char *argv[] )
 {
   if (argc != 13)
     {
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " videoInput(5 files) non-VideoInput videoOutput webcamOutput";
     std::cerr << " width height numFrames FpS" << std::endl;
     return EXIT_FAILURE;

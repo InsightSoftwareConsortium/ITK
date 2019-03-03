@@ -22,6 +22,7 @@
 #include "itkImageFileReader.h"
 
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 
 int itkLabelStatisticsImageFilterTest(int argc, char* argv [] )
@@ -32,7 +33,7 @@ int itkLabelStatisticsImageFilterTest(int argc, char* argv [] )
   {
     std::cerr << "Missing Arguments" << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " inputImage labeledImage " << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImage labeledImage " << std::endl;
     return EXIT_FAILURE;
   }
   using ImageType = itk::Image<unsigned char,2>;

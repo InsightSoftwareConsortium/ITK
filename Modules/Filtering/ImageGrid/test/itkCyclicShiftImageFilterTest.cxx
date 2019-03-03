@@ -21,12 +21,13 @@
 #include "itkImageFileReader.h"
 
 #include <iostream>
+#include "itkTestingMacros.h"
 
 int itkCyclicShiftImageFilterTest(int argc, char * argv[])
 {
   if ( argc != 4 )
     {
-    std::cerr << "Usage: " << argv[0] << " inputImage shiftX shiftY" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImage shiftX shiftY" << std::endl;
     return EXIT_FAILURE;
     }
 

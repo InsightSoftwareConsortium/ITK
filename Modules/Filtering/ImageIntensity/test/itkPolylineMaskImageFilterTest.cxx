@@ -31,7 +31,7 @@ int itkPolylineMaskImageFilterTest( int argc, char * argv[] )
 
   if ( argc < 2 )
     {
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " outputFilename" << std::endl;
     return EXIT_FAILURE;
     }

@@ -33,13 +33,14 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkThresholdMaximumConnectedComponentsImageFilter.h"
+#include "itkTestingMacros.h"
 
 int itkThresholdMaximumConnectedComponentsImageFilterTest( int argc,
                                                            char * argv [] )
 {
   if( argc < 3 )
     {
-    std::cerr << "Usage: " << argv[0] << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << std::endl;
     std::cerr << " 1: InputImage Name 2:OutputImage Name" << std::endl;
     std::cerr << " 3: minimumPixelArea" << std::endl;
     return EXIT_FAILURE;

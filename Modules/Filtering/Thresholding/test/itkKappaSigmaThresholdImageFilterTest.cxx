@@ -21,13 +21,14 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int itkKappaSigmaThresholdImageFilterTest(int argc, char* argv[] )
 {
 
   if( argc < 5 )
     {
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " inputImageFile outputImageFile iterations sigmaFactor";
     std::cerr << std::endl;
     return EXIT_FAILURE;

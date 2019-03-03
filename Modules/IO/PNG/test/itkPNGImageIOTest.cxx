@@ -30,7 +30,7 @@ int itkPNGImageIOTest( int argc, char * argv[] )
 
   if( argc < 5 )
     {
-    std::cerr << "Usage: " << argv[0]
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
       << " input"
       << " output"
       << " useCompression"

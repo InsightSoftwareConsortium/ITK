@@ -21,6 +21,7 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkGDCMImageIO.h"
 #include "itkMetaDataObject.h"
+#include "itkTestingMacros.h"
 
 // Specific ImageIO test
 
@@ -29,7 +30,7 @@ int itkGDCMImageIOTest(int argc, char* argv[])
 
   if(argc < 6)
     {
-    std::cerr << "Usage: " << argv[0] << " DicomImage OutputDicomImage OutputImage RescaledDicomImage RescaledOutputImage\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " DicomImage OutputDicomImage OutputImage RescaledDicomImage RescaledOutputImage\n";
     return EXIT_FAILURE;
     }
   const char * dicomImageFileName = argv[1];

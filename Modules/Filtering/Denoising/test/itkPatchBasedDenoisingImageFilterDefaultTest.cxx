@@ -68,7 +68,7 @@ int itkPatchBasedDenoisingImageFilterDefaultTest( int argc, char * argv [] )
   if( argc < 3 )
   {
     std::cerr << "Missing command line arguments" << std::endl;
-    std::cerr << "Usage : " << argv[0]
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
               << " inputImageFileName outputImageFileName"
               << " numDimensions"
               << std::endl;

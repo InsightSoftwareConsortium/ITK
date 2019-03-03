@@ -25,6 +25,7 @@
 #include "itkExceptionObject.h"
 #include "itkImageRegistrationMethodImageSource.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 /**
  *  This is a test using GradientDescentOptimizerv4 and parameter scales
@@ -281,7 +282,7 @@ int itkAutoScaledGradientDescentRegistrationTest(int argc, char ** const argv)
   if( argc > 6 )
     {
     std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " [numberOfIterations=30 shiftOfStep=1.0] ";
     std::cerr << " [estimateLearningRateOnce = true] ";
     std::cerr << " [estimateLearningRateAtEachIteration = false] ";

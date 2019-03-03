@@ -30,7 +30,7 @@ int itkBinaryImageToLabelMapFilterTest( int argc, char * argv [] )
 
   if( argc != 7 )
     {
-    std::cerr << "usage: " << argv[0];
+    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " inputBinaryImage outputLabelImage";
     std::cerr << " fullyConnected(0/1)  foregroundValue backgroundValue expectfailure";
     std::cerr << std::endl;

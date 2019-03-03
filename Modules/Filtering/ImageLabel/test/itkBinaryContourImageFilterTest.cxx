@@ -27,7 +27,7 @@ int itkBinaryContourImageFilterTest(int argc, char * argv[])
 {
   if( argc != 6 )
     {
-    std::cerr << "usage: " << argv[0] << " intput output fullyConnected fg bg" << std::endl;
+    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " intput output fullyConnected fg bg" << std::endl;
     std::cerr << " input: the input image" << std::endl;
     std::cerr << " output: the output image" << std::endl;
     std::cerr << " fullyConnected: 0 or 1" << std::endl;

@@ -19,6 +19,7 @@
 #include "itkGDCMImageIO.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 // This test verifies that we obtain the correct origin and spacing for a
 // Legacy MultiFrame DICOM file with IOD
@@ -28,7 +29,7 @@ int itkGDCMLegacyMultiFrameTest(int argc, char *argv[])
 {
   if(argc < 3)
     {
-    std::cerr << "Usage: " << argv[0] << " <InputLegacyMultiFrameDICOM> <OutputFile>" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <InputLegacyMultiFrameDICOM> <OutputFile>" << std::endl;
     return EXIT_FAILURE;
     }
 

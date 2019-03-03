@@ -28,7 +28,7 @@ int itkAdditiveGaussianNoiseImageFilterTest(int argc, char * argv[])
 
   if( argc < 3 )
     {
-    std::cerr << "usage: " << argv[0] << " input output [std_dev [mean]]" << std::endl;
+    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " input output [std_dev [mean]]" << std::endl;
     return EXIT_FAILURE;
     }
 

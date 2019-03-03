@@ -23,6 +23,7 @@
 #include "itkImageToListSampleAdaptor.h"
 #include "itkNormalVariateGenerator.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 //This program tests the ImageClassifierFilter. The test uses the
 //ExpectationMaximizationMixtureModelEstimator to estimaete membership
@@ -32,7 +33,7 @@ int itkImageClassifierFilterTest(int argc, char* argv[] )
   if( argc < 2 )
     {
     std::cerr << "Missing command line arguments: "
-              << argv[0] << "\t" << "ClassifiedOutputImage name" << std::endl;
+              << itkNameOfTestExecutableMacro(argv) << "\t" << "ClassifiedOutputImage name" << std::endl;
     return EXIT_FAILURE;
     }
   constexpr unsigned int MeasurementVectorSize = 1;

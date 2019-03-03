@@ -19,6 +19,7 @@
 #include "itkImageFileWriter.h"
 #include "itkImageIOBase.h"
 #include "itkVTKImageIO.h"
+#include "itkTestingMacros.h"
 
 template< class TImage >
 int ReadImage( const std::string fileName,
@@ -60,7 +61,7 @@ int itkVTKImageIOFileReadTest( int argc, char* argv[] )
   if( argc != 3 )
     {
     std::cerr << "Usage: "<< std::endl;
-    std::cerr << argv[0];
+    std::cerr << itkNameOfTestExecutableMacro(argv);
     std::cerr << "matrix.vtk ironProt.vtk";
     std::cerr << std::endl;
     return EXIT_FAILURE;

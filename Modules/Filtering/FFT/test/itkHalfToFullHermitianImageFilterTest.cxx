@@ -22,13 +22,14 @@
 #include "itkHalfToFullHermitianImageFilter.h"
 #include "itkRandomImageSource.h"
 #include "itkRealToHalfHermitianForwardFFTImageFilter.h"
+#include "itkTestingMacros.h"
 
 int itkHalfToFullHermitianImageFilterTest(int argc, char *argv[])
 {
   // Print usage information.
   if ( argc < 3 )
     {
-    std::cerr << "Usage: " << argv[0] << " <test image size x> <test image size y>"
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <test image size x> <test image size y>"
               << std::endl;
     return EXIT_FAILURE;
     }

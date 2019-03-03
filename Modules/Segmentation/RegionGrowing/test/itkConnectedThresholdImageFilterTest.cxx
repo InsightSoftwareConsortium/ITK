@@ -27,7 +27,7 @@ int itkConnectedThresholdImageFilterTest( int argc, char* argv[] )
 {
   if( argc < 7 )
     {
-    std::cerr << "Usage: " << argv[0]
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
       << " InputImage OutputImage "
       << "seed_x seed_y "
       << "LowerConnectedThreshold UpperConnectedThreshold "

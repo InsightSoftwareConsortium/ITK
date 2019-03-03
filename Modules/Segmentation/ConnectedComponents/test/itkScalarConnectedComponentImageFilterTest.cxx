@@ -22,13 +22,14 @@
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
+#include "itkTestingMacros.h"
 
 int itkScalarConnectedComponentImageFilterTest(int argc, char* argv[] )
 {
   if( argc < 4 )
     {
     std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " inputImage  outputImage distance_threshold [fully_connected] [minimum_object_size]" << std::endl;
     return EXIT_FAILURE;
     }

@@ -22,6 +22,7 @@
 #include "itkLevelSetEquationOverlapPenaltyTerm.h"
 #include "itkSinRegularizedHeavisideStepFunction.h"
 #include "itkBinaryImageToLevelSetImageAdaptor.h"
+#include "itkTestingMacros.h"
 
 int itkLevelSetEquationOverlapPenaltyTermTest( int argc, char* argv[] )
 {
@@ -29,7 +30,7 @@ int itkLevelSetEquationOverlapPenaltyTermTest( int argc, char* argv[] )
   if( argc < 1 )
     {
     std::cerr << "Missing Arguments" << std::endl;
-    std::cerr << "Program " << argv[0] << std::endl;
+    std::cerr << "Program " << itkNameOfTestExecutableMacro(argv) << std::endl;
     return EXIT_FAILURE;
     }
 

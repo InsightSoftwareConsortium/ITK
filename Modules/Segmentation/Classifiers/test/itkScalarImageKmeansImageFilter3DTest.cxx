@@ -25,6 +25,7 @@
 #include "itkMaskImageFilter.h"
 #include "itkNotImageFilter.h"
 #include "itkScalarImageKmeansImageFilter.h"
+#include "itkTestingMacros.h"
 
 int itkScalarImageKmeansImageFilter3DTest (int argc, char *argv[])
 {
@@ -32,7 +33,7 @@ int itkScalarImageKmeansImageFilter3DTest (int argc, char *argv[])
   if( argc < 4 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0];
+    std::cerr << itkNameOfTestExecutableMacro(argv);
     std::cerr << " inputVolume input3DSkullStripVolume outputLabelMapVolume " << std::endl;
     return EXIT_FAILURE;
     }
