@@ -19,6 +19,7 @@
 #include "itkCSVNumericObjectFileWriter.h"
 #include <iostream>
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 const double epsilon = 1e-20;
 
@@ -179,7 +180,7 @@ int itkCSVArray2DFileReaderWriterTest(int argc, char *argv[])
 {
   if ( argc < 2 )
     {
-    std::cerr << "Usage: " << argv[0] << " Filename" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Filename" << std::endl;
     return EXIT_FAILURE;
     }
 

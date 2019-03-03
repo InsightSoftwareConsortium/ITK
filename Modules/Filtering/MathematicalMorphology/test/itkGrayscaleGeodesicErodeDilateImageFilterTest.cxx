@@ -22,6 +22,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkShiftScaleImageFilter.h"
+#include "itkTestingMacros.h"
 
 // This test should produce the same results as the
 // itkHMaximaMinimaImageFilterTest.
@@ -31,7 +32,7 @@ int itkGrayscaleGeodesicErodeDilateImageFilterTest(int argc, char* argv [] )
   if ( argc < 4 )
   {
     std::cerr << "Missing arguments" << std::endl;
-    std::cerr << "Usage: " << argv[0] << " Inputimage OutputImage Height" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Inputimage OutputImage Height" << std::endl;
     return EXIT_FAILURE;
   }
   constexpr int Dimension = 2;

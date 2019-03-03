@@ -20,6 +20,7 @@
 #include "itkSTAPLEImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 class StaplerBase
 {
@@ -158,7 +159,7 @@ int itkSTAPLEImageFilterTest( int argc, char * argv[])
 
   if (argc < 5)
     {
-    std::cerr << "Use: " << argv[0] <<
+    std::cerr << "Use: " << itkNameOfTestExecutableMacro(argv) <<
       " file_dimensionality output.mhd foreground_value confidence_weight "
       "file1 file2 ... fileN" << std::endl;
     return -1;

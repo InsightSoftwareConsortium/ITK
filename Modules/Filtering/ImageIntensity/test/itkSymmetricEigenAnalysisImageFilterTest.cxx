@@ -304,7 +304,7 @@ int itkSymmetricEigenAnalysisImageFilterTest( int argc, char* argv[] )
 
   if ( argc < 4 )
   {
-  std::cout << "Usage: " << argv[0]
+  std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv)
     << "outputImage order outputImageFixedDimension" << std::endl;
   return EXIT_FAILURE;
   }

@@ -26,6 +26,7 @@
 #include "itkFileListVideoIO.h"
 #include "itkFileListVideoIOFactory.h"
 #include "itkTestingComparisonImageFilter.h"
+#include "itkTestingMacros.h"
 
 /**
  * Main test
@@ -35,7 +36,7 @@ int itkImageFilterToVideoFilterWrapperTest( int argc, char* argv[] )
   // Check parameters
   if (argc < 3)
     {
-    std::cerr << "Usage: " << argv[0] << " input_video output_video" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input_video output_video" << std::endl;
     return EXIT_FAILURE;
     }
 

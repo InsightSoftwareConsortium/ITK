@@ -22,13 +22,14 @@
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int itkDerivativeImageFilterTest(int argc, char *argv [] )
 {
   if( argc < 5 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile normalizedOutputImageFile ";
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "  inputImageFile normalizedOutputImageFile ";
     std::cerr << " derivativeOrder direction" << std::endl;
     return EXIT_FAILURE;
     }

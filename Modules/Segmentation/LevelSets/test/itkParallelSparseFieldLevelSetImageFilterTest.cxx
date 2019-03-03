@@ -20,6 +20,7 @@
 #include "itkParallelSparseFieldLevelSetImageFilter.h"
 
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 /*
  * This test exercises the dense p.d.e. solver framework
@@ -216,7 +217,7 @@ int itkParallelSparseFieldLevelSetImageFilterTest(int argc, char* argv[])
 {
   if (argc < 2)
     {
-    std::cerr << "Usage: " << argv[0] << " OutputImage [InitImage [TargetImage]]\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " OutputImage [InitImage [TargetImage]]\n";
     return EXIT_FAILURE;
     }
 

@@ -24,12 +24,13 @@
 #include "itkSimpleFilterWatcher.h"
 #include "itkMacro.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 int itkLandweberDeconvolutionImageFilterTest(int argc, char* argv[])
 {
   if ( argc < 5 )
     {
-    std::cerr << "Usage: " << argv[0]
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
               << " <input image> <kernel image> <output image> <iterations> [convolution image]"
               << std::endl;
     return EXIT_FAILURE;

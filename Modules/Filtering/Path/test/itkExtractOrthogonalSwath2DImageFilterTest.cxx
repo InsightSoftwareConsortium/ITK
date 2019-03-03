@@ -30,7 +30,7 @@ int itkExtractOrthogonalSwath2DImageFilterTest( int argc, char* argv[] )
   if( argc != 2)
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " outputImage " << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " outputImage " << std::endl;
     return EXIT_FAILURE;
     }
 

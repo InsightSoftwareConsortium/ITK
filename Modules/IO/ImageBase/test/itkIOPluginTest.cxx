@@ -18,12 +18,13 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 int itkIOPluginTest(int argc, char *argv[])
 {
   if (argc < 4)
     {
-    std::cout << "Usage: " << argv[0] << " FactoryPath FileName Output" << std::endl;
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " FactoryPath FileName Output" << std::endl;
     return EXIT_FAILURE;
     }
 

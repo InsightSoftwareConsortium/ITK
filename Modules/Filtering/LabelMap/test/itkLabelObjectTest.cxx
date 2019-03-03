@@ -18,13 +18,14 @@
 
 #include <iostream>
 #include "itkLabelObject.h"
+#include "itkTestingMacros.h"
 
 int itkLabelObjectTest(int argc, char * argv[])
 {
 
   if( argc != 1 )
     {
-    std::cerr << "usage: " << argv[0] << "" << std::endl;
+    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << "" << std::endl;
     return EXIT_FAILURE;
     }
 

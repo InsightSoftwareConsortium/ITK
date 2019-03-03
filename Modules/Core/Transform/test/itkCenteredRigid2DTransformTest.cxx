@@ -19,6 +19,7 @@
 #include <iostream>
 
 #include "itkCenteredRigid2DTransform.h"
+#include "itkTestingMacros.h"
 
 
 namespace
@@ -47,7 +48,7 @@ int itkCenteredRigid2DTransformTest(int argc, char *argv[] )
 {
   if( argc < 1 )
     {
-    std::cout << "Usage: " << argv[0] << std::endl;
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << std::endl;
     return EXIT_FAILURE;
     }
 

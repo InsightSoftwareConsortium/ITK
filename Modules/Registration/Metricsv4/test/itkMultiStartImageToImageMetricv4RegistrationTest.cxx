@@ -40,6 +40,7 @@
 #include "itkImageFileWriter.h"
 
 #include <iomanip>
+#include "itkTestingMacros.h"
 
 int itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char *argv[])
 {
@@ -47,7 +48,7 @@ int itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   if( argc < 4 )
     {
     std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " fixedImageFile movingImageFile ";
     std::cerr << " outputImageFile ";
     std::cerr << " [numberOfIterations bool_rotate_input_image_by_180 ] ";

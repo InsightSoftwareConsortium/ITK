@@ -27,7 +27,7 @@ int itkPeakSignalToNoiseRatioCalculatorTest(int argc, char * argv[])
 
   if( argc < 3 )
     {
-    std::cerr << "usage: " << argv[0] << " intput noisy [expectedValue tolerance]" << std::endl;
+    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " intput noisy [expectedValue tolerance]" << std::endl;
     std::cerr << " input: the input image" << std::endl;
     std::cerr << " noisy: noise with the input image" << std::endl;
     // std::cerr << "  : " << std::endl;

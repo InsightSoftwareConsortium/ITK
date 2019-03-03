@@ -24,7 +24,7 @@ int itkGaussianSpatialFunctionTest( int argc, char* argv[] )
 {
   if ( argc < 3 )
     {
-    std::cout << "Usage: " << argv[0]
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv)
       << " scale normalized" << std::endl;
     return EXIT_FAILURE;
     }

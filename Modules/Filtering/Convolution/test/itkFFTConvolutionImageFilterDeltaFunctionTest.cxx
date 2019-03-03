@@ -26,7 +26,7 @@ int itkFFTConvolutionImageFilterDeltaFunctionTest(int argc, char * argv[])
 {
   if ( argc < 3 )
     {
-    std::cout << "Usage: " << argv[0] << " kernelImage outputImage sizeGreatestPrimeFactor" << std::endl;
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " kernelImage outputImage sizeGreatestPrimeFactor" << std::endl;
     return EXIT_FAILURE;
     }
 

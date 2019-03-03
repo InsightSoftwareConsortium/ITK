@@ -54,7 +54,7 @@ int itkSliceBySliceImageFilterTest(int argc, char * argv[])
 
   if( argc != 4 )
     {
-    std::cerr << "usage: " << argv[0] << " input output slicingDimension" << std::endl;
+    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " input output slicingDimension" << std::endl;
     return EXIT_FAILURE;
     }
 

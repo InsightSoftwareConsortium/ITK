@@ -438,7 +438,7 @@ int itkTimeVaryingBSplineVelocityFieldImageRegistrationTest( int argc, char *arg
 {
   if ( argc < 4 )
     {
-    std::cout << argv[0] << " imageDimension fixedImage movingImage outputPrefix [numberOfAffineIterations = 100] "
+    std::cout << itkNameOfTestExecutableMacro(argv) << " imageDimension fixedImage movingImage outputPrefix [numberOfAffineIterations = 100] "
               << "[numberOfDeformableIterationsLevel0 = 10] [numberOfDeformableIterationsLevel1 = 20] [numberOfDeformableIterationsLevel2 = 11 ] [learningRate = 0.5]" << std::endl;
     exit( 1 );
     }

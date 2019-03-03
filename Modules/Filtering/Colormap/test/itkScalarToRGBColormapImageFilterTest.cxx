@@ -31,7 +31,7 @@ int itkScalarToRGBColormapImageFilterTest( int argc, char *argv[] )
 {
   if ( argc < 4 )
     {
-    std::cout << "Usage: " << argv[0] <<
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) <<
       " inputImage outputImage colormap [customColormapFile]" << std::endl;
     std::cout <<
       "  Possible colormaps: grey, red, green, blue, copper, jet, hsv, ";

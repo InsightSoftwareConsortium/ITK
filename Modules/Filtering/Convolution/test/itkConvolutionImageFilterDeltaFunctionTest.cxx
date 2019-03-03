@@ -19,12 +19,13 @@
 #include "itkConvolutionImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 int itkConvolutionImageFilterDeltaFunctionTest(int argc, char * argv[])
 {
   if ( argc < 3 )
     {
-    std::cout << "Usage: " << argv[0] << " kernelImage outputImage" << std::endl;
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " kernelImage outputImage" << std::endl;
     return EXIT_FAILURE;
     }
 

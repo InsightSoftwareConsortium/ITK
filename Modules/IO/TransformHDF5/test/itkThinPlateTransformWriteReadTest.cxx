@@ -148,7 +148,7 @@ int itkThinPlateTransformWriteReadTest( int argc, char *argv[] )
 {
   if( argc != 2 )
     {
-    std::cerr << "Usage: " << argv[0] << " outputDirectory" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputDirectory" << std::endl;
     return EXIT_FAILURE;
     }
 

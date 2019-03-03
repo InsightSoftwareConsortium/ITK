@@ -21,6 +21,7 @@
 
 #include "itkBinaryBallStructuringElement.h"
 #include "itkBinaryOpeningByReconstructionImageFilter.h"
+#include "itkTestingMacros.h"
 
 
 int itkBinaryOpeningByReconstructionImageFilterTest(int argc, char * argv[])
@@ -28,7 +29,7 @@ int itkBinaryOpeningByReconstructionImageFilterTest(int argc, char * argv[])
 
   if( argc != 6 )
     {
-    std::cerr << "usage: " << argv[0] << " input output conn fg kernelSize" << std::endl;
+    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " input output conn fg kernelSize" << std::endl;
     // std::cerr << "  : " << std::endl;
     exit(1);
     }

@@ -31,7 +31,7 @@ int itkVotingBinaryHoleFillingImageFilterTest( int argc, char* argv[] )
   if ( argc != 3 )
   {
     std::cerr << "Missing arguments" << std::endl;
-    std::cerr << "Usage: " << argv[0] << " Inputimage OutputImage" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Inputimage OutputImage" << std::endl;
     return EXIT_FAILURE;
   }
 

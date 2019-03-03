@@ -23,13 +23,14 @@
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
 #include "vnl/vnl_sample.h"
+#include "itkTestingMacros.h"
 
 int itkConnectedComponentImageFilterTest(int argc, char* argv[] )
 {
   if( argc < 5 )
     {
     std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " inputImage  outputImage threshold_low threshold_hi [fully_connected] [minimum_object_size]" << std::endl;
     return EXIT_FAILURE;
     }

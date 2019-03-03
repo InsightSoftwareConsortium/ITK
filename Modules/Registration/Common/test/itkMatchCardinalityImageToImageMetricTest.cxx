@@ -22,13 +22,14 @@
 #include "itkImageFileReader.h"
 
 #include <iostream>
+#include "itkTestingMacros.h"
 
 int itkMatchCardinalityImageToImageMetricTest(int argc, char* argv[] )
 {
 
   if (argc < 2)
     {
-    std::cout << "Usage: " << argv[0] << " InputFile" << std::endl;
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputFile" << std::endl;
     exit (1);
     }
 

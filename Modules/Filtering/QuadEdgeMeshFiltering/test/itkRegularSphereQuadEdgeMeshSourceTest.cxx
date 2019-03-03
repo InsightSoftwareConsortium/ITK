@@ -21,12 +21,13 @@
 #include "itkMeshFileWriter.h"
 
 #include <iostream>
+#include "itkTestingMacros.h"
 
 int itkRegularSphereQuadEdgeMeshSourceTest(int argc, char * argv [] )
 {
   if( argc != 2 )
     {
-    std::cerr << "Usage: " << argv[0] << " outputFileName.vtk" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputFileName.vtk" << std::endl;
     return EXIT_FAILURE;
     }
 

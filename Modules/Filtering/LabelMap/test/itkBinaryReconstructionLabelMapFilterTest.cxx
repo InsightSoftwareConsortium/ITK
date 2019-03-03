@@ -31,7 +31,7 @@ int itkBinaryReconstructionLabelMapFilterTest(int argc, char * argv[])
 {
   if( argc != 5 )
     {
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " input marker output";
     std::cerr << " fg";
     std::cerr << std::endl;

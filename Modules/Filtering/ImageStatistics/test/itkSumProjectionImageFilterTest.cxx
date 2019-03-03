@@ -20,13 +20,14 @@
 #include "itkSimpleFilterWatcher.h"
 
 #include "itkSumProjectionImageFilter.h"
+#include "itkTestingMacros.h"
 
 int itkSumProjectionImageFilterTest(int argc, char * argv[])
 {
   if( argc < 3 )
     {
     std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " InputImage OutputImage  " << std::endl;
     return EXIT_FAILURE;
     }

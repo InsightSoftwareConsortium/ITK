@@ -29,7 +29,7 @@ int itkLabelMapMaskImageFilterTest( int argc, char * argv[] )
 
   if( argc != 9 )
     {
-    std::cerr << "usage: " << argv[0] << " labelImage input output label bg neg crop cropBorder" << std::endl;
+    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " labelImage input output label bg neg crop cropBorder" << std::endl;
     return EXIT_FAILURE;
     }
 

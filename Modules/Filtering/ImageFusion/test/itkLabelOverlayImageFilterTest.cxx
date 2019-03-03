@@ -22,6 +22,7 @@
 #include "itkLabelOverlayImageFilter.h"
 #include "itkVectorImage.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 
 int itkLabelOverlayImageFilterTest(int argc, char * argv[])
@@ -31,7 +32,7 @@ int itkLabelOverlayImageFilterTest(int argc, char * argv[])
   if( argc < 5 )
     {
     std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " InputImage  LabelImage Opacity OutputImage" << std::endl;
     return 1;
     }

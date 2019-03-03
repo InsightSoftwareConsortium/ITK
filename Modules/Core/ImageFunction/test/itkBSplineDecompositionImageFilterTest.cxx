@@ -72,7 +72,7 @@ int itkBSplineDecompositionImageFilterTest( int argc, char* argv[] )
 {
   if( argc != 3 )
     {
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " splineOrder";
     std::cerr << " splinePoles(e.g. 0.12753,-0.48673,0.76439,\
                  [0.12753,-0.48673,0.76439],\

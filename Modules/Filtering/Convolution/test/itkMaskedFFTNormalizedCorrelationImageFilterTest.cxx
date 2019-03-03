@@ -21,13 +21,14 @@
 #include "itkImageFileWriter.h"
 #include "itkShiftScaleImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int itkMaskedFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[] )
 {
   if( argc < 4 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " fixedImageName movingImageName outputImageName [requiredFractionOfOverlappingPixels] [fixedMaskName] [movingMaskName]" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " fixedImageName movingImageName outputImageName [requiredFractionOfOverlappingPixels] [fixedMaskName] [movingMaskName]" << std::endl;
     return EXIT_FAILURE;
     }
 

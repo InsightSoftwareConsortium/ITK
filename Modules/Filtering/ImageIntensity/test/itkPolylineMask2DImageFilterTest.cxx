@@ -20,6 +20,7 @@
 #include "itkPolyLineParametricPath.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 int itkPolylineMask2DImageFilterTest(int argc, char * argv [] )
 {
@@ -28,7 +29,7 @@ int itkPolylineMask2DImageFilterTest(int argc, char * argv [] )
     {
     std::cerr << "Error: missing arguments" << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " inputFilename outputFilename " << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputFilename outputFilename " << std::endl;
     return EXIT_FAILURE;
     }
 

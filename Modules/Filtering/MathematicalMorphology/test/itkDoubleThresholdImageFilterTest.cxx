@@ -23,6 +23,7 @@
 #include "itkSimpleFilterWatcher.h"
 
 #include "itkDoubleThresholdImageFilter.h"
+#include "itkTestingMacros.h"
 
 
 int itkDoubleThresholdImageFilterTest( int argc, char * argv[] )
@@ -30,7 +31,7 @@ int itkDoubleThresholdImageFilterTest( int argc, char * argv[] )
   if( argc < 7 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  ";
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "  inputImageFile  ";
     std::cerr << " outputImageFile threshold1 threshold2 threshold3 threshold4 " << std::endl;
     return EXIT_FAILURE;
     }

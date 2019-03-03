@@ -33,12 +33,13 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkComposeImageFilter.h"
+#include "itkTestingMacros.h"
 
 int itkImageReadRealAndImaginaryWriteComplexTest( int argc, char * argv[] )
 {
   if( argc != 4 )
     {
-    std::cerr << "Usage: " << argv[0] << " inputReal inputImaginary outputComplex" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputReal inputImaginary outputComplex" << std::endl;
     return EXIT_FAILURE;
     }
 

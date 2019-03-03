@@ -20,6 +20,7 @@
 #include <fstream>
 #include "itkStdStreamLogOutput.h"
 #include "itkMultipleLogOutput.h"
+#include "itkTestingMacros.h"
 
 
 int itkMultipleLogOutputTest( int argc, char *argv [] )
@@ -28,7 +29,7 @@ int itkMultipleLogOutputTest( int argc, char *argv [] )
     {
     if (argc < 2)
       {
-      std::cout << "Usage: " << argv[0] << " logFilename" << std::endl;
+      std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " logFilename" << std::endl;
       return EXIT_FAILURE;
       }
 

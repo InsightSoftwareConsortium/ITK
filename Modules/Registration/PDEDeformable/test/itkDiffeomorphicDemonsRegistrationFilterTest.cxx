@@ -21,6 +21,7 @@
 #include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkVectorCastImageFilter.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 
 // The following class is used to support callbacks
@@ -100,7 +101,7 @@ int itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv [] )
     {
     std::cerr << "Missing arguments" << std::endl;
     std::cerr << "Usage:" << std::endl;
-    std::cerr << argv[0] << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << std::endl;
     std::cerr << "GradientType [0=Symmetric,1=Fixed,2=WarpedMoving,3=MappedMoving]" << std::endl;
     std::cerr << "UseFirstOrderExp [0=No,1=Yes]" << std::endl;
     std::cerr << "Intensity Difference Threshold (double)" << std::endl;

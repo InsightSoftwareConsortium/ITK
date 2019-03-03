@@ -25,13 +25,14 @@
 #include "itkXorImageFilter.h"
 #include "itkNotImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
+#include "itkTestingMacros.h"
 
 int itkRemoveBoundaryObjectsTest( int argc, char * argv[] )
 {
   if( argc < 3 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  ";
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "  inputImageFile  ";
     std::cerr << " outputImageFile  " << std::endl;
     return EXIT_FAILURE;
     }

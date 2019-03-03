@@ -26,7 +26,7 @@ int itkBinaryReconstructionByDilationImageFilterTest(int argc, char * argv[])
 {
   if( argc != 6 )
     {
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " input marker output";
     std::cerr << " fg bg";
     std::cerr << std::endl;

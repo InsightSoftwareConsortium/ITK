@@ -168,7 +168,7 @@ int itkBayesianClassifierImageFilterTest( int argc, char* argv[] )
   if( argc < 6 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " inputImageFile outputImageFile numberOfClasses smoothingIterations testPriors" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImageFile outputImageFile numberOfClasses smoothingIterations testPriors" << std::endl;
     return EXIT_FAILURE;
     }
 

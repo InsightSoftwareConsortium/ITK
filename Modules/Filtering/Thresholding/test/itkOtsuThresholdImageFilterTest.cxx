@@ -27,7 +27,7 @@ int itkOtsuThresholdImageFilterTest(int argc, char* argv[] )
 {
   if( argc < 3 )
     {
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " inputImageFile outputImageFile [numberOfHistogramBins flipOutputIntensities]";
     std::cerr << std::endl;
     return EXIT_FAILURE;

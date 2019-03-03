@@ -18,6 +18,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkLSMImageIO.h"
+#include "itkTestingMacros.h"
 
 
 // Specific ImageIO test
@@ -26,7 +27,7 @@ int itkLSMImageIOTest(int argc, char* argv[])
 {
   if(argc < 3)
     {
-    std::cerr << "Usage: " << argv[0] << " LSM.lsm OutputImage.lsm\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " LSM.lsm OutputImage.lsm\n";
     return EXIT_FAILURE;
     }
 

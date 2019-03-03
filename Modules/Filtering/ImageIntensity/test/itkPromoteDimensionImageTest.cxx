@@ -20,13 +20,14 @@
 #include "itkImageFileWriter.h"
 #include "itkCastImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
+#include "itkTestingMacros.h"
 
 int itkPromoteDimensionImageTest(int argc, char* argv[])
 {
   if( argc < 3)
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " inputImage outputImage " << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImage outputImage " << std::endl;
     return -1;
     }
 

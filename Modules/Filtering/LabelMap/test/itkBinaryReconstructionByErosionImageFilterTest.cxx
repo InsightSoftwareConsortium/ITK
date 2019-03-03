@@ -26,7 +26,7 @@ int itkBinaryReconstructionByErosionImageFilterTest(int argc, char * argv[])
 {
   if( argc != 6 )
     {
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " mask marker output fg bg";
     std::cerr << std::endl;
     return EXIT_FAILURE;

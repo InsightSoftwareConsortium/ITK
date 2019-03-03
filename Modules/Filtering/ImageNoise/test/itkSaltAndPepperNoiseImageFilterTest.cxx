@@ -28,7 +28,7 @@ int itkSaltAndPepperNoiseImageFilterTest(int argc, char * argv[])
 
   if( argc < 3 )
     {
-    std::cerr << "usage: " << argv[0] << " intput output Probability" << std::endl;
+    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " intput output Probability" << std::endl;
     std::cerr << " input: the input image" << std::endl;
     std::cerr << " output: the output image" << std::endl;
     return EXIT_FAILURE;

@@ -26,7 +26,7 @@ int itkGridImageSourceTest( int argc, char *argv[] )
 {
   if ( argc != 12 )
     {
-    std::cout << "Usage: " << argv[0]
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv)
       << " outputImage"
       << " imageSize"
       << " sigma"

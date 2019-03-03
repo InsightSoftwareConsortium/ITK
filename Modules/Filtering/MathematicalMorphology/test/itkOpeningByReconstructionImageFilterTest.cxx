@@ -21,13 +21,14 @@
 #include "itkImageFileWriter.h"
 #include "itkBinaryBallStructuringElement.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int itkOpeningByReconstructionImageFilterTest(int argc, char* argv [] )
 {
  if ( argc < 5 )
   {
     std::cerr << "Missing arguments" << std::endl;
-    std::cerr << "Usage: " << argv[0] << " Inputimage OutputImage Radius PreserveIntensities(0,1) [Diffmage]" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Inputimage OutputImage Radius PreserveIntensities(0,1) [Diffmage]" << std::endl;
     return EXIT_FAILURE;
   }
 

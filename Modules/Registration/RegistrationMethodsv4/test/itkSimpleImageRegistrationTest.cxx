@@ -27,6 +27,7 @@
 #include "itkGaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor.h"
 #include "itkJointHistogramMutualInformationImageToImageMetricv4.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
+#include "itkTestingMacros.h"
 
 template<typename TFilter>
 class CommandIterationUpdate : public itk::Command
@@ -109,7 +110,7 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
 {
   if( argc < 7 )
     {
-    std::cout << argv[0] << " pixelType imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations" << std::endl;
+    std::cout << itkNameOfTestExecutableMacro(argv) << " pixelType imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations" << std::endl;
     exit( 1 );
     }
 
@@ -393,7 +394,7 @@ int itkSimpleImageRegistrationTest( int argc, char *argv[] )
 {
   if( argc < 7 )
     {
-    std::cout << argv[0] << " pixelType imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations" << std::endl;
+    std::cout << itkNameOfTestExecutableMacro(argv) << " pixelType imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations" << std::endl;
     exit( 1 );
     }
 

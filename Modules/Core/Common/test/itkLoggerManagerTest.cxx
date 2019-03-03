@@ -20,6 +20,7 @@
 #include <fstream>
 #include "itkStdStreamLogOutput.h"
 #include "itkLoggerManager.h"
+#include "itkTestingMacros.h"
 
 class LogTester
 {
@@ -55,7 +56,7 @@ int itkLoggerManagerTest( int argc, char *argv [] )
     {
     if (argc < 2)
       {
-      std::cout << "Usage: " << argv[0] << " logFilename" << std::endl;
+      std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " logFilename" << std::endl;
       return EXIT_FAILURE;
       }
 

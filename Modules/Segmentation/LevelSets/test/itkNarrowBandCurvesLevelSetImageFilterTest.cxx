@@ -29,6 +29,7 @@
 
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 
 int itkNarrowBandCurvesLevelSetImageFilterTest(int argc, char* argv[] )
@@ -36,7 +37,7 @@ int itkNarrowBandCurvesLevelSetImageFilterTest(int argc, char* argv[] )
 
   if(argc < 2)
     {
-    std::cerr << "Usage: " << argv[0] << " OutputImage\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " OutputImage\n";
     return EXIT_FAILURE;
     }
 

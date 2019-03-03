@@ -109,7 +109,7 @@ int itkParametricBlindLeastSquaresDeconvolutionImageFilterTest(int argc, char* a
 {
   if ( argc < 6 )
     {
-    std::cerr << "Usage: " << argv[0]
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
               << " <input image> <output image> <iterations> <alpha> <beta> [convolution image]"
               << std::endl;
     return EXIT_FAILURE;

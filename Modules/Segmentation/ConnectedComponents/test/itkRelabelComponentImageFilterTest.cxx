@@ -24,6 +24,7 @@
 #include "itkSimpleFilterWatcher.h"
 #include "itkChangeInformationImageFilter.h"
 #include "itkLabelStatisticsImageFilter.h"
+#include "itkTestingMacros.h"
 
 
 int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
@@ -31,7 +32,7 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
   if( argc < 5 )
     {
     std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " inputImage  outputImage threshold_low threshold_hi" << std::endl;
     return EXIT_FAILURE;
     }

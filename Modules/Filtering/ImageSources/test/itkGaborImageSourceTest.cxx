@@ -90,7 +90,7 @@ int itkGaborImageSourceTest( int argc, char *argv[] )
 {
   if ( argc < 3 )
     {
-    std::cout << "Usage: " << argv[0] << " outputImage whichTest" << std::endl;
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputImage whichTest" << std::endl;
     return EXIT_FAILURE;
     }
 

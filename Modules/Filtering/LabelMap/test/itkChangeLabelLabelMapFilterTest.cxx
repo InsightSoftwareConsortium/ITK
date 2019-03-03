@@ -29,7 +29,7 @@ int itkChangeLabelLabelMapFilterTest( int argc, char * argv [] )
 {
   if( argc < 5 )
     {
-    std::cerr << "usage: " << argv[0] << " inputLabelImage outputLabelImage ";
+    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " inputLabelImage outputLabelImage ";
     std::cerr << "  old_label_1 new_label_1" << std::endl;
     std::cerr << " [old_label_2 new_label_2]" << std::endl;
     std::cerr << " [old_label_3 new_label_3]" << std::endl;
