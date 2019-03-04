@@ -54,7 +54,7 @@ write_compiler_detection_header(
       cxx_generic_lambdas                     # Generic lambdas, as defined in N3649.
       cxx_inheriting_constructors             # Inheriting constructors, as defined in N2540.
       cxx_inline_namespaces                   # Inline namespaces, as defined in N2535.
-      cxx_lambdas                             #Lambda functions, as defined in N2927.
+      cxx_lambdas                             # Lambda functions, as defined in N2927.
       cxx_lambda_init_captures                # Initialized lambda captures, as defined in N3648.
       cxx_local_type_template_args            # Local and unnamed types as template arguments, as defined in N2657.
       cxx_long_long_type                      # long long type, as defined in N1811.
@@ -65,14 +65,14 @@ write_compiler_detection_header(
       cxx_range_for                           # Range-based for, as defined in N2930.
       cxx_raw_string_literals                 # Raw string literals, as defined in N2442.
       cxx_reference_qualified_functions       # Reference qualified functions, as defined in N2439.
-      cxx_relaxed_constexpr                   #Relaxed constexpr, as defined in N3652.
+      cxx_relaxed_constexpr                   # Relaxed constexpr, as defined in N3652.
       cxx_return_type_deduction               # Return type deduction on normal functions, as defined in N3386.
       cxx_right_angle_brackets                # Right angle bracket parsing, as defined in N1757.
       cxx_rvalue_references                   # R-value references, as defined in N2118.
       cxx_sizeof_member                       # Size of non-static data members, as defined in N2253.
       cxx_static_assert                       # Static assert, as defined in N1720.
       cxx_strong_enums                        # Strongly typed enums, as defined in N2347.
-      cxx_thread_local                        #Thread-local variables, as defined in N2659.
+      cxx_thread_local                        # Thread-local variables, as defined in N2659.
       cxx_trailing_return_types               # Automatic function return type, as defined in N2541.
       cxx_unicode_literals                    # Unicode string literals, as defined in N2442.
       cxx_uniform_initialization              # Uniform intialization, as defined in N2640.
@@ -88,11 +88,11 @@ write_compiler_detection_header(
 # Install platform-specific compiler detection files
 #
 if("${VXL_INSTALL_INCLUDE_DIR}" STREQUAL "include/vxl")
-  set(_compilers_destination ${VXL_INSTALL_INCLUDE_DIR}/vcl/compilers)
-  set(_complier_detection_destination ${VXL_INSTALL_INCLUDE_DIR}/vcl)
+  set(_compilers_destination vcl/compilers)
+  set(_compiler_detection_destination vcl)
 else()
-  set(_compilers_destination ${VXL_INSTALL_INCLUDE_DIR}/compilers)
-  set(_complier_detection_destination ${VXL_INSTALL_INCLUDE_DIR})
+  set(_compilers_destination compilers)
+  set(_compiler_detection_destination .)
 endif()
 file(GLOB VXL_COMPILER_DETECTION_FILES ${CMAKE_CURRENT_BINARY_DIR}/compilers/*)
 install(FILES ${VXL_COMPILER_DETECTION_FILES}
@@ -100,7 +100,7 @@ install(FILES ${VXL_COMPILER_DETECTION_FILES}
       PERMISSIONS OWNER_WRITE OWNER_READ GROUP_READ WORLD_READ
       COMPONENT Development )
 install(FILES ${VCL_COMPILER_DETECTION_HEADER}
-      DESTINATION ${_complier_detection_destination}
+      DESTINATION ${_compiler_detection_destination}
       PERMISSIONS OWNER_WRITE OWNER_READ GROUP_READ WORLD_READ
       COMPONENT Development )
 
@@ -115,8 +115,9 @@ vxl_configure_file(${CMAKE_CURRENT_LIST_DIR}/vcl_where_root_dir.h.in ${PROJECT_B
 
 include_directories(${PROJECT_BINARY_DIR})
 set( vcl_sources
-  vcl_legacy_aliases.h ${VCL_COMPILER_DETECTION_HEADER}
-  vcl_deprecated.cxx  vcl_deprecated.h
+  vcl_legacy_aliases.h
+  vcl_deprecated.cxx
+  vcl_deprecated.h
 
   vcl_cmath.h
   vcl_cassert.h
