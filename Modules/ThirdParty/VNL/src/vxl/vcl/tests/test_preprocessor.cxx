@@ -33,8 +33,7 @@ int test_preprocessor_main(int /*argc*/,char* /*argv*/[])
         + VXL_COMPILER_IS_MSVC
         + VXL_COMPILER_IS_ADSP
         + VXL_COMPILER_IS_IAR
-        + VXL_COMPILER_IS_ARMCC
-        + VXL_COMPILER_IS_MIPSpro;
+        + VXL_COMPILER_IS_ARMCC;
 
   int result = 0;
 
