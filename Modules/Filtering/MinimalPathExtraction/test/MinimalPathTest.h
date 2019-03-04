@@ -90,8 +90,7 @@ ReadPathFile(const char * PathFilename, typename PathFilterType::Pointer pathFil
       itksys::SystemTools::ReplaceString(line, "Path: ", "");
       itksys::SystemTools::ReplaceString(line, " ", "");
       itksys::SystemTools::ReplaceString(line, "[", "");
-      std::vector<itksys::String> parts;
-      parts = itksys::SystemTools::SplitString(line.c_str(), ']');
+      std::vector<std::string>            parts = itksys::SystemTools::SplitString(line, ']');
       std::vector<std::string>::size_type numNonNullParts = 0;
       for (auto & part : parts)
         if (part.length() != 0)
@@ -101,8 +100,7 @@ ReadPathFile(const char * PathFilename, typename PathFilterType::Pointer pathFil
         if (parts[i].length() != 0)
         {
           typename PathFilterType::PointType point;
-          std::vector<itksys::String>        partsPoint;
-          partsPoint = itksys::SystemTools::SplitString(parts[i].c_str(), ',');
+          std::vector<std::string>           partsPoint = itksys::SystemTools::SplitString(parts[i], ',');
           for (std::vector<std::string>::size_type j = 0; j < partsPoint.size(); j++)
             point[j] = std::stod(partsPoint[j].c_str());
           if (i == 0)
