@@ -221,9 +221,14 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::Dy
           ++hist[currentInNeighborhoodPixelIntensity][pixelIntensity];
         }
       }
-      // Compute the run length features
-      this->ComputeFeatures(hist, totalNumberOfFreq, outputPixel);
-      outputIt.Set(outputPixel);
+
+      // No coocurrences means we are computing the texture of a single pixel, which is undefined
+      if (totalNumberOfFreq != 0)
+      {
+        // Compute the run length features
+        this->ComputeFeatures(hist, totalNumberOfFreq, outputPixel);
+        outputIt.Set(outputPixel);
+      }
 
       ++inputNIt;
       ++outputIt;
