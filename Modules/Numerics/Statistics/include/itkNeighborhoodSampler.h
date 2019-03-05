@@ -75,8 +75,8 @@ public:
   itkSetGetDecoratedInputMacro(Radius, RadiusType);
 
 protected:
-  NeighborhoodSampler();
-  ~NeighborhoodSampler() override;
+  NeighborhoodSampler() = default;
+  ~NeighborhoodSampler() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GenerateData() override;

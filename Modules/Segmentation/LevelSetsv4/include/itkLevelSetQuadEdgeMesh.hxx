@@ -24,14 +24,6 @@
 namespace itk
 {
 template< typename TMesh >
-LevelSetQuadEdgeMesh< TMesh >
-::LevelSetQuadEdgeMesh() = default;
-
-template< typename TMesh >
-LevelSetQuadEdgeMesh< TMesh >
-::~LevelSetQuadEdgeMesh() = default;
-
-template< typename TMesh >
 typename LevelSetQuadEdgeMesh< TMesh >::OutputType
 LevelSetQuadEdgeMesh< TMesh >::Evaluate( const InputType& iP ) const
 {

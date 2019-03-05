@@ -25,6 +25,7 @@
 #include "itkCastImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 #include "itkMath.h"
 #include "vnl/algo/vnl_matrix_inverse.h"
@@ -70,10 +71,6 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 
   this->m_PointWeights = WeightsContainerType::New();
 }
-
-template<typename TInputPointSet, typename TOutputImage>
-BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
-::~BSplineScatteredDataPointSetToImageFilter() = default;
 
 template<typename TInputPointSet, typename TOutputImage>
 void
@@ -1212,6 +1209,8 @@ void
 BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 ::PrintSelf( std::ostream & os, Indent indent ) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf( os, indent );
 
   os << indent << "Do multi level: " << this->m_DoMultilevel << std::endl;
@@ -1251,17 +1250,8 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   itkPrintSelfObjectMacro( KernelOrder2 );
   itkPrintSelfObjectMacro( KernelOrder3 );
 
-  os << indent << "Omega lattice per thread: " << std::endl;
-  for( unsigned int i = 0; i < m_OmegaLatticePerThread.size(); i++ )
-    {
-    os << indent << "[" << i <<"]: " << this->m_OmegaLatticePerThread[i] << std::endl;
-    }
-
-  os << indent << "Delta lattice per thread: " << std::endl;
-  for( unsigned int i = 0; i < m_DeltaLatticePerThread.size(); i++ )
-    {
-    os << indent << "[" << i <<"]: " << this->m_DeltaLatticePerThread[i] << std::endl;
-    }
+  os << indent << "Omega lattice per thread: " << m_OmegaLatticePerThread << std::endl;
+  os << indent << "Delta lattice per thread: " << m_DeltaLatticePerThread << std::endl;
 }
 } // end namespace itk
 

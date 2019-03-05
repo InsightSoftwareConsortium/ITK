@@ -22,10 +22,6 @@
 
 namespace itk
 {
-/** Constructor */
-template< unsigned int NDimensions >
-MetaLandmarkConverter< NDimensions >
-::MetaLandmarkConverter() = default;
 
 template< unsigned int NDimensions >
 typename MetaLandmarkConverter< NDimensions >::MetaObjectType *

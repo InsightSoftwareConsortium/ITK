@@ -158,7 +158,7 @@ int itkLabelOverlapMeasuresImageFilterTest( int argc, char *argv[] )
 {
   if( argc < 4 )
     {
-    std::cerr << "Usage: " << argv[0] << " imageDimension sourceImage "
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " imageDimension sourceImage "
               << "targetImage" << std::endl;
     return EXIT_FAILURE;
     }

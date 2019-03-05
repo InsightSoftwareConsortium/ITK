@@ -96,7 +96,7 @@ public:
   const FunctorType & GetFunctor() const { return m_Functor; }
 
 protected:
-  LabelMapToRGBImageFilter();
+  LabelMapToRGBImageFilter() = default;
   ~LabelMapToRGBImageFilter() override = default;
 
   void BeforeThreadedGenerateData() override;

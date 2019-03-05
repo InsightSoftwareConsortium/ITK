@@ -34,6 +34,7 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 namespace{
 // The following class is used to support callbacks
@@ -64,7 +65,7 @@ int itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char *a
   if( argc < 4 || argc > 8)
     {
     std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " fixedImageFile movingImageFile ";
     std::cerr << " outputImageFile ";
     std::cerr << " [numberOfIterations] ";

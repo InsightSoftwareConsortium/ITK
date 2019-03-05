@@ -19,6 +19,7 @@
 #include "itkBioRadImageIOFactory.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 // Specific ImageIO test
 
@@ -26,7 +27,7 @@ int itkBioRadImageIOTest(int argc, char* argv[])
 {
   if(argc < 3)
     {
-    std::cerr << "Usage: " << argv[0] << " BioRad.pic OutputImage.pic\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " BioRad.pic OutputImage.pic\n";
     return EXIT_FAILURE;
     }
 

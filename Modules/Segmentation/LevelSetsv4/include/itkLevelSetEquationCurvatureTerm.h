@@ -125,7 +125,7 @@ public:
 protected:
   LevelSetEquationCurvatureTerm();
 
-  ~LevelSetEquationCurvatureTerm() override;
+  ~LevelSetEquationCurvatureTerm() override = default;
 
   /** Returns the term contribution for a given location iP, i.e.
    *  \f$ \omega_i( p ) \f$. */

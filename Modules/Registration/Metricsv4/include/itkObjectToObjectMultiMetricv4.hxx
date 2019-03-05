@@ -35,11 +35,6 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
   this->m_MovingTransform = nullptr;
 }
 
-/** Destructor */
-template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
-ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
-::~ObjectToObjectMultiMetricv4() = default;
-
 /** Add a metric to the queue. */
 template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 void

@@ -33,13 +33,6 @@
 namespace itk
 {
 /**
- * Constructor
- */
-template< typename TInputImage, typename TOutputImage >
-BSplineCenteredResampleImageFilterBase< TInputImage, TOutputImage >
-::BSplineCenteredResampleImageFilterBase() = default;
-
-/**
  * Standard "PrintSelf" method
  */
 template< typename TInputImage, typename TOutputImage >

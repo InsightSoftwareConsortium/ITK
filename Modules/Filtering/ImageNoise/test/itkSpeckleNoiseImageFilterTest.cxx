@@ -28,7 +28,7 @@ int itkSpeckleNoiseImageFilterTest(int argc, char * argv[])
 
   if( argc < 3 )
     {
-    std::cerr << "usage: " << argv[0] << " input output [standardDeviation]" << std::endl;
+    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " input output [standardDeviation]" << std::endl;
     return EXIT_FAILURE;
     }
 

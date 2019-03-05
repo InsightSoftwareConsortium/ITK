@@ -35,11 +35,6 @@ ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>
 
 //-------------------------------------------------------------------
 template<typename TInternalComputationValueType>
-ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>
-::~ObjectToObjectMetricBaseTemplate() = default;
-
-//-------------------------------------------------------------------
-template<typename TInternalComputationValueType>
 bool ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>
 ::GetGradientSourceIncludesFixed() const
 {

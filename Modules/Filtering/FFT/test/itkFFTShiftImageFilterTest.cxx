@@ -21,13 +21,14 @@
 
 #include "itkSimpleFilterWatcher.h"
 #include "itkFFTShiftImageFilter.h"
+#include "itkTestingMacros.h"
 
 int itkFFTShiftImageFilterTest(int argc, char * argv[])
 {
 
   if( argc != 4 )
     {
-    std::cerr << "usage: " << argv[0] << " inputImage outputImage inverse" << std::endl;
+    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " inputImage outputImage inverse" << std::endl;
     std::cerr << "  inputImage: The input image." << std::endl;
     std::cerr << "  outputImage: The output image." << std::endl;
     std::cerr << "  inverse: 0, to perform a forward transform, or 1 to perform" << std::endl;

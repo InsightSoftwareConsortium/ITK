@@ -23,6 +23,7 @@
 #include "itkSimpleFilterWatcher.h"
 
 #include "itkGrayscaleConnectedOpeningImageFilter.h"
+#include "itkTestingMacros.h"
 
 
 int itkGrayscaleConnectedOpeningImageFilterTest( int argc, char * argv[] )
@@ -30,7 +31,7 @@ int itkGrayscaleConnectedOpeningImageFilterTest( int argc, char * argv[] )
   if( argc < 5 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  ";
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "  inputImageFile  ";
     std::cerr << " outputImageFile seedX seedY " << std::endl;
     return EXIT_FAILURE;
     }

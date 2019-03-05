@@ -300,7 +300,7 @@ public:
 
 protected:
   ObjectToObjectMetric();
-  ~ObjectToObjectMetric() override;
+  ~ObjectToObjectMetric() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

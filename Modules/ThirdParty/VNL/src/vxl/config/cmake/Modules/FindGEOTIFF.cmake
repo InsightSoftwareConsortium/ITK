@@ -12,7 +12,7 @@
 # Additionally
 # VXL_USING_NATIVE_GEOTIFF  - True if we are using a GEOTIFF library provided outside vxl (or v3p)
 
-if (${VXL_USE_GEOTIFF})
+if ( VXL_USE_GEOTIFF )
 
   if( NOT GEOTIFF_FOUND )
 
@@ -31,18 +31,13 @@ if (${VXL_USE_GEOTIFF})
     #
     if( NOT GEOTIFF_FOUND )
       if(EXISTS ${VXL_ROOT_SOURCE_DIR}/v3p/geotiff/geotiff.h)
-        # Use FIND_PATH here to allow the user to set the path to IGNORE
-        # to disable geotiff support.
-        find_path(GEOTIFF_INCLUDE_DIR geotiff.h
-          ${VXL_ROOT_SOURCE_DIR}/v3p/geotiff
-        )
-        if( GEOTIFF_INCLUDE_DIR )
-          set( GEOTIFF_FOUND "YES" )
-          set( GEOTIFF_INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_DIR}/include/vxl/v3p/geotiff)
-          set( GEOTIFF_LIBRARIES geotiff )
-        endif()
-
+        set( GEOTIFF_FOUND "YES" )
+        set( GEOTIFF_INCLUDE_DIR ${VXL_ROOT_SOURCE_DIR}/v3p/geotiff )
+        set( GEOTIFF_INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_DIR}/include/vxl/v3p/geotiff )
+        set( GEOTIFF_LIBRARIES geotiff )
       endif()
     endif()
+
   endif()
+
 endif()

@@ -20,12 +20,13 @@
 #include "itkImageFileReader.h"
 #include "itkPipelineMonitorImageFilter.h"
 #include "itkStreamingImageFilter.h"
+#include "itkTestingMacros.h"
 
 int itkImageFileReaderStreamingTest(int argc, char* argv[])
 {
   if( argc < 2 )
     {
-    std::cerr << "Usage: " << argv[0] << " input [expected-to-stream 1|0 [ force-no-streaming 1|0] ]" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input [expected-to-stream 1|0 [ force-no-streaming 1|0] ]" << std::endl;
     return EXIT_FAILURE;
     }
 

@@ -141,10 +141,6 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 }
 
 template< typename TInputImage, typename TOutputImage >
-SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
-::~SparseFieldLevelSetImageFilter() = default;
-
-template< typename TInputImage, typename TOutputImage >
 void
 SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::ApplyUpdate(const TimeStepType& dt)

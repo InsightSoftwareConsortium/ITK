@@ -108,7 +108,7 @@ public:
 
 protected:
   PointSetFunction();
-  ~PointSetFunction() override;
+  ~PointSetFunction() override = default;
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** Const pointer to the input image. */

@@ -173,7 +173,7 @@ public:
 
 protected:
   TimeVaryingBSplineVelocityFieldTransform();
-  ~TimeVaryingBSplineVelocityFieldTransform() override;
+  ~TimeVaryingBSplineVelocityFieldTransform() override = default;
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 
 private:

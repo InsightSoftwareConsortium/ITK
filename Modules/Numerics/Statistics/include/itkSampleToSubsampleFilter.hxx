@@ -35,10 +35,6 @@ SampleToSubsampleFilter< TSample >
 }
 
 template< typename TSample >
-SampleToSubsampleFilter< TSample >
-::~SampleToSubsampleFilter() = default;
-
-template< typename TSample >
 void
 SampleToSubsampleFilter< TSample >
 ::SetInput(const SampleType *sample)

@@ -37,6 +37,7 @@
 #include "itkImageFileWriter.h"
 
 #include <iomanip>
+#include "itkTestingMacros.h"
 
 namespace{
 
@@ -138,7 +139,7 @@ int itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, cha
   if( argc < 4 )
     {
     std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " fixedImageFile movingImageFile ";
     std::cerr << " outputImageFile ";
     std::cerr << " [numberOfIterations numberOfDisplacementIterations] ";

@@ -21,6 +21,7 @@
 #include "itkStdStreamLogOutput.h"
 #include "itkThreadLogger.h"
 #include "itkMultiThreaderBase.h"
+#include "itkTestingMacros.h"
 
 
 struct ThreadDataStruct
@@ -113,7 +114,7 @@ int itkThreadLoggerTest( int argc, char * argv[] )
     {
     if (argc < 2)
       {
-      std::cout << "Usage: " << argv[0] << " logFilename [num threads, default = 10]" << std::endl;
+      std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " logFilename [num threads, default = 10]" << std::endl;
       return EXIT_FAILURE;
       }
 

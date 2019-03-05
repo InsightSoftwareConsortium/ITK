@@ -43,10 +43,6 @@ VideoFileReader< TOutputVideoStream >
 }
 
 template< typename TOutputVideoStream >
-VideoFileReader< TOutputVideoStream >
-::~VideoFileReader() = default;
-
-template< typename TOutputVideoStream >
 void
 VideoFileReader< TOutputVideoStream >
 ::UpdateOutputInformation()

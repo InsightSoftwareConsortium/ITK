@@ -103,7 +103,7 @@ int itkTIFFImageIOTest( int argc, char* argv[] )
 
   if( argc < 3 )
     {
-    std::cerr << "Usage: " << argv[0]
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
               << " Input Output [dimensionality (default: 2)]"
               << "[pixeltype: 1:RBG<char>(default); 2:RBG<ushort>; 3:short; 4:float; 5:ushort]" << std::endl;
     return EXIT_FAILURE;
@@ -168,7 +168,7 @@ int itkTIFFImageIOTest( int argc, char* argv[] )
     }
   else
     {
-    std::cerr << "Test failed!" << argv[0] << std::endl;
+    std::cerr << "Test failed!" << itkNameOfTestExecutableMacro(argv) << std::endl;
     std::cerr << " Unsupported dimensionality or pixelType provided." << std::endl;
     std::cerr << " Supported dimensionality: [2-4]; (default: 2)" << std::endl;
     std::cerr << " Supported pixelType: [1:uchar(default); 2:ushort; 3:short; 4:float]" << std::endl;

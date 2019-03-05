@@ -68,7 +68,7 @@ public:
 
 protected:
   GaussianExponentialDiffeomorphicTransformParametersAdaptor();
-  ~GaussianExponentialDiffeomorphicTransformParametersAdaptor() override;
+  ~GaussianExponentialDiffeomorphicTransformParametersAdaptor() override = default;
 
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 

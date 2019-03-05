@@ -36,10 +36,6 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
 }
 
 template<typename TInternalComputationValueType>
-RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
-::~RegularStepGradientDescentOptimizerv4() = default;
-
-template<typename TInternalComputationValueType>
 void
 RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
 ::StartOptimization( bool doOnlyInitialization )

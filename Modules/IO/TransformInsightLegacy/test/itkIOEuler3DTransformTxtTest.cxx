@@ -22,13 +22,14 @@
 #include "itkTxtTransformIOFactory.h"
 #include "itkEuler3DTransform.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 int itkIOEuler3DTransformTxtTest(int argc, char *argv[])
 {
   if( argc != 3 )
     {
     std::cerr<< "Usage: "
-             << argv[0]
+             << itkNameOfTestExecutableMacro(argv)
              <<" inputFileName outputFileName"
              << std::endl;
     return EXIT_FAILURE;

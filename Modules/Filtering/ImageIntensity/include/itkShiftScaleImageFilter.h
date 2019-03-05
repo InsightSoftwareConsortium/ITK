@@ -107,7 +107,7 @@ public:
 
 protected:
   ShiftScaleImageFilter();
-  ~ShiftScaleImageFilter() override;
+  ~ShiftScaleImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Initialize some accumulators before the threads run. */

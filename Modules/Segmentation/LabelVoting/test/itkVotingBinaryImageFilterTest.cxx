@@ -86,7 +86,7 @@ int itkVotingBinaryImageFilterTest(int argc, char* argv[] )
   if ( argc < 6 )
   {
     std::cerr << "Missing arguments" << std::endl;
-    std::cerr << "Usage: " << argv[0] << " Inputimage OutputImage radius ForegroundValue BackgroundValue" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Inputimage OutputImage radius ForegroundValue BackgroundValue" << std::endl;
     return EXIT_FAILURE;
   }
 

@@ -69,7 +69,7 @@ protected:
   /** Create the specific MetaObject for this class */
   MetaObjectType *CreateMetaObject() override;
 
-  MetaLandmarkConverter();
+  MetaLandmarkConverter() = default;
   ~MetaLandmarkConverter() override = default;
 };
 

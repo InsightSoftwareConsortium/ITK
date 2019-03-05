@@ -35,11 +35,6 @@ TubeSpatialObjectPoint< TPointDimension >
   m_R = 0;
 }
 
-/** Destructor */
-template< unsigned int TPointDimension >
-TubeSpatialObjectPoint< TPointDimension >
-::~TubeSpatialObjectPoint() = default;
-
 /** Get the radius */
 template< unsigned int TPointDimension >
 float

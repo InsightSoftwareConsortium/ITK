@@ -104,7 +104,7 @@ public:
 protected:
 
   FastMarchingQuadEdgeMeshFilterBase();
-  ~FastMarchingQuadEdgeMeshFilterBase() override;
+  ~FastMarchingQuadEdgeMeshFilterBase() override = default;
 
   NodeLabelMapType m_Label;
 

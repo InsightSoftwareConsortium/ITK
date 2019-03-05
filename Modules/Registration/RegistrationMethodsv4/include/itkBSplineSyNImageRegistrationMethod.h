@@ -128,8 +128,8 @@ public:
   using DecoratedOutputTransformPointer = typename DecoratedOutputTransformType::Pointer;
 
 protected:
-  BSplineSyNImageRegistrationMethod();
-  ~BSplineSyNImageRegistrationMethod() override;
+  BSplineSyNImageRegistrationMethod() = default;
+  ~BSplineSyNImageRegistrationMethod() override = default;
 
   /** Handle optimization internally */
   void StartOptimization() override;

@@ -39,10 +39,6 @@ VoronoiDiagram2DGenerator< TCoordRepType >::VoronoiDiagram2DGenerator() :
 }
 
 template< typename TCoordRepType >
-VoronoiDiagram2DGenerator< TCoordRepType >::
-~VoronoiDiagram2DGenerator() = default;
-
-template< typename TCoordRepType >
 void
 VoronoiDiagram2DGenerator< TCoordRepType >::SetRandomSeeds(int num)
 {

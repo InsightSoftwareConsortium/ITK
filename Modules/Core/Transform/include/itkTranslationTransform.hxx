@@ -42,12 +42,6 @@ TranslationTransform<TParametersValueType, NDimensions>
     }
 }
 
-
-template<typename TParametersValueType, unsigned int NDimensions>
-TranslationTransform<TParametersValueType, NDimensions>
-::~TranslationTransform() = default;
-
-
 template<typename TParametersValueType, unsigned int NDimensions>
 void
 TranslationTransform<TParametersValueType, NDimensions>

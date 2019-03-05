@@ -47,10 +47,6 @@ FixedCenterOfRotationAffineTransform<TParametersValueType, NDimensions>::FixedCe
   Superclass(matrix, offset)
 {}
 
-/** Destructor */
-template<typename TParametersValueType, unsigned int NDimensions>
-FixedCenterOfRotationAffineTransform<TParametersValueType, NDimensions>::
-~FixedCenterOfRotationAffineTransform() = default;
 } // namespace
 
 #endif

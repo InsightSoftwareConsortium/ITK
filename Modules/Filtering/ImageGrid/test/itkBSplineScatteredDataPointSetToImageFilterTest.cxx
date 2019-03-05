@@ -33,7 +33,7 @@ int itkBSplineScatteredDataPointSetToImageFilterTest( int argc, char * argv [] )
 
   if ( argc != 3 )
     {
-    std::cout << "Usage: " << argv[0] << " inputImage outputImage" << std::endl;
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImage outputImage" << std::endl;
     return EXIT_FAILURE;
     }
 

@@ -21,6 +21,7 @@
 #include "itkVnlComplexToComplexFFTImageFilter.h"
 #include "itkForwardFFTImageFilter.h"
 #include "itkInverseFFTImageFilter.h"
+#include "itkTestingMacros.h"
 
 template< typename TPixel, unsigned int VDimension >
 int transformImage( const char * inputImageFileName, const char * outputImageFileName )
@@ -75,7 +76,7 @@ int itkVnlComplexToComplexFFTImageFilterTest( int argc, char * argv[] )
 {
   if( argc < 4 )
     {
-    std::cerr << "Usage: " << argv[0] << " <InputImage> <OutputImage> <float|double>" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <InputImage> <OutputImage> <float|double>" << std::endl;
     return EXIT_FAILURE;
     }
   const char * inputImageFileName = argv[1];

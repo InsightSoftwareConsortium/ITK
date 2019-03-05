@@ -42,11 +42,6 @@ AffineTransform<TParametersValueType, NDimensions>::AffineTransform(const Matrix
   Superclass(matrix, offset)
 {}
 
-/**  Destructor */
-template<typename TParametersValueType, unsigned int NDimensions>
-AffineTransform<TParametersValueType, NDimensions>::
-~AffineTransform() = default;
-
 /** Print self */
 template<typename TParametersValueType, unsigned int NDimensions>
 void

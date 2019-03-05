@@ -80,7 +80,7 @@ public:
 
 protected:
   TorusInteriorExteriorSpatialFunction();
-  ~TorusInteriorExteriorSpatialFunction() override;
+  ~TorusInteriorExteriorSpatialFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

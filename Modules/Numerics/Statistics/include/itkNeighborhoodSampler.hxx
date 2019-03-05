@@ -24,13 +24,6 @@ namespace itk
 {
 namespace Statistics
 {
-template< typename TSample >
-NeighborhoodSampler< TSample >
-::NeighborhoodSampler() = default;
-
-template< typename TSample >
-NeighborhoodSampler< TSample >
-::~NeighborhoodSampler() = default;
 
 template< typename TSample >
 void

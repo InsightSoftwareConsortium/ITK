@@ -22,11 +22,6 @@
 
 namespace itk
 {
-/** Constructor */
-template< unsigned int NDimensions >
-MetaTubeConverter< NDimensions >
-::MetaTubeConverter() = default;
-
 template< unsigned int NDimensions >
 typename MetaTubeConverter< NDimensions >::MetaObjectType *
 MetaTubeConverter< NDimensions>

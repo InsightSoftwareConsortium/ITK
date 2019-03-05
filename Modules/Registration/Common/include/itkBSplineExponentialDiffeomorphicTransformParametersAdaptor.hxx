@@ -33,10 +33,6 @@ BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
   this->m_NumberOfControlPointsForTheUpdateFieldSetTime = 0;
 }
 
-template<typename TTransform>
-BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>
-::~BSplineExponentialDiffeomorphicTransformParametersAdaptor() = default;
-
 /**
  * set mesh size for velocity field
  */

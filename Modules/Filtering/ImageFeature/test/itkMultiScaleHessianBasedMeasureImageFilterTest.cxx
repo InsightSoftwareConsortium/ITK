@@ -21,13 +21,14 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
 {
   if ( argc < 4 )
     {
     std::cerr << "Missing Parameters: "
-              << argv[0]
+              << itkNameOfTestExecutableMacro(argv)
               << " InputImage"
               << " EnhancedOutputImage ScalesOutputImage "
               << " [SigmaMin SigmaMax NumberOfScales ObjectDimension Bright/Dark EnhancedOutputImage2 ScalesOutputImage3]" << std::endl;

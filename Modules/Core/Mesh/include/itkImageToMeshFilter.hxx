@@ -38,13 +38,6 @@ ImageToMeshFilter< TInputImage, TOutputMesh >
 }
 
 /**
- *
- */
-template< typename TInputImage, typename TOutputMesh >
-ImageToMeshFilter< TInputImage, TOutputMesh >
-::~ImageToMeshFilter() = default;
-
-/**
  *   Make Ouput
  */
 template< typename TInputImage, typename TOutputMesh >

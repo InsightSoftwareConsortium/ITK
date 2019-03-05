@@ -25,13 +25,14 @@
 #include <sstream>
 #include <vector>
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 int itkGDCMImagePositionPatientTest( int argc, char* argv[] )
 {
 
   if( argc < 2 )
     {
-    std::cerr << "Usage: " << argv[0] <<
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) <<
       " OutputTestDirectory" << std::endl;
     return EXIT_FAILURE;
     }

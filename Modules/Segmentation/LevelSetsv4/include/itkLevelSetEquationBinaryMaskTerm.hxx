@@ -33,10 +33,6 @@ LevelSetEquationBinaryMaskTerm< TInput, TLevelSetContainer >
 }
 
 template< typename TInput, typename TLevelSetContainer >
-LevelSetEquationBinaryMaskTerm< TInput, TLevelSetContainer >
-::~LevelSetEquationBinaryMaskTerm() = default;
-
-template< typename TInput, typename TLevelSetContainer >
 void LevelSetEquationBinaryMaskTerm< TInput, TLevelSetContainer >
 ::Update()
 {}

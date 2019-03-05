@@ -147,7 +147,7 @@ public:
 
 protected:
   JointHistogramMutualInformationImageToImageMetricv4();
-  ~JointHistogramMutualInformationImageToImageMetricv4() override;
+  ~JointHistogramMutualInformationImageToImageMetricv4() override = default;
 
   /** Update the histograms for use in GetValueAndDerivative
    *  Results are returned in \c value and \c derivative.

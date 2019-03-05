@@ -30,7 +30,7 @@ int itkGDCMImageReadSeriesWriteTest( int argc, char* argv[] )
 {
   if( argc < 4 )
     {
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " InputImage OutputDicomDirectory SingleOutputImage" << std::endl;
     return EXIT_FAILURE;
     }

@@ -32,18 +32,6 @@
 
 namespace itk
 {
-
-template< typename MetaDataObjectType >
-MetaDataObject< MetaDataObjectType >
-::MetaDataObject()
-{
-  // m_MetaDataObjectValue takes this types default value.
-}
-
-template< typename MetaDataObjectType >
-MetaDataObject< MetaDataObjectType >
-::~MetaDataObject() = default;
-
 template< typename MetaDataObjectType >
 const char *
 MetaDataObject< MetaDataObjectType >

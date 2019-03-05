@@ -89,7 +89,7 @@ protected:
   std::string m_FileName;
 
   SpatialObjectReader();
-  ~SpatialObjectReader() override;
+  ~SpatialObjectReader() override = default;
 
 private:
 

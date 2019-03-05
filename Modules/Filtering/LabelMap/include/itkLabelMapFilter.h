@@ -101,7 +101,7 @@ public:
 
 protected:
   LabelMapFilter();
-  ~LabelMapFilter() override;
+  ~LabelMapFilter() override = default;
 
   void BeforeThreadedGenerateData() override;
 

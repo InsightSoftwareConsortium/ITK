@@ -20,12 +20,13 @@
 #include "itkIOCommon.h"
 #include "itkMetaDataObject.h"
 #include "itkSpatialOrientationAdapter.h"
+#include "itkTestingMacros.h"
 
 int itkReadWriteImageWithDictionaryTest(int argc, char* argv[])
 {
   if( argc != 2 )
     {
-    std::cerr << "Usage: " << argv[0] << " Input\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Input\n";
     return EXIT_FAILURE;
     }
 

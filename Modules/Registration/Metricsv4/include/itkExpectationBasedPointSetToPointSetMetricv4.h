@@ -112,7 +112,7 @@ public:
 
 protected:
   ExpectationBasedPointSetToPointSetMetricv4();
-  ~ExpectationBasedPointSetToPointSetMetricv4() override;
+  ~ExpectationBasedPointSetToPointSetMetricv4() override = default;
 
   /** PrintSelf function */
   void PrintSelf( std::ostream & os, Indent indent ) const override;

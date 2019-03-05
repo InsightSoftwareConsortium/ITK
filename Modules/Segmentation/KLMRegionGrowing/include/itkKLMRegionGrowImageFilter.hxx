@@ -31,10 +31,6 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
   this->SetMaximumNumberOfRegions(2);
 }
 
-template< typename TInputImage, typename TOutputImage >
-KLMRegionGrowImageFilter< TInputImage, TOutputImage >
-::~KLMRegionGrowImageFilter() = default;
-
 /**
  * PrintSelf
  */

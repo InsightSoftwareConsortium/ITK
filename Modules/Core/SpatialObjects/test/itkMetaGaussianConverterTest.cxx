@@ -43,7 +43,7 @@ int itkMetaGaussianConverterTest(int argc, char* argv[])
   // Check number of arguments
   if (argc != 2)
     {
-    std::cerr << "Usage: " << argv[0] << " output" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " output" << std::endl;
     return EXIT_FAILURE;
     }
 

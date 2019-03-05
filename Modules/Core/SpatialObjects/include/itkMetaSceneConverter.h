@@ -57,7 +57,7 @@ public:
   using ConverterMapType = std::map< std::string, MetaConverterPointer >;
 
   MetaSceneConverter();
-  ~MetaSceneConverter();
+  ~MetaSceneConverter() = default;
 
   static constexpr unsigned int MaximumDepth = 9999999;
 

@@ -116,7 +116,7 @@ public:
 
 protected:
   CovarianceSampleFilter();
-  ~CovarianceSampleFilter() override;
+  ~CovarianceSampleFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** DataObject pointer */

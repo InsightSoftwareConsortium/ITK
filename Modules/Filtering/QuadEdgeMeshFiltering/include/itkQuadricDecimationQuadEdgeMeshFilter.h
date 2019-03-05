@@ -86,10 +86,10 @@ public:
 
 protected:
   /** \brief Constructor */
-  QuadricDecimationQuadEdgeMeshFilter();
+  QuadricDecimationQuadEdgeMeshFilter() = default;
 
   /** \brief Destructor */
-  ~QuadricDecimationQuadEdgeMeshFilter() override;
+  ~QuadricDecimationQuadEdgeMeshFilter() override = default;
 
   /** \brief Compute the quadric error at the origin of the edge
    *  \param[in] iEdge input edge

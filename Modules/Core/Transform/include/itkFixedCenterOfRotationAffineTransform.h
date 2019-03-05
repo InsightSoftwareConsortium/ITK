@@ -108,7 +108,7 @@ protected:
   FixedCenterOfRotationAffineTransform();
 
   /** Destroy an FixedCenterOfRotationAffineTransform object   */
-  ~FixedCenterOfRotationAffineTransform() override;
+  ~FixedCenterOfRotationAffineTransform() override = default;
 
 private:
   FixedCenterOfRotationAffineTransform(const Self & other) = delete;

@@ -102,7 +102,7 @@ int itkSmoothingRecursiveGaussianImageFilterTest( int argc, char* argv[] )
     {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " inputImageFile outputImageFile normalizeAcrossScale sigma" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImageFile outputImageFile normalizeAcrossScale sigma" << std::endl;
     return EXIT_FAILURE;
     }
 

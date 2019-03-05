@@ -107,7 +107,7 @@ public:
 protected:
 
   VideoFileReader();
-  ~VideoFileReader() override;
+  ~VideoFileReader() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Override TemporalStreamingGenerateData to generate output a single frame.

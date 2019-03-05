@@ -88,7 +88,7 @@ public:
                              MeasureType & Value, DerivativeType & Derivative) const override;
 
 protected:
-  MeanSquaresPointSetToImageMetric();
+  MeanSquaresPointSetToImageMetric() = default;
   ~MeanSquaresPointSetToImageMetric() override = default;
 };
 } // end namespace itk

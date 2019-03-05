@@ -25,6 +25,7 @@
 #include <iostream>
 #include <algorithm>
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 namespace itk
 {
@@ -279,7 +280,7 @@ int itkVTKImageIOStreamTest(int argc, char* argv[] )
   if( argc < 2 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  output" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "  output" << std::endl;
     return EXIT_FAILURE;
     }
 

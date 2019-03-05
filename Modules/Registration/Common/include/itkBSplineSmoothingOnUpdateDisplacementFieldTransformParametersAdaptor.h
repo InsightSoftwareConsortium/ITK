@@ -116,7 +116,7 @@ public:
 
 protected:
   BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor();
-  ~BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor() override;
+  ~BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor() override = default;
 
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 

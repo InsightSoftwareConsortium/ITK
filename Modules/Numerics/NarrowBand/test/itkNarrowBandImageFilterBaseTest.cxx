@@ -23,6 +23,7 @@
 #include "itkRandomImageSource.h"
 #include "itkAddImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
+#include "itkTestingMacros.h"
 
 namespace itk
 {
@@ -112,7 +113,7 @@ int itkNarrowBandImageFilterBaseTest(int argc, char* argv[])
 {
   if(argc < 2)
     {
-    std::cerr << "Usage: " << argv[0] << " OutputImage\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " OutputImage\n";
     return EXIT_FAILURE;
     }
 

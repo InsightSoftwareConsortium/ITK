@@ -152,7 +152,7 @@ public:
 
 protected:
   SpatialObjectToImageFilter();
-  ~SpatialObjectToImageFilter() override;
+  ~SpatialObjectToImageFilter() override = default;
 
   void GenerateOutputInformation() override {}  // do nothing
   void GenerateData() override;

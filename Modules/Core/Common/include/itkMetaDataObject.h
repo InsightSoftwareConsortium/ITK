@@ -124,8 +124,8 @@ public:
   void Print(std::ostream & os) const override;
 
 protected:
-  MetaDataObject();
-  ~MetaDataObject() override;
+  MetaDataObject() = default;
+  ~MetaDataObject() override = default;
 
 private:
   /**

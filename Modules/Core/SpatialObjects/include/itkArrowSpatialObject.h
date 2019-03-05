@@ -125,7 +125,7 @@ public:
 protected:
 
   ArrowSpatialObject();
-  ~ArrowSpatialObject() override;
+  ~ArrowSpatialObject() override = default;
 
   /** Update the transformation given the position and the direction */
   void UpdateTransform();

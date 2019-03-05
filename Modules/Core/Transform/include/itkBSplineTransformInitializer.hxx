@@ -37,10 +37,6 @@ BSplineTransformInitializer<TTransform, TImage>
 }
 
 template<typename TTransform, typename TImage>
-BSplineTransformInitializer<TTransform, TImage>
-::~BSplineTransformInitializer() = default;
-
-template<typename TTransform, typename TImage>
 void
 BSplineTransformInitializer<TTransform, TImage>
 ::SetTransformDomainMeshSize( const MeshSizeType meshSize )

@@ -21,6 +21,7 @@
 #include "itkVideoFileReader.h"
 #include "itkVideoFileWriter.h"
 #include "itkFileListVideoIOFactory.h"
+#include "itkTestingMacros.h"
 
 
 // Set up type alias for test
@@ -87,7 +88,7 @@ int itkFrameAverageVideoFilterTest( int argc, char* argv[] )
   //////
   if (argc < 3)
     {
-    std::cout << "Usage: " << argv[0] << " input_file_string output_file_string" << std::endl;
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input_file_string output_file_string" << std::endl;
     return EXIT_FAILURE;
     }
 

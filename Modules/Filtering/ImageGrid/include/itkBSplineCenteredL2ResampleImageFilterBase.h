@@ -99,7 +99,7 @@ protected:
 
   void InitializePyramidSplineFilter(int SplineOrder) override;
 
-  BSplineCenteredL2ResampleImageFilterBase();
+  BSplineCenteredL2ResampleImageFilterBase() = default;
   ~BSplineCenteredL2ResampleImageFilterBase() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 };

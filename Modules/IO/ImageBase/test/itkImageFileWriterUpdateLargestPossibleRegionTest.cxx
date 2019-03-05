@@ -18,12 +18,13 @@
 #include <fstream>
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 int itkImageFileWriterUpdateLargestPossibleRegionTest(int argc, char* argv[])
 {
   if( argc < 3 )
     {
-    std::cerr << "Usage: " << argv[0] << " input output" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input output" << std::endl;
     return EXIT_FAILURE;
     }
 

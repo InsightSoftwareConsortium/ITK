@@ -256,7 +256,7 @@ protected:
   DisplacementFieldToBSplineImageFilter();
 
   /** Deconstructor */
-  ~DisplacementFieldToBSplineImageFilter() override;
+  ~DisplacementFieldToBSplineImageFilter() override = default;
 
   /** Standard print self function **/
   void PrintSelf( std::ostream& os, Indent indent ) const override;

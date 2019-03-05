@@ -29,7 +29,7 @@ int itkTestingComparisonImageFilterTest(int argc, char *argv [] )
   if( argc < 7 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0];
+    std::cerr << itkNameOfTestExecutableMacro(argv);
     std::cerr << "  inputImageFile1 inputImageFile2 outputImage threshold radius numberOfPixelsWithDifferences" << std::endl;
     return EXIT_FAILURE;
     }

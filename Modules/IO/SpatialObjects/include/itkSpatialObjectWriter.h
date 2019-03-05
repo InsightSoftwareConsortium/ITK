@@ -96,7 +96,7 @@ protected:
   bool        m_WriteImagesInSeparateFile;
 
   SpatialObjectWriter();
-  ~SpatialObjectWriter() override;
+  ~SpatialObjectWriter() override = default;
 
 private:
 

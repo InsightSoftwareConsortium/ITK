@@ -272,7 +272,7 @@ public:
 protected:
   LevelSetEquationTermContainer();
 
-  ~LevelSetEquationTermContainer() override;
+  ~LevelSetEquationTermContainer() override = default;
 
   LevelSetIdentifierType    m_CurrentLevelSetId;
   LevelSetContainerPointer  m_LevelSetContainer;

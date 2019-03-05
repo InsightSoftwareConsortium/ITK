@@ -22,6 +22,7 @@
 #include "itkGDCMSeriesFileNames.h"
 #include "itkPipelineMonitorImageFilter.h"
 #include "itkStreamingImageFilter.h"
+#include "itkTestingMacros.h"
 
 /// \brief is comparison with a percentage tollerance
 ///
@@ -46,7 +47,7 @@ int itkGDCMSeriesStreamReadImageWriteTest( int argc, char* argv[] )
 {
   if( argc < 6 )
     {
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " DicomDirectory  outputFile ";
     std::cerr << " spacingX spacingY spacingZ [ force-no-streaming 1|0]" << std::endl;
     return EXIT_FAILURE;

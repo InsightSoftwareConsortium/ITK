@@ -22,6 +22,7 @@
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
 #include "itkStimulateImageIO.h"
+#include "itkTestingMacros.h"
 
 
 // Specific ImageIO test
@@ -33,7 +34,7 @@ int itkStimulateImageIOTest(int argc, char* argv[] )
   if( argc < 3 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  output1 output2 " << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "  output1 output2 " << std::endl;
     return EXIT_FAILURE;
     }
 

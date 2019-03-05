@@ -57,8 +57,8 @@ public:
   void PopulateListImage();
 
 protected:
-  LevelSetDomainPartition();
-  ~LevelSetDomainPartition();
+  LevelSetDomainPartition() = default;
+  ~LevelSetDomainPartition() = default;
 };
 } //end namespace itk
 

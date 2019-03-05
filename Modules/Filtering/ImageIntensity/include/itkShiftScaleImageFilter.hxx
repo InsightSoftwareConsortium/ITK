@@ -41,10 +41,6 @@ ShiftScaleImageFilter< TInputImage, TOutputImage >
 }
 
 template< typename TInputImage, typename TOutputImage >
-ShiftScaleImageFilter< TInputImage, TOutputImage >
-::~ShiftScaleImageFilter() = default;
-
-template< typename TInputImage, typename TOutputImage >
 void
 ShiftScaleImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()

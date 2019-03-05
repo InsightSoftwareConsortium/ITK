@@ -190,7 +190,7 @@ protected:
   ScaleTransform();
 
   /** Destroy an ScaleTransform object. */
-  ~ScaleTransform() override;
+  ~ScaleTransform() override = default;
 
   /** Print contents of an ScaleTransform */
   void PrintSelf(std::ostream & os, Indent indent) const override;

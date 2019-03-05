@@ -29,7 +29,7 @@ int itkAdaptiveHistogramEqualizationImageFilterTest( int argc, char * argv[] )
   if( argc < 6 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  outputImageFile radius alpha beta" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "  inputImageFile  outputImageFile radius alpha beta" << std::endl;
     return EXIT_FAILURE;
     }
 

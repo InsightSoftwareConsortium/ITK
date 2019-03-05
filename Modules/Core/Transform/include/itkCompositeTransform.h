@@ -379,7 +379,7 @@ public:
 
 protected:
   CompositeTransform();
-  ~CompositeTransform() override;
+  ~CompositeTransform() override = default;
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   /** Clone the current transform */

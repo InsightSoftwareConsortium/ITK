@@ -33,13 +33,6 @@ VectorLinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::m_Neighbors = 1 << TInputImage::ImageDimension;
 
 /**
- * Constructor
- */
-template< typename TInputImage, typename TCoordRep >
-VectorLinearInterpolateImageFunction< TInputImage, TCoordRep >
-::VectorLinearInterpolateImageFunction() = default;
-
-/**
  * PrintSelf
  */
 template< typename TInputImage, typename TCoordRep >

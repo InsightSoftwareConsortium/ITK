@@ -23,17 +23,6 @@
 
 namespace itk
 {
-/** Constructor */
-template< unsigned int TSpaceDimension >
-SceneSpatialObject< TSpaceDimension >
-::SceneSpatialObject()
-{}
-
-/** Destructor */
-template< unsigned int TSpaceDimension >
-SceneSpatialObject< TSpaceDimension >
-::~SceneSpatialObject() = default;
-
 /** Add a spatial object to the SceneSpatialObject */
 template< unsigned int TSpaceDimension >
 void

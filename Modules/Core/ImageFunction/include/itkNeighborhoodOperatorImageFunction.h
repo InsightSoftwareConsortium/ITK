@@ -110,7 +110,7 @@ public:
   }
 
 protected:
-  NeighborhoodOperatorImageFunction();
+  NeighborhoodOperatorImageFunction() = default;
   NeighborhoodOperatorImageFunction(const Self &){}
 
   ~NeighborhoodOperatorImageFunction() override = default;

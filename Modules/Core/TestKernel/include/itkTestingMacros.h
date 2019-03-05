@@ -215,4 +215,14 @@ CLANG_PRAGMA_POP    \
     return EXIT_FAILURE; \
   } \
   object->Set##variable( value );
+
+/** The name of the executable, argv[0], is not always available as argv[0] may be null.
+ * In that case, use the name of the test function.
+*/
+#define itkNameOfTestExecutableMacro(argv) [argv](const std::string& functionName) \
+  { \
+    return ((argv == nullptr) || (argv[0] == nullptr) || (argv[0][0] == '\0')) ? \
+      ("<" + functionName + " executable>") : argv[0]; \
+  }(__func__)
+
 #endif

@@ -35,10 +35,6 @@ MixtureModelComponentBase< TSample >
 }
 
 template< typename TSample >
-MixtureModelComponentBase< TSample >
-::~MixtureModelComponentBase() = default;
-
-template< typename TSample >
 void
 MixtureModelComponentBase< TSample >
 ::PrintSelf(std::ostream & os, Indent indent) const

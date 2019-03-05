@@ -82,7 +82,7 @@ public:
   using MovingContinuousIndexType = typename itk::ContinuousIndex< MovingPointValueType, MovingImageType::ImageDimension >;
 
 protected:
-  RegistrationParameterScalesFromIndexShift();
+  RegistrationParameterScalesFromIndexShift() = default;
   ~RegistrationParameterScalesFromIndexShift() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;

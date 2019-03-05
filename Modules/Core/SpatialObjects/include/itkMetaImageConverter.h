@@ -77,7 +77,7 @@ protected:
 
   typename ImageType::Pointer AllocateImage(const ImageMetaObjectType *image);
 
-  MetaImageConverter();
+  MetaImageConverter() = default;
   ~MetaImageConverter() override = default;
 };
 

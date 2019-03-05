@@ -19,13 +19,14 @@
 #include "itkConnectedComponentImageFilter.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int itkConnectedComponentImageFilterBackgroundTest( int argc, char* argv[] )
 {
 
   if ( argc < 2 )
     {
-    std::cout << "Usage: " << argv[0] << " <background value>\n";
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <background value>\n";
     return EXIT_FAILURE;
     }
 

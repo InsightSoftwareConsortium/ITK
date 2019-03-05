@@ -41,10 +41,6 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
 }
 
 template< typename TOutputImage, typename ConvertPixelTraits >
-ImageFileReader< TOutputImage, ConvertPixelTraits >
-::~ImageFileReader() = default;
-
-template< typename TOutputImage, typename ConvertPixelTraits >
 void ImageFileReader< TOutputImage, ConvertPixelTraits >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {

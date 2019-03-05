@@ -31,7 +31,7 @@ int itkHConvexConcaveImageFilterTest( int argc, char * argv[] )
   if( argc < 4 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " inputImageFile";
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImageFile";
     std::cerr << " outputImageFile height" << std::endl;
     return EXIT_FAILURE;
     }

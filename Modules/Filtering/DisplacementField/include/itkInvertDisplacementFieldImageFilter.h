@@ -142,7 +142,7 @@ protected:
   InvertDisplacementFieldImageFilter();
 
   /** Deconstructor */
-  ~InvertDisplacementFieldImageFilter() override;
+  ~InvertDisplacementFieldImageFilter() override = default;
 
   /** Standard print self function **/
   void PrintSelf( std::ostream& os, Indent indent ) const override;

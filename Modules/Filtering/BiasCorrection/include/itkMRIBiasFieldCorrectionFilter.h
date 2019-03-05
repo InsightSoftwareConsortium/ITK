@@ -478,7 +478,7 @@ public:
 
 protected:
   MRIBiasFieldCorrectionFilter();
-  ~MRIBiasFieldCorrectionFilter() override;
+  ~MRIBiasFieldCorrectionFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Checks if the mask image's dimensionality and size matches with

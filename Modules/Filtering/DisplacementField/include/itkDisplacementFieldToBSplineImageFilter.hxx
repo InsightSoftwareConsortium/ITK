@@ -49,10 +49,6 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
 }
 
 template<typename TInputImage, typename TInputPointSet, typename TOutputImage>
-DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
-::~DisplacementFieldToBSplineImageFilter() = default;
-
-template<typename TInputImage, typename TInputPointSet, typename TOutputImage>
 void
 DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
 ::SetBSplineDomain( OriginType origin, SpacingType spacing, SizeType size, DirectionType direction )

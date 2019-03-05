@@ -26,6 +26,7 @@
 #include "itkIdentityTransform.h"
 #include "itkAffineTransform.h"
 #include "itkTranslationTransform.h"
+#include "itkTestingMacros.h"
 
 /**
  *  This is a test using GradientDescentOptimizerv4 and parameter scales
@@ -227,7 +228,7 @@ int itkQuasiNewtonOptimizerv4Test(int argc, char ** const argv)
   if( argc > 3 )
     {
     std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " [numberOfIterations=50 shiftOfStep=1] ";
     std::cerr << std::endl;
     return EXIT_FAILURE;

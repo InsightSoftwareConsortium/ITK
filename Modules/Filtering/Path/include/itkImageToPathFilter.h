@@ -76,7 +76,7 @@ public:
 
 protected:
   ImageToPathFilter();
-  ~ImageToPathFilter() override;
+  ~ImageToPathFilter() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 };

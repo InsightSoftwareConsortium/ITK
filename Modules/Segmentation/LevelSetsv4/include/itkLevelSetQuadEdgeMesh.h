@@ -105,8 +105,8 @@ public:
   virtual void Graft( const DataObject* data );
 
 protected:
-  LevelSetQuadEdgeMesh();
-  virtual ~LevelSetQuadEdgeMesh();
+  LevelSetQuadEdgeMesh() = default;
+  virtual ~LevelSetQuadEdgeMesh() = default;
 
 private:
   MeshPointer m_Mesh;

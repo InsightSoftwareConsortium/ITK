@@ -18,12 +18,13 @@
 
 
 #include "itkTransformFileReader.h"
+#include "itkTestingMacros.h"
 
 int itkTransformFileReaderTest( int argc, char *argv[] )
 {
   if( argc < 1 )
     {
-    std::cerr << "Usage:" <<argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << std::endl;
     return EXIT_FAILURE;
     }

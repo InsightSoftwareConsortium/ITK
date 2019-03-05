@@ -74,10 +74,6 @@ BSplineDeformableTransform<TParametersValueType, NDimensions, VSplineOrder>
   this->SetFixedParametersFromTransformDomainInformation();
 }
 
-template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
-BSplineDeformableTransform<TParametersValueType, NDimensions, VSplineOrder>
-::~BSplineDeformableTransform() = default;
-
 // Get the number of parameters
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 typename BSplineDeformableTransform<TParametersValueType, NDimensions, VSplineOrder>::NumberOfParametersType

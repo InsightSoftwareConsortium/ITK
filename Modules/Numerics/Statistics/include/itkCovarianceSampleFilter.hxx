@@ -37,10 +37,6 @@ CovarianceSampleFilter< TSample >
 }
 
 template< typename TSample >
-CovarianceSampleFilter< TSample >
-::~CovarianceSampleFilter() = default;
-
-template< typename TSample >
 void
 CovarianceSampleFilter< TSample >
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -138,7 +138,7 @@ protected:
   LevelSetEquationTermBase();
 
   /** Destructor */
-  ~LevelSetEquationTermBase() override;
+  ~LevelSetEquationTermBase() override = default;
 
   void SetUp();
 

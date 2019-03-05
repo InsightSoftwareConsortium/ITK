@@ -307,7 +307,7 @@ protected:
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 
   BSplineDeformableTransform();
-  ~BSplineDeformableTransform() override;
+  ~BSplineDeformableTransform() override = default;
 
 private:
 

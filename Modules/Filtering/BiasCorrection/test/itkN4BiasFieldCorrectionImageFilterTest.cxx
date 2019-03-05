@@ -21,6 +21,7 @@
 #include "itkN4BiasFieldCorrectionImageFilter.h"
 #include "itkOtsuThresholdImageFilter.h"
 #include "itkShrinkImageFilter.h"
+#include "itkTestingMacros.h"
 
 template<typename TFilter>
 class CommandIterationUpdate : public itk::Command
@@ -329,7 +330,7 @@ int itkN4BiasFieldCorrectionImageFilterTest( int argc, char *argv[] )
 {
   if ( argc < 4 )
     {
-    std::cerr << "Usage: " << argv[0] << " imageDimension inputImage "
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " imageDimension inputImage "
               << "outputLogControlPointLattice [shrinkFactor,default=1] "
               << "[numberOfIterations,default=100x50x50] "
               << " [maskImageWithLabelEqualTo1] [splineDistance,default=200]"

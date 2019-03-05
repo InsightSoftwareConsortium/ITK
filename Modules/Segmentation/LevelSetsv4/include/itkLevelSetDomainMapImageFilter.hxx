@@ -33,12 +33,6 @@ LevelSetDomainMapImageFilter< TInputImage, TOutputImage >
   this->m_OutputImage = nullptr;
 }
 
-
-template < typename TInputImage, typename TOutputImage >
-LevelSetDomainMapImageFilter< TInputImage, TOutputImage >
-::~LevelSetDomainMapImageFilter() = default;
-
-
 template < typename TInputImage, typename TOutputImage >
 const typename LevelSetDomainMapImageFilter< TInputImage, TOutputImage >::DomainMapType &
 LevelSetDomainMapImageFilter< TInputImage, TOutputImage >

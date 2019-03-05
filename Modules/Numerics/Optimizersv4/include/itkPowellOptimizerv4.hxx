@@ -32,10 +32,6 @@ PowellOptimizerv4<TInternalComputationValueType>
 }
 
 template<typename TInternalComputationValueType>
-PowellOptimizerv4<TInternalComputationValueType>
-::~PowellOptimizerv4() = default;
-
-template<typename TInternalComputationValueType>
 void
 PowellOptimizerv4<TInternalComputationValueType>
 ::SetLine(const ParametersType & origin,

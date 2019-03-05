@@ -324,7 +324,7 @@ public:
 
 protected:
   PointSetToPointSetMetricv4();
-  ~PointSetToPointSetMetricv4() override;
+  ~PointSetToPointSetMetricv4() override = default;
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 
   typename FixedPointSetType::ConstPointer                m_FixedPointSet;

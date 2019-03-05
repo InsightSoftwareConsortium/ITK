@@ -79,7 +79,7 @@ public:
 
 protected:
   SampleToSubsampleFilter();
-  ~SampleToSubsampleFilter() override;
+  ~SampleToSubsampleFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Make a DataObject of the correct type to used as the specified

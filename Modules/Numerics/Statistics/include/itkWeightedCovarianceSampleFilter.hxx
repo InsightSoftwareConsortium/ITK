@@ -33,10 +33,6 @@ WeightedCovarianceSampleFilter< TSample >
 }
 
 template< typename TSample >
-WeightedCovarianceSampleFilter< TSample >
-::~WeightedCovarianceSampleFilter() = default;
-
-template< typename TSample >
 void
 WeightedCovarianceSampleFilter< TSample >
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -44,10 +44,6 @@ CorrelationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInterna
 }
 
 template <typename TFixedImage, typename TMovingImage, typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
-CorrelationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::~CorrelationImageToImageMetricv4() = default;
-
-template <typename TFixedImage, typename TMovingImage, typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 void
 CorrelationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComputationValueType, TMetricTraits>
 ::PrintSelf(std::ostream& os, Indent indent) const

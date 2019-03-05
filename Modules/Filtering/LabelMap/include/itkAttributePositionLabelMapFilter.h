@@ -86,7 +86,7 @@ public:
 #endif
 
 protected:
-  AttributePositionLabelMapFilter();
+  AttributePositionLabelMapFilter() = default;
   ~AttributePositionLabelMapFilter() override = default;
 
   void ThreadedProcessLabelObject( LabelObjectType * labelObject ) override;

@@ -29,7 +29,7 @@ int itkHessianToObjectnessMeasureImageFilterTest( int argc, char *argv[] )
   if ( argc < 3 )
     {
     std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << argv[0]
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
               << " inputImage"
               << " outputImage [ObjectDimension] [Bright/Dark]" << std::endl;
     return EXIT_FAILURE;

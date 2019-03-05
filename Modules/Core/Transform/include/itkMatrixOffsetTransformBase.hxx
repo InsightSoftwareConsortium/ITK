@@ -82,13 +82,6 @@ MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensi
   this->ComputeMatrixParameters();
 }
 
-
-template<typename TParametersValueType, unsigned int NInputDimensions,
-          unsigned int NOutputDimensions>
-MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensions>
-::~MatrixOffsetTransformBase() = default;
-
-
 template<typename TParametersValueType, unsigned int NInputDimensions,
           unsigned int NOutputDimensions>
 void

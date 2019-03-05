@@ -41,11 +41,6 @@ ContourSpatialObject< TDimension >
   m_AttachedToSlice = -1;
 }
 
-/** Destructor */
-template< unsigned int TDimension >
-ContourSpatialObject< TDimension >
-::~ContourSpatialObject() = default;
-
 /** Get the list of control points */
 template< unsigned int TDimension >
 typename ContourSpatialObject< TDimension >::ControlPointListType &

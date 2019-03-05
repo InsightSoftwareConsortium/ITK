@@ -131,7 +131,7 @@ public:
 
 protected:
   ImageModelEstimatorBase();
-  ~ImageModelEstimatorBase() override;
+  ~ImageModelEstimatorBase() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GenerateData() override;

@@ -22,10 +22,6 @@
 
 namespace itk
 {
-/** Constructor */
-template< unsigned int NDimensions >
-MetaVesselTubeConverter< NDimensions >
-::MetaVesselTubeConverter() = default;
 
 template< unsigned int NDimensions >
 typename MetaVesselTubeConverter< NDimensions >::MetaObjectType *

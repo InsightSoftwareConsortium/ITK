@@ -37,11 +37,6 @@ Rigid3DPerspectiveTransform<TParametersValueType>
   this->m_Parameters[3] = 1; // identity versor
 }
 
-// Destructor
-template<typename TParametersValueType>
-Rigid3DPerspectiveTransform<TParametersValueType>::
-~Rigid3DPerspectiveTransform() = default;
-
 // Print self
 template<typename TParametersValueType>
 void

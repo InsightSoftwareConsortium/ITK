@@ -107,10 +107,10 @@ public:
 
 protected:
   /** Construct an ScaleLogarithmicTransform object. */
-  ScaleLogarithmicTransform();
+  ScaleLogarithmicTransform() = default;
 
   /** Destroy an ScaleLogarithmicTransform object. */
-  ~ScaleLogarithmicTransform() override;
+  ~ScaleLogarithmicTransform() override = default;
 
   /** Print contents of an ScaleLogarithmicTransform */
   void PrintSelf(std::ostream & os, Indent indent) const override;

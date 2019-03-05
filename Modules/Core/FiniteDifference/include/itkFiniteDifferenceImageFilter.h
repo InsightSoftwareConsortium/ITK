@@ -225,7 +225,7 @@ public:
 protected:
 
   FiniteDifferenceImageFilter();
-  ~FiniteDifferenceImageFilter() override = 0;
+  ~FiniteDifferenceImageFilter() override = default;
 
   /** State that the filter is in, i.e. UNINITIALIZED or INITIALIZED */
   bool m_IsInitialized;

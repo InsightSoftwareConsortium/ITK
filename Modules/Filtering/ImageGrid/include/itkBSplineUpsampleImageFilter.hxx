@@ -31,12 +31,6 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
-template< typename TInputImage, typename TOutputImage, typename ResamplerType >
-BSplineUpsampleImageFilter< TInputImage, TOutputImage, ResamplerType >
-::BSplineUpsampleImageFilter() = default;
 
 /**
  * Standard "PrintSelf" method

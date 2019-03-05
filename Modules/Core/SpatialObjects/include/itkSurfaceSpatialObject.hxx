@@ -38,11 +38,6 @@ SurfaceSpatialObject< TDimension >
   this->ComputeBoundingBox();
 }
 
-/** Destructor */
-template< unsigned int TDimension >
-SurfaceSpatialObject< TDimension >
-::~SurfaceSpatialObject() = default;
-
 /** Get the list of points composing the surface */
 template< unsigned int TDimension >
 typename SurfaceSpatialObject< TDimension >::PointListType &

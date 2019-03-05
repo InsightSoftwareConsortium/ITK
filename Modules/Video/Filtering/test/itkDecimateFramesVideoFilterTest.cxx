@@ -24,6 +24,7 @@
 #include "itkFileListVideoIO.h"
 #include "itkImageFileReader.h"
 #include "itkImageRegionConstIterator.h"
+#include "itkTestingMacros.h"
 
 // type alias
 constexpr unsigned int Dimension = 2;
@@ -76,7 +77,7 @@ int itkDecimateFramesVideoFilterTest( int argc, char* argv[] )
   //////
   if (argc < 3)
     {
-    std::cout << "Usage: " << argv[0] << " input_file_string output_file_string" << std::endl;
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input_file_string output_file_string" << std::endl;
     return EXIT_FAILURE;
     }
 

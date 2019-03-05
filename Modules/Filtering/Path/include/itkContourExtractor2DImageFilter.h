@@ -174,7 +174,7 @@ public:
 protected:
 
   ContourExtractor2DImageFilter();
-  ~ContourExtractor2DImageFilter() override;
+  ~ContourExtractor2DImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GenerateData() override;

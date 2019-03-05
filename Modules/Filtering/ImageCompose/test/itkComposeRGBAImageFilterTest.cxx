@@ -23,6 +23,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkComposeImageFilter.h"
+#include "itkTestingMacros.h"
 
 int itkComposeRGBAImageFilterTest(int argc, char* argv[])
 {
@@ -31,7 +32,7 @@ int itkComposeRGBAImageFilterTest(int argc, char* argv[])
     {
     std::cerr << "Error: missing arguments" << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " outputFile inputFileR inputFileG inputFileB inputFileA" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " outputFile inputFileR inputFileG inputFileB inputFileA" << std::endl;
     }
 
   try

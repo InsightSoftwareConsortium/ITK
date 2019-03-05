@@ -22,13 +22,14 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkZeroCrossingImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int itkLaplacianRecursiveGaussianImageFilterTest(int argc, char* argv[])
 {
   if( argc < 3)
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " inputImage outputImage " << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImage outputImage " << std::endl;
     return -1;
     }
 

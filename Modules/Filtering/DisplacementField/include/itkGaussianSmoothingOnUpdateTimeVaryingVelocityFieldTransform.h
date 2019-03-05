@@ -117,7 +117,7 @@ public:
 
 protected:
   GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform();
-  ~GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform() override;
+  ~GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform() override = default;
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   /** Track when the temporary displacement field used during smoothing

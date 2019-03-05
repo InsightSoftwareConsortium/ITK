@@ -33,10 +33,6 @@ SpatialObjectWriter< NDimensions, PixelType, TMeshTraits >
   m_WriteImagesInSeparateFile = false;
 }
 
-template< unsigned int NDimensions, typename PixelType, typename TMeshTraits >
-SpatialObjectWriter< NDimensions, PixelType, TMeshTraits >
-::~SpatialObjectWriter() = default;
-
 /** Set the precision at which the transform should be written */
 template< unsigned int NDimensions, typename PixelType, typename TMeshTraits >
 void

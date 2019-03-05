@@ -66,8 +66,8 @@ public:
   using InputImagePointer = typename TInputImage::Pointer;
 
 protected:
-  ImageShapeModelEstimatorBase();
-  ~ImageShapeModelEstimatorBase() override;
+  ImageShapeModelEstimatorBase() = default;
+  ~ImageShapeModelEstimatorBase() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GenerateData() override;

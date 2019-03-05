@@ -97,7 +97,7 @@ public:
     ScalesType &localStepScales) override;
 
 protected:
-  RegistrationParameterScalesFromJacobian();
+  RegistrationParameterScalesFromJacobian() = default;
   ~RegistrationParameterScalesFromJacobian() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;

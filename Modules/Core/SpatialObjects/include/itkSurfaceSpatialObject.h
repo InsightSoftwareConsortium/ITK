@@ -116,7 +116,7 @@ protected:
   PointListType m_Points;
 
   SurfaceSpatialObject();
-  ~SurfaceSpatialObject() override;
+  ~SurfaceSpatialObject() override = default;
 
   /** Method to print the object.*/
   void PrintSelf(std::ostream & os, Indent indent) const override;

@@ -115,11 +115,6 @@ MinPriorityQueueElementWrapper(ElementType element, ElementPriorityType priority
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------
-template< typename TElement,  typename TElementPriority, typename TElementIdentifier > MinPriorityQueueElementWrapper< TElement, TElementPriority, TElementIdentifier >::
-~MinPriorityQueueElementWrapper() = default;
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
 template< typename TElement,  typename TElementPriority, typename TElementIdentifier >
 bool
 MinPriorityQueueElementWrapper< TElement, TElementPriority, TElementIdentifier >::
@@ -284,18 +279,6 @@ template<
 PriorityQueueContainer< TElementWrapper, TElementWrapperInterface,
   TElementPriority, TElementIdentifier >::
 PriorityQueueContainer() : Superclass() {}
-// -----------------------------------------------------------------------------
-
-// -----------------------------------------------------------------------------
-template<
-  typename TElementWrapper,
-  typename TElementWrapperInterface,
-  typename TElementPriority,
-  typename TElementIdentifier
-  >
-PriorityQueueContainer< TElementWrapper, TElementWrapperInterface,
-  TElementPriority, TElementIdentifier >::
-~PriorityQueueContainer()  = default;
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------

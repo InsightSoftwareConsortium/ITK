@@ -55,11 +55,6 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
 
 //-------------------------------------------------------------------
 template<typename TInternalComputationValueType>
-GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
-::~GradientDescentOptimizerBasev4Template() = default;
-
-//-------------------------------------------------------------------
-template<typename TInternalComputationValueType>
 void
 GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const

@@ -41,11 +41,6 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>
 
 //-------------------------------------------------------------------
 template<typename TInternalComputationValueType>
-MultiStartOptimizerv4Template<TInternalComputationValueType>
-::~MultiStartOptimizerv4Template() = default;
-
-//-------------------------------------------------------------------
-template<typename TInternalComputationValueType>
 void
 MultiStartOptimizerv4Template<TInternalComputationValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const

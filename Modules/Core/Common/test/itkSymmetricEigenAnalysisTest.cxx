@@ -22,6 +22,7 @@
 #include "itkArray2D.h"
 #include <iomanip>
 #include <array>
+#include "itkTestingMacros.h"
 
 
 // Test template instantiations for various supported template arguments:
@@ -36,7 +37,7 @@ int itkSymmetricEigenAnalysisTest(int argc, char* argv[] )
   std::array<unsigned int, 2> testUseEigenLibraryIndices{{0, 2}};
   if(argc > 2)
     {
-    std::cerr << "Usage: " << argv[0] << "[onlyEigen|onlyLegacy]\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << "[onlyEigen|onlyLegacy]\n";
     return EXIT_FAILURE;
     }
 

@@ -26,14 +26,6 @@
 namespace itk
 {
 template< typename TInputImage, typename TCoordRep >
-LinearInterpolateImageFunction< TInputImage, TCoordRep >
-::LinearInterpolateImageFunction() = default;
-
-template< typename TInputImage, typename TCoordRep >
-LinearInterpolateImageFunction< TInputImage, TCoordRep >
-::~LinearInterpolateImageFunction() = default;
-
-template< typename TInputImage, typename TCoordRep >
 typename LinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::OutputType
 LinearInterpolateImageFunction< TInputImage, TCoordRep >

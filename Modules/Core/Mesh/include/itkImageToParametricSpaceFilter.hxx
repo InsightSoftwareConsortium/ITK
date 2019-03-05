@@ -43,13 +43,6 @@ ImageToParametricSpaceFilter< TInputImage, TOutputMesh >
  *
  */
 template< typename TInputImage, typename TOutputMesh >
-ImageToParametricSpaceFilter< TInputImage, TOutputMesh >
-::~ImageToParametricSpaceFilter() = default;
-
-/**
- *
- */
-template< typename TInputImage, typename TOutputMesh >
 void
 ImageToParametricSpaceFilter< TInputImage, TOutputMesh >
 ::PrintSelf(std::ostream & os, Indent indent) const

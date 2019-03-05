@@ -168,7 +168,7 @@ public:
 
 protected:
   ANTSNeighborhoodCorrelationImageToImageMetricv4();
-  ~ANTSNeighborhoodCorrelationImageToImageMetricv4() override;
+  ~ANTSNeighborhoodCorrelationImageToImageMetricv4() override = default;
 
   friend class ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< VirtualImageDimension >, Superclass, Self >;
   using ANTSNeighborhoodCorrelationImageToImageMetricv4DenseGetValueAndDerivativeThreaderType =

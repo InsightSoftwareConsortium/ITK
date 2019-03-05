@@ -217,7 +217,7 @@ public:
 
 protected:
   JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4();
-  ~JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4() override;
+  ~JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4() override = default;
 
   void ComputeValueAndDerivative( const PointType & samplePoint, MeasureType & value,
     LocalDerivativeType &derivativeReturn, bool calcValue, bool calcDerivative ) const;

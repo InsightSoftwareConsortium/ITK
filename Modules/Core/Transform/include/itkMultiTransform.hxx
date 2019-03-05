@@ -32,12 +32,6 @@ MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::MultiTransfor
   this->m_TransformQueue.clear();
 }
 
-
-template<typename TParametersValueType, unsigned int NDimensions, unsigned int NSubDimensions>
-MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::
-~MultiTransform() = default;
-
-
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int NSubDimensions>
 typename MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::TransformCategoryType
 MultiTransform<TParametersValueType, NDimensions, NSubDimensions>

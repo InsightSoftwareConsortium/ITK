@@ -18,12 +18,13 @@
 
 #include <fstream>
 #include "itkMesh.h"
+#include "itkTestingMacros.h"
 
 int itkMeshFstreamTest(int argc, char* argv[] )
 {
   if (argc < 2)
     {
-    std::cout << "Usage: " << argv[0] << " logFilename" << std::endl;
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " logFilename" << std::endl;
     return EXIT_FAILURE;
     }
 

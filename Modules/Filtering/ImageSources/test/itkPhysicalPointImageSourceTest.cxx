@@ -73,7 +73,7 @@ int itkPhysicalPointImageSourceTest( int argc, char *argv[] )
 {
   if ( argc < 3 )
     {
-    std::cerr << "Usage: " << argv[0] << " outputImage whichTest [ theta ]" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputImage whichTest [ theta ]" << std::endl;
     return EXIT_FAILURE;
     }
 

@@ -41,13 +41,6 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimens
 }
 
 /**
- * Destructor
- */
-template<typename TParametersValueType, unsigned int NDimensions>
-BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimensions>::
-~BSplineSmoothingOnUpdateDisplacementFieldTransform() = default;
-
-/**
  * set mesh size for update field
  */
 template<typename TParametersValueType, unsigned int NDimensions>

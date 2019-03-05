@@ -37,10 +37,6 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 }
 
 template <typename TInputImage, typename TOutputImage>
-PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
-::~PatchBasedDenoisingBaseImageFilter() = default;
-
-template <typename TInputImage, typename TOutputImage>
 void
 PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 ::SetStateToInitialized()

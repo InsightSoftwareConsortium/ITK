@@ -108,7 +108,7 @@ public:
 
 protected:
   VoronoiDiagram2DGenerator();
-  ~VoronoiDiagram2DGenerator() override;
+  ~VoronoiDiagram2DGenerator() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate Voronoi Diagram based on the current list of seeds. */

@@ -17,6 +17,7 @@
  *=========================================================================*/
 #include "itkMeanSquaresImageToImageMetricv4.h"
 #include "itkTranslationTransform.h"
+#include "itkTestingMacros.h"
 
 /*
  * Simple test to run using unix 'time' function for speed test.
@@ -26,7 +27,7 @@ int itkMeanSquaresImageToImageMetricv4SpeedTest(int argc, char *argv[] )
 {
   if( argc < 3 )
     {
-    std::cerr << "usage: " << argv[0] << ": image-dimension number-of-reps" << std::endl;
+    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << ": image-dimension number-of-reps" << std::endl;
     return EXIT_FAILURE;
     }
   int imageSize = std::stoi( argv[1] );

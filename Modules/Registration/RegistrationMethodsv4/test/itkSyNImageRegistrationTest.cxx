@@ -427,7 +427,7 @@ int itkSyNImageRegistrationTest( int argc, char *argv[] )
 {
   if ( argc < 5 )
     {
-    std::cout << argv[0] << " imageDimension fixedImage movingImage outputPrefix numberOfDeformableIterations learningRate" << std::endl;
+    std::cout << itkNameOfTestExecutableMacro(argv) << " imageDimension fixedImage movingImage outputPrefix numberOfDeformableIterations learningRate" << std::endl;
     exit( 1 );
     }
 

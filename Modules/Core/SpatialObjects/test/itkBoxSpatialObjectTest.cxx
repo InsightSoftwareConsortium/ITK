@@ -23,12 +23,13 @@
 #include "itkGroupSpatialObject.h"
 #include "itkSpatialObjectToImageFilter.h"
 #include "itkBoxSpatialObject.h"
+#include "itkTestingMacros.h"
 
 int itkBoxSpatialObjectTest( int argc, char *argv[] )
 {
   if (argc < 2)
     {
-    std::cerr << "Missing Parameters: Usage " << argv[0] << "OutputImageFile"
+    std::cerr << "Missing Parameters: Usage " << itkNameOfTestExecutableMacro(argv) << "OutputImageFile"
                                         << std::endl;
     }
 

@@ -25,13 +25,14 @@
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkPeriodicBoundaryCondition.h"
 #include "itkConstantBoundaryCondition.h"
+#include "itkTestingMacros.h"
 
 int itkFFTPadImageFilterTest( int argc, char * argv[] )
 {
   if( argc < 5 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile outputImageFile greatestPrimeFactor padType" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "  inputImageFile outputImageFile greatestPrimeFactor padType" << std::endl;
     return EXIT_FAILURE;
     }
 

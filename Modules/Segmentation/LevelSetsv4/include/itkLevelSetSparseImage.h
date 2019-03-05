@@ -108,8 +108,8 @@ public:
   typename LabelObject< TLabel, VDimension >::Pointer GetAsLabelObject();
 
 protected:
-  LevelSetSparseImage();
-  ~LevelSetSparseImage() override;
+  LevelSetSparseImage() = default;
+  ~LevelSetSparseImage() override = default;
 
   LayerMapType      m_Layers;
   LabelMapPointer   m_LabelMap;

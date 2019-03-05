@@ -79,7 +79,7 @@ int itkAntiAliasBinaryImageFilterTest(int argc, char * argv [] )
     {
     std::cerr << "Missing arguments." << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " outputImage " << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " outputImage " << std::endl;
     return EXIT_FAILURE;
     }
   const char * outputImage = argv[1];

@@ -49,7 +49,7 @@ public:
   ContourSpatialObjectPoint();
 
   /** Default destructor. */
-  ~ContourSpatialObjectPoint() override;
+  ~ContourSpatialObjectPoint() override = default;
 
   /** Get the picked point. */
   const PointType & GetPickedPoint() const;

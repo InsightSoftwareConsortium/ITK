@@ -55,7 +55,7 @@ protected:
   LevelSetDomainPartitionBase();
 
   /** \brief Destructor */
-  ~LevelSetDomainPartitionBase() override;
+  ~LevelSetDomainPartitionBase() override = default;
 
   virtual void AllocateListDomain() = 0;
 

@@ -43,12 +43,6 @@ CenteredEuler3DTransform<TParametersValueType>::CenteredEuler3DTransform(const M
   Superclass(matrix, offset)
 {
 }
-
-// Destructor
-template<typename TParametersValueType>
-CenteredEuler3DTransform<TParametersValueType>::
-~CenteredEuler3DTransform() = default;
-
 //
 // Set Parameters
 //

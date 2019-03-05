@@ -36,11 +36,6 @@ VesselTubeSpatialObjectPoint< TPointDimension >
   m_Alpha3 = 0;
 }
 
-/** Destructor */
-template< unsigned int TPointDimension >
-VesselTubeSpatialObjectPoint< TPointDimension >
-::~VesselTubeSpatialObjectPoint() = default;
-
 template< unsigned int TPointDimension >
 float
 VesselTubeSpatialObjectPoint< TPointDimension >

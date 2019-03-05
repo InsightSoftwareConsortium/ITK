@@ -34,10 +34,6 @@ GaussianSpatialFunction< TOutput, VImageDimension, TInput >
 }
 
 template< typename TOutput, unsigned int VImageDimension, typename TInput >
-GaussianSpatialFunction< TOutput, VImageDimension, TInput >
-::~GaussianSpatialFunction() = default;
-
-template< typename TOutput, unsigned int VImageDimension, typename TInput >
 typename GaussianSpatialFunction< TOutput, VImageDimension, TInput >::OutputType
 GaussianSpatialFunction< TOutput, VImageDimension, TInput >
 ::Evaluate(const TInput & position) const

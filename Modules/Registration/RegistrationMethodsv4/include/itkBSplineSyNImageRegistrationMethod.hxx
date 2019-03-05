@@ -31,16 +31,6 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
-BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
-::BSplineSyNImageRegistrationMethod() = default;
-
-template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
-BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
-::~BSplineSyNImageRegistrationMethod() = default;
 
 template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
 void

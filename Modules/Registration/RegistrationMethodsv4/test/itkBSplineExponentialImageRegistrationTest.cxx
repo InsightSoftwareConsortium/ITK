@@ -28,6 +28,7 @@
 #include "itkComposeDisplacementFieldsImageFilter.h"
 #include "itkVectorMagnitudeImageFilter.h"
 #include "itkStatisticsImageFilter.h"
+#include "itkTestingMacros.h"
 
 template<typename TFilter>
 class CommandIterationUpdate : public itk::Command
@@ -107,7 +108,7 @@ int PerformBSplineExpImageRegistration( int argc, char *argv[] )
 {
   if( argc < 6 )
     {
-    std::cout << argv[0] << " imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations" << std::endl;
+    std::cout << itkNameOfTestExecutableMacro(argv) << " imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations" << std::endl;
     exit( 1 );
     }
 
@@ -400,7 +401,7 @@ int itkBSplineExponentialImageRegistrationTest( int argc, char *argv[] )
 {
   if( argc < 6 )
     {
-    std::cout << argv[0] << " imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations" << std::endl;
+    std::cout << itkNameOfTestExecutableMacro(argv) << " imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations" << std::endl;
     exit( 1 );
     }
 

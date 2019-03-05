@@ -49,11 +49,6 @@ VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >::VoronoiSegmentat
   m_MaxValueOfRGB = 256;
 }
 
-/* Destructor. */
-template< typename TInputImage, typename TOutputImage >
-VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >::
-~VoronoiSegmentationRGBImageFilter() = default;
-
 template< typename TInputImage, typename TOutputImage >
 void
 VoronoiSegmentationRGBImageFilter< TInputImage, TOutputImage >::SetMeanPercentError(double x[6])

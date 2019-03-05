@@ -107,7 +107,7 @@ public:
 
 protected:
   UpdateMalcolmSparseLevelSet();
-  ~UpdateMalcolmSparseLevelSet() override;
+  ~UpdateMalcolmSparseLevelSet() override = default;
 
   // output
   LevelSetPointer   m_OutputLevelSet;

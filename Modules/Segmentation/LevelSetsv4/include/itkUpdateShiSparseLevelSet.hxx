@@ -35,12 +35,6 @@ UpdateShiSparseLevelSet< VDimension, TEquationContainer >
   this->m_OutputLevelSet = LevelSetType::New();
 }
 
-template< unsigned int VDimension,
-          typename TEquationContainer >
-UpdateShiSparseLevelSet< VDimension, TEquationContainer >
-::~UpdateShiSparseLevelSet() = default;
-
-
 template< unsigned int VDimension, typename TEquationContainer >
 void
 UpdateShiSparseLevelSet< VDimension, TEquationContainer >

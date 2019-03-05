@@ -28,12 +28,13 @@
 #endif
 
 #include "itkForwardInverseFFTTest.h"
+#include "itkTestingMacros.h"
 
 int itkForwardInverseFFTImageFilterTest(int argc, char* argv[])
 {
   if ( argc < 2 )
     {
-    std::cout << "Usage: " << argv[0] << " <input file> " << std::endl;
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <input file> " << std::endl;
     return EXIT_FAILURE;
     }
 

@@ -23,9 +23,6 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TOutputImage >
-TobogganImageFilter< TInputImage, TOutputImage >
-::TobogganImageFilter() = default;
 
 template< typename TInputImage, typename TOutputImage >
 void

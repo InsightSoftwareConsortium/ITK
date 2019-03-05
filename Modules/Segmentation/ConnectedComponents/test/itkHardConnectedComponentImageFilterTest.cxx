@@ -19,13 +19,14 @@
 #include "itkHardConnectedComponentImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 template< typename TPixel >
 int DoIt( int argc, char* argv[], const std::string pixelType )
 {
   if( argc < 2 )
     {
-    std::cerr << "Usage: " << argv[0] << " outputImagePrefix" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputImagePrefix" << std::endl;
     return EXIT_FAILURE;
     }
   const char * outputImageFileName = argv[1];

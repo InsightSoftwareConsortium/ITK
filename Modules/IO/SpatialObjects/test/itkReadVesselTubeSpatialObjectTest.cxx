@@ -17,13 +17,14 @@
  *=========================================================================*/
 
 #include "itkSpatialObjectReader.h"
+#include "itkTestingMacros.h"
 
 int itkReadVesselTubeSpatialObjectTest( int argc, char * argv[] )
 {
   if( argc < 2 )
     {
     std::cerr << "Usage: "
-              << argv[0]
+              << itkNameOfTestExecutableMacro(argv)
               << " <inputVessel.tre>"
               << std::endl;
     return EXIT_FAILURE;

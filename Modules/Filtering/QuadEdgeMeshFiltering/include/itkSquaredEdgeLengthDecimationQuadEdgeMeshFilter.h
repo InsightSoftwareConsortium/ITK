@@ -73,7 +73,7 @@ public:
 
 protected:
   SquaredEdgeLengthDecimationQuadEdgeMeshFilter();
-  ~SquaredEdgeLengthDecimationQuadEdgeMeshFilter() override;
+  ~SquaredEdgeLengthDecimationQuadEdgeMeshFilter() override = default;
 
   // keep the start of this documentation text on very first comment line,
   // it prevents a Doxygen bug

@@ -90,7 +90,7 @@ public:
 
 protected:
   GaussianSpatialFunction();
-  ~GaussianSpatialFunction() override;
+  ~GaussianSpatialFunction() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

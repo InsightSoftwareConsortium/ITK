@@ -21,6 +21,7 @@
 #include "itkImageSeriesWriter.h"
 #include "itkGDCMImageIO.h"
 #include "itkGDCMSeriesFileNames.h"
+#include "itkTestingMacros.h"
 
 int itkGetAverageSliceImageFilterTest(int argc, char *argv[] )
 {
@@ -41,7 +42,7 @@ int itkGetAverageSliceImageFilterTest(int argc, char *argv[] )
   if (argc < 3)
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputDICOMDirectory outputFile" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "  inputDICOMDirectory outputFile" << std::endl;
     return EXIT_FAILURE;
     }
 

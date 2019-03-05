@@ -36,10 +36,6 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>
 }
 
 template<typename TInternalComputationValueType>
-GradientDescentOptimizerv4Template<TInternalComputationValueType>
-::~GradientDescentOptimizerv4Template() = default;
-
-template<typename TInternalComputationValueType>
 void
 GradientDescentOptimizerv4Template<TInternalComputationValueType>
 ::StartOptimization( bool doOnlyInitialization )

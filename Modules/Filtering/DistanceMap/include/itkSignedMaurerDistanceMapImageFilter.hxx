@@ -42,10 +42,6 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
 }
 
 template< typename TInputImage, typename TOutputImage >
-SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
-::~SignedMaurerDistanceMapImageFilter() = default;
-
-template< typename TInputImage, typename TOutputImage >
 unsigned int
 SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
 ::SplitRequestedRegion(unsigned int i, unsigned int num,

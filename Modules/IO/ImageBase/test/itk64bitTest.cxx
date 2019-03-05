@@ -20,6 +20,7 @@
 #include "itkImageRegionConstIterator.h"
 #include "itkNumericTraits.h"
 #include <iostream>
+#include "itkTestingMacros.h"
 
 using PixelType = unsigned long long;
 using ImageType = itk::Image<PixelType, 3>;
@@ -53,7 +54,7 @@ int itk64bitTest(int argc, char *argv[])
 {
   if (argc < 3)
     {
-    std::cerr << "Invocation syntax:\n\t" << argv[0];
+    std::cerr << "Invocation syntax:\n\t" << itkNameOfTestExecutableMacro(argv);
     std::cerr << " Test64bit.nrrd Test64bit.mha" << std::endl;
     return EXIT_FAILURE;
     }

@@ -17,6 +17,7 @@
  *=========================================================================*/
 #include "itkImageFileReader.h"
 #include "itkContourExtractor2DImageFilter.h"
+#include "itkTestingMacros.h"
 
 namespace itkContourExtractor2DImageFilterTestNamespace
 {
@@ -441,7 +442,7 @@ int itkContourExtractor2DImageFilterTest(int argc, char *argv[])
   if( argc < 2 )
     {
     std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " Input Test Image  " << std::endl;
     return 1;
     }

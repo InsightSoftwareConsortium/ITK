@@ -47,6 +47,7 @@
 #include "itkCommand.h"
 #include "itksys/SystemTools.hxx"
 #include "itkResampleImageFilter.h"
+#include "itkTestingMacros.h"
 
 template<unsigned int Dimension, typename TAffineTransform>
 int itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char *argv[])
@@ -316,7 +317,7 @@ int itkQuasiNewtonOptimizerv4RegistrationTest(int argc, char *argv[])
   if( argc < 5 )
     {
     std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " dimension";
     std::cerr << " metric-type{ms|mi|anc}";
     std::cerr << " fixedImageFile movingImageFile ";

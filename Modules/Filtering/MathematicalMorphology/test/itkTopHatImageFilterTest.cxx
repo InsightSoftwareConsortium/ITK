@@ -22,6 +22,7 @@
 #include "itkSimpleFilterWatcher.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 int itkTopHatImageFilterTest(int argc, char* argv [] )
 {
@@ -29,7 +30,7 @@ int itkTopHatImageFilterTest(int argc, char* argv [] )
     {
     std::cerr << "Missing arguments." << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImage outputImage 0/1(Black/White) radius" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "  inputImage outputImage 0/1(Black/White) radius" << std::endl;
     return EXIT_FAILURE;
     }
 

@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkDirectory.h"
+#include "itkTestingMacros.h"
 
 int itkDirectoryTest(int argc, char *argv[])
 {
@@ -24,7 +25,7 @@ int itkDirectoryTest(int argc, char *argv[])
 
   if (argc < 2)
     {
-    std::cerr << "Usage: " << argv[0] << " directory" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " directory" << std::endl;
     return EXIT_FAILURE;
     }
 

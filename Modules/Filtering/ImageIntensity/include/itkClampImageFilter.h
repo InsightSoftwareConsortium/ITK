@@ -53,7 +53,7 @@ public:
    */
   Clamp();
 
-  ~Clamp();
+  ~Clamp() = default;
 
   OutputType GetLowerBound() const;
   OutputType GetUpperBound() const;
@@ -171,7 +171,7 @@ public:
   void SetBounds(const OutputPixelType lowerBound, const OutputPixelType upperBound);
 
 protected:
-  ClampImageFilter();
+  ClampImageFilter() = default;
   ~ClampImageFilter() override = default;
 
   void GenerateData() override;

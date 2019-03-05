@@ -46,11 +46,6 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
   m_UseObjectValue = false;
 }
 
-/** Destructor */
-template< typename TInputSpatialObject, typename TOutputImage >
-SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
-::~SpatialObjectToImageFilter() = default;
-
 /** Set the Input SpatialObject */
 template< typename TInputSpatialObject, typename TOutputImage >
 void

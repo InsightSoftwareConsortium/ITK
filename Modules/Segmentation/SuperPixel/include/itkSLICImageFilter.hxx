@@ -55,11 +55,6 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
 }
 
 template<typename TInputImage, typename TOutputImage, typename TDistancePixel>
-SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
-::~SLICImageFilter() = default;
-
-
-template<typename TInputImage, typename TOutputImage, typename TDistancePixel>
 void
 SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
 ::SetSuperGridSize(unsigned int factor)

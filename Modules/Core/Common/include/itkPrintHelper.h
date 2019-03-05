@@ -15,21 +15,35 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkLevelSetDomainPartitionBase_hxx
-#define itkLevelSetDomainPartitionBase_hxx
 
-#include "itkLevelSetDomainPartitionBase.h"
-#include "itkNumericTraits.h"
+#ifndef itkPrintHelper_h
+#define itkPrintHelper_h
+
+#include <iostream>
+#include <iterator>
+#include <vector>
+
 
 namespace itk
 {
 
-template< typename TDomain >
-LevelSetDomainPartitionBase< TDomain >::
-LevelSetDomainPartitionBase()
+namespace print_helper
 {
-  this->m_NumberOfLevelSetFunctions = NumericTraits< IdentifierType >::OneValue();
-}
-} //end namespace itk
 
-#endif
+template< typename T >
+std::ostream & operator<<( std::ostream & os, const std::vector< T >& v )
+{
+  if( v.empty() )
+    {
+    return os << "()";
+    }
+
+  os << "(";
+  std::copy( v.begin(), v.end() - 1, std::ostream_iterator< T >( os, ", " ) );
+  return os << v.back() << ")";
+}
+
+} // end namespace print_helper
+} // end namespace itk
+
+#endif // itkPrintHelper_h

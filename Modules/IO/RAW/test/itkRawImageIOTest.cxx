@@ -21,6 +21,7 @@
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
 #include "itkRawImageIO.h"
+#include "itkTestingMacros.h"
 
 
 // Specific ImageIO test
@@ -32,7 +33,7 @@ int itkRawImageIOTest(int argc, char* argv[])
   using ImageIteratorType = itk::ImageRegionConstIterator<ImageType>;
   if(argc < 3)
     {
-    std::cerr << "Usage: " << argv[0] << " Output1 Output2\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Output1 Output2\n";
     return EXIT_FAILURE;
     }
 

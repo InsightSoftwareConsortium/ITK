@@ -120,7 +120,7 @@ public:
 protected:
   LevelSetEquationPropagationTerm();
 
-  ~LevelSetEquationPropagationTerm() override;
+  ~LevelSetEquationPropagationTerm() override = default;
 
   PropagationImagePointer m_PropagationImage;
 

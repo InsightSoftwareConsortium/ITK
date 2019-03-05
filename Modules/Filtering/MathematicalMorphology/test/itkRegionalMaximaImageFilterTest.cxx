@@ -100,7 +100,7 @@ int itkRegionalMaximaImageFilterTest( int argc, char * argv[] )
   if( argc < 7 )
     {
     std::cerr << "Missing parameters" << std::endl;
-    std::cerr << "Usage: " << argv[0]
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
       << " inputImageFile"
       << " outputImageFile"
       << " outputImageFile2"

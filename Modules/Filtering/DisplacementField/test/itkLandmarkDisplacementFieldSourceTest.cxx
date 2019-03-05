@@ -21,6 +21,7 @@
 #include "itkSimpleFilterWatcher.h"
 
 #include <fstream>
+#include "itkTestingMacros.h"
 
 
 int itkLandmarkDisplacementFieldSourceTest( int argc, char * argv[] )
@@ -29,7 +30,7 @@ int itkLandmarkDisplacementFieldSourceTest( int argc, char * argv[] )
   if( argc < 3 )
     {
     std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " landmarksFile outputImage" << std::endl;
     return EXIT_FAILURE;
     }

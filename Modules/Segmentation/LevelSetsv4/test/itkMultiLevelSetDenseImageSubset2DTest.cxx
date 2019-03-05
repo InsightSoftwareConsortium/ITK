@@ -27,12 +27,13 @@
 #include "itkBinaryImageToLevelSetImageAdaptor.h"
 #include "itkAtanRegularizedHeavisideStepFunction.h"
 #include "itkLevelSetDomainMapImageFilter.h"
+#include "itkTestingMacros.h"
 
 int itkMultiLevelSetDenseImageSubset2DTest( int argc, char* argv[] )
 {
   if( argc < 1 )
     {
-    std::cerr << "Missing Arguments: " << argv[0] << std::endl;
+    std::cerr << "Missing Arguments: " << itkNameOfTestExecutableMacro(argv) << std::endl;
     return EXIT_FAILURE;
     }
 

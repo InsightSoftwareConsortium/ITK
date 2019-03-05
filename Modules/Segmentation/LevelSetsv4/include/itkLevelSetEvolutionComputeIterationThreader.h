@@ -81,7 +81,7 @@ public:
   using TermContainerType = typename LevelSetEvolutionType::TermContainerType;
 
 protected:
-  LevelSetEvolutionComputeIterationThreader();
+  LevelSetEvolutionComputeIterationThreader() = default;
 
   void ThreadedExecution( const DomainType & imageSubRegion, const ThreadIdType threadId ) override;
 };
@@ -131,7 +131,7 @@ public:
   using TermContainerType = typename LevelSetEvolutionType::TermContainerType;
 
 protected:
-  LevelSetEvolutionComputeIterationThreader();
+  LevelSetEvolutionComputeIterationThreader() = default;
 
   void ThreadedExecution( const DomainType & imageSubRegion, const ThreadIdType threadId ) override;
 };
@@ -180,7 +180,7 @@ public:
   using NodePairType = typename LevelSetEvolutionType::NodePairType;
 
 protected:
-  LevelSetEvolutionComputeIterationThreader();
+  LevelSetEvolutionComputeIterationThreader() = default;
 
   void BeforeThreadedExecution() override;
 

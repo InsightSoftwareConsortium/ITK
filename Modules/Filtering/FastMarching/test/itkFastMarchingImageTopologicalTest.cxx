@@ -22,6 +22,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkLabelContourImageFilter.h"
+#include "itkTestingMacros.h"
 
 
 template <unsigned int VDimension>
@@ -258,7 +259,7 @@ int itkFastMarchingImageTopologicalTest( int argc, char *argv[] )
 {
   if( argc < 6 )
     {
-    std::cerr << "Usage: " << argv[0] << " imageDimension";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " imageDimension";
     std::cerr << " speedImage outputImage seedImage ";
     std::cerr << " stoppingValue [checkTopology] [otherFilePrefix]"
       << std::endl;

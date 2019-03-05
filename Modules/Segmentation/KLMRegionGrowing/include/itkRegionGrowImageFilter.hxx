@@ -30,10 +30,6 @@ RegionGrowImageFilter< TInputImage, TOutputImage >
   m_MaximumNumberOfRegions = 0;
 }
 
-template< typename TInputImage, typename TOutputImage >
-RegionGrowImageFilter< TInputImage, TOutputImage >
-::~RegionGrowImageFilter() = default;
-
 /**
  * PrintSelf
  */

@@ -22,10 +22,6 @@
 
 namespace itk
 {
-/** Constructor */
-template< unsigned int NDimensions >
-MetaBlobConverter< NDimensions >
-::MetaBlobConverter() = default;
 
 template< unsigned int NDimensions >
 typename MetaBlobConverter< NDimensions >::MetaObjectType *

@@ -23,6 +23,7 @@
 #include "itkImageFileWriter.h"
 
 #include <iostream>
+#include "itkTestingMacros.h"
 
 namespace
 {
@@ -152,7 +153,7 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int argc, char* argv[] )
 
   if(argc < 2)
     {
-    std::cerr << "Usage: " << argv[0] << " WarpedImage\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " WarpedImage\n";
     return -1;
     }
 

@@ -214,7 +214,7 @@ public:
 
 protected:
   VoronoiSegmentationImageFilterBase();
-  ~VoronoiSegmentationImageFilterBase() override;
+  ~VoronoiSegmentationImageFilterBase() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GenerateData() override; //general pipeline function.

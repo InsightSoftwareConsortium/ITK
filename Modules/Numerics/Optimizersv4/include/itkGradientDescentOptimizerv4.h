@@ -212,7 +212,7 @@ protected:
   GradientDescentOptimizerv4Template();
 
   /** Destructor */
-  ~GradientDescentOptimizerv4Template() override;
+  ~GradientDescentOptimizerv4Template() override = default;
 
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 

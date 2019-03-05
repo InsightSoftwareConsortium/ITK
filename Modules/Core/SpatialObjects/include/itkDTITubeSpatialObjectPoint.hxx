@@ -38,11 +38,6 @@ DTITubeSpatialObjectPoint< TPointDimension >
   m_TensorMatrix[5] = 1;
 }
 
-/** Destructor */
-template< unsigned int TPointDimension >
-DTITubeSpatialObjectPoint< TPointDimension >
-::~DTITubeSpatialObjectPoint() = default;
-
 template< unsigned int TPointDimension >
 void
 DTITubeSpatialObjectPoint< TPointDimension >

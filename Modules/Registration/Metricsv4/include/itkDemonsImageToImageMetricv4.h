@@ -118,7 +118,7 @@ protected:
   itkGetConstMacro(Normalizer, TInternalComputationValueType);
 
   DemonsImageToImageMetricv4();
-  ~DemonsImageToImageMetricv4() override;
+  ~DemonsImageToImageMetricv4() override = default;
 
   friend class DemonsImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >;
   friend class DemonsImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;

@@ -97,7 +97,7 @@ public:
 
 protected:
   ImageToParametricSpaceFilter();
-  ~ImageToParametricSpaceFilter() override;
+  ~ImageToParametricSpaceFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:

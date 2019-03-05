@@ -20,13 +20,14 @@
 #include "itkSimpleFilterWatcher.h"
 
 #include "itkBinaryThresholdProjectionImageFilter.h"
+#include "itkTestingMacros.h"
 
 int itkBinaryThresholdProjectionImageFilterTest(int argc, char * argv[])
 {
   if( argc < 6 )
     {
     std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " InputImage OutputImage Threshold Foreground Background"
               << std::endl;
     return EXIT_FAILURE;

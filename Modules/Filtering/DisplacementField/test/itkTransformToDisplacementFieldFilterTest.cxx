@@ -20,6 +20,7 @@
 #include "itkBSplineTransform.h"
 #include "itkTransformToDisplacementFieldFilter.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 int itkTransformToDisplacementFieldFilterTest( int argc, char * argv [] )
 {
@@ -27,7 +28,7 @@ int itkTransformToDisplacementFieldFilterTest( int argc, char * argv [] )
   if( argc < 3 )
     {
     std::cerr << "Usage: ";
-    std::cerr << argv[0] << "<transformName> <displacementFieldFileName> [bSplineParametersFile]" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "<transformName> <displacementFieldFileName> [bSplineParametersFile]" << std::endl;
     return EXIT_FAILURE;
     }
 

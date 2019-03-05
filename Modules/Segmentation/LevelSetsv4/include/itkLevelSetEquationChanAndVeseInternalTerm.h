@@ -118,7 +118,7 @@ public:
 protected:
   LevelSetEquationChanAndVeseInternalTerm();
 
-  ~LevelSetEquationChanAndVeseInternalTerm() override;
+  ~LevelSetEquationChanAndVeseInternalTerm() override = default;
 
   /** Returns the term contribution for a given location inputPixel, i.e.
    *  \f$ \omega_i( p ) \f$. */

@@ -38,11 +38,6 @@ BlobSpatialObject< TDimension >
   this->GetProperty()->SetAlpha(1);
 }
 
-/** Destructor */
-template< unsigned int TDimension >
-BlobSpatialObject< TDimension >
-::~BlobSpatialObject() = default;
-
 /** Get the list of points that defines the blob */
 template< unsigned int TDimension >
 typename BlobSpatialObject< TDimension >::PointListType &

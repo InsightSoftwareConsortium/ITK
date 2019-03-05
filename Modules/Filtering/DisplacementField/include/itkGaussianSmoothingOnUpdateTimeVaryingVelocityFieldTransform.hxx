@@ -42,10 +42,6 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType,
 }
 
 template<typename TParametersValueType, unsigned int NDimensions>
-GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>::
-~GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform() = default;
-
-template<typename TParametersValueType, unsigned int NDimensions>
 void
 GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>
 ::UpdateTransformParameters( const DerivativeType & update, ScalarType factor )

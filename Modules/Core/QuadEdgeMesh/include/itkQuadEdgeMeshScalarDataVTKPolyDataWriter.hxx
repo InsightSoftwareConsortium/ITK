@@ -33,13 +33,6 @@ QuadEdgeMeshScalarDataVTKPolyDataWriter< TMesh >
   m_PointDataName = "";
 }
 
-//
-// Destructor
-//
-template< typename TMesh >
-QuadEdgeMeshScalarDataVTKPolyDataWriter< TMesh >
-::~QuadEdgeMeshScalarDataVTKPolyDataWriter() = default;
-
 template< typename TMesh >
 void
 QuadEdgeMeshScalarDataVTKPolyDataWriter< TMesh >

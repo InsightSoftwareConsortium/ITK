@@ -123,7 +123,7 @@ public:
 
 protected:
   ConstantVelocityFieldTransformParametersAdaptor();
-  ~ConstantVelocityFieldTransformParametersAdaptor() override;
+  ~ConstantVelocityFieldTransformParametersAdaptor() override = default;
 }; //class ConstantVelocityFieldTransformParametersAdaptor
 }  // namespace itk
 

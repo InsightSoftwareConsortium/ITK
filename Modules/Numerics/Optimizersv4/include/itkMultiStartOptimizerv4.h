@@ -136,7 +136,7 @@ public:
 protected:
   /** Default constructor */
   MultiStartOptimizerv4Template();
-  ~MultiStartOptimizerv4Template() override;
+  ~MultiStartOptimizerv4Template() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

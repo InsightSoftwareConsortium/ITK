@@ -41,11 +41,6 @@ Rigid3DTransform<TParametersValueType>::Rigid3DTransform(const MatrixType & matr
   Superclass(matrix, offset)
 {}
 
-// Destructor
-template<typename TParametersValueType>
-Rigid3DTransform<TParametersValueType>::
-~Rigid3DTransform() = default;
-
 // Print self
 template<typename TParametersValueType>
 void

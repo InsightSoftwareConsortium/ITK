@@ -178,7 +178,7 @@ protected:
   void GenerateData() override;
 
   BlockMatchingImageFilter();
-  ~BlockMatchingImageFilter() override;
+  ~BlockMatchingImageFilter() override = default;
 
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 

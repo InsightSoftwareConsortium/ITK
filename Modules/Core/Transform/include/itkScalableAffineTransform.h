@@ -131,7 +131,7 @@ protected:
   void ComputeMatrix() override;
 
   /** Destroy an ScalableAffineTransform object   */
-  ~ScalableAffineTransform() override;
+  ~ScalableAffineTransform() override = default;
 
   /** Print contents of an ScalableAffineTransform */
   void PrintSelf(std::ostream & s, Indent indent) const override;

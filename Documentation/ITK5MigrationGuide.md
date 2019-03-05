@@ -319,6 +319,11 @@ pixel type should be the same as `TOutputPixelType`. However, it appears that fo
 type (`TRadiusPixelType`), a floating point type is often preferred, whereas for the accumulator
 output pixel type (`TOutputPixelType`), an unsigned integer type is often more appropriate.
 
+`GaussianDerivativeImageFunction::ImageDimension2` is renamed to `GaussianDerivativeImageFunction::ImageDimension`.
+The nested `GaussianDerivativeImageFunction` types `GaussianDerivativeFunctionType` and
+`GaussianDerivativeFunctionPointer` are renamed to `GaussianDerivativeSpatialFunctionType` and
+`GaussianDerivativeSpatialFunctionPointer`, respectively.
+
 With ITK 5.0, `itk::ProcessObject::VerifyPreconditions()`  and
 `itk::ProcessObject::VerifyInputInformation` are now declared `const`,
 so if you have overridden these virtual member function, make sure that you

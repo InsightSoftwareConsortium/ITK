@@ -35,10 +35,6 @@ NoiseBaseImageFilter<TInputImage, TOutputImage>
 }
 
 template <class TInputImage, class TOutputImage>
-NoiseBaseImageFilter<TInputImage, TOutputImage>
-::~NoiseBaseImageFilter() = default;
-
-template <class TInputImage, class TOutputImage>
 void
 NoiseBaseImageFilter<TInputImage, TOutputImage>
 ::SetSeed()

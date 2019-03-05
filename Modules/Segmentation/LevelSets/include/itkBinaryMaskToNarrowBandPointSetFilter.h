@@ -132,7 +132,7 @@ public:
 
 protected:
   BinaryMaskToNarrowBandPointSetFilter();
-  ~BinaryMaskToNarrowBandPointSetFilter() override;
+  ~BinaryMaskToNarrowBandPointSetFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Some type alias associated with the output mesh. */
