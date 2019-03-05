@@ -248,7 +248,7 @@ bool DCMTKImageIO::CanReadFile(const char *filename)
   return DCMTKFileReader::IsImageFile(filename);
 }
 
-bool DCMTKImageIO::CanWriteFile(const char * itkNotUsed( name ))
+bool DCMTKImageIO::CanWriteFile(const char *)
 {
   // writing is currently not implemented
   return false;
