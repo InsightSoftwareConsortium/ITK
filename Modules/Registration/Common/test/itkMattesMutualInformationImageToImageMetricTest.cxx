@@ -142,7 +142,8 @@ int TestMattesMetricWithAffineTransform(
                                                        // buffer to zero
 
   int NumberFixedImageMaskVoxels=0;
-    {//Set up a mask that only has every 10th voxel listed is used in fixed image region
+    {//Set up a mask that only has every 10th voxel listed is used in
+     //fixed image region.
     //This should result in only about 588 samples
       {
       ReferenceIteratorType ri1(imgMovingMask,region);
@@ -248,25 +249,34 @@ int TestMattesMetricWithAffineTransform(
       // and it will be truncated to the size of the image.
 
       // convert mask image to mask
-      using ImageMaskSpatialObjectType = itk::ImageMaskSpatialObject<ImageDimension>;
-      typename ImageMaskSpatialObjectType::Pointer soMovingMask  = ImageMaskSpatialObjectType::New();
+
+      using ImageMaskSpatialObjectType
+        = itk::ImageMaskSpatialObject<ImageDimension>;
+      typename ImageMaskSpatialObjectType::Pointer soMovingMask
+        = ImageMaskSpatialObjectType::New();
       soMovingMask->SetImage( imgMovingMask );
-      soMovingMask->ComputeObjectToWorldTransform();
-      typename ImageMaskSpatialObjectType::Pointer soFixedMask  = ImageMaskSpatialObjectType::New();
+      soMovingMask->Update();
+
+      typename ImageMaskSpatialObjectType::Pointer soFixedMask
+        = ImageMaskSpatialObjectType::New();
       soFixedMask->SetImage( imgFixedMask );
-      soFixedMask->ComputeObjectToWorldTransform();
+      soFixedMask->Update();
 
       metric->SetMovingImageMask(soMovingMask);
       metric->SetFixedImageMask(soFixedMask);
 
       // Make the mask const to enhance code coverage
-      typename ImageMaskSpatialObjectType::ConstPointer soMovingConstMask = soMovingMask;
-      typename ImageMaskSpatialObjectType::ConstPointer soFixedConstMask  = soFixedMask;
+      typename ImageMaskSpatialObjectType::ConstPointer soMovingConstMask
+        = soMovingMask;
+      typename ImageMaskSpatialObjectType::ConstPointer soFixedConstMask
+        = soFixedMask;
       metric->SetMovingImageMask(soMovingConstMask);
       metric->SetFixedImageMask(soFixedConstMask);
 
-      //metric->SetNumberOfSpatialSamples( static_cast<unsigned long int>(NumberFixedImageMaskVoxels*.2) );
-      metric->SetNumberOfSpatialSamples( static_cast<unsigned long int>(NumberFixedImageMaskVoxels*2) );
+      //metric->SetNumberOfSpatialSamples(
+      //  static_cast<unsigned long int>(NumberFixedImageMaskVoxels*.2) );
+      metric->SetNumberOfSpatialSamples(
+        static_cast<unsigned long int>(NumberFixedImageMaskVoxels*2) );
       }
     }
   else
