@@ -94,10 +94,13 @@ ImageMaskSpatialObject< TDimension, TPixel >
   PixelType prevValue = outsideValue;
   IndexType tmpIndex;
   PointType tmpPoint;
+  int count = 0;
+  int rowSize
+    = this->m_Image->GetLargestPossibleRegion().GetSize()[0];
   while ( !it.IsAtEnd() )
     {
     value = it.Get();
-    if ( value != prevValue )
+    if ( value != prevValue || ( count == rowSize-1 && value != outsideValue ) )
       {
       prevValue = value;
       if( value == outsideValue )
@@ -122,6 +125,12 @@ ImageMaskSpatialObject< TDimension, TPixel >
       }
     prevIt = it;
     ++it;
+    ++count;
+    if( count == rowSize )
+      {
+      count = 0;
+      prevValue = outsideValue;
+      }
     }
 
   if( first )
