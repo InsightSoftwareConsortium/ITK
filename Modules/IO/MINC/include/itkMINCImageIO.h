@@ -91,6 +91,11 @@ public:
   void SetCompressionLevel(int level);
   int GetCompressionLevel() const;
 
+  /** Set the conversion between RAS and LPS coordinate systems.
+      Backwards compatibility feature for ezMINC tool */
+  itkSetMacro(ConvertCoordinatesToLPS, bool);
+  itkGetConstMacro(ConvertCoordinatesToLPS, bool);
+
   /*-------- This part of the interface deals with reading data. ------ */
 
   /** Determine the file type. Returns true if this ImageIO can read the
@@ -138,6 +143,8 @@ protected:
 private:
 
   MINCImageIOPImpl *m_MINCPImpl;
+
+  bool m_ConvertCoordinatesToLPS;
 
   MatrixType     m_DirectionCosines;
 
