@@ -147,18 +147,34 @@ replaced by C++11 `std::thread`. Code in the example below shows
 how to remove dependence on barrier by using ParallelizeImageRegion.
 
 - Pattern for Multiple Parallel Operations:
-```C++
+```cpp
 ThreadedGenerateData()
 {
-//code1 (parallel)
-myBarrier->Wait();
-if (threadId==0)
-  //code2 single-threaded
-//code3 (parallel)
+  //code1 (parallel)
+  myBarrier->Wait();
+  if (threadId==0)
+    {
+    //code2 single-threaded
+    }
+  //code3 (parallel)
 }
+```
+
+after refactoring to not use barrier:
+```cpp
+GenerateData() //Not Threaded
+{
+  this->AllocateOutputs();
+  this->BeforeThreadedGenerateData();
+  ParallelizeImageRegion(code1 as lambda)
+  //code2 single-threaded
+  ParallelizeImageRegion(code3 as lambda)
+  this->AfterThreadedGenerateData();
+}
+```
 
 -  ITK_THREAD_RETURN_TYPE is now in the itk:: namespace
-```
+```cpp
 #if ITK_VERSION_MAJOR >= 5
   static itk::ITK_THREAD_RETURN_TYPE NetworkingThreaderCallback( void * );
 #else
@@ -167,7 +183,7 @@ if (threadId==0)
 ```
 
 - ITK_THREAD_RETURN_VALUE is named itk::ITK_THREAD_RETURN_DEFAULT_VALUE
-```
+```cpp
 #if ITK_VERSION_MAJOR >= 5
   return itk::ITK_THREAD_RETURN_DEFAULT_VALUE;
 #else
@@ -176,26 +192,12 @@ if (threadId==0)
 ```
 
 - ThreadInfoStruct is renamed to WorkUnitInfo
-```
+```cpp
 #if ITK_VERSION_MAJOR >= 5
     (((itk::PlatformMultiThreader::WorkUnitInfo *)(arg))->UserData);
 #else
     (((itk::MultiThreader::ThreadInfoStruct *)(arg))->UserData);
 #endif
-```
-
-```
-after refactoring to not use barrier:
-```C++
-GenerateData() //Not Threaded
-{
-this->AllocateOutputs();
-this->BeforeThreadedGenerateData();
-ParallelizeImageRegion(code1 as lambda)
-//code2 single-threaded
-ParallelizeImageRegion(code3 as lambda)
-this->AfterThreadedGenerateData();
-}
 ```
 
 - Pattern for Parallel Counting:
@@ -204,6 +206,7 @@ and aggregating the result in a filter's `AfterThreadedGenerateData()`.
 With C++11, you might want to instead use `std::atomic`.
 An external module example that demonstrates this can be found in
 [this commit](https://github.com/InsightSoftwareConsortium/ITKBoneMorphometry/pull/32/commits/a8014c186ac53837362a0cb9db46ae224b8e9584).
+
 Before, using `itk::Array`:
 ```C++
 // Members:
