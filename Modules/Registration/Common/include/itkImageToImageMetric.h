@@ -499,13 +499,9 @@ public:
   bool                       m_WithinThreadPreProcess{false};
   bool                       m_WithinThreadPostProcess{false};
 
-  void                           GetValueMultiThreadedPreProcessInitiate() const;
-
   void                           GetValueMultiThreadedInitiate() const;
 
   void                           GetValueMultiThreadedPostProcessInitiate() const;
-
-  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION  GetValueMultiThreadedPreProcess(void *arg);
 
   static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION  GetValueMultiThreaded(void *arg);
 
@@ -528,13 +524,9 @@ public:
     bool itkNotUsed(withinSampleThread) ) const
   {}
 
-  void                          GetValueAndDerivativeMultiThreadedPreProcessInitiate() const;
-
   void                          GetValueAndDerivativeMultiThreadedInitiate() const;
 
   void                          GetValueAndDerivativeMultiThreadedPostProcessInitiate() const;
-
-  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION GetValueAndDerivativeMultiThreadedPreProcess(void *arg);
 
   static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION GetValueAndDerivativeMultiThreaded(void *arg);
 

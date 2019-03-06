@@ -1134,18 +1134,6 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage  >
 void
 ImageToImageMetric< TFixedImage, TMovingImage >
-::GetValueMultiThreadedPreProcessInitiate() const
-{
-  this->SynchronizeTransforms();
-
-  m_Threader->SetSingleMethod( GetValueMultiThreadedPreProcess,
-                               (void *)( &m_ThreaderParameter ) );
-  m_Threader->SingleMethodExecute();
-}
-
-template< typename TFixedImage, typename TMovingImage  >
-void
-ImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValueMultiThreadedInitiate() const
 {
   this->SynchronizeTransforms();
@@ -1170,26 +1158,6 @@ ImageToImageMetric< TFixedImage, TMovingImage >
   m_Threader->SingleMethodExecute();
 }
 
-/**
- * Get the match Measure
- */
-template< typename TFixedImage, typename TMovingImage  >
-ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
-ImageToImageMetric< TFixedImage, TMovingImage >
-::GetValueMultiThreadedPreProcess(void *arg)
-{
-  ThreadIdType                threadId;
-  MultiThreaderParameterType *mtParam;
-
-  threadId = ( (MultiThreaderType::WorkUnitInfo *)( arg ) )->WorkUnitID;
-
-  mtParam = (MultiThreaderParameterType *)
-            ( ( (MultiThreaderType::WorkUnitInfo *)( arg ) )->UserData );
-
-  mtParam->metric->GetValueThreadPreProcess(threadId, false);
-
-  return ITK_THREAD_RETURN_DEFAULT_VALUE;
-}
 
 /**
  * Get the match Measure
@@ -1297,18 +1265,6 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage  >
 void
 ImageToImageMetric< TFixedImage, TMovingImage >
-::GetValueAndDerivativeMultiThreadedPreProcessInitiate() const
-{
-  this->SynchronizeTransforms();
-
-  m_Threader->SetSingleMethod( GetValueAndDerivativeMultiThreadedPreProcess,
-                               (void *)( &m_ThreaderParameter ) );
-  m_Threader->SingleMethodExecute();
-}
-
-template< typename TFixedImage, typename TMovingImage  >
-void
-ImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValueAndDerivativeMultiThreadedInitiate() const
 {
   this->SynchronizeTransforms();
@@ -1331,27 +1287,6 @@ ImageToImageMetric< TFixedImage, TMovingImage >
   m_Threader->SetSingleMethod( GetValueAndDerivativeMultiThreadedPostProcess,
                                (void *)( &m_ThreaderParameter ) );
   m_Threader->SingleMethodExecute();
-}
-
-/**
- * Get the match Measure
- */
-template< typename TFixedImage, typename TMovingImage  >
-ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
-ImageToImageMetric< TFixedImage, TMovingImage >
-::GetValueAndDerivativeMultiThreadedPreProcess(void *arg)
-{
-  ThreadIdType                threadId;
-  MultiThreaderParameterType *mtParam;
-
-  threadId = ( (MultiThreaderType::WorkUnitInfo *)( arg ) )->WorkUnitID;
-
-  mtParam = (MultiThreaderParameterType *)
-            ( ( (MultiThreaderType::WorkUnitInfo *)( arg ) )->UserData );
-
-  mtParam->metric->GetValueAndDerivativeThreadPreProcess(threadId, false);
-
-  return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
 /**
