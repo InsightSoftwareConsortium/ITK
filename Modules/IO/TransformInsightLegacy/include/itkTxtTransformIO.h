@@ -112,7 +112,7 @@ namespace itk
 #endif
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 
-  extern template class ITKIOTransformInsightLegacy_EXPORT_EXPLICIT TxtTransformIOTemplate< double >;
+extern template class ITKIOTransformInsightLegacy_EXPORT_EXPLICIT TxtTransformIOTemplate< double >;
 extern template class ITKIOTransformInsightLegacy_EXPORT_EXPLICIT TxtTransformIOTemplate< float >;
 
 #ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
