@@ -489,12 +489,49 @@ public:
    * Types and variables related to multi-threading
    */
 
-  struct MultiThreaderParameterType {
-    ImageToImageMetric *metric;
+  /**
+   * \class  ConstantPointerWrapper
+   * A class to wrap around a const pointer that can be passed
+   * as a non-const object to the SetSingleMethod function
+   * as a non-const void *.
+   * Do not allow inheritance for objects that are intended for static_cast<void *>
+   * \ingroup ITKRegistrationCommon
+   */
+  class ConstantPointerWrapper final
+  {
+  public:
+    ConstantPointerWrapper(ImageToImageMetric * i2i_metricPointer)
+    : m_ConstMetricPointer{ i2i_metricPointer }
+    {}
+    const ImageToImageMetric * GetConstMetricPointer() const { return m_ConstMetricPointer; }
+  private:
+    const ImageToImageMetric * m_ConstMetricPointer;
+  };
+
+  /**
+   * \class MultiThreaderWorkUnitInfoImageToImageMetricWrapper
+   * This helper local class is used to extract information from the
+   * MultiThreaderType::WorkUnitInfo info type
+   * Do not allow inheritance for objects that are intended for static_cast<void *>
+   * \ingroup ITKRegistrationCommon
+   */
+  class MultiThreaderWorkUnitInfoImageToImageMetricWrapper final
+  {
+  public:
+    MultiThreaderWorkUnitInfoImageToImageMetricWrapper(const void * workunitInfoAsVoid)
+      : m_WorkUnitInfo{ static_cast<const typename MultiThreaderType::WorkUnitInfo *>( workunitInfoAsVoid )}
+    {  }
+    ThreadIdType GetThreadId() const { return m_WorkUnitInfo->WorkUnitID; }
+    const ImageToImageMetric * GetConstImageToImageMetricPointer() const
+    {
+      return (static_cast<ConstantPointerWrapper *>( m_WorkUnitInfo ->UserData))->GetConstMetricPointer();
+    }
+  private:
+    const typename MultiThreaderType::WorkUnitInfo *m_WorkUnitInfo;
   };
 
   MultiThreaderType::Pointer m_Threader;
-  MultiThreaderParameterType m_ThreaderParameter;
+  ConstantPointerWrapper *   m_ConstSelfWrapper;
   mutable unsigned int *     m_ThreaderNumberOfMovingImageSamples{nullptr};
   bool                       m_WithinThreadPreProcess{false};
   bool                       m_WithinThreadPostProcess{false};

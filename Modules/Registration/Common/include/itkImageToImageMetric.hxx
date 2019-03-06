@@ -56,7 +56,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
   m_DerivativeCalculator(nullptr),
   m_Threader(MultiThreaderType::New())
 {
-  this->m_ThreaderParameter.metric = this;
+  m_ConstSelfWrapper = new ConstantPointerWrapper(this);
   this->m_NumberOfWorkUnits = this->m_Threader->GetNumberOfWorkUnits();
 
   /* if 100% backward compatible, we should include this...but...
@@ -74,6 +74,8 @@ template< typename TFixedImage, typename TMovingImage >
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::~ImageToImageMetric()
 {
+  delete m_ConstSelfWrapper;
+
   delete[] m_ThreaderNumberOfMovingImageSamples;
   m_ThreaderNumberOfMovingImageSamples = nullptr;
 
@@ -1138,8 +1140,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 {
   this->SynchronizeTransforms();
 
-  m_Threader->SetSingleMethod( GetValueMultiThreaded,
-                               const_cast< void * >( static_cast< const void * >( &m_ThreaderParameter ) ) );
+  m_Threader->SetSingleMethod( GetValueMultiThreaded, static_cast<void *>( m_ConstSelfWrapper ) );
   m_Threader->SingleMethodExecute();
 
   for ( ThreadIdType threadId = 0; threadId < m_NumberOfWorkUnits - 1; threadId++ )
@@ -1153,11 +1154,9 @@ void
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValueMultiThreadedPostProcessInitiate() const
 {
-  m_Threader->SetSingleMethod( GetValueMultiThreadedPostProcess,
-                               const_cast< void * >( static_cast< const void * >( &m_ThreaderParameter ) ) );
+  m_Threader->SetSingleMethod( GetValueMultiThreadedPostProcess, static_cast<void *>( m_ConstSelfWrapper ) );
   m_Threader->SingleMethodExecute();
 }
-
 
 /**
  * Get the match Measure
@@ -1165,17 +1164,10 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage  >
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 ImageToImageMetric< TFixedImage, TMovingImage >
-::GetValueMultiThreaded(void *arg)
+::GetValueMultiThreaded(void *workunitInfoAsVoid)
 {
-  ThreadIdType                threadId;
-  MultiThreaderParameterType *mtParam;
-
-  threadId = ( (MultiThreaderType::WorkUnitInfo *)( arg ) )->WorkUnitID;
-
-  mtParam = (MultiThreaderParameterType *)
-            ( ( (MultiThreaderType::WorkUnitInfo *)( arg ) )->UserData );
-
-  mtParam->metric->GetValueThread(threadId);
+  const MultiThreaderWorkUnitInfoImageToImageMetricWrapper helper(workunitInfoAsVoid);
+  helper.GetConstImageToImageMetricPointer()->GetValueThread(helper.GetThreadId());
 
   return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
@@ -1186,17 +1178,10 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage  >
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 ImageToImageMetric< TFixedImage, TMovingImage >
-::GetValueMultiThreadedPostProcess(void *arg)
+::GetValueMultiThreadedPostProcess(void *workunitInfoAsVoid)
 {
-  ThreadIdType                threadId;
-  MultiThreaderParameterType *mtParam;
-
-  threadId = ( (MultiThreaderType::WorkUnitInfo *)( arg ) )->WorkUnitID;
-
-  mtParam = (MultiThreaderParameterType *)
-            ( ( (MultiThreaderType::WorkUnitInfo *)( arg ) )->UserData );
-
-  mtParam->metric->GetValueThreadPostProcess(threadId, false);
+  const MultiThreaderWorkUnitInfoImageToImageMetricWrapper helper(workunitInfoAsVoid);
+  helper.GetConstImageToImageMetricPointer()->GetValueThreadPostProcess(helper.GetThreadId(),false);
 
   return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
@@ -1269,8 +1254,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 {
   this->SynchronizeTransforms();
 
-  m_Threader->SetSingleMethod( GetValueAndDerivativeMultiThreaded,
-                               const_cast< void * >( static_cast< const void * >( &m_ThreaderParameter ) ) );
+  m_Threader->SetSingleMethod( GetValueAndDerivativeMultiThreaded, static_cast<void *>( m_ConstSelfWrapper ) );
   m_Threader->SingleMethodExecute();
 
   for ( ThreadIdType threadId = 0; threadId < m_NumberOfWorkUnits - 1; threadId++ )
@@ -1284,8 +1268,7 @@ void
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::GetValueAndDerivativeMultiThreadedPostProcessInitiate() const
 {
-  m_Threader->SetSingleMethod( GetValueAndDerivativeMultiThreadedPostProcess,
-                               (void *)( &m_ThreaderParameter ) );
+  m_Threader->SetSingleMethod( GetValueAndDerivativeMultiThreadedPostProcess, static_cast<void *>(m_ConstSelfWrapper ) );
   m_Threader->SingleMethodExecute();
 }
 
@@ -1295,17 +1278,10 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage  >
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 ImageToImageMetric< TFixedImage, TMovingImage >
-::GetValueAndDerivativeMultiThreaded(void *arg)
+::GetValueAndDerivativeMultiThreaded(void *workunitInfoAsVoid)
 {
-  ThreadIdType                threadId;
-  MultiThreaderParameterType *mtParam;
-
-  threadId = ( (MultiThreaderType::WorkUnitInfo *)( arg ) )->WorkUnitID;
-
-  mtParam = (MultiThreaderParameterType *)
-            ( ( (MultiThreaderType::WorkUnitInfo *)( arg ) )->UserData );
-
-  mtParam->metric->GetValueAndDerivativeThread(threadId);
+  const MultiThreaderWorkUnitInfoImageToImageMetricWrapper helper(workunitInfoAsVoid);
+  helper.GetConstImageToImageMetricPointer()->GetValueAndDerivativeThread(helper.GetThreadId());
 
   return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
@@ -1316,17 +1292,10 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage  >
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 ImageToImageMetric< TFixedImage, TMovingImage >
-::GetValueAndDerivativeMultiThreadedPostProcess(void *arg)
+::GetValueAndDerivativeMultiThreadedPostProcess(void *workunitInfoAsVoid)
 {
-  ThreadIdType                threadId;
-  MultiThreaderParameterType *mtParam;
-
-  threadId = ( (MultiThreaderType::WorkUnitInfo *)( arg ) )->WorkUnitID;
-
-  mtParam = (MultiThreaderParameterType *)
-            ( ( (MultiThreaderType::WorkUnitInfo *)( arg ) )->UserData );
-
-  mtParam->metric->GetValueAndDerivativeThreadPostProcess(threadId, false);
+  const MultiThreaderWorkUnitInfoImageToImageMetricWrapper helper(workunitInfoAsVoid);
+  helper.GetConstImageToImageMetricPointer()->GetValueAndDerivativeThreadPostProcess(helper.GetThreadId(),false);
 
   return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
