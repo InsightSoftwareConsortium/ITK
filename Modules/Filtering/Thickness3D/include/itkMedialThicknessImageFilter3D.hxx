@@ -31,28 +31,28 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 MedialThicknessImageFilter3D<TInputImage, TOutputImage>::MedialThicknessImageFilter3D()
 {
-  m_DistanceFilter = DistanceType::New();
+  m_DistanceFilter = DistanceImageFilterType::New();
   m_DistanceFilter->ReleaseDataFlagOn();
-  m_SkeletonFilter = SkeletonType::New();
-  m_SkeletonFilter->ReleaseDataFlagOn();
-  m_MaskFilter = MaskType::New();
+  m_ThinningFilter = ThinningImageFilterType::New();
+  m_ThinningFilter->ReleaseDataFlagOn();
+  m_MaskFilter = MaskImageFilterType::New();
   m_MaskFilter->SetInput(m_DistanceFilter->GetOutput());
-  m_MaskFilter->SetMaskImage(m_SkeletonFilter->GetOutput());
-  m_SkeletonFilter->ReleaseDataFlagOn();
-  m_DoubleFilter->SetInput(m_MaskFilter->GetOutput());
-  m_DoubleFilter->SetConstant(-2.0);
+  m_MaskFilter->SetMaskImage(m_ThinningFilter->GetOutput());
+  m_ThinningFilter->ReleaseDataFlagOn();
+  m_MultiplyFilter->SetInput(m_MaskFilter->GetOutput());
+  m_MultiplyFilter->SetConstant(-2.0);
 }
 
 template <typename TInputImage, typename TOutputImage>
 void
 MedialThicknessImageFilter3D<TInputImage, TOutputImage>::GenerateData()
 {
-  m_DistanceFilter->SetInput(this->GetInput());
-  m_SkeletonFilter->SetInput(this->GetInput());
-
-  m_MaskFilter->GraftOutput(this->GetOutput());
-  m_MaskFilter->Update();
-  this->GraftOutput(m_DoubleFilter->GetOutput());
+  typename InputImageType::Pointer input = InputImageType::New();
+  input->Graft(dynamic_cast<const InputImageType *>(this->GetInput()));
+  m_DistanceFilter->SetInput(input);
+  m_ThinningFilter->SetInput(input);
+  m_MultiplyFilter->Update();
+  this->GraftOutput(m_MultiplyFilter->GetOutput());
 }
 
 template <typename TInputImage, typename TOutputImage>

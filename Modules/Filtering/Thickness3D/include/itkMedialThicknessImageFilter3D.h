@@ -68,16 +68,16 @@ public:
 
 protected:
   /** Composite sub-filters typedefs. */
-  using DistanceType = SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>;
-  using SkeletonType = BinaryThinningImageFilter3D<TInputImage, TInputImage>;
-  using MaskType = MaskImageFilter<TOutputImage, TInputImage, TOutputImage>;
-  using DoubleType = MultiplyImageFilter<TOutputImage, TOutputImage, TOutputImage>;
+  using DistanceImageFilterType = SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>;
+  using ThinningImageFilterType = BinaryThinningImageFilter3D<TInputImage, TInputImage>;
+  using MaskImageFilterType = MaskImageFilter<TOutputImage, TInputImage, TOutputImage>;
+  using MultiplyImageFilterType = MultiplyImageFilter<TOutputImage, TOutputImage, TOutputImage>;
 
   /** Composite sub-filters members. */
-  typename DistanceType::Pointer m_DistanceFilter;
-  typename SkeletonType::Pointer m_SkeletonFilter;
-  typename MaskType::Pointer     m_MaskFilter;
-  typename DoubleType::Pointer   m_DoubleFilter;
+  typename DistanceImageFilterType::Pointer m_DistanceFilter;
+  typename ThinningImageFilterType::Pointer m_ThinningFilter;
+  typename MaskImageFilterType::Pointer     m_MaskFilter;
+  typename MultiplyImageFilterType::Pointer m_MultiplyFilter;
 
   MedialThicknessImageFilter3D();
   virtual ~MedialThicknessImageFilter3D() override {}
