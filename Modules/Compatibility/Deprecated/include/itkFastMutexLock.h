@@ -56,7 +56,7 @@ namespace itk
  * \ingroup OSSystemObjects
  * \ingroup ITKDeprecated
  */
-class ITKCommon_EXPORT FastMutexLock:public Object
+class ITKDeprecated_EXPORT FastMutexLock:public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(FastMutexLock);
