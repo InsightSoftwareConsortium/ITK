@@ -30,6 +30,7 @@
 
 #include "itkMacro.h"
 #include "itkThreadSupport.h"
+#include "ITKDeprecatedExport.h"
 
 namespace itk
 {
@@ -46,7 +47,7 @@ namespace itk
  */
 
 // Critical Section object that is not a itkObject.
-class ITKCommon_EXPORT SimpleFastMutexLock
+class ITKDeprecated_EXPORT SimpleFastMutexLock
 {
 public:
   /** Standard class type aliases.  */
