@@ -1488,10 +1488,10 @@ DCMTKFileReader
 {
   DcmDataDictionary &dict = dcmDataDict.wrlock();
   dict.addEntry(entry);
-#if OFFIS_DCMTK_VERSION_NUMBER > 362
-  dcmDataDict.wrunlock();
-#else
+#if OFFIS_DCMTK_VERSION_NUMBER < 364
   dcmDataDict.unlock();
+#else
+  dcmDataDict.wrunlock();
 #endif
 }
 
