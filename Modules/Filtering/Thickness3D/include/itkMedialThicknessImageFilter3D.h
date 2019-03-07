@@ -22,19 +22,22 @@
 #include "itkBinaryThinningImageFilter3D.h"
 #include "itkSignedMaurerDistanceMapImageFilter.h"
 #include "itkMaskImageFilter.h"
+#include "itkMultiplyImageFilter.h"
 
 namespace itk
 {
 
 /** \class MedialThicknessImageFilter3D
  *
- * \brief Filters a image by iterating over its pixels.
+ * \brief This filter computes the medial thickness of a 3D input image.
  *
- * Filters a image by iterating over its pixels in a multi-threaded way
- * and {to be completed by the developer}.
+ * The input is assumed to be a binary image. All non-zero valued voxels
+ * are set to 1 internally to simplify the computation. The filter will
+ * extract a one-pixel-wide skeleton of the object and compute the distance
+ * to the object edge. This distance multiplied by 2 is considered the
+ * local thickness of the object (thickness = center-to-boundary x 2).
  *
- * \ingroup Thickness3D
- *
+ * \ingroup MathematicalMorphologyImageFilters Thickness3D
  */
 template <typename TInputImage, typename TOutputImage>
 class MedialThicknessImageFilter3D : public ImageToImageFilter<TInputImage, TOutputImage>
@@ -68,11 +71,13 @@ protected:
   using DistanceType = SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>;
   using SkeletonType = BinaryThinningImageFilter3D<TInputImage, TInputImage>;
   using MaskType = MaskImageFilter<TOutputImage, TInputImage, TOutputImage>;
+  using DoubleType = MultiplyImageFilter<TOutputImage, TOutputImage, TOutputImage>;
 
   /** Composite sub-filters members. */
   typename DistanceType::Pointer m_DistanceFilter;
   typename SkeletonType::Pointer m_SkeletonFilter;
   typename MaskType::Pointer     m_MaskFilter;
+  typename DoubleType::Pointer   m_DoubleFilter;
 
   MedialThicknessImageFilter3D();
   virtual ~MedialThicknessImageFilter3D() override {}

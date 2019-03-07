@@ -38,6 +38,9 @@ MedialThicknessImageFilter3D<TInputImage, TOutputImage>::MedialThicknessImageFil
   m_MaskFilter = MaskType::New();
   m_MaskFilter->SetInput(m_DistanceFilter->GetOutput());
   m_MaskFilter->SetMaskImage(m_SkeletonFilter->GetOutput());
+  m_SkeletonFilter->ReleaseDataFlagOn();
+  m_DoubleFilter->SetInput(m_MaskFilter->GetOutput());
+  m_DoubleFilter->SetConstant(-2.0);
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -49,7 +52,7 @@ MedialThicknessImageFilter3D<TInputImage, TOutputImage>::GenerateData()
 
   m_MaskFilter->GraftOutput(this->GetOutput());
   m_MaskFilter->Update();
-  this->GraftOutput(m_MaskFilter->GetOutput());
+  this->GraftOutput(m_DoubleFilter->GetOutput());
 }
 
 template <typename TInputImage, typename TOutputImage>
