@@ -111,7 +111,7 @@ int itkFastMarchingUpwindGradientTest(int, char* [] )
   trialPoints->InsertElement(3, node);
 
   node.SetValue( 42.0 );
-  index.Fill( 300 ); // this node is out of ranage
+  index.Fill( 300 ); // this node is out of range
   node.SetIndex( index );
   trialPoints->InsertElement(4, node);
 

@@ -106,7 +106,7 @@ int itkFastMarchingUpwindGradientBaseTest(int, char* [] )
   index[1] -= 1;
   TrialPoints->push_back( NodePairType( index, 1. ) );
 
-  index.Fill( 300 ); // this node is out of ranage
+  index.Fill( 300 ); // this node is out of range
   TrialPoints->push_back( NodePairType( index, 42. ) );
 
   marcher->SetTrialPoints( TrialPoints );
