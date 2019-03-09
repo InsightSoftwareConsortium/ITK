@@ -22,6 +22,7 @@
 #include "itkFastMarchingThresholdStoppingCriterion.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkTextOutput.h"
+#include "itkTestingMacros.h"
 #include "itkCommand.h"
 
 
@@ -31,22 +32,19 @@ namespace{
 class ShowProgressObject
 {
 public:
-  ShowProgressObject(itk::ProcessObject* o)
-    {m_Process = o;}
+  ShowProgressObject( itk::ProcessObject* o )
+    { m_Process = o; }
   void ShowProgress()
-    {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
+    { std::cout << "Progress " << m_Process->GetProgress() << std::endl; }
   itk::ProcessObject::Pointer m_Process;
 };
 }
 
-int itkFastMarchingImageFilterRealTest2(int argc, char* argv[] )
+int itkFastMarchingImageFilterRealTest2( int itkNotUsed( argc ), char* itkNotUsed( argv )[] )
 {
-  (void) argc;
-  (void) argv;
+  itk::OutputWindow::SetInstance( itk::TextOutput::New().GetPointer() );
 
-  itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
-
-  // create a fastmarching object
+  // Create a Fast Marching image filter object
   using PixelType = float;
   constexpr unsigned Dimension  = 2;
 
@@ -62,20 +60,25 @@ int itkFastMarchingImageFilterRealTest2(int argc, char* argv[] )
   criterion->SetThreshold( 100. );
 
   FastMarchingType::Pointer marcher = FastMarchingType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( marcher, FastMarchingImageFilterBase,
+    FastMarchingBase );
+
+
   marcher->SetStoppingCriterion( criterion );
 
-  ShowProgressObject progressWatch(marcher);
-  itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
-  command = itk::SimpleMemberCommand<ShowProgressObject>::New();
-  command->SetCallbackFunction(&progressWatch,
-                               &ShowProgressObject::ShowProgress);
-  marcher->AddObserver( itk::ProgressEvent(), command);
+  ShowProgressObject progressWatch( marcher );
+  itk::SimpleMemberCommand< ShowProgressObject >::Pointer command =
+    itk::SimpleMemberCommand< ShowProgressObject >::New();
+  command->SetCallbackFunction( &progressWatch,
+                               &ShowProgressObject::ShowProgress );
+  marcher->AddObserver( itk::ProgressEvent(), command );
 
-  // specify the size of the output image
-  FloatImageType::SizeType size = {{64,64}};
+  // Specify the size of the output image
+  FloatImageType::SizeType size = {{64, 64}};
   marcher->SetOutputSize( size );
 
-  // setup a speed image of ones
+  // Set up a speed image of ones
   FloatImageType::Pointer speedImage = FloatImageType::New();
   FloatImageType::RegionType region;
   region.SetSize( size );
@@ -83,53 +86,53 @@ int itkFastMarchingImageFilterRealTest2(int argc, char* argv[] )
   speedImage->SetBufferedRegion( region );
   speedImage->Allocate();
 
-  // setup a 'alive image'
-  FloatImageType::Pointer AliveImage = FloatImageType::New();
-  AliveImage->SetLargestPossibleRegion( region );
-  AliveImage->SetBufferedRegion( region );
-  AliveImage->Allocate();
-  AliveImage->FillBuffer( 0.0 );
+  // Set up an 'alive image'
+  FloatImageType::Pointer aliveImage = FloatImageType::New();
+  aliveImage->SetLargestPossibleRegion( region );
+  aliveImage->SetBufferedRegion( region );
+  aliveImage->Allocate();
+  aliveImage->FillBuffer( 0.0 );
 
-  FloatImageType::OffsetType offset0 = {{28,35}};
+  FloatImageType::OffsetType offset0 = {{28, 35}};
 
-  itk::Index<2> index;
-  index.Fill(0);
+  itk::Index< Dimension > index;
+  index.Fill( 0 );
   index += offset0;
 
-  AliveImage->SetPixel( index, 1.0 );
+  aliveImage->SetPixel( index, 1.0 );
 
-  // setup a 'trial image'
-  FloatImageType::Pointer TrialImage = FloatImageType::New();
-  TrialImage->SetLargestPossibleRegion( region );
-  TrialImage->SetBufferedRegion( region );
-  TrialImage->Allocate();
-  TrialImage->FillBuffer( 0.0 );
+  // Set up a 'trial image'
+  FloatImageType::Pointer trialImage = FloatImageType::New();
+  trialImage->SetLargestPossibleRegion( region );
+  trialImage->SetBufferedRegion( region );
+  trialImage->Allocate();
+  trialImage->FillBuffer( 0.0 );
 
   index[0] += 1;
-  TrialImage->SetPixel( index, 1.0 );
+  trialImage->SetPixel( index, 1.0 );
 
   index[0] -= 1;
   index[1] += 1;
-  TrialImage->SetPixel( index, 1.0 );
+  trialImage->SetPixel( index, 1.0 );
 
   index[0] -= 1;
   index[1] -= 1;
-  TrialImage->SetPixel( index, 1.0 );
+  trialImage->SetPixel( index, 1.0 );
 
   index[0] += 1;
   index[1] -= 1;
-  TrialImage->SetPixel( index, 1.0 );
+  trialImage->SetPixel( index, 1.0 );
 
-  // setup a binary mask image in float (to make sure it works with float)
-  FloatImageType::Pointer MaskImage = FloatImageType::New();
-  MaskImage->SetLargestPossibleRegion( region );
-  MaskImage->SetBufferedRegion( region );
-  MaskImage->Allocate();
+  // Set up a binary mask image in float (to make sure it works with float)
+  FloatImageType::Pointer maskImage = FloatImageType::New();
+  maskImage->SetLargestPossibleRegion( region );
+  maskImage->SetBufferedRegion( region );
+  maskImage->Allocate();
 
-  itk::ImageRegionIterator<FloatImageType>
+  itk::ImageRegionIterator< FloatImageType >
     speedIter( speedImage, speedImage->GetBufferedRegion() );
   itk::ImageRegionIteratorWithIndex<FloatImageType>
-    maskIter( MaskImage, MaskImage->GetBufferedRegion() );
+    maskIter( maskImage, maskImage->GetBufferedRegion() );
   while ( !speedIter.IsAtEnd() )
     {
     speedIter.Set( 1.0 );
@@ -148,7 +151,6 @@ int itkFastMarchingImageFilterRealTest2(int argc, char* argv[] )
     ++speedIter;
     }
 
-  speedImage->Print( std::cout );
   marcher->SetInput( speedImage );
 
   using AdaptorType = itk::FastMarchingImageToNodePairContainerAdaptor< FloatImageType,
@@ -157,32 +159,35 @@ int itkFastMarchingImageFilterRealTest2(int argc, char* argv[] )
   AdaptorType::Pointer adaptor = AdaptorType::New();
   adaptor->SetIsForbiddenImageBinaryMask( true );
 
-  adaptor->SetAliveImage( AliveImage );
+  adaptor->SetAliveImage( aliveImage.GetPointer() );
   adaptor->SetAliveValue( 0.0 );
 
-  adaptor->SetTrialImage( TrialImage );
+  adaptor->SetTrialImage( trialImage.GetPointer() );
   adaptor->SetTrialValue( 1.0 );
 
-  adaptor->SetForbiddenImage( MaskImage );
+  adaptor->SetForbiddenImage( maskImage.GetPointer() );
   adaptor->Update();
 
   marcher->SetForbiddenPoints( adaptor->GetForbiddenPoints() );
   marcher->SetAlivePoints( adaptor->GetAlivePoints() );
   marcher->SetTrialPoints( adaptor->GetTrialPoints() );
 
-  // turn on debugging
+  // Turn on debugging
   marcher->DebugOn();
 
-  // update the marcher
-  marcher->Update();
+  // Update the Fast Marching filter
+  TRY_EXPECT_NO_EXCEPTION( marcher->Update() );
 
-  // check the results
+
+  // Check the results
   FloatImageType::Pointer output = marcher->GetOutput();
-  itk::ImageRegionIterator<FloatImageType>
+
+  itk::ImageRegionIterator< FloatImageType >
     iterator( output, output->GetBufferedRegion() );
 
   bool passed = true;
 
+  double threshold = 1.42;
   while( !iterator.IsAtEnd() )
     {
     FloatImageType::IndexType tempIndex = iterator.GetIndex();
@@ -193,19 +198,22 @@ int itkFastMarchingImageFilterRealTest2(int argc, char* argv[] )
       {
       tempIndex -= offset0;
       double distance = 0.0;
-      for ( int j = 0; j < 2; j++ )
+      for ( unsigned int j = 0; j < Dimension; j++ )
         {
         distance += tempIndex[j] * tempIndex[j];
         }
       distance = std::sqrt( distance );
 
-      if (distance > itk::NumericTraits< double >::epsilon() )
+      if ( distance > itk::NumericTraits< double >::epsilon() )
         {
-        if ( itk::Math::abs( outputValue ) / distance > 1.42 )
+        if ( itk::Math::abs( outputValue ) / distance > threshold )
           {
-          std::cout << iterator.GetIndex() << " ";
-          std::cout << itk::Math::abs( outputValue ) / distance << " ";
-          std::cout << itk::Math::abs( outputValue ) << " " << distance << std::endl;
+          std::cout << "Error at index [" << iterator.GetIndex() << "]"
+            << std::endl;
+          std::cout << "Expected scaled output value be less than: " << threshold
+            <<", but got: " << itk::Math::abs( outputValue ) / distance
+            << ", where output: " << itk::Math::abs( outputValue )
+            << "; scale factor: " << distance << std::endl;
           passed = false;
           }
         }
@@ -214,38 +222,25 @@ int itkFastMarchingImageFilterRealTest2(int argc, char* argv[] )
       {
       if( outputValue != 0. )
         {
-        std::cout << iterator.GetIndex() << " ";
-        std::cout << outputValue << " " << 0.;
-        std::cout << std::endl;
+        std::cout << "Error at index [" << iterator.GetIndex() << "]"
+          << std::endl;
+        std::cout << "Expected output value: " << 0. << ", but got: "
+          << outputValue << std::endl;
         passed = false;
         }
       }
     ++iterator;
     }
 
-  // Exercise other member functions
-  /*
-  std::cout << "SpeedConstant: " << marcher->GetSpeedConstant() << std::endl;
-  std::cout << "StoppingValue: " << marcher->GetStoppingValue() << std::endl;
-  std::cout << "CollectPoints: " << marcher->GetCollectPoints() << std::endl;
-
-  marcher->SetNormalizationFactor( 2.0 );
-  std::cout << "NormalizationFactor: " << marcher->GetNormalizationFactor();
-  std::cout << std::endl;
-
-  std::cout << "SpeedImage: " << marcher->GetInput();
-  std::cout << std::endl;*/
-
-  marcher->Print( std::cout );
 
   if ( passed )
     {
-    std::cout << "Fast Marching test passed" << std::endl;
+    std::cout << "Test passed!" << std::endl;
     return EXIT_SUCCESS;
     }
   else
     {
-    std::cout << "Fast Marching test failed" << std::endl;
+    std::cout << "Test failed!" << std::endl;
     return EXIT_FAILURE;
     }
 

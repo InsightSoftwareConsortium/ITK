@@ -108,9 +108,12 @@ public:
   using SuperclassType = typename Traits::SuperclassType;
 
   using Self = FastMarchingBase;
-  using Superclass = SuperclassType;
+  using Superclass = typename FastMarchingTraits<TInput, TOutput>::SuperclassType;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(FastMarchingBase, FastMarchingTraits);
 
   /** Input Domain related definitions */
   using InputDomainType = typename Traits::InputDomainType;
