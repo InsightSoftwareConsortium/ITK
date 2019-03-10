@@ -50,15 +50,18 @@ EllipseSpatialObject< TDimension >
 {
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
+    double d;
     double r = 0;
     for ( unsigned int i = 0; i < TDimension; i++ )
       {
-      if ( m_RadiusInObjectSpace[i] != 0.0 )
+      if ( m_RadiusInObjectSpace[i] > 0.0 )
         {
-        r += ( point[i] * point[i] )
-             / ( m_RadiusInObjectSpace[i] * m_RadiusInObjectSpace[i] );
+        d = point[i] - m_CenterInObjectSpace[i];
+        r += ( d * d )
+          / ( m_RadiusInObjectSpace[i] * m_RadiusInObjectSpace[i] );
         }
-      else if ( point[i] > 0.0 )  // Degenerate ellipse
+      else if ( point[i] != 0.0 || m_RadiusInObjectSpace[i] < 0 )
+        // Deal with an ellipse with 0 or negative radius;
         {
         r = 2; // Keeps function from returning true here
         break;
