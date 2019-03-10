@@ -48,9 +48,6 @@ public:
   using GroupType = GroupSpatialObject< NDimensions >;
   using GroupPointer = typename GroupType::Pointer;
 
-  using SceneType = GroupSpatialObject< NDimensions >;
-  using ScenePointer = typename SceneType::Pointer;
-
   /** base type for MetaConverters -- bidirections conversion btw
    *  SpatialObject & MetaObject
    */
@@ -73,7 +70,6 @@ public:
   itkGetStringMacro(FileName);
 
   /** Get the output */
-  ScenePointer GetScene() { return m_Scene; }
   GroupPointer GetGroup() { return m_Group; }
 
   /** Set/GetEvent */
@@ -93,7 +89,6 @@ protected:
 
 private:
 
-  ScenePointer m_Scene;
   GroupPointer m_Group;
 
   MetaSceneConverter< NDimensions, PixelType, TMeshTraits > m_MetaToSpatialConverter;

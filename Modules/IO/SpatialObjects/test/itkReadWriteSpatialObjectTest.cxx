@@ -196,6 +196,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
   tube1->Update();
 
   VesselTubeType::Pointer tube2 = VesselTubeType::New();
+  tube2->SetTypeName("VesselTubeSpatialObject");
   tube2->GetProperty().SetName("Tube 2");
   tube2->SetId(2);
   tube2->SetPoints(list2);
@@ -212,16 +213,19 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
   tubeN1->SetId(0);
   tubeN1->AddChild( tube1 );
   tubeN1->AddChild( tube2 );
+  tubeN1->Update();
 
 
   GroupPointer tubeN2 = GroupType::New();
-  tubeN2->SetId(1);
+  tubeN2->SetId(5);
   tubeN2->GetProperty().SetName("tube network 2");
   tubeN2->AddChild( tube3 );
+  tubeN2->Update();
 
   EllipsePointer ellipse = EllipseType::New();
   ellipse->SetRadiusInObjectSpace(9);
   ellipse->GetProperty().SetName("ellipse 1");
+  ellipse->Update();
 
 
   BlobPointer blob = BlobType::New();
@@ -285,6 +289,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
   image->Update();
 
   tubeN2->AddChild( image );
+  tubeN2->Update();
 
   // Create Mask Image
   using itkImageMaskType = ImageMaskType::ImageType;
@@ -310,6 +315,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
   maskImage->Update();
 
   tubeN2->AddChild( maskImage );
+  tubeN2->Update();
 
   // Define a contour
   ContourType::Pointer contour = ContourType::New();
@@ -348,6 +354,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
     iPt.SetPositionInObjectSpace(p);
     contour->GetPoints().push_back(iPt);
     }
+  contour->Update();
 
   tubeN1->AddChild( tubeN2 );
   tubeN1->AddChild( blob );
@@ -356,12 +363,13 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
   tubeN1->AddChild( landmark );
   tubeN1->AddChild( ellipse );
   tubeN1->AddChild( contour );
+  tubeN1->Update();
 
   std::cout<<"Testing Number of children: ";
 
   if( tubeN1->GetNumberOfChildren() != 9)
     {
-    std::cout<< tubeN1->GetNumberOfChildren()  << "[FAILED]"<< std::endl;
+    std::cout<< tubeN1->GetNumberOfChildren()  << " instead of 9 [FAILED]"<< std::endl;
     return EXIT_FAILURE;
     }
   else
@@ -369,23 +377,34 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
     std::cout<<"[PASSED]"<< std::endl;
     }
 
-  std::cout<<"Testing Writing SceneSpatialObject: ";
+  std::cout << "Testing Writing SceneSpatialObject: " << std::endl;
 
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput(tubeN1);
-  writer->SetFileName(argv[1]);
-  writer->SetBinaryPoints(false);
-  if(writer->GetBinaryPoints())
+  try
     {
-    std::cout<<"[FAILURE]"<< std::endl;
+    writer->SetInput(tubeN1);
+    writer->SetFileName(argv[1]);
+    writer->SetBinaryPoints(false);
+    if(writer->GetBinaryPoints())
+      {
+      std::cout<<"[FAILURE]"<< std::endl;
+      return EXIT_FAILURE;
+      }
+    if((argc>3) && (!strcmp(argv[2],"binary")))
+      {
+      writer->SetBinaryPoints(true);
+      }
+    writer->Update();
+    }
+  catch( itk::ExceptionObject & e )
+    {
+    std::cout << e << std::endl;
+    }
+  catch( ... )
+    {
+    std::cout<<"[EXCEPTION FAILURE]"<< std::endl;
     return EXIT_FAILURE;
     }
-
-  if((argc>2) && (!strcmp(argv[2],"binary")))
-    {
-    writer->SetBinaryPoints(true);
-    }
-  writer->Update();
 
   std::cout<<"[PASSED]"<< std::endl;
 
@@ -402,7 +421,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
     }
   reader->Update();
 
-  ReaderType::ScenePointer myScene = reader->GetScene();
+  ReaderType::GroupPointer myScene = reader->GetGroup();
 
   if(!myScene)
     {
@@ -415,10 +434,10 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
     }
 
   std::cout<<"Testing Number of children:";
-  if(myScene->GetNumberOfChildren(1) != 10)
+  if(myScene->GetNumberOfChildren(1) != 12)
     {
     std::cout << "found " << myScene->GetNumberOfChildren(1)
-      << " instead of 10" << std::endl;
+      << " instead of 12" << std::endl;
     std::cout<<" [FAILED]"<< std::endl;
     return EXIT_FAILURE;
     }
@@ -431,14 +450,17 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
 
   TubeType::TubePointListType::const_iterator j;
 
-  ReaderType::SceneType::ChildrenListType * mySceneChildren =
-        myScene->GetChildren(999999);
-  ReaderType::SceneType::ChildrenListType::const_iterator obj;
+  ReaderType::GroupType::ChildrenListType * mySceneChildren =
+        myScene->GetChildren( TubeType::MaximumDepth );
+  ReaderType::GroupType::ChildrenListType::const_iterator obj;
 
+  bool found = false;
   for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
     {
+    std::cout << "obj = " << (*obj)->GetTypeName() << std::endl;
     if(!strcmp((*obj)->GetTypeName().c_str(), "TubeSpatialObject"))
       {
+      found = true;
       unsigned int value=0;
       for(j = dynamic_cast<TubeType*>((*obj).GetPointer())->GetPoints().begin();
           j != dynamic_cast<TubeType*>((*obj).GetPointer())->GetPoints().end();
@@ -459,46 +481,61 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
           // Testing the color of the tube points
         if( itk::Math::NotExactlyEquals((*j).GetRed(), value))
           {
-          std::cout<<" [FAILED] : Red : found " << ( *j).GetRed() << " instead of " << value << std::endl;
+          std::cout<<" [FAILED] : Red : found " << ( *j).GetRed()
+            << " instead of " << value << std::endl;
           delete mySceneChildren;
           return EXIT_FAILURE;
           }
 
         if(itk::Math::NotExactlyEquals((*j).GetGreen(), value+1))
           {
-          std::cout<<" [FAILED] : Green : found " << ( *j).GetGreen() << " instead of " << value+1 << std::endl;
+          std::cout<<" [FAILED] : Green : found " << ( *j).GetGreen()
+            << " instead of " << value+1 << std::endl;
           delete mySceneChildren;
           return EXIT_FAILURE;
           }
 
         if(itk::Math::NotExactlyEquals((*j).GetBlue(), value+2))
           {
-          std::cout<<"[FAILED] : Blue : found " << ( *j).GetBlue() << " instead of " << value+2 << std::endl;
+          std::cout<<"[FAILED] : Blue : found " << ( *j).GetBlue()
+            << " instead of " << value+2 << std::endl;
           delete mySceneChildren;
           return EXIT_FAILURE;
           }
 
         if(itk::Math::NotExactlyEquals((*j).GetAlpha(), value+3))
           {
-          std::cout<<" [FAILED] : Alpha : found " << ( *j).GetAlpha() << " instead of " << value+3 << std::endl;
+          std::cout<<" [FAILED] : Alpha : found " << ( *j).GetAlpha()
+            << " instead of " << value+3 << std::endl;
           delete mySceneChildren;
           return EXIT_FAILURE;
           }
         value++;
         }
+      break;
       }
     }
 
-  std::cout<<" [PASSED]"<< std::endl;
+  if( found )
+    {
+    std::cout<<" [PASSED]"<< std::endl;
+    }
+  else
+    {
+    std::cout<<" TubeSpatialObject Not Found. [FAILED]"<< std::endl;
+    delete mySceneChildren;
+    return EXIT_FAILURE;
+    }
 
 
   // Testing VesselTubeSO
-  bool found = false;
+  found = false;
   std::cout << "Testing VesselTubeSpatialObject: ";
   VesselTubeType::TubePointListType::const_iterator jv;
   for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
     {
-    if(!strcmp((*obj)->GetTypeName().c_str(), "TubeSpatialObject"))
+    std::cout << "obj = " << (*obj)->GetTypeName() << std::endl;
+    if(!strcmp((*obj)->GetTypeName().c_str(), "VesselTubeSpatialObject"))
       {
       found = true;
       unsigned int value=0;
@@ -607,6 +644,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
           }
         value++;
         }
+      break;
       }
     }
 
@@ -616,7 +654,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
     }
   else
     {
-    std::cout << " [FAILED] : Cannot found VesselSpatialObject"
+    std::cout << " [FAILED] : Cannot find VesselTubeSpatialObject"
       << std::endl;
     delete mySceneChildren;
     return EXIT_FAILURE;
@@ -629,6 +667,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
   DTITubeType::DTITubePointListType::const_iterator jdti;
   for(obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
     {
+    std::cout << "obj = " << (*obj)->GetTypeName() << std::endl;
     if(!strcmp((*obj)->GetTypeName().c_str(), "DTITubeSpatialObject"))
       {
       found = true;
@@ -751,6 +790,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
           }
         value++;
         }
+      break;
       }
     }
 
@@ -760,7 +800,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
     }
   else
     {
-    std::cout << " [FAILED] : Cannot found VesselSpatialObject"
+    std::cout << " [FAILED] : Cannot find DTITubeSpatialObject"
       << std::endl;
     delete mySceneChildren;
     return EXIT_FAILURE;

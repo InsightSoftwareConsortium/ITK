@@ -69,7 +69,7 @@ int itkPolygonSpatialObjectTest(int, char *[])
   //
   // test area
   std::cout << "Testing area for rectangle: ";
-  if (rectangle->MeasureArea() != 2.0)
+  if (rectangle->MeasureAreaInObjectSpace() != 2.0)
     {
     std::cout << "[Failed]" << std::endl;
     failed = true;
@@ -82,7 +82,7 @@ int itkPolygonSpatialObjectTest(int, char *[])
   //
   // test volume
   std::cout << "Testing volume for rectangle: ";
-  if (rectangle->MeasureVolume() != 20.0)
+  if (rectangle->MeasureVolumeInObjectSpace() != 20.0)
     {
     std::cout << "[Failed]" << std::endl;
     failed = true;
@@ -95,7 +95,7 @@ int itkPolygonSpatialObjectTest(int, char *[])
   //
   // test perimeter
   std::cout << "Testing perimeter for rectangle: ";
-  if (rectangle->MeasurePerimeter() != 6.0)
+  if (rectangle->MeasurePerimeterInObjectSpace() != 6.0)
     {
     std::cerr << "Wrong perimeter for rectangle" << std::endl;
     std::cout << "[Failed]" << std::endl;

@@ -416,12 +416,12 @@ SpatialObject< TDimension >
     {
     m_ChildrenList.push_back(pointer);
 
-    pointer->SetParent( this );
-
     if( pointer->GetId() == -1 )
       {
       pointer->SetId( this->GetNextAvailableId() );
       }
+
+    pointer->SetParent(this);
 
     this->Modified();
     }
@@ -437,9 +437,12 @@ SpatialObject< TDimension >
   pos = std::find(m_ChildrenList.begin(), m_ChildrenList.end(), pointer);
   if ( pos != m_ChildrenList.end() )
     {
-    pointer->SetParent( nullptr );
-
     m_ChildrenList.erase(pos);
+
+    if (pointer->GetParent() == this && pointer->GetParentId() == this->GetId() )
+      {
+      pointer->SetParent(nullptr);
+      }
 
     this->Modified();
 
@@ -460,14 +463,14 @@ SpatialObject< TDimension >
   typename ChildrenListType::iterator it = m_ChildrenList.begin();
   while( it != m_ChildrenList.end() )
     {
-    (*it)->SetParent( nullptr );
+    auto itPtr = *it;
+    it = m_ChildrenList.erase(it);
+    itPtr->SetParent( nullptr );
     if( depth > 0 )
       {
-      (*it)->RemoveAllChildren( depth-1 );
+      itPtr->RemoveAllChildren( depth-1 );
       }
-    ++it;
     }
-  m_ChildrenList.clear();
 
   this->Modified();
 }
@@ -872,9 +875,9 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 SpatialObject< TDimension > *
 SpatialObject< TDimension >
-::GetObjectById(int Id)
+::GetObjectById(int id)
 {
-  if( Id == this->GetId() )
+  if( id == this->GetId() )
     {
     return this;
     }
@@ -882,7 +885,7 @@ SpatialObject< TDimension >
   auto it = m_ChildrenList.begin();
   while ( it != m_ChildrenList.end() )
     {
-    SpatialObject< TDimension > * tmp = (*it)->GetObjectById( Id );
+    SpatialObject< TDimension > * tmp = (*it)->GetObjectById( id );
     if( tmp != nullptr )
       {
       return tmp;
@@ -902,7 +905,6 @@ SpatialObject< TDimension >
 
   auto it = children->begin();
   auto itEnd = children->end();
-  typename ChildrenListType::iterator oldIt;
 
   bool ret = true;
   while ( it != itEnd )
@@ -910,25 +912,17 @@ SpatialObject< TDimension >
     const int parentId = ( *it )->GetParentId();
     if ( parentId >= 0 )
       {
-      auto * parentObject = static_cast< SpatialObject< TDimension > * >(
-        this->GetObjectById(parentId) );
+      SpatialObject< TDimension > * parentObject = this->GetObjectById(parentId);
       if ( parentObject == nullptr )
         {
         ret = false;
-        ++it;
         }
       else
         {
-        parentObject->AddChild( dynamic_cast< SpatialObject< TDimension > * >(
-          ( *it ).GetPointer() ) );
-        oldIt = it;
-        ++it;
+        parentObject->AddChild( *it );
         }
       }
-    else
-      {
-      ++it;
-      }
+    ++it;
     }
 
   delete children;
@@ -985,7 +979,7 @@ SpatialObject< TDimension >
     this->SetId( this->GetNextAvailableId() );
     }
 
-  ChildrenListType * children = this->GetChildren();
+  ChildrenListType * children = this->GetChildren( MaximumDepth );
 
   typename ObjectListType::iterator it = children->begin();
   typename ObjectListType::iterator itEnd = children->end();
@@ -1002,7 +996,17 @@ SpatialObject< TDimension >
       id2 = (*it2)->GetId();
       if( id == id2 || id2 == -1 )
         {
-        ( *it2 )->SetId( this->GetNextAvailableId() );
+        int id = this->GetNextAvailableId();
+        (*it2)->SetId( id );
+        ChildrenListType * children2 = (*it2)->GetChildren(0);
+        auto childIt2 = children2->begin();
+        auto childIt2End = children2->end();
+        while (childIt2 != childIt2End)
+          {
+          (*childIt2)->SetParentId(id);
+          ++childIt2;
+          }
+        delete children2;
         }
       ++it2;
       }
@@ -1024,7 +1028,7 @@ SpatialObject< TDimension >
   int id;
   while ( it != itEnd )
     {
-    id = (*it)->GetNextAvailableId();
+    id = (*it)->GetNextAvailableId()-1;
     if( id > maxId )
       {
       maxId = id;
@@ -1068,10 +1072,11 @@ SpatialObject< TDimension >
     if( parent != nullptr )
       {
       m_ParentId = parent->GetId();
-      m_Parent->AddChild( this );
+
+      m_Parent->AddChild( this );  // Verifies hasn't been added already
+
       this->SetObjectToWorldTransform( oldObjectWorldTransform );
       this->ComputeObjectToParentTransform();
-      this->ComputeObjectToWorldTransform();
       }
     else
       {
@@ -1082,7 +1087,7 @@ SpatialObject< TDimension >
 
     if( oldParent != nullptr )
       {
-      oldParent->RemoveChild( this );
+      oldParent->RemoveChild( this );  // Verifies hasn't been removed already
       }
     }
 }
@@ -1264,6 +1269,12 @@ SpatialObject< TDimension >
   Superclass::Update();
 
   this->ComputeMyBoundingBox();
+
+  m_FamilyBoundingBoxInObjectSpace->SetMinimum(
+    m_MyBoundingBoxInObjectSpace->GetMinimum() );
+  m_FamilyBoundingBoxInObjectSpace->SetMaximum(
+    m_MyBoundingBoxInObjectSpace->GetMaximum() );
+
   this->ComputeObjectToWorldTransform();
 }
 

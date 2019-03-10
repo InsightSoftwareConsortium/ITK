@@ -59,15 +59,13 @@ public:
   MetaSceneConverter();
   ~MetaSceneConverter();
 
-  static constexpr unsigned int MaximumDepth = 9999999;
-
   /** Read a MetaFile and create a Scene SpatialObject */
-  ScenePointer ReadMeta(const char *name);
+  ScenePointer ReadMeta(const std::string & name);
 
   /** write out a Scene SpatialObject */
-  bool WriteMeta(SceneType *scene, const char *fileName,
-                 unsigned int depth = MaximumDepth,
-                 char *spatialObjectTypeName = nullptr);
+  bool WriteMeta(SceneType *scene, const std::string & fileName,
+                 unsigned int depth = SceneType::MaximumDepth,
+                 const std::string & spatialObjectTypeName = "");
 
   const MetaEvent * GetEvent() const { return m_Event; }
   void  SetEvent(MetaEvent *event) { m_Event = event; }
@@ -93,13 +91,13 @@ public:
    * and a spatialObject type name -- these need to match what
    * gets read from & written to the MetaIO file
    */
-  void RegisterMetaConverter(const char *metaTypeName,
-                             const char *spatialObjectTypeName,
+  void RegisterMetaConverter(const std::string & metaTypeName,
+                             const std::string & spatialObjectTypeName,
                              MetaConverterBaseType *converter);
 
   MetaScene * CreateMetaScene(SceneType *scene,
-                              unsigned int depth = MaximumDepth,
-                              const std::string & name = nullptr);
+    unsigned int depth = SceneType::MaximumDepth,
+    const std::string & name = "");
 
   ScenePointer CreateSpatialObjectScene(MetaScene *scene);
 

@@ -139,7 +139,7 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
     reader->SetFileName(argv[1]);
     }
   reader->Update();
-  ReaderType::ScenePointer myScene = reader->GetScene();
+  ReaderType::GroupPointer myScene = reader->GetGroup();
   if(!myScene)
   {
     std::cout<<"No Scene : [FAILED]"<<std::endl;
