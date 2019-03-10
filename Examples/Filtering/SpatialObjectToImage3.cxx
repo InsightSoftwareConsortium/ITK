@@ -170,8 +170,10 @@ int main( int argc, char *argv[] )
   polygon->Update();
   // Software Guide : EndCodeSnippet
 
-  std::cout << "Polygon Perimeter = " << polygon->MeasurePerimeter() << std::endl;
-  std::cout << "Polygon Area      = " << polygon->MeasureArea() << std::endl;
+  std::cout << "Polygon Perimeter = "
+    << polygon->MeasurePerimeterInObjectSpace() << std::endl;
+  std::cout << "Polygon Area      = "
+    << polygon->MeasureAreaInObjectSpace() << std::endl;
 
   //  Software Guide : BeginLatex
   //

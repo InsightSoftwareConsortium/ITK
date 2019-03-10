@@ -64,13 +64,13 @@ public:
   bool IsClosed() const;
 
   /** Method returns area of polygon described by points */
-  double MeasureArea() const;
+  double MeasureAreaInObjectSpace() const;
 
   /** Method returns the volume of the strand */
-  double MeasureVolume() const;
+  double MeasureVolumeInObjectSpace() const;
 
   /** Method returns the length of the perimeter */
-  double MeasurePerimeter() const;
+  double MeasurePerimeterInObjectSpace() const;
 
   /** Test whether a point is inside or outside the object. */
   bool IsInsideInObjectSpace(const PointType & point, unsigned int depth,

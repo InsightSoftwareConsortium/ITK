@@ -46,6 +46,7 @@ MetaDTITubeConverter< NDimensions >
   DTITubeSpatialObjectPointer tubeSO =
     DTITubeSpatialObjectType::New();
 
+  tubeSO->SetTypeName( "DTITubeSpatialObject" );
   tubeSO->GetProperty().SetName( tube->Name() );
   tubeSO->SetParentPoint( tube->ParentPoint() );
   tubeSO->SetId( tube->ID() );
@@ -157,7 +158,7 @@ MetaDTITubeConverter< NDimensions >
         ++(td[1]); // x -> y -> z
         t[ii] = ( *it2 )->GetField( td );
         }
-      pnt.SetTangentInWorldSpace(t);
+      pnt.SetTangentInObjectSpace(t);
       }
 
     if ( Math::NotExactlyEquals(( *it2 )->GetField("red"), -1) )
@@ -241,7 +242,7 @@ MetaDTITubeConverter< NDimensions >
         {
         writeNormal2 = true;
         }
-      if ( Math::NotExactlyEquals(( *it ).GetTangentInWorldSpace()[d], 0) )
+      if ( Math::NotExactlyEquals(( *it ).GetTangentInObjectSpace()[d], 0) )
         {
         writeTangent = true;
         }

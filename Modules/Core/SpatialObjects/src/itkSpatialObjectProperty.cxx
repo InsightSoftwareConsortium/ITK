@@ -115,18 +115,36 @@ SpatialObjectProperty
   m_StringDictionary[ tag ] = value;
 }
 
-double
+bool
 SpatialObjectProperty
-::GetTagScalarValue( const std::string & tag ) const
+::GetTagScalarValue( const std::string & tag, double & value ) const
 {
-  return m_ScalarDictionary.find( tag )->second;
+  auto it = m_ScalarDictionary.find(tag);
+  if (it != m_ScalarDictionary.end())
+    {
+    value = it->second;
+    return true;
+    }
+  else
+    {
+    return false;
+    }
 }
 
-std::string
+bool
 SpatialObjectProperty
-::GetTagStringValue( const std::string & tag ) const
+::GetTagStringValue( const std::string & tag, std::string & value) const
 {
-  return m_StringDictionary.find( tag )->second;
+  auto it = m_StringDictionary.find(tag);
+  if (it != m_StringDictionary.end())
+    {
+    value = it->second;
+    return true;
+    }
+  else
+    {
+    return false;
+    }
 }
 
 std::map< std::string, double > &
