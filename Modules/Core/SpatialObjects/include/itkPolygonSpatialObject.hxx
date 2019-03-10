@@ -106,7 +106,7 @@ PolygonSpatialObject< TDimension >
 template< unsigned int TDimension >
 double
 PolygonSpatialObject< TDimension >
-::MeasureArea() const
+::MeasureAreaInObjectSpace() const
 {
   //To find the area of a planar polygon not in the x-y plane, use:
   //2 A(P) = std::abs(N . (sum_{i=0}^{n-1} (v_i x v_{i+1})))
@@ -142,12 +142,12 @@ PolygonSpatialObject< TDimension >
   const PolygonPointListType & points = this->GetPoints();
   auto it = points.begin();
   PointType a;
-  PointType b = ( *it ).GetPositionInWorldSpace();  // In world space
+  PointType b = ( *it ).GetPositionInObjectSpace();  // In world space
   for ( int i = 0; i < numpoints; i++ )
     {
     a = b;
     it++;
-    b = ( *it ).GetPositionInWorldSpace();  // In world space
+    b = ( *it ).GetPositionInObjectSpace();  // In world space
 
     // closed PolygonGroup has first and last points the same
     if ( a == b )
@@ -163,15 +163,15 @@ PolygonSpatialObject< TDimension >
 template< unsigned int TDimension >
 double
 PolygonSpatialObject< TDimension >
-::MeasureVolume() const
+::MeasureVolumeInObjectSpace() const
 {
-  return m_ThicknessInObjectSpace * this->MeasureArea();
+  return m_ThicknessInObjectSpace * this->MeasureAreaInObjectSpace();
 }
 
 template< unsigned int TDimension >
 double
 PolygonSpatialObject< TDimension >
-::MeasurePerimeter() const
+::MeasurePerimeterInObjectSpace() const
 {
   double perimeter = 0.0;
   int    numpoints = this->GetNumberOfPoints();
@@ -185,12 +185,12 @@ PolygonSpatialObject< TDimension >
   auto it = points.begin();
 
   PointType a;
-  PointType b = ( *it ).GetPositionInWorldSpace();  // In world space
+  PointType b = ( *it ).GetPositionInObjectSpace();  // In world space
   for ( int i = 0; i < numpoints; i++ )
     {
     a = b;
     it++;
-    b = ( *it ).GetPositionInWorldSpace();  // In world space
+    b = ( *it ).GetPositionInObjectSpace();  // In world space
 
     // closed PolygonGroup has first and last points the same
     if ( a == b )

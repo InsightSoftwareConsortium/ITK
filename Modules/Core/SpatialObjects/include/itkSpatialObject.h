@@ -132,6 +132,11 @@ public:
   void SetId(int id);
   itkGetConstReferenceMacro(Id, int);
 
+  /** Set the typename of the SpatialObject. Use cautiously - Conversion,
+   *    Factory, and IO methods depend on standard naming.   Can be used
+   *    to prepend a subtype to a typename. */
+  itkSetMacro(TypeName, std::string);
+
   /** Get the typename of the SpatialObject */
   virtual const std::string GetTypeName() const
   { return m_TypeName; }
@@ -319,7 +324,7 @@ public:
   void SetChildren(ChildrenListType & children);
 
   /** Add an object to the list of children. */
-  void AddChild(Self *pointer);
+  void AddChild(Self *pointer );
 
   /** Remove the object passed as arguments from the list of
    * children. */
@@ -510,8 +515,6 @@ protected:
   ~SpatialObject() override;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
-
-  itkSetMacro(TypeName, std::string);
 
   //virtual BoundingBoxType * GetModifiableMyBoundingBoxInObjectSpace()
   //{ return this->m_MyBoundingBoxInObjectSpace.GetPointer(); }

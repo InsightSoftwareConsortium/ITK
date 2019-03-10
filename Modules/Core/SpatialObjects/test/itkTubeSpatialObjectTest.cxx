@@ -159,6 +159,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
   tubeNet1->AddChild( tube1 );
   tubeNet1->AddChild( tube2 );
   tubeNet1->AddChild( tube3 );
+  tubeNet1->Update();
 
   // testing the AddChild() function...
   nbChildren = tubeNet1->GetNumberOfChildren();
@@ -175,8 +176,11 @@ int itkTubeSpatialObjectTest(int, char * [] )
     }
 
   // testing the RemoveChild() function...
+  std::cout << "Removing 1" << std::endl;
   tubeNet1->RemoveChild( tube1 );
+  std::cout << "Removing 2" << std::endl;
   tubeNet1->RemoveChild( tube2 );
+  std::cout << "Removing 3" << std::endl;
   tubeNet1->RemoveChild( tube3 );
 
   nbChildren = tubeNet1->GetNumberOfChildren();
