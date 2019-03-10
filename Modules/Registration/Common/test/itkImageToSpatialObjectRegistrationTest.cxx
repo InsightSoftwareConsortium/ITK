@@ -224,29 +224,32 @@ int itkImageToSpatialObjectRegistrationTest(int, char* [] )
   offset[0]=100;
   offset[1]=40;
   ellipse1->SetCenterInObjectSpace(offset);
-  ellipse1->ComputeObjectToWorldTransform();
+  ellipse1->Update();
 
   offset[0]=40;
   offset[1]=150;
   ellipse2->SetCenterInObjectSpace(offset);
-  ellipse2->ComputeObjectToWorldTransform();
+  ellipse2->Update();
 
   offset[0]=150;
   offset[1]=150;
   // Moving the object using the ObjectToParentTransform should
   //   be equivalent to setting its CenterInObjectSpace
   ellipse3->GetObjectToParentTransform()->SetOffset(offset);
-  ellipse3->ComputeObjectToWorldTransform();
+  ellipse3->Update();
 
   GroupType::Pointer group = GroupType::New();
   group->AddChild(ellipse1);
   group->AddChild(ellipse2);
   group->AddChild(ellipse3);
+  group->Update();
 
   using ImageType = itk::Image<double,2>;
 
-  using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<GroupType,ImageType>;
-  SpatialObjectToImageFilterType::Pointer imageFilter = SpatialObjectToImageFilterType::New();
+  using SpatialObjectToImageFilterType
+    = itk::SpatialObjectToImageFilter<GroupType,ImageType>;
+  SpatialObjectToImageFilterType::Pointer imageFilter
+    = SpatialObjectToImageFilterType::New();
   imageFilter->SetInput(group);
   ImageType::SizeType size;
   size[0]=200;
@@ -257,7 +260,8 @@ int itkImageToSpatialObjectRegistrationTest(int, char* [] )
   ImageType::Pointer image = imageFilter->GetOutput();
 
   // blurr the image to have a global maximum
-  using GaussianFilterType = itk::DiscreteGaussianImageFilter<ImageType,ImageType>;
+  using GaussianFilterType
+    = itk::DiscreteGaussianImageFilter<ImageType,ImageType>;
   GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
 
   gaussianFilter->SetInput(image);
@@ -266,10 +270,12 @@ int itkImageToSpatialObjectRegistrationTest(int, char* [] )
   gaussianFilter->Update();
   image = gaussianFilter->GetOutput();
 
-  using RegistrationType = itk::ImageToSpatialObjectRegistrationMethod<ImageType,GroupType>;
+  using RegistrationType
+    = itk::ImageToSpatialObjectRegistrationMethod<ImageType,GroupType>;
   RegistrationType::Pointer registration = RegistrationType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( registration, ImageToSpatialObjectRegistrationMethod,
+  EXERCISE_BASIC_OBJECT_METHODS( registration,
+    ImageToSpatialObjectRegistrationMethod,
     ProcessObject );
 
   using MetricType = itk::SimpleImageToSpatialObjectMetric<ImageType,GroupType>;

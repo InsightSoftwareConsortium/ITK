@@ -46,6 +46,7 @@ MetaVesselTubeConverter< NDimensions >
   typename VesselTubeSpatialObjectType::Pointer
     vesselTubeSO = VesselTubeSpatialObjectType::New();
 
+  vesselTubeSO->SetTypeName( "VesselTubeSpatialObject" );
   vesselTubeSO->GetProperty().SetName( vesselTubeMO->Name() );
   vesselTubeSO->SetParentPoint( vesselTubeMO->ParentPoint() );
   vesselTubeSO->SetId( vesselTubeMO->ID() );
@@ -199,7 +200,8 @@ MetaVesselTubeConverter< NDimensions >
   vesselTubeMO->Color(color);
   vesselTubeMO->ID( vesselTubeSO->GetId() );
   vesselTubeMO->Root( vesselTubeSO->GetRoot() );
-  if( vesselTubeSO->GetProperty().GetTagStringValue( "Artery" ) == "True" )
+  std::string str;
+  if( vesselTubeSO->GetProperty().GetTagStringValue( "Artery", str ) && str == "True" )
     {
     vesselTubeMO->Artery( true );
     }
