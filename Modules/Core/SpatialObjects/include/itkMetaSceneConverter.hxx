@@ -130,6 +130,12 @@ MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
 
   SpatialObjectPointer currentSO;
 
+  if ( !strncmp( (*it)->ObjectTypeName(), "Group", 5) )
+    {
+    soScene = static_cast<SceneType *>( this->MetaObjectToSpatialObject< MetaGroupConverter< NDimensions > >(*it).GetPointer() );
+    ++it;
+    }
+
   while ( it != itEnd )
     {
     const std::string objectTypeName(( *it )->ObjectTypeName());
@@ -151,7 +157,7 @@ MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
         currentSO = this->MetaObjectToSpatialObject< MetaTubeConverter<NDimensions> > ( *it );
         }
       }
-    else if ( objectTypeName == "Group" || objectTypeName == "AffineTransform" )
+    else if ( objectTypeName == "Group" )
       {
       currentSO = this->MetaObjectToSpatialObject< MetaGroupConverter< NDimensions > > ( *it );
       }
@@ -215,10 +221,16 @@ MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
       currentSO = converterIt->second->MetaObjectToSpatialObject( *it );
       }
     this->SetTransform(currentSO, *it);
+    int tmpParentId = currentSO->GetParentId();
     soScene->AddChild(currentSO);
+    currentSO->SetParentId( tmpParentId );
     it++;
     }
-
+  if (soScene->GetId() == -1)
+    {
+    soScene->SetId(soScene->GetNextAvailableId());
+    }
+  soScene->FixIdValidity();
   soScene->FixParentChildHierarchyUsingParentIds();
 
   return soScene;
@@ -228,7 +240,7 @@ MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
 template< unsigned int NDimensions, typename PixelType, typename TMeshTraits >
 typename MetaSceneConverter< NDimensions, PixelType, TMeshTraits >::ScenePointer
 MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
-::ReadMeta(const char *name)
+::ReadMeta(const std::string & name)
 {
   auto * mScene = new MetaScene;
 
@@ -236,7 +248,7 @@ MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
     {
     mScene->SetEvent(m_Event);
     }
-  mScene->Read(name);
+  mScene->Read(name.c_str());
   ScenePointer soScene = CreateSpatialObjectScene(mScene);
   delete mScene;
   return soScene;
@@ -271,8 +283,7 @@ MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
   while ( it != itEnd )
     {
     std::string spatialObjectTypeName( ( *it )->GetTypeName() );
-    if ( spatialObjectTypeName == "GroupSpatialObject"
-         || spatialObjectTypeName == "AffineTransformSpatialObject" )
+    if ( spatialObjectTypeName == "GroupSpatialObject" )
       {
       currentMeta = this->SpatialObjectToMetaObject< MetaGroupConverter< NDimensions > > ( *it );
       }
@@ -361,12 +372,12 @@ MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
 template< unsigned int NDimensions, typename PixelType, typename TMeshTraits >
 bool
 MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
-::WriteMeta(SceneType *scene, const char *fileName,
-            unsigned int depth, char *soName)
+::WriteMeta(SceneType *scene, const std::string & fileName,
+            unsigned int depth, const std::string & soName)
 {
   MetaScene *metaScene = this->CreateMetaScene(scene, depth, soName);
 
-  metaScene->Write(fileName);
+  metaScene->Write(fileName.c_str());
 
   delete metaScene;
 
@@ -376,14 +387,12 @@ MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
 template< unsigned int NDimensions, typename PixelType, typename TMeshTraits >
 void
 MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
-::RegisterMetaConverter(const char *metaTypeName,
-                      const char *spatialObjectTypeName,
+::RegisterMetaConverter(const std::string & metaTypeName,
+                      const std::string & spatialObjectTypeName,
                       MetaConverterBaseType *converter)
 {
-  std::string metaType(metaTypeName);
-  std::string spatialObjectType(spatialObjectTypeName);
-  this->m_ConverterMap[metaType] = converter;
-  this->m_ConverterMap[spatialObjectType] = converter;
+  this->m_ConverterMap[metaTypeName] = converter;
+  this->m_ConverterMap[spatialObjectTypeName] = converter;
 }
 
 } // end namespace itk

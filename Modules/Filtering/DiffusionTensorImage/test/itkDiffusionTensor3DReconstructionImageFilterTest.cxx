@@ -122,6 +122,7 @@ int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])
       itk::ImageMaskSpatialObject<3>::Pointer maskSpatialObject =
         itk::ImageMaskSpatialObject<3>::New();
       maskSpatialObject->SetImage(maskImage);
+      maskSpatialObject->Update();
       tensorReconstructionFilter->SetMaskSpatialObject(maskSpatialObject);
       }
     tensorReconstructionFilter->SetReferenceImage( referenceImage );
