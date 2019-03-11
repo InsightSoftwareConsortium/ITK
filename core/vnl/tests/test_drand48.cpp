@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <stdlib.h>
-#include "vnl_drand48.h"
+#include <vnl/vnl_drand48.h>
 
 int main(int, char*[])
 {
