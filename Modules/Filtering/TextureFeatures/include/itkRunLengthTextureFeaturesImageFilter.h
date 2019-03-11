@@ -87,6 +87,13 @@ namespace Statistics
  * -# Distance range: For better results the distance range should be adapted to the spacing of the input image
  *    and the size of the neighborhood.
  *
+ * WARNING: This probably won't work for pixels of double or long-double type
+ * unless you set the histogram min and max manually. This is because the largest
+ * histogram bin by default has max value of the largest possible pixel value
+ * plus 1. For double and long-double types, whose "RealType" as defined by the
+ * NumericTraits class is the same, and thus cannot hold any larger values,
+ * this would cause a float overflow.
+ *
  * \sa ScalarImageToRunLengthFeaturesFilter
  * \sa ScalarImageToRunLengthMatrixFilter
  * \sa HistogramToRunLengthFeaturesFilter

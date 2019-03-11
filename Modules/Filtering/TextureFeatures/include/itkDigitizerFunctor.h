@@ -84,8 +84,8 @@ public:
 
   MaskPixelType m_MaskValue;
 
-  PixelType m_Min;
-  PixelType m_Max;
+  typename NumericTraits<PixelType>::RealType m_Min;
+  typename NumericTraits<PixelType>::RealType m_Max;
 };
 
 } // namespace Statistics

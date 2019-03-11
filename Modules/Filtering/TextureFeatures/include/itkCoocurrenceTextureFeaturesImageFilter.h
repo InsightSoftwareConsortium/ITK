@@ -74,6 +74,13 @@ namespace Statistics
  *    intensity range. For example they could be the minimum and maximum intensity of the image, or 0 and
  *    the maximum intensity (if the negative values are considered as noise).
  *
+ * WARNING: This probably won't work for pixels of double or long-double type
+ * unless you set the histogram min and max manually. This is because the largest
+ * histogram bin by default has max value of the largest possible pixel value
+ * plus 1. For double and long-double types, whose "RealType" as defined by the
+ * NumericTraits class is the same, and thus cannot hold any larger values,
+ * this would cause a float overflow.
+ *
  * \sa HistogramToTextureFeaturesFilter
  * \sa ScalarImageToCooccurrenceMatrixFilte
  * \sa ScalarImageToTextureFeaturesFilter
