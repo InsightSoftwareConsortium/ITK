@@ -1,0 +1,58 @@
+# Build triggered on a rolling or batch basis on the master and release branches. They may take longer than the standard CI configurations.
+
+trigger:
+  batch: true
+  branches:
+    include:
+    - master
+    - release*
+pr: none
+
+variables:
+  ExternalDataVersion: 5.0rc01
+jobs:
+  - job: Linux
+    timeoutInMinutes: 0
+    cancelTimeoutInMinutes: 300
+    pool:
+      vmImage: 'Ubuntu-16.04'
+
+    steps:
+      - checkout: self
+        clean: true
+        fetchDepth: 5
+      - bash: |
+          set -x
+          if [ -n "$(System.PullRequest.SourceCommitId)" ]; then
+            git checkout $(System.PullRequest.SourceCommitId)
+          fi
+      - bash: |
+          set -x
+          git clone -b dashboard --single-branch https://github.com/InsightSoftwareConsortium/ITK.git ITK-dashboard
+
+          curl -L https://github.com/InsightSoftwareConsortium/ITK/releases/download/v$(ExternalDataVersion)/InsightData-$(ExternalDataVersion).tar.gz -O
+          cmake -E tar xfz InsightData-$(ExternalDataVersion).tar.gz
+          cmake -E rename InsightToolkit-$(ExternalDataVersion)/.ExternalData/MD5 $(Build.SourcesDirectory)/.ExternalData/MD5
+        workingDirectory: $(Agent.BuildDirectory)
+        displayName: 'Download dashboard script and testing data'
+      - bash: |
+          ctest -V -S ITK-dashboard/azure_dashboard.cmake
+        displayName: Build and test with coverage
+        env:
+          CTEST_BUILD_CONFIGURATION: Debug
+          CTEST_BUILD_FLAGS: -j 2
+          CTEST_OUTPUT_ON_FALURE: 1
+          CTEST_CMAKE_GENERATOR: "Unix Makefiles"
+          CTEST_COVERAGE_COMMAND: /usr/bin/gcov
+          CTEST_CACHE: |
+              BUILD_DOCUMENTS:BOOL=OFF
+              BUILD_EXAMPLES:BOOL=OFF
+              BUILD_SHARED_LIBS:BOOL=OFF
+              BUILD_TESTING:BOOL=ON
+              CMAKE_CXX_FLAGS:STRING=-g -O0 -fprofile-arcs -ftest-coverage
+              CMAKE_C_FLAGS:STRING=-g -O0 -fprofile-arcs -ftest-coverage
+              CMAKE_EXE_LINKER_FLAGS:STRING=-g -O0 -fprofile-arcs -ftest-coverage
+              COVERAGE_COMMAND:PATH=/usr/bin/gcov
+          DASHBOARD_DO_COVERAGE: 1
+          ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS: 2
+        workingDirectory: $(Agent.BuildDirectory)
