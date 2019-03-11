@@ -214,6 +214,31 @@ int TestMattesMetricWithAffineTransform(
   metric->SetUseCachingOfBSplineWeights( useCachingBSplineWeights );
   metric->ReinitializeSeed(121212);
 
+  metric->SetFixedImageSamplesIntensityThreshold(100);
+  if( metric->GetFixedImageSamplesIntensityThreshold() != 100 )
+  {
+    std::cout << "ERROR: SetFixedImageSamplesIntensityThreshold(100) failed: " << __FILE__ << " " << __LINE__ << std::endl;
+    return EXIT_FAILURE;
+  }
+  metric->SetFixedImageSamplesIntensityThreshold(0); //This should be the default, but exercise the function explicitly.
+  if( metric->GetFixedImageSamplesIntensityThreshold() != 0 )
+  {
+    std::cout << "ERROR: SetFixedImageSamplesIntensityThreshold(0) failed: " << __FILE__ << " " << __LINE__ << std::endl;
+    return EXIT_FAILURE;
+  }
+  metric->UseAllPixelsOn();
+  if( metric->GetUseAllPixels() != true )
+  {
+    std::cout << "ERROR: UseAllPixelsOn() failed: " << __FILE__ << " " << __LINE__ << std::endl;
+    return EXIT_FAILURE;
+  }
+  metric->UseAllPixelsOff(); //This should be the default, but exercise this function explicitly.
+  if( metric->GetUseAllPixels() != false )
+  {
+    std::cout << "ERROR: UseAllPixelsOff() failed: " << __FILE__ << " " << __LINE__ << std::endl;
+    return EXIT_FAILURE;
+  }
+
   if( useSampling )
     {
     // set the number of samples to use

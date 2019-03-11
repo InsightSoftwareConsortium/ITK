@@ -81,7 +81,7 @@ CHECK_CXX_COMPILER_FLAG(-Wno-undefined-var-template HAS_NO_UNDEFINED_VAR_TEMPLAT
 if( HAS_NO_UNDEFINED_VAR_TEMPLATE )
   add_definitions( -Wno-undefined-var-template )
 endif()
-if(CMAKE_VERSION GREATER_EQUAL 3.14.0)
+if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.14.0)
   include(CheckPIESupported)
   check_pie_supported()
 endif()

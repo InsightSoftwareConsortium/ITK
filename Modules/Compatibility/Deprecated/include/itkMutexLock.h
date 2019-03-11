@@ -31,6 +31,7 @@
 #include "itkObject.h"
 #include "itkObjectFactory.h"
 #include "itkThreadSupport.h"
+#include "ITKDeprecatedExport.h"
 
 namespace itk
 {
@@ -45,7 +46,7 @@ namespace itk
  * \ingroup OSSystemObjects
  * \ingroup ITKDeprecated
  */
-class ITKCommon_EXPORT SimpleMutexLock
+class ITKDeprecated_EXPORT SimpleMutexLock
 {
 public:
   /** Standard class type aliases.  */
@@ -99,7 +100,7 @@ protected:
  * \ingroup OSSystemObjects
  * \ingroup ITKDeprecated
  */
-class ITKCommon_EXPORT MutexLock:public Object
+class ITKDeprecated_EXPORT MutexLock:public Object
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MutexLock);
