@@ -45,19 +45,59 @@ ContourSpatialObject< TDimension >
 template< unsigned int TDimension >
 void
 ContourSpatialObject< TDimension >
-::SetControlPoints(ContourPointListType & points)
+::SetControlPoints(const ContourPointListType & points)
 {
   m_ControlPoints.clear();
 
-  typename ContourPointListType::iterator it, end;
+  typename ContourPointListType::const_iterator it;
   it = points.begin();
   while ( it != points.end() )
     {
-    it->SetSpatialObject( this );
     m_ControlPoints.push_back(*it);
+    m_ControlPoints.back().SetSpatialObject( this );
     it++;
     }
   this->Modified();
+}
+
+/** Add a control point which is defining the contour */
+template< unsigned int TDimension >
+void
+ContourSpatialObject< TDimension >
+::AddControlPoint(const ContourPointType & point)
+{
+  m_ControlPoints.push_back(point);
+  m_ControlPoints.back().SetSpatialObject( this );
+  this->Modified();
+}
+
+/** InternalClone */
+template< unsigned int TDimension >
+typename LightObject::Pointer
+ContourSpatialObject< TDimension >
+::InternalClone() const
+{
+  // Default implementation just copies the parameters from
+  // this to new transform.
+  typename LightObject::Pointer loPtr = Superclass::InternalClone();
+
+  typename Self::Pointer rval =
+    dynamic_cast<Self *>(loPtr.GetPointer());
+  if(rval.IsNull())
+    {
+    itkExceptionMacro(<< "downcast to type "
+                      << this->GetNameOfClass()
+                      << " failed.");
+    }
+  rval->SetInterpolationMethod( this->GetInterpolationMethod() );
+  rval->SetInterpolationFactor(this->GetInterpolationFactor());
+  rval->SetIsClosed(this->GetIsClosed());
+  rval->SetOrientationInObjectSpace( this->GetOrientationInObjectSpace() );
+  rval->SetAttachedToSlice( this->GetAttachedToSlice() );
+
+  rval->SetControlPoints( this->GetControlPoints() );
+
+  return loPtr;
 }
 
 /** Print the contour spatial object */

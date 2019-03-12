@@ -61,6 +61,9 @@ protected:
 
   /** Method to print the object.*/
   void PrintSelf(std::ostream & os, Indent indent) const override;
+
+  typename LightObject::Pointer InternalClone() const override;
+
 };
 } // end namespace itk
 

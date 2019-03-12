@@ -26,7 +26,6 @@ namespace itk
 {
 /** \class EllipseSpatialObject
  *
- * \brief TODO
  * \ingroup ITKSpatialObjects
  *
  * \wiki
@@ -99,12 +98,16 @@ protected:
   EllipseSpatialObject();
   ~EllipseSpatialObject() override = default;
 
+  /** Print the object informations in a stream. */
+  void PrintSelf(std::ostream & os, Indent indent) const override;
+
+  typename LightObject::Pointer InternalClone() const override;
+
+private:
+
   /* object space */
   ArrayType m_RadiusInObjectSpace;
   PointType m_CenterInObjectSpace;
-
-  /** Print the object informations in a stream. */
-  void PrintSelf(std::ostream & os, Indent indent) const override;
 };
 
 } // end namespace itk

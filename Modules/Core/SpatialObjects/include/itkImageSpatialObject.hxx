@@ -182,6 +182,31 @@ ImageSpatialObject< TDimension,  PixelType >
   return m_Image.GetPointer();
 }
 
+/** InternalClone */
+template< unsigned int TDimension, typename PixelType >
+typename LightObject::Pointer
+ImageSpatialObject< TDimension,  PixelType >
+::InternalClone() const
+{
+  // Default implementation just copies the parameters from
+  // this to new transform.
+  typename LightObject::Pointer loPtr = Superclass::InternalClone();
+
+  typename Self::Pointer rval =
+    dynamic_cast<Self *>(loPtr.GetPointer());
+  if(rval.IsNull())
+    {
+    itkExceptionMacro(<< "downcast to type "
+                      << this->GetNameOfClass()
+                      << " failed.");
+    }
+  rval->SetImage( this->GetImage()->Clone() );
+  rval->SetSliceNumber( this->GetSliceNumber() );
+  rval->SetInterpolator( this->GetInterpolator() );
+
+  return loPtr;
+}
+
 /** Print the object */
 template< unsigned int TDimension, typename PixelType >
 void

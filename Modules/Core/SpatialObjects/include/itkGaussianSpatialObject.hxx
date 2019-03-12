@@ -184,6 +184,32 @@ GaussianSpatialObject< TDimension >
   return ellipse;
 }
 
+/** InternalClone */
+template< unsigned int TDimension >
+typename LightObject::Pointer
+GaussianSpatialObject< TDimension >
+::InternalClone() const
+{
+  // Default implementation just copies the parameters from
+  // this to new transform.
+  typename LightObject::Pointer loPtr = Superclass::InternalClone();
+
+  typename Self::Pointer rval =
+    dynamic_cast<Self *>(loPtr.GetPointer());
+  if(rval.IsNull())
+    {
+    itkExceptionMacro(<< "downcast to type "
+                      << this->GetNameOfClass()
+                      << " failed.");
+    }
+  rval->SetMaximum( this->GetMaximum() );
+  rval->SetRadiusInObjectSpace( this->GetRadiusInObjectSpace() );
+  rval->SetSigmaInObjectSpace(this->GetSigmaInObjectSpace());
+  rval->SetCenterInObjectSpace(this->GetCenterInObjectSpace());
+
+  return loPtr;
+}
+
 /** Print Self function. */
 template< unsigned int TDimension >
 void

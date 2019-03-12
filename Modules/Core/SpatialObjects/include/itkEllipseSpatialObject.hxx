@@ -100,6 +100,30 @@ EllipseSpatialObject< TDimension >
   return true;
 }
 
+/** InternalClone */
+template< unsigned int TDimension >
+typename LightObject::Pointer
+EllipseSpatialObject< TDimension >
+::InternalClone() const
+{
+  // Default implementation just copies the parameters from
+  // this to new transform.
+  typename LightObject::Pointer loPtr = Superclass::InternalClone();
+
+  typename Self::Pointer rval =
+    dynamic_cast<Self *>(loPtr.GetPointer());
+  if(rval.IsNull())
+    {
+    itkExceptionMacro(<< "downcast to type "
+                      << this->GetNameOfClass()
+                      << " failed.");
+    }
+  rval->SetRadiusInObjectSpace( this->GetRadiusInObjectSpace() );
+  rval->SetCenterInObjectSpace( this->GetCenterInObjectSpace() );
+
+  return loPtr;
+}
+
 /** Print Self function */
 template< unsigned int TDimension >
 void
