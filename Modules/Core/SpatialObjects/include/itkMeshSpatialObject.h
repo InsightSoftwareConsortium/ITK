@@ -93,18 +93,22 @@ public:
    *  m_IsInsidePrecisionInObjectSpace the point is considered inside the mesh.
    *  The default value is 1. */
   itkSetMacro(IsInsidePrecisionInObjectSpace, double);
-  itkGetMacro(IsInsidePrecisionInObjectSpace, double);
+  itkGetConstMacro(IsInsidePrecisionInObjectSpace, double);
 
 protected:
-
-  MeshPointer m_Mesh;
-  std::string m_PixelType;
-  double      m_IsInsidePrecisionInObjectSpace;
 
   MeshSpatialObject();
   ~MeshSpatialObject() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
+
+  typename LightObject::Pointer InternalClone() const override;
+
+private:
+  MeshPointer m_Mesh;
+  std::string m_PixelType;
+  double      m_IsInsidePrecisionInObjectSpace;
+
 };
 } // end of namespace itk
 

@@ -104,13 +104,16 @@ protected:
   GaussianSpatialObject();
   ~GaussianSpatialObject() override = default;
 
+  /** Print the object information in a stream. */
+  void PrintSelf(std::ostream & os, Indent indent) const override;
+
+  typename LightObject::Pointer InternalClone() const override;
+
+private:
   ScalarType m_Maximum;
   ScalarType m_RadiusInObjectSpace;
   ScalarType m_SigmaInObjectSpace;
-  PointType m_CenterInObjectSpace;
-
-  /** Print the object information in a stream. */
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  PointType  m_CenterInObjectSpace;
 };
 } // end namespace itk
 

@@ -79,12 +79,16 @@ protected:
   BoxSpatialObject();
   ~BoxSpatialObject() override = default;
 
+  /** Print the object informations in a stream. */
+  void PrintSelf(std::ostream & os, Indent indent) const override;
+
+  typename LightObject::Pointer InternalClone() const override;
+
+private:
   /** object space */
   SizeType  m_SizeInObjectSpace;
   PointType m_PositionInObjectSpace;
 
-  /** Print the object informations in a stream. */
-  void PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end namespace itk
 

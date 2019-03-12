@@ -24,7 +24,6 @@
 #include "itkLightObject.h"
 #include "itkRGBAPixel.h"
 #include "itkTimeStamp.h"
-#include "itkSpatialObjectFactory.h"
 #include "itkObjectFactory.h"
 
 namespace itk

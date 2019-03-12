@@ -78,7 +78,7 @@ SpatialObjectDuplicator< TInputSpatialObject >
   newSO->UnRegister();
 
   // We make the copy
-  newSO->CopyInformation(source);
+  newSO = source->Clone();
   destination->AddChild(newSO);
 
   using ChildrenListType = typename TInputSpatialObject::ChildrenListType;
@@ -133,7 +133,7 @@ SpatialObjectDuplicator< TInputSpatialObject >
   // Correct for extra reference count from CreateInstance().
   m_DuplicateSpatialObject->UnRegister();
 
-  m_DuplicateSpatialObject->CopyInformation(m_Input);
+  m_DuplicateSpatialObject = m_Input->Clone();
 
   // Create the children
   using ChildrenListType = typename TInputSpatialObject::ChildrenListType;

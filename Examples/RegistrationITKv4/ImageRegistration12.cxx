@@ -265,6 +265,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   spatialObjectMask->SetImage( maskReader->GetOutput() );
+  spatialObjectMask->Update();
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex

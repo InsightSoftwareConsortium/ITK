@@ -94,9 +94,11 @@ public:
   ModifiedTimeType GetMTime() const override;
 
   /** Set the slice position */
+  itkSetMacro( SliceNumber, IndexType );
   void SetSliceNumber(unsigned int dimension, int position);
 
   /** Get the slice position */
+  itkGetConstMacro( SliceNumber, IndexType );
   int GetSliceNumber(unsigned int dimension)
   { return m_SliceNumber[dimension]; }
 
@@ -105,15 +107,20 @@ public:
 
   /** Set/Get the interpolator */
   void SetInterpolator(InterpolatorType *interpolator);
-  itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
+  itkGetConstMacro(Interpolator, InterpolatorType *);
 
 protected:
-  ImagePointer m_Image;
 
   ImageSpatialObject();
   ~ImageSpatialObject() override;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
+
+  typename LightObject::Pointer InternalClone() const override;
+
+private:
+
+  ImagePointer    m_Image;
 
   IndexType       m_SliceNumber;
   std::string     m_PixelType;

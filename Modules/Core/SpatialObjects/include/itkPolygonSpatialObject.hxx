@@ -86,7 +86,7 @@ PolygonSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 PolygonSpatialObject< TDimension >
-::IsClosed() const
+::GetIsClosed() const
 {
   if( m_IsClosedMTime == this->GetMyMTime() )
     {
@@ -211,7 +211,7 @@ PolygonSpatialObject< TDimension >
 {
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    if( this->IsClosed()
+    if( this->GetIsClosed()
       && this->GetMyBoundingBoxInObjectSpace()->IsInside( point ) )
       {
       int    numpoints = this->GetNumberOfPoints();
@@ -286,6 +286,29 @@ PolygonSpatialObject< TDimension >
     }
 
   return false;
+}
+
+/** InternalClone */
+template< unsigned int TDimension >
+typename LightObject::Pointer
+PolygonSpatialObject< TDimension >
+::InternalClone() const
+{
+  // Default implementation just copies the parameters from
+  // this to new transform.
+  typename LightObject::Pointer loPtr = Superclass::InternalClone();
+
+  typename Self::Pointer rval =
+    dynamic_cast<Self *>(loPtr.GetPointer());
+  if(rval.IsNull())
+    {
+    itkExceptionMacro(<< "downcast to type "
+                      << this->GetNameOfClass()
+                      << " failed.");
+    }
+  rval->SetThicknessInObjectSpace(this->GetThicknessInObjectSpace());
+
+  return loPtr;
 }
 
 template< unsigned int TDimension >

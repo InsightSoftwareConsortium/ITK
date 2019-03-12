@@ -45,6 +45,7 @@ int itkSpatialObjectToPointSetFilterTest( int, char* [] )
     }
 
   tube1->SetPoints(list);
+  tube1->Update();
 
   using SpatialObjectToPointSetFilterType =
       itk::SpatialObjectToPointSetFilter< TubeType, PointSetType >;
@@ -62,6 +63,7 @@ int itkSpatialObjectToPointSetFilterTest( int, char* [] )
   pointSetFilter->SetSamplingFactor( samplingFactor );
   TEST_SET_GET_VALUE( samplingFactor, pointSetFilter->GetSamplingFactor() );
 
+  std::cout << " tnop = " << tube1->GetNumberOfPoints() << std::endl;
   pointSetFilter->SetInput(tube1);
 
   pointSetFilter->Update();
@@ -80,6 +82,8 @@ int itkSpatialObjectToPointSetFilterTest( int, char* [] )
   if( pointSet->GetPoints()->Size() != 10 )
     {
     std::cout << "[FAILURE]" << std::endl;
+    std::cout << "   " << pointSet->GetPoints()->Size() << " != 10 (ideal)"
+      << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED]" << std::endl;
