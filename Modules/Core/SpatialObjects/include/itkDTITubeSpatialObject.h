@@ -54,7 +54,7 @@ public:
 
   using DTITubePointType = DTITubeSpatialObjectPoint< TDimension >;
   using DTITubePointListType = std::vector< DTITubePointType >;
-                              
+
   using PointType = typename Superclass::PointType;
   using TransformType = typename Superclass::TransformType;
   using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;
@@ -77,6 +77,9 @@ protected:
 
   /** Method to print the object.*/
   void PrintSelf(std::ostream & os, Indent indent) const override;
+
+  typename LightObject::Pointer InternalClone() const override;
+
 };
 } // end namespace itk
 

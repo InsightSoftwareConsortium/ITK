@@ -46,14 +46,14 @@ ImageMaskSpatialObject< TDimension, TPixel >
     if( this->GetMyBoundingBoxInObjectSpace()->IsInside(point) )
       {
       typename Superclass::InterpolatorType::ContinuousIndexType index;
-      if( this->m_Image->TransformPhysicalPointToContinuousIndex( point,
+      if( this->GetImage()->TransformPhysicalPointToContinuousIndex( point,
           index ) )
         {
         using InterpolatorOutputType = typename InterpolatorType::OutputType;
         bool insideMask = (
           Math::NotExactlyEquals(
             DefaultConvertPixelTraits<InterpolatorOutputType>::GetScalarValue(
-              this->m_Interpolator->EvaluateAtContinuousIndex(index)),
+              this->GetInterpolator()->EvaluateAtContinuousIndex(index)),
             NumericTraits<PixelType>::ZeroValue() ) );
         if( insideMask )
           {
@@ -76,10 +76,10 @@ ImageMaskSpatialObject< TDimension, TPixel >
 ::ComputeMyBoundingBox() const
 {
   using IteratorType = ImageRegionConstIteratorWithIndex< ImageType >;
-  IteratorType it( this->m_Image,
-    this->m_Image->GetLargestPossibleRegion() );
-  IteratorType prevIt( this->m_Image,
-    this->m_Image->GetLargestPossibleRegion() );
+  IteratorType it( this->GetImage(),
+    this->GetImage()->GetLargestPossibleRegion() );
+  IteratorType prevIt( this->GetImage(),
+    this->GetImage()->GetLargestPossibleRegion() );
   it.GoToBegin();
   prevIt = it;
 
@@ -91,7 +91,7 @@ ImageMaskSpatialObject< TDimension, TPixel >
   PointType tmpPoint;
   int count = 0;
   int rowSize
-    = this->m_Image->GetLargestPossibleRegion().GetSize()[0];
+    = this->GetImage()->GetLargestPossibleRegion().GetSize()[0];
   while ( !it.IsAtEnd() )
     {
     value = it.Get();
@@ -106,7 +106,7 @@ ImageMaskSpatialObject< TDimension, TPixel >
         {
         tmpIndex = it.GetIndex();
         }
-      this->m_Image->TransformIndexToPhysicalPoint( tmpIndex, tmpPoint );
+      this->GetImage()->TransformIndexToPhysicalPoint( tmpIndex, tmpPoint );
       if( first )
         {
         first = false;
@@ -141,6 +141,28 @@ ImageMaskSpatialObject< TDimension, TPixel >
     }
 
   return true;
+}
+
+/** InternalClone */
+template< unsigned int TDimension, typename TPixel >
+typename LightObject::Pointer
+ImageMaskSpatialObject< TDimension, TPixel >
+::InternalClone() const
+{
+  // Default implementation just copies the parameters from
+  // this to new transform.
+  typename LightObject::Pointer loPtr = Superclass::InternalClone();
+
+  typename Self::Pointer rval =
+    dynamic_cast<Self *>(loPtr.GetPointer());
+  if(rval.IsNull())
+    {
+    itkExceptionMacro(<< "downcast to type "
+                      << this->GetNameOfClass()
+                      << " failed.");
+    }
+
+  return loPtr;
 }
 
 /** Print the object */

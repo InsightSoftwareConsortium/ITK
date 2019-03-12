@@ -82,12 +82,17 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
   const auto * inputPointSO = dynamic_cast<
     const PointBasedSpatialObjectType * >( inputObject );
 
+  std::cout << inputObject << std::endl;
+  std::cout << "od = " << InputSpatialObjectType::ObjectDimension << std::endl;
+
   // Look for the number of points to allocate
   PointIdentifier numberOfPoints = 0;
   if ( inputPointSO )
     {
     numberOfPoints = inputPointSO->GetNumberOfPoints() / m_SamplingFactor;
     }
+    std::cout << "sonop = " << inputPointSO->GetNumberOfPoints() << std::endl;
+    std::cout << "nop = " << numberOfPoints << std::endl;
 
   ChildrenListType *children = inputObject->GetChildren(m_ChildrenDepth);
   typename ChildrenListType::const_iterator it = children->begin();
@@ -112,9 +117,11 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
   typename OutputPointSetType::PointType point;
 
   // add the object it itself
+    std::cout << "start" << std::endl;
   PointIdentifier n;
   if ( inputPointSO )
     {
+    std::cout << "Here" << std::endl;
     n = inputPointSO->GetNumberOfPoints();
     for ( unsigned int i = 0; i < n; i += m_SamplingFactor )
       {

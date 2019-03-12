@@ -81,6 +81,9 @@ protected:
   ~ImageMaskSpatialObject() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
+
+  typename LightObject::Pointer InternalClone() const override;
+
 };
 } // end of namespace itk
 

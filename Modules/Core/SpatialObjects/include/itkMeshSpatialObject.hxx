@@ -142,6 +142,31 @@ MeshSpatialObject< TMesh >
   return m_Mesh.GetPointer();
 }
 
+/** InternalClone */
+template< typename TMesh >
+typename LightObject::Pointer
+MeshSpatialObject< TMesh >
+::InternalClone() const
+{
+  // Default implementation just copies the parameters from
+  // this to new transform.
+  typename LightObject::Pointer loPtr = Superclass::InternalClone();
+
+  typename Self::Pointer rval =
+    dynamic_cast<Self *>(loPtr.GetPointer());
+  if(rval.IsNull())
+    {
+    itkExceptionMacro(<< "downcast to type "
+                      << this->GetNameOfClass()
+                      << " failed.");
+    }
+  rval->SetMesh( this->GetMesh()->Clone() );
+  rval->SetIsInsidePrecisionInObjectSpace(
+    this->GetIsInsidePrecisionInObjectSpace() );
+
+  return loPtr;
+}
+
 /** Print the object */
 template< typename TMesh >
 void

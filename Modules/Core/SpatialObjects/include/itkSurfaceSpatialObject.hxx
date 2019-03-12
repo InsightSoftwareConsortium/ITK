@@ -37,6 +37,28 @@ SurfaceSpatialObject< TDimension >
   this->GetProperty().SetAlpha(1);
 }
 
+/** InternalClone */
+template< unsigned int TDimension >
+typename LightObject::Pointer
+SurfaceSpatialObject< TDimension >
+::InternalClone() const
+{
+  // Default implementation just copies the parameters from
+  // this to new transform.
+  typename LightObject::Pointer loPtr = Superclass::InternalClone();
+
+  typename Self::Pointer rval =
+    dynamic_cast<Self *>(loPtr.GetPointer());
+  if(rval.IsNull())
+    {
+    itkExceptionMacro(<< "downcast to type "
+                      << this->GetNameOfClass()
+                      << " failed.");
+    }
+
+  return loPtr;
+}
+
 /** Print the surface object */
 template< unsigned int TDimension >
 void
@@ -44,9 +66,6 @@ SurfaceSpatialObject< TDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   os << indent << "SurfaceSpatialObject(" << this << ")" << std::endl;
-  os << indent << "ID: " << this->GetId() << std::endl;
-  os << indent << "nb of points: "
-     << static_cast< SizeValueType >( this->m_Points.size() ) << std::endl;
   Superclass::PrintSelf(os, indent);
 }
 

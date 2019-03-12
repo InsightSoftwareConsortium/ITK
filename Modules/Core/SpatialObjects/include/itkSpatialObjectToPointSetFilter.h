@@ -61,13 +61,15 @@ public:
   using ChildrenListType = typename TInputSpatialObject::ChildrenListType;
 
   /** Dimension constants */
-  static constexpr unsigned int ObjectDimension = InputSpatialObjectType::ObjectDimension;
+  static constexpr unsigned int ObjectDimension
+    = InputSpatialObjectType::ObjectDimension;
 
   using PointType = itk::SpatialObjectPoint< Self::ObjectDimension >;
-  using PointBasedSpatialObjectType = itk::PointBasedSpatialObject< Self::ObjectDimension >;
+  using PointBasedSpatialObjectType
+    = itk::PointBasedSpatialObject< Self::ObjectDimension >;
 
   /** Set/Get the PointSet input of this process object.  */
-  using Superclass::SetInput;
+  //using Superclass::SetInput;
   virtual void SetInput(const InputSpatialObjectType *object);
 
   virtual void SetInput(unsigned int, const InputSpatialObjectType *object);

@@ -58,10 +58,10 @@ public:
   itkSetMacro(ThicknessInObjectSpace, double);
 
   /** Method gets the thickness of the current strand */
-  itkGetMacro(ThicknessInObjectSpace, double);
+  itkGetConstMacro(ThicknessInObjectSpace, double);
 
   /** Returns if the polygon is closed */
-  bool IsClosed() const;
+  bool GetIsClosed() const;
 
   /** Method returns area of polygon described by points */
   double MeasureAreaInObjectSpace() const;
@@ -81,6 +81,8 @@ protected:
   ~PolygonSpatialObject() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
+
+  typename LightObject::Pointer InternalClone() const override;
 
 private:
   mutable int               m_OrientationInObjectSpace;
