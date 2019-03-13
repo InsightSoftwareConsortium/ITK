@@ -39,9 +39,7 @@ buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
       itk::PolygonSpatialObject<3>::Pointer strand
         = itk::PolygonSpatialObject<3>::New();
 
-      PolygonGroup->AddChild(strand);
       strand->SetThicknessInObjectSpace(1.0);
-
       //
       // add all points to this strand.
       for(auto & strandPoint : strandPoints)
@@ -54,6 +52,10 @@ buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
         curpoint.SetPositionInObjectSpace(pos);
         strand->AddPoint(curpoint);
         }
+      strand->Update();
+
+      PolygonGroup->AddChild(strand);
+      PolygonGroup->Update();
       }
     }
   catch(itk::ExceptionObject &)
@@ -69,13 +71,11 @@ int testPolygonGroupEquivalence(PolygonGroup3DPointer &p1,
 {
   //
   // Write out polygondata
-  PolygonGroup3DType::ChildrenListType *children1 =
-    p1->GetChildren(0,nullptr);
+  PolygonGroup3DType::ChildrenListType *children1 = p1->GetChildren();
   auto it1 = children1->begin();
   auto end1 = children1->end();
 
-  PolygonGroup3DType::ChildrenListType *children2 =
-    p2->GetChildren(0,nullptr);
+  PolygonGroup3DType::ChildrenListType *children2 = p2->GetChildren();
   auto it2 = children2->begin();
   auto end2 = children2->end();
 
@@ -121,7 +121,8 @@ int testPolygonGroupEquivalence(PolygonGroup3DPointer &p1,
       if(curpoint1 != curpoint2)
         {
         //Just a silly test to make sure that the positions returned are valid
-        std::cerr << "Error: both points should have the same value: " <<  curpoint1 << " and " << curpoint2 << std::endl;
+        std::cerr << "Error: both points should have the same value: "
+          <<  curpoint1 << " and " << curpoint2 << std::endl;
         //This should never happen in this test.
         return EXIT_FAILURE;
         }
