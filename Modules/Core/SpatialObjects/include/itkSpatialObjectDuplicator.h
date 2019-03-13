@@ -40,7 +40,6 @@ public:
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
 
-  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
@@ -90,9 +89,6 @@ protected:
   /** Recursive function to copy the objects */
   void CopyObject(const InternalSpatialObjectType *source,
                   InternalSpatialObjectType *destination);
-
-  /** If the pointer is null, prints classes in SpatialObjectFactoryBase */
-  void WarnAndPrintFactories(const std::string& spatialObjectType) const;
 
 private:
   SpatialObjectConstPointer m_Input;
