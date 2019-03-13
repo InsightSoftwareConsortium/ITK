@@ -64,11 +64,11 @@ public:
 
   /** Assign points to this object, and assigned this object to
    * each point (for computing world coordinates) */
-  virtual void AddPoint( SpatialObjectPointType & newPoints );
+  virtual void AddPoint( const SpatialObjectPointType & newPoints );
 
   /** Assign points to this object, and assigned this object to
    * each point (for computing world coordinates) */
-  virtual void SetPoints( SpatialObjectPointListType & newPoints );
+  virtual void SetPoints( const SpatialObjectPointListType & newPoints );
 
   /** Get the list of points assigned to this object */
   virtual SpatialObjectPointListType & GetPoints()
@@ -113,6 +113,9 @@ protected:
 
   /** Method to print the object.*/
   void PrintSelf(std::ostream & os, Indent indent) const override;
+
+  typename LightObject::Pointer InternalClone() const override;
+
 };
 } // end namespace itk
 

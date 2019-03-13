@@ -493,7 +493,6 @@ public:
    * LargestPossibleRegion from the input parameter. */
   void CopyInformation(const DataObject *data) override;
 
-
   /*************************************/
   /* Evaluate used by SpatialFunctions */
   /*************************************/
@@ -516,11 +515,7 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  //virtual BoundingBoxType * GetModifiableMyBoundingBoxInObjectSpace()
-  //{ return this->m_MyBoundingBoxInObjectSpace.GetPointer(); }
-//
-  //virtual BoundingBoxType * GetModifiableFamilyBoundingBoxInObjectSpace()
-  //{ return this->m_FamilyBoundingBoxInObjectSpace.GetPointer(); }
+  typename LightObject::Pointer InternalClone() const override;
 
 private:
 

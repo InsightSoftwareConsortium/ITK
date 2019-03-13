@@ -343,6 +343,36 @@ SpatialObject< TDimension >
   return false;
 }
 
+
+/** InternalClone */
+template< unsigned int TDimension >
+typename LightObject::Pointer
+SpatialObject< TDimension >
+::InternalClone() const
+{
+  // Default implementation just copies the parameters from
+  // this to new transform.
+  typename LightObject::Pointer loPtr = CreateAnother();
+  loPtr->Register();
+
+  typename Self::Pointer rval =
+    dynamic_cast<Self *>(loPtr.GetPointer());
+  if(rval.IsNull())
+    {
+    itkExceptionMacro(<< "downcast to type "
+                      << this->GetNameOfClass()
+                      << " failed.");
+    }
+  rval->SetId( this->GetId() );
+  rval->SetParentId( this->GetParentId() );
+  rval->SetObjectToParentTransform(this->GetObjectToParentTransform());
+  rval->SetProperty( this->GetProperty() );
+  rval->SetDefaultInsideValue( this->GetDefaultInsideValue() );
+  rval->SetDefaultOutsideValue( this->GetDefaultOutsideValue() );
+
+  return loPtr;
+}
+
 /** Print self */
 template< unsigned int TDimension >
 void
@@ -350,15 +380,22 @@ SpatialObject< TDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << "My Bounding Box In Object Space:" << std::endl;
+  os << indent << "Id:" << m_Id << std::endl;
+  os << indent << "TypeName:" << m_TypeName << std::endl;
+  os << indent << "ParentId:" << m_ParentId << std::endl;
+  os << indent << "Parent:" << m_Parent << std::endl;
+  os << indent << "LargestPossibleRegion:"
+    << m_LargestPossibleRegion << std::endl;
+  os << indent << "RequestedRegion:" << m_RequestedRegion << std::endl;
+  os << indent << "BufferedRegion:" << m_BufferedRegion << std::endl;
+  os << indent << "My Bounding Box In Object Space:" << std::endl;
   os << indent << m_MyBoundingBoxInObjectSpace << std::endl;
-  os << "My Bounding Box In World Space:" << std::endl;
+  os << indent << "My Bounding Box In World Space:" << std::endl;
   os << indent << m_MyBoundingBoxInWorldSpace << std::endl;
-  os << "Family Bounding Box In Object Space:" << std::endl;
+  os << indent << "Family Bounding Box In Object Space:" << std::endl;
   os << indent << m_FamilyBoundingBoxInObjectSpace << std::endl;
-  os << "Family Bounding Box In World Space:" << std::endl;
+  os << indent << "Family Bounding Box In World Space:" << std::endl;
   os << indent << m_FamilyBoundingBoxInWorldSpace << std::endl;
-  os << "Geometric properties:" << std::endl;
   os << indent << "Object to World Transform: " << m_ObjectToWorldTransform
      << std::endl;
   os << indent << "Object to World Transform Inverse: "
@@ -368,8 +405,11 @@ SpatialObject< TDimension >
   os << indent << "Object to Parent Transform Inverse: "
     << m_ObjectToParentTransformInverse << std::endl;
   os << std::endl << std::endl;
-  os << "Object properties: " << std::endl;
+  os << indent << "Object properties: " << std::endl;
   m_Property.Print( std::cout );
+  os << indent << "ChildrenList:" << m_ChildrenList.size() << std::endl;
+  os << indent << "DefaultInsideValue:" << m_DefaultInsideValue << std::endl;
+  os << indent << "DefaultOutsideValue:" << m_DefaultOutsideValue << std::endl;
 }
 
 /** Get the bounds of the object */

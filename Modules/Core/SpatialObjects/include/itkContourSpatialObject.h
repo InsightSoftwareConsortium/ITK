@@ -84,7 +84,10 @@ public:
   { return m_ControlPoints; }
 
   /** Set the list of control points. */
-  void SetControlPoints(ControlPointListType & newPoints);
+  void SetControlPoints(const ControlPointListType & newPoints);
+
+  /** Set the list of control points. */
+  void AddControlPoint(const ControlPointType & point);
 
   /** Return a control point in the list given the index */
   const ControlPointType * GetControlPoint(IdentifierType id) const
@@ -109,7 +112,7 @@ public:
   itkSetMacro( InterpolationFactor, unsigned int )
 
   /** Get the interpolation factor */
-  itkGetMacro( InterpolationFactor, unsigned int )
+  itkGetConstMacro( InterpolationFactor, unsigned int )
 
   /** Set if the contour is closed */
   itkSetMacro(IsClosed, bool);
@@ -135,7 +138,15 @@ public:
   void Update();
 
 protected:
+  ContourSpatialObject();
+  ~ContourSpatialObject() override = default;
 
+  /** Method to print the object. */
+  void PrintSelf(std::ostream & os, Indent indent) const override;
+
+  typename LightObject::Pointer InternalClone() const override;
+
+private:
   ContourPointListType      m_ControlPoints;
 
   InterpolationMethodType   m_InterpolationMethod;
@@ -145,11 +156,6 @@ protected:
   int                       m_OrientationInObjectSpace;
   int                       m_AttachedToSlice;
 
-  ContourSpatialObject();
-  ~ContourSpatialObject() override = default;
-
-  /** Method to print the object. */
-  void PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end namespace itk
 

@@ -37,7 +37,7 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 template< unsigned int TDimension, class TSpatialObjectPointType >
 void
 PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
-::AddPoint( SpatialObjectPointType & newPoint )
+::AddPoint( const SpatialObjectPointType & newPoint )
 {
   m_Points.push_back( newPoint );
   m_Points.back().SetSpatialObject( this );
@@ -49,15 +49,15 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 template< unsigned int TDimension, class TSpatialObjectPointType >
 void
 PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
-::SetPoints( SpatialObjectPointListType & newPoints )
+::SetPoints( const SpatialObjectPointListType & newPoints )
 {
   m_Points.clear();
 
-  auto it = newPoints.begin();
+  SpatialObjectPointListType::const_iterator it = newPoints.begin();
   while( it != newPoints.end() )
     {
-    it->SetSpatialObject( this );
     m_Points.push_back( *it );
+    m_Points.back().SetSpatialObject( this );
     ++it;
     }
 
@@ -210,6 +210,30 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
   return false;
 }
 
+
+/** InternalClone */
+template< unsigned int TDimension, class TSpatialObjectPointType >
+typename LightObject::Pointer
+PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
+::InternalClone() const
+{
+  // Default implementation just copies the parameters from
+  // this to new transform.
+  typename LightObject::Pointer loPtr = Superclass::InternalClone();
+
+  typename Self::Pointer rval =
+    dynamic_cast<Self *>(loPtr.GetPointer());
+  if(rval.IsNull())
+    {
+    itkExceptionMacro(<< "downcast to type "
+                      << this->GetNameOfClass()
+                      << " failed.");
+    }
+
+  rval->SetPoints( this->GetPoints() );
+
+  return loPtr;
+}
 
 /** Print the object */
 template< unsigned int TDimension, class TSpatialObjectPointType >

@@ -89,7 +89,6 @@ ArrowSpatialObject< TDimension >
 
   if( depth > 0 )
     {
-    std::cout << "Testing children" << std::endl;
     return Superclass::IsInsideChildrenInObjectSpace( point, depth-1, name );
     }
 
@@ -147,6 +146,31 @@ ArrowSpatialObject< TDimension >
   double len = pnt.EuclideanDistanceTo( pnt2 );
 
   return len;
+}
+
+/** InternalClone */
+template< unsigned int TDimension >
+typename LightObject::Pointer
+ArrowSpatialObject< TDimension >
+::InternalClone() const
+{
+  // Default implementation just copies the parameters from
+  // this to new transform.
+  typename LightObject::Pointer loPtr = Superclass::InternalClone();
+
+  typename Self::Pointer rval =
+    dynamic_cast<Self *>(loPtr.GetPointer());
+  if(rval.IsNull())
+    {
+    itkExceptionMacro(<< "downcast to type "
+                      << this->GetNameOfClass()
+                      << " failed.");
+    }
+  rval->SetDirectionInObjectSpace( this->GetDirectionInObjectSpace() );
+  rval->SetPositionInObjectSpace( this->GetPositionInObjectSpace() );
+  rval->SetLengthInObjectSpace( this->GetLengthInObjectSpace() );
+
+  return loPtr;
 }
 
 template< unsigned int TDimension >

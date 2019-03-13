@@ -40,6 +40,31 @@ TubeSpatialObject< TDimension, TTubePointType >
   m_EndRounded = false; // default end-type is flat
 }
 
+/** InternalClone */
+template< unsigned int TDimension, typename TTubePointType >
+typename LightObject::Pointer
+TubeSpatialObject< TDimension, TTubePointType >
+::InternalClone() const
+{
+  // Default implementation just copies the parameters from
+  // this to new transform.
+  typename LightObject::Pointer loPtr = Superclass::InternalClone();
+
+  typename Self::Pointer rval =
+    dynamic_cast<Self *>(loPtr.GetPointer());
+  if(rval.IsNull())
+    {
+    itkExceptionMacro(<< "downcast to type "
+                      << this->GetNameOfClass()
+                      << " failed.");
+    }
+  rval->SetEndRounded( this->GetEndRounded() );
+  rval->SetParentPoint( this->GetParentPoint() );
+  rval->SetRoot(this->GetRoot());
+
+  return loPtr;
+}
+
 /** Print the object */
 template< unsigned int TDimension, typename TTubePointType >
 void
@@ -396,43 +421,7 @@ TubeSpatialObject< TDimension, TTubePointType >
   return true;
 }
 
-/** Copy the information from another spatial object */
-template< unsigned int TDimension, typename TTubePointType >
-void
-TubeSpatialObject< TDimension, TTubePointType >
-::DeepCopy(const DataObject *data)
-{
-  // check if we are the same type
-  const auto * source = dynamic_cast< const Self * >( data );
 
-  if ( source == nullptr )
-    {
-    std::cout << "CopyInformation: objects are not of the same type"
-              << std::endl;
-    return;
-    }
-
-  // copy the properties
-  Superclass::CopyInformation(data);
-
-  // copy the internal info
-  this->SetRoot( source->GetRoot() );
-  this->SetParentPoint( source->GetParentPoint() );
-  this->SetEndRounded( source->GetEndRounded() );
-
-  // We copy the points
-  TubePointListType source_list = source->GetPoints();
-  typename TubePointListType::const_iterator it_source = source_list.begin();
-
-  this->m_Points.clear();
-
-  while ( it_source != source_list.end() )
-    {
-    this->m_Points.push_back(*it_source);
-    this->m_Points.back().SetSpatialObject( this );
-    it_source++;
-    }
-}
 } // end namespace itk
 
 #endif // end itkTubeSpatialObject_hxx

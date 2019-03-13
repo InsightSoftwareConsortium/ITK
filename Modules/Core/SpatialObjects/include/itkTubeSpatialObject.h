@@ -106,21 +106,20 @@ public:
   bool IsInsideInObjectSpace(const PointType & point, unsigned int depth = 0,
     const std::string & name = "") const override;
 
-
-  void DeepCopy( const DataObject * tube );
-
 protected:
-  int m_ParentPoint;
-
-  bool m_EndRounded;
-
-  bool m_Root;
-
   TubeSpatialObject();
   ~TubeSpatialObject() override = default;
 
   /** Method to print the object. */
   void PrintSelf(std::ostream & os, Indent indent) const override;
+
+  typename LightObject::Pointer InternalClone() const override;
+
+private:
+  int  m_ParentPoint;
+  bool m_EndRounded;
+  bool m_Root;
+
 };
 
 } // end namespace itk
