@@ -89,7 +89,6 @@ ArrowSpatialObject< TDimension >
 
   if( depth > 0 )
     {
-    std::cout << "Testing children" << std::endl;
     return Superclass::IsInsideChildrenInObjectSpace( point, depth-1, name );
     }
 

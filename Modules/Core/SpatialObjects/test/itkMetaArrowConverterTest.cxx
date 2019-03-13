@@ -64,10 +64,23 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   direction[0] = 0;
   direction[1] = 1;
   direction[2] = 2;
+  double norm = direction[0]*direction[0]+direction[1]*direction[1]
+    + direction[2]*direction[2];
+  norm = std::sqrt( norm );
+  direction[0] /= norm;
+  direction[1] /= norm;
+  direction[2] /= norm;
+
   double mDirection[3];
   mDirection[0] = 0;
   mDirection[1] = 1;
   mDirection[2] = 2;
+  double mNorm = mDirection[0]*mDirection[0]+mDirection[1]*mDirection[1]
+    + mDirection[2]*mDirection[2];
+  mNorm = std::sqrt( mNorm );
+  mDirection[0] /= mNorm;
+  mDirection[1] /= mNorm;
+  mDirection[2] /= mNorm;
 
   // position
   SpatialObjectType::PointType position;
@@ -220,6 +233,11 @@ int itkMetaArrowConverterTest(int ac, char* av[])
     {
     std::cout << "Conversion to SpatialObject failed to convert length [FAILED]"
       << std::endl;
+    std::cout << "  Meta Length = " << metaArrow->Length() << std::endl;
+    std::cout << "  SO Length In World = "
+      << newItkArrow->GetLengthInWorldSpace() << std::endl;
+    std::cout << "  SO Length In Object = "
+      << newItkArrow->GetLengthInObjectSpace() << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] MetaObject -> SpatialObject: length" << std::endl;
