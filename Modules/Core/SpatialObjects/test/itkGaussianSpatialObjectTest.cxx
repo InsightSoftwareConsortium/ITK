@@ -150,7 +150,7 @@ int itkGaussianSpatialObjectTest(int, char* [])
 
   std::cout << "ComputeFamilyBoundingBox: ";
   myGaussian->ComputeFamilyBoundingBox( GaussianType::MaximumDepth );
-  GaussianType::BoundingBoxType * boundingBox
+  const GaussianType::BoundingBoxType * boundingBox
     = myGaussian->GetFamilyBoundingBoxInWorldSpace();
   std::cout << "World bounds = " << boundingBox->GetBounds() << std::endl;
   std::cout << "World Center = " << myGaussian->GetCenterInObjectSpace() << std::endl;

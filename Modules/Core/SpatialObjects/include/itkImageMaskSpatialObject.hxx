@@ -110,12 +110,12 @@ ImageMaskSpatialObject< TDimension, TPixel >
       if( first )
         {
         first = false;
-        this->GetMyBoundingBoxInObjectSpace()->SetMinimum( tmpPoint );
-        this->GetMyBoundingBoxInObjectSpace()->SetMaximum( tmpPoint );
+        this->GetModifiableMyBoundingBoxInObjectSpace()->SetMinimum( tmpPoint );
+        this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum( tmpPoint );
         }
       else
         {
-        this->GetMyBoundingBoxInObjectSpace()->ConsiderPoint( tmpPoint );
+        this->GetModifiableMyBoundingBoxInObjectSpace()->ConsiderPoint( tmpPoint );
         }
       }
     prevIt = it;
@@ -134,8 +134,8 @@ ImageMaskSpatialObject< TDimension, TPixel >
       NumericTraits< typename BoundingBoxType::PointType::ValueType >::
       ZeroValue() );
 
-    this->GetMyBoundingBoxInObjectSpace()->SetMinimum( tmpPoint );
-    this->GetMyBoundingBoxInObjectSpace()->SetMaximum( tmpPoint );
+    this->GetModifiableMyBoundingBoxInObjectSpace()->SetMinimum( tmpPoint );
+    this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum( tmpPoint );
 
     return false;
     }

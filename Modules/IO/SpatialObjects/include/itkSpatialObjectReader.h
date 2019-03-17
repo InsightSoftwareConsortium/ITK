@@ -52,6 +52,8 @@ public:
    *  SpatialObject & MetaObject
    */
   using MetaConverterBaseType = MetaConverterBase< NDimensions >;
+  using MetaSceneConverterType
+    = MetaSceneConverter< NDimensions, PixelType, TMeshTraits >;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
@@ -73,8 +75,11 @@ public:
   GroupPointer GetGroup() { return m_Group; }
 
   /** Set/GetEvent */
-  const MetaEvent * GetEvent() { return m_MetaToSpatialConverter.GetEvent(); }
-  void SetEvent(MetaEvent *event) { m_MetaToSpatialConverter.SetEvent(event); }
+  const MetaEvent * GetEvent()
+  { return m_MetaToSpatialConverter->GetEvent(); }
+
+  void SetEvent(MetaEvent *event)
+  { m_MetaToSpatialConverter->SetEvent(event); }
 
   /** Add a converter for a new MetaObject/SpatialObject type */
   void RegisterMetaConverter(const char *metaTypeName,
@@ -91,7 +96,7 @@ private:
 
   GroupPointer m_Group;
 
-  MetaSceneConverter< NDimensions, PixelType, TMeshTraits > m_MetaToSpatialConverter;
+  typename MetaSceneConverterType::Pointer m_MetaToSpatialConverter;
 };
 } // namespace itk
 

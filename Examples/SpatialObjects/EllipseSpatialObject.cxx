@@ -147,7 +147,7 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  EllipseType::BoundingBoxType * boundingBox
+  const EllipseType::BoundingBoxType * boundingBox
     = myEllipse->GetMyBoundingBoxInWorldSpace();
   std::cout << "Bounding Box: " << boundingBox->GetBounds() << std::endl;
 // Software Guide : EndCodeSnippet

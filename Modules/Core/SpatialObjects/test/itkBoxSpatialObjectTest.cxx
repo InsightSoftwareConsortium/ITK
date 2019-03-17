@@ -81,7 +81,8 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
   std::cout <<"Test ComputeMyBoundingBox: " << std::endl;
   std::cout << box1->GetMyBoundingBoxInWorldSpace()->GetBounds() << std::endl;
   std::cout << box2->GetMyBoundingBoxInWorldSpace()->GetBounds() << std::endl;
-  BoxType::BoundingBoxType * boundingBox = box1->GetMyBoundingBoxInWorldSpace();
+  const BoxType::BoundingBoxType * boundingBox
+    = box1->GetMyBoundingBoxInWorldSpace();
 
   if(     itk::Math::NotAlmostEquals(boundingBox->GetBounds()[0], 29)
       ||  itk::Math::NotAlmostEquals(boundingBox->GetBounds()[1], 59)
@@ -95,7 +96,7 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
     }
 
   box2->ComputeFamilyBoundingBox();
-  BoxType::BoundingBoxType * boundingBox2
+  const BoxType::BoundingBoxType * boundingBox2
     = box2->GetFamilyBoundingBoxInWorldSpace();
   if(     itk::Math::NotAlmostEquals(boundingBox2->GetBounds()[0], 50)
       ||  itk::Math::NotAlmostEquals(boundingBox2->GetBounds()[1], 80)

@@ -51,10 +51,8 @@ ArrowSpatialObject< TDimension >
 
   PointType pnt = this->GetPositionInObjectSpace();
 
-  const_cast< typename Superclass::BoundingBoxType * >(
-    this->GetMyBoundingBoxInObjectSpace() )->SetMinimum(pnt);
-  const_cast< typename Superclass::BoundingBoxType * >(
-    this->GetMyBoundingBoxInObjectSpace() )->SetMaximum(pnt);
+  this->GetModifiableMyBoundingBoxInObjectSpace()->SetMinimum(pnt);
+  this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(pnt);
 
   return true;
 }

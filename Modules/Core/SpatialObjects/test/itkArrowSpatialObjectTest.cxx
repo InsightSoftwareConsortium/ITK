@@ -103,7 +103,7 @@ int itkArrowSpatialObjectTest(int, char* [])
 
 
   std::cout << "ComputeMyBoundingBox: ";
-  ArrowType::BoundingBoxType * boundingBox =
+  const ArrowType::BoundingBoxType * boundingBox =
     myArrow->GetMyBoundingBoxInWorldSpace();
 
   std::cout << boundingBox->GetBounds() << std::endl;

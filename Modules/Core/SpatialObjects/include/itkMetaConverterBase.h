@@ -58,25 +58,30 @@ public:
   virtual SpatialObjectPointer  ReadMeta(const char *name);
 
   /** Write a MetaIO file based on this SpatialObject */
-  virtual bool WriteMeta(const SpatialObjectType *spatialObject, const char *name);
+  virtual bool WriteMeta(
+    const SpatialObjectType *spatialObject, const char *name);
 
   /** Convert the MetaObject to Spatial Object */
-  virtual SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo) = 0;
+  virtual SpatialObjectPointer MetaObjectToSpatialObject(
+    const MetaObjectType *mo) = 0;
 
   /** Convert the SpatialObject to MetaObject */
-  virtual MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject) = 0;
+  virtual MetaObjectType *SpatialObjectToMetaObject(
+    const SpatialObjectType *spatialObject) = 0;
 
   /** Set/Get flag for writing images to separate files in metaImage
    * instances
    */
-  void SetWriteImagesInSeparateFile(bool writeImagesInSeparateFile);
-  bool GetWriteImagesInSeparateFile();
+  itkSetMacro( WriteImagesInSeparateFile, bool );
+  itkGetConstMacro( WriteImagesInSeparateFile, bool );
 
 protected:
+  MetaConverterBase() {}
+  ~MetaConverterBase() = default;
+
   /** Creator for specific metaObject, defined in subclass */
   virtual MetaObjectType *CreateMetaObject() = 0;
-  MetaConverterBase()
-    {}
+
 
 private:
   bool m_WriteImagesInSeparateFile{false};

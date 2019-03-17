@@ -60,14 +60,7 @@ public:
 
   /** Set all radii to the same radius value.  Each radius is
    *  half the length of one axis of the ellipse.  */
-  void SetRadiusInObjectSpace(double radius)
-  {
-    for ( unsigned int i = 0; i < ObjectDimension; i++ )
-      {
-      m_RadiusInObjectSpace[i] = radius;
-      }
-    this->Modified();
-  }
+  void SetRadiusInObjectSpace(double radius);
 
   /** Set radii via an array of radius values */
   itkSetMacro(RadiusInObjectSpace, ArrayType);
@@ -76,11 +69,7 @@ public:
   itkGetConstReferenceMacro(RadiusInObjectSpace, ArrayType);
 
   /** Set center point in object space. */
-  void SetCenterInObjectSpace(const PointType & center)
-  {
-    m_CenterInObjectSpace = center;
-    this->Modified();
-  }
+  itkSetMacro( CenterInObjectSpace, PointType );
 
   /** Get center in object space */
   itkGetConstReferenceMacro(CenterInObjectSpace, PointType);

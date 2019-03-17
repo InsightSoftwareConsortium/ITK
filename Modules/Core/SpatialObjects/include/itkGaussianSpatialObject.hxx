@@ -123,10 +123,10 @@ GaussianSpatialObject< TDimension >
     pnt2[i] = m_CenterInObjectSpace[i] + m_RadiusInObjectSpace;
     }
 
-  this->GetMyBoundingBoxInObjectSpace()->SetMinimum(pnt1);
-  this->GetMyBoundingBoxInObjectSpace()->SetMaximum(pnt1);
-  this->GetMyBoundingBoxInObjectSpace()->ConsiderPoint(pnt2);
-  this->GetMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
+  this->GetModifiableMyBoundingBoxInObjectSpace()->SetMinimum(pnt1);
+  this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(pnt1);
+  this->GetModifiableMyBoundingBoxInObjectSpace()->ConsiderPoint(pnt2);
+  this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
 
   return true;
 }

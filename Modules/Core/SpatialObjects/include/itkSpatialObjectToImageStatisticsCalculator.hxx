@@ -169,10 +169,10 @@ SpatialObjectToImageStatisticsCalculator< TInputImage, TInputSpatialObject,
   else
     {
     // Get the bounding box
-    typename SpatialObjectType::BoundingBoxType::Pointer boundingBox;
     m_SpatialObject->ComputeFamilyBoundingBox(SpatialObjectType::MaximumDepth);
     m_SpatialObject->ComputeObjectToWorldTransform();
-    boundingBox = m_SpatialObject->GetFamilyBoundingBoxInWorldSpace();
+    const typename SpatialObjectType::BoundingBoxType::BoundsArrayType bounds
+      = m_SpatialObject->GetFamilyBoundingBoxInWorldSpace()->GetBounds();
 
     Point< double, Self::ObjectDimension > ptMin;
     Point< double, Self::ObjectDimension > ptMax;
@@ -181,8 +181,8 @@ SpatialObjectToImageStatisticsCalculator< TInputImage, TInputSpatialObject,
     SizeType size;
     for ( unsigned int i = 0; i < Self::ObjectDimension; i++ )
       {
-      ptMin[i] = boundingBox->GetBounds()[i * 2];
-      ptMax[i] = boundingBox->GetBounds()[i * 2 + 1];
+      ptMin[i] = bounds[i * 2];
+      ptMax[i] = bounds[i * 2 + 1];
       }
     m_Image->TransformPhysicalPointToIndex( ptMin, indMin );
     m_Image->TransformPhysicalPointToIndex( ptMax, indMax );

@@ -221,11 +221,11 @@ int itkNewMetaObjectTypeTest(int, char* [])
 
   DummyConverterType::Pointer dummyConverter(DummyConverterType::New());
 
-  MetaSceneConverterType converter;
-  converter.RegisterMetaConverter("Dummy","DummySpatialObject",dummyConverter);
+  MetaSceneConverterType::Pointer converter = MetaSceneConverterType::New();
+  converter->RegisterMetaConverter("Dummy","DummySpatialObject",dummyConverter);
 
-  MetaScene *metaScene = converter.CreateMetaScene(scene);
-  SceneType::Pointer myScene = converter.CreateSpatialObjectScene(metaScene);
+  MetaScene *metaScene = converter->CreateMetaScene(scene);
+  SceneType::Pointer myScene = converter->CreateSpatialObjectScene(metaScene);
 
   if(!myScene)
     {

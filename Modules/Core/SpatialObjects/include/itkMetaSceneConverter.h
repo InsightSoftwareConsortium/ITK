@@ -18,11 +18,14 @@
 #ifndef itkMetaSceneConverter_h
 #define itkMetaSceneConverter_h
 
+#include "itkObject.h"
+#include "itkDefaultStaticMeshTraits.h"
+
 #include "metaScene.h"
 #include "itkMetaEvent.h"
 #include "itkGroupSpatialObject.h"
-#include "itkDefaultStaticMeshTraits.h"
 #include "itkMetaConverterBase.h"
+
 #include <string>
 #include <map>
 
@@ -38,14 +41,26 @@ namespace itk
  *  \sa MetaConverterBase
  *  \ingroup ITKSpatialObjects
  */
-template< unsigned int NDimensions,
+template< unsigned int NDimensions = 3,
           typename PixelType = unsigned char,
           typename TMeshTraits =
             DefaultStaticMeshTraits< PixelType, NDimensions, NDimensions >
           >
 class ITK_TEMPLATE_EXPORT MetaSceneConverter
+: public Object
 {
 public:
+
+    /** standard class type alias */
+  using Self = MetaSceneConverter;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(MetaSceneConverter, Object);
 
   /** SpatialObject Scene types */
   using SceneType = itk::GroupSpatialObject< NDimensions >;
@@ -56,9 +71,6 @@ public:
   using MetaConverterPointer = typename MetaConverterBaseType::Pointer;
   using ConverterMapType = std::map< std::string, MetaConverterPointer >;
 
-  MetaSceneConverter();
-  ~MetaSceneConverter() = default;
-
   /** Read a MetaFile and create a Scene SpatialObject */
   ScenePointer ReadMeta(const std::string & name);
 
@@ -67,24 +79,21 @@ public:
                  unsigned int depth = SceneType::MaximumDepth,
                  const std::string & spatialObjectTypeName = "");
 
-  const MetaEvent * GetEvent() const { return m_Event; }
-  void  SetEvent(MetaEvent *event) { m_Event = event; }
+  itkGetMacro( Event, MetaEvent * );
+  itkSetObjectMacro( Event, MetaEvent );
 
   /** Set if the points should be saved in binary/ASCII */
-  void SetBinaryPoints(bool binary) { m_BinaryPoints = binary; }
+  itkSetMacro( BinaryPoints, bool );
+  itkGetMacro( BinaryPoints, bool );
 
   /** set/get the precision for writing out numbers as plain text */
-  void SetTransformPrecision(unsigned int precision)
-  {
-    m_TransformPrecision = precision;
-  }
-  unsigned int GetTransformPrecision(){ return m_TransformPrecision; }
+  itkSetMacro( TransformPrecision, unsigned int );
+  itkGetMacro( TransformPrecision, unsigned int );
 
   /** Set if the images should be written in different files */
-  void SetWriteImagesInSeparateFile(bool separate)
-  {
-    m_WriteImagesInSeparateFile = separate;
-  }
+  itkSetMacro( WriteImagesInSeparateFile, bool );
+  itkGetConstMacro( WriteImagesInSeparateFile, bool );
+
   /** add new SpatialObject/MetaObject converters at runtime
    *
    *  Every Converter is mapped to both a metaObject type name
@@ -100,6 +109,11 @@ public:
     const std::string & name = "");
 
   ScenePointer CreateSpatialObjectScene(MetaScene *scene);
+
+protected:
+
+  MetaSceneConverter();
+  ~MetaSceneConverter() = default;
 
 private:
 

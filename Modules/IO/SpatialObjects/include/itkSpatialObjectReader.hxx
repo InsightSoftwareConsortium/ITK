@@ -28,6 +28,7 @@ SpatialObjectReader< NDimensions, PixelType, TMeshTraits >
 {
   m_FileName = "";
   m_Group = nullptr;
+  m_MetaToSpatialConverter = MetaSceneConverterType::New();
 }
 
 template< unsigned int NDimensions, typename PixelType, typename TMeshTraits >
@@ -35,7 +36,7 @@ void
 SpatialObjectReader< NDimensions, PixelType, TMeshTraits >
 ::Update()
 {
-  m_Group = m_MetaToSpatialConverter.ReadMeta( m_FileName.c_str() );
+  m_Group = m_MetaToSpatialConverter->ReadMeta( m_FileName.c_str() );
 
   if ( m_Group->GetNumberOfChildren(0) == 0 )
     {
@@ -62,7 +63,7 @@ SpatialObjectReader< NDimensions, PixelType, TMeshTraits >
                       const char *spatialObjectTypeName,
                       MetaConverterBaseType *converter)
 {
-  this->m_MetaToSpatialConverter.RegisterMetaConverter(metaTypeName,
+  this->m_MetaToSpatialConverter->RegisterMetaConverter(metaTypeName,
                                                      spatialObjectTypeName,
                                                      converter);
 }
