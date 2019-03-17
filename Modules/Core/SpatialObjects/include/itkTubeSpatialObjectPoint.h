@@ -86,7 +86,7 @@ public:
   { return m_Normal1InObjectSpace; }
 
   /** Get V1 in World space */
-  const CovariantVectorType & GetNormal1InWorldSpace() const;
+  const CovariantVectorType GetNormal1InWorldSpace() const;
 
   /** Set V1 */
   void SetNormal1InObjectSpace(const CovariantVectorType & newV1)
@@ -100,7 +100,7 @@ public:
   { return m_Normal2InObjectSpace; }
 
   /** Get V2 */
-  const CovariantVectorType & GetNormal2InWorldSpace() const;
+  const CovariantVectorType GetNormal2InWorldSpace() const;
 
   /** Set V2 */
   void SetNormal2InObjectSpace(const CovariantVectorType & newV2)

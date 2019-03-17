@@ -123,7 +123,7 @@ PolygonSpatialObject< TDimension >
     return 0;
     }
 
-  for( int i=0; i<TDimension; ++i )
+  for( int i=0; i<static_cast<int>(TDimension); ++i )
     {
     if( this->GetOrientationInObjectSpace() != i )
       {
@@ -222,7 +222,7 @@ PolygonSpatialObject< TDimension >
         {
         for( unsigned int i=0; i<TDimension; ++i )
           {
-          if( this->GetOrientationInObjectSpace() != i )
+          if( this->GetOrientationInObjectSpace() != static_cast<int>(i) )
             {
             if( X == -1 )
               {
@@ -240,8 +240,6 @@ PolygonSpatialObject< TDimension >
         auto it = points.begin();
         auto itend = points.end();
         itend--;
-
-        PointType first = ( *it ).GetPositionInObjectSpace();
 
         bool oddNodes = false;
 
