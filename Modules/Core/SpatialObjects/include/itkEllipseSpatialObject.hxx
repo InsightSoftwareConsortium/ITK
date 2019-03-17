@@ -33,6 +33,28 @@ EllipseSpatialObject< TDimension >
   this->Update();
 }
 
+/** Define the radius of the circle in object space.
+  * An ellipse is formed by setting the ObjectToParentTransform */
+template< unsigned int TDimension >
+void
+EllipseSpatialObject< TDimension >
+::SetRadiusInObjectSpace( double radius )
+{
+  bool changes = false;
+  for( unsigned int i=0; i<ObjectDimension; ++i )
+    {
+    if( m_RadiusInObjectSpace[i] != radius )
+      {
+      m_RadiusInObjectSpace[i] = radius;
+      changes = true;
+      }
+    }
+  if( changes )
+    {
+    this->Modified();
+    }
+}
+
 /** Test whether a point is inside or outside the object
  *  For computational speed purposes, it is faster if the method does not
  *  check the name of the class and the current depth */
@@ -92,10 +114,10 @@ EllipseSpatialObject< TDimension >
     pnt2[i] = m_CenterInObjectSpace[i] + m_RadiusInObjectSpace[i];
     }
 
-  this->GetMyBoundingBoxInObjectSpace()->SetMinimum(pnt1);
-  this->GetMyBoundingBoxInObjectSpace()->SetMaximum(pnt1);
-  this->GetMyBoundingBoxInObjectSpace()->ConsiderPoint(pnt2);
-  this->GetMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
+  this->GetModifiableMyBoundingBoxInObjectSpace()->SetMinimum(pnt1);
+  this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(pnt1);
+  this->GetModifiableMyBoundingBoxInObjectSpace()->ConsiderPoint(pnt2);
+  this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
 
   return true;
 }

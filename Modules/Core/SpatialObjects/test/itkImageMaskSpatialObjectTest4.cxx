@@ -65,10 +65,8 @@ int Test3dImageMask()
 
   box1->SetObjectToWorldTransform( transform );
   box1->Update();
-  BoxType::BoundingBoxType::Pointer box1BoundingBox
-    = box1->GetMyBoundingBoxInWorldSpace();
-  BoxType::BoundingBoxType::BoundsArrayType box1Bounds
-    = box1BoundingBox->GetBounds();
+  const BoxType::BoundingBoxType::BoundsArrayType box1Bounds
+    = box1->GetMyBoundingBoxInWorldSpace()->GetBounds();
   if ( itk::Math::NotAlmostEquals( box1Bounds[0], 7.0 )
     || itk::Math::NotAlmostEquals( box1Bounds[2], 7.0 )
     || itk::Math::NotAlmostEquals( box1Bounds[4], 7.0 )
@@ -126,10 +124,8 @@ int Test3dImageMask()
   maskSpatialObject->SetImage(imageFilter->GetOutput());
   maskSpatialObject->Update();
 
-  ImageMaskSpatialObjectType::BoundingBoxType::Pointer maskBoundingBox
-    = maskSpatialObject->GetMyBoundingBoxInWorldSpace();
-  ImageMaskSpatialObjectType::BoundingBoxType::BoundsArrayType maskBounds
-    = maskBoundingBox->GetBounds();
+  const ImageMaskSpatialObjectType::BoundingBoxType::BoundsArrayType maskBounds
+    = maskSpatialObject->GetMyBoundingBoxInWorldSpace()->GetBounds();
 
   //Test a few points...
   ImageMaskSpatialObjectType::PointType point;
@@ -211,10 +207,8 @@ int Test2dImageMask()
   box1->SetObjectToWorldTransform( transform );
   box1->Update();
 
-  BoxType::BoundingBoxType::Pointer box1BoundingBox
-    = box1->GetMyBoundingBoxInWorldSpace();
-  BoxType::BoundingBoxType::BoundsArrayType box1Bounds
-    = box1BoundingBox->GetBounds();
+  const BoxType::BoundingBoxType::BoundsArrayType box1Bounds
+    = box1->GetMyBoundingBoxInWorldSpace()->GetBounds();
   if ( itk::Math::NotAlmostEquals( box1Bounds[0], 7.0 )
     || itk::Math::NotAlmostEquals( box1Bounds[2], 7.0 )
     || itk::Math::NotAlmostEquals( box1Bounds[1], 8.0 )
@@ -265,10 +259,8 @@ int Test2dImageMask()
 
   maskSpatialObject->Update();
 
-  ImageMaskSpatialObjectType::BoundingBoxType::Pointer maskBoundingBox
-    = maskSpatialObject->GetMyBoundingBoxInWorldSpace();
-  ImageMaskSpatialObjectType::BoundingBoxType::BoundsArrayType maskBounds
-    = maskBoundingBox->GetBounds();
+  const ImageMaskSpatialObjectType::BoundingBoxType::BoundsArrayType maskBounds
+    = maskSpatialObject->GetMyBoundingBoxInWorldSpace()->GetBounds();
 
   //Test a few points...
   ImageMaskSpatialObjectType::PointType point;

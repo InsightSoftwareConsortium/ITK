@@ -76,13 +76,10 @@ BoxSpatialObject< TDimension >
     pnt2[i] = m_PositionInObjectSpace[i] + m_SizeInObjectSpace[i];
     }
 
-  const_cast< BoundingBoxType * >( this->GetMyBoundingBoxInObjectSpace() )
-    ->SetMinimum(pnt1);
-  const_cast< BoundingBoxType * >( this->GetMyBoundingBoxInObjectSpace() )
-    ->SetMaximum(pnt1);
-  const_cast< BoundingBoxType * >( this->GetMyBoundingBoxInObjectSpace() )
-    ->ConsiderPoint(pnt2);
-  this->GetMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
+  this->GetModifiableMyBoundingBoxInObjectSpace()->SetMinimum(pnt1);
+  this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(pnt1);
+  this->GetModifiableMyBoundingBoxInObjectSpace()->ConsiderPoint(pnt2);
+  this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
 
   return true;
 }

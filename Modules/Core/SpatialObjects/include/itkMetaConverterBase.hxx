@@ -49,22 +49,6 @@ MetaConverterBase<VDimension>
   return true;
 }
 
-template <unsigned VDimension>
-bool
-MetaConverterBase<VDimension>
-::GetWriteImagesInSeparateFile()
-{
-  return this->m_WriteImagesInSeparateFile;
-}
-
-template <unsigned VDimension>
-void
-MetaConverterBase<VDimension>
-::SetWriteImagesInSeparateFile(bool writeImagesInSeparateFile)
-{
-  this->m_WriteImagesInSeparateFile = writeImagesInSeparateFile;
-}
-
 }
 
 #endif // itkMetaConverterBase_hxx

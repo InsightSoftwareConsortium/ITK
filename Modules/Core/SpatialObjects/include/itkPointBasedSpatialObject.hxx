@@ -53,7 +53,7 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 {
   m_Points.clear();
 
-  SpatialObjectPointListType::const_iterator it = newPoints.begin();
+  typename SpatialObjectPointListType::const_iterator it = newPoints.begin();
   while( it != newPoints.end() )
     {
     m_Points.push_back( *it );
@@ -152,16 +152,16 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 
   PointType pt = ( *it ).GetPositionInObjectSpace();
 
-  this->GetMyBoundingBoxInObjectSpace()->SetMinimum(pt);
-  this->GetMyBoundingBoxInObjectSpace()->SetMaximum(pt);
+  this->GetModifiableMyBoundingBoxInObjectSpace()->SetMinimum(pt);
+  this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(pt);
   it++;
   while ( it != end )
     {
-    this->GetMyBoundingBoxInObjectSpace()->ConsiderPoint(
+    this->GetModifiableMyBoundingBoxInObjectSpace()->ConsiderPoint(
       ( *it ).GetPositionInObjectSpace() );
     it++;
     }
-  this->GetMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
+  this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
 
   return true;
 }
