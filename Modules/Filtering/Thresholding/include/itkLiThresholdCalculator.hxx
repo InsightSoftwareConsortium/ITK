@@ -22,6 +22,7 @@
 #include "itkLiThresholdCalculator.h"
 #include "itkProgressReporter.h"
 #include "itkMath.h"
+#include <algorithm>
 
 namespace itk
 {
@@ -61,7 +62,7 @@ LiThresholdCalculator<THistogram, TOutput>
   double temp;
 
   // If there are negative values then shift the values to zero.
-  const double bin_min = std::min(histogram->GetBinMin(0,0), 0.0);
+  const double bin_min = std::min(static_cast<double>(histogram->GetBinMin(0,0)), 0.0);
 
   tolerance = 0.5;
   num_pixels = histogram->GetTotalFrequency();
