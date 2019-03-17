@@ -117,7 +117,35 @@ further information on making changes and committing snapshots.*)
 `Modules/ThirdParty` directory, please read our
 [UpdatingThirdParty](Documentation/UpdatingThirdParty.md) guide.*
 
-Standard prefixes for ITK commit messages:
+Breaking Changes
+----------------
+
+Breaking changes are defined in ITK as those changes that introduce changes to
+the API of the [major version](https://semver.org/) of the toolkit, and as
+such, make a component of the toolkit no longer backwards compatible. Breaking
+changes are only allowed in new major releases. Thus, the change may be held
+up by the toolkit's maintainers to ensure consistency in the toolkit. Before
+making such changes to the code, and considering other options to keep the
+code backward-compatible, please either open an
+[issue](https://github.com/InsightSoftwareConsortium/ITK/issues/new/choose)
+from the appropriate category or discuss the subject in [ITK's Discourse]. If
+the change finally is made into a *pull request*, cross-reference the issue
+and/or the discussion with the appropriate link.
+
+Design Changes
+--------------
+
+Design changes should be discussed in [ITK's Discourse]. A
+[Design Impact
+Report](https://github.com/InsightSoftwareConsortium/ITK/issues/new?labels=type%3ADesign&template=design_impact_report.md)
+can also be opened to keep track of the requested change. Design changes need
+explicit approval from the toolkit's maintainers.
+
+Commit Messages
+---------------
+
+Write your commit messages using the standard prefixes for ITK commit
+messages:
 
   * `BUG:` Fix for runtime crash or incorrect result
   * `COMP:` Compiler error or warning fix
@@ -126,6 +154,37 @@ Standard prefixes for ITK commit messages:
   * `PERF:` Performance improvement
   * `STYLE:` No logic impact (indentation, comments)
   * `WIP:` Work In Progress not ready for merge
+
+The body of the message should clearly describe the motivation of the commit
+(**what**, **why**, and **how**). In order to ease the task of reviewing
+commits, the message body should follow the following guidelines:
+
+  1. Leave a blank line between the subject and the body.
+  This helps `git log` and `git rebase` work nicely, and allows to smooth
+  generation of release notes.
+  2. Try to keep the subject line below 72 characters, ideally 50.
+  3. Capitalize the subject line.
+  4. Do not end the subject line with a period.
+  5. Use the imperative mood in the subject line (e.g. `BUG: Fix spacing
+  not being considered.`).
+  6. Wrap the body at 80 characters.
+  7. Use semantic line feeds to separate different ideas, which improves the
+  readability.
+  8. Be concise, but honor the change: if significant alternative solutions
+  were available, explain why they were discarded.
+  9. If the commit refers to a topic discussed in [ITK's Discourse], or fixes
+  a regression test, provide the link. If it fixes a compiler error, provide a
+  minimal verbatim message of the compiler error. If the commit closes an
+  issue, use the [GitHub issue closing
+  keywords](https://help.github.com/en/articles/closing-issues-using-keywords).
+
+Keep in mind that the significant time is invested in reviewing commits and
+*pull requests*, so following these guidelines will greatly help the people
+doing reviews.
+
+These guidelines are largely inspired by Chris Beam's
+[How to Write a Commit Message](https://chris.beams.io/posts/git-commit/)
+post.
 
 Share a Topic
 -------------
@@ -161,7 +220,12 @@ Test a Topic
 ------------
 
 When a topic is submitted, it is tested across the three major platforms
-before being merged. After the topic has been merged, it is tested on many
+before being merged thanks to the [Azure DevOps Pipelines CI
+system](https://azure.microsoft.com/en-ca/services/devops/pipelines/),
+as well as the [CDash GitHub
+Checks](https://github.com/InsightSoftwareConsortium/ITKGitHubCDashStatus).
+
+After the topic has been merged, it is tested on many
 platforms and configurations on the [nightly
 dashboard](https://open.cdash.org/index.php?project=Insight).
 
