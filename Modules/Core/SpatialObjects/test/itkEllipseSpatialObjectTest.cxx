@@ -129,7 +129,7 @@ int itkEllipseSpatialObjectTest(int, char* [])
 
   myEllipse->ComputeFamilyBoundingBox( EllipseType::MaximumDepth );
   myEllipse->ComputeObjectToWorldTransform();
-  EllipseType::BoundingBoxType * boundingBox
+  const EllipseType::BoundingBoxType * boundingBox
     = myEllipse->GetFamilyBoundingBoxInWorldSpace();
   std::cout << "Bounds = " << boundingBox->GetBounds() << std::endl;
 

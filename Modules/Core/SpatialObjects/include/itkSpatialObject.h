@@ -146,14 +146,14 @@ public:
 
   /** Set the property applied to the object. */
   void SetProperty( const PropertyType & property )
-  { m_Property = property; }
+  { this->m_Property = property; this->Modified(); }
 
   /** Returns a pointer to the property object applied to this class. */
-  PropertyType & GetProperty()
-  { return m_Property; }
-
   const PropertyType & GetProperty() const
-  { return m_Property; }
+  { return this->m_Property; }
+
+  PropertyType & GetProperty()
+  { return this->m_Property; }
 
   /** Returns the latest modified time of the spatial object, and
    * any of its components. */
@@ -373,13 +373,12 @@ public:
   /** Get a pointer to the axis-aligned bounding box of the object in world
    *   space. This box is computed by ComputeMyBoundingBox which
    *   is called by Update().  */
-  virtual BoundingBoxType * GetMyBoundingBoxInObjectSpace() const
-  { return this->m_MyBoundingBoxInObjectSpace.GetPointer(); }
+  itkGetConstObjectMacro( MyBoundingBoxInObjectSpace, BoundingBoxType );
 
   /** Get a pointer to the axis-aligned bounding box of the object in world
    *   space. This box is computed by ComputeMyBoundingBox which
    *   is called by Update().  */
-  virtual BoundingBoxType * GetMyBoundingBoxInWorldSpace() const;
+  virtual const BoundingBoxType * GetMyBoundingBoxInWorldSpace() const;
 
   /** Compute an axis-aligned bounding box for an object and its selected
    * children, down to a specified depth, in object space. */
@@ -388,12 +387,11 @@ public:
 
   /** Get a pointer to the bounding box of the object.
    *  The extents and the position of the box are not computed. */
-  virtual BoundingBoxType * GetFamilyBoundingBoxInObjectSpace() const
-  { return this->m_FamilyBoundingBoxInObjectSpace.GetPointer(); }
+  itkGetConstObjectMacro( FamilyBoundingBoxInObjectSpace, BoundingBoxType );
 
   /** Get a pointer to the bounding box of the object.
    *  The extents and the position of the box are not computed. */
-  virtual BoundingBoxType * GetFamilyBoundingBoxInWorldSpace() const;
+  virtual const BoundingBoxType * GetFamilyBoundingBoxInWorldSpace() const;
 
 
   /******************************/
@@ -514,6 +512,9 @@ protected:
   ~SpatialObject() override;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
+
+  BoundingBoxType * GetModifiableMyBoundingBoxInObjectSpace() const
+  { return m_MyBoundingBoxInObjectSpace.GetPointer(); }
 
   typename LightObject::Pointer InternalClone() const override;
 

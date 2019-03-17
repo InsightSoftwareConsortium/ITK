@@ -106,11 +106,11 @@ MeshSpatialObject< TMesh >
     pnt2[i] = m_Mesh->GetBoundingBox()->GetBounds()[2 * i + 1];
     }
 
-  this->GetMyBoundingBoxInObjectSpace()->SetMinimum(
+  this->GetModifiableMyBoundingBoxInObjectSpace()->SetMinimum(
     m_Mesh->GetBoundingBox()->GetMinimum() );
-  this->GetMyBoundingBoxInObjectSpace()->SetMaximum(
+  this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(
     m_Mesh->GetBoundingBox()->GetMaximum() );
-  this->GetMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
+  this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
 
   return true;
 }
@@ -121,8 +121,11 @@ void
 MeshSpatialObject< TMesh >
 ::SetMesh(MeshType *mesh)
 {
-  m_Mesh = mesh;
-  m_Mesh->Modified();
+  if( m_Mesh != mesh )
+    {
+    m_Mesh = mesh;
+    this->Modified();
+    }
 }
 
 /** Get the Mesh inside the spatial object */
