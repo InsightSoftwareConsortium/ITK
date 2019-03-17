@@ -754,11 +754,12 @@ SpatialObject< TDimension >
 {
   itkDebugMacro("Computing Bounding Box");
 
-  typename BoundingBoxType::PointType pnt;
-  pnt.Fill( NumericTraits< typename BoundingBoxType::PointType::ValueType >::
+  typename BoundingBoxType::PointType zeroPnt;
+  zeroPnt.Fill(
+    NumericTraits< typename BoundingBoxType::PointType::ValueType >::
     ZeroValue() );
-  m_FamilyBoundingBoxInObjectSpace->SetMinimum(pnt);
-  m_FamilyBoundingBoxInObjectSpace->SetMaximum(pnt);
+  m_FamilyBoundingBoxInObjectSpace->SetMinimum(zeroPnt);
+  m_FamilyBoundingBoxInObjectSpace->SetMaximum(zeroPnt);
   bool bbDefined = false;
 
   if( this->GetTypeName().find( name ) != std::string::npos )
@@ -1048,14 +1049,14 @@ SpatialObject< TDimension >
       id2 = (*it2)->GetId();
       if( id == id2 || id2 == -1 )
         {
-        int id = this->GetNextAvailableId();
-        (*it2)->SetId( id );
+        int idNew = this->GetNextAvailableId();
+        (*it2)->SetId( idNew );
         ChildrenListType * children2 = (*it2)->GetChildren(0);
         auto childIt2 = children2->begin();
         auto childIt2End = children2->end();
         while (childIt2 != childIt2End)
           {
-          (*childIt2)->SetParentId(id);
+          (*childIt2)->SetParentId(idNew);
           ++childIt2;
           }
         delete children2;

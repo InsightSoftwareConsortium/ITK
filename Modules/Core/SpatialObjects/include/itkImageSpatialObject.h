@@ -66,6 +66,8 @@ public:
   using PointContainerType = VectorContainer< IdentifierType, PointType >;
   using PointContainerPointer = typename PointContainerType::Pointer;
 
+  static constexpr unsigned int ObjectDimension = TDimension;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
