@@ -96,7 +96,7 @@ TubeSpatialObjectPoint< TPointDimension >
 }
 
 template< unsigned int TPointDimension >
-const typename TubeSpatialObjectPoint< TPointDimension >::CovariantVectorType &
+const typename TubeSpatialObjectPoint< TPointDimension >::CovariantVectorType
 TubeSpatialObjectPoint< TPointDimension >
 ::GetNormal1InWorldSpace() const
 {
@@ -114,7 +114,7 @@ TubeSpatialObjectPoint< TPointDimension >
 }
 
 template< unsigned int TPointDimension >
-const typename TubeSpatialObjectPoint< TPointDimension >::CovariantVectorType &
+const typename TubeSpatialObjectPoint< TPointDimension >::CovariantVectorType
 TubeSpatialObjectPoint< TPointDimension >
 ::GetNormal2InWorldSpace() const
 {

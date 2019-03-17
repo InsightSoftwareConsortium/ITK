@@ -74,10 +74,12 @@ public:
     = itk::SpatialObject< Self::ObjectDimension >;
 
   /** Set/Get the PointSet input of this process object.  */
-  //using Superclass::SetInput;
-  virtual void SetInput(const SpatialObjectType *object);
+  using Superclass::SetInput;
 
-  virtual void SetInput(unsigned int, const SpatialObjectType *object);
+  void SetInput(const SpatialObjectType *object);
+
+  void SetInput(const DataObjectIdentifierType & key,
+    const SpatialObjectType *object);
 
   /** Get the input Spatial Object. */
   const SpatialObjectType * GetInput();
