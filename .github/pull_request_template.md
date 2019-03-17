@@ -27,4 +27,17 @@ close a related issues using keywords (https://help.github.com/articles/closing-
 @mentions (https://help.github.com/articles/basic-writing-and-formatting-syntax/#mentioning-people-and-teams)
 of the person or team responsible for reviewing proposed changes. -->
 
+## PR Checklist
+- [ ] [Makes breaking changes](https://github.com/InsightSoftwareConsortium/ITK/blob/master/CONTRIBUTING.md#breaking-changes)
+- [ ] [Makes design changes](https://github.com/InsightSoftwareConsortium/ITK/blob/master/CONTRIBUTING.md#design-changes)
+- [ ] Adds the License notice to new files.
+- [ ] Adds Python wrapping.
+- [ ] Adds tests and baseline comparison (quantitative).
+- [ ] [Adds test data](https://github.com/InsightSoftwareConsortium/ITK/blob/master/Documentation/UploadBinaryData.md).
+- [ ] Adds Examples to [ITKExamples](https://github.com/InsightSoftwareConsortium/ITKExamples)
+- [ ] Adds Documentation.
+
+Refer to the [ITK Software Guide](https://itk.org/ItkSoftwareGuide.pdf) for
+further development details if necessary.
+
 <!-- **Thanks for contributing to ITK!** -->
