@@ -1,7 +1,7 @@
 ---
-name: Coverage Improvement Report
+name: "Coverage Improvement Report \U0001F3AF"
 labels: type:Coverage
-about: File a coverage report to improve code coverage in ITK
+about: "File a coverage report to improve code coverage in ITK"
 ---
 
 <!-- The text within this markup is a comment, and is intended to provide

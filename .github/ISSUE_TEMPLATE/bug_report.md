@@ -1,7 +1,7 @@
 ---
-name: Bug Report
+name: "Bug Report \U0001F41B"
 labels: type:Bug
-about: File a bug report to help us improve ITK
+about: "File a bug report to help us improve ITK"
 ---
 
 <!-- The text within this markup is a comment, and is intended to provide

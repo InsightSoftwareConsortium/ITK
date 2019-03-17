@@ -1,7 +1,7 @@
 ---
-name: Compiler Support Report
+name: "Compiler Support Report \U0001F6A7"
 labels: type:Compiler
-about: File a compiler support report to improve platform compatibility in ITK
+about: "File a compiler support report to improve platform compatibility in ITK"
 ---
 
 <!-- The text within this markup is a comment, and is intended to provide

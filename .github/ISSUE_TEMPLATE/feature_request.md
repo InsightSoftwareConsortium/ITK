@@ -1,7 +1,7 @@
 ---
-name: Feature Request
+name: "Feature Request \U0001F4A1"
 labels: type:Enhancement
-about: Suggest a feature request or idea to improve ITK
+about: "Suggest a feature request or idea to improve ITK"
 ---
 
 <!-- The text within this markup is a comment, and is intended to provide

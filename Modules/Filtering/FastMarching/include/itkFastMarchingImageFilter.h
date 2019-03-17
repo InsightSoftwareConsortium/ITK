@@ -114,7 +114,7 @@ public:
 
   /** Standard class typdedefs. */
   using Self = FastMarchingImageFilter;
-  using Superclass = ImageSource< TLevelSet >;
+  using Superclass = ImageToImageFilter< TSpeedImage, TLevelSet >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
 

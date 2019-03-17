@@ -1,7 +1,7 @@
 ---
-name: Infrastructure Impact Report
+name: "Infrastructure Impact Report \U0001F4D0"
 labels: type:Infrastructure
-about: File an infrastructure report to make ITK builds easier, faster
+about: "File an infrastructure report to make ITK builds easier, faster"
 ---
 
 <!-- The text within this markup is a comment, and is intended to provide

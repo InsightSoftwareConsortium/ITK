@@ -1,7 +1,7 @@
 ---
-name: Regression Impact Report
+name: "Regression Impact Report \U0001F6D1"
 labels: type:Testing
-about: File a regression report to help fix an ITK test result
+about: "File a regression report to help fix an ITK test result"
 ---
 
 <!-- The text within this markup is a comment, and is intended to provide

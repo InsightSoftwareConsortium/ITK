@@ -18,57 +18,100 @@
 
 #include "itkFastMarchingImageFilterBase.h"
 #include "itkFastMarchingThresholdStoppingCriterion.h"
+#include "itkTestingMacros.h"
 
+/*
+ * This function ONLY tests basic getters/setters for the base class
+ * and does not exercise the base class filter. The process of testing
+ * the running of the filter is delegated to other tests.
+ * @tparam VDimension
+ * @return EXIT_SUCCESS if all test passs, EXIT_FAILURE otherwise
+ */
 template< unsigned int VDimension >
-int FastMarchingImageFilterBase( )
-  {
+static int FastMarchingImageFilterBaseTestFunction()
+{
   using PixelType = float;
 
   using ImageType = itk::Image< PixelType, VDimension >;
   typename ImageType::Pointer input = ImageType::New();
 
-  using FMMType =
+  using FastMarchingImageFilterType =
       itk::FastMarchingImageFilterBase< ImageType, ImageType >;
-  typename FMMType::Pointer fmm = FMMType::New();
-  fmm->SetInput( input );
+  typename FastMarchingImageFilterType::Pointer fastMarchingFilter =
+      FastMarchingImageFilterType::New();
 
-  bool exception_caught = false;
+  bool overrideOutputInformation = true;
+  TEST_SET_GET_BOOLEAN( fastMarchingFilter, OverrideOutputInformation,
+    overrideOutputInformation );
 
-  try
-    {
-    fmm->Update();
-    }
-  catch( itk::ExceptionObject & excep )
-    {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excep << std::endl;
-    exception_caught = true;
-    }
+  typename FastMarchingImageFilterType::OutputSizeType outputSize;
+  outputSize.Fill( 32 );
+  fastMarchingFilter->SetOutputSize( outputSize );
+  TEST_SET_GET_VALUE( outputSize, fastMarchingFilter->GetOutputSize() );
 
-  if( !exception_caught )
-    {
-    std::cout <<"Exception is not caught!" <<std::endl;
-    return EXIT_FAILURE;
-    }
+  typename FastMarchingImageFilterType::OutputRegionType outputRegion;
+  outputRegion.SetSize( outputSize );
+  fastMarchingFilter->SetOutputRegion( outputRegion );
+  TEST_SET_GET_VALUE( outputRegion, fastMarchingFilter->GetOutputRegion() );
 
-  typename ImageType::Pointer output = fmm->GetOutput();
+  typename FastMarchingImageFilterType::OutputSpacingType outputSpacing;
+  outputSpacing.Fill( 1.0 );
+  fastMarchingFilter->SetOutputSpacing( outputSpacing );
+  TEST_SET_GET_VALUE( outputSpacing, fastMarchingFilter->GetOutputSpacing() );
+
+  typename FastMarchingImageFilterType::OutputDirectionType outputDirection;
+  outputDirection.SetIdentity();
+  fastMarchingFilter->SetOutputDirection( outputDirection );
+  TEST_SET_GET_VALUE( outputDirection, fastMarchingFilter->GetOutputDirection() );
+
+  typename FastMarchingImageFilterType::OutputPointType outputOrigin;
+  outputOrigin.Fill( 0.0 );
+  fastMarchingFilter->SetOutputOrigin( outputOrigin );
+  TEST_SET_GET_VALUE( outputOrigin, fastMarchingFilter->GetOutputOrigin() );
+
+  // DO NOT ATTEMPT TO UPDATE the base class filter.
+  // the base class filter is not sufficiently configured
+  // with trial point, stopping criteria, normalization factors, or speed constants.
+  // or given a valid image.
+  //
+  // DO NOT ADD TRY_EXPECT_NO_EXCEPTION( fastMarchingFilter->Update() );
+  // DO NOT ADD typename ImageType::Pointer output = fastMarchingFilter->GetOutput();
 
   return EXIT_SUCCESS;
-  }
+}
 
 
-// ----------------------------------------------------------------------------
 int itkFastMarchingImageFilterBaseTest( int , char * [] )
-  {
-  if( FastMarchingImageFilterBase< 2 >() == EXIT_FAILURE )
+{
+  // Exercise basic object methods
+  // Done outside the helper function in the test because GCC is limited
+  // when calling overloaded base class functions.
+  const unsigned int Dimension = 2;
+  typedef float                               PixelType;
+  typedef itk::Image< PixelType, Dimension >  ImageType;
+
+  typedef itk::FastMarchingImageFilterBase< ImageType, ImageType >
+    FastMarchingImageFilterType;
+
+  FastMarchingImageFilterType::Pointer fastMarchingFilter =
+    FastMarchingImageFilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( fastMarchingFilter,
+    FastMarchingImageFilterBase, FastMarchingBase );
+
+
+  if(FastMarchingImageFilterBaseTestFunction<2>() == EXIT_FAILURE )
     {
-    std::cerr << "2D Fails" <<std::endl;
+    std::cerr << "Test failed!" << std::endl;
     return EXIT_FAILURE;
     }
-  if( FastMarchingImageFilterBase< 3 >() == EXIT_FAILURE )
+  if(FastMarchingImageFilterBaseTestFunction<3>() == EXIT_FAILURE )
     {
-    std::cerr << "3D Fails" <<std::endl;
+    std::cerr << "Test failed!" << std::endl;
     return EXIT_FAILURE;
     }
+
+
+  std::cout << "Test finished." <<std::endl;
   return EXIT_SUCCESS;
-  }
+}

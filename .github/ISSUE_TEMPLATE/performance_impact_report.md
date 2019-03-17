@@ -1,7 +1,7 @@
 ---
-name: Performance Impact Report
+name: "Performance Impact Report \U0001F4C8"
 labels: type:Performance
-about: File a performance report to improve ITK module performance
+about: "File a performance report to improve ITK module performance"
 ---
 
 <!-- The text within this markup is a comment, and is intended to provide

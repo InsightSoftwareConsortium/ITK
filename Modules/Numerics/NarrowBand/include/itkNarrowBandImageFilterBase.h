@@ -217,8 +217,6 @@ protected:
     m_IsoSurfaceValue = 0.0;
     m_Step    = 0;
     m_Touched = false;
-    m_Barrier = Barrier::New();
-    this->SetMultiThreader(PlatformMultiThreader::New());
   }
 
   ~NarrowBandImageFilterBase() override = default;
@@ -264,12 +262,13 @@ protected:
   /* This function clears all pixels from the narrow band */
   void ClearNarrowBand();
 
-  /** Thread synchronization methods. */
-  void WaitForAll();
-
   /** This is the default, high-level algorithm for calculating finite
     * difference solutions.  It calls virtual methods in its subclasses
-    * to implement the major steps of the algorithm. */
+    * to implement the major steps of the algorithm.
+    *
+    * This method is a thread implementation of the iterative scheme implemented
+    * in itkFiniteDifferenceImageFilter::GenerateData. It relies on ThreadedApplyUpdate
+    * and ThreadedCalculateChange to update the solution at every iteration. */
   void GenerateData() override;
 
   /* Variables to control reinitialization */
@@ -282,17 +281,7 @@ protected:
 
   ValueType m_IsoSurfaceValue;
 
-  typename Barrier::Pointer m_Barrier;
-
 private:
-  /** Structure for passing information into static callback methods.  Used in
-   * the subclasses' threading mechanisms. */
-  struct NarrowBandImageFilterBaseThreadStruct {
-    NarrowBandImageFilterBase *Filter;
-    TimeStepType TimeStep;
-    std::vector< TimeStepType > TimeStepList;
-    std::vector< bool > ValidTimeStepList;
-  };
 
   /* This class does not use AllocateUpdateBuffer to allocate memory for its
    * narrow band. This is taken care of in SetNarrowBand, and InsertNarrowBandNode
@@ -300,14 +289,6 @@ private:
    * FiniteDifferenceSolver framework.
    */
   void AllocateUpdateBuffer() override {}
-
-  /** This method gives support for a multithread iterative scheme. */
-  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION IterateThreaderCallback(void *arg);
-
-  /** This method is a thread implementation of the iterative scheme implemented
-   * in itkFiniteDifferenceImageFilter::GenerateData. It relies on ThreadedApplyUpdate
-   * and ThreadedCalculateChange to update the solution at every iteration. */
-  virtual void ThreadedIterate(void *arg, ThreadIdType threadId);
 
   /** This method applies changes from the m_NarrowBand to the output using
    * the ThreadedApplyUpdate() method and a multithreading mechanism.  "dt" is
@@ -321,8 +302,7 @@ private:
   /** This method populates m_NarrowBand with changes for each pixel in the
    * output using the ThreadedCalculateChange() method and a multithreading
    * mechanism. Returns value is a time step to be used for the update. */
-  virtual TimeStepType ThreadedCalculateChange(const ThreadRegionType & regionToProcess,
-                                               ThreadIdType threadId);
+  virtual TimeStepType ThreadedCalculateChange(const ThreadRegionType & regionToProcess);
 
   TimeStepType CalculateChange() override { return 0; }
 };
