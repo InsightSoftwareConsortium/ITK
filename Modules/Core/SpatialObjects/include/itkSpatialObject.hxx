@@ -83,12 +83,16 @@ void
 SpatialObject< TDimension >
 ::SetId( int id )
 {
-  m_Id = id;
-  auto it = m_ChildrenList.begin();
-  while( it != m_ChildrenList.end() )
+  if( id != m_Id )
     {
-    (*it)->SetParentId( id );
-    ++it;
+    m_Id = id;
+    auto it = m_ChildrenList.begin();
+    while( it != m_ChildrenList.end() )
+      {
+      (*it)->SetParentId( id );
+      ++it;
+      }
+    this->Modified();
     }
 }
 
@@ -414,14 +418,14 @@ SpatialObject< TDimension >
 
 /** Get the bounds of the object */
 template< unsigned int TDimension >
-typename SpatialObject< TDimension >::BoundingBoxType *
+const typename SpatialObject< TDimension >::BoundingBoxType *
 SpatialObject< TDimension >
 ::GetFamilyBoundingBoxInWorldSpace() const
 {
     // Next Transform the corners of the bounding box
   using PointsContainer = typename BoundingBoxType::PointsContainer;
-  const PointsContainer *corners = this->GetFamilyBoundingBoxInObjectSpace()
-    ->GetCorners();
+  const PointsContainer *corners
+    = m_FamilyBoundingBoxInObjectSpace->GetCorners();
   typename PointsContainer::Pointer transformedCorners =
     PointsContainer::New();
   transformedCorners->Reserve(
@@ -695,22 +699,28 @@ SpatialObject< TDimension >
   typename BoundingBoxType::PointType pnt;
   pnt.Fill( NumericTraits< typename BoundingBoxType::PointType::ValueType >::
     ZeroValue() );
-  m_MyBoundingBoxInObjectSpace->SetMinimum(pnt);
-  m_MyBoundingBoxInObjectSpace->SetMaximum(pnt);
+  if( m_MyBoundingBoxInObjectSpace->GetMinimum() != pnt
+    || m_MyBoundingBoxInObjectSpace->GetMaximum() != pnt )
+    {
+    m_MyBoundingBoxInObjectSpace->SetMinimum(pnt);
+    m_MyBoundingBoxInObjectSpace->SetMaximum(pnt);
+
+    this->Modified();
+    }
 
   return false;
 }
 
 /** Get the bounds of the object */
 template< unsigned int TDimension >
-typename SpatialObject< TDimension >::BoundingBoxType *
+const typename SpatialObject< TDimension >::BoundingBoxType *
 SpatialObject< TDimension >
 ::GetMyBoundingBoxInWorldSpace() const
 {
     // Next Transform the corners of the bounding box
   using PointsContainer = typename BoundingBoxType::PointsContainer;
-  const PointsContainer *corners = this->GetMyBoundingBoxInObjectSpace()
-    ->GetCorners();
+  const PointsContainer *corners
+    = this->GetModifiableMyBoundingBoxInObjectSpace()->GetCorners();
   typename PointsContainer::Pointer transformedCorners =
     PointsContainer::New();
   transformedCorners->Reserve(
@@ -753,8 +763,10 @@ SpatialObject< TDimension >
 
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    PointType pointMin = this->GetMyBoundingBoxInObjectSpace()->GetMinimum();
-    PointType pointMax = this->GetMyBoundingBoxInObjectSpace()->GetMaximum();
+    PointType pointMin
+      = this->GetModifiableMyBoundingBoxInObjectSpace()->GetMinimum();
+    PointType pointMax
+      = this->GetModifiableMyBoundingBoxInObjectSpace()->GetMaximum();
     for ( unsigned int i = 0; i < ObjectDimension; i++ )
       {
       if ( Math::NotExactlyEquals(pointMin[i], 0)

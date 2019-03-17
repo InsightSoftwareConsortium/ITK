@@ -104,14 +104,14 @@ TubeSpatialObject< TDimension, TTubePointType >
     {
     tmpPt[d] = pt[d] - ptRadius;
     }
-  this->GetMyBoundingBoxInObjectSpace()->SetMinimum(tmpPt);
-  this->GetMyBoundingBoxInObjectSpace()->SetMaximum(tmpPt);
+  this->GetModifiableMyBoundingBoxInObjectSpace()->SetMinimum(tmpPt);
+  this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(tmpPt);
 
   for( unsigned int d=0; d<TDimension; ++d )
     {
     tmpPt[d] = pt[d] + ptRadius;
     }
-  this->GetMyBoundingBoxInObjectSpace()->ConsiderPoint(tmpPt);
+  this->GetModifiableMyBoundingBoxInObjectSpace()->ConsiderPoint(tmpPt);
 
   it++;
   while ( it != end )
@@ -122,17 +122,17 @@ TubeSpatialObject< TDimension, TTubePointType >
       {
       tmpPt[d] = pt[d] - ptRadius;
       }
-    this->GetMyBoundingBoxInObjectSpace()->ConsiderPoint(tmpPt);
+    this->GetModifiableMyBoundingBoxInObjectSpace()->ConsiderPoint(tmpPt);
 
     for( unsigned int d=0; d<TDimension; ++d )
       {
       tmpPt[d] = pt[d] + ptRadius;
       }
-    this->GetMyBoundingBoxInObjectSpace()->ConsiderPoint(tmpPt);
+    this->GetModifiableMyBoundingBoxInObjectSpace()->ConsiderPoint(tmpPt);
 
     it++;
     }
-  this->GetMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
+  this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
 
   return true;
 }

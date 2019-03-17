@@ -51,10 +51,14 @@ void
 ImageSpatialObject< TDimension,  PixelType >
 ::SetInterpolator(InterpolatorType *interpolator)
 {
-  m_Interpolator = interpolator;
-  if ( m_Image )
+  if( m_Interpolator != interpolator )
     {
-    m_Interpolator->SetInputImage(m_Image);
+    m_Interpolator = interpolator;
+    if ( m_Image && m_Interpolator )
+      {
+      m_Interpolator->SetInputImage(m_Image);
+      }
+    this->Modified();
     }
 }
 
@@ -145,10 +149,10 @@ ImageSpatialObject< TDimension,  PixelType >
   m_Image->TransformIndexToPhysicalPoint( index, pnt1 );
   m_Image->TransformIndexToPhysicalPoint( index2, pnt2 );
 
-  this->GetMyBoundingBoxInObjectSpace()->SetMinimum(pnt1);
-  this->GetMyBoundingBoxInObjectSpace()->SetMaximum(pnt1);
-  this->GetMyBoundingBoxInObjectSpace()->ConsiderPoint(pnt2);
-  this->GetMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
+  this->GetModifiableMyBoundingBoxInObjectSpace()->SetMinimum(pnt1);
+  this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(pnt1);
+  this->GetModifiableMyBoundingBoxInObjectSpace()->ConsiderPoint(pnt2);
+  this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
 
   return true;
 }
@@ -160,17 +164,22 @@ void
 ImageSpatialObject< TDimension,  PixelType >
 ::SetImage(const ImageType *image)
 {
-  if ( !image )
+  if( m_Image != image )
     {
-    itkDebugMacro("Image passed to ImageSpatialObject was null");
-    return;
+    if ( !image )
+      {
+      itkDebugMacro("Image passed to ImageSpatialObject was null");
+      return;
+      }
+
+    m_Image = image;
+    if( m_Interpolator )
+      {
+      m_Interpolator->SetInputImage(m_Image);
+      }
+
+    this->Modified();
     }
-
-  m_Image = image;
-
-  this->Modified();
-
-  m_Interpolator->SetInputImage(m_Image);
 }
 
 /** Get the image inside the spatial object */
@@ -245,8 +254,11 @@ void
 ImageSpatialObject< TDimension,  PixelType >
 ::SetSliceNumber(unsigned int dimension, int position)
 {
-  m_SliceNumber[dimension] = position;
-  this->Modified();
+  if( dimension < ObjectDimension && m_SliceNumber[dimension] != position )
+    {
+    m_SliceNumber[dimension] = position;
+    this->Modified();
+    }
 }
 } // end namespace itk
 
