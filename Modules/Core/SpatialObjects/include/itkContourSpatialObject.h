@@ -135,7 +135,7 @@ public:
   itkGetConstMacro(AttachedToSlice, int);
 
   /** Apply the interpolator to generate points from the control points */
-  void Update();
+  void Update() override;
 
 protected:
   ContourSpatialObject();

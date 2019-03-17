@@ -159,8 +159,7 @@ int itkSpatialObjectToPointSetFilterTest( int, char* [] )
   pointSetFilter3D->SetChildrenDepth( childrenDepth );
   TEST_SET_GET_VALUE( childrenDepth, pointSetFilter3D->GetChildrenDepth() );
 
-  unsigned int index = 0;
-  pointSetFilter3D->SetInput( index, group3D );
+  pointSetFilter3D->SetInput( group3D );
 
   pointSetFilter3D->Update();
 

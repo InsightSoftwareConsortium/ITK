@@ -19,6 +19,7 @@
 #define itkSpatialObjectToPointSetFilter_h
 
 #include "itkPointSet.h"
+#include "itkDataObject.h"
 #include "itkMeshSource.h"
 #include "itkPointBasedSpatialObject.h"
 
@@ -49,6 +50,8 @@ public:
   /** Smart Pointer type to a DataObject. */
   using DataObjectPointer = DataObject::Pointer;
 
+  using DataObjectIdentifierType = DataObject::DataObjectIdentifierType;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -74,10 +77,12 @@ public:
     = itk::SpatialObject< Self::ObjectDimension >;
 
   /** Set/Get the PointSet input of this process object.  */
-  //using Superclass::SetInput;
-  virtual void SetInput(const SpatialObjectType *object);
+  using Superclass::SetInput;
 
-  virtual void SetInput(unsigned int, const SpatialObjectType *object);
+  void SetInput(const SpatialObjectType *object);
+
+  void SetInput(const DataObjectIdentifierType & key,
+    const SpatialObjectType *object);
 
   /** Get the input Spatial Object. */
   const SpatialObjectType * GetInput();

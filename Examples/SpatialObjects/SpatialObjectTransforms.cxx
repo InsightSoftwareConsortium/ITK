@@ -19,7 +19,8 @@
 // Software Guide : BeginLatex
 //
 // \index{itk::SpatialObjectTransforms} This example describes the different
-// transformations and "spaces" ssociated with a spatial object.
+// transformations and the Object and World "spaces" associated with a spatial
+// object.
 //
 // Object Space
 //

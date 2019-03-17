@@ -50,7 +50,6 @@ int main( int argc, char * argv [] )
   using ImageMaskSpatialObject = itk::ImageMaskSpatialObject<3>;
 
   using ImageType = ImageMaskSpatialObject::ImageType;
-  using RegionType = ImageType::RegionType;
   using ReaderType = itk::ImageFileReader< ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
