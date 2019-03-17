@@ -19,6 +19,7 @@
 #define itkSpatialObjectToPointSetFilter_h
 
 #include "itkPointSet.h"
+#include "itkDataObject.h"
 #include "itkMeshSource.h"
 #include "itkPointBasedSpatialObject.h"
 
@@ -48,6 +49,8 @@ public:
 
   /** Smart Pointer type to a DataObject. */
   using DataObjectPointer = DataObject::Pointer;
+
+  using DataObjectIdentifierType = DataObject::DataObjectIdentifierType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
