@@ -44,10 +44,11 @@ SpatialObjectToPointSetFilter< TPointBasedSpatialObject, TOutputPointSet >
 template< typename TPointBasedSpatialObject, typename TOutputPointSet >
 void
 SpatialObjectToPointSetFilter< TPointBasedSpatialObject, TOutputPointSet >
-::SetInput(unsigned int index, const SpatialObjectType *object)
+::SetInput(const DataObjectIdentifierType & key,
+  const SpatialObjectType *object)
 {
   // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput( index,
+  this->ProcessObject::SetNthInput( key,
     const_cast< SpatialObjectType * >( object ) );
 }
 
