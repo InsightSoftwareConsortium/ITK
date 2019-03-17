@@ -1,7 +1,7 @@
 ---
-name: Design Impact Report
+name: "Design Impact Report \U0001F680"
 labels: type:Design
-about: File a design report to improve ITK design
+about: "File a design report to improve ITK design"
 ---
 
 <!-- The text within this markup is a comment, and is intended to provide
