@@ -97,7 +97,7 @@ int itkFastMarchingImageFilterRealWithNumberOfElementsTest(int , char* [] )
   trial->push_back( node_pair );
 
   node_pair.SetValue( 42.0 );
-  index.Fill( 300 ); // this node is out of ranage
+  index.Fill( 300 ); // this node is out of range
   node_pair.SetNode( index );
   trial->push_back( node_pair );
 
