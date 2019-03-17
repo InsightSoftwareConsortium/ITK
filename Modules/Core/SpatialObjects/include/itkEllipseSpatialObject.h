@@ -53,9 +53,13 @@ public:
   using PointContainerPointer = SmartPointer< PointContainerType >;
 
   using ArrayType = FixedArray< double, TDimension >;
+
   static constexpr unsigned int ObjectDimension = TDimension;
 
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
   itkTypeMacro(EllipseSpatialObject, SpatialObject);
 
   /** Set all radii to the same radius value.  Each radius is
