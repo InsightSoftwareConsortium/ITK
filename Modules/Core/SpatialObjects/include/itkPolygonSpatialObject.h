@@ -45,6 +45,10 @@ public:
   using PointType = typename Superclass::PointType;
   using TransformType = typename Superclass::TransformType;
   using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;
+
+  using ObjectDimensionType = unsigned int;
+  static constexpr ObjectDimensionType ObjectDimension = TDimension;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
