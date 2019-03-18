@@ -176,8 +176,6 @@ LabelSetMorphBaseImageFilter< TInputImage, doDilate, TOutputImage >
     }
   else
     {
-    // radius is in pixels
-    RadiusType R;
     // this gives us a little bit of a margin
     for ( unsigned P = 0; P < InputImageType::ImageDimension; P++ )
       {
