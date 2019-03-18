@@ -51,6 +51,7 @@ int itkPolygonSpatialObjectTest(int, char *[])
   pList.push_back( pPoint );
   rectangle->SetPoints(pList);
   rectangle->SetThicknessInObjectSpace(10);
+  rectangle->Update();
 
   rectangle->Print(std::cout);
   //
@@ -59,6 +60,7 @@ int itkPolygonSpatialObjectTest(int, char *[])
   if (rectangle->GetNumberOfPoints() != 4)
     {
     std::cout << "[Failed]" << std::endl;
+    std::cout << rectangle->GetNumberOfPoints() << " != 4" << std::endl;
     failed = true;
     }
   else
@@ -72,6 +74,7 @@ int itkPolygonSpatialObjectTest(int, char *[])
   if (rectangle->MeasureAreaInObjectSpace() != 2.0)
     {
     std::cout << "[Failed]" << std::endl;
+    std::cout << rectangle->MeasureAreaInObjectSpace() << " != 2.0" << std::endl;
     failed = true;
     }
   else
@@ -85,6 +88,8 @@ int itkPolygonSpatialObjectTest(int, char *[])
   if (rectangle->MeasureVolumeInObjectSpace() != 20.0)
     {
     std::cout << "[Failed]" << std::endl;
+    std::cout << rectangle->MeasureVolumeInObjectSpace() << " != 20.0"
+      << std::endl;
     failed = true;
     }
   else
@@ -97,8 +102,10 @@ int itkPolygonSpatialObjectTest(int, char *[])
   std::cout << "Testing perimeter for rectangle: ";
   if (rectangle->MeasurePerimeterInObjectSpace() != 6.0)
     {
-    std::cerr << "Wrong perimeter for rectangle" << std::endl;
+    std::cout << "Wrong perimeter for rectangle" << std::endl;
     std::cout << "[Failed]" << std::endl;
+    std::cout << rectangle->MeasurePerimeterInObjectSpace() << " != 6.0"
+      << std::endl;
     failed = true;
     }
   else
@@ -116,6 +123,8 @@ int itkPolygonSpatialObjectTest(int, char *[])
   if (closestPoint.GetPositionInObjectSpace() != p1)
     {
     std::cout << "[Failed]" << std::endl;
+    std::cout << closestPoint.GetPositionInObjectSpace() << " != " << p1
+      << std::endl;
     failed = true;
     }
   else
@@ -133,6 +142,8 @@ int itkPolygonSpatialObjectTest(int, char *[])
   if (closestPoint2.GetPositionInObjectSpace() != p4)
     {
     std::cout << "[Failed]" << std::endl;
+    std::cout << closestPoint2.GetPositionInObjectSpace() << " != " << p4
+      << std::endl;
     failed = true;
     }
   else
