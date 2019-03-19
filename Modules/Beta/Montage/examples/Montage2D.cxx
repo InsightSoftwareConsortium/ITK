@@ -72,8 +72,11 @@ montage2D( const itk::TileLayout2D& stageTiles,
   typename ScalarImageType::SpacingType sp;
   sp.Fill( 1.0 ); // most data assumes unit spacing, even if the files themselves have something else (72 DPI, 96 DPI, 300 DPI etc)
   itk::ObjectFactoryBase::RegisterFactory( itk::TxtTransformIOFactory::New() );
-  unsigned yMontageSize = stageTiles.size();
-  unsigned xMontageSize = stageTiles[0].size();
+  const unsigned yMontageSize = stageTiles.size();
+  const unsigned xMontageSize = stageTiles[0].size();
+  const unsigned origin1x = xMontageSize > 1 ? 1 : 0; // support 1xN montages
+  const unsigned origin1y = yMontageSize > 1 ? 1 : 0; // support Nx1 montages
+  const itk::Point< double, Dimension > stageStrideXY = stageTiles[origin1y][origin1x].Position;
 
   using PeakInterpolationType = typename itk::MaxPhaseCorrelationOptimizer< PCMType >::PeakInterpolationMethod;
   using PeakFinderUnderlying = typename std::underlying_type< PeakInterpolationType >::type;
@@ -81,7 +84,7 @@ montage2D( const itk::TileLayout2D& stageTiles,
   using MontageType = itk::TileMontage< ScalarImageType >;
   typename MontageType::Pointer montage = MontageType::New();
   montage->SetMontageSize( { xMontageSize, yMontageSize } );
-  montage->SetOriginAdjustment( stageTiles[1][1].Position );
+  montage->SetOriginAdjustment( stageStrideXY );
   montage->SetForcedSpacing( sp );
 
   typename MontageType::TileIndexType ind;
@@ -113,7 +116,7 @@ montage2D( const itk::TileLayout2D& stageTiles,
   using Resampler = itk::TileMergeImageFilter< OriginalImageType, AccumulatePixelType >;
   typename Resampler::Pointer resampleF = Resampler::New();
   resampleF->SetMontageSize( { xMontageSize, yMontageSize } );
-  resampleF->SetOriginAdjustment( stageTiles[1][1].Position );
+  resampleF->SetOriginAdjustment( stageStrideXY );
   resampleF->SetForcedSpacing( sp );
   for ( unsigned y = 0; y < yMontageSize; y++ )
     {
