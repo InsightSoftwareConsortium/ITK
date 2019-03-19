@@ -115,7 +115,7 @@ namespace itk
    #include "itkImage.h"
    #include "itkOrientImageFilter.h"
    using ImageType = itk::Image<unsigned char,3>;
-   using ImageReaderType = itk::ImageFileReader< TstImageType >;
+   using ImageReaderType = itk::ImageFileReader< ImageType >;
    ImageType::Pointer ReadAnalyzeFile(const char *path)
    {
      itk::AnalyzeImageIO::Pointer io = itk::AnalyzeImageIO::New();
