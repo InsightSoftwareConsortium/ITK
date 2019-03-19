@@ -115,28 +115,22 @@ PolygonSpatialObject< TDimension >
   //        and std::abs() is the absolute value function.
   double area = 0.0;
   int    numpoints = this->GetNumberOfPoints();
-  int    X = -1;
-  int    Y = -1;
+  int    X = 0;
+  int    Y = 1;
 
   if ( numpoints < 3 )
     {
     return 0;
     }
 
-  for( int i=0; i<static_cast<int>(TDimension); ++i )
+  if( this->GetOrientationInObjectSpace() == 0 && ObjectDimension > 2 )
     {
-    if( this->GetOrientationInObjectSpace() != i )
-      {
-      if( X == -1 )
-        {
-        X = i;
-        }
-      else
-        {
-        Y = i;
-        break;
-        }
-      }
+    X = 1;
+    Y = 2;
+    }
+  else if( this->GetOrientationInObjectSpace() == 1 && ObjectDimension > 2 )
+    {
+    Y = 2;
     }
 
   const PolygonPointListType & points = this->GetPoints();
