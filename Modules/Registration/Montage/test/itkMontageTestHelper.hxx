@@ -94,8 +94,11 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
   typename ScalarImageType::SpacingType sp;
   sp.Fill( 1.0 ); // OMC test assumes unit spacing, tiles test has explicit unit spacing
   itk::ObjectFactoryBase::RegisterFactory( itk::TxtTransformIOFactory::New() );
-  unsigned yMontageSize = stageTiles.size();
-  unsigned xMontageSize = stageTiles[0].size();
+  const unsigned yMontageSize = stageTiles.size();
+  const unsigned xMontageSize = stageTiles[0].size();
+  const unsigned origin1x = xMontageSize > 1 ? 1 : 0; // support 1xN montages
+  const unsigned origin1y = yMontageSize > 1 ? 1 : 0; // support Nx1 montages
+  const PointType originAdjustment = stageTiles[origin1y][origin1x].Position;
 
   using PeakInterpolationType = typename itk::MaxPhaseCorrelationOptimizer< PCMType >::PeakInterpolationMethod;
   using PeakFinderUnderlying = typename std::underlying_type< PeakInterpolationType >::type;
@@ -159,7 +162,7 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
     montage->SetMontageSize( { xMontageSize, yMontageSize } );
     if ( !loadIntoMemory )
       {
-      montage->SetOriginAdjustment( stageTiles[1][1].Position );
+      montage->SetOriginAdjustment( originAdjustment );
       }
     montage->SetForcedSpacing( sp );
 
@@ -247,7 +250,7 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
       resampleF->SetMontageSize( { xMontageSize, yMontageSize } );
       if ( !loadIntoMemory )
         {
-          resampleF->SetOriginAdjustment( stageTiles[1][1].Position );
+        resampleF->SetOriginAdjustment( originAdjustment );
         }
       resampleF->SetForcedSpacing( sp );
       for ( unsigned y = 0; y < yMontageSize; y++ )
