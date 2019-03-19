@@ -764,6 +764,9 @@ macro(itk_wrap_simple_type_python wrap_class swig_name)
 
 
   # and now, generate the typemaps and other customizations
+  if("${cpp_name}" STREQUAL "itk::Matrix")
+    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}DECL_PYTHON_ITK_MATRIX(${swig_name})\n")
+  endif()
 
   if("${cpp_name}" STREQUAL "std::complex")
     set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}DECL_PYTHON_STD_COMPLEX_CLASS(${swig_name})\n")
