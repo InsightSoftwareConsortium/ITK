@@ -31,12 +31,14 @@ itk_wrap_class("itk::ImageToImageFilter" POINTER)
   itk_wrap_image_filter_combinations("${WRAP_ITK_SCALAR}" "${WRAP_ITK_COMPLEX_REAL}")
   itk_wrap_image_filter_combinations("${WRAP_ITK_COMPLEX_REAL}" "${WRAP_ITK_SCALAR}")
 
-  # scalar <-> SymmetricSecondRankTensor
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
     foreach(t ${WRAP_ITK_SCALAR})
+      # scalar <-> SymmetricSecondRankTensor
       itk_wrap_template("${ITKM_I${t}${d}}${ITKM_ISSRT${ITKM_D}${d}${d}}" "${ITKT_I${t}${d}}, ${ITKT_ISSRT${ITKM_D}${d}${d}}")
       itk_wrap_template("${ITKM_ISSRT${ITKM_D}${d}${d}}${ITKM_I${t}${d}}" "${ITKT_ISSRT${ITKM_D}${d}${d}}, ${ITKT_I${t}${d}}")
     endforeach()
+    # SymmetricSecondRankTensor -> SymmetricSecondRankTensor
+    itk_wrap_template("${ITKM_ISSRT${ITKM_D}${d}${d}}${ITKM_ISSRT${ITKM_D}${d}${d}}" "${ITKT_ISSRT${ITKM_D}${d}${d}}, ${ITKT_ISSRT${ITKM_D}${d}${d}}")
   endforeach()
 
   # Wrap dim=3 -> dim=2, dim=3 -> dim=2, etc.
