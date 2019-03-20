@@ -57,7 +57,7 @@ PolygonSpatialObject< TDimension >
   maxPnt.Fill( NumericTraits< double >::NonpositiveMin() );
   while ( it != itend )
     {
-    PointType curpoint = ( *it ).GetPositionInObjectSpace();
+    PointType curpoint = it->GetPositionInObjectSpace();
     for ( unsigned int i = 0; i < TDimension; i++ )
       {
       if ( minPnt[i] > curpoint[i] )
@@ -97,10 +97,9 @@ PolygonSpatialObject< TDimension >
   const PolygonPointListType & points = this->GetPoints();
 
   auto it = points.begin();
-  auto itend = points.end();
-  itend--;
-  return ( *it ).GetPositionInObjectSpace() ==
-    ( *itend ).GetPositionInObjectSpace();
+  auto itend = points.back();
+  return it->GetPositionInObjectSpace() ==
+    itend.GetPositionInObjectSpace();
 }
 
 template< unsigned int TDimension >
@@ -135,13 +134,13 @@ PolygonSpatialObject< TDimension >
 
   const PolygonPointListType & points = this->GetPoints();
   auto it = points.begin();
-  PointType a;
-  PointType b = ( *it ).GetPositionInObjectSpace();  // In world space
-  for ( int i = 0; i < numpoints; i++ )
+  auto itend = points.end();
+  PointType a = it->GetPositionInObjectSpace();  // In world space
+  PointType b;
+  ++it;
+  while( it != itend )
     {
-    a = b;
-    it++;
-    b = ( *it ).GetPositionInObjectSpace();  // In world space
+    b = it->GetPositionInObjectSpace();  // In world space
 
     // closed PolygonGroup has first and last points the same
     if ( a == b )
@@ -149,6 +148,8 @@ PolygonSpatialObject< TDimension >
       continue;
       }
     area += a[X] * b[Y] - a[Y] * b[X];
+    a = b;
+    it++;
     }
   area *= 0.5;
   return area < 0.0 ? -area : area;
@@ -177,14 +178,14 @@ PolygonSpatialObject< TDimension >
   const PolygonPointListType & points = this->GetPoints();
 
   auto it = points.begin();
+  auto itend = points.end();
 
-  PointType a;
-  PointType b = ( *it ).GetPositionInObjectSpace();  // In world space
-  for ( int i = 0; i < numpoints; i++ )
+  PointType a = it->GetPositionInObjectSpace();  // In world space
+  PointType b;
+  ++it;
+  while( it != itend )
     {
-    a = b;
-    it++;
-    b = ( *it ).GetPositionInObjectSpace();  // In world space
+    b = it->GetPositionInObjectSpace();  // In world space
 
     // closed PolygonGroup has first and last points the same
     if ( a == b )
@@ -193,6 +194,8 @@ PolygonSpatialObject< TDimension >
       }
     double curdistance = a.EuclideanDistanceTo(b);
     perimeter += curdistance;
+    a = b;
+    it++;
     }
   return perimeter;
 }
@@ -233,17 +236,15 @@ PolygonSpatialObject< TDimension >
         const PolygonPointListType & points = this->GetPoints();
         auto it = points.begin();
         auto itend = points.end();
-        itend--;
 
         bool oddNodes = false;
 
         PointType node1;
-        PointType node2 = ( *it ).GetPositionInObjectSpace();
-        for ( int i = 0; i < numpoints; i++ )
+        PointType node2 = it->GetPositionInObjectSpace();
+        ++it;
+        while( it != itend )
           {
-          node1 = node2;
-          it++;
-          node2 = ( *it ).GetPositionInObjectSpace();
+          node2 = it->GetPositionInObjectSpace();
 
           if( node1 == node2 )
             {
@@ -262,6 +263,8 @@ PolygonSpatialObject< TDimension >
               oddNodes = !oddNodes;
               }
             }
+          node1 = node2;
+          it++;
           }
 
         if( oddNodes )
