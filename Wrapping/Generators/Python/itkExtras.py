@@ -371,6 +371,21 @@ def GetVnlMatrixFromArray(arr):
 
 vnl_matrix_from_array = GetVnlMatrixFromArray
 
+def GetArrayFromMatrix(itk_matrix):
+    return GetArrayFromVnlMatrix(itk_matrix.GetVnlMatrix().as_matrix())
+
+array_from_matrix = GetArrayFromMatrix
+
+def GetMatrixFromArray(arr):
+    import itk
+    vnl_matrix = GetVnlMatrixFromArray(arr)
+    dims = arr.shape
+    PixelType = _get_itk_pixelid(arr)
+    m = itk.Matrix[PixelType, dims[0], dims[1]](vnl_matrix)
+    return m
+
+matrix_from_array = GetMatrixFromArray
+
 # return an image
 from itkTemplate import image, output
 

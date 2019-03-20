@@ -287,6 +287,26 @@ try:
     m_vnl.put(0,0,3)
     assert m_vnl(0,0) == 3
     assert arr[0,0] == 0
+    # ITK Matrix
+    arr = np.zeros([3,3],float)
+    m_itk = itk.GetMatrixFromArray(arr)
+    # Test snake case function
+    m_itk = itk.matrix_from_array(arr)
+    m_itk.SetIdentity()
+    # Test that the numpy array has not changed,...
+    assert arr[0,0] == 0
+    # but that the ITK matrix has the correct value.
+    assert m_itk(0,0) == 1
+    arr2 = itk.GetArrayFromMatrix(m_itk)
+    # Check that snake case function also works
+    arr2 = itk.array_from_matrix(m_itk)
+    # Check that the new array has the new value.
+    assert arr2[0,0] == 1
+    arr2[0,0]=2
+    # Change the array value,...
+    assert arr2[0,0] == 2
+    # and make sure that the matrix hasn't changed.
+    assert m_itk(0,0) == 1
 
 except ImportError:
     print("NumPy not imported. Skipping BridgeNumPy tests")
