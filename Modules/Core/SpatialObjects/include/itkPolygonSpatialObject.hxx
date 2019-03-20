@@ -98,8 +98,7 @@ PolygonSpatialObject< TDimension >
 
   auto it = points.begin();
   auto itend = points.back();
-  return it->GetPositionInObjectSpace() ==
-    itend.GetPositionInObjectSpace();
+  return it->GetPositionInObjectSpace() == itend.GetPositionInObjectSpace();
 }
 
 template< unsigned int TDimension >
