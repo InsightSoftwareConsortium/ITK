@@ -48,6 +48,8 @@ int itkPolygonSpatialObjectTest(int, char *[])
   pList.push_back( pPoint );
   pPoint.SetPositionInObjectSpace( p4 );
   pList.push_back( pPoint );
+  pPoint.SetPositionInObjectSpace( p1 );
+  pList.push_back( pPoint );
   rectangle->SetPoints(pList);
   rectangle->SetThicknessInObjectSpace(10);
   rectangle->Update();
