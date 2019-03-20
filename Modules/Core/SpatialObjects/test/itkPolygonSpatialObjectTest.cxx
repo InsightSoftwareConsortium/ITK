@@ -63,10 +63,10 @@ int itkPolygonSpatialObjectTest(int, char *[])
   //
   // test number of points
   std::cout << "Testing number of points for rectangle: ";
-  if (rectangle->GetNumberOfPoints() != 4)
+  if (rectangle->GetNumberOfPoints() != 5)
     {
     std::cout << "[Failed]" << std::endl;
-    std::cout << rectangle->GetNumberOfPoints() << " != 4" << std::endl;
+    std::cout << rectangle->GetNumberOfPoints() << " != 5" << std::endl;
     failed = true;
     }
   else
