@@ -48,10 +48,9 @@ int itkPolygonSpatialObjectTest(int, char *[])
   pList.push_back( pPoint );
   pPoint.SetPositionInObjectSpace( p4 );
   pList.push_back( pPoint );
-  pPoint.SetPositionInObjectSpace( p1 );
-  pList.push_back( pPoint );
   rectangle->SetPoints(pList);
   rectangle->SetThicknessInObjectSpace(10);
+  rectangle->SetIsClosed( true );
   rectangle->Update();
 
   rectangle->Print(std::cout);
@@ -63,10 +62,10 @@ int itkPolygonSpatialObjectTest(int, char *[])
   //
   // test number of points
   std::cout << "Testing number of points for rectangle: ";
-  if (rectangle->GetNumberOfPoints() != 5)
+  if (rectangle->GetNumberOfPoints() != 4)
     {
     std::cout << "[Failed]" << std::endl;
-    std::cout << rectangle->GetNumberOfPoints() << " != 5" << std::endl;
+    std::cout << rectangle->GetNumberOfPoints() << " != 4" << std::endl;
     failed = true;
     }
   else

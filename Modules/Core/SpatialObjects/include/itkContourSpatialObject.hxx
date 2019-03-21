@@ -38,7 +38,54 @@ ContourSpatialObject< TDimension >
   m_InterpolationMethod = NO_INTERPOLATION;
   m_IsClosed = false;
   m_OrientationInObjectSpace = -1;
+  m_OrientationInObjectSpaceMTime = this->GetMyMTime();
   m_AttachedToSlice = -1;
+}
+
+template< unsigned int TDimension >
+int
+ContourSpatialObject< TDimension >
+::GetOrientationInObjectSpace() const
+{
+  if( m_OrientationInObjectSpaceMTime == this->GetMyMTime() )
+    {
+    return m_OrientationInObjectSpace;
+    }
+  m_OrientationInObjectSpaceMTime = this->GetMyMTime();
+
+  const ContourPointListType & points = this->GetPoints();
+  auto it = points.begin();
+  auto itend = points.end();
+  PointType minPnt;
+  PointType maxPnt;
+  minPnt.Fill( NumericTraits< double >::max() );
+  maxPnt.Fill( NumericTraits< double >::NonpositiveMin() );
+  while ( it != itend )
+    {
+    PointType curpoint = it->GetPositionInObjectSpace();
+    for ( unsigned int i = 0; i < TDimension; i++ )
+      {
+      if ( minPnt[i] > curpoint[i] )
+        {
+        minPnt[i] = curpoint[i];
+        }
+      if ( maxPnt[i] < curpoint[i] )
+        {
+        maxPnt[i] = curpoint[i];
+        }
+      }
+    it++;
+    }
+  m_OrientationInObjectSpace = -1;
+  for ( unsigned int i = 0; i < TDimension; i++ )
+    {
+    if ( Math::ExactlyEquals(minPnt[i], maxPnt[i]) )
+      {
+      m_OrientationInObjectSpace = i;
+      break;
+      }
+    }
+  return m_OrientationInObjectSpace;
 }
 
 /** Set the control points which are defining the contour */
@@ -92,7 +139,6 @@ ContourSpatialObject< TDimension >
   rval->SetInterpolationMethod( this->GetInterpolationMethod() );
   rval->SetInterpolationFactor(this->GetInterpolationFactor());
   rval->SetIsClosed(this->GetIsClosed());
-  rval->SetOrientationInObjectSpace( this->GetOrientationInObjectSpace() );
   rval->SetAttachedToSlice( this->GetAttachedToSlice() );
 
   rval->SetControlPoints( this->GetControlPoints() );
@@ -112,6 +158,8 @@ ContourSpatialObject< TDimension >
   os << indent << "Interpolation type: " << m_InterpolationMethod << std::endl;
   os << indent << "Contour closed: " << m_IsClosed << std::endl;
   os << indent << "Orientation In Object Space: " << m_OrientationInObjectSpace
+    << std::endl;
+  os << indent << "Orientation time: " << m_OrientationInObjectSpaceMTime
     << std::endl;
   os << indent << "Pin to slice : " << m_AttachedToSlice << std::endl;
   Superclass::PrintSelf(os, indent);
