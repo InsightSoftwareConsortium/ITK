@@ -158,19 +158,6 @@ int itkContourSpatialObjectTest(int, char* [])
 
 
   //
-  // Test Set/Get OrientationInObjectSpace
-  //
-  contour->SetOrientationInObjectSpace(1);
-  if (contour->GetOrientationInObjectSpace() != 1)
-    {
-    std::cout << "[FAILED] Did not set/retrieve display orientation correctly"
-      << std::endl;
-    return EXIT_FAILURE;
-    }
-  std::cout << "[PASSED] Set/GetOrientationInObjectSpace" << std::endl;
-
-
-  //
   // Test Set/Get AttachedToSlice
   //
 
