@@ -31,7 +31,6 @@ PolygonSpatialObject< TDimension >
 {
   this->SetTypeName( "PolygonSpatialObject" );
   m_IsClosed = false;
-  m_IsClosedMTime = this->GetMyMTime();
   m_OrientationInObjectSpace = -1;
   m_OrientationInObjectSpaceMTime = this->GetMyMTime();
   m_ThicknessInObjectSpace = 0.0;
@@ -84,24 +83,6 @@ PolygonSpatialObject< TDimension >
 }
 
 template< unsigned int TDimension >
-bool
-PolygonSpatialObject< TDimension >
-::GetIsClosed() const
-{
-  if( m_IsClosedMTime == this->GetMyMTime() )
-    {
-    return m_IsClosed;
-    }
-  m_IsClosedMTime = this->GetMyMTime();
-
-  const PolygonPointListType & points = this->GetPoints();
-
-  auto it = points.begin();
-  auto itend = points.back();
-  return it->GetPositionInObjectSpace() == itend.GetPositionInObjectSpace();
-}
-
-template< unsigned int TDimension >
 double
 PolygonSpatialObject< TDimension >
 ::MeasureAreaInObjectSpace() const
@@ -134,14 +115,12 @@ PolygonSpatialObject< TDimension >
   const PolygonPointListType & points = this->GetPoints();
   auto it = points.begin();
   auto itend = points.end();
-  PointType a = it->GetPositionInObjectSpace();  // In world space
+  PointType a = it->GetPositionInObjectSpace();
   PointType b;
   ++it;
   while( it != itend )
     {
-    b = it->GetPositionInObjectSpace();  // In world space
-
-    // closed PolygonGroup has first and last points the same
+    b = it->GetPositionInObjectSpace();
     if ( a == b )
       {
       continue;
@@ -179,14 +158,12 @@ PolygonSpatialObject< TDimension >
   auto it = points.begin();
   auto itend = points.end();
 
-  PointType a = it->GetPositionInObjectSpace();  // In world space
+  PointType a = it->GetPositionInObjectSpace();
   PointType b;
   ++it;
   while( it != itend )
     {
-    b = it->GetPositionInObjectSpace();  // In world space
-
-    // closed PolygonGroup has first and last points the same
+    b = it->GetPositionInObjectSpace();
     if ( a == b )
       {
       continue;
@@ -195,6 +172,17 @@ PolygonSpatialObject< TDimension >
     perimeter += curdistance;
     a = b;
     it++;
+    }
+  if( m_IsClosed )
+    {
+    a = points.begin()->GetPositionInObjectSpace();
+    b = points.back().GetPositionInObjectSpace();
+    // closed PolygonGroup may have the first and last points the same
+    if ( a != b )
+      {
+      double curdistance = a.EuclideanDistanceTo(b);
+      perimeter += curdistance;
+      }
     }
   return perimeter;
 }
@@ -300,6 +288,7 @@ PolygonSpatialObject< TDimension >
                       << this->GetNameOfClass()
                       << " failed.");
     }
+  rval->SetIsClosed(this->GetIsClosed());
   rval->SetThicknessInObjectSpace(this->GetThicknessInObjectSpace());
 
   return loPtr;
@@ -323,7 +312,6 @@ PolygonSpatialObject< TDimension >
     {
     os << indent << "IsClosed: True" << std::endl;
     }
-  os << indent << "IsClosed Time: " << m_IsClosedMTime << std::endl;
   os << indent << "ThicknessInObjectSpace: " << m_ThicknessInObjectSpace
     << std::endl;
 }
