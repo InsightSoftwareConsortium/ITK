@@ -1119,7 +1119,7 @@ SpatialObject< TDimension >
   if( parent != m_Parent )
     {
     Self * oldParent = m_Parent;
-    TransformType * oldObjectWorldTransform = this->GetObjectToWorldTransform();
+    const TransformType * oldObjectWorldTransform = this->GetObjectToWorldTransform();
 
     m_Parent = parent;
     if( parent != nullptr )

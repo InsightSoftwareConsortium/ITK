@@ -235,7 +235,7 @@ int itkImageToSpatialObjectRegistrationTest(int, char* [] )
   offset[1]=150;
   // Moving the object using the ObjectToParentTransform should
   //   be equivalent to setting its CenterInObjectSpace
-  ellipse3->GetObjectToParentTransform()->SetOffset(offset);
+  ellipse3->GetModifiableObjectToParentTransform()->SetOffset(offset);
   ellipse3->Update();
 
   GroupType::Pointer group = GroupType::New();

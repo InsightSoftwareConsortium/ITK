@@ -137,9 +137,9 @@ private:
     typename TConverter::Pointer converter = TConverter::New();
     return converter->MetaObjectToSpatialObject(mo);
   }
-  void SetTransform(MetaObject *obj, TransformType *transform);
+  void SetTransform(MetaObject *obj, const TransformType * transform);
 
-  void SetTransform(SpatialObjectType *so, MetaObject *obj);
+  void SetTransform(SpatialObjectType *so, const MetaObject * meta);
 
   double m_Orientation[100];
   double m_Position[10];
