@@ -56,7 +56,7 @@ MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
 template< unsigned int NDimensions, typename PixelType, typename TMeshTraits >
 void
 MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
-::SetTransform(MetaObject *obj, TransformType *transform)
+::SetTransform(MetaObject *obj, const TransformType * transform)
 {
   typename SpatialObjectType::TransformType::InputPointType center =
     transform->GetCenter();
@@ -89,7 +89,7 @@ MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
 template< unsigned int NDimensions, typename PixelType, typename TMeshTraits >
 void
 MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
-::SetTransform(SpatialObjectType *so, MetaObject *meta)
+::SetTransform(SpatialObjectType *so, const MetaObject * meta)
 {
   typename SpatialObjectType::TransformType::InputPointType center;
   typename SpatialObjectType::TransformType::MatrixType matrix;

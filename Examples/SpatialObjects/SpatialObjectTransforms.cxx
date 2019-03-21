@@ -116,7 +116,7 @@ int main( int , char *[] )
   double scale[2];
   scale[0]=2;
   scale[1]=2;
-  object2->GetObjectToParentTransform()->Scale(scale);
+  object2->GetModifiableObjectToParentTransform()->Scale(scale);
 // Software Guide : EndCodeSnippet
 
 
@@ -131,7 +131,7 @@ int main( int , char *[] )
   TransformType::OffsetType object1Offset;
   object1Offset[0] = 4;
   object1Offset[1] = 3;
-  object1->GetObjectToParentTransform()->SetOffset(object1Offset);
+  object1->GetModifiableObjectToParentTransform()->SetOffset(object1Offset);
 // Software Guide : EndCodeSnippet
 
 
@@ -226,7 +226,7 @@ int main( int , char *[] )
   TransformType::OffsetType Object1ToWorldOffset;
   Object1ToWorldOffset[0] = 3;
   Object1ToWorldOffset[1] = 3;
-  object2->GetObjectToWorldTransform()->SetOffset(Object1ToWorldOffset);
+  object2->GetModifiableObjectToWorldTransform()->SetOffset(Object1ToWorldOffset);
   object2->ComputeObjectToParentTransform();
 // Software Guide : EndCodeSnippet
 

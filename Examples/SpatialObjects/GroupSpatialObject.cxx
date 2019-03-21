@@ -73,7 +73,7 @@ int main( int , char *[] )
 // Software Guide : BeginCodeSnippet
   GroupType::VectorType offset;
   offset.Fill(10);
-  myGroup->GetObjectToParentTransform()->SetOffset(offset);
+  myGroup->GetModifiableObjectToParentTransform()->SetOffset(offset);
   myGroup->ComputeObjectToWorldTransform();
 // Software Guide : EndCodeSnippet
 
