@@ -424,6 +424,23 @@ str = str
 %enddef
 
 
+%define DECL_PYTHON_ITK_MATRIX(class_name)
+  %rename(__GetVnlMatrix_orig__) class_name::GetVnlMatrix;
+  %extend class_name {
+        %pythoncode %{
+            def GetVnlMatrix(self):
+                vnl_reference = self.__GetVnlMatrix_orig__()
+                vnl_copy = type(vnl_reference)(vnl_reference)
+                return vnl_copy
+            %}
+        }
+
+  %pythoncode %{
+    def class_name##_New():
+      return class_name.New()
+  %}
+%enddef
+
 %define DECL_PYTHON_STD_COMPLEX_CLASS(swig_name)
 
 %extend swig_name {

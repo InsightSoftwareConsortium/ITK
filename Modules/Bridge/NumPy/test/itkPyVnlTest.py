@@ -72,7 +72,7 @@ class TestNumpyVnlMemoryviewInterface(unittest.TestCase):
         m1.put(1, 0, 2)
         arr = itk.PyVnl.F.GetArrayViewFromVnlMatrix(m1)
         m2 = itk.PyVnl.F.GetVnlMatrixFromArray(arr)
-        # Check that matrices have the same numer of elements
+        # Check that matrices have the same number of elements
         self.assertEqual(m1.size(), m2.size())
         self.assertEqual(m1.size(), arr.size)
         # Check that the matrices axes dimensions have not been flipped or changed
@@ -103,8 +103,20 @@ class TestNumpyVnlMemoryviewInterface(unittest.TestCase):
         m2 = itk.PyVnl.F.GetVnlMatrixFromArray(arr_cp)
         arr_cp[0, 0] = 2
         self.assertNotEqual(m2.get(0, 0), arr_cp[0, 0])
-
-
+        # Check that the vnl matrix from a temporary itk Matrix is valid
+        itkm = itk.Matrix[itk.F,3,3]()
+        itkm.SetIdentity()
+        m3 = itkm.GetVnlMatrix()
+        del itkm
+        m3 = m3.as_matrix()
+        diff = 0.0
+        for ii in range(m3.rows()):
+          for jj in range(m3.cols()):
+            if ii == jj:
+              diff += abs(m3.get(ii, jj) - 1.)
+            else:
+              diff += abs(m3.get(ii, jj))
+        self.assertEqual(0, diff)
 
 if __name__ == '__main__':
     unittest.main()
