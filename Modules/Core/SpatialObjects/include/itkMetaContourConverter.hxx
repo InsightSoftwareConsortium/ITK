@@ -55,7 +55,6 @@ MetaContourConverter< NDimensions >
   contourSO->GetProperty().SetAlpha(contourMO->Color()[3]);
   contourSO->SetIsClosed( const_cast<ContourMetaObjectType *>(contourMO)->Closed() );
   contourSO->SetAttachedToSlice( const_cast<ContourMetaObjectType *>(contourMO)->AttachedToSlice() );
-  contourSO->SetOrientationInObjectSpace( const_cast<ContourMetaObjectType *>(contourMO)->DisplayOrientation() );
 
   // First the control points
   using ControlPointType = typename ContourSpatialObjectType::ContourPointType;

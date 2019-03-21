@@ -64,8 +64,11 @@ public:
   /** Method gets the thickness of the current strand */
   itkGetConstMacro(ThicknessInObjectSpace, double);
 
-  /** Returns if the polygon is closed */
-  bool GetIsClosed() const;
+    /** Set if the contour is closed */
+  itkSetMacro(IsClosed, bool);
+
+  /** Get if the contour is closed */
+  itkGetConstMacro(IsClosed, bool);
 
   /** Method returns area of polygon described by points */
   double MeasureAreaInObjectSpace() const;
@@ -89,10 +92,9 @@ protected:
   typename LightObject::Pointer InternalClone() const override;
 
 private:
+  mutable bool              m_IsClosed;
   mutable int               m_OrientationInObjectSpace;
   mutable ModifiedTimeType  m_OrientationInObjectSpaceMTime;
-  mutable bool              m_IsClosed;
-  mutable ModifiedTimeType  m_IsClosedMTime;
   double                    m_ThicknessInObjectSpace;
 };
 

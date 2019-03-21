@@ -120,11 +120,8 @@ public:
   /** Get if the contour is closed */
   itkGetConstMacro(IsClosed, bool);
 
-  /** Set the axis-normal orientation of the contour */
-  itkSetMacro(OrientationInObjectSpace, int);
-
   /** Get the axis-normal orientation of the contour */
-  itkGetConstMacro(OrientationInObjectSpace, int);
+  int GetOrientationInObjectSpace() const;
 
   /** Set the slice attached to the contour.
    *   Set -1 to indicate no attachment */
@@ -152,8 +149,9 @@ private:
   InterpolationMethodType   m_InterpolationMethod;
   unsigned int              m_InterpolationFactor;
 
-  bool                      m_IsClosed;
-  int                       m_OrientationInObjectSpace;
+  mutable bool              m_IsClosed;
+  mutable int               m_OrientationInObjectSpace;
+  mutable ModifiedTimeType  m_OrientationInObjectSpaceMTime;
   int                       m_AttachedToSlice;
 
 };

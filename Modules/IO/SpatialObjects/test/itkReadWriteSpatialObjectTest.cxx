@@ -324,7 +324,6 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
     ContourType::InterpolationMethodType::EXPLICIT_INTERPOLATION );
   contour->SetIsClosed(true);
   contour->SetAttachedToSlice(50);
-  contour->SetOrientationInObjectSpace(2);
 
   for(int i = 0;i<10;i++)
     {
@@ -333,8 +332,10 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
     ContourType::ContourPointType::CovariantVectorType n;
     ctrlPt.SetId(i);
     p.Fill( -i );
+    p[2] = 0;
     ctrlPt.SetPickedPointInObjectSpace(p);
     p.Fill( i );
+    p[2] = 0;
     ctrlPt.SetPositionInObjectSpace(p);
     n.Fill( i );
     ctrlPt.SetNormalInObjectSpace(n);
@@ -351,6 +352,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
     iPt.SetBlue(i+2);
     iPt.SetAlpha(i+3);
     p.Fill( i );
+    p[2] = 0;
     iPt.SetPositionInObjectSpace(p);
     contour->GetPoints().push_back(iPt);
     }
@@ -1162,7 +1164,9 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
         }
 
       if(dynamic_cast<ContourType*>((*obj).GetPointer())->
-           GetOrientationInObjectSpace() != 2)
+         GetControlPoints().begin()->GetPositionInObjectSpace()[2] != 0
+         && dynamic_cast<ContourType*>((*obj).GetPointer())->
+             GetOrientationInObjectSpace() != 2)
         {
         std::cout
           << "The contour should have display orientation == 2 instead of"
@@ -1203,16 +1207,28 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
             return EXIT_FAILURE;
             }
 
-          if(itk::Math::NotExactlyEquals(
+          if((d != 2
+              && itk::Math::NotExactlyEquals(
               ctrl->GetPositionInObjectSpace()[d], value))
+            || (d == 2
+              && itk::Math::NotExactlyEquals(
+              ctrl->GetPositionInObjectSpace()[d], value)
+              && itk::Math::NotExactlyEquals(
+              ctrl->GetPositionInObjectSpace()[d], 0)))
             {
             std::cout << "Control Position [FAILED]" << std::endl;
             delete mySceneChildren;
             return EXIT_FAILURE;
             }
 
-         if(itk::Math::NotExactlyEquals(
-             ctrl->GetPickedPointInObjectSpace()[d], -value))
+          if((d != 2
+              && itk::Math::NotExactlyEquals(
+              ctrl->GetPickedPointInObjectSpace()[d], -value))
+            || (d == 2
+              && itk::Math::NotExactlyEquals(
+              ctrl->GetPickedPointInObjectSpace()[d], -value)
+              && itk::Math::NotExactlyEquals(
+              ctrl->GetPickedPointInObjectSpace()[d], 0)))
             {
             std::cout << "Picked Point [FAILED]"
               << (*ctrl).GetPickedPointInObjectSpace() << " v.s. " << -value
@@ -1284,8 +1300,12 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
             return EXIT_FAILURE;
             }
 
-          if(itk::Math::NotExactlyEquals(
-              (*inter).GetPositionInObjectSpace()[d], value))
+          if(( d != 2 && itk::Math::NotExactlyEquals(
+              (*inter).GetPositionInObjectSpace()[d], value) ) ||
+             ( d == 2 && itk::Math::NotExactlyEquals(
+              (*inter).GetPositionInObjectSpace()[d], 0)
+               && itk::Math::NotExactlyEquals(
+              (*inter).GetPositionInObjectSpace()[d], value) ) )
             {
             std::cout << "Interpolated Position [FAILED]" << std::endl;
             delete mySceneChildren;
