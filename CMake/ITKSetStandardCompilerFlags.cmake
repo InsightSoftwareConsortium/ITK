@@ -292,21 +292,6 @@ macro(check_compiler_platform_flags)
     set(ITK_REQUIRED_LINK_FLAGS "${ITK_REQUIRED_LINK_FLAGS} -mthreads")
   endif()
 
-
-  #-----------------------------------------------------------------------------
-  # The frename-registers option does not work due to a bug in the gnu compiler.
-  # It must be removed or data errors will be produced and incorrect results
-  # will be produced.  This is first documented in the gcc4 man page.
-  if(CMAKE_COMPILER_IS_GNUCXX)
-    set(ALL_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_CXX_FLAGS} ${CMAKE_EXE_LINKER_FLAGS} ${CMAKE_SHARED_LINKER_FLAGS} ${CMAKE_MODULE_LINKER_FLAGS}" )
-    separate_arguments(ALL_FLAGS)
-    foreach(COMP_OPTION ${ALL_FLAGS})
-      if("${COMP_OPTION}" STREQUAL "-frename-registers")
-        message(FATAL_ERROR "-frename-registers causes runtime bugs.  It must be removed from your compilation options.")
-      endif()
-    endforeach()
-  endif()
-
   #-----------------------------------------------------------------------------
   # Set the compiler-specific flag for disabling optimization.
   if(MSVC)
