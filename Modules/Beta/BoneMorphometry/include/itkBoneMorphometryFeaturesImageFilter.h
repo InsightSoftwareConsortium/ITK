@@ -131,7 +131,7 @@ public:
 
 protected:
   BoneMorphometryFeaturesImageFilter();
-  ~BoneMorphometryFeaturesImageFilter() override {}
+  ~BoneMorphometryFeaturesImageFilter() override = default;
 
   /** Do final mean and variance computation from data accumulated in threads. */
   void GenerateOutputInformation() override;

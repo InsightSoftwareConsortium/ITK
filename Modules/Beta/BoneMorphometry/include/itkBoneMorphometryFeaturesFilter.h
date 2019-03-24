@@ -152,7 +152,7 @@ public:
 
 protected:
   BoneMorphometryFeaturesFilter();
-  ~BoneMorphometryFeaturesFilter() override {}
+  ~BoneMorphometryFeaturesFilter() override = default;
 
 
   /** Pass the input through unmodified. Do this by Grafting in the
