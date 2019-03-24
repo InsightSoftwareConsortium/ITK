@@ -83,7 +83,7 @@ protected:
   using InterIteratorType = itk::ImageRegionConstIterator< InterImageType >;
 
   ReplaceFeatureMapNanInfImageFilter();
-  ~ReplaceFeatureMapNanInfImageFilter() override {}
+  ~ReplaceFeatureMapNanInfImageFilter() override  = default;
 
   using IndexSelectionFiterType = VectorIndexSelectionCastImageFilter< TImage , InterImageType >;
   using MinMaxImageFilterType = MinimumMaximumImageFilter< InterImageType >;
