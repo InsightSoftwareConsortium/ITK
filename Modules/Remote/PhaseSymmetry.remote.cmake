@@ -11,5 +11,5 @@ http://hdl.handle.net/10380/3330
 http://www.insight-journal.org/browse/publication/846
 "
   GIT_REPOSITORY ${git_protocol}://github.com/KitwareMedical/ITKPhaseSymmetry.git
-  GIT_TAG 5aa98577bb973c00f0493eb5244f368f97b7d776
+  GIT_TAG d2a054cd36aecc55f681c5a12ede1c9f82fb42c9
   )
