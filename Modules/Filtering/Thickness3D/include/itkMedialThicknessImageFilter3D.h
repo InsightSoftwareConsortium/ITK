@@ -87,7 +87,7 @@ protected:
 
   typedef typename OutputImageType::RegionType OutputRegionType;
 
-  virtual void
+  void
   GenerateData() override;
 
 private:
