@@ -80,7 +80,7 @@ protected:
   typename MultiplyImageFilterType::Pointer m_MultiplyFilter;
 
   MedialThicknessImageFilter3D();
-  virtual ~MedialThicknessImageFilter3D() override {}
+  ~MedialThicknessImageFilter3D() override = default;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
