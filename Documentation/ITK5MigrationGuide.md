@@ -297,6 +297,60 @@ with
   using itk::ITK_DEFAULT_THREAD_ID;
 ```
 
+Spatial Objects Refactoring
+---------------------------
+The SpatialObject classes were refactored to address issues and inconsistencies that had arisen over the years.  The severity of these issues and inconsistencies was such that the classes provided incorrrect and/or unexpected behaviors that made their proper useage problematic.
+
+The most noteable change is that dependencies on VNL Tree data structures and the requirement that every SpatialObject be defined
+in an object space were eliminated.   The VNL Tree data structures introduced unnecessary complexity, additional (redundant)
+transformations, and dependencies on VNL in the API that ITKv5 seeks to eliminate.   The elimination of a dependency on an IndexSpace
+simplified the set of transformed that each SpatialObject needed to maintain and made the API of every SpatialObject more consistent
+and intuitive.
+
+SpatialObjects now only have two spaces and two transforms directly associated with them:
+* ObjectSpace is the space that is "local" to each object.   It is the physical space in which its data/parameters are defined.  For
+example, for an ImageSpatialObject it is the "PhysicalSpace" (see Image Class definition) of the Image.   For an Line/Tube/DTI and other
+point-based SpatialObjects, it is the inherent space in which the Point coordinates are specififed.   Typically, when a SpatialObject is
+extracted from an Image, the parameters/coordinates of the SpatialObject are the space as the physical space of the source Image.   Any
+children of a SpatialObject are defined within the ObjectSpace of that parent SpatialObject.
+
+* ObjectToParent transform is the transform applied to move a SpatialObject within it's parent object's ObjectSpace.   An ObjectToParent
+transform is an invertible affine transform.  It is used to, for example, align a SpatialObject with a parent image (e.g., if an object
+is extracted from one ImageSpatialObject but them aligned to and made a child of another ImageSpatialObject as is needed for atlas-based
+image segmentation or for image-to-image registration).    If an object does not have a parent, then its ObjectToParent transform
+specifies how that object is positioned in "WorldSpace", as defined next.
+
+* WorldSpace is the coordinate system defined by the top-level SpatialObject in a hierarchy (defined by parent-child relationships) of a
+set of SpatialObjects.   The top-level SpatialObject does not have a parent SpatialObject, and its ObjectToParentTransform specifies how
+its ObjectSpace is transformed to map into the WorldSpace.
+
+* ObjectToWorld transform is a derived transform that is managed by each SpatialObject for convenience (e.g., to save redundant
+computations).  It is a composition of all of the ObjectToParent transforms from an object's ObjectSpace to the WorldSpace in which it
+exists.   If an application maintains a single WorldSpace, point selections, object intersections, and such can be readily resolved by
+using the ObjectToWorld transforms (and their inverses) at each object.
+
+Each member fucntion and variable of a SpatialObject now explicitly declares (via its name) if it is operating in WorldSpace or
+ObjectSpace.   For example, the "IsInside( point )" function has been replaced by two functions "IsInsideInObjectSpace( point )" and
+"IsInsideINWorldSpace( point )" functions.
+
+As implied above, the changes to SpatialObject are extensive.   They include the following:
+* Eliminate IndexToX transforms. SpatialObjects exist purely in physical space coordinates
+* Eliminate vnl TreeNode usage. SpatialObjects now track their transforms, parents, and children directly.
+* Eliminate AffineGeometryFrame
+* Eliminate OffsetTable computation
+* Dimension renamed to ObjectDimension - for consistency
+* AddSpatialObject() renamed to AddChild() - for consistency
+* RemoveSpatialObject() renamed to RemoveChild() - for consistency
+* Clear() renamed to ClearChildren() - for clarity and consistency
+* AddChildrenToList added to speed parsing of children in tree
+* GetSpatialObjectTypeAsString() is now GetClassNameAndDimension()
+* PropertyType is templated over ScalarType, not float
+* Converted API from using char * to using std::string
+* SetParent and AddChild now create consistent trees and do not cause a spatial object to move in physical space (i.e., transforms are updated appropriately).
+* RemoveChild and RemoveAllChildren fixed to remove all pointers to / from those children to / from the tree
+* Helper functions simplify the specification of IsInside, ValueAt, and other computations that potentially traverse an SO tree.
+* Derived classes typically only need to implement IsInside and ComputeObjectBoundingBox member functions. Logic for ValueAt and such is improved.
+
 Class changes
 -------------
 
