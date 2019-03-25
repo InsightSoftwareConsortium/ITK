@@ -20,4 +20,23 @@
 
 #include "itkPolyData.h"
 
+namespace itk
+{
+
+template< typename TPixelType >
+PolyData< TPixelType >
+::PolyData()
+{
+}
+
+template< typename TPixelType >
+void
+PolyData< TPixelType >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf( os, indent );
+}
+
+} // end namespace itk
+
 #endif // itkPolyData_hxx
