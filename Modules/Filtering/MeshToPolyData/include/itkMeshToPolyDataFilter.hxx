@@ -74,6 +74,7 @@ void
 MeshToPolyDataFilter< TInputMesh >
 ::GenerateData()
 {
+  const InputMeshType * inputMesh   =  this->GetInput();
 }
 
 } // end namespace itk
