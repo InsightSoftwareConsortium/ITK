@@ -20,6 +20,7 @@
 
 #include "itkDataObject.h"
 #include "itkObjectFactory.h"
+#include "itkDefaultStaticMeshTraits.h"
 
 namespace itk
 {
@@ -41,6 +42,9 @@ public:
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
 
+  static constexpr unsigned int PointDimension = 3;
+
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -49,11 +53,56 @@ public:
 
   /** Type of PointData or CellData */
   using PixelType = TPixel;
+  using MeshTraits = DefaultStaticMeshTraits< PixelType, PointDimension, PointDimension >;
+
+  /** Convenient type alias obtained from TMeshTraits template parameter. */
+  using CoordRepType = typename MeshTraits::CoordRepType;
+  using PointIdentifier = typename MeshTraits::PointIdentifier;
+  using PointType = typename MeshTraits::PointType;
+  using PointsContainer = typename MeshTraits::PointsContainer;
+  using PointDataContainer = typename MeshTraits::PointDataContainer;
+
+  void Initialize() override;
+
+  PointIdentifier GetNumberOfPoints() const;
+
+  /** Define Set/Get access routines for each internal container.
+   * Methods also exist to add points, cells, etc. one at a time
+   * rather than through an entire container. */
+  void SetPoints(PointsContainer *);
+  PointsContainer * GetPoints();
+  const PointsContainer * GetPoints() const;
+
+  void SetPointData(PointDataContainer *);
+  PointDataContainer * GetPointData();
+  const PointDataContainer * GetPointData() const;
+
+  /** Access routines to fill the Points container, and get information
+   * from it. */
+  void SetPoint(PointIdentifier, PointType);
+  bool GetPoint(PointIdentifier, PointType *) const;
+  PointType GetPoint(PointIdentifier) const;
+
+  /** Access routines to fill the PointData container, and get information
+   * from it. */
+  void SetPointData(PointIdentifier, PixelType);
+  bool GetPointData(PointIdentifier, PixelType *) const;
+
 protected:
   PolyData();
   ~PolyData() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
+
+  /** An object containing points used by the mesh.  Individual points are
+   * accessed through point identifiers. */
+  typename PointsContainer::Pointer m_PointsContainer;
+
+  /** An object containing data associated with the mesh's points.
+   * Optionally, this can be nullptr, indicating that no data are associated with
+   * the points.  The data for a point can be accessed through its point
+   * identifier. */
+  typename PointDataContainer::Pointer m_PointDataContainer;
 private:
 };
 
