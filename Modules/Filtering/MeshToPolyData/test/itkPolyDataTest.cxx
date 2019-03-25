@@ -25,5 +25,7 @@ int itkPolyDataTest( int, char *[] )
   using PolyDataType = itk::PolyData< PixelType >;
   PolyDataType::Pointer polyData = PolyDataType::New();
 
+  polyData->Print(std::cout);
+
   return EXIT_SUCCESS;
 }

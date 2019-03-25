@@ -50,10 +50,17 @@ public:
   /** Type of PointData or CellData */
   using PixelType = TPixel;
 protected:
-  PolyData() = default;
+  PolyData();
+  ~PolyData() override = default;
+
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 private:
 };
 
 } // end namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkPolyData.hxx"
+#endif
 
 #endif // itkPolyData_h
