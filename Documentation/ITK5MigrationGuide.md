@@ -299,12 +299,12 @@ with
 
 Spatial Objects Refactoring
 ---------------------------
-The SpatialObject classes were refactored to address issues and inconsistencies that had arisen over the years.  The severity of these issues and inconsistencies was such that the classes provided incorrrect and/or unexpected behaviors that made their proper useage problematic.
+The SpatialObject classes were refactored to address issues and inconsistencies that had arisen over the years.  The severity of these issues and inconsistencies was such that the classes provided incorrect and/or unexpected behaviors that made their proper usage problematic.
 
 The most noteable change is that dependencies on VNL Tree data structures and the requirement that every SpatialObject be defined
 in an object space were eliminated.   The VNL Tree data structures introduced unnecessary complexity, additional (redundant)
 transformations, and dependencies on VNL in the API that ITKv5 seeks to eliminate.   The elimination of a dependency on an IndexSpace
-simplified the set of transformed that each SpatialObject needed to maintain and made the API of every SpatialObject more consistent
+simplified the set of transformations that each SpatialObject needed to maintain and made the API of every SpatialObject more consistent
 and intuitive.
 
 SpatialObjects now only have two spaces and two transforms directly associated with them:
@@ -330,8 +330,8 @@ exists.   If an application maintains a single WorldSpace, point selections, obj
 using the ObjectToWorld transforms (and their inverses) at each object.
 
 Each member fucntion and variable of a SpatialObject now explicitly declares (via its name) if it is operating in WorldSpace or
-ObjectSpace.   For example, the "IsInside( point )" function has been replaced by two functions "IsInsideInObjectSpace( point )" and
-"IsInsideINWorldSpace( point )" functions.
+ObjectSpace.   For example, the `IsInside( point )` function has been replaced by two functions `IsInsideInObjectSpace( point )` and
+`IsInsideInWorldSpace( point )` functions.
 
 As implied above, the changes to SpatialObject are extensive.   They include the following:
 * Eliminate IndexToX transforms. SpatialObjects exist purely in physical space coordinates
@@ -339,17 +339,17 @@ As implied above, the changes to SpatialObject are extensive.   They include the
 * Eliminate AffineGeometryFrame
 * Eliminate OffsetTable computation
 * Dimension renamed to ObjectDimension - for consistency
-* AddSpatialObject() renamed to AddChild() - for consistency
-* RemoveSpatialObject() renamed to RemoveChild() - for consistency
-* Clear() renamed to ClearChildren() - for clarity and consistency
-* AddChildrenToList added to speed parsing of children in tree
-* GetSpatialObjectTypeAsString() is now GetClassNameAndDimension()
-* PropertyType is templated over ScalarType, not float
+* `AddSpatialObject()` renamed to `AddChild()` - for consistency
+* `RemoveSpatialObject()` renamed to `RemoveChild()` - for consistency
+* `Clear()` renamed to `ClearChildren()` - for clarity and consistency
+* `AddChildrenToList()` added to speed parsing of children in tree
+* `GetSpatialObjectTypeAsString()` is now `GetClassNameAndDimension()`
+* PropertyType is not templated
 * Converted API from using char * to using std::string
-* SetParent and AddChild now create consistent trees and do not cause a spatial object to move in physical space (i.e., transforms are updated appropriately).
-* RemoveChild and RemoveAllChildren fixed to remove all pointers to / from those children to / from the tree
-* Helper functions simplify the specification of IsInside, ValueAt, and other computations that potentially traverse an SO tree.
-* Derived classes typically only need to implement IsInside and ComputeObjectBoundingBox member functions. Logic for ValueAt and such is improved.
+* `SetParent()` and `AddChild()` now create consistent trees and do not cause a spatial object to move in physical space (i.e., transforms are updated appropriately).
+* `RemoveChild()` and `RemoveAllChildren()` fixed to remove all pointers to / from those children to / from the tree
+* Helper functions simplify the specification of `IsInsideInObjectSpace()`, `ValueAtInObjectSpace()`, and other computations that potentially traverse an SO tree.
+* Derived classes typically only need to implement `IsInsideInObjectSpace()` and `ComputeMyBoundingBoxInObjectSpace()` member functions. Logic for `ValueAtInObjectSpace()`, `IsInsideInWorldSpace()` and such is improved.
 
 Class changes
 -------------
