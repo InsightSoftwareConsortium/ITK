@@ -143,7 +143,7 @@ protected:
    * provided). If an image processing filter cannot be threaded, the
    * filter should provide an implementation of GenerateData(). That
    * implementation is responsible for allocating the output buffer.
-   * If a filter an be threaded, it should NOT provide a
+   * If a filter can be threaded, it should NOT provide a
    * GenerateData() method but should provide a ThreadedGenerateData()
    * instead.
    *
