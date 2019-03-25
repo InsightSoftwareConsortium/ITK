@@ -327,6 +327,22 @@ Add any new remote modules to nightly builds. Some builds may be difficult to ad
 due to third-party dependencies.
 
 
+Update Remote Modules
+---------------------
+
+In order to have the latest versions for all remote modules, and have them use
+the latest ITK tag, the following steps should be performed:
+
+1. Update the ITK tag used in the `azure-pipelines.yml` CI configuration and the
+`setup.py` Python setup files using the [](https://github.com/InsightSoftwareConsortium/ITK/tree/master/Utilities/Maintenance/)
+script. This will involve merging a new pull request to each remote module
+repository.
+
+2. Update the remote modules to their latest commits using the
+[UpdateRemoteModules.sh](https://github.com/InsightSoftwareConsortium/ITK/tree/master/Utilities/Maintenance/UpdateRemoteModules.sh)
+script.
+
+
 Create Tarballs
 ---------------
 
