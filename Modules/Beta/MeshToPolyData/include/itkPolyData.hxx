@@ -27,7 +27,8 @@ template< typename TPixelType >
 PolyData< TPixelType >
 ::PolyData():
   m_PointsContainer(nullptr),
-  m_PointDataContainer(nullptr)
+  m_PointDataContainer(nullptr),
+  m_CellDataContainer(nullptr)
 {
 }
 
@@ -40,6 +41,14 @@ PolyData< TPixelType >
   Superclass::PrintSelf( os, indent );
   os << indent << "Number Of Points: "
      << this->GetNumberOfPoints()  << std::endl;
+  os << indent << "Point Data Container pointer: "
+     << ( ( this->m_PointDataContainer ) ?  this->m_PointDataContainer.GetPointer() : nullptr ) << std::endl;
+  os << indent << "Size of Point Data Container: "
+     << ( ( this->m_PointDataContainer ) ?  this->m_PointDataContainer->Size() : 0 ) << std::endl;
+  os << indent << "Cell Data Container pointer: "
+     << ( ( m_CellDataContainer ) ?  m_CellDataContainer.GetPointer() : nullptr ) << std::endl;
+  os << indent << "Size of Cell Data Container: "
+     << ( ( m_CellDataContainer ) ?  m_CellDataContainer->Size() : 0 ) << std::endl;
 }
 
 
@@ -244,12 +253,104 @@ PolyData< TPixelType >
 template< typename TPixelType >
 void
 PolyData< TPixelType >
+::SetCellData(CellDataContainer *cellData)
+{
+  itkDebugMacro("setting CellData container to " << cellData);
+  if ( m_CellDataContainer != cellData )
+    {
+    m_CellDataContainer = cellData;
+    this->Modified();
+    }
+}
+
+
+template< typename TPixelType >
+typename PolyData< TPixelType >::CellDataContainer *
+PolyData< TPixelType >
+::GetCellData()
+{
+  itkDebugMacro("returning CellData container of "
+                << m_CellDataContainer);
+  return m_CellDataContainer;
+}
+
+
+template< typename TPixelType >
+const typename PolyData< TPixelType >::CellDataContainer *
+PolyData< TPixelType >
+::GetCellData() const
+{
+  itkDebugMacro("returning CellData container of "
+                << m_CellDataContainer);
+  return m_CellDataContainer;
+}
+
+
+template< typename TPixelType >
+void
+PolyData< TPixelType >
+::SetCellData(CellIdentifier cellId, PixelType data)
+{
+  /**
+   * Assign data to a cell identifier.  If a spot for the cell identifier
+   * does not exist, it will be created automatically.  There is no check if
+   * a cell with the same identifier exists.
+   */
+
+  /**
+   * Make sure a cell data container exists.
+   */
+  if ( !m_CellDataContainer )
+    {
+    this->SetCellData( CellDataContainer::New() );
+    }
+
+  /**
+   * Insert the cell data into the container with the given identifier.
+   */
+  m_CellDataContainer->InsertElement(cellId, data);
+}
+
+
+template< typename TPixelType >
+bool
+PolyData< TPixelType >
+::GetCellData(CellIdentifier cellId, PixelType *data) const
+{
+  /**
+   * Check if cell data exists for a given cell identifier.  If a spot for
+   * the cell identifier exists, "data" is set, and true is returned.
+   * Otherwise, false is returned, and "data" is not modified.
+   * If "data" is nullptr, then it is never set, but the existence of the cell
+   * data is still returned.
+   */
+
+  /**
+   * If the cell data container doesn't exist, then the cell data doesn't
+   * either.
+   */
+  if ( !m_CellDataContainer )
+    {
+    return false;
+    }
+
+  /**
+   * Ask the container if the cell identifier exists.
+   */
+  return m_CellDataContainer->GetElementIfIndexExists(cellId, data);
+}
+
+
+template< typename TPixelType >
+void
+PolyData< TPixelType >
 ::Initialize()
 {
   Superclass::Initialize();
 
   m_PointsContainer = nullptr;
   m_PointDataContainer = nullptr;
+  m_CellDataContainer = nullptr;
 }
 
 } // end namespace itk
