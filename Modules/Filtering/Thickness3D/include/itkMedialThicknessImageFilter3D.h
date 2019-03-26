@@ -85,7 +85,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typedef typename OutputImageType::RegionType OutputRegionType;
+  using OutputRegionType = typename OutputImageType::RegionType;
 
   void
   GenerateData() override;

@@ -106,13 +106,13 @@ BinaryThinningImageFilter3D<TInputImage, TOutputImage>::ComputeThinImage()
   typename std::vector<IndexType>::iterator simpleBorderPointsIt;
 
   // Define offsets
-  typedef typename NeighborhoodIteratorType::OffsetType OffsetType;
-  OffsetType                                            N = { { 0, -1, 0 } }; // north
-  OffsetType                                            S = { { 0, 1, 0 } };  // south
-  OffsetType                                            E = { { 1, 0, 0 } };  // east
-  OffsetType                                            W = { { -1, 0, 0 } }; // west
-  OffsetType                                            U = { { 0, 0, 1 } };  // up
-  OffsetType                                            B = { { 0, 0, -1 } }; // bottom
+  using OffsetType = typename NeighborhoodIteratorType::OffsetType;
+  OffsetType N = { { 0, -1, 0 } }; // north
+  OffsetType S = { { 0, 1, 0 } };  // south
+  OffsetType E = { { 1, 0, 0 } };  // east
+  OffsetType W = { { -1, 0, 0 } }; // west
+  OffsetType U = { { 0, 0, 1 } };  // up
+  OffsetType B = { { 0, 0, -1 } }; // bottom
 
   // Prepare Euler LUT [Lee94]
   int eulerLUT[256];

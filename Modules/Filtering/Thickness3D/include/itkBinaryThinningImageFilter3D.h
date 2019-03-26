@@ -64,10 +64,10 @@ public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryThinningImageFilter3D);
 
   /** Standard class typedefs. */
-  typedef BinaryThinningImageFilter3D                   Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  using Self = BinaryThinningImageFilter3D;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
@@ -76,40 +76,40 @@ public:
   itkTypeMacro(BinaryThinningImageFilter3D, ImageToImageFilter);
 
   /** Type for input image. */
-  typedef TInputImage InputImageType;
+  using InputImageType = TInputImage;
 
   /** Type for output image: Skeleton of the object.  */
-  typedef TOutputImage OutputImageType;
+  using OutputImageType = TOutputImage;
 
   /** Type for the region of the input image. */
-  typedef typename InputImageType::RegionType RegionType;
+  using RegionType = typename InputImageType::RegionType;
 
   /** Type for the index of the input image. */
-  typedef typename RegionType::IndexType IndexType;
+  using IndexType = typename RegionType::IndexType;
 
   /** Type for the pixel type of the input image. */
-  typedef typename InputImageType::PixelType InputImagePixelType;
+  using InputImagePixelType = typename InputImageType::PixelType;
 
   /** Type for the pixel type of the input image. */
-  typedef typename OutputImageType::PixelType OutputImagePixelType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
 
   /** Type for the size of the input image. */
-  typedef typename RegionType::SizeType SizeType;
+  using SizeType = typename RegionType::SizeType;
 
   /** Pointer Type for input image. */
-  typedef typename InputImageType::ConstPointer InputImagePointer;
+  using InputImagePointer = typename InputImageType::ConstPointer;
 
   /** Pointer Type for the output image. */
-  typedef typename OutputImageType::Pointer OutputImagePointer;
+  using OutputImagePointer = typename OutputImageType::Pointer;
 
   /** Boundary condition type for the neighborhood iterator */
-  typedef ConstantBoundaryCondition<TInputImage> ConstBoundaryConditionType;
+  using ConstBoundaryConditionType = ConstantBoundaryCondition<TInputImage>;
 
   /** Neighborhood iterator type */
-  typedef NeighborhoodIterator<TInputImage, ConstBoundaryConditionType> NeighborhoodIteratorType;
+  using NeighborhoodIteratorType = NeighborhoodIterator<TInputImage, ConstBoundaryConditionType>;
 
   /** Neighborhood type */
-  typedef typename NeighborhoodIteratorType::NeighborhoodType NeighborhoodType;
+  using NeighborhoodType = typename NeighborhoodIteratorType::NeighborhoodType;
 
   /** Get Skeleton by thinning image. */
   OutputImageType *
