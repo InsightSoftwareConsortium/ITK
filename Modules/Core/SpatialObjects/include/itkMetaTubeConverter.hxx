@@ -43,23 +43,15 @@ MetaTubeConverter< NDimensions >
     }
 
   typename TubeSpatialObjectType::Pointer tubeSO = TubeSpatialObjectType::New();
-  double spacing[NDimensions];
 
-  unsigned int ndims = tubeMO->NDims();
-  for ( unsigned int i = 0; i < ndims; i++ )
-    {
-    spacing[i] = tubeMO->ElementSpacing()[i];
-    }
-
-  tubeSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  tubeSO->GetProperty()->SetName( tubeMO->Name() );
+  tubeSO->GetProperty().SetName( tubeMO->Name() );
   tubeSO->SetParentPoint( tubeMO->ParentPoint() );
   tubeSO->SetId( tubeMO->ID() );
   tubeSO->SetParentId( tubeMO->ParentID() );
-  tubeSO->GetProperty()->SetRed(tubeMO->Color()[0]);
-  tubeSO->GetProperty()->SetGreen(tubeMO->Color()[1]);
-  tubeSO->GetProperty()->SetBlue(tubeMO->Color()[2]);
-  tubeSO->GetProperty()->SetAlpha(tubeMO->Color()[3]);
+  tubeSO->GetProperty().SetRed(tubeMO->Color()[0]);
+  tubeSO->GetProperty().SetGreen(tubeMO->Color()[1]);
+  tubeSO->GetProperty().SetBlue(tubeMO->Color()[2]);
+  tubeSO->GetProperty().SetAlpha(tubeMO->Color()[3]);
 
   using TubePointType = itk::TubeSpatialObjectPoint< NDimensions >;
 
@@ -72,33 +64,33 @@ MetaTubeConverter< NDimensions >
     {
     TubePointType pnt;
 
-    pnt.SetPosition( ( *it2 )->m_X );
-    pnt.SetRadius( ( *it2 )->m_R );
+    pnt.SetPositionInObjectSpace( ( *it2 )->m_X );
+    pnt.SetRadiusInObjectSpace( ( *it2 )->m_R );
 
-    for ( unsigned int i = 0; i < ndims; i++ )
+    for ( unsigned int i = 0; i < NDimensions; i++ )
       {
       v[i] = ( *it2 )->m_V1[i];
       }
-    pnt.SetNormal1(v);
+    pnt.SetNormal1InObjectSpace(v);
 
-    for ( unsigned int i = 0; i < ndims; i++ )
+    for ( unsigned int i = 0; i < NDimensions; i++ )
       {
       v[i] = ( *it2 )->m_V2[i];
       }
-    pnt.SetNormal2(v);
+    pnt.SetNormal2InObjectSpace(v);
 
-    for ( unsigned int i = 0; i < ndims; i++ )
+    for ( unsigned int i = 0; i < NDimensions; i++ )
       {
       t[i] = ( *it2 )->m_T[i];
       }
-    pnt.SetTangent(t);
+    pnt.SetTangentInObjectSpace(t);
 
     pnt.SetRed( ( *it2 )->m_Color[0] );
     pnt.SetGreen( ( *it2 )->m_Color[1] );
     pnt.SetBlue( ( *it2 )->m_Color[2] );
     pnt.SetAlpha( ( *it2 )->m_Color[3] );
 
-    pnt.SetID( ( *it2 )->m_ID );
+    pnt.SetId( ( *it2 )->m_ID );
 
     tubeSO->GetPoints().push_back(pnt);
 
@@ -124,7 +116,7 @@ MetaTubeConverter< NDimensions >
   auto * tubeMO = new MetaTube(NDimensions);
 
   // fill in the tube information
-  typename TubeSpatialObjectType::PointListType::const_iterator it;
+  typename TubeSpatialObjectType::TubePointListType::const_iterator it;
   for ( it = tubeSO->GetPoints().begin();
         it != tubeSO->GetPoints().end();
         it++ )
@@ -133,25 +125,25 @@ MetaTubeConverter< NDimensions >
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {
-      pnt->m_X[d] = ( *it ).GetPosition()[d];
+      pnt->m_X[d] = ( *it ).GetPositionInObjectSpace()[d];
       }
 
-    pnt->m_ID = ( *it ).GetID();
-    pnt->m_R = ( *it ).GetRadius();
+    pnt->m_ID = ( *it ).GetId();
+    pnt->m_R = ( *it ).GetRadiusInObjectSpace();
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {
-      pnt->m_V1[d] = ( *it ).GetNormal1()[d];
-      }
-
-    for ( unsigned int d = 0; d < NDimensions; d++ )
-      {
-      pnt->m_V2[d] = ( *it ).GetNormal2()[d];
+      pnt->m_V1[d] = ( *it ).GetNormal1InObjectSpace()[d];
       }
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {
-      pnt->m_T[d] = ( *it ).GetTangent()[d];
+      pnt->m_V2[d] = ( *it ).GetNormal2InObjectSpace()[d];
+      }
+
+    for ( unsigned int d = 0; d < NDimensions; d++ )
+      {
+      pnt->m_T[d] = ( *it ).GetTangentInObjectSpace()[d];
       }
 
     pnt->m_Color[0] = ( *it ).GetRed();
@@ -174,7 +166,7 @@ MetaTubeConverter< NDimensions >
   float color[4];
   for ( unsigned int i = 0; i < 4; i++ )
     {
-    color[i] = tubeSO->GetProperty()->GetColor()[i];
+    color[i] = tubeSO->GetProperty().GetColor()[i];
     }
 
   tubeMO->Color(color);
@@ -187,11 +179,6 @@ MetaTubeConverter< NDimensions >
   tubeMO->ParentPoint( tubeSO->GetParentPoint() );
   tubeMO->NPoints(static_cast<int>( tubeMO->GetPoints().size() ) );
 
-  for ( unsigned int i = 0; i < NDimensions; i++ )
-    {
-    tubeMO->ElementSpacing(i, tubeSO->GetIndexToObjectTransform()
-                         ->GetScaleComponent()[i]);
-    }
   return tubeMO;
 }
 

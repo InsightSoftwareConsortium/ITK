@@ -45,25 +45,20 @@ MetaEllipseConverter< NDimensions >
 
   EllipseSpatialObjectPointer ellipseSO = EllipseSpatialObjectType::New();
 
-  double spacing[NDimensions];
-
   typename EllipseSpatialObjectType::ArrayType radius;
-
   for ( unsigned int i = 0; i < NDimensions; i++ )
     {
     radius[i] = ellipseMO->Radius()[i];
-    spacing[i] = ellipseMO->ElementSpacing()[i];
     }
 
-  ellipseSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  ellipseSO->SetRadius(radius);
-  ellipseSO->GetProperty()->SetName( ellipseMO->Name() );
+  ellipseSO->SetRadiusInObjectSpace(radius);
+  ellipseSO->GetProperty().SetName( ellipseMO->Name() );
   ellipseSO->SetId( ellipseMO->ID() );
   ellipseSO->SetParentId( ellipseMO->ParentID() );
-  ellipseSO->GetProperty()->SetRed(ellipseMO->Color()[0]);
-  ellipseSO->GetProperty()->SetGreen(ellipseMO->Color()[1]);
-  ellipseSO->GetProperty()->SetBlue(ellipseMO->Color()[2]);
-  ellipseSO->GetProperty()->SetAlpha(ellipseMO->Color()[3]);
+  ellipseSO->GetProperty().SetRed(ellipseMO->Color()[0]);
+  ellipseSO->GetProperty().SetGreen(ellipseMO->Color()[1]);
+  ellipseSO->GetProperty().SetBlue(ellipseMO->Color()[2]);
+  ellipseSO->GetProperty().SetAlpha(ellipseMO->Color()[3]);
 
   return ellipseSO.GetPointer();
 }
@@ -87,7 +82,7 @@ MetaEllipseConverter< NDimensions >
 
   for ( unsigned int i = 0; i < NDimensions; i++ )
     {
-    radius[i] = ellipseSO->GetRadius()[i];
+    radius[i] = ellipseSO->GetRadiusInObjectSpace()[i];
     }
 
   if ( ellipseSO->GetParent() )
@@ -97,16 +92,10 @@ MetaEllipseConverter< NDimensions >
   ellipseMO->Radius(radius);
   ellipseMO->ID( ellipseSO->GetId() );
 
-  ellipseMO->Color( ellipseSO->GetProperty()->GetRed(),
-                  ellipseSO->GetProperty()->GetGreen(),
-                  ellipseSO->GetProperty()->GetBlue(),
-                  ellipseSO->GetProperty()->GetAlpha() );
-
-  for ( unsigned int i = 0; i < NDimensions; i++ )
-    {
-    ellipseMO->ElementSpacing(i, ellipseSO->GetIndexToObjectTransform()
-                            ->GetScaleComponent()[i]);
-    }
+  ellipseMO->Color( ellipseSO->GetProperty().GetRed(),
+                  ellipseSO->GetProperty().GetGreen(),
+                  ellipseSO->GetProperty().GetBlue(),
+                  ellipseSO->GetProperty().GetAlpha() );
 
   delete[] radius;
   return ellipseMO;

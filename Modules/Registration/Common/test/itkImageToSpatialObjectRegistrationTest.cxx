@@ -142,7 +142,7 @@ public:
           point[i]=it.GetIndex()[i];
           }
 
-        if(this->m_MovingSpatialObject->IsInside(point,99999))
+        if(this->m_MovingSpatialObject->IsInsideInWorldSpace(point,99999))
           {
           m_PointList.push_back(point);
           }
@@ -215,36 +215,41 @@ int itkImageToSpatialObjectRegistrationTest(int, char* [] )
   EllipseType::Pointer ellipse3 = EllipseType::New();
 
   // Set the radius
-  ellipse1->SetRadius(10);
-  ellipse2->SetRadius(10);
-  ellipse3->SetRadius(10);
+  ellipse1->SetRadiusInObjectSpace(10);
+  ellipse2->SetRadiusInObjectSpace(10);
+  ellipse3->SetRadiusInObjectSpace(10);
 
   // Place each ellipse at the right position to form a triangle
   EllipseType::TransformType::OffsetType offset;
   offset[0]=100;
   offset[1]=40;
-  ellipse1->GetObjectToParentTransform()->SetOffset(offset);
-  ellipse1->ComputeObjectToWorldTransform();
+  ellipse1->SetCenterInObjectSpace(offset);
+  ellipse1->Update();
 
   offset[0]=40;
   offset[1]=150;
-  ellipse2->GetObjectToParentTransform()->SetOffset(offset);
-  ellipse2->ComputeObjectToWorldTransform();
+  ellipse2->SetCenterInObjectSpace(offset);
+  ellipse2->Update();
 
   offset[0]=150;
   offset[1]=150;
-  ellipse3->GetObjectToParentTransform()->SetOffset(offset);
-  ellipse3->ComputeObjectToWorldTransform();
+  // Moving the object using the ObjectToParentTransform should
+  //   be equivalent to setting its CenterInObjectSpace
+  ellipse3->GetModifiableObjectToParentTransform()->SetOffset(offset);
+  ellipse3->Update();
 
   GroupType::Pointer group = GroupType::New();
-  group->AddSpatialObject(ellipse1);
-  group->AddSpatialObject(ellipse2);
-  group->AddSpatialObject(ellipse3);
+  group->AddChild(ellipse1);
+  group->AddChild(ellipse2);
+  group->AddChild(ellipse3);
+  group->Update();
 
   using ImageType = itk::Image<double,2>;
 
-  using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<GroupType,ImageType>;
-  SpatialObjectToImageFilterType::Pointer imageFilter = SpatialObjectToImageFilterType::New();
+  using SpatialObjectToImageFilterType
+    = itk::SpatialObjectToImageFilter<GroupType,ImageType>;
+  SpatialObjectToImageFilterType::Pointer imageFilter
+    = SpatialObjectToImageFilterType::New();
   imageFilter->SetInput(group);
   ImageType::SizeType size;
   size[0]=200;
@@ -255,7 +260,8 @@ int itkImageToSpatialObjectRegistrationTest(int, char* [] )
   ImageType::Pointer image = imageFilter->GetOutput();
 
   // blurr the image to have a global maximum
-  using GaussianFilterType = itk::DiscreteGaussianImageFilter<ImageType,ImageType>;
+  using GaussianFilterType
+    = itk::DiscreteGaussianImageFilter<ImageType,ImageType>;
   GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
 
   gaussianFilter->SetInput(image);
@@ -264,10 +270,12 @@ int itkImageToSpatialObjectRegistrationTest(int, char* [] )
   gaussianFilter->Update();
   image = gaussianFilter->GetOutput();
 
-  using RegistrationType = itk::ImageToSpatialObjectRegistrationMethod<ImageType,GroupType>;
+  using RegistrationType
+    = itk::ImageToSpatialObjectRegistrationMethod<ImageType,GroupType>;
   RegistrationType::Pointer registration = RegistrationType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( registration, ImageToSpatialObjectRegistrationMethod,
+  EXERCISE_BASIC_OBJECT_METHODS( registration,
+    ImageToSpatialObjectRegistrationMethod,
     ProcessObject );
 
   using MetricType = itk::SimpleImageToSpatialObjectMetric<ImageType,GroupType>;

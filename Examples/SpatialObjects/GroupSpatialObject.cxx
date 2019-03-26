@@ -58,9 +58,9 @@ int main( int , char *[] )
 // Software Guide : BeginCodeSnippet
   using EllipseType = itk::EllipseSpatialObject<3>;
   EllipseType::Pointer myEllipse = EllipseType::New();
-  myEllipse->SetRadius(2);
+  myEllipse->SetRadiusInObjectSpace(2);
 
-  myGroup->AddSpatialObject(myEllipse);
+  myGroup->AddChild(myEllipse);
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
@@ -73,14 +73,14 @@ int main( int , char *[] )
 // Software Guide : BeginCodeSnippet
   GroupType::VectorType offset;
   offset.Fill(10);
-  myGroup->GetObjectToParentTransform()->SetOffset(offset);
+  myGroup->GetModifiableObjectToParentTransform()->SetOffset(offset);
   myGroup->ComputeObjectToWorldTransform();
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
 //
 // We can then query if a point is inside the group using the
-// \code{IsInside()} function. We need to specify in this case that
+// \code{IsInsideInWorldSpace()} function. We need to specify in this case that
 // we want to consider all the hierarchy, therefore we set the depth to 2.
 //
 // Software Guide : EndLatex
@@ -89,18 +89,18 @@ int main( int , char *[] )
   GroupType::PointType point;
   point.Fill(10);
   std::cout << "Is my point " << point << " inside?: "
-    <<  myGroup->IsInside(point,2) << std::endl;
+    <<  myGroup->IsInsideInWorldSpace(point,2) << std::endl;
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
 //
 // Like any other SpatialObjects we can remove the ellipse from the group
-// using the \code{RemoveSpatialObject()} method.
+// using the \code{RemoveChild()} method.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  myGroup->RemoveSpatialObject(myEllipse);
+  myGroup->RemoveChild(myEllipse);
 // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;

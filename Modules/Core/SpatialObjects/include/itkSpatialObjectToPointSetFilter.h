@@ -19,6 +19,7 @@
 #define itkSpatialObjectToPointSetFilter_h
 
 #include "itkPointSet.h"
+#include "itkDataObject.h"
 #include "itkMeshSource.h"
 #include "itkPointBasedSpatialObject.h"
 
@@ -30,8 +31,9 @@ namespace itk
  *  The pointset created is in physical space.
  * \ingroup ITKSpatialObjects
  */
-template< typename TInputSpatialObject, typename TOutputPointSet >
-class ITK_TEMPLATE_EXPORT SpatialObjectToPointSetFilter:public MeshSource< TOutputPointSet >
+template< typename TPointBasedSpatialObject, typename TOutputPointSet >
+class ITK_TEMPLATE_EXPORT SpatialObjectToPointSetFilter
+: public MeshSource< TOutputPointSet >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectToPointSetFilter);
@@ -48,6 +50,8 @@ public:
   /** Smart Pointer type to a DataObject. */
   using DataObjectPointer = DataObject::Pointer;
 
+  using DataObjectIdentifierType = DataObject::DataObjectIdentifierType;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -55,26 +59,34 @@ public:
   itkTypeMacro(SpatialObjectToPointSetFilter, ProcessObject);
 
   /** Some convenient type alias. */
-  using InputSpatialObjectType = TInputSpatialObject;
-  using InputSpatialObjectPointer = typename InputSpatialObjectType::Pointer;
-  using InputSpatialObjectConstPointer = typename InputSpatialObjectType::ConstPointer;
-  using ChildrenListType = typename TInputSpatialObject::ChildrenListType;
+  using PointBasedSpatialObjectType = TPointBasedSpatialObject;
+  using PointBasedSpatialObjectPointer
+    = typename PointBasedSpatialObjectType::Pointer;
+  using PointBasedSpatialObjectConstPointer
+    = typename PointBasedSpatialObjectType::ConstPointer;
+  using ChildrenListType = typename TPointBasedSpatialObject::ChildrenListType;
 
   /** Dimension constants */
-  static constexpr unsigned int ObjectDimension = InputSpatialObjectType::ObjectDimension;
+  static constexpr unsigned int ObjectDimension
+    = PointBasedSpatialObjectType::ObjectDimension;
 
-  using PointType = itk::SpatialObjectPoint< Self::ObjectDimension >;
-  using PointBasedSpatialObjectType = itk::PointBasedSpatialObject< Self::ObjectDimension >;
+  using SpatialObjectPointType
+    = itk::SpatialObjectPoint< Self::ObjectDimension >;
+
+  using SpatialObjectType
+    = itk::SpatialObject< Self::ObjectDimension >;
 
   /** Set/Get the PointSet input of this process object.  */
   using Superclass::SetInput;
-  virtual void SetInput(const InputSpatialObjectType *object);
 
-  virtual void SetInput(unsigned int, const InputSpatialObjectType *object);
+  void SetInput(const SpatialObjectType *object);
+
+  void SetInput(const DataObjectIdentifierType & key,
+    const SpatialObjectType *object);
 
   /** Get the input Spatial Object. */
-  const InputSpatialObjectType * GetInput();
-  const InputSpatialObjectType * GetInput(unsigned int idx);
+  const SpatialObjectType * GetInput();
+  const SpatialObjectType * GetInput(unsigned int idx);
 
   /** The spatial object being transformed can be part of a hierarchy.
    * How deep in the hierarchy should we descend in generating the
@@ -83,8 +95,8 @@ public:
   itkSetMacro(ChildrenDepth, unsigned int);
   itkGetConstMacro(ChildrenDepth, unsigned int);
 
-  /* Set the sampling factor of the object. The resulting pointset will have a size
-   * inversely proportional to the sampling factor.*/
+  /* Set the sampling factor of the object. The resulting pointset will have a
+   * size inversely proportional to the sampling factor.*/
   itkSetMacro(SamplingFactor, unsigned int);
   itkGetConstMacro(SamplingFactor, unsigned int);
 

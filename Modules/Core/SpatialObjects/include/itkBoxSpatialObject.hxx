@@ -29,162 +29,83 @@ BoxSpatialObject< TDimension >
 ::BoxSpatialObject()
 {
   this->SetTypeName("BoxSpatialObject");
-  m_Size.Fill(0);
-  this->SetDimension(TDimension);
+  m_SizeInObjectSpace.Fill(1);
+  m_PositionInObjectSpace.Fill(0);
+
+  this->ComputeMyBoundingBox();
 }
 
-/** Test whether a point is inside or outside the object
- *  For computational speed purposes, it is faster if the method does not
- *  check the name of the class and the current depth */
+/** Test whether a point is inside or outside the object */
 template< unsigned int TDimension >
 bool
 BoxSpatialObject< TDimension >
-::IsInside(const PointType & point) const
+::IsInsideInObjectSpace(const PointType & point, unsigned int depth,
+  const std::string & name) const
 {
-  this->ComputeLocalBoundingBox();
-  if ( !this->GetBounds()->IsInside(point) )
+  itkDebugMacro("Checking the point [" << point << "] is in the box");
+
+  if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    return false;
-    }
-
-  if ( !this->SetInternalInverseTransformToWorldToIndexTransform() )
-    {
-    return false;
-    }
-
-  PointType transformedPoint =
-    this->GetInternalInverseTransform()->TransformPoint(point);
-
-  bool isInside = true;
-  for ( unsigned int i = 0; i < TDimension; i++ )
-    {
-    if ( m_Size[i] )
-      {
-      if ( ( transformedPoint[i] > m_Size[i] ) || ( transformedPoint[i] < 0 ) )
-        {
-        isInside = false;
-        break;
-        }
-      }
-    else
-      {
-      itkExceptionMacro(<< "Size of the BoxSpatialObject must be non-zero!");
-      }
-    }
-
-  return isInside;
-}
-
-/** Test if the given point is inside the box. A point on the border is
- *  considered inside. */
-template< unsigned int TDimension >
-bool
-BoxSpatialObject< TDimension >
-::IsInside(const PointType & point, unsigned int depth, char *name) const
-{
-  itkDebugMacro("Checking the point ["
-                << point << "] is inside the AxisAlignedBox");
-
-  if ( name == nullptr )
-    {
-    if ( IsInside(point) )
-      {
-      return true;
-      }
-    }
-  else if ( strstr(typeid( Self ).name(), name) )
-    {
-    if ( IsInside(point) )
+    if( this->GetMyBoundingBoxInObjectSpace()->IsInside( point ) )
       {
       return true;
       }
     }
 
-  return Superclass::IsInside(point, depth, name);
+  if( depth > 0 )
+    {
+    return Superclass::IsInsideChildrenInObjectSpace(point, depth-1, name);
+    }
+
+  return false;
 }
 
 /** Compute the bounds of the box */
 template< unsigned int TDimension >
 bool
 BoxSpatialObject< TDimension >
-::ComputeLocalBoundingBox() const
+::ComputeMyBoundingBox() const
 {
   itkDebugMacro("Computing BoxSpatialObject bounding box");
 
-  if ( this->GetBoundingBoxChildrenName().empty()
-       || strstr( typeid( Self ).name(),
-                  this->GetBoundingBoxChildrenName().c_str() ) )
+  PointType    pnt1;
+  PointType    pnt2;
+  for ( unsigned int i = 0; i < TDimension; i++ )
     {
-    // First we compute the bounding box in the index space
-    typename BoundingBoxType::Pointer bb = BoundingBoxType::New();
-
-    PointType    pntMin;
-    PointType    pntMax;
-    unsigned int i;
-    for ( i = 0; i < TDimension; i++ )
-      {
-      pntMin[i] = NumericTraits< typename PointType::ValueType >::ZeroValue();
-      pntMax[i] = static_cast< typename PointType::ValueType >( m_Size[i] );
-      }
-
-    bb->SetMinimum(pntMin);
-    bb->SetMaximum(pntMax);
-    bb->ComputeBoundingBox();
-
-    // Next Transform the corners of the bounding box
-    using PointsContainer = typename BoundingBoxType::PointsContainer;
-    const PointsContainer *corners = bb->GetCorners();
-    typename PointsContainer::Pointer transformedCorners = PointsContainer::New();
-    transformedCorners->Reserve(static_cast<typename PointsContainer::ElementIdentifier>( corners->size() ));
-
-    auto it = corners->begin();
-    auto itTrans = transformedCorners->begin();
-    while ( it != corners->end() )
-      {
-      PointType pnt = this->GetIndexToWorldTransform()->TransformPoint(*it);
-      *itTrans = pnt;
-      ++it;
-      ++itTrans;
-      }
-
-    // refresh the bounding box with the transformed corners
-    const_cast< BoundingBoxType * >( this->GetBounds() )->SetPoints(transformedCorners);
-    this->GetBounds()->ComputeBoundingBox();
+    pnt1[i] = m_PositionInObjectSpace[i];
+    pnt2[i] = m_PositionInObjectSpace[i] + m_SizeInObjectSpace[i];
     }
+
+  this->GetModifiableMyBoundingBoxInObjectSpace()->SetMinimum(pnt1);
+  this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(pnt1);
+  this->GetModifiableMyBoundingBoxInObjectSpace()->ConsiderPoint(pnt2);
+  this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
+
   return true;
 }
 
-/** Returns if the box is evaluable at one point */
+/** InternalClone */
 template< unsigned int TDimension >
-bool
+typename LightObject::Pointer
 BoxSpatialObject< TDimension >
-::IsEvaluableAt(const PointType & point,
-                unsigned int depth, char *name) const
+::InternalClone() const
 {
-  itkDebugMacro("Checking if the BoxSpatialObject is evaluable at " << point);
-  return IsInside(point, depth, name);
-}
+  // Default implementation just copies the parameters from
+  // this to new transform.
+  typename LightObject::Pointer loPtr = Superclass::InternalClone();
 
-/** Returns the value at one point */
-template< unsigned int TDimension >
-bool
-BoxSpatialObject< TDimension >
-::ValueAt(const PointType & point, double & value, unsigned int depth,
-          char *name) const
-{
-  itkDebugMacro("Getting the value of the BoxSpatialObject at " << point);
-  if ( IsInside(point, 0, name) )
+  typename Self::Pointer rval =
+    dynamic_cast<Self *>(loPtr.GetPointer());
+  if(rval.IsNull())
     {
-    value = this->GetDefaultInsideValue();
-    return true;
+    itkExceptionMacro(<< "downcast to type "
+                      << this->GetNameOfClass()
+                      << " failed.");
     }
-  else if ( Superclass::IsEvaluableAt(point, depth, name) )
-    {
-    Superclass::ValueAt(point, value, depth, name);
-    return true;
-    }
-  value = this->GetDefaultOutsideValue();
-  return false;
+  rval->SetSizeInObjectSpace( this->GetSizeInObjectSpace() );
+  rval->SetPositionInObjectSpace( this->GetPositionInObjectSpace() );
+
+  return loPtr;
 }
 
 /** Print Self function */
@@ -194,7 +115,8 @@ BoxSpatialObject< TDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << "Size: " << m_Size << std::endl;
+  os << "Object Size: " << m_SizeInObjectSpace << std::endl;
+  os << "Object Position: " << m_PositionInObjectSpace << std::endl;
 }
 } // end namespace itk
 

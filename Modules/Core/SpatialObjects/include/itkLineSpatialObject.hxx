@@ -28,36 +28,33 @@ template< unsigned int TDimension >
 LineSpatialObject< TDimension >
 ::LineSpatialObject()
 {
-  this->SetDimension(TDimension);
   this->SetTypeName("LineSpatialObject");
-  this->GetProperty()->SetRed(1);
-  this->GetProperty()->SetGreen(0);
-  this->GetProperty()->SetBlue(0);
-  this->GetProperty()->SetAlpha(1);
-  this->ComputeBoundingBox();
+  this->GetProperty().SetRed(1);
+  this->GetProperty().SetGreen(0);
+  this->GetProperty().SetBlue(0);
+  this->GetProperty().SetAlpha(1);
 }
 
-/** Set the list of Line points. */
+/** InternalClone */
 template< unsigned int TDimension >
-void
+typename LightObject::Pointer
 LineSpatialObject< TDimension >
-::SetPoints(PointListType & points)
+::InternalClone() const
 {
-  // in this function, passing a null pointer as argument will
-  // just clear the list...
-  m_Points.clear();
+  // Default implementation just copies the parameters from
+  // this to new transform.
+  typename LightObject::Pointer loPtr = Superclass::InternalClone();
 
-  typename PointListType::iterator it, end;
-  it = points.begin();
-  end = points.end();
-  while ( it != end )
+  typename Self::Pointer rval =
+    dynamic_cast<Self *>(loPtr.GetPointer());
+  if(rval.IsNull())
     {
-    m_Points.push_back(*it);
-    it++;
+    itkExceptionMacro(<< "downcast to type "
+                      << this->GetNameOfClass()
+                      << " failed.");
     }
 
-  this->ComputeBoundingBox();
-  this->Modified();
+  return loPtr;
 }
 
 /** Print the object. */
@@ -67,148 +64,52 @@ LineSpatialObject< TDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   os << indent << "LineSpatialObject(" << this << ")" << std::endl;
-  os << indent << "ID: " << this->GetId() << std::endl;
-  os << indent << "nb of points: "
-     << static_cast< SizeValueType >( m_Points.size() ) << std::endl;
   Superclass::PrintSelf(os, indent);
 }
 
-/** Compute the boundaries of the line. */
 template< unsigned int TDimension >
 bool
 LineSpatialObject< TDimension >
-::ComputeLocalBoundingBox() const
+::IsInsideInObjectSpace(const PointType & point, unsigned int depth,
+  const std::string & name) const
 {
-  itkDebugMacro("Computing tube bounding box");
-  if ( this->GetBoundingBoxChildrenName().empty()
-       || strstr( typeid( Self ).name(),
-                  this->GetBoundingBoxChildrenName().c_str() ) )
+  if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    auto it  = m_Points.begin();
-    auto end = m_Points.end();
+    auto it = this->m_Points.begin();
+    auto itEnd = this->m_Points.end();
 
-    if ( it == end )
+    if ( this->GetMyBoundingBoxInObjectSpace()->IsInside(point) )
       {
-      return false;
-      }
-    else
-      {
-      PointType pt =  this->GetIndexToWorldTransform()->TransformPoint(
-        ( *it ).GetPosition() );
-      const_cast< BoundingBoxType * >( this->GetBounds() )->SetMinimum(pt);
-      const_cast< BoundingBoxType * >( this->GetBounds() )->SetMaximum(pt);
-      it++;
-
-      while ( it != end )
+      while ( it != itEnd )
         {
-        pt = this->GetIndexToWorldTransform()->TransformPoint(
-          ( *it ).GetPosition() );
-        const_cast< BoundingBoxType * >( this->GetBounds() )->ConsiderPoint(pt);
+        bool match = true;
+        for( unsigned int i=0; i<TDimension; ++i )
+          {
+          if ( ! Math::AlmostEquals( ( *it ).GetPositionInObjectSpace()[i],
+                   point[i] ) )
+            {
+            match = false;
+            break;
+            }
+          }
+        if( match )
+          {
+          return true;
+          }
         it++;
         }
       }
     }
-  return true;
-}
 
-/** Test whether a point is inside or outside the object
- *  For computational speed purposes, it is faster if the method does not
- *  check the name of the class and the current depth */
-template< unsigned int TDimension >
-bool
-LineSpatialObject< TDimension >
-::IsInside(const PointType & point) const
-{
-  auto it = m_Points.begin();
-  auto itEnd = m_Points.end();
-
-  if ( !this->SetInternalInverseTransformToWorldToIndexTransform() )
+  if( depth > 0 )
     {
-    return false;
+    return Superclass::IsInsideChildrenInObjectSpace( point, depth-1, name );
     }
 
-  PointType transformedPoint =
-    this->GetInternalInverseTransform()->TransformPoint(point);
-
-  if ( this->GetBounds()->IsInside(transformedPoint) )
-    {
-    while ( it != itEnd )
-      {
-      if ( ( *it ).GetPosition() == transformedPoint )
-        {
-        return true;
-        }
-      it++;
-      }
-    }
 
   return false;
 }
 
-/** Check if a given point is inside a line
- *  return True only if the point is in the point list */
-template< unsigned int TDimension >
-bool
-LineSpatialObject< TDimension >
-::IsInside(const PointType & point, unsigned int depth, char *name) const
-{
-  itkDebugMacro("Checking the point [" << point << "] is on the Line");
-
-  if ( name == nullptr )
-    {
-    if ( IsInside(point) )
-      {
-      return true;
-      }
-    }
-  else if ( strstr(typeid( Self ).name(), name) )
-    {
-    if ( IsInside(point) )
-      {
-      return true;
-      }
-    }
-
-  return Superclass::IsInside(point, depth, name);
-}
-
-/** Returns true if the line is evaluable at the requested point,
- *  false otherwise. */
-template< unsigned int TDimension >
-bool
-LineSpatialObject< TDimension >
-::IsEvaluableAt(const PointType & point,
-                unsigned int depth, char *name) const
-{
-  itkDebugMacro("Checking if the tube is evaluable at " << point);
-  return IsInside(point, depth, name);
-}
-
-/** Returns the value of the line at that point.
- * Currently this function returns a binary value,
- * but it might want to return a degree of membership
- * in case of fuzzy Lines. */
-template< unsigned int TDimension >
-bool
-LineSpatialObject< TDimension >
-::ValueAt(const PointType & point, double & value, unsigned int depth,
-          char *name) const
-{
-  itkDebugMacro("Getting the value of the tube at " << point);
-
-  if ( IsInside(point, 0, name) )
-    {
-    value = this->GetDefaultInsideValue();
-    return true;
-    }
-  else if ( Superclass::IsEvaluableAt(point, depth, name) )
-    {
-    Superclass::ValueAt(point, value, depth, name);
-    return true;
-    }
-  value = this->GetDefaultOutsideValue();
-  return false;
-}
 } // end namespace itk
 
 #endif

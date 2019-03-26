@@ -287,7 +287,7 @@ public:
         {
         this->m_FixedImage->TransformIndexToPhysicalPoint( it.GetIndex(), point );
 
-        if(this->m_MovingSpatialObject->IsInside(point,99999))
+        if(this->m_MovingSpatialObject->IsInsideInWorldSpace(point,99999))
           {
           m_PointList.push_back( point );
           }
@@ -431,9 +431,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  ellipse1->SetRadius(  10.0  );
-  ellipse2->SetRadius(  10.0  );
-  ellipse3->SetRadius(  10.0  );
+  ellipse1->SetRadiusInObjectSpace(  10.0  );
+  ellipse2->SetRadiusInObjectSpace(  10.0  );
+  ellipse3->SetRadiusInObjectSpace(  10.0  );
   //  Software Guide : EndCodeSnippet
 
 
@@ -456,17 +456,17 @@ int main( int argc, char *argv[] )
   offset[ 0 ] = 100.0;
   offset[ 1 ] =  40.0;
 
-  ellipse1->GetObjectToParentTransform()->SetOffset(offset);
+  ellipse1->GetModifiableObjectToParentTransform()->SetOffset(offset);
   ellipse1->ComputeObjectToWorldTransform();
 
   offset[ 0 ] =  40.0;
   offset[ 1 ] = 150.0;
-  ellipse2->GetObjectToParentTransform()->SetOffset(offset);
+  ellipse2->GetModifiableObjectToParentTransform()->SetOffset(offset);
   ellipse2->ComputeObjectToWorldTransform();
 
   offset[ 0 ] = 150.0;
   offset[ 1 ] = 150.0;
-  ellipse3->GetObjectToParentTransform()->SetOffset(offset);
+  ellipse3->GetModifiableObjectToParentTransform()->SetOffset(offset);
   ellipse3->ComputeObjectToWorldTransform();
   //  Software Guide : EndCodeSnippet
 
@@ -498,9 +498,9 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginCodeSnippet
   GroupType::Pointer group = GroupType::New();
-  group->AddSpatialObject( ellipse1 );
-  group->AddSpatialObject( ellipse2 );
-  group->AddSpatialObject( ellipse3 );
+  group->AddChild( ellipse1 );
+  group->AddChild( ellipse2 );
+  group->AddChild( ellipse3 );
   //  Software Guide : EndCodeSnippet
 
 

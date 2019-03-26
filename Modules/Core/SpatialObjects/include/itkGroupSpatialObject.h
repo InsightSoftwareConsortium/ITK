@@ -47,8 +47,6 @@ public:
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
   using ScalarType = double;
-  using TreeNodeType = typename Superclass::TreeNodeType;
-  using TreeNodeChildrenListType = typename TreeNodeType::ChildrenListType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -56,15 +54,16 @@ public:
   /** Method for creation through the object factory. */
   itkTypeMacro(GroupSpatialObject, SpatialObject);
 
-  /**  */
-  bool ComputeLocalBoundingBox() const override { return false; }
-
 protected:
+
   GroupSpatialObject();
   ~GroupSpatialObject() override = default;
 
   /** Method to print the object.*/
   void PrintSelf(std::ostream & os, Indent indent) const override;
+
+  typename LightObject::Pointer InternalClone() const override;
+
 };
 } // end namespace itk
 

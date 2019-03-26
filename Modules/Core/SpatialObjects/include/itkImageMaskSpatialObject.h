@@ -26,7 +26,8 @@ namespace itk
 /** \class ImageMaskSpatialObject
  * \brief Implementation of an image mask as spatial object.
  *
- * This class derives from the ImageSpatialObject and overloads the IsInside()
+ * This class derives from the ImageSpatialObject and overloads the
+ * IsInsideInObjectSpace()
  * method.  One of the common uses of this class is to serve as Mask for the
  * Image Registration Metrics.
  *
@@ -34,15 +35,15 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 
-template< unsigned int TDimension = 3 >
+template< unsigned int TDimension = 3, typename TPixel = unsigned char >
 class ITK_TEMPLATE_EXPORT ImageMaskSpatialObject:
-  public ImageSpatialObject< TDimension, unsigned char >
+  public ImageSpatialObject< TDimension, TPixel >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageMaskSpatialObject);
 
-  using Self = ImageMaskSpatialObject< TDimension >;
-  using Superclass = ImageSpatialObject< TDimension >;
+  using Self = ImageMaskSpatialObject< TDimension, TPixel >;
+  using Superclass = ImageSpatialObject< TDimension, TPixel >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
 
@@ -67,33 +68,22 @@ public:
   itkTypeMacro(ImageMaskSpatialObject, ImageSpatialObject);
 
   /** Returns true if the point is inside, false otherwise. */
-  bool IsInside(const PointType & point,
-                unsigned int depth, char *name) const override;
-
-  /** Test whether a point is inside or outside the object
-   *  For computational speed purposes, it is faster if the method does not
-   *  check the name of the class and the current depth */
-  virtual bool IsInside(const PointType & point) const;
-
-  /** Compute axis aligned bounding box from the image mask. The bounding box
-   * is returned as an image region. Each call to this function will recompute
-   * the region.
-   * This function is useful in cases, where you may have a mask image
-   * resulting from say a segmentation and you want to get the smallest box
-   * region that encapsulates the mask image. Currently this is done only for 3D
-   * volumes. */
-  RegionType GetAxisAlignedBoundingBoxRegion() const;
+  bool IsInsideInObjectSpace(const PointType & point, unsigned int depth=0,
+    const std::string & name="") const override;
 
   /** Get the boundaries of a specific object.  This function needs to
    *  be called every time one of the object's components is
    *  changed. */
-  bool ComputeLocalBoundingBox() const override;
+  bool ComputeMyBoundingBox() const override;
 
 protected:
   ImageMaskSpatialObject();
   ~ImageMaskSpatialObject() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
+
+  typename LightObject::Pointer InternalClone() const override;
+
 };
 } // end of namespace itk
 

@@ -64,10 +64,23 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   direction[0] = 0;
   direction[1] = 1;
   direction[2] = 2;
+  double norm = direction[0]*direction[0]+direction[1]*direction[1]
+    + direction[2]*direction[2];
+  norm = std::sqrt( norm );
+  direction[0] /= norm;
+  direction[1] /= norm;
+  direction[2] /= norm;
+
   double mDirection[3];
   mDirection[0] = 0;
   mDirection[1] = 1;
   mDirection[2] = 2;
+  double mNorm = mDirection[0]*mDirection[0]+mDirection[1]*mDirection[1]
+    + mDirection[2]*mDirection[2];
+  mNorm = std::sqrt( mNorm );
+  mDirection[0] /= mNorm;
+  mDirection[1] /= mNorm;
+  mDirection[2] /= mNorm;
 
   // position
   SpatialObjectType::PointType position;
@@ -91,16 +104,18 @@ int itkMetaArrowConverterTest(int ac, char* av[])
 
   // set up itkArrow
   SpatialObjectType::Pointer itkArrow = SpatialObjectType::New();
-  itkArrow->SetDirection(direction);
-  itkArrow->SetPosition(position);
-  itkArrow->SetLength(length);
-  itkArrow->GetProperty()->SetRed(color[0]);
-  itkArrow->GetProperty()->SetGreen(color[1]);
-  itkArrow->GetProperty()->SetBlue(color[2]);
-  itkArrow->GetProperty()->SetAlpha(color[3]);
+  itkArrow->SetDirectionInObjectSpace(direction);
+  itkArrow->SetPositionInObjectSpace(position);
+  itkArrow->SetLengthInObjectSpace(length);
+  itkArrow->GetProperty().SetRed(color[0]);
+  itkArrow->GetProperty().SetGreen(color[1]);
+  itkArrow->GetProperty().SetBlue(color[2]);
+  itkArrow->GetProperty().SetAlpha(color[3]);
+
   SpatialObjectParentType::Pointer itkParent = SpatialObjectParentType::New();
   itkParent->SetId(1);
-  itkParent->AddSpatialObject(itkArrow);
+  itkParent->AddChild(itkArrow);
+  itkParent->Update();
 
   // set up metaArrow
   auto * metaArrow = new MetaArrow(Dimensions);
@@ -113,14 +128,15 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   // precision limit for comparing floats and doubles
   double precisionLimit = .000001;
 
-
   //
   // test itk to metaArrow
   //
-  auto * newMetaArrow = dynamic_cast<MetaArrow *>(converter->SpatialObjectToMetaObject(itkArrow));
+  auto * newMetaArrow = dynamic_cast<MetaArrow *>(
+    converter->SpatialObjectToMetaObject(itkArrow));
   if(newMetaArrow == nullptr)
     {
-    itkGenericExceptionMacro(<< "Failed to downcast from MetaObject to MetaArrow");
+    itkGenericExceptionMacro(
+      << "Failed to downcast from MetaObject to MetaArrow");
     }
 
   // check length
@@ -129,17 +145,23 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   //if (metaLength != (float)length)
   if (std::fabs(metaLength - length) > precisionLimit)
     {
-    std::cout << "Conversion to MetaArrow failed to convert length [FAILED]" << std::endl;
+    std::cout << "Conversion to MetaArrow failed to convert length [FAILED]"
+      << std::endl;
+    std::cout << "  Meta Length = " << metaLength << std::endl;
+    std::cout << "  SO Length = " << length << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] SpatialObject -> MetaObject: length" << std::endl;
 
   // check color
   const float* newMetaColor = newMetaArrow->Color();
-  if (itk::Math::NotExactlyEquals(newMetaColor[0], color[0]) || itk::Math::NotExactlyEquals(newMetaColor[1], color[1]) ||
-      itk::Math::NotExactlyEquals(newMetaColor[2], color[2]) || itk::Math::NotExactlyEquals(newMetaColor[3], color[3]))
+  if (itk::Math::NotExactlyEquals(newMetaColor[0], color[0])
+    || itk::Math::NotExactlyEquals(newMetaColor[1], color[1])
+    || itk::Math::NotExactlyEquals(newMetaColor[2], color[2])
+    || itk::Math::NotExactlyEquals(newMetaColor[3], color[3]))
     {
-    std::cout << "Conversion to MetaArrow failed to convert color [FAILED]" << std::endl;
+    std::cout << "Conversion to MetaArrow failed to convert color [FAILED]"
+      << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] SpatialObject -> MetaObject: color" << std::endl;
@@ -147,7 +169,8 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   // check parent id
   if (newMetaArrow->ParentID() != itkArrow->GetParent()->GetId())
     {
-    std::cout << "Conversion to MetaArrow failed to convert parent [FAILED]" << std::endl;
+    std::cout << "Conversion to MetaArrow failed to convert parent [FAILED]"
+      << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] SpatialObject -> MetaObject: parent id" << std::endl;
@@ -158,7 +181,8 @@ int itkMetaArrowConverterTest(int ac, char* av[])
       std::fabs(metaPosition[1] - position[1]) > precisionLimit ||
       std::fabs(metaPosition[2] - position[2]) > precisionLimit)
     {
-    std::cout << "Conversion to MetaArrow failed to convert position [FAILED]" << std::endl;
+    std::cout << "Conversion to MetaArrow failed to convert position [FAILED]"
+      << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] SpatialObject -> MetaObject: position" << std::endl;
@@ -173,16 +197,19 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   newMetaDirectionNorm[2] = newMetaDirection[2];
 
   // normalize if the vector isn't all zeros
-  if (newMetaDirection[0] != 0.0 || newMetaDirection[1] != 0.0 || newMetaDirection[2] != 0.0)
+  if (newMetaDirection[0] != 0.0 || newMetaDirection[1] != 0.0
+    || newMetaDirection[2] != 0.0)
     {
     newMetaDirectionNorm.Normalize();
     }
 
   if (std::fabs(newMetaDirectionNorm[0] - directionNorm[0]) > precisionLimit
       || std::fabs(newMetaDirectionNorm[1] - directionNorm[1]) > precisionLimit
-      || std::fabs(newMetaDirectionNorm[2] - directionNorm[2])  > precisionLimit)
+      || std::fabs(newMetaDirectionNorm[2] - directionNorm[2]) > precisionLimit)
     {
-    std::cout << "Conversion to SpatialObject failed to convert direction [FAILED]" << std::endl;
+    std::cout
+      << "Conversion to SpatialObject failed to convert direction [FAILED]"
+      << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] SpatialObject -> MetaObject: direction" << std::endl;
@@ -196,12 +223,21 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   // test metaArrow to itk
   //
   SpatialObjectType::Pointer newItkArrow =
-    dynamic_cast<SpatialObjectType *>(converter->MetaObjectToSpatialObject(metaArrow).GetPointer());
+    dynamic_cast<SpatialObjectType *>(
+      converter->MetaObjectToSpatialObject(metaArrow).GetPointer());
+  newItkArrow->Update();
 
   // check length
-  if (std::fabs(newItkArrow->GetLength() - metaArrow->Length()) > precisionLimit)
+  if (std::fabs(newItkArrow->GetLengthInWorldSpace() - metaArrow->Length())
+    > precisionLimit)
     {
-    std::cout << "Conversion to SpatialObject failed to convert length [FAILED]" << std::endl;
+    std::cout << "Conversion to SpatialObject failed to convert length [FAILED]"
+      << std::endl;
+    std::cout << "  Meta Length = " << metaArrow->Length() << std::endl;
+    std::cout << "  SO Length In World = "
+      << newItkArrow->GetLengthInWorldSpace() << std::endl;
+    std::cout << "  SO Length In Object = "
+      << newItkArrow->GetLengthInObjectSpace() << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] MetaObject -> SpatialObject: length" << std::endl;
@@ -211,12 +247,16 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   delete metaArrow;
 
   // check color
-  if (itk::Math::NotExactlyEquals(newItkArrow->GetProperty()->GetRed(), color[0]) ||
-      itk::Math::NotExactlyEquals(newItkArrow->GetProperty()->GetGreen(), color[1]) ||
-      itk::Math::NotExactlyEquals(newItkArrow->GetProperty()->GetBlue(), color[2]) ||
-      itk::Math::NotExactlyEquals(newItkArrow->GetProperty()->GetAlpha(), color[3]))
+  if (itk::Math::NotExactlyEquals(newItkArrow->GetProperty().GetRed(), color[0])
+    || itk::Math::NotExactlyEquals(newItkArrow->GetProperty().GetGreen(),
+        color[1])
+    || itk::Math::NotExactlyEquals(newItkArrow->GetProperty().GetBlue(),
+        color[2])
+    || itk::Math::NotExactlyEquals(newItkArrow->GetProperty().GetAlpha(),
+        color[3]))
     {
-    std::cout << "Conversion to SpatialObject failed to convert color [FAILED]" << std::endl;
+    std::cout << "Conversion to SpatialObject failed to convert color [FAILED]"
+      << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] MetaObject -> SpatialObject: color" << std::endl;
@@ -224,32 +264,45 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   // check parent id
   if (newItkArrow->GetParentId() != itkParent->GetId())
     {
-    std::cout << "Conversion to SpatialObject failed to convert parent id [FAILED]" << std::endl;
+    std::cout
+      << "Conversion to SpatialObject failed to convert parent id [FAILED]"
+      << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] MetaObject -> SpatialObject: parent id" << std::endl;
 
   // check position
-  SpatialObjectType::PointType itkPosition = newItkArrow->GetPosition();
+  SpatialObjectType::PointType itkPosition
+    = newItkArrow->GetPositionInWorldSpace();
   if (std::fabs(itkPosition[0] - mPosition[0]) > precisionLimit ||
       std::fabs(itkPosition[1] - mPosition[1]) > precisionLimit ||
       std::fabs(itkPosition[2] - mPosition[2]) > precisionLimit)
     {
-    std::cout << "Conversion to SpatialObject failed to convert position [FAILED]" << std::endl;
+    std::cout
+      << "Conversion to SpatialObject failed to convert position [FAILED]"
+      << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] MetaObject -> SpatialObject: position" << std::endl;
 
   // check direction (note: need to normalize before comparing)
-  SpatialObjectType::VectorType itkDirectionNorm = newItkArrow->GetDirection();
+  SpatialObjectType::VectorType itkDirectionNorm
+    = newItkArrow->GetDirectionInWorldSpace();
   itkDirectionNorm.Normalize();
-  SpatialObjectType::VectorType mDirectionNorm = newItkArrow->GetDirection();
+  SpatialObjectType::VectorType mDirectionNorm
+    = newItkArrow->GetDirectionInWorldSpace();
   mDirectionNorm[0] = mDirection[0];
   mDirectionNorm[1] = mDirection[1];
   mDirectionNorm[2] = mDirection[2];
-  if (itk::Math::NotExactlyEquals(mDirection[0], itk::NumericTraits< SpatialObjectType::VectorType::ValueType >::ZeroValue()) ||
-      itk::Math::NotExactlyEquals(mDirection[1], itk::NumericTraits< SpatialObjectType::VectorType::ValueType >::ZeroValue()) ||
-      itk::Math::NotExactlyEquals(mDirection[2], itk::NumericTraits< SpatialObjectType::VectorType::ValueType >::ZeroValue()))
+  if (itk::Math::NotExactlyEquals(mDirection[0],
+        itk::NumericTraits< SpatialObjectType::VectorType::ValueType >
+           ::ZeroValue())
+    || itk::Math::NotExactlyEquals(mDirection[1],
+        itk::NumericTraits< SpatialObjectType::VectorType::ValueType >
+           ::ZeroValue())
+    || itk::Math::NotExactlyEquals(mDirection[2],
+        itk::NumericTraits< SpatialObjectType::VectorType::ValueType >
+           ::ZeroValue()))
     {
     mDirectionNorm.Normalize();
     }
@@ -258,7 +311,9 @@ int itkMetaArrowConverterTest(int ac, char* av[])
       || std::fabs(itkDirectionNorm[1] - mDirectionNorm[1]) > precisionLimit
       || std::fabs(itkDirectionNorm[2] - mDirectionNorm[2])  > precisionLimit)
     {
-    std::cout << "Conversion to SpatialObject failed to convert direction [FAILED]" << std::endl;
+    std::cout
+      << "Conversion to SpatialObject failed to convert direction [FAILED]"
+      << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] MetaObject -> SpatialObject: direction" << std::endl;
@@ -281,7 +336,7 @@ int itkMetaArrowConverterTest(int ac, char* av[])
     dynamic_cast<SpatialObjectType *>(converter->ReadMeta(av[1]).GetPointer());
 
   // check length
-  if (std::fabs(reLoad->GetLength() - length) > precisionLimit)
+  if (std::fabs(reLoad->GetLengthInWorldSpace() - length) > precisionLimit)
     {
     std::cout << "Didn't read length properly [FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -289,10 +344,10 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   std::cout << "[PASSED] Reading: length" << std::endl;
 
   // check color
-  if (itk::Math::NotExactlyEquals(reLoad->GetProperty()->GetRed(), color[0]) ||
-      itk::Math::NotExactlyEquals(reLoad->GetProperty()->GetGreen(), color[1]) ||
-      itk::Math::NotExactlyEquals(reLoad->GetProperty()->GetBlue(), color[2]) ||
-      itk::Math::NotExactlyEquals(reLoad->GetProperty()->GetAlpha(), color[3]))
+  if (itk::Math::NotExactlyEquals(reLoad->GetProperty().GetRed(), color[0]) ||
+      itk::Math::NotExactlyEquals(reLoad->GetProperty().GetGreen(), color[1]) ||
+      itk::Math::NotExactlyEquals(reLoad->GetProperty().GetBlue(), color[2]) ||
+      itk::Math::NotExactlyEquals(reLoad->GetProperty().GetAlpha(), color[3]))
     {
     std::cout << "Didn't read color properly [FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -308,7 +363,7 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   std::cout << "[PASSED] Reading: parent id" << std::endl;
 
   // check position
-  itkPosition = reLoad->GetPosition();
+  itkPosition = reLoad->GetPositionInWorldSpace();
   if (std::fabs(itkPosition[0] - mPosition[0]) > precisionLimit ||
       std::fabs(itkPosition[1] - mPosition[1]) > precisionLimit ||
       std::fabs(itkPosition[2] - mPosition[2]) > precisionLimit)
@@ -319,10 +374,17 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   std::cout << "[PASSED] Reading: position" << std::endl;
 
   // check direction (note: need to normalize before comparing)
-  SpatialObjectType::VectorType reLoadDirectionNorm = reLoad->GetDirection();
-  if (itk::Math::NotExactlyEquals(reLoadDirectionNorm[0], itk::NumericTraits< SpatialObjectType::VectorType::ValueType >::ZeroValue()) ||
-      itk::Math::NotExactlyEquals(reLoadDirectionNorm[1], itk::NumericTraits< SpatialObjectType::VectorType::ValueType >::ZeroValue()) ||
-      itk::Math::NotExactlyEquals(reLoadDirectionNorm[2], itk::NumericTraits< SpatialObjectType::VectorType::ValueType >::ZeroValue()))
+  SpatialObjectType::VectorType reLoadDirectionNorm
+    = reLoad->GetDirectionInWorldSpace();
+  if (itk::Math::NotExactlyEquals(reLoadDirectionNorm[0],
+        itk::NumericTraits< SpatialObjectType::VectorType::ValueType >
+           ::ZeroValue())
+    || itk::Math::NotExactlyEquals(reLoadDirectionNorm[1],
+        itk::NumericTraits< SpatialObjectType::VectorType::ValueType >
+           ::ZeroValue())
+    || itk::Math::NotExactlyEquals(reLoadDirectionNorm[2],
+        itk::NumericTraits< SpatialObjectType::VectorType::ValueType >
+           ::ZeroValue()))
     {
     reLoadDirectionNorm.Normalize();
     }

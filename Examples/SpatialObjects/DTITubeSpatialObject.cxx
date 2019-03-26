@@ -51,7 +51,8 @@ int main( int , char *[] )
 
 // Software Guide : BeginCodeSnippet
   using DTITubeType = itk::DTITubeSpatialObject<3>;
-  using DTITubePointType = itk::DTITubeSpatialObjectPoint<3>;
+  using DTITubePointType = DTITubeType::DTITubePointType;
+  using PointType = DTITubeType::PointType;
 
   DTITubeType::Pointer dtiTube = DTITubeType::New();
 // Software Guide : EndCodeSnippet
@@ -73,12 +74,16 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  DTITubeType::PointListType list;
+  DTITubeType::DTITubePointListType list;
   for (i=0; i<5; ++i)
     {
     DTITubePointType p;
-    p.SetPosition(i,i+1,i+2);
-    p.SetRadius(1);
+    PointType pnt;
+    pnt[0] = i;
+    pnt[1] = i+1;
+    pnt[2] = i+2;
+    p.SetPositionInObjectSpace(pnt);
+    p.SetRadiusInObjectSpace(1);
     p.AddField(DTITubePointType::FA,i);
     p.AddField(DTITubePointType::ADC,2*i);
     p.AddField(DTITubePointType::GA,3*i);
@@ -106,9 +111,10 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  dtiTube->GetProperty()->SetName("DTITube");
+  dtiTube->GetProperty().SetName("DTITube");
   dtiTube->SetId(1);
   dtiTube->SetPoints(list);
+  dtiTube->Update();
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
@@ -119,7 +125,7 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  DTITubeType::PointListType pointList = dtiTube->GetPoints();
+  DTITubeType::DTITubePointListType pointList = dtiTube->GetPoints();
   std::cout << "Number of points representing the fiber tract: ";
   std::cout << pointList.size() << std::endl;
 // Software Guide : EndCodeSnippet
@@ -133,14 +139,15 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  DTITubeType::PointListType::const_iterator it = dtiTube->GetPoints().begin();
+  DTITubeType::DTITubePointListType::const_iterator it
+    = dtiTube->GetPoints().begin();
   i=0;
   while(it != dtiTube->GetPoints().end())
     {
     std::cout << std::endl;
     std::cout << "Point #" << i << std::endl;
-    std::cout << "Position: " << (*it).GetPosition() << std::endl;
-    std::cout << "Radius: " << (*it).GetRadius() << std::endl;
+    std::cout << "Position: " << (*it).GetPositionInObjectSpace() << std::endl;
+    std::cout << "Radius: " << (*it).GetRadiusInObjectSpace() << std::endl;
     std::cout << "FA: " << (*it).GetField(DTITubePointType::FA) << std::endl;
     std::cout << "ADC: " << (*it).GetField(DTITubePointType::ADC) << std::endl;
     std::cout << "GA: " << (*it).GetField(DTITubePointType::GA) << std::endl;

@@ -23,80 +23,84 @@
 namespace itk
 {
 
-template< typename TInputSpatialObject, typename TOutputPointSet >
-SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
+template< typename TPointBasedSpatialObject, typename TOutputPointSet >
+SpatialObjectToPointSetFilter< TPointBasedSpatialObject, TOutputPointSet >
 ::SpatialObjectToPointSetFilter()
 
 {
   this->SetNumberOfRequiredInputs(1);
 }
 
-template< typename TInputSpatialObject, typename TOutputPointSet >
+template< typename TPointBasedSpatialObject, typename TOutputPointSet >
 void
-SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
-::SetInput(const InputSpatialObjectType *input)
+SpatialObjectToPointSetFilter< TPointBasedSpatialObject, TOutputPointSet >
+::SetInput(const SpatialObjectType *input)
 {
   // Process object is not const-correct so the const_cast is required here
   this->ProcessObject::SetNthInput( 0,
-                                    const_cast< InputSpatialObjectType * >( input ) );
+    const_cast< SpatialObjectType * >( input ) );
 }
 
-template< typename TInputSpatialObject, typename TOutputPointSet >
+template< typename TPointBasedSpatialObject, typename TOutputPointSet >
 void
-SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
-::SetInput(unsigned int index, const TInputSpatialObject *object)
+SpatialObjectToPointSetFilter< TPointBasedSpatialObject, TOutputPointSet >
+::SetInput(const DataObjectIdentifierType & key,
+  const SpatialObjectType *object)
 {
   // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput( index,
-                                    const_cast< TInputSpatialObject * >( object ) );
+  this->ProcessObject::SetNthInput( key,
+    const_cast< SpatialObjectType * >( object ) );
 }
 
-template< typename TInputSpatialObject, typename TOutputPointSet >
-const typename SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >::InputSpatialObjectType *
-SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
+template< typename TPointBasedSpatialObject, typename TOutputPointSet >
+const typename SpatialObjectToPointSetFilter< TPointBasedSpatialObject, TOutputPointSet >::SpatialObjectType *
+SpatialObjectToPointSetFilter< TPointBasedSpatialObject, TOutputPointSet >
 ::GetInput()
 {
-  return static_cast< const TInputSpatialObject * >( this->GetPrimaryInput() );
+  return static_cast< const SpatialObjectType * >( this->GetPrimaryInput() );
 }
 
-template< typename TInputSpatialObject, typename TOutputPointSet >
-const typename SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >::InputSpatialObjectType *
-SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
+template< typename TPointBasedSpatialObject, typename TOutputPointSet >
+const typename SpatialObjectToPointSetFilter< TPointBasedSpatialObject, TOutputPointSet >::SpatialObjectType *
+SpatialObjectToPointSetFilter< TPointBasedSpatialObject, TOutputPointSet >
 ::GetInput(unsigned int idx)
 {
-  return static_cast< const TInputSpatialObject * >( this->ProcessObject::GetInput(idx) );
+  return static_cast< const SpatialObjectType * >(
+    this->ProcessObject::GetInput(idx) );
 }
 
-template< typename TInputSpatialObject, typename TOutputPointSet >
+template< typename TPointBasedSpatialObject, typename TOutputPointSet >
 void
-SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
+SpatialObjectToPointSetFilter< TPointBasedSpatialObject, TOutputPointSet >
 ::GenerateData()
 {
   // Get the input and output pointers
-  const InputSpatialObjectType *inputObject  = this->GetInput();
+  const SpatialObjectType *inputObject  = this->GetInput();
   typename OutputPointSetType::Pointer outputPointSet = this->GetOutput();
 
   using PointIdentifier = typename OutputPointSetType::PointIdentifier;
 
-  const auto * inputPointSO = dynamic_cast< const PointBasedSpatialObjectType * >( inputObject );
-
   // Look for the number of points to allocate
   PointIdentifier numberOfPoints = 0;
-  if ( inputPointSO )
+  const auto * inputSO = dynamic_cast< const TPointBasedSpatialObject * >(
+      inputObject );
+  if( inputSO )
     {
-    numberOfPoints = inputPointSO->GetNumberOfPoints() / m_SamplingFactor;
+    numberOfPoints = inputSO->GetNumberOfPoints() / m_SamplingFactor;
     }
 
   ChildrenListType *children = inputObject->GetChildren(m_ChildrenDepth);
   typename ChildrenListType::const_iterator it = children->begin();
 
-  for (; it != children->end(); it++ )
+  while(it != children->end())
     {
-    const auto * pointSO = dynamic_cast< const PointBasedSpatialObjectType * >( it->GetPointer() );
+    const auto * pointSO = dynamic_cast< const TPointBasedSpatialObject * >(
+      it->GetPointer() );
     if ( pointSO )
       {
       numberOfPoints += pointSO->GetNumberOfPoints() / m_SamplingFactor;
       }
+    ++it;
     }
 
   using DataContainer = typename OutputPointSetType::PointDataContainer;
@@ -110,14 +114,13 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
 
   // add the object it itself
   PointIdentifier n;
-  if ( inputPointSO )
+  if( inputSO )
     {
-    n = inputPointSO->GetNumberOfPoints();
+    n = inputSO->GetNumberOfPoints();
     for ( unsigned int i = 0; i < n; i += m_SamplingFactor )
       {
-      typename InputSpatialObjectType::PointType transformedPoint =
-        inputObject->GetIndexToWorldTransform()->TransformPoint(
-          inputPointSO->GetPoint(i)->GetPosition() );
+      typename PointBasedSpatialObjectType::PointType transformedPoint =
+        inputSO->GetPoint(i)->GetPositionInWorldSpace();
 
       for ( unsigned int j = 0; j < Self::ObjectDimension; j++ )
         {
@@ -129,17 +132,17 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
 
   // then add children points
   it = children->begin();
-
-  for (; it != children->end(); it++ )
+  while (it != children->end() )
     {
-    const auto * pointSO = dynamic_cast< const PointBasedSpatialObjectType * >( it->GetPointer() );
+    const auto * pointSO = dynamic_cast< const TPointBasedSpatialObject * >(
+      it->GetPointer() );
     if ( pointSO )
       {
       n = pointSO->GetNumberOfPoints();
       for ( unsigned int i = 0; i < n; i += m_SamplingFactor )
         {
-        typename InputSpatialObjectType::PointType transformedPoint =
-          inputObject->GetIndexToWorldTransform()->TransformPoint( pointSO->GetPoint(i)->GetPosition() );
+        typename PointBasedSpatialObjectType::PointType transformedPoint =
+          pointSO->GetPoint(i)->GetPositionInWorldSpace();
 
         for ( unsigned int j = 0; j < Self::ObjectDimension; j++ )
           {
@@ -148,14 +151,15 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
         outputPointSet->SetPoint(pointId++, point);
         }
       }
+    ++it;
     }
 
   delete children;
 }
 
-template< typename TInputSpatialObject, typename TOutputPointSet >
+template< typename TPointBasedSpatialObject, typename TOutputPointSet >
 void
-SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
+SpatialObjectToPointSetFilter< TPointBasedSpatialObject, TOutputPointSet >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

@@ -255,7 +255,7 @@ int main( int argc, char * argv [] )
   // The geometry of the BoxSpatialObject is such that one of
   // its corners is located at the origin of coordinates.
   //
-  spatialObject->SetSize( boxSize );
+  spatialObject->SetSizeInObjectSpace( boxSize );
 
   ImageType::RegionType region =
                 movingImage->GetLargestPossibleRegion();

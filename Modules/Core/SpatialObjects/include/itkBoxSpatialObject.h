@@ -49,50 +49,46 @@ public:
   using TransformType = typename Superclass::TransformType;
   using BoundingBoxType = typename Superclass::BoundingBoxType;
   using SizeType = FixedArray< double, TDimension >;
-  using PointContainerType = VectorContainer< IdentifierType, PointType >;
+  using PointsContainerType = typename BoundingBoxType::PointsContainer;
 
   itkNewMacro(Self);
   itkTypeMacro(BoxSpatialObject, SpatialObject);
 
-  /** Set/Get the size of the box spatial object. */
-  itkSetMacro(Size, SizeType);
-  itkGetConstReferenceMacro(Size, SizeType);
+  /** Set the size of the box spatial object in object space. */
+  itkSetMacro( SizeInObjectSpace, SizeType );
 
-  /** Returns a degree of membership to the object.
-   *  That's useful for fuzzy objects. */
-  bool ValueAt(const PointType & point, double & value,
-                       unsigned int depth = 0,
-                       char *name = nullptr) const override;
+  /** Get the size of the box spatial object in object space. */
+  itkGetConstReferenceMacro(SizeInObjectSpace, SizeType);
 
-  /** Return true if the object provides a method to evaluate the value
-   * at the specified point, false otherwise. */
-  bool IsEvaluableAt(const PointType & point,
-                             unsigned int depth = 0,
-                             char *name = nullptr) const override;
+  /** Set the position of the box spatial object in object space. */
+  itkSetMacro( PositionInObjectSpace, PointType );
+
+  /** Get the position of the box spatial object in object space. */
+  itkGetConstReferenceMacro(PositionInObjectSpace, PointType);
 
   /** Test whether a point is inside or outside the object */
-  bool IsInside(const PointType & point,
-                        unsigned int depth,
-                        char *) const override;
-
-  /** Test whether a point is inside or outside the object
-   *  For computational speed purposes, it is faster if the method does not
-   *  check the name of the class and the current depth */
-  virtual bool IsInside(const PointType & point) const;
+  bool IsInsideInObjectSpace(const PointType & point, unsigned int depth = 0,
+    const std::string & name = "" ) const override;
 
   /** Get the boundaries of a specific object.  This function needs to
    *  be called every time one of the object's components is
    *  changed. */
-  bool ComputeLocalBoundingBox() const override;
+  bool ComputeMyBoundingBox() const override;
 
 protected:
   BoxSpatialObject();
   ~BoxSpatialObject() override = default;
 
-  SizeType m_Size;
-
   /** Print the object informations in a stream. */
   void PrintSelf(std::ostream & os, Indent indent) const override;
+
+  typename LightObject::Pointer InternalClone() const override;
+
+private:
+  /** object space */
+  SizeType  m_SizeInObjectSpace;
+  PointType m_PositionInObjectSpace;
+
 };
 } // end namespace itk
 

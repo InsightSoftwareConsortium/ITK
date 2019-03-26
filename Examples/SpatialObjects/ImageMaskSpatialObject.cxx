@@ -21,12 +21,13 @@
 //
 // \index{itk::ImageMaskSpatialObject}
 //
-// An \doxygen{ImageMaskSpatialObject} is similar to the \doxygen{ImageSpatialObject}
-// and derived from it.
-// However, the main difference is that the \code{IsInside()} returns true if the pixel
-// intensity in the image is not zero.
+// An \doxygen{ImageMaskSpatialObject} is similar to the
+// \doxygen{ImageSpatialObject} and derived from it.
+// However, the main difference is that the \code{IsInsideInWorldSpace()}
+// returns true if the pixel intensity in the image is not zero.
 //
-// The supported pixel types does not include \doxygen{RGBPixel}, \doxygen{RGBAPixel}, etc.
+// The supported pixel types does not include \doxygen{RGBPixel},
+// \doxygen{RGBAPixel}, etc.
 // So far it only allows to manage images of simple types like unsigned short,
 // unsigned int, or \doxygen{Vector}.
 // Let's begin by including the appropriate header file.
@@ -110,6 +111,7 @@ int main(int, char* [])
 
 // Software Guide : BeginCodeSnippet
   maskSO->SetImage(image);
+  maskSO->Update();
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
@@ -124,11 +126,11 @@ int main(int, char* [])
   ImageMaskSpatialObject::PointType  inside;
   inside.Fill(20);
   std::cout << "Is my point " << inside << " inside my mask? "
-    << maskSO->IsInside(inside) << std::endl;
+    << maskSO->IsInsideInWorldSpace(inside) << std::endl;
   ImageMaskSpatialObject::PointType  outside;
   outside.Fill(45);
   std::cout << "Is my point " << outside << " outside my mask? "
-    << !maskSO->IsInside(outside) << std::endl;
+    << !maskSO->IsInsideInWorldSpace(outside) << std::endl;
 // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;

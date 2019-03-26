@@ -19,7 +19,6 @@
 #define itkSpatialObjectDuplicator_hxx
 
 #include "itkSpatialObjectDuplicator.h"
-#include "itkSpatialObjectFactoryBase.h"
 
 namespace itk
 {
@@ -30,26 +29,6 @@ SpatialObjectDuplicator< TInputSpatialObject >
   m_Input = nullptr;
   m_DuplicateSpatialObject = nullptr;
   m_InternalSpatialObjectTime = 0;
-  SpatialObjectFactoryBase::RegisterDefaultSpatialObjects();
-}
-
-
-template<typename TInputSpatialObject>
-void
-SpatialObjectDuplicator<TInputSpatialObject>
-::WarnAndPrintFactories(const std::string& spatialObjectType) const
-{
-  std::cout << "Could not create an instance of " << spatialObjectType << std::endl
-            << "The usual cause of this error is not registering the "
-            << "SpatialObject with SpatialFactory" << std::endl;
-  std::cout << "Currently registered spatial objects: " << std::endl;
-  std::list< std::string > names =
-    SpatialObjectFactoryBase::GetFactory()->GetClassOverrideWithNames();
-  std::list< std::string >::iterator it;
-  for ( it = names.begin(); it != names.end(); it++ )
-    {
-    std::cout << "\t\"" << *it << "\"" << std::endl;
-    }
 }
 
 template< typename TInputSpatialObject >
@@ -58,31 +37,14 @@ SpatialObjectDuplicator< TInputSpatialObject >
 ::CopyObject(const InternalSpatialObjectType *source,
              InternalSpatialObjectType *destination)
 {
-  // Create the new Spatial Object using the SpatialObjectFactory
-  LightObject::Pointer i;
-  std::string value = source->GetSpatialObjectTypeAsString();
-
-  i = ObjectFactoryBase::CreateInstance( value.c_str() );
-
   using SOType = itk::SpatialObject< TInputSpatialObject::ObjectDimension >;
 
-  auto * newSO = dynamic_cast< SOType * >( i.GetPointer() );
-  if ( newSO == nullptr )
-    {
-    WarnAndPrintFactories(value);
-    return;
-    }
-
-
-  // Correct for extra reference count from CreateInstance().
-  newSO->UnRegister();
-
-  // We make the copy
-  newSO->CopyInformation(source);
-  destination->AddSpatialObject(newSO);
+  SOType * newSO = source->Clone();
+  destination->AddChild(newSO);
+  destination->Update();
 
   using ChildrenListType = typename TInputSpatialObject::ChildrenListType;
-  ChildrenListType *children = source->GetChildren(0);
+  ChildrenListType *children = source->GetChildren();
   typename ChildrenListType::const_iterator it = children->begin();
   while ( it != children->end() )
     {
@@ -117,27 +79,12 @@ SpatialObjectDuplicator< TInputSpatialObject >
   // Cache the timestamp
   m_InternalSpatialObjectTime = t;
 
-  //Copy the object first
-  // Create the new Spatial Object using the SpatialObjectFactory
-  LightObject::Pointer i;
-  std::string value = m_Input->GetSpatialObjectTypeAsString();
-  i = ObjectFactoryBase::CreateInstance( value.c_str() );
-
-  m_DuplicateSpatialObject = dynamic_cast< SpatialObjectType * >( i.GetPointer() );
-  if ( m_DuplicateSpatialObject.IsNull() )
-    {
-    WarnAndPrintFactories(value);
-    return;
-    }
-
-  // Correct for extra reference count from CreateInstance().
-  m_DuplicateSpatialObject->UnRegister();
-
-  m_DuplicateSpatialObject->CopyInformation(m_Input);
+  m_DuplicateSpatialObject = m_Input->Clone();
+  m_DuplicateSpatialObject->Update();
 
   // Create the children
   using ChildrenListType = typename TInputSpatialObject::ChildrenListType;
-  ChildrenListType *children = m_Input->GetChildren(0);
+  ChildrenListType *children = m_Input->GetChildren();
   typename ChildrenListType::const_iterator it = children->begin();
   while ( it != children->end() )
     {
@@ -154,9 +101,10 @@ SpatialObjectDuplicator< TInputSpatialObject >
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Input SpatialObject: " << m_Input << std::endl;
-  os << indent << "Output SpatialObject: " << m_DuplicateSpatialObject << std::endl;
+  os << indent << "Output SpatialObject: " << m_DuplicateSpatialObject
+    << std::endl;
   os << indent << "Internal SpatialObject Time: "
-     << m_InternalSpatialObjectTime << std::endl;
+    << m_InternalSpatialObjectTime << std::endl;
 }
 } // end namespace itk
 

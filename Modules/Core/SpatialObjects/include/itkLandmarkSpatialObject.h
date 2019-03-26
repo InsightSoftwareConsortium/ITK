@@ -45,9 +45,12 @@ public:
   using Superclass = PointBasedSpatialObject< TDimension >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
+
   using ScalarType = double;
+
   using LandmarkPointType = SpatialObjectPoint< TDimension >;
-  using PointListType = std::vector< LandmarkPointType >;
+  using LandmarkPointListType = std::vector< LandmarkPointType >;
+
   using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;
   using PointType = typename Superclass::PointType;
   using TransformType = typename Superclass::TransformType;
@@ -61,62 +64,16 @@ public:
   /** Method for creation through the object factory. */
   itkTypeMacro(LandmarkSpatialObject, PointBasedSpatialObject);
 
-  /** Returns a reference to the list of the Landmark points. */
-  PointListType & GetPoints();
-
-  /** Returns a reference to the list of the Landmark points. */
-  const PointListType & GetPoints() const;
-
-  /** Set the list of Landmark points. */
-  void SetPoints(PointListType & newPoints);
-
-  /** Return a point in the list given the index */
-  const SpatialObjectPointType * GetPoint(IdentifierType id) const override
-  {
-    return &( m_Points[id] );
-  }
-
-  /** Return a point in the list given the index */
-  SpatialObjectPointType * GetPoint(IdentifierType id) override { return &( m_Points[id] ); }
-
-  /** Return the number of points in the list */
-  SizeValueType GetNumberOfPoints() const override
-  {
-    return static_cast<SizeValueType>( m_Points.size() );
-  }
-
-  /** Returns true if the Landmark is evaluable at the requested point,
-   *  false otherwise. */
-  bool IsEvaluableAt(const PointType & point,
-                     unsigned int depth = 0, char *name = nullptr) const override;
-
-  /** Returns the value of the Landmark at that point.
-   *  Currently this function returns a binary value,
-   *  but it might want to return a degree of membership
-   *  in case of fuzzy Landmarks. */
-  bool ValueAt(const PointType & point, double & value,
-               unsigned int depth = 0, char *name = nullptr) const override;
-
-  /** Returns true if the point is inside the Landmark, false otherwise. */
-  bool IsInside(const PointType & point,
-                unsigned int depth, char *name) const override;
-
-  /** Test whether a point is inside or outside the object
-   *  For computational speed purposes, it is faster if the method does not
-   *  check the name of the class and the current depth */
-  virtual bool IsInside(const PointType & point) const;
-
-  /** Compute the boundaries of the Landmark. */
-  bool ComputeLocalBoundingBox() const override;
-
 protected:
-  PointListType m_Points;
 
   LandmarkSpatialObject();
   ~LandmarkSpatialObject() override = default;
 
   /** Method to print the object. */
   void PrintSelf(std::ostream & os, Indent indent) const override;
+
+  typename LightObject::Pointer InternalClone() const override;
+
 };
 } // end namespace itk
 

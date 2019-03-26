@@ -31,6 +31,7 @@ SpatialObjectWriter< NDimensions, PixelType, TMeshTraits >
   m_Scene = nullptr;
   m_BinaryPoints = false;
   m_WriteImagesInSeparateFile = false;
+  m_MetaToSpatialConverter = MetaSceneConverterType::New();
 }
 
 /** Set the precision at which the transform should be written */
@@ -39,7 +40,7 @@ void
 SpatialObjectWriter< NDimensions, PixelType, TMeshTraits >
 ::SetTransformPrecision(unsigned int precision)
 {
-  m_MetaToSpatialConverter.SetTransformPrecision(precision);
+  m_MetaToSpatialConverter->SetTransformPrecision(precision);
 }
 
 /** Get the precision at which the transform should be written */
@@ -48,7 +49,7 @@ unsigned int
 SpatialObjectWriter< NDimensions, PixelType, TMeshTraits >
 ::GetTransformPrecision()
 {
-  return m_MetaToSpatialConverter.GetTransformPrecision();
+  return m_MetaToSpatialConverter->GetTransformPrecision();
 }
 
 template< unsigned int NDimensions, typename PixelType, typename TMeshTraits >
@@ -56,12 +57,12 @@ void
 SpatialObjectWriter< NDimensions, PixelType, TMeshTraits >
 ::Update()
 {
-  m_MetaToSpatialConverter.SetBinaryPoints(m_BinaryPoints);
-  m_MetaToSpatialConverter.SetWriteImagesInSeparateFile(m_WriteImagesInSeparateFile);
+  m_MetaToSpatialConverter->SetBinaryPoints(m_BinaryPoints);
+  m_MetaToSpatialConverter->SetWriteImagesInSeparateFile(m_WriteImagesInSeparateFile);
 
   if ( m_Scene != nullptr )
     {
-    m_MetaToSpatialConverter.WriteMeta( m_Scene, m_FileName.c_str() );
+    m_MetaToSpatialConverter->WriteMeta( m_Scene, m_FileName.c_str() );
     m_Scene = nullptr;
     }
   else
@@ -69,12 +70,12 @@ SpatialObjectWriter< NDimensions, PixelType, TMeshTraits >
     if ( m_SpatialObject.IsNotNull() )
       {
       typename SceneType::Pointer tScene = SceneType::New();
-      tScene->AddSpatialObject(m_SpatialObject);
+      tScene->AddChild(m_SpatialObject);
       // Check if IDs are valid because IDs are used to determine
       //    parent-child hierarchy
       tScene->FixIdValidity();
 
-      m_MetaToSpatialConverter.WriteMeta( tScene,
+      m_MetaToSpatialConverter->WriteMeta( tScene,
                                           m_FileName.c_str() );
       m_SpatialObject = nullptr;
       }
@@ -89,7 +90,7 @@ SpatialObjectWriter< NDimensions, PixelType, TMeshTraits >
                       const char *spatialObjectTypeName,
                       MetaConverterBaseType *converter)
 {
-  this->m_MetaToSpatialConverter.RegisterMetaConverter(metaTypeName,
+  this->m_MetaToSpatialConverter->RegisterMetaConverter(metaTypeName,
                                                      spatialObjectTypeName,
                                                      converter);
 }

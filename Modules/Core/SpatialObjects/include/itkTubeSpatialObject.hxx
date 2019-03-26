@@ -29,71 +29,40 @@ template< unsigned int TDimension, typename TTubePointType >
 TubeSpatialObject< TDimension, TTubePointType >
 ::TubeSpatialObject()
 {
-  m_Root = false;
-  m_Artery = true;
-  m_ParentPoint = -1;
-  this->SetDimension(TDimension);
   this->SetTypeName("TubeSpatialObject");
-  this->GetProperty()->SetRed(1);
-  this->GetProperty()->SetGreen(0);
-  this->GetProperty()->SetBlue(0);
-  this->GetProperty()->SetAlpha(1);
-  m_OldMTime = 0;
-  m_IndexToWorldTransformMTime = 0;
-  m_EndType = 0; // default end-type is flat
+  this->GetProperty().SetRed(1);
+  this->GetProperty().SetGreen(0);
+  this->GetProperty().SetBlue(0);
+  this->GetProperty().SetAlpha(1);
+
+  m_Root = false;
+  m_ParentPoint = -1;
+  m_EndRounded = false; // default end-type is flat
 }
 
-/** Get the list of points composing the tube */
+/** InternalClone */
 template< unsigned int TDimension, typename TTubePointType >
-typename TubeSpatialObject< TDimension, TTubePointType >::PointListType &
+typename LightObject::Pointer
 TubeSpatialObject< TDimension, TTubePointType >
-::GetPoints()
+::InternalClone() const
 {
-  itkDebugMacro("Getting TubePoint list");
-  return m_Points;
-}
+  // Default implementation just copies the parameters from
+  // this to new transform.
+  typename LightObject::Pointer loPtr = Superclass::InternalClone();
 
-/** Get the list of points composing the tube */
-template< unsigned int TDimension, typename TTubePointType >
-const typename
-TubeSpatialObject< TDimension, TTubePointType >::PointListType &
-TubeSpatialObject< TDimension, TTubePointType >
-::GetPoints() const
-{
-  itkDebugMacro("Getting TubePoint list");
-  return m_Points;
-}
-
-/** Set the list of points composing the tube */
-template< unsigned int TDimension, typename TTubePointType >
-void
-TubeSpatialObject< TDimension, TTubePointType >
-::SetPoints(PointListType & points)
-{
-  // in this function, passing a null pointer as argument will
-  // just clear the list...
-  m_Points.clear();
-
-  typename PointListType::iterator it, end;
-  it = points.begin();
-  end = points.end();
-  while ( it != end )
+  typename Self::Pointer rval =
+    dynamic_cast<Self *>(loPtr.GetPointer());
+  if(rval.IsNull())
     {
-    m_Points.push_back(*it);
-    it++;
+    itkExceptionMacro(<< "downcast to type "
+                      << this->GetNameOfClass()
+                      << " failed.");
     }
+  rval->SetEndRounded( this->GetEndRounded() );
+  rval->SetParentPoint( this->GetParentPoint() );
+  rval->SetRoot(this->GetRoot());
 
-  this->ComputeBoundingBox();
-  this->Modified();
-}
-
-/** Remove the list of tube points */
-template< unsigned int TDimension, typename TTubePointType >
-void
-TubeSpatialObject< TDimension, TTubePointType >
-::Clear()
-{
-  m_Points.clear();
+  return loPtr;
 }
 
 /** Print the object */
@@ -103,13 +72,10 @@ TubeSpatialObject< TDimension, TTubePointType >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   os << indent << "TubeSpatialObject(" << this << ")" << std::endl;
-  os << indent << "ID: " << this->GetId() << std::endl;
-  os << indent << "nb of points: "
-     << static_cast< SizeValueType >( m_Points.size() ) << std::endl;
-  os << indent << "End Type : " << m_EndType << std::endl;
+  os << indent << "End Type : " << m_EndRounded << std::endl;
   os << indent << "Parent Point : " << m_ParentPoint << std::endl;
   os << indent << "Root : " << m_Root << std::endl;
-  os << indent << "Artery : " << m_Artery << std::endl;
+
   Superclass::PrintSelf(os, indent);
 }
 
@@ -117,70 +83,57 @@ TubeSpatialObject< TDimension, TTubePointType >
 template< unsigned int TDimension, typename TTubePointType >
 bool
 TubeSpatialObject< TDimension, TTubePointType >
-::ComputeLocalBoundingBox() const
+::ComputeMyBoundingBox() const
 {
   itkDebugMacro("Computing tube bounding box");
 
-  // Check if the IndexToWorldTransform or the object itself has been modified
-  if ( ( this->GetMTime() == m_OldMTime )
-       && ( m_IndexToWorldTransformMTime ==
-            this->GetIndexToWorldTransform()->GetMTime() )
-        )
+  auto it  = this->m_Points.begin();
+  auto end = this->m_Points.end();
+
+  if ( it == end )
     {
-    return true; // if not modified we return
+    return false;
     }
 
-  m_OldMTime = this->GetMTime();
-  m_IndexToWorldTransformMTime = this->GetIndexToWorldTransform()->GetMTime();
+  PointType pt = it->GetPositionInObjectSpace();
+  double ptRadius = it->GetRadiusInObjectSpace();
 
-  if ( this->GetBoundingBoxChildrenName().empty()
-       || strstr( typeid( Self ).name(), this->GetBoundingBoxChildrenName().c_str() ) )
+  // Compute a bounding box in object space
+  PointType tmpPt;
+  for( unsigned int d=0; d<TDimension; ++d )
     {
-    auto it  = m_Points.begin();
-    auto end = m_Points.end();
-
-    if ( it == end )
-      {
-      return false;
-      }
-    else
-      {
-      // First we compute the bounding box in the index space
-      typename BoundingBoxType::Pointer bb = BoundingBoxType::New();
-      VectorType rad(( *it ).GetRadius());
-      PointType ptMin = ( *it ).GetPosition() - rad;
-      PointType ptMax = ( *it ).GetPosition() + rad;
-      bb->SetMinimum(ptMin);
-      bb->SetMaximum(ptMax);
-
-      ptMin = this->GetIndexToWorldTransform()->TransformPoint(ptMin);
-      const_cast< BoundingBoxType * >( this->GetBounds() )->SetMinimum(ptMin);
-      ptMax = this->GetIndexToWorldTransform()->TransformPoint(ptMax);
-      const_cast< BoundingBoxType * >( this->GetBounds() )->SetMaximum(ptMax);
-
-      it++;
-      while ( it != end )
-        {
-        rad = VectorType(( *it ).GetRadius());
-        ptMin = ( *it ).GetPosition() - rad;
-        ptMax = ( *it ).GetPosition() + rad;
-        bb->ConsiderPoint(ptMin);
-        bb->ConsiderPoint(ptMax);
-        it++;
-        }
-
-      using PointsContainer = typename BoundingBoxType::PointsContainer;
-      const PointsContainer *corners = bb->GetCorners();
-      auto itBB = corners->begin();
-      while ( itBB != corners->end() )
-        {
-        PointType pnt =
-          this->GetIndexToWorldTransform()->TransformPoint(*itBB);
-        const_cast< BoundingBoxType * >( this->GetBounds() )->ConsiderPoint(pnt);
-        ++itBB;
-        }
-      }
+    tmpPt[d] = pt[d] - ptRadius;
     }
+  this->GetModifiableMyBoundingBoxInObjectSpace()->SetMinimum(tmpPt);
+  this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(tmpPt);
+
+  for( unsigned int d=0; d<TDimension; ++d )
+    {
+    tmpPt[d] = pt[d] + ptRadius;
+    }
+  this->GetModifiableMyBoundingBoxInObjectSpace()->ConsiderPoint(tmpPt);
+
+  it++;
+  while ( it != end )
+    {
+    pt = it->GetPositionInObjectSpace();
+    ptRadius = it->GetRadiusInObjectSpace();
+    for( unsigned int d=0; d<TDimension; ++d )
+      {
+      tmpPt[d] = pt[d] - ptRadius;
+      }
+    this->GetModifiableMyBoundingBoxInObjectSpace()->ConsiderPoint(tmpPt);
+
+    for( unsigned int d=0; d<TDimension; ++d )
+      {
+      tmpPt[d] = pt[d] + ptRadius;
+      }
+    this->GetModifiableMyBoundingBoxInObjectSpace()->ConsiderPoint(tmpPt);
+
+    it++;
+    }
+  this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
+
   return true;
 }
 
@@ -190,175 +143,146 @@ TubeSpatialObject< TDimension, TTubePointType >
 template< unsigned int TDimension, typename TTubePointType >
 bool
 TubeSpatialObject< TDimension, TTubePointType >
-::IsInside(const PointType & point) const
+::IsInsideInObjectSpace(const PointType & point, unsigned int depth,
+  const std::string & name ) const
 {
-  this->ComputeLocalBoundingBox();
-  if ( !this->GetBounds()->IsInside(point) )
+  if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    return false;
-    }
-
-  double minSquareDist = 999999.0;
-  double tempSquareDist;
-  auto it = m_Points.begin();
-  auto it2 = m_Points.begin();
-  auto end = m_Points.end();
-  typename PointListType::const_iterator min;
-
-  if ( !this->SetInternalInverseTransformToWorldToIndexTransform() )
-    {
-    return false;
-    }
-
-  PointType transformedPoint =
-    this->GetInternalInverseTransform()->TransformPoint(point);
-
-  if ( m_EndType == 0 ) // flat end-type
-    {
-    it2++; // next point
-    while ( it2 != end )
+    if( this->GetMyBoundingBoxInObjectSpace()->IsInside(point) )
       {
-      // Check if the point is on the normal plane
-      PointType a = ( *it ).GetPosition();
-      PointType b = ( *it2 ).GetPosition();
+      double minSquareDist = 999999.0;
+      double tempSquareDist;
+      auto it = this->m_Points.begin();
+      auto it2 = this->m_Points.begin();
+      auto end = this->m_Points.end();
+      auto minIt = it;
 
-      double A = 0;
-      double B = 0;
-
-      for ( unsigned int i = 0; i < TDimension; i++ )
+      if ( !m_EndRounded ) // flat end-type
         {
-        A += ( b[i] - a[i] ) * ( transformedPoint[i] - a[i] );
-        B += ( b[i] - a[i] ) * ( b[i] - a[i] );
+        it2++; // next point
+        while ( it2 != end )
+          {
+          // Check if the point is on the normal plane
+          PointType a = ( *it ).GetPositionInObjectSpace();
+          PointType b = ( *it2 ).GetPositionInObjectSpace();
+
+          double A = 0;
+          double B = 0;
+
+          for ( unsigned int i = 0; i < TDimension; i++ )
+            {
+            A += ( b[i] - a[i] ) * ( point[i] - a[i] );
+            B += ( b[i] - a[i] ) * ( b[i] - a[i] );
+            }
+
+          double lambda = A / B;
+
+          if ( ( ( it != this->m_Points.begin() )
+                 && ( lambda > -( ( *it ).GetRadiusInObjectSpace()
+                     / ( 2 * std::sqrt(B) ) ) )
+                 && ( lambda < 0 ) )
+               || ( ( lambda <= 1.0 ) && ( lambda >= 0.0 ) )
+                )
+            {
+            PointType p;
+
+            if ( lambda >= 0 )
+              {
+              for ( unsigned int i = 0; i < TDimension; i++ )
+                {
+                p[i] = a[i] + lambda * ( b[i] - a[i] );
+                }
+              }
+            else
+              {
+              for ( unsigned int i = 0; i < TDimension; i++ )
+                {
+                p[i] = b[i] + lambda * ( b[i] - a[i] );
+                }
+              }
+
+            // TODO: Verify not squared?
+            tempSquareDist = point.EuclideanDistanceTo(p);
+
+            double R;
+            if ( lambda >= 0 )
+              {
+              R = ( *it ).GetRadiusInObjectSpace()
+                + lambda * ( ( *it2 ).GetRadiusInObjectSpace()
+                  - ( *it ).GetRadiusInObjectSpace() );
+              }
+            else
+              {
+              R = ( *it2 ).GetRadiusInObjectSpace()
+                + lambda * ( ( *it2 ).GetRadiusInObjectSpace()
+                  - ( *it ).GetRadiusInObjectSpace() );
+              }
+
+            if ( tempSquareDist <= R )
+              {
+              return true;
+              }
+            }
+          it++;
+          it2++;
+          }
         }
-
-      double lambda = A / B;
-
-      if ( ( ( it != m_Points.begin() )
-             && ( lambda > -( ( *it ).GetRadius() / ( 2 * std::sqrt(B) ) ) )
-             && ( lambda < 0 ) )
-           || ( ( lambda <= 1.0 ) && ( lambda >= 0.0 ) )
-            )
+      else // rounded end-type
         {
-        PointType p;
-
-        if ( lambda >= 0 )
+        while ( it != end )
           {
-          for ( unsigned int i = 0; i < TDimension; i++ )
+          tempSquareDist = point.SquaredEuclideanDistanceTo(
+            ( *it ).GetPositionInObjectSpace() );
+          if ( tempSquareDist <= minSquareDist )
             {
-            p[i] = a[i] + lambda * ( b[i] - a[i] );
+            minSquareDist = tempSquareDist;
+            minIt = it;
             }
-          }
-        else
-          {
-          for ( unsigned int i = 0; i < TDimension; i++ )
-            {
-            p[i] = b[i] + lambda * ( b[i] - a[i] );
-            }
+          it++;
           }
 
-        tempSquareDist = transformedPoint.EuclideanDistanceTo(p);
-
-        double R;
-        if ( lambda >= 0 )
-          {
-          R = ( *it ).GetRadius() + lambda * ( ( *it2 ).GetRadius() - ( *it ).GetRadius() );
-          }
-        else
-          {
-          R = ( *it2 ).GetRadius() + lambda * ( ( *it2 ).GetRadius() - ( *it ).GetRadius() );
-          }
-
-        if ( tempSquareDist <= R )
+        double dist = std::sqrt(minSquareDist);
+        if ( dist <= ( minIt->GetRadiusInObjectSpace() ) )
           {
           return true;
           }
         }
-      it++;
-      it2++;
       }
     }
-  else if ( m_EndType == 1 ) // rounded end-type
-    {
-    while ( it != end )
-      {
-      tempSquareDist = transformedPoint.SquaredEuclideanDistanceTo(
-        ( *it ).GetPosition() );
-      if ( tempSquareDist <= minSquareDist )
-        {
-        minSquareDist = tempSquareDist;
-        min = it;
-        }
-      it++;
-      }
 
-    double dist = std::sqrt(minSquareDist);
-    if ( dist <= ( ( *min ).GetRadius() ) )
-      {
-      return true;
-      }
+  if( depth > 0 )
+    {
+    return Superclass::IsInsideChildrenInObjectSpace( point, depth-1, name );
     }
+
   return false;
-}
-
-/** Return true if the given point is inside the tube */
-template< unsigned int TDimension, typename TTubePointType >
-bool
-TubeSpatialObject< TDimension, TTubePointType >
-::IsInside(const PointType & point, unsigned int depth, char *name) const
-{
-  itkDebugMacro("Checking the point [" << point << "] is inside the tube");
-
-  if ( name == nullptr )
-    {
-    if ( IsInside(point) )
-      {
-      return true;
-      }
-    }
-  else if ( strstr(typeid( Self ).name(), name) )
-    {
-    if ( IsInside(point) )
-      {
-      return true;
-      }
-    }
-
-  return Superclass::IsInside(point, depth, name);
 }
 
 /** Remove duplicate points */
 template< unsigned int TDimension, typename TTubePointType >
 unsigned int
 TubeSpatialObject< TDimension, TTubePointType >
-::RemoveDuplicatePoints( unsigned int itkNotUsed(step) )
+::RemoveDuplicatePointsInObjectSpace( double minSpacingInObjectSpace )
 {
-  int length = this->GetNumberOfPoints();
-
-  if ( length <= 1 )
-    {
-    return 0;
-    }
-
   int nPoints = 0;
-  for ( int i = 0; i < length - 1; i++ )
+
+  auto it = this->m_Points.begin();
+  while( it != this->m_Points.end() )
     {
-    if ( this->GetPoint(i)->GetPosition() == this->GetPoint(i + 1)->GetPosition() )
+    PointType pnt = it->GetPositionInObjectSpace();
+    ++it;
+    if( it != this->m_Points.end() )
       {
-      this->RemovePoint(i + 1);
-      i--;
-      length--;
-      nPoints++;
-      }
-    if ( i >= 0 && i < length - 2
-         && this->GetPoint(i)->GetPosition() == this->GetPoint(i + 2)->GetPosition() )
-      {
-      this->RemovePoint(i + 2);
-      i--;
-      length--;
-      nPoints++;
+      PointType pnt2 = it->GetPositionInObjectSpace();
+      double dist = pnt.EuclideanDistanceTo( pnt2 );
+      if ( dist <= minSpacingInObjectSpace )
+        {
+        it = this->m_Points.erase( it );
+        nPoints++;
+        --it;
+        }
       }
     }
-
   return nPoints;
 }
 
@@ -383,7 +307,7 @@ TubeSpatialObject< TDimension, TTubePointType >
 
   if ( length == 1 )
     {
-    ( (TubePointType *)( this->GetPoint(0) ) )->SetTangent(t);
+    ( (TubePointType *)( this->GetPoint(0) ) )->SetTangentInObjectSpace(t);
     return true;
     }
 
@@ -393,8 +317,8 @@ TubeSpatialObject< TDimension, TTubePointType >
 
   while ( it3 < (unsigned int)length )
     {
-    x1 = this->GetPoint(it1)->GetPosition();
-    x3 = this->GetPoint(it3)->GetPosition();
+    x1 = this->GetPoint(it1)->GetPositionInObjectSpace();
+    x3 = this->GetPoint(it3)->GetPositionInObjectSpace();
     l = 0;
     for ( unsigned int i = 0; i < TDimension; i++ )
       {
@@ -417,7 +341,7 @@ TubeSpatialObject< TDimension, TTubePointType >
       t[i] /= l;
       }
 
-    ( (TubePointType *)( this->GetPoint(it2) ) )->SetTangent(t);
+    ( (TubePointType *)( this->GetPoint(it2) ) )->SetTangentInObjectSpace(t);
     it1++;
     it2++;
     it3++;
@@ -425,12 +349,12 @@ TubeSpatialObject< TDimension, TTubePointType >
 
   it1 = 0;
   it2 = 1;
-  t = ( (TubePointType *)( this->GetPoint(it2) ) )->GetTangent();
-  ( (TubePointType *)( this->GetPoint(it1) ) )->SetTangent(t);
+  t = ( (TubePointType *)( this->GetPoint(it2) ) )->GetTangentInObjectSpace();
+  ( (TubePointType *)( this->GetPoint(it1) ) )->SetTangentInObjectSpace(t);
   it1 = length - 1;
   it2 = length - 2;
-  t = ( (TubePointType *)( this->GetPoint(it2) ) )->GetTangent();
-  ( (TubePointType *)( this->GetPoint(it1) ) )->SetTangent(t);
+  t = ( (TubePointType *)( this->GetPoint(it2) ) )->GetTangentInObjectSpace();
+  ( (TubePointType *)( this->GetPoint(it1) ) )->SetTangentInObjectSpace(t);
 
   // Compute the normal
   CovariantVectorType n1;
@@ -439,14 +363,14 @@ TubeSpatialObject< TDimension, TTubePointType >
   it1 = 0;
   while ( it1 < (unsigned int)length )
     {
-    t = ( (TubePointType *)( this->GetPoint(it1) ) )->GetTangent();
+    t = ( (TubePointType *)( this->GetPoint(it1) ) )->GetTangentInObjectSpace();
 
     if ( TDimension == 2 )
       {
-      t = ( (TubePointType *)( this->GetPoint(it1) ) )->GetTangent();
+      t = ( (TubePointType *)( this->GetPoint(it1) ) )->GetTangentInObjectSpace();
       n1[0] = -t[1];
       n1[1] = t[0];
-      ( (TubePointType *)( this->GetPoint(it1) ) )->SetNormal1(n1);
+      ( (TubePointType *)( this->GetPoint(it1) ) )->SetNormal1InObjectSpace(n1);
       }
     else if ( TDimension == 3 )
       {
@@ -465,8 +389,8 @@ TubeSpatialObject< TDimension, TTubePointType >
       n2[1] = t[2] * n1[0] - t[0] * n1[2];
       n2[2] = t[0] * n1[1] - t[1] * n1[0];
 
-      ( (TubePointType *)( this->GetPoint(it1) ) )->SetNormal1(n1);
-      ( (TubePointType *)( this->GetPoint(it1) ) )->SetNormal2(n2);
+      ( (TubePointType *)( this->GetPoint(it1) ) )->SetNormal1InObjectSpace(n1);
+      ( (TubePointType *)( this->GetPoint(it1) ) )->SetNormal2InObjectSpace(n2);
       }
 
     it1++;
@@ -474,99 +398,30 @@ TubeSpatialObject< TDimension, TTubePointType >
 
   it1 = 0;
   it2 = 1;
-  n1 = ( (TubePointType *)( this->GetPoint(it2) ) )->GetNormal1();
-  ( (TubePointType *)( this->GetPoint(it1) ) )->SetNormal1(n1);
+  n1 = ( (TubePointType *)( this->GetPoint(it2) ) )->GetNormal1InObjectSpace();
+  ( (TubePointType *)( this->GetPoint(it1) ) )->SetNormal1InObjectSpace(n1);
 
   if ( TDimension == 3 )
     {
-    n2 = ( (TubePointType *)( this->GetPoint(it2) ) )->GetNormal2();
-    ( (TubePointType *)( this->GetPoint(it1) ) )->SetNormal2(n2);
+    n2 = ( (TubePointType *)( this->GetPoint(it2) ) )->GetNormal2InObjectSpace();
+    ( (TubePointType *)( this->GetPoint(it1) ) )->SetNormal2InObjectSpace(n2);
     }
 
   it1 = length - 1;
   it2 = length - 2;
-  n1 = ( (TubePointType *)( this->GetPoint(it2) ) )->GetNormal1();
-  ( (TubePointType *)( this->GetPoint(it1) ) )->SetNormal1(n1);
+  n1 = ( (TubePointType *)( this->GetPoint(it2) ) )->GetNormal1InObjectSpace();
+  ( (TubePointType *)( this->GetPoint(it1) ) )->SetNormal1InObjectSpace(n1);
 
   if ( TDimension == 3 )
     {
-    n2 = ( (TubePointType *)( this->GetPoint(it2) ) )->GetNormal2();
-    ( (TubePointType *)( this->GetPoint(it1) ) )->SetNormal2(n2);
+    n2 = ( (TubePointType *)( this->GetPoint(it2) ) )->GetNormal2InObjectSpace();
+    ( (TubePointType *)( this->GetPoint(it1) ) )->SetNormal2InObjectSpace(n2);
     }
 
   return true;
 }
 
-/** Return true if the tube is evaluable at a given point */
-template< unsigned int TDimension, typename TTubePointType >
-bool
-TubeSpatialObject< TDimension, TTubePointType >
-::IsEvaluableAt(const PointType & point,
-                unsigned int depth, char *name) const
-{
-  itkDebugMacro("Checking if the tube is evaluable at " << point);
-  return IsInside(point, depth, name);
-}
 
-/** Return the value of the tube at a specified point */
-template< unsigned int TDimension, typename TTubePointType >
-bool
-TubeSpatialObject< TDimension, TTubePointType >
-::ValueAt(const PointType & point, double & value, unsigned int depth,
-          char *name) const
-{
-  itkDebugMacro("Getting the value of the tube at " << point);
-  if ( IsInside(point, 0, name) )
-    {
-    value = this->GetDefaultInsideValue();
-    return true;
-    }
-  else if ( Superclass::IsEvaluableAt(point, depth, name) )
-    {
-    Superclass::ValueAt(point, value, depth, name);
-    return true;
-    }
-  value = this->GetDefaultOutsideValue();
-  return false;
-}
-
-/** Copy the information from another spatial object */
-template< unsigned int TDimension, typename TTubePointType >
-void
-TubeSpatialObject< TDimension, TTubePointType >
-::CopyInformation(const DataObject *data)
-{
-  // check if we are the same type
-  const auto * source = dynamic_cast< const Self * >( data );
-
-  if ( source == nullptr )
-    {
-    std::cout << "CopyInformation: objects are not of the same type"
-              << std::endl;
-    return;
-    }
-
-  // copy the properties
-  Superclass::CopyInformation(data);
-
-  // copy the internal info
-  this->SetRoot( source->GetRoot() );
-  this->SetArtery( source->GetArtery() );
-  this->SetParentPoint( source->GetParentPoint() );
-  this->SetEndType( source->GetEndType() );
-
-  // We copy the points
-  PointListType source_list = source->GetPoints();
-  typename PointListType::const_iterator it_source = source_list.begin();
-
-  this->m_Points.clear();
-
-  while ( it_source != source_list.end() )
-    {
-    this->m_Points.push_back(*it_source);
-    it_source++;
-    }
-}
 } // end namespace itk
 
 #endif // end itkTubeSpatialObject_hxx

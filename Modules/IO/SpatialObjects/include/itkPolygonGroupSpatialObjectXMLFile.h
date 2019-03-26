@@ -19,13 +19,12 @@
 #define itkPolygonGroupSpatialObjectXMLFile_h
 
 
-#include "itkPolygonGroupSpatialObject.h"
 #include "itkXMLFile.h"
+#include "itkGroupSpatialObject.h"
+#include "itkPolygonSpatialObject.h"
+
 namespace itk
 {
-/* 3D Polygon Groups only ones that make sense for this data type */
-using PGroupSpatialObjectType = PolygonGroupSpatialObject< 3 >;
-
 /** \class PolygonGroupSpatialObjectXMLFileReader
  *
  * Reads an XML-format file containing a list of polygons, and
@@ -33,20 +32,22 @@ using PGroupSpatialObjectType = PolygonGroupSpatialObject< 3 >;
  * \ingroup ITKIOSpatialObjects
  */
 class PolygonGroupSpatialObjectXMLFileReader:
-  public XMLReader< PGroupSpatialObjectType >
+  public XMLReader< GroupSpatialObject< 3 > >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PolygonGroupSpatialObjectXMLFileReader);
 
   /** Standard type alias */
   using Self = PolygonGroupSpatialObjectXMLFileReader;
-  using Superclass = XMLReader< PGroupSpatialObjectType >;
+  using Superclass = XMLReader< GroupSpatialObject< 3 > >;
   using Pointer = SmartPointer< Self >;
 
-  using PolygonGroupType = PGroupSpatialObjectType;
+  using GroupSpatialObjectType = GroupSpatialObject< 3 >;
+
+  using GroupType = GroupSpatialObjectType;
   using PolygonSpatialObjectType = PolygonSpatialObject< 3 >;
-  using PointType = SpatialObjectPoint< 3 >;
-  using PointListType = std::vector< PointType >;
+  using PolygonPointType = SpatialObjectPoint< 3 >;
+  using PolygonPointListType = std::vector< PolygonPointType >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(PolygonGroupSpatialObjectXMLFileReader, XMLReader);
@@ -69,26 +70,26 @@ protected:
   void CharacterDataHandler(const char *inData, int inLength) override;
 
 private:
-  PGroupSpatialObjectType::Pointer  m_PGroup;
+  GroupSpatialObjectType::Pointer   m_Group;
   PolygonSpatialObjectType::Pointer m_CurPoly;
-  PointListType                     m_CurPointList;
+  PolygonPointListType              m_CurPointList;
   std::string                       m_CurCharacterData;
 };
 
 /** \class PolygonGroupSpatialObjectXMLFileWriter
  *
  * Writes an XML-format file containing a list of polygons,
- * based on a PolygonGroupSpatialObject.
+ * based on a GroupSpatialObject.
  * \ingroup ITKIOSpatialObjects
  */
 class PolygonGroupSpatialObjectXMLFileWriter:
-  public XMLWriterBase< PGroupSpatialObjectType >
+  public XMLWriterBase< GroupSpatialObject<3> >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(PolygonGroupSpatialObjectXMLFileWriter);
 
   /** standard type alias */
-  using Superclass = XMLWriterBase< PGroupSpatialObjectType >;
+  using Superclass = XMLWriterBase< GroupSpatialObject<3> >;
   using Self = PolygonGroupSpatialObjectXMLFileWriter;
   using Pointer = SmartPointer< Self >;
 
@@ -97,9 +98,12 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(PolygonGroupSpatialObjectXMLFileWriter,
-               XMLWriterBase< PGroupSpatialObjectType > );
-  using PolygonGroupType = PGroupSpatialObjectType;
+               XMLWriterBase< GroupSpatialObjectType > );
+
+  using GroupType = GroupSpatialObject<3>;
+
   using PolygonSpatialObjectType = PolygonSpatialObject< 3 >;
+
   /** Test whether a file is writable. */
   int CanWriteFile(const char *name) override;
 

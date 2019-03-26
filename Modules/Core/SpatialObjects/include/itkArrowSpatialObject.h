@@ -56,88 +56,51 @@ public:
   /** Method for creation through the object factory. */
   itkTypeMacro(ArrowSpatialObject, SpatialObject);
 
-  /** Set the position of the arrow */
-  void SetPosition(const PointType & p)
-  {
-    m_Position = p;
-    this->UpdateTransform();
-  }
+  /** Set the position of the arrow : this is the point of the arrow */
+  itkSetMacro( PositionInObjectSpace, PointType );
 
-  itkGetConstMacro(Position, PointType);
+  /** Get the position of the arrow : this is the point of the arrow */
+  itkGetConstMacro(PositionInObjectSpace, PointType);
 
-  void SetPosition(float x, float y)
-  {
-    m_Position[0] = x;
-    m_Position[1] = y;
-    this->UpdateTransform();
-  }
+  /** Set the direction of the arrow : this is the direction from the point */
+  itkSetMacro( DirectionInObjectSpace, VectorType );
 
-  void SetPosition(float x, float y, float z)
-  {
-    m_Position[0] = x;
-    m_Position[1] = y;
-    m_Position[2] = z;
-    this->UpdateTransform();
-  }
-
-  /** Set the direction of the arrow */
-  void SetDirection(const VectorType & d)
-  {
-    m_Direction = d;
-    this->UpdateTransform();
-  }
-
-  itkGetConstMacro(Direction, VectorType);
-
-  void SetDirection(float x, float y)
-  {
-    m_Direction[0] = x;
-    m_Direction[1] = y;
-    this->UpdateTransform();
-  }
-
-  void SetDirection(float x, float y, float z)
-  {
-    m_Direction[0] = x;
-    m_Direction[1] = y;
-    m_Direction[2] = z;
-    this->UpdateTransform();
-  }
+  /** Get the direction of the arrow : this is the direction from the point */
+  itkGetConstMacro(DirectionInObjectSpace, VectorType);
 
   /** Set the length of the arrow */
-  void SetLength(double length);
+  itkSetMacro( LengthInObjectSpace, double);
 
   /** Get the length of the arrow */
-  itkGetConstReferenceMacro(Length, double);
+  itkGetConstReferenceMacro(LengthInObjectSpace, double);
 
-  /** Compute the local bounding box */
-  bool ComputeLocalBoundingBox() const override;
+  /** Compute the Object bounding box */
+  bool ComputeMyBoundingBox() const override;
 
   /** Returns true if the point is inside the line, false otherwise. */
-  bool IsInside(const PointType & point,
-                unsigned int depth, char *name) const override;
+  bool IsInsideInObjectSpace(const PointType & point, unsigned int depth=0,
+    const std::string & name="") const override;
 
-  /** Test whether a point is inside or outside the object
-   *  For computational speed purposes, it is faster if the method does not
-   *  check the name of the class and the current depth */
-  virtual bool IsInside(const PointType & point) const;
+  PointType GetPositionInWorldSpace() const;
+  VectorType GetDirectionInWorldSpace() const;
+  double GetLengthInWorldSpace() const;
 
 protected:
 
   ArrowSpatialObject();
   ~ArrowSpatialObject() override = default;
 
-  /** Update the transformation given the position and the direction */
-  void UpdateTransform();
-
   /** Method to print the object.*/
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
+  typename LightObject::Pointer InternalClone() const override;
+
 private:
-  VectorType m_Direction;
-  PointType  m_Position;
-  double     m_Length;
+  VectorType m_DirectionInObjectSpace;
+  PointType  m_PositionInObjectSpace;
+  double     m_LengthInObjectSpace;
 };
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

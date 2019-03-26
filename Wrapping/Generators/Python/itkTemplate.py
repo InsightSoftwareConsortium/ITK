@@ -165,6 +165,19 @@ class itkTemplate(object):
         # add the attribute to this object
         self.__dict__[attributeName] = cl
 
+    def __instancecheck__(self, instance):
+        """Overloads `isinstance()` when called on an `itkTemplate` object.
+
+        This function allows to compare an object to a filter without
+        specifying the actual template arguments of the class. It will
+        test all available template parameters that have been wrapped
+        and return `True` if one that corresponds to the object is found.
+        """
+        for k in self.keys():
+            if isinstance(instance, self[k]):
+                return True
+        return False
+
     def __find_param__(self, paramSetString):
         """Find the parameters of the template.
 
@@ -403,7 +416,20 @@ class itkTemplate(object):
             # to deal with checking if both keyword arguments are given.
             return self._NewImageReader(itk.ImageSeriesReader, True, 'FileNames', *args, **kwargs)
         primary_input_methods = ('Input', 'InputImage', 'Input1')
-        if len(args) != 0:
+        if 'ttype' in kwargs and keys:
+            # Convert `ttype` argument to `tuple` as filter keys are tuples.
+            # Note that the function `itk.template()` which returns the template
+            # arguments of an object returns tuples and its returned value
+            # should be usable in this context.
+            # However, it is easy for a user to pass a list (e.g. [ImageType, ImageType]) and
+            # this needs to work too.
+            ttype = tuple(kwargs.pop('ttype'))
+            # If there is not the correct number of template parameters, throw an error.
+            if len(ttype) != len(keys[0]):
+                raise RuntimeError("Expected %d template parameters. %d parameters given."
+                                   %(len(keys[0]), len(ttype)))
+            keys = [k for k in keys if k == ttype]
+        elif len(args) != 0:
             # try to find a type suitable for the primary input provided
             input_type = output(args[0]).__class__
             keys = [k for k in keys if k[0] == input_type]

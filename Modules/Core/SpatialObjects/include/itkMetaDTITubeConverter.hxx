@@ -46,23 +46,15 @@ MetaDTITubeConverter< NDimensions >
   DTITubeSpatialObjectPointer tubeSO =
     DTITubeSpatialObjectType::New();
 
-  double spacing[NDimensions];
-
-  unsigned int ndims = tube->NDims();
-  for ( unsigned int ii = 0; ii < ndims; ii++ )
-    {
-    spacing[ii] = tube->ElementSpacing()[ii];
-    }
-
-  tubeSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  tubeSO->GetProperty()->SetName( tube->Name() );
+  tubeSO->SetTypeName( "DTITubeSpatialObject" );
+  tubeSO->GetProperty().SetName( tube->Name() );
   tubeSO->SetParentPoint( tube->ParentPoint() );
   tubeSO->SetId( tube->ID() );
   tubeSO->SetParentId( tube->ParentID() );
-  tubeSO->GetProperty()->SetRed(tube->Color()[0]);
-  tubeSO->GetProperty()->SetGreen(tube->Color()[1]);
-  tubeSO->GetProperty()->SetBlue(tube->Color()[2]);
-  tubeSO->GetProperty()->SetAlpha(tube->Color()[3]);
+  tubeSO->GetProperty().SetRed(tube->Color()[0]);
+  tubeSO->GetProperty().SetGreen(tube->Color()[1]);
+  tubeSO->GetProperty().SetBlue(tube->Color()[2]);
+  tubeSO->GetProperty().SetAlpha(tube->Color()[3]);
 
   using TubePointType = itk::DTITubeSpatialObjectPoint< NDimensions >;
 
@@ -73,20 +65,21 @@ MetaDTITubeConverter< NDimensions >
   itk::Vector< double, NDimensions > t;
   t.Fill(0.0);
 
-  for ( unsigned int identifier = 0; identifier < tube->GetPoints().size(); identifier++ )
+  for ( unsigned int identifier = 0; identifier < tube->GetPoints().size();
+    identifier++ )
     {
     TubePointType pnt;
 
     using PointType = typename DTITubeSpatialObjectType::PointType;
     PointType point;
 
-    for ( unsigned int ii = 0; ii < ndims; ii++ )
+    for ( unsigned int ii = 0; ii < NDimensions; ii++ )
       {
       point[ii] = ( *it2 )->m_X[ii];
       }
 
     // Get the fields from the metaIO
-    const DTITubePnt::FieldListType &         metaFields = ( *it2 )->GetExtraFields();
+    const DTITubePnt::FieldListType & metaFields = ( *it2 )->GetExtraFields();
     auto extraIt = metaFields.begin();
     while ( extraIt != metaFields.end() )
       {
@@ -113,7 +106,7 @@ MetaDTITubeConverter< NDimensions >
       extraIt++;
       }
 
-    pnt.SetPosition(point);
+    pnt.SetPositionInObjectSpace(point);
 
     auto * tensor = new float[6];
 
@@ -128,19 +121,19 @@ MetaDTITubeConverter< NDimensions >
     // This attribute is optional
     if ( Math::NotExactlyEquals(( *it2 )->GetField("r"), -1) )
       {
-      pnt.SetRadius( ( *it2 )->GetField("r") );
+      pnt.SetRadiusInObjectSpace( ( *it2 )->GetField("r") );
       }
 
     char vnd[] = "v1x";
     if ( Math::NotExactlyEquals(( *it2 )->GetField( vnd ), -1) )
       {
       v[0]  = ( *it2 )->GetField( vnd );
-      for( unsigned int ii = 1; ii < ndims; ++ii )
+      for( unsigned int ii = 1; ii < NDimensions; ++ii )
         {
         ++(vnd[2]); // x -> y -> z
         v[ii]  = ( *it2 )->GetField( vnd );
         }
-      pnt.SetNormal1(v);
+      pnt.SetNormal1InObjectSpace(v);
       }
 
     vnd[1] = '2';
@@ -148,24 +141,24 @@ MetaDTITubeConverter< NDimensions >
     if ( Math::NotExactlyEquals(( *it2 )->GetField( vnd ), -1) )
       {
       v[0]  = ( *it2 )->GetField( vnd );
-      for( unsigned int ii = 1; ii < ndims; ++ii )
+      for( unsigned int ii = 1; ii < NDimensions; ++ii )
         {
         ++(vnd[2]); // x -> y -> z
         v[ii]  = ( *it2 )->GetField( vnd );
         }
-      pnt.SetNormal1(v);
+      pnt.SetNormal1InObjectSpace(v);
       }
 
     char td[] = "tx";
     if ( Math::NotExactlyEquals(( *it2 )->GetField( td ), -1) )
       {
       t[0] = ( *it2 )->GetField( td );
-      for( unsigned int ii = 1; ii < ndims; ++ii )
+      for( unsigned int ii = 1; ii < NDimensions; ++ii )
         {
         ++(td[1]); // x -> y -> z
         t[ii] = ( *it2 )->GetField( td );
         }
-      pnt.SetTangent(t);
+      pnt.SetTangentInObjectSpace(t);
       }
 
     if ( Math::NotExactlyEquals(( *it2 )->GetField("red"), -1) )
@@ -190,7 +183,7 @@ MetaDTITubeConverter< NDimensions >
 
     if ( Math::NotExactlyEquals(( *it2 )->GetField("id"), -1) )
       {
-      pnt.SetID( (int)( ( *it2 )->GetField("id") ) );
+      pnt.SetId( (int)( ( *it2 )->GetField("id") ) );
       }
 
     tubeSO->GetPoints().push_back(pnt);
@@ -224,16 +217,16 @@ MetaDTITubeConverter< NDimensions >
   bool writeAlpha = false;
   bool writeID = false;
 
-  typename DTITubeSpatialObjectType::PointListType::const_iterator it;
+  typename DTITubeSpatialObjectType::DTITubePointListType::const_iterator it;
   for ( it = DTITubeSO->GetPoints().begin(); it != DTITubeSO->GetPoints().end(); ++it )
     {
     // Optional fields (written only if not default values)
-    if ( ( *it ).GetID() != -1 )
+    if ( ( *it ).GetId() != -1 )
       {
       writeID = true;
       }
 
-    if ( ( *it ).GetRadius() != 0.0f )
+    if ( ( *it ).GetRadiusInObjectSpace() != 0.0f )
       {
       writeRadius = true;
       }
@@ -241,15 +234,15 @@ MetaDTITubeConverter< NDimensions >
     unsigned int d;
     for ( d = 0; d < NDimensions; d++ )
       {
-      if ( Math::NotExactlyEquals(( *it ).GetNormal1()[d], 0) )
+      if ( Math::NotExactlyEquals(( *it ).GetNormal1InObjectSpace()[d], 0) )
         {
         writeNormal1 = true;
         }
-      if ( Math::NotExactlyEquals(( *it ).GetNormal2()[d], 0) )
+      if ( Math::NotExactlyEquals(( *it ).GetNormal2InObjectSpace()[d], 0) )
         {
         writeNormal2 = true;
         }
-      if ( Math::NotExactlyEquals(( *it ).GetTangent()[d], 0) )
+      if ( Math::NotExactlyEquals(( *it ).GetTangentInObjectSpace()[d], 0) )
         {
         writeTangent = true;
         }
@@ -277,7 +270,7 @@ MetaDTITubeConverter< NDimensions >
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {
-      pnt->m_X[d] = ( *it ).GetPosition()[d];
+      pnt->m_X[d] = ( *it ).GetPositionInObjectSpace()[d];
       }
 
     const DTITubePnt::FieldListType &         metaFields = ( *it ).GetFields();
@@ -296,41 +289,41 @@ MetaDTITubeConverter< NDimensions >
     // Optional fields (written only if not default values)
     if ( writeID )
       {
-      pnt->AddField( "id", ( *it ).GetID() );
+      pnt->AddField( "id", ( *it ).GetId() );
       }
 
     if ( writeRadius )
       {
-      pnt->AddField( "r", ( *it ).GetRadius() );
+      pnt->AddField( "r", ( *it ).GetRadiusInObjectSpace() );
       }
 
     if ( writeNormal1 )
       {
-      pnt->AddField("v1x", ( *it ).GetNormal1()[0]);
-      pnt->AddField("v1y", ( *it ).GetNormal1()[1]);
+      pnt->AddField("v1x", ( *it ).GetNormal1InObjectSpace()[0]);
+      pnt->AddField("v1y", ( *it ).GetNormal1InObjectSpace()[1]);
       if ( NDimensions == 3 )
         {
-        pnt->AddField("v1z", ( *it ).GetNormal1()[2]);
+        pnt->AddField("v1z", ( *it ).GetNormal1InObjectSpace()[2]);
         }
       }
 
     if ( writeNormal2 )
       {
-      pnt->AddField("v2x", ( *it ).GetNormal2()[0]);
-      pnt->AddField("v2y", ( *it ).GetNormal2()[1]);
+      pnt->AddField("v2x", ( *it ).GetNormal2InObjectSpace()[0]);
+      pnt->AddField("v2y", ( *it ).GetNormal2InObjectSpace()[1]);
       if ( NDimensions == 3 )
         {
-        pnt->AddField("v2z", ( *it ).GetNormal2()[2]);
+        pnt->AddField("v2z", ( *it ).GetNormal2InObjectSpace()[2]);
         }
       }
 
     if ( writeTangent )
       {
-      pnt->AddField("tx", ( *it ).GetTangent()[0]);
-      pnt->AddField("ty", ( *it ).GetTangent()[1]);
+      pnt->AddField("tx", ( *it ).GetTangentInObjectSpace()[0]);
+      pnt->AddField("ty", ( *it ).GetTangentInObjectSpace()[1]);
       if ( NDimensions == 3 )
         {
-        pnt->AddField("tz", ( *it ).GetTangent()[2]);
+        pnt->AddField("tz", ( *it ).GetTangentInObjectSpace()[2]);
         }
       }
 
@@ -355,7 +348,7 @@ MetaDTITubeConverter< NDimensions >
   float color[4];
   for ( unsigned int ii = 0; ii < 4; ii++ )
     {
-    color[ii] = DTITubeSO->GetProperty()->GetColor()[ii];
+    color[ii] = DTITubeSO->GetProperty().GetColor()[ii];
     }
 
   tube->Color(color);
@@ -368,11 +361,6 @@ MetaDTITubeConverter< NDimensions >
   tube->ParentPoint( DTITubeSO->GetParentPoint() );
   tube->NPoints(static_cast<int>( tube->GetPoints().size() ) );
 
-  for ( unsigned int ii = 0; ii < NDimensions; ii++ )
-    {
-    tube->ElementSpacing(ii, DTITubeSO->GetIndexToObjectTransform()
-                         ->GetScaleComponent()[ii]);
-    }
   return tube;
 }
 

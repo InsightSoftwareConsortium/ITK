@@ -153,7 +153,8 @@ MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
     typename Superclass::InputPointType inputPoint;
     fixedImage->TransformIndexToPhysicalPoint(index, inputPoint);
 
-    if ( this->GetFixedImageMask() && !this->GetFixedImageMask()->IsInside(inputPoint) )
+    if ( this->GetFixedImageMask()
+      && !this->GetFixedImageMask()->IsInsideInWorldSpace(inputPoint) )
       {
       ++ti;
       continue;
@@ -162,7 +163,8 @@ MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
     typename Superclass::OutputPointType
     transformedPoint = this->GetTransform()->TransformPoint(inputPoint);
 
-    if ( this->GetMovingImageMask() && !this->GetMovingImageMask()->IsInside(transformedPoint) )
+    if ( this->GetMovingImageMask()
+      && !this->GetMovingImageMask()->IsInsideInWorldSpace(transformedPoint) )
       {
       ++ti;
       continue;
@@ -170,7 +172,8 @@ MatchCardinalityImageToImageMetric< TFixedImage, TMovingImage >
 
     if ( this->GetInterpolator()->IsInsideBuffer(transformedPoint) )
       {
-      const RealType movingValue = this->GetInterpolator()->Evaluate(transformedPoint);
+      const RealType movingValue =
+        this->GetInterpolator()->Evaluate(transformedPoint);
       const RealType fixedValue = ti.Get();
       RealType       diff;
 

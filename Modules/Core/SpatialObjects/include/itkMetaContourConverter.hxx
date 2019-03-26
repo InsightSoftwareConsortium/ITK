@@ -46,31 +46,24 @@ MetaContourConverter< NDimensions >
   ContourSpatialObjectPointer contourSO =
     ContourSpatialObjectType::New();
 
-  double spacing[NDimensions];
-
-  unsigned int ndims = contourMO->NDims();
-  for ( unsigned int i = 0; i < ndims; i++ )
-    {
-    spacing[i] = contourMO->ElementSpacing()[i];
-    }
-  contourSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  contourSO->GetProperty()->SetName( contourMO->Name() );
+  contourSO->GetProperty().SetName( contourMO->Name() );
   contourSO->SetId( contourMO->ID() );
   contourSO->SetParentId( contourMO->ParentID() );
-  contourSO->GetProperty()->SetRed(contourMO->Color()[0]);
-  contourSO->GetProperty()->SetGreen(contourMO->Color()[1]);
-  contourSO->GetProperty()->SetBlue(contourMO->Color()[2]);
-  contourSO->GetProperty()->SetAlpha(contourMO->Color()[3]);
-  contourSO->SetClosed( const_cast<ContourMetaObjectType *>(contourMO)->Closed() );
+  contourSO->GetProperty().SetRed(contourMO->Color()[0]);
+  contourSO->GetProperty().SetGreen(contourMO->Color()[1]);
+  contourSO->GetProperty().SetBlue(contourMO->Color()[2]);
+  contourSO->GetProperty().SetAlpha(contourMO->Color()[3]);
+  contourSO->SetIsClosed( const_cast<ContourMetaObjectType *>(contourMO)->Closed() );
   contourSO->SetAttachedToSlice( const_cast<ContourMetaObjectType *>(contourMO)->AttachedToSlice() );
-  contourSO->SetDisplayOrientation( const_cast<ContourMetaObjectType *>(contourMO)->DisplayOrientation() );
 
   // First the control points
-  using ControlPointType = typename ContourSpatialObjectType::ControlPointType;
+  using ControlPointType = typename ContourSpatialObjectType::ContourPointType;
 
   auto itCP = contourMO->GetControlPoints().begin();
 
-  for ( unsigned int identifier = 0; identifier < contourMO->GetControlPoints().size(); identifier++ )
+  for ( unsigned int identifier = 0;
+        identifier < contourMO->GetControlPoints().size();
+        identifier++ )
     {
     ControlPointType pnt;
 
@@ -78,40 +71,40 @@ MetaContourConverter< NDimensions >
     PointType point;
     PointType pickedPoint;
 
-    using VectorType = typename ControlPointType::VectorType;
-    VectorType normal;
+    using CovariantVectorType = typename ControlPointType::CovariantVectorType;
+    CovariantVectorType normal;
 
-    for ( unsigned int i = 0; i < ndims; i++ )
+    for ( unsigned int i = 0; i < NDimensions; i++ )
       {
       point[i] = ( *itCP )->m_X[i];
       }
 
-    for ( unsigned int i = 0; i < ndims; i++ )
+    for ( unsigned int i = 0; i < NDimensions; i++ )
       {
       pickedPoint[i] = ( *itCP )->m_XPicked[i];
       }
 
-    for ( unsigned int i = 0; i < ndims; i++ )
+    for ( unsigned int i = 0; i < NDimensions; i++ )
       {
       normal[i] = ( *itCP )->m_V[i];
       }
 
-    pnt.SetID( ( *itCP )->m_Id );
+    pnt.SetId( ( *itCP )->m_Id );
     pnt.SetRed( ( *itCP )->m_Color[0] );
     pnt.SetGreen( ( *itCP )->m_Color[1] );
     pnt.SetBlue( ( *itCP )->m_Color[2] );
     pnt.SetAlpha( ( *itCP )->m_Color[3] );
 
-    pnt.SetPosition(point);
-    pnt.SetPickedPoint(pickedPoint);
-    pnt.SetNormal(normal);
+    pnt.SetPositionInObjectSpace(point);
+    pnt.SetPickedPointInObjectSpace(pickedPoint);
+    pnt.SetNormalInObjectSpace(normal);
 
     contourSO->GetControlPoints().push_back(pnt);
     itCP++;
     }
 
   // Then the interpolated points
-  using InterpolatedPointType = typename ContourSpatialObjectType::InterpolatedPointType;
+  using InterpolatedPointType = typename ContourSpatialObjectType::ContourPointType;
   auto itI = contourMO->GetInterpolatedPoints().begin();
 
   for ( unsigned int identifier = 0; identifier < contourMO->GetInterpolatedPoints().size(); identifier++ )
@@ -121,19 +114,19 @@ MetaContourConverter< NDimensions >
     using PointType = typename ControlPointType::PointType;
     PointType point;
 
-    for ( unsigned int i = 0; i < ndims; i++ )
+    for ( unsigned int i = 0; i < NDimensions; i++ )
       {
       point[i] = ( *itI )->m_X[i];
       }
 
-    pnt.SetID( ( *itI )->m_Id );
+    pnt.SetId( ( *itI )->m_Id );
     pnt.SetRed( ( *itI )->m_Color[0] );
     pnt.SetGreen( ( *itI )->m_Color[1] );
     pnt.SetBlue( ( *itI )->m_Color[2] );
     pnt.SetAlpha( ( *itI )->m_Color[3] );
 
-    pnt.SetPosition(point);
-    contourSO->GetInterpolatedPoints().push_back(pnt);
+    pnt.SetPositionInObjectSpace(point);
+    contourSO->GetPoints().push_back(pnt);
     itI++;
     }
 
@@ -156,7 +149,7 @@ MetaContourConverter< NDimensions >
 
 
   // fill in the control points information
-  typename ContourSpatialObjectType::ControlPointListType::const_iterator itCP;
+  typename ContourSpatialObjectType::ContourPointListType::const_iterator itCP;
 
   for ( itCP = contourSO->GetControlPoints().begin();
         itCP != contourSO->GetControlPoints().end();
@@ -164,21 +157,21 @@ MetaContourConverter< NDimensions >
     {
     auto * pnt = new ContourControlPnt(NDimensions);
 
-    pnt->m_Id = ( *itCP ).GetID();
+    pnt->m_Id = ( *itCP ).GetId();
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {
-      pnt->m_X[d] = ( *itCP ).GetPosition()[d];
+      pnt->m_X[d] = ( *itCP ).GetPositionInObjectSpace()[d];
       }
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {
-      pnt->m_XPicked[d] = ( *itCP ).GetPickedPoint()[d];
+      pnt->m_XPicked[d] = ( *itCP ).GetPickedPointInObjectSpace()[d];
       }
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {
-      pnt->m_V[d] = ( *itCP ).GetNormal()[d];
+      pnt->m_V[d] = ( *itCP ).GetNormalInObjectSpace()[d];
       }
 
     pnt->m_Color[0] = ( *itCP ).GetRed();
@@ -199,17 +192,17 @@ MetaContourConverter< NDimensions >
     }
 
   // fill in the interpolated points information
-  typename ContourSpatialObjectType::InterpolatedPointListType::const_iterator itI;
-  for ( itI = contourSO->GetInterpolatedPoints().begin();
-        itI != contourSO->GetInterpolatedPoints().end();
+  typename ContourSpatialObjectType::ContourPointListType::const_iterator itI;
+  for ( itI = contourSO->GetPoints().begin();
+        itI != contourSO->GetPoints().end();
         itI++ )
     {
     auto * pnt = new ContourInterpolatedPnt(NDimensions);
 
-    pnt->m_Id = ( *itI ).GetID();
+    pnt->m_Id = ( *itI ).GetId();
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {
-      pnt->m_X[d] = ( *itI ).GetPosition()[d];
+      pnt->m_X[d] = ( *itI ).GetPositionInObjectSpace()[d];
       }
 
     pnt->m_Color[0] = ( *itI ).GetRed();
@@ -230,15 +223,15 @@ MetaContourConverter< NDimensions >
     }
 
   // Set the interpolation type
-  switch ( contourSO->GetInterpolationType() )
+  switch ( contourSO->GetInterpolationMethod() )
     {
-    case ContourSpatialObjectType::EXPLICIT_INTERPOLATION:
+    case ContourSpatialObjectType::InterpolationMethodType::EXPLICIT_INTERPOLATION:
       contourMO->Interpolation(MET_EXPLICIT_INTERPOLATION);
       break;
-    case ContourSpatialObjectType::LINEAR_INTERPOLATION:
+    case ContourSpatialObjectType::InterpolationMethodType::LINEAR_INTERPOLATION:
       contourMO->Interpolation(MET_LINEAR_INTERPOLATION);
       break;
-    case ContourSpatialObjectType::BEZIER_INTERPOLATION:
+    case ContourSpatialObjectType::InterpolationMethodType::BEZIER_INTERPOLATION:
       contourMO->Interpolation(MET_BEZIER_INTERPOLATION);
       break;
     default:
@@ -248,24 +241,19 @@ MetaContourConverter< NDimensions >
   float color[4];
   for ( unsigned int i = 0; i < 4; i++ )
     {
-    color[i] = contourSO->GetProperty()->GetColor()[i];
+    color[i] = contourSO->GetProperty().GetColor()[i];
     }
   contourMO->Color(color);
   contourMO->ID( contourSO->GetId() );
-  contourMO->Closed( contourSO->GetClosed() );
+  contourMO->Closed( contourSO->GetIsClosed() );
   contourMO->AttachedToSlice( contourSO->GetAttachedToSlice() );
-  contourMO->DisplayOrientation( contourSO->GetDisplayOrientation() );
+  contourMO->DisplayOrientation( contourSO->GetOrientationInObjectSpace() );
 
   if ( contourSO->GetParent() )
     {
     contourMO->ParentID( contourSO->GetParent()->GetId() );
     }
 
-  for ( unsigned int i = 0; i < NDimensions; i++ )
-    {
-    contourMO->ElementSpacing(i, contourSO->GetIndexToObjectTransform()
-                            ->GetScaleComponent()[i]);
-    }
   contourMO->BinaryData(true);
   return contourMO;
 }

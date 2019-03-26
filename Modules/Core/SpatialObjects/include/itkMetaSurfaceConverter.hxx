@@ -43,21 +43,13 @@ MetaSurfaceConverter< NDimensions >
     }
   typename SurfaceSpatialObjectType::Pointer  surfaceSO = SurfaceSpatialObjectType::New();
 
-  double spacing[NDimensions];
-
-  unsigned int ndims = surfaceMO->NDims();
-  for ( unsigned int ii = 0; ii < ndims; ii++ )
-    {
-    spacing[ii] = surfaceMO->ElementSpacing()[ii];
-    }
-  surfaceSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  surfaceSO->GetProperty()->SetName( surfaceMO->Name() );
+  surfaceSO->GetProperty().SetName( surfaceMO->Name() );
   surfaceSO->SetId( surfaceMO->ID() );
   surfaceSO->SetParentId( surfaceMO->ParentID() );
-  surfaceSO->GetProperty()->SetRed(surfaceMO->Color()[0]);
-  surfaceSO->GetProperty()->SetGreen(surfaceMO->Color()[1]);
-  surfaceSO->GetProperty()->SetBlue(surfaceMO->Color()[2]);
-  surfaceSO->GetProperty()->SetAlpha(surfaceMO->Color()[3]);
+  surfaceSO->GetProperty().SetRed(surfaceMO->Color()[0]);
+  surfaceSO->GetProperty().SetGreen(surfaceMO->Color()[1]);
+  surfaceSO->GetProperty().SetBlue(surfaceMO->Color()[2]);
+  surfaceSO->GetProperty().SetAlpha(surfaceMO->Color()[3]);
 
   using SurfacePointType = typename SurfaceSpatialObjectType::SurfacePointType;
 
@@ -69,15 +61,15 @@ MetaSurfaceConverter< NDimensions >
 
     using PointType = typename SurfacePointType::PointType;
     PointType point;
-    using VectorType = typename SurfacePointType::VectorType;
-    VectorType normal;
+    using CovariantVectorType = typename SurfacePointType::CovariantVectorType;
+    CovariantVectorType normal;
 
-    for ( unsigned int ii = 0; ii < ndims; ii++ )
+    for ( unsigned int ii = 0; ii < NDimensions; ii++ )
       {
       point[ii] = ( *it2 )->m_X[ii];
       }
 
-    for ( unsigned int ii = 0; ii < ndims; ii++ )
+    for ( unsigned int ii = 0; ii < NDimensions; ii++ )
       {
       normal[ii] = ( *it2 )->m_V[ii];
       }
@@ -87,8 +79,8 @@ MetaSurfaceConverter< NDimensions >
     pnt.SetBlue( ( *it2 )->m_Color[2] );
     pnt.SetAlpha( ( *it2 )->m_Color[3] );
 
-    pnt.SetPosition(point);
-    pnt.SetNormal(normal);
+    pnt.SetPositionInObjectSpace(point);
+    pnt.SetNormalInObjectSpace(normal);
 
     surfaceSO->GetPoints().push_back(pnt);
     it2++;
@@ -113,7 +105,7 @@ MetaSurfaceConverter< NDimensions >
   auto * surfaceMO = new MetaSurface(NDimensions);
 
   // fill in the Surface information
-  typename SurfaceSpatialObjectType::PointListType::const_iterator it;
+  typename SurfaceSpatialObjectType::SurfacePointListType::const_iterator it;
   for ( it = surfaceSO->GetPoints().begin();
         it != surfaceSO->GetPoints().end();
         ++it )
@@ -122,12 +114,12 @@ MetaSurfaceConverter< NDimensions >
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {
-      pnt->m_X[d] = ( *it ).GetPosition()[d];
+      pnt->m_X[d] = ( *it ).GetPositionInObjectSpace()[d];
       }
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {
-      pnt->m_V[d] = ( *it ).GetNormal()[d];
+      pnt->m_V[d] = ( *it ).GetNormalInObjectSpace()[d];
       }
 
     pnt->m_Color[0] = ( *it ).GetRed();
@@ -150,7 +142,7 @@ MetaSurfaceConverter< NDimensions >
   float color[4];
   for ( unsigned int ii = 0; ii < 4; ii++ )
     {
-    color[ii] = surfaceSO->GetProperty()->GetColor()[ii];
+    color[ii] = surfaceSO->GetProperty().GetColor()[ii];
     }
 
   surfaceMO->Color(color);
@@ -160,11 +152,6 @@ MetaSurfaceConverter< NDimensions >
     surfaceMO->ParentID( surfaceSO->GetParent()->GetId() );
     }
   surfaceMO->NPoints(static_cast<int>( surfaceMO->GetPoints().size() ) );
-
-  for ( unsigned int ii = 0; ii < NDimensions; ii++ )
-    {
-    surfaceMO->ElementSpacing(ii, surfaceSO->GetIndexToObjectTransform()->GetScaleComponent()[ii]);
-    }
 
   return surfaceMO;
 }

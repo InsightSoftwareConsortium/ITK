@@ -44,37 +44,30 @@ MetaArrowConverter< NDimensions >
     }
   ArrowSpatialObjectPointer arrowSO = ArrowSpatialObjectType::New();
 
-  double spacing[NDimensions];
-  float  length = metaArrow->Length();
+  float  lengthInObjectSpace = metaArrow->Length();
+  arrowSO->SetLengthInObjectSpace(lengthInObjectSpace);
 
-  for ( unsigned int i = 0; i < NDimensions; i++ )
-    {
-    spacing[i] = metaArrow->ElementSpacing()[i];
-    }
-
-  // convert position and direction/orientation
   const double *metaPosition = metaArrow->Position();
   const double *metaDirection = metaArrow->Direction();
-  typename SpatialObjectType::PointType position;
-  typename SpatialObjectType::VectorType direction;
+  typename SpatialObjectType::PointType positionInObjectSpace;
+  typename SpatialObjectType::VectorType directionInObjectSpace;
   for ( unsigned int i = 0; i < NDimensions; i++ )
     {
-    position[i] = metaPosition[i];
-    direction[i] = metaDirection[i];
+    positionInObjectSpace[i] = metaPosition[i];
+    directionInObjectSpace[i] = metaDirection[i];
     }
-  arrowSO->SetPosition(position);
-  arrowSO->SetDirection(direction);
+  arrowSO->SetPositionInObjectSpace(positionInObjectSpace);
+  arrowSO->SetDirectionInObjectSpace(directionInObjectSpace);
 
   // convert the other fields
-  arrowSO->GetIndexToObjectTransform()->SetScaleComponent(spacing);
-  arrowSO->SetLength(length);
-  arrowSO->GetProperty()->SetName( metaArrow->Name() );
+  arrowSO->GetProperty().SetName( metaArrow->Name() );
   arrowSO->SetId( metaArrow->ID() );
   arrowSO->SetParentId( metaArrow->ParentID() );
-  arrowSO->GetProperty()->SetRed(metaArrow->Color()[0]);
-  arrowSO->GetProperty()->SetGreen(metaArrow->Color()[1]);
-  arrowSO->GetProperty()->SetBlue(metaArrow->Color()[2]);
-  arrowSO->GetProperty()->SetAlpha(metaArrow->Color()[3]);
+  arrowSO->GetProperty().SetRed(metaArrow->Color()[0]);
+  arrowSO->GetProperty().SetGreen(metaArrow->Color()[1]);
+  arrowSO->GetProperty().SetBlue(metaArrow->Color()[2]);
+  arrowSO->GetProperty().SetAlpha(metaArrow->Color()[3]);
+  arrowSO->Update();
 
   return arrowSO.GetPointer();
 }
@@ -94,7 +87,7 @@ MetaArrowConverter< NDimensions >
 
   auto * mo = new MetaArrow(NDimensions);
 
-  float length = arrowSO->GetLength();
+  float metaLength = arrowSO->GetLengthInObjectSpace();
 
   if ( arrowSO->GetParent() )
     {
@@ -102,31 +95,28 @@ MetaArrowConverter< NDimensions >
     }
 
   // convert position and direction
-  double position[NDimensions];
-  double direction[NDimensions];
-  typename SpatialObjectType::PointType spPosition = arrowSO->GetPosition();
-  typename SpatialObjectType::VectorType spDirection = arrowSO->GetDirection();
+  double metaPosition[NDimensions];
+  double metaDirection[NDimensions];
+  typename SpatialObjectType::PointType spPositionInObjectSpace =
+    arrowSO->GetPositionInObjectSpace();
+  typename SpatialObjectType::VectorType spDirectionInObjectSpace =
+    arrowSO->GetDirectionInObjectSpace();
   for ( unsigned int i = 0; i < NDimensions; i++ )
     {
-    position[i] = spPosition[i];
-    direction[i] = spDirection[i];
+    metaPosition[i] = spPositionInObjectSpace[i];
+    metaDirection[i]= spDirectionInObjectSpace[i];
     }
-  mo->Position(position);
-  mo->Direction(direction);
+  mo->Position(metaPosition);
+  mo->Direction(metaDirection);
 
   // convert the rest of the parameters
-  mo->Length(length);
+  mo->Length(metaLength);
   mo->ID( arrowSO->GetId() );
 
-  mo->Color( arrowSO->GetProperty()->GetRed(),
-                arrowSO->GetProperty()->GetGreen(),
-                arrowSO->GetProperty()->GetBlue(),
-                arrowSO->GetProperty()->GetAlpha() );
-
-  for ( unsigned int i = 0; i < NDimensions; i++ )
-    {
-    mo->ElementSpacing(i, arrowSO->GetIndexToObjectTransform()->GetScaleComponent()[i]);
-    }
+  mo->Color( arrowSO->GetProperty().GetRed(),
+                arrowSO->GetProperty().GetGreen(),
+                arrowSO->GetProperty().GetBlue(),
+                arrowSO->GetProperty().GetAlpha() );
 
   return mo;
 }

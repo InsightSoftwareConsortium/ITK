@@ -82,8 +82,10 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
     {
     typename TFixedImage::PointType fixedSpacePhysicalPoint;
     this->m_FixedImage->TransformIndexToPhysicalPoint(fi.GetIndex(), fixedSpacePhysicalPoint);
-    if ( this->m_FixedImageMask.IsNull()  /* A null mask implies entire space is to be used.*/
-         || this->m_FixedImageMask->IsInside(fixedSpacePhysicalPoint) )
+    /* A null mask implies entire space is to be used.*/
+    if ( this->m_FixedImageMask.IsNull()
+         || this->m_FixedImageMask->IsInsideInWorldSpace(
+           fixedSpacePhysicalPoint ) )
        {
        const typename TFixedImage::PixelType currentValue = fi.Get();
        // update the Fixed Image true min accordingly
@@ -110,8 +112,10 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
     this->m_MovingImage->TransformIndexToPhysicalPoint
                                       (mi.GetIndex(), movingSpacePhysicalPoint);
 
-    if ( this->m_MovingImageMask.IsNull() /* A null mask implies entire space is to be used.*/
-         || this->m_MovingImageMask->IsInside(movingSpacePhysicalPoint) )
+    /* A null mask implies entire space is to be used.*/
+    if ( this->m_MovingImageMask.IsNull()
+         || this->m_MovingImageMask->IsInsideInWorldSpace(
+              movingSpacePhysicalPoint) )
        {
        const typename TMovingImage::PixelType currentValue=mi.Get();
        // update the Moving Image true min accordingly

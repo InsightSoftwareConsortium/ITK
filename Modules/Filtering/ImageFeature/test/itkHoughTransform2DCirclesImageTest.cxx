@@ -180,8 +180,10 @@ namespace
 
     if ( circles1.size() != circles2.size() )
     {
-      // The choice of the radius image type should not affect the number of circles found.
-      std::cout << "The size of circles1 and circles2 should be equal, even while the radius image types differ!"
+      // The choice of the radius image type should not affect the number of
+      // circles found.
+      std::cout << "The size of circles1 and circles2 should be equal, even"
+        << " while the radius image types differ!"
         << std::endl;
       return false;
     }
@@ -201,25 +203,29 @@ namespace
 
     using PointType = CircleType::PointType;
 
-    const PointType& centerPoint1 = circle1->GetCenterPoint();
-    const PointType& centerPoint2 = circle2->GetCenterPoint();
+    const PointType& centerPoint1 = circle1->GetCenterInObjectSpace();
+    const PointType& centerPoint2 = circle2->GetCenterInObjectSpace();
 
     if (centerPoint1 != centerPoint2)
     {
-      // The choice of the radius image type should not affect the center estimation.
-      std::cout << "center1 and center2 should be equal, even while the radius image types differ!"
+      // The choice of the radius image type should not affect the center
+      // estimation.
+      std::cout << "center1 and center2 should be equal, even while the "
+        << "radius image types differ!"
         << std::endl;
       success = false;
     }
 
-    const double radius1 = circle1->GetRadius()[0];
-    const double radius2 = circle2->GetRadius()[0];
+    const double radius1 = circle1->GetRadiusInObjectSpace()[0];
+    const double radius2 = circle2->GetRadiusInObjectSpace()[0];
 
     if ( radius2 < radius1 )
     {
-      // The radius estimation of filter1 was truncated, whereas the radius estimation of filter2 was not,
+      // The radius estimation of filter1 was truncated, whereas the radius
+      // estimation of filter2 was not,
       // so radius2 is expected to be greater than or equal to radius1.
-      std::cout << "radius2 (radius image type double) should be >= radius1 (radius image type unsigned long)!"
+      std::cout << "radius2 (radius image type double) should be >= radius1"
+        << " (radius image type unsigned long)!"
         << std::endl;
       success = false;
     }
@@ -228,13 +234,15 @@ namespace
 
     if (!itk::Math::FloatAlmostEqual(radius1, radius, 0, radiusTolerance))
     {
-      std::cout << "Expected radius: " << radius << ", found radius1 = " << radius1 << std::endl;
+      std::cout << "Expected radius: " << radius << ", found radius1 = "
+        << radius1 << std::endl;
       success = false;
     }
 
     if (!itk::Math::FloatAlmostEqual(radius2, radius, 0, radiusTolerance))
     {
-      std::cout << "Expected radius: " << radius << ", found radius2 = " << radius2 << std::endl;
+      std::cout << "Expected radius: " << radius << ", found radius2 = "
+        << radius2 << std::endl;
       success = false;
     }
 
@@ -256,7 +264,8 @@ namespace
     const double radius = 1.0;
     CreateCircle<ImageType>(image, center, radius);
 
-    using FilterType = itk::HoughTransform2DCirclesImageFilter< PixelType, unsigned, double >;
+    using FilterType
+      = itk::HoughTransform2DCirclesImageFilter< PixelType, unsigned, double >;
     const auto filter = FilterType::New();
     filter->SetInput(image);
     filter->Update();
@@ -265,7 +274,9 @@ namespace
 
     if (circles.size() != 1)
     {
-      std::cout << "ERROR: GetCircles() should have found exactly one circle!" << std::endl;
+      std::cout
+        << "ERROR: GetCircles() should have found exactly one circle!"
+        << std::endl;
       return false;
     }
 
@@ -273,17 +284,21 @@ namespace
 
     if (circle == nullptr)
     {
-      std::cout << "ERROR: The circle found by GetCircles() should not be null!" << std::endl;
+      std::cout
+        << "ERROR: The circle found by GetCircles() should not be null!"
+        << std::endl;
       return false;
     }
 
-    const bool isInside = circle->IsInside(center);
+    const bool isInside = circle->IsInsideInWorldSpace(center);
 
     if (!isInside)
     {
       std::cout <<
-        "ERROR: The center of the actual circle should be inside the spacial object of the detected circle!"
+        "ERROR: The center of the actual circle should be inside the"
+        << " spacial object of the detected circle!"
         << std::endl;
+      std::cout << circle << std::endl;
     }
     return isInside;
   }
@@ -428,18 +443,22 @@ int itkHoughTransform2DCirclesImageTest( int, char* [] )
   unsigned int i = 0;
   while( it != circleList.end() )
     {
-      if( !itk::Math::FloatAlmostEqual( (double)( it->GetPointer()->GetRadius()[0] ),
+      if( !itk::Math::FloatAlmostEqual(
+          (double)( it->GetPointer()->GetRadiusInObjectSpace()[0] ),
         radius[i], 10, radiusTolerance ) &&
-        !itk::Math::FloatAlmostEqual( (double)( it->GetPointer()->GetRadius()[0] ),
+        !itk::Math::FloatAlmostEqual(
+          (double)( it->GetPointer()->GetRadiusInObjectSpace()[0] ),
         radius[i] * discRadiusRatio, 10, radiusTolerance ) )
       {
       std::cout << "Failure for circle #" << i << std::endl;
-      std::cout << "Expected radius: " << radius[i] << ", found " << it->GetPointer()->GetRadius() << std::endl;
+      std::cout << "Expected radius: " << radius[i] << ", found "
+        << it->GetPointer()->GetRadiusInObjectSpace() << std::endl;
       success = false;
       }
     else
       {
-      std::cout << "Circle #" << i << " radius: " << it->GetPointer()->GetRadius() << std::endl;
+      std::cout << "Circle #" << i << " radius: "
+        << it->GetPointer()->GetRadiusInObjectSpace() << std::endl;
       }
     ++it;
     ++i;

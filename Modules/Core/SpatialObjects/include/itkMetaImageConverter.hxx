@@ -110,7 +110,7 @@ MetaImageConverter< NDimensions, PixelType, TSpatialObjectType >
   imageSO->SetImage(myImage);
   imageSO->SetId( imageMO->ID() );
   imageSO->SetParentId( imageMO->ParentID() );
-  imageSO->GetProperty()->SetName( imageMO->Name() );
+  imageSO->GetProperty().SetName( imageMO->Name() );
 
   return imageSO.GetPointer();
 }
@@ -161,7 +161,7 @@ MetaImageConverter< NDimensions, PixelType, TSpatialObjectType >
 
   if ( this->GetWriteImagesInSeparateFile())
     {
-    std::string filename = imageSO->GetProperty()->GetName();
+    std::string filename = imageSO->GetProperty().GetName();
     if ( filename.empty() )
       {
       std::cout << "Error: you should set the image name when using"

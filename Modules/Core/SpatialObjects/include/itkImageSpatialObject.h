@@ -19,6 +19,7 @@
 #define itkImageSpatialObject_h
 
 #include "itkImage.h"
+#include "itkContinuousIndex.h"
 #include "itkSpatialObject.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
 
@@ -49,6 +50,7 @@ public:
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
 
+  using ContinuousIndexType = ContinuousIndex< double, TDimension >;
   using PixelType = TPixelType;
   using ImageType = Image< PixelType, TDimension >;
   using ImagePointer = typename ImageType::ConstPointer;
@@ -64,6 +66,8 @@ public:
   using PointContainerType = VectorContainer< IdentifierType, PointType >;
   using PointContainerPointer = typename PointContainerType::Pointer;
 
+  static constexpr unsigned int ObjectDimension = TDimension;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -76,85 +80,74 @@ public:
   /** Get a pointer to the image currently attached to the object. */
   const ImageType * GetImage() const;
 
-  /** Return true if the object is evaluable at the requested point,
-   *  and else otherwise. */
-  bool IsEvaluableAt(const PointType & point,
-                     unsigned int depth = 0, char *name = nullptr) const override;
-
-  /** Returns the value of the image at the requested point.
-   *  If the point is not inside the object, then an exception is thrown.
-   * \sa ExceptionObject */
-  bool ValueAt(const PointType & point, double & value,
-               unsigned int depth = 0, char *name = nullptr) const override;
+  /** Compute the boundaries of the image spatial object. */
+  bool ComputeMyBoundingBox() const override;
 
   /** Returns true if the point is inside, false otherwise. */
-  bool IsInside(const PointType & point,
-                unsigned int depth, char *name) const override;
+  bool IsInsideInObjectSpace(const PointType & point, unsigned int depth=0,
+    const std::string & name = "") const override;
 
-  /** Test whether a point is inside or outside the object
-   *  For computational speed purposes, it is faster if the method does not
-   *  check the name of the class and the current depth */
-  bool IsInside(const PointType & point) const;
-
-  /** Compute the boundaries of the iamge spatial object. */
-  bool ComputeLocalBoundingBox() const override;
+  /** Returns the value of the image at the requested point.
+   *  Returns true if that value is valid */
+  bool ValueAtInObjectSpace(const PointType & point, double & value,
+    unsigned int depth = 0, const std::string & name = "") const override;
 
   /** Returns the latest modified time of the object and its component. */
   ModifiedTimeType GetMTime() const override;
 
   /** Set the slice position */
-  void SetSlicePosition(unsigned int dimension, int position);
+  itkSetMacro( SliceNumber, IndexType );
+  void SetSliceNumber(unsigned int dimension, int position);
 
   /** Get the slice position */
-  int GetSlicePosition(unsigned int dimension)
-  { return m_SlicePosition[dimension]; }
+  itkGetConstMacro( SliceNumber, IndexType );
+  int GetSliceNumber(unsigned int dimension)
+  { return m_SliceNumber[dimension]; }
 
-  const char * GetPixelType()
-  {
-    return m_PixelType.c_str();
-  }
+  const char * GetPixelTypeName()
+  { return m_PixelType.c_str(); }
 
   /** Set/Get the interpolator */
   void SetInterpolator(InterpolatorType *interpolator);
-  itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
+  itkGetConstMacro(Interpolator, InterpolatorType *);
 
 protected:
-  ImagePointer m_Image;
 
   ImageSpatialObject();
   ~ImageSpatialObject() override;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  int *       m_SlicePosition;
-  std::string m_PixelType;
+  typename LightObject::Pointer InternalClone() const override;
+
+private:
+
+  ImagePointer    m_Image;
+
+  IndexType       m_SliceNumber;
+  std::string     m_PixelType;
 
   typename InterpolatorType::Pointer m_Interpolator;
+
   template <typename T>
-    void InternalSetPixelType(const T *)
-  {
-    itkWarningMacro("itk::ImageSpatialObject() : PixelType not recognized");
-  }
-  void InternalSetPixelType(const short *)
-  {
-    m_PixelType = "short";
-  }
-  void InternalSetPixelType(const unsigned char *)
-  {
-    m_PixelType = "unsigned char";
-  }
-  void InternalSetPixelType(const unsigned short *)
-  {
-    m_PixelType = "unsigned short";
-  }
-  void InternalSetPixelType(const float *)
-  {
-    m_PixelType = "float";
-  }
-  void InternalSetPixelType(const double *)
-  {
-    m_PixelType = "double";
-  }
+  void SetPixelTypeName(const T *)
+  { itkWarningMacro("itk::ImageSpatialObject() : PixelType not recognized"); }
+
+  void SetPixelTypeName(const short *)
+  { m_PixelType = "short"; }
+
+  void SetPixelTypeName(const unsigned char *)
+  { m_PixelType = "unsigned char"; }
+
+  void SetPixelTypeName(const unsigned short *)
+  { m_PixelType = "unsigned short"; }
+
+  void SetPixelTypeName(const float *)
+  { m_PixelType = "float"; }
+
+  void SetPixelTypeName(const double *)
+  { m_PixelType = "double"; }
+
 };
 } // end of namespace itk
 

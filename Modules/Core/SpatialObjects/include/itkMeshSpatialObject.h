@@ -70,57 +70,45 @@ public:
   MeshType * GetMesh();
   const MeshType *GetMesh() const;
 
-  /** Return true if the object is evaluable at the requested point,
-   *  and else otherwise. */
-  bool IsEvaluableAt(const PointType & point,
-                     unsigned int depth = 0, char *name = nullptr) const override;
-
-  /** Returns the value of the Mesh at the requested point.
-   *  If the point is not inside the object, then an exception is thrown.
-   * \sa ExceptionObject */
-  bool ValueAt(const PointType & point, double & value,
-               unsigned int depth = 0, char *name = nullptr) const override;
-
   /** Returns true if the point is inside, false otherwise. */
-  bool IsInside(const PointType & point,
-                unsigned int depth, char *name) const override;
-
-  /** Test whether a point is inside or outside the object
-   *  For computational speed purposes, it is faster if the method does not
-   *  check the name of the class and the current depth */
-  virtual bool IsInside(const PointType & point) const;
+  bool IsInsideInObjectSpace(const PointType & point, unsigned int depth=0,
+    const std::string & name="") const override;
 
   /** Compute the boundaries of the iamge spatial object. */
-  bool ComputeLocalBoundingBox() const override;
+  bool ComputeMyBoundingBox() const override;
 
   /** Returns the latest modified time of the object and its component. */
   ModifiedTimeType GetMTime() const override;
 
   /** Return the type of pixel used */
-  const char * GetPixelType()
+  const char * GetPixelTypeName()
   {
     return m_PixelType.c_str();
   }
 
-  /** Set/Get the precision for the IsInside function.
+  /** Set/Get the precision for the IsInsideInObjectSpace function.
    *  This is used when the cell is a triangle, in this case, it's more likely
    *  that the given point will not be falling exactly on the triangle surface.
    *  If the distance from the point to the surface is <= to
-   *  m_IsInsidePrecision the point is considered inside the mesh.
+   *  m_IsInsidePrecisionInObjectSpace the point is considered inside the mesh.
    *  The default value is 1. */
-  itkSetMacro(IsInsidePrecision, double);
-  itkGetMacro(IsInsidePrecision, double);
+  itkSetMacro(IsInsidePrecisionInObjectSpace, double);
+  itkGetConstMacro(IsInsidePrecisionInObjectSpace, double);
 
 protected:
-
-  MeshPointer m_Mesh;
-  std::string m_PixelType;
-  double      m_IsInsidePrecision;
 
   MeshSpatialObject();
   ~MeshSpatialObject() override = default;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
+
+  typename LightObject::Pointer InternalClone() const override;
+
+private:
+  MeshPointer m_Mesh;
+  std::string m_PixelType;
+  double      m_IsInsidePrecisionInObjectSpace;
+
 };
 } // end of namespace itk
 

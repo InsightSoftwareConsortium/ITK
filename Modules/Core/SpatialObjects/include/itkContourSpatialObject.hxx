@@ -18,7 +18,6 @@
 #ifndef itkContourSpatialObject_hxx
 #define itkContourSpatialObject_hxx
 
-
 #include "itkContourSpatialObject.h"
 #include "itkNumericTraits.h"
 
@@ -29,94 +28,122 @@ template< unsigned int TDimension >
 ContourSpatialObject< TDimension >
 ::ContourSpatialObject()
 {
-  this->SetDimension(TDimension);
   this->SetTypeName("ContourSpatialObject");
-  this->GetProperty()->SetRed(1);
-  this->GetProperty()->SetGreen(0);
-  this->GetProperty()->SetBlue(0);
-  this->GetProperty()->SetAlpha(1);
-  m_InterpolationType = NO_INTERPOLATION;
-  m_Closed = false;
-  m_DisplayOrientation = -1;
+
+  this->GetProperty().SetRed(1);
+  this->GetProperty().SetGreen(0);
+  this->GetProperty().SetBlue(0);
+  this->GetProperty().SetAlpha(1);
+
+  m_InterpolationMethod = NO_INTERPOLATION;
+  m_IsClosed = false;
+  m_OrientationInObjectSpace = -1;
+  m_OrientationInObjectSpaceMTime = this->GetMyMTime();
   m_AttachedToSlice = -1;
 }
 
-/** Get the list of control points */
 template< unsigned int TDimension >
-typename ContourSpatialObject< TDimension >::ControlPointListType &
+int
 ContourSpatialObject< TDimension >
-::GetControlPoints()
+::GetOrientationInObjectSpace() const
 {
-  itkDebugMacro("Getting control Point list");
-  return m_ControlPoints;
-}
+  if( m_OrientationInObjectSpaceMTime == this->GetMyMTime() )
+    {
+    return m_OrientationInObjectSpace;
+    }
+  m_OrientationInObjectSpaceMTime = this->GetMyMTime();
 
-/** Get the list of control points */
-template< unsigned int TDimension >
-const typename ContourSpatialObject< TDimension >::ControlPointListType &
-ContourSpatialObject< TDimension >
-::GetControlPoints() const
-{
-  itkDebugMacro("Getting ContourPoint list");
-  return m_ControlPoints;
+  const ContourPointListType & points = this->GetPoints();
+  auto it = points.begin();
+  auto itend = points.end();
+  PointType minPnt;
+  PointType maxPnt;
+  minPnt.Fill( NumericTraits< double >::max() );
+  maxPnt.Fill( NumericTraits< double >::NonpositiveMin() );
+  while ( it != itend )
+    {
+    PointType curpoint = it->GetPositionInObjectSpace();
+    for ( unsigned int i = 0; i < TDimension; i++ )
+      {
+      if ( minPnt[i] > curpoint[i] )
+        {
+        minPnt[i] = curpoint[i];
+        }
+      if ( maxPnt[i] < curpoint[i] )
+        {
+        maxPnt[i] = curpoint[i];
+        }
+      }
+    it++;
+    }
+  m_OrientationInObjectSpace = -1;
+  for ( unsigned int i = 0; i < TDimension; i++ )
+    {
+    if ( Math::ExactlyEquals(minPnt[i], maxPnt[i]) )
+      {
+      m_OrientationInObjectSpace = i;
+      break;
+      }
+    }
+  return m_OrientationInObjectSpace;
 }
 
 /** Set the control points which are defining the contour */
 template< unsigned int TDimension >
 void
 ContourSpatialObject< TDimension >
-::SetControlPoints(ControlPointListType & points)
+::SetControlPoints(const ContourPointListType & points)
 {
   m_ControlPoints.clear();
 
-  typename ControlPointListType::iterator it, end;
+  typename ContourPointListType::const_iterator it;
   it = points.begin();
-  end = points.end();
-  while ( it != end )
+  while ( it != points.end() )
     {
     m_ControlPoints.push_back(*it);
+    m_ControlPoints.back().SetSpatialObject( this );
     it++;
     }
   this->Modified();
 }
 
-/** Get the list of interpolated points */
-template< unsigned int TDimension >
-typename ContourSpatialObject< TDimension >::InterpolatedPointListType &
-ContourSpatialObject< TDimension >
-::GetInterpolatedPoints()
-{
-  itkDebugMacro("Getting interpolated Point list");
-  return m_InterpolatedPoints;
-}
-
-/** Get the list of interpolated points */
-template< unsigned int TDimension >
-const typename ContourSpatialObject< TDimension >::InterpolatedPointListType &
-ContourSpatialObject< TDimension >
-::GetInterpolatedPoints() const
-{
-  itkDebugMacro("Getting interpolated list");
-  return m_InterpolatedPoints;
-}
-
-/** Set the interpolated points which are defining the contour */
+/** Add a control point which is defining the contour */
 template< unsigned int TDimension >
 void
 ContourSpatialObject< TDimension >
-::SetInterpolatedPoints(InterpolatedPointListType & points)
+::AddControlPoint(const ContourPointType & point)
 {
-  m_InterpolatedPoints.clear();
-
-  typename InterpolatedPointListType::iterator it, end;
-  it = points.begin();
-  end = points.end();
-  while ( it != end )
-    {
-    m_InterpolatedPoints.push_back(*it);
-    it++;
-    }
+  m_ControlPoints.push_back(point);
+  m_ControlPoints.back().SetSpatialObject( this );
   this->Modified();
+}
+
+/** InternalClone */
+template< unsigned int TDimension >
+typename LightObject::Pointer
+ContourSpatialObject< TDimension >
+::InternalClone() const
+{
+  // Default implementation just copies the parameters from
+  // this to new transform.
+  typename LightObject::Pointer loPtr = Superclass::InternalClone();
+
+  typename Self::Pointer rval =
+    dynamic_cast<Self *>(loPtr.GetPointer());
+  if(rval.IsNull())
+    {
+    itkExceptionMacro(<< "downcast to type "
+                      << this->GetNameOfClass()
+                      << " failed.");
+    }
+  rval->SetInterpolationMethod( this->GetInterpolationMethod() );
+  rval->SetInterpolationFactor(this->GetInterpolationFactor());
+  rval->SetIsClosed(this->GetIsClosed());
+  rval->SetAttachedToSlice( this->GetAttachedToSlice() );
+
+  rval->SetControlPoints( this->GetControlPoints() );
+
+  return loPtr;
 }
 
 /** Print the contour spatial object */
@@ -126,115 +153,86 @@ ContourSpatialObject< TDimension >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   os << indent << "ContourSpatialObject(" << this << ")" << std::endl;
-  os << indent << "ID: " << this->GetId() << std::endl;
   os << indent << "#Control Points: "
      << static_cast< SizeValueType >( m_ControlPoints.size() ) << std::endl;
-  os << indent << "Interpolation type: " << m_InterpolationType << std::endl;
-  os << indent << "Contour closed: " << m_Closed << std::endl;
-  os << indent << "Display Orientation : " << m_DisplayOrientation << std::endl;
+  os << indent << "Interpolation type: " << m_InterpolationMethod << std::endl;
+  os << indent << "Contour closed: " << m_IsClosed << std::endl;
+  os << indent << "Orientation In Object Space: " << m_OrientationInObjectSpace
+    << std::endl;
+  os << indent << "Orientation time: " << m_OrientationInObjectSpaceMTime
+    << std::endl;
   os << indent << "Pin to slice : " << m_AttachedToSlice << std::endl;
   Superclass::PrintSelf(os, indent);
 }
 
-/** Compute the bounds of the blob */
-template< unsigned int TDimension >
-bool
-ContourSpatialObject< TDimension >
-::ComputeLocalBoundingBox() const
-{
-  itkDebugMacro("Computing blob bounding box");
 
-  if ( this->GetBoundingBoxChildrenName().empty()
-       || strstr( typeid( Self ).name(),
-                  this->GetBoundingBoxChildrenName().c_str() ) )
+/** Print the contour spatial object */
+template< unsigned int TDimension >
+void
+ContourSpatialObject< TDimension >
+::Update()
+{
+  switch( m_InterpolationMethod )
     {
-    auto it  = m_ControlPoints.begin();
-    auto end = m_ControlPoints.end();
-
-    if ( it == end )
+    case NO_INTERPOLATION:
+      this->SetPoints( m_ControlPoints );
+      break;
+    case EXPLICIT_INTERPOLATION:
+      break;
+    case BEZIER_INTERPOLATION:
+      // TODO: Implement bezier interpolation
       {
-      return false;
+      ExceptionObject e(__FILE__);
+      e.SetLocation( "ContourSpatialObject:Update()");
+      e.SetDescription( "Bezier interpolation type not yet defined." );
+      throw e;
       }
-    else
-      {
-      PointType pt =
-        this->GetIndexToWorldTransform()->TransformPoint( ( *it ).GetPosition() );
-      const_cast< BoundingBoxType * >( this->GetBounds() )->SetMinimum(pt);
-      const_cast< BoundingBoxType * >( this->GetBounds() )->SetMaximum(pt);
-      it++;
-
-      while ( it != end )
+      break;
+    case LINEAR_INTERPOLATION:
+      this->m_Points.clear();
+      auto it = m_ControlPoints.begin();
+      while( it != m_ControlPoints.end() )
         {
-        pt =
-          this->GetIndexToWorldTransform()->TransformPoint( ( *it ).GetPosition() );
-        const_cast< BoundingBoxType * >( this->GetBounds() )->ConsiderPoint(pt);
-        it++;
+        auto it2 = ++it;
+        if( it2 == m_ControlPoints.end() )
+          {
+          if( this->GetIsClosed() )
+            {
+            it2 = m_ControlPoints.begin();
+            }
+          else
+            {
+            break;
+            }
+          }
+        PointType pnt = it->GetPositionInObjectSpace();
+        PointType pnt2 = it2->GetPositionInObjectSpace();
+        PointType step;
+        for( unsigned int d=0; d<TDimension; ++d )
+          {
+          step[d] = (pnt2[d] - pnt[d]) / m_InterpolationFactor;
+          }
+        PointType newPoint;
+        for( unsigned int i=0; i<m_InterpolationFactor; ++i )
+          {
+          for( unsigned int d=0; d<TDimension; ++d )
+            {
+            newPoint = pnt[d] + i * step[d];
+            }
+          }
+        typename Superclass::SpatialObjectPointType newSOPoint;
+        newSOPoint = (*it);
+        newSOPoint.SetSpatialObject( this );
+        newSOPoint.SetPositionInObjectSpace( newPoint );
+        this->m_Points.push_back( newSOPoint );
         }
+      break;
+    };
 
-      // Add the interpolated points (if any)
-      auto itI = m_InterpolatedPoints.begin();
-      while ( itI != m_InterpolatedPoints.end() )
-        {
-        pt = this->GetIndexToWorldTransform()->TransformPoint(
-          ( *itI ).GetPosition() );
-        const_cast< BoundingBoxType * >( this->GetBounds() )->ConsiderPoint(pt);
-        itI++;
-        }
-      }
-    }
-
-  return true;
+  // Call this last to compute MyBoundingBoxInWorldSpace
+  Superclass::Update();
 }
 
-/** Test whether a point is inside or outside the object
- *  For computational speed purposes, it is faster if the method does not
- *  check the name of the class and the current depth. Since a contour is
- *  considered to be a 1D object, IsInside will always return false. */
-template< unsigned int TDimension >
-bool
-ContourSpatialObject< TDimension >
-::IsInside( const PointType & itkNotUsed(point) ) const
-{
-  return false;
-}
-
-/** Test if the given point is inside the blob. Since a contour is
- *  considered to be a 1D object, IsInside will always return false.
- *  Note: removed names of arguments since they are no longer used. */
-template< unsigned int TDimension >
-bool
-ContourSpatialObject< TDimension >
-::IsInside(const PointType &, unsigned int, char *) const
-{
-  return false;
-}
-
-/** Return true if the blob is evaluable at a given point
- *  i.e if the point is defined in the points list        */
-template< unsigned int TDimension >
-bool
-ContourSpatialObject< TDimension >
-::IsEvaluableAt(const PointType & point,
-                unsigned int depth, char *name) const
-{
-  itkDebugMacro("Checking if the blob is evaluable at " << point);
-  return IsInside(point, depth, name);
-}
-
-/** Return 1 if the point is in the points list
- *  Note: removed names of third parameter since it is no
- *  longer used.  It was "depth" */
-template< unsigned int TDimension >
-bool
-ContourSpatialObject< TDimension >
-::ValueAt(const PointType & point, double & value, unsigned int,
-          char *name) const
-{
-  itkDebugMacro("Getting the value of the blob at " << point);
-
-  value = this->GetDefaultOutsideValue(); // cannot be inside of a 1d contour
-  return IsInside(point, 0, name);        // so will always return false
-}
 } // end namespace itk
 
 #endif

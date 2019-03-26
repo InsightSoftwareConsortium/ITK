@@ -30,19 +30,8 @@ MeshSpatialObject< TMesh >
 {
   this->SetTypeName("MeshSpatialObject");
   m_Mesh = MeshType::New();
-  this->ComputeBoundingBox();
   m_PixelType = typeid( typename TMesh::PixelType ).name();
-  m_IsInsidePrecision = 1;
-}
-
-/** Return true if the given point is inside the Mesh */
-template< typename TMesh >
-bool
-MeshSpatialObject< TMesh >
-::IsEvaluableAt(const PointType & point,
-                unsigned int depth, char *name) const
-{
-  return IsInside(point, depth, name);
+  m_IsInsidePrecisionInObjectSpace = 1;
 }
 
 /** Test whether a point is inside or outside the object
@@ -51,97 +40,55 @@ MeshSpatialObject< TMesh >
 template< typename TMesh >
 bool
 MeshSpatialObject< TMesh >
-::IsInside(const PointType & point) const
+::IsInsideInObjectSpace(const PointType & point, unsigned int depth,
+  const std::string & name) const
 {
-  if ( !this->SetInternalInverseTransformToWorldToIndexTransform() )
+  if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    return false;
-    }
-
-  PointType transformedPoint =
-    this->GetInternalInverseTransform()->TransformPoint(point);
-
-  if ( this->GetBounds()->IsInside(transformedPoint) )
-    {
-    typename MeshType::CellsContainerPointer cells =  m_Mesh->GetCells();
-    typename MeshType::CellsContainer::ConstIterator it = cells->Begin();
-    while ( it != cells->End() )
+    if( this->GetMyBoundingBoxInObjectSpace()->IsInside( point ) )
       {
-      using CoordRepType = typename MeshType::CoordRepType;
-      CoordRepType position[Dimension];
-      for ( unsigned int i = 0; i < Dimension; i++ )
+      typename MeshType::CellsContainerPointer cells =  m_Mesh->GetCells();
+      typename MeshType::CellsContainer::ConstIterator it = cells->Begin();
+      while ( it != cells->End() )
         {
-        position[i] = transformedPoint[i];
-        }
-
-      // If this is a triangle cell we need to check the distance
-      if ( it.Value()->GetNumberOfPoints() == 3 )
-        {
-        double minDist = 0.0;
-        const bool pointIsInside = it.Value()->EvaluatePosition(
-          position, m_Mesh->GetPoints(), nullptr, nullptr, &minDist, nullptr);
-
-        if ( pointIsInside  && minDist <= this->m_IsInsidePrecision )
+        using CoordRepType = typename MeshType::CoordRepType;
+        CoordRepType position[Dimension];
+        for ( unsigned int i = 0; i < Dimension; i++ )
           {
-          return true;
+          position[i] = point[i];
           }
-        }
-      else
-        {
-        if ( it.Value()->EvaluatePosition(position, m_Mesh->GetPoints(),
-                                          nullptr, nullptr, nullptr, nullptr) )
+
+        // If this is a triangle cell we need to check the distance
+        if ( it.Value()->GetNumberOfPoints() == 3 )
           {
-          return true;
+          double minDist = 0.0;
+          const bool pointIsInsideInObjectSpace = it.Value()->EvaluatePosition(
+            position, m_Mesh->GetPoints(), nullptr, nullptr, &minDist, nullptr);
+
+          if ( pointIsInsideInObjectSpace
+            && minDist <= this->m_IsInsidePrecisionInObjectSpace )
+            {
+            return true;
+            }
           }
+        else
+          {
+          if ( it.Value()->EvaluatePosition(position, m_Mesh->GetPoints(),
+              nullptr, nullptr, nullptr, nullptr) )
+            {
+            return true;
+            }
+          }
+        ++it;
         }
-      ++it;
       }
     }
-  return false;
-}
 
-/** Return true if the given point is inside the Mesh */
-template< typename TMesh >
-bool
-MeshSpatialObject< TMesh >
-::IsInside(const PointType & point, unsigned int depth, char *name) const
-{
-  if ( name == nullptr )
+  if( depth > 0 )
     {
-    if ( IsInside(point) )
-      {
-      return true;
-      }
+    return Superclass::IsInsideChildrenInObjectSpace( point, depth-1, name );
     }
-  else if ( strstr(typeid( Self ).name(), name) )
-    {
-    if ( IsInside(point) )
-      {
-      return true;
-      }
-    }
-  return Superclass::IsInside(point, depth, name);
-}
 
-/** Return the value of the Mesh at a specified point
- *  The value returned is always of type double */
-template< typename TMesh >
-bool
-MeshSpatialObject< TMesh >
-::ValueAt(const PointType & point, double & value, unsigned int depth,
-          char *name) const
-{
-  if ( IsEvaluableAt(point, 0, name) )
-    {
-    value = this->GetDefaultInsideValue();
-    return true;
-    }
-  else if ( Superclass::IsEvaluableAt(point, depth, name) )
-    {
-    Superclass::ValueAt(point, value, depth, name);
-    return true;
-    }
-  value = this->GetDefaultOutsideValue();
   return false;
 }
 
@@ -149,27 +96,22 @@ MeshSpatialObject< TMesh >
 template< typename TMesh >
 bool
 MeshSpatialObject< TMesh >
-::ComputeLocalBoundingBox() const
+::ComputeMyBoundingBox() const
 {
-  if ( this->GetBoundingBoxChildrenName().empty()
-       || strstr( typeid( Self ).name(),
-                  this->GetBoundingBoxChildrenName().c_str() ) )
+  PointType pnt1;
+  PointType pnt2;
+  for ( unsigned int i = 0; i < this->ObjectDimension; i++ )
     {
-    PointType pnt;
-    PointType pnt2;
-
-    for ( unsigned int i = 0; i < Self::Dimension; i++ )
-      {
-      pnt[i] = m_Mesh->GetBoundingBox()->GetBounds()[2 * i];
-      pnt2[i] = m_Mesh->GetBoundingBox()->GetBounds()[2 * i + 1];
-      }
-
-    pnt = this->GetIndexToWorldTransform()->TransformPoint(pnt);
-    pnt2 = this->GetIndexToWorldTransform()->TransformPoint(pnt2);
-
-    const_cast< BoundingBoxType * >( this->GetBounds() )->SetMinimum(pnt);
-    const_cast< BoundingBoxType * >( this->GetBounds() )->SetMaximum(pnt2);
+    pnt1[i] = m_Mesh->GetBoundingBox()->GetBounds()[2 * i];
+    pnt2[i] = m_Mesh->GetBoundingBox()->GetBounds()[2 * i + 1];
     }
+
+  this->GetModifiableMyBoundingBoxInObjectSpace()->SetMinimum(
+    m_Mesh->GetBoundingBox()->GetMinimum() );
+  this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(
+    m_Mesh->GetBoundingBox()->GetMaximum() );
+  this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
+
   return true;
 }
 
@@ -179,9 +121,11 @@ void
 MeshSpatialObject< TMesh >
 ::SetMesh(MeshType *mesh)
 {
-  m_Mesh = mesh;
-  m_Mesh->Modified();
-  this->ComputeBoundingBox();
+  if( m_Mesh != mesh )
+    {
+    m_Mesh = mesh;
+    this->Modified();
+    }
 }
 
 /** Get the Mesh inside the spatial object */
@@ -201,6 +145,31 @@ MeshSpatialObject< TMesh >
   return m_Mesh.GetPointer();
 }
 
+/** InternalClone */
+template< typename TMesh >
+typename LightObject::Pointer
+MeshSpatialObject< TMesh >
+::InternalClone() const
+{
+  // Default implementation just copies the parameters from
+  // this to new transform.
+  typename LightObject::Pointer loPtr = Superclass::InternalClone();
+
+  typename Self::Pointer rval =
+    dynamic_cast<Self *>(loPtr.GetPointer());
+  if(rval.IsNull())
+    {
+    itkExceptionMacro(<< "downcast to type "
+                      << this->GetNameOfClass()
+                      << " failed.");
+    }
+  rval->SetMesh( this->GetMesh()->Clone() );
+  rval->SetIsInsidePrecisionInObjectSpace(
+    this->GetIsInsidePrecisionInObjectSpace() );
+
+  return loPtr;
+}
+
 /** Print the object */
 template< typename TMesh >
 void
@@ -209,7 +178,8 @@ MeshSpatialObject< TMesh >
 {
   Superclass::PrintSelf(os, indent);
   os << "Mesh: " << std::endl;
-  os << "m_IsInsidePrecision: " << m_IsInsidePrecision << std::endl;
+  os << "m_IsInsidePrecisionInObjectSpace: "
+    << m_IsInsidePrecisionInObjectSpace << std::endl;
   os << indent << m_Mesh << std::endl;
 }
 

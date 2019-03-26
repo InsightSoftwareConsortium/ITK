@@ -298,7 +298,7 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType >
         if( Math::ExactlyEquals( it_input.Get(), max ) )
           {
           // Create the line.
-          LineType::PointListType list; // Insert two points per line.
+          LineType::LinePointListType list; // Insert two points per line.
 
           double radius = it_input.GetIndex()[0];
           double teta = ( ( it_input.GetIndex()[1] ) * 2 * Math::pi / this->GetAngleResolution() ) - Math::pi;
@@ -317,17 +317,17 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType >
               }
 
             LinePointType p;
-            p.SetPosition( Vx, Vy );
+            p.SetPositionInObjectSpace( Vx, Vy );
             list.push_back( p );
-            p.SetPosition( Vx - VyNorm * 5, Vy + VxNorm * 5 );
+            p.SetPositionInObjectSpace( Vx - VyNorm * 5, Vy + VxNorm * 5 );
             list.push_back( p );
             }
           else
             {
             LinePointType p;
-            p.SetPosition( Vx, Vy );
+            p.SetPositionInObjectSpace( Vx, Vy );
             list.push_back( p );
-            p.SetPosition( Vx - VyNorm * 5, Vy + VxNorm * 5 );
+            p.SetPositionInObjectSpace( Vx - VyNorm * 5, Vy + VxNorm * 5 );
             list.push_back( p );
             }
 
@@ -335,7 +335,7 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType >
           LinePointer line = LineType::New();
           line->SetId( lines );
           line->SetPoints( list );
-          line->ComputeBoundingBox();
+          line->Update();
 
           m_LinesList.push_back( line );
 

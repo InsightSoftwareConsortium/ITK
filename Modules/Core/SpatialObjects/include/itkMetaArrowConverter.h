@@ -56,14 +56,17 @@ public:
   /** Specific class types for conversion */
   using ArrowSpatialObjectType = ArrowSpatialObject<NDimensions>;
   using ArrowSpatialObjectPointer = typename ArrowSpatialObjectType::Pointer;
-  using ArrowSpatialObjectConstPointer = typename ArrowSpatialObjectType::ConstPointer;
+  using ArrowSpatialObjectConstPointer = typename
+    ArrowSpatialObjectType::ConstPointer;
   using ArrowMetaObjectType = MetaArrow;
 
   /** Convert the MetaObject to Spatial Object */
-  SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo) override;
+  SpatialObjectPointer MetaObjectToSpatialObject(
+    const MetaObjectType *mo) override;
 
   /** Convert the SpatialObject to MetaObject */
-  MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject) override;
+  MetaObjectType *SpatialObjectToMetaObject(
+    const SpatialObjectType *spatialObject) override;
 
 protected:
   /** Create the specific MetaObject for this class */

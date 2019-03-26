@@ -18,7 +18,7 @@
 /*
 * itkTubeSpatialObject test file.
 * This test file test also the basic functions of the CompositeSpatialObject class,
-* like Add/RemoveSpatialObject(...), Get/SetChildren(...), etc...
+* like Add/RemoveChild(...), Get/SetChildren(...), etc...
 */
 
 #include "itkTubeSpatialObject.h"
@@ -35,7 +35,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
   using GroupType = itk::GroupSpatialObject<3>;
   using GroupPointer = itk::SmartPointer< GroupType >;
   using TubePointType = TubeType::TubePointType;
-  using TubePointListType = TubeType::PointListType;
+  using TubePointListType = TubeType::TubePointListType;
   using ChildrenListType = std::list< itk::SpatialObject<3>::Pointer >;
   using ChildrenListPointer = ChildrenListType *;
 
@@ -52,38 +52,38 @@ int itkTubeSpatialObjectTest(int, char * [] )
   std::cout<<"Testing SpatialObject:"<<std::endl<<std::endl;
 
   TubePointer tube1 = TubeType::New();
-  tube1->GetProperty()->SetName("Tube 1");
+  tube1->GetProperty().SetName("Tube 1");
   tube1->SetId(1);
 
   TubePointListType list;
 
   TubeType::TransformType::OffsetType offset;
   offset.Fill(10);
-  tube1->GetObjectToParentTransform()->SetOffset(offset);
+  tube1->GetModifiableObjectToParentTransform()->SetOffset(offset);
   tube1->ComputeObjectToWorldTransform();
 
   for( unsigned int i=0; i<10; i++)
     {
     TubePointType p;
-    p.SetPosition(i,i,i);
-    p.SetRadius(1);
+    p.SetPositionInObjectSpace(i,i,i);
+    p.SetRadiusInObjectSpace(1);
     list.push_back(p);
     }
 
   // For coverage
   TubePointType p;
-  p.SetPosition(1,2,3);
-  p.SetRadius(1);
+  p.SetPositionInObjectSpace(1,2,3);
+  p.SetRadiusInObjectSpace(1);
   p.Print(std::cout);
 
   tube1->SetPoints(list);
-  tube1->ComputeBoundingBox();
+  tube1->ComputeMyBoundingBox();
 
   in.Fill(15);
   out.Fill(5);
 
   std::cout<<"IsInside()...";
-  if( !tube1->IsInside(in) || tube1->IsInside(out) )
+  if( !tube1->IsInsideInWorldSpace(in) || tube1->IsInsideInWorldSpace(out) )
     {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
@@ -93,12 +93,12 @@ int itkTubeSpatialObjectTest(int, char * [] )
     std::cout<<"[PASSED]"<<std::endl;
     }
 
-  TubeType::OutputVectorType derivative;
+  TubeType::CovariantVectorType derivative;
 
   std::cout<<"DerivativeAt()...";
   try
     {
-    tube1->DerivativeAt(in,1,derivative);
+    tube1->DerivativeAtInWorldSpace(in,1,derivative);
     }
   catch(...)
     {
@@ -106,7 +106,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
     return EXIT_FAILURE;
     }
 
-  TubeType::OutputVectorType expectedDerivative;
+  TubeType::CovariantVectorType expectedDerivative;
   expectedDerivative.Fill(0);
 
   if( expectedDerivative != derivative )
@@ -141,29 +141,30 @@ int itkTubeSpatialObjectTest(int, char * [] )
   unsigned int nbChildren;
 
   TubePointer tube2 = TubeType::New();
-  tube2->GetProperty()->SetName("Tube 2");
+  tube2->GetProperty().SetName("Tube 2");
   tube2->SetId(2);
   tube2->SetPoints(list);
-  tube2->ComputeBoundingBox();
+  tube2->ComputeMyBoundingBox();
 
   TubePointer tube3 = TubeType::New();
-  tube3->GetProperty()->SetName("Tube 3");
+  tube3->GetProperty().SetName("Tube 3");
   tube3->SetId(3);
   tube3->SetPoints(list);
-  tube3->ComputeBoundingBox();
+  tube3->ComputeMyBoundingBox();
 
   GroupPointer tubeNet1 = GroupType::New();
-  tubeNet1->GetProperty()->SetName("tube network 1");
+  tubeNet1->GetProperty().SetName("tube network 1");
 
 
-  tubeNet1->AddSpatialObject( tube1 );
-  tubeNet1->AddSpatialObject( tube2 );
-  tubeNet1->AddSpatialObject( tube3 );
+  tubeNet1->AddChild( tube1 );
+  tubeNet1->AddChild( tube2 );
+  tubeNet1->AddChild( tube3 );
+  tubeNet1->Update();
 
-  // testing the AddSpatialObject() function...
+  // testing the AddChild() function...
   nbChildren = tubeNet1->GetNumberOfChildren();
 
-  std::cout<<"AddSpatialObject()...";
+  std::cout<<"AddChild()...";
   if( nbChildren != 3 )
     {
     std::cout<<"[FAILED] ["<< nbChildren << "!= 3]" << std::endl;
@@ -174,14 +175,17 @@ int itkTubeSpatialObjectTest(int, char * [] )
     std::cout<<"[PASSED]"<<std::endl;
     }
 
-  // testing the RemoveSpatialObject() function...
-  tubeNet1->RemoveSpatialObject( tube1 );
-  tubeNet1->RemoveSpatialObject( tube2 );
-  tubeNet1->RemoveSpatialObject( tube3 );
+  // testing the RemoveChild() function...
+  std::cout << "Removing 1" << std::endl;
+  tubeNet1->RemoveChild( tube1 );
+  std::cout << "Removing 2" << std::endl;
+  tubeNet1->RemoveChild( tube2 );
+  std::cout << "Removing 3" << std::endl;
+  tubeNet1->RemoveChild( tube3 );
 
   nbChildren = tubeNet1->GetNumberOfChildren();
 
-  std::cout<<"RemoveSpatialObject()...";
+  std::cout<<"RemoveChild()...";
   if( nbChildren != 0 )
     {
     std::cout<<"[FAILED]"<<std::endl;
@@ -192,9 +196,9 @@ int itkTubeSpatialObjectTest(int, char * [] )
     std::cout<<"[PASSED]"<<std::endl;
     }
 
-  tubeNet1->AddSpatialObject( tube1 );
-  tubeNet1->AddSpatialObject( tube2 );
-  tubeNet1->AddSpatialObject( tube3 );
+  tubeNet1->AddChild( tube1 );
+  tubeNet1->AddChild( tube2 );
+  tubeNet1->AddChild( tube3 );
 
   // testing the GetChildren() function...
   childrenList.push_back( tube1 );
@@ -235,9 +239,9 @@ int itkTubeSpatialObjectTest(int, char * [] )
     std::cout<<"[PASSED]"<<std::endl;
     }
 
-  tubeNet1->RemoveSpatialObject( tube1 );
-  tubeNet1->RemoveSpatialObject( tube2 );
-  tubeNet1->RemoveSpatialObject( tube3 );
+  tubeNet1->RemoveChild( tube1 );
+  tubeNet1->RemoveChild( tube2 );
+  tubeNet1->RemoveChild( tube3 );
 
   delete returnedList;
 
@@ -280,7 +284,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
     std::cout<<"[PASSED]"<<std::endl;
     }
 
-  tubeNet1->ComputeBoundingBox();
+  tubeNet1->ComputeMyBoundingBox();
 
   std::cout<<"HasParent()...";
   if( !tube2->HasParent() )
@@ -294,17 +298,17 @@ int itkTubeSpatialObjectTest(int, char * [] )
     }
 
   translation.Fill(10);
-  tubeNet1->GetObjectToParentTransform()->Translate(translation,false);
+  tubeNet1->GetModifiableObjectToParentTransform()->Translate(translation,false);
   tubeNet1->ComputeObjectToWorldTransform();
 
   axis.Fill(0);
   axis[1] = 1;
   angle = itk::Math::pi_over_2;
-  tube2->GetObjectToParentTransform()->Rotate3D(axis,angle);
+  tube2->GetModifiableObjectToParentTransform()->Rotate3D(axis,angle);
   tube2->ComputeObjectToWorldTransform();
 
   angle = -itk::Math::pi_over_2;
-  tube3->GetObjectToParentTransform()->Rotate3D(axis,angle);
+  tube3->GetModifiableObjectToParentTransform()->Rotate3D(axis,angle);
   tube3->ComputeObjectToWorldTransform();
 
   in.Fill(25);
@@ -317,7 +321,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
   p2[0]=5;
 
   std::cout<<"IsInside()...";
-  if( !tubeNet1->IsInside(in,3) || tubeNet1->IsInside(out,3) )
+  if( !tubeNet1->IsInsideInWorldSpace(in,3) || tubeNet1->IsInsideInWorldSpace(out,3) )
     {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
@@ -330,7 +334,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
   std::cout<<"DerivativeAt()...";
   try
     {
-    tubeNet1->DerivativeAt(in,(unsigned short)1,derivative,true);
+    tubeNet1->DerivativeAtInWorldSpace(in,(unsigned short)1,derivative,true);
     }
   catch(...)
     {
@@ -428,9 +432,9 @@ int itkTubeSpatialObjectTest(int, char * [] )
   std::cout << "ComputeTangentAndNormals: ";
   tube1->ComputeTangentAndNormals();
 
-  TubePointType::VectorType t = static_cast<const TubePointType*>(tube1->GetPoint(1))->GetTangent();
-  TubePointType::CovariantVectorType n1 = static_cast<const TubePointType*>(tube1->GetPoint(1))->GetNormal1();
-  TubePointType::CovariantVectorType n2 = static_cast<const TubePointType*>(tube1->GetPoint(1))->GetNormal2();
+  TubePointType::VectorType t = static_cast<const TubePointType*>(tube1->GetPoint(1))->GetTangentInWorldSpace();
+  TubePointType::CovariantVectorType n1 = static_cast<const TubePointType*>(tube1->GetPoint(1))->GetNormal1InWorldSpace();
+  TubePointType::CovariantVectorType n2 = static_cast<const TubePointType*>(tube1->GetPoint(1))->GetNormal2InWorldSpace();
 
   if(  (std::fabs(t[0]-0.57735)>0.0001)
     || (std::fabs(t[1]-0.57735)>0.0001)
@@ -449,19 +453,19 @@ int itkTubeSpatialObjectTest(int, char * [] )
 
   std::cout << "[PASSED]" << std::endl;
 
-  // Testing IsInside() with m_EndType set to 1 (rounded end-type);
-  std::cout << "IsInside() with m_EndType=1: ";
+  // Testing IsInside() with m_EndType set to rounded end-type;
+  std::cout << "IsInside() with m_RoundedEnd=True: ";
   p1.Fill(19.5);
 
-  if(tube1->IsInside(p1))
+  if(tube1->IsInsideInWorldSpace(p1))
     {
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
     }
 
-  tube1->SetEndType(1);
+  tube1->SetEndRounded(true);
 
-  if(!tube1->IsInside(p1))
+  if(!tube1->IsInsideInWorldSpace(p1))
     {
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -474,7 +478,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
   using PointBasedType = itk::PointBasedSpatialObject<3>;
   PointBasedType::Pointer pBSO = PointBasedType::New();
   pBSO->GetPoint(0);
-  pBSO->ComputeBoundingBox();
+  pBSO->ComputeMyBoundingBox();
   std::cout << "[PASSED]" << std::endl;
 
   std::cout << "[DONE]" << std::endl;

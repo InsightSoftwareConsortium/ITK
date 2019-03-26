@@ -46,10 +46,12 @@ int main( int , char *[] )
 // Software Guide : BeginCodeSnippet
   using SurfaceType = itk::SurfaceSpatialObject<3>;
   using SurfacePointer = SurfaceType::Pointer;
-  using SurfacePointType = itk::SurfaceSpatialObjectPoint<3>;
-  using VectorType = itk::CovariantVector<double,3>;
 
-  SurfacePointer Surface = SurfaceType::New();
+  using SurfacePointType = SurfaceType::SurfacePointType;
+  using CovariantVectorType = SurfaceType::CovariantVectorType;
+  using PointType = SurfaceType::PointType;
+
+  SurfacePointer surface = SurfaceType::New();
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
@@ -61,19 +63,23 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  SurfaceType::PointListType list;
+  SurfaceType::SurfacePointListType list;
 
   for( unsigned int i=0; i<3; i++)
     {
     SurfacePointType p;
-    p.SetPosition(i,i+1,i+2);
+    PointType pnt;
+    pnt[0] = i;
+    pnt[1] = i+1;
+    pnt[2] = i+2;
+    p.SetPositionInObjectSpace(pnt);
     p.SetColor(1,0,0,1);
-    VectorType normal;
+    CovariantVectorType normal;
     for(unsigned int j=0;j<3;j++)
       {
       normal[j]=j;
       }
-    p.SetNormal(normal);
+    p.SetNormalInObjectSpace(normal);
     list.push_back(p);
     }
 // Software Guide : EndCodeSnippet
@@ -87,9 +93,10 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  Surface->GetProperty()->SetName("Surface1");
-  Surface->SetId(1);
-  Surface->SetPoints(list);
+  surface->GetProperty().SetName("Surface1");
+  surface->SetId(1);
+  surface->SetPoints(list);
+  surface->Update();
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
@@ -100,7 +107,7 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-   SurfaceType::PointListType pointList = Surface->GetPoints();
+   SurfaceType::SurfacePointListType pointList = surface->GetPoints();
    std::cout << "Number of points representing the surface: ";
    std::cout << pointList.size() << std::endl;
 // Software Guide : EndCodeSnippet
@@ -116,12 +123,13 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-   SurfaceType::PointListType::const_iterator it
-                                               = Surface->GetPoints().begin();
-   while(it != Surface->GetPoints().end())
+   SurfaceType::SurfacePointListType::const_iterator it
+     = surface->GetPoints().begin();
+   while(it != surface->GetPoints().end())
      {
-     std::cout << "Position = " << (*it).GetPosition() << std::endl;
-     std::cout << "Normal = " << (*it).GetNormal() << std::endl;
+     std::cout << "Position = " << (*it).GetPositionInObjectSpace()
+       << std::endl;
+     std::cout << "Normal = " << (*it).GetNormalInObjectSpace() << std::endl;
      std::cout << "Color = " << (*it).GetColor() << std::endl;
      std::cout << std::endl;
      it++;

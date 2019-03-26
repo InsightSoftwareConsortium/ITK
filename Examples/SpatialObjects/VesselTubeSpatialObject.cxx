@@ -30,7 +30,7 @@
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-#include "itkVesselTubeSpatialObject.h"
+#include "itkTubeSpatialObject.h"
 // Software Guide : EndCodeSnippet
 
 int main( int , char *[] )
@@ -48,10 +48,12 @@ int main( int , char *[] )
   unsigned int i;
 
 // Software Guide : BeginCodeSnippet
-  using VesselTubeType = itk::VesselTubeSpatialObject<3>;
-  using VesselTubePointType = itk::VesselTubeSpatialObjectPoint<3>;
+  using VesselTubeType = itk::TubeSpatialObject<3>;
+  using VesselTubePointType = VesselTubeType::TubePointType;
 
-  VesselTubeType::Pointer VesselTube = VesselTubeType::New();
+  using PointType = VesselTubeType::PointType;
+
+  VesselTubeType::Pointer vesselTube = VesselTubeType::New();
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
@@ -73,19 +75,22 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  VesselTubeType::PointListType list;
+  VesselTubeType::TubePointListType list;
   for (i=0; i<5; ++i)
     {
     VesselTubePointType p;
-    p.SetPosition(i,i+1,i+2);
-    p.SetRadius(1);
+    PointType pnt;
+    pnt[0] = i;
+    pnt[1] = i+1;
+    pnt[2] = i+2;
+    p.SetPositionInObjectSpace(pnt);
+    p.SetRadiusInObjectSpace(1);
     p.SetAlpha1(i);
     p.SetAlpha2(i+1);
     p.SetAlpha3(i+2);
     p.SetMedialness(i);
     p.SetRidgeness(i);
     p.SetBranchness(i);
-    p.SetMark(true);
     p.SetColor(1,0,0,1);
     list.push_back(p);
     }
@@ -100,9 +105,10 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  VesselTube->GetProperty()->SetName("VesselTube");
-  VesselTube->SetId(1);
-  VesselTube->SetPoints(list);
+  vesselTube->GetProperty().SetName("VesselTube");
+  vesselTube->SetId(1);
+  vesselTube->SetPoints(list);
+  vesselTube->Update();
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
@@ -113,7 +119,7 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  VesselTubeType::PointListType pointList = VesselTube->GetPoints();
+  VesselTubeType::TubePointListType pointList = vesselTube->GetPoints();
   std::cout << "Number of points representing the blood vessel: ";
   std::cout << pointList.size() << std::endl;
 // Software Guide : EndCodeSnippet
@@ -127,19 +133,18 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  VesselTubeType::PointListType::const_iterator
-            it = VesselTube->GetPoints().begin();
+  VesselTubeType::TubePointListType::const_iterator
+            it = vesselTube->GetPoints().begin();
   i=0;
-  while(it != VesselTube->GetPoints().end())
+  while(it != vesselTube->GetPoints().end())
     {
     std::cout << std::endl;
     std::cout << "Point #" << i << std::endl;
-    std::cout << "Position: " << (*it).GetPosition() << std::endl;
-    std::cout << "Radius: " << (*it).GetRadius() << std::endl;
+    std::cout << "Position: " << (*it).GetPositionInObjectSpace() << std::endl;
+    std::cout << "Radius: " << (*it).GetRadiusInObjectSpace() << std::endl;
     std::cout << "Medialness: " << (*it).GetMedialness() << std::endl;
     std::cout << "Ridgeness: " << (*it).GetRidgeness() << std::endl;
     std::cout << "Branchness: " << (*it).GetBranchness() << std::endl;
-    std::cout << "Mark: " << (*it).GetMark() << std::endl;
     std::cout << "Alpha1: " << (*it).GetAlpha1() << std::endl;
     std::cout << "Alpha2: " << (*it).GetAlpha2() << std::endl;
     std::cout << "Alpha3: " << (*it).GetAlpha3() << std::endl;

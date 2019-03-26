@@ -679,7 +679,7 @@ void TIFFImageIO::InternalWrite(const void *buffer)
       }
     else if ( compression == COMPRESSION_DEFLATE )
       {
-      predictor = 2;
+      predictor = PREDICTOR_NONE;
       TIFFSetField(tif, TIFFTAG_PREDICTOR, predictor);
       }
 

@@ -20,7 +20,7 @@
 
 #include "metaVesselTube.h"
 #include "itkMetaConverterBase.h"
-#include "itkVesselTubeSpatialObject.h"
+#include "itkTubeSpatialObject.h"
 
 namespace itk
 {
@@ -54,7 +54,7 @@ public:
   using MetaObjectType = typename Superclass::MetaObjectType;
 
   /** Specific class types for conversion */
-  using VesselTubeSpatialObjectType = VesselTubeSpatialObject<NDimensions>;
+  using VesselTubeSpatialObjectType = TubeSpatialObject<NDimensions>;
   using VesselTubeSpatialObjectPointer = typename VesselTubeSpatialObjectType::Pointer;
   using VesselTubeSpatialObjectConstPointer = typename VesselTubeSpatialObjectType::ConstPointer;
   using VesselTubeMetaObjectType = MetaVesselTube;

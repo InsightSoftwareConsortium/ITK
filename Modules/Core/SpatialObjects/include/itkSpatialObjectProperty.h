@@ -19,9 +19,11 @@
 #define itkSpatialObjectProperty_h
 
 #include <string>
+#include <map>
 
-#include "itkRGBAPixel.h"
 #include "itkLightObject.h"
+#include "itkRGBAPixel.h"
+#include "itkTimeStamp.h"
 #include "itkObjectFactory.h"
 
 namespace itk
@@ -31,70 +33,84 @@ namespace itk
  * it's templated over the representation to use for each color component.
  */
 
-template< typename TComponentType = float >
-class ITK_TEMPLATE_EXPORT SpatialObjectProperty:
-  public LightObject
+class SpatialObjectProperty
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectProperty);
-
-  using Self = SpatialObjectProperty< TComponentType >;
-  using Superclass = LightObject;
-  using PixelType = RGBAPixel< TComponentType >;
-  using StringType = std::string;
-
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
-
-  itkNewMacro(Self);
-  itkTypeMacro(SpatialObjectProperty, LightObject);
-
-  const PixelType & GetColor() const;
-
-  void SetColor(const PixelType & color);
-
-  void SetColor(TComponentType r, TComponentType g, TComponentType b);
-
-  void SetRed(TComponentType r);
-
-  TComponentType GetRed() const;
-
-  void SetGreen(TComponentType g);
-
-  TComponentType GetGreen() const;
-
-  void SetBlue(TComponentType b);
-
-  TComponentType GetBlue() const;
-
-  void SetAlpha(TComponentType a);
-
-  TComponentType GetAlpha() const;
 
   SpatialObjectProperty();
-  ~SpatialObjectProperty() override = default;
 
-  void SetName(const char *name);
+  virtual ~SpatialObjectProperty() = default;
 
-  StringType GetName() const;
+  using Self = SpatialObjectProperty;
 
-  ModifiedTimeType GetMTime() { return m_MTime; }
+  using ColorType = RGBAPixel< double >;
+
+  void SetColor( const ColorType & color )
+  { m_Color = color; }
+
+  ColorType & GetColor()
+  { return m_Color; }
+
+  const ColorType & GetColor() const
+  { return m_Color; }
+
+  void SetColor(double r, double g, double b);
+
+  void SetRed(double r);
+  double GetRed() const;
+
+  void SetGreen(double g);
+  double GetGreen() const;
+
+  void SetBlue(double b);
+  double GetBlue() const;
+
+  void SetAlpha(double a);
+  double GetAlpha() const;
+
+  void SetName( const std::string & name )
+  { m_Name = name; }
+
+  std::string & GetName()
+  { return m_Name; }
+
+  const std::string & GetName() const
+  { return m_Name; }
+
+  void SetTagScalarValue( const std::string & tag, double value );
+  void SetTagStringValue( const std::string & tag, const std::string & value );
+
+  bool GetTagScalarValue( const std::string & tag, double & value ) const;
+  bool GetTagStringValue( const std::string & tag, std::string & value ) const;
+
+  std::map< std::string, double > &            GetTagScalarDictionary();
+  const std::map< std::string, double > &      GetTagScalarDictionary() const;
+  std::map< std::string, std::string > &       GetTagStringDictionary();
+  const std::map< std::string, std::string > & GetTagStringDictionary() const;
+
+  void SetTagScalarDictionary( const std::map< std::string, double > & dict );
+  void SetTagStringDictionary( const std::map< std::string,
+    std::string > & dict );
+
+  void Print(std::ostream & os) const
+  { this->PrintSelf( os, 3 ); }
+
+  Self & operator=(const SpatialObjectProperty & rhs );
 
 protected:
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
-
-  void Modified() { m_MTime++; }
+  void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
-  PixelType        m_Color;
-  StringType       m_Name;
-  ModifiedTimeType m_MTime;
-};
-}
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkSpatialObjectProperty.hxx"
-#endif
+  ColorType        m_Color;
+
+  std::string      m_Name;
+
+  std::map< std::string, double >      m_ScalarDictionary;
+  std::map< std::string, std::string > m_StringDictionary;
+};
+
+}
 
 #endif // __SpatialObjectProperty_h

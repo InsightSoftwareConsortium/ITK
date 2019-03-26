@@ -373,3 +373,5 @@ if(ITK_WRAP_unsigned_char AND wrap_2_index GREATER -1)
       DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
       )
 endif()
+itk_python_expression_add_test(NAME itkSymmetricEigenAnalysisImageFilterPythonTest
+  EXPRESSION "filt = itk.SymmetricEigenAnalysisImageFilter.New()")

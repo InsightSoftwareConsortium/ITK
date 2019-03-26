@@ -18,11 +18,14 @@
 #ifndef itkMetaSceneConverter_h
 #define itkMetaSceneConverter_h
 
+#include "itkObject.h"
+#include "itkDefaultStaticMeshTraits.h"
+
 #include "metaScene.h"
 #include "itkMetaEvent.h"
-#include "itkSceneSpatialObject.h"
-#include "itkDefaultStaticMeshTraits.h"
+#include "itkGroupSpatialObject.h"
 #include "itkMetaConverterBase.h"
+
 #include <string>
 #include <map>
 
@@ -38,17 +41,29 @@ namespace itk
  *  \sa MetaConverterBase
  *  \ingroup ITKSpatialObjects
  */
-template< unsigned int NDimensions,
+template< unsigned int NDimensions = 3,
           typename PixelType = unsigned char,
           typename TMeshTraits =
             DefaultStaticMeshTraits< PixelType, NDimensions, NDimensions >
           >
 class ITK_TEMPLATE_EXPORT MetaSceneConverter
+: public Object
 {
 public:
 
+    /** standard class type alias */
+  using Self = MetaSceneConverter;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(MetaSceneConverter, Object);
+
   /** SpatialObject Scene types */
-  using SceneType = itk::SceneSpatialObject< NDimensions >;
+  using SceneType = itk::GroupSpatialObject< NDimensions >;
   using ScenePointer = typename  SceneType::Pointer;
 
   /** Typedef for auxiliary conversion classes */
@@ -56,52 +71,49 @@ public:
   using MetaConverterPointer = typename MetaConverterBaseType::Pointer;
   using ConverterMapType = std::map< std::string, MetaConverterPointer >;
 
-  MetaSceneConverter();
-  ~MetaSceneConverter() = default;
-
-  static constexpr unsigned int MaximumDepth = 9999999;
-
   /** Read a MetaFile and create a Scene SpatialObject */
-  ScenePointer ReadMeta(const char *name);
+  ScenePointer ReadMeta(const std::string & name);
 
   /** write out a Scene SpatialObject */
-  bool WriteMeta(SceneType *scene, const char *fileName,
-                 unsigned int depth = MaximumDepth,
-                 char *spatialObjectTypeName = nullptr);
+  bool WriteMeta(SceneType *scene, const std::string & fileName,
+                 unsigned int depth = SceneType::MaximumDepth,
+                 const std::string & spatialObjectTypeName = "");
 
-  const MetaEvent * GetEvent() const { return m_Event; }
-  void  SetEvent(MetaEvent *event) { m_Event = event; }
+  itkGetMacro( Event, MetaEvent * );
+  itkSetObjectMacro( Event, MetaEvent );
 
   /** Set if the points should be saved in binary/ASCII */
-  void SetBinaryPoints(bool binary) { m_BinaryPoints = binary; }
+  itkSetMacro( BinaryPoints, bool );
+  itkGetMacro( BinaryPoints, bool );
 
   /** set/get the precision for writing out numbers as plain text */
-  void SetTransformPrecision(unsigned int precision)
-  {
-    m_TransformPrecision = precision;
-  }
-  unsigned int GetTransformPrecision(){ return m_TransformPrecision; }
+  itkSetMacro( TransformPrecision, unsigned int );
+  itkGetMacro( TransformPrecision, unsigned int );
 
   /** Set if the images should be written in different files */
-  void SetWriteImagesInSeparateFile(bool separate)
-  {
-    m_WriteImagesInSeparateFile = separate;
-  }
+  itkSetMacro( WriteImagesInSeparateFile, bool );
+  itkGetConstMacro( WriteImagesInSeparateFile, bool );
+
   /** add new SpatialObject/MetaObject converters at runtime
    *
    *  Every Converter is mapped to both a metaObject type name
    * and a spatialObject type name -- these need to match what
    * gets read from & written to the MetaIO file
    */
-  void RegisterMetaConverter(const char *metaTypeName,
-                             const char *spatialObjectTypeName,
+  void RegisterMetaConverter(const std::string & metaTypeName,
+                             const std::string & spatialObjectTypeName,
                              MetaConverterBaseType *converter);
 
   MetaScene * CreateMetaScene(SceneType *scene,
-                              unsigned int depth = MaximumDepth,
-                              char *name = nullptr);
+    unsigned int depth = SceneType::MaximumDepth,
+    const std::string & name = "");
 
   ScenePointer CreateSpatialObjectScene(MetaScene *scene);
+
+protected:
+
+  MetaSceneConverter();
+  ~MetaSceneConverter() = default;
 
 private:
 
@@ -125,9 +137,9 @@ private:
     typename TConverter::Pointer converter = TConverter::New();
     return converter->MetaObjectToSpatialObject(mo);
   }
-  void SetTransform(MetaObject *obj, TransformType *transform);
+  void SetTransform(MetaObject *obj, const TransformType * transform);
 
-  void SetTransform(SpatialObjectType *so, MetaObject *obj);
+  void SetTransform(SpatialObjectType *so, const MetaObject * meta);
 
   double m_Orientation[100];
   double m_Position[10];

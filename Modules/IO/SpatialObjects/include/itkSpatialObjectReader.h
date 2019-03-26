@@ -48,13 +48,12 @@ public:
   using GroupType = GroupSpatialObject< NDimensions >;
   using GroupPointer = typename GroupType::Pointer;
 
-  using SceneType = SceneSpatialObject< NDimensions >;
-  using ScenePointer = typename SceneType::Pointer;
-
   /** base type for MetaConverters -- bidirections conversion btw
    *  SpatialObject & MetaObject
    */
   using MetaConverterBaseType = MetaConverterBase< NDimensions >;
+  using MetaSceneConverterType
+    = MetaSceneConverter< NDimensions, PixelType, TMeshTraits >;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
@@ -73,12 +72,14 @@ public:
   itkGetStringMacro(FileName);
 
   /** Get the output */
-  ScenePointer GetScene() { return m_Scene; }
   GroupPointer GetGroup() { return m_Group; }
 
   /** Set/GetEvent */
-  const MetaEvent * GetEvent() { return m_MetaToSpatialConverter.GetEvent(); }
-  void SetEvent(MetaEvent *event) { m_MetaToSpatialConverter.SetEvent(event); }
+  const MetaEvent * GetEvent()
+  { return m_MetaToSpatialConverter->GetEvent(); }
+
+  void SetEvent(MetaEvent *event)
+  { m_MetaToSpatialConverter->SetEvent(event); }
 
   /** Add a converter for a new MetaObject/SpatialObject type */
   void RegisterMetaConverter(const char *metaTypeName,
@@ -93,10 +94,9 @@ protected:
 
 private:
 
-  ScenePointer m_Scene;
   GroupPointer m_Group;
 
-  MetaSceneConverter< NDimensions, PixelType, TMeshTraits > m_MetaToSpatialConverter;
+  typename MetaSceneConverterType::Pointer m_MetaToSpatialConverter;
 };
 } // namespace itk
 

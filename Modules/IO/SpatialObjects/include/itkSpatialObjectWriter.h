@@ -44,20 +44,24 @@ public:
   using Self = SpatialObjectWriter;
   using Pointer = SmartPointer< Self >;
 
+  /** Run-time type information (and related methods). */
+  using Superclass = Object;
+
   using SpatialObjectType = SpatialObject< NDimensions >;
   using SpatialObjectPointer = typename SpatialObjectType::Pointer;
-  using SceneType = SceneSpatialObject< NDimensions >;
+  using SceneType = GroupSpatialObject< NDimensions >;
 
   /** base type for MetaConverters -- bidirections conversion btw
    *  SpatialObject & MetaObject
    */
   using MetaConverterBaseType = MetaConverterBase< NDimensions >;
 
+  using MetaSceneConverterType
+    = MetaSceneConverter< NDimensions, PixelType, TMeshTraits >;
+
   /** Method for creation through the object factory */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods). */
-  using Superclass = Object;
   itkTypeMacro(SpatialObjectWriter, Object);
 
   /** Load a tube file. */
@@ -103,8 +107,7 @@ private:
   SpatialObjectPointer m_SpatialObject;
   SceneType *          m_Scene;
 
-  MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
-  m_MetaToSpatialConverter;
+  typename MetaSceneConverterType::Pointer m_MetaToSpatialConverter;
 };
 } // namespace itk
 

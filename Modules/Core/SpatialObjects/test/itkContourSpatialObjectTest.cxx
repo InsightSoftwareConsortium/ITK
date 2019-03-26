@@ -37,34 +37,41 @@ int itkContourSpatialObjectTest(int, char* [])
   using SpatialObjectType = itk::ContourSpatialObject<NumDimensions>;
 
   // contour is a unit square
+  SpatialObjectType::PointType pnt;
+
   SpatialObjectType::ControlPointType pt1;
-  pt1.SetPickedPoint(0,0);
+  pnt[0] = 0;
+  pnt[1] = 0;
+  pt1.SetPickedPointInObjectSpace(pnt);
+
   SpatialObjectType::ControlPointType  pt2;
-  pt2.SetPickedPoint(1,0);
+  pnt[0] = 1;
+  pnt[1] = 0;
+  pt2.SetPickedPointInObjectSpace(pnt);
+
   SpatialObjectType::ControlPointType  pt3;
-  pt3.SetPickedPoint(1,1);
+  pnt[0] = 1;
+  pnt[1] = 1;
+  pt3.SetPickedPointInObjectSpace(pnt);
+
   SpatialObjectType::ControlPointType  pt4;
-  pt4.SetPickedPoint(0,1);
+  pnt[0] = 0;
+  pnt[1] = 1;
+  pt4.SetPickedPointInObjectSpace(pnt);
 
   SpatialObjectType::Pointer contour = SpatialObjectType::New();
 
 
   //
-  // Test ComputeBoundingBox before data added
+  // Test ComputeMyBoundingBox before data added
   //
-  if (contour->ComputeLocalBoundingBox())
-    {
-    std::cout << "[FAILED] computed bounding box without data " << std::endl;
-    return EXIT_FAILURE;
-    }
-  std::cout << "[PASSED] ComputeLocalBoundingBox before data" << std::endl;
-
+  contour->Update();
 
   //
-  // Test Control Points (SetControlPoints, GetControlPoints, GetNumberOfControlPoints,
-  // GetControlPoint)
+  // Test Control Points (SetControlPoints, GetControlPoints,
+  // GetNumberOfControlPoints, GetControlPoint)
   //
-  SpatialObjectType::ControlPointListType controlPointList;
+  SpatialObjectType::ContourPointListType controlPointList;
   controlPointList.push_back(pt1);
   controlPointList.push_back(pt2);
   controlPointList.push_back(pt3);
@@ -81,14 +88,30 @@ int itkContourSpatialObjectTest(int, char* [])
   std::cout << "[PASSED] GetNumberOfControlPoints" << std::endl;
 
   // check values of points
-  if (itk::Math::NotAlmostEquals( contour->GetControlPoints()[0].GetPickedPoint()[0], pt1.GetPickedPoint()[0] ) ||
-      itk::Math::NotAlmostEquals( contour->GetControlPoints()[0].GetPickedPoint()[1], pt1.GetPickedPoint()[1] ) ||
-      itk::Math::NotAlmostEquals( contour->GetControlPoints()[1].GetPickedPoint()[0], pt2.GetPickedPoint()[0] ) ||
-      itk::Math::NotAlmostEquals( contour->GetControlPoints()[1].GetPickedPoint()[1], pt2.GetPickedPoint()[1] ) ||
-      itk::Math::NotAlmostEquals( contour->GetControlPoints()[2].GetPickedPoint()[0], pt3.GetPickedPoint()[0] ) ||
-      itk::Math::NotAlmostEquals( contour->GetControlPoints()[2].GetPickedPoint()[1], pt3.GetPickedPoint()[1] ) ||
-      itk::Math::NotAlmostEquals( contour->GetControlPoints()[3].GetPickedPoint()[0], pt4.GetPickedPoint()[0] ) ||
-      itk::Math::NotAlmostEquals( contour->GetControlPoints()[3].GetPickedPoint()[1], pt4.GetPickedPoint()[1] ))
+  if (itk::Math::NotAlmostEquals(
+        contour->GetControlPoints()[0].GetPickedPointInObjectSpace()[0],
+        pt1.GetPickedPointInObjectSpace()[0] ) ||
+      itk::Math::NotAlmostEquals(
+        contour->GetControlPoints()[0].GetPickedPointInObjectSpace()[1],
+        pt1.GetPickedPointInObjectSpace()[1] ) ||
+      itk::Math::NotAlmostEquals(
+        contour->GetControlPoints()[1].GetPickedPointInObjectSpace()[0],
+        pt2.GetPickedPointInObjectSpace()[0] ) ||
+      itk::Math::NotAlmostEquals(
+        contour->GetControlPoints()[1].GetPickedPointInObjectSpace()[1],
+        pt2.GetPickedPointInObjectSpace()[1] ) ||
+      itk::Math::NotAlmostEquals(
+        contour->GetControlPoints()[2].GetPickedPointInObjectSpace()[0],
+        pt3.GetPickedPointInObjectSpace()[0] ) ||
+      itk::Math::NotAlmostEquals(
+        contour->GetControlPoints()[2].GetPickedPointInObjectSpace()[1],
+        pt3.GetPickedPointInObjectSpace()[1] ) ||
+      itk::Math::NotAlmostEquals(
+        contour->GetControlPoints()[3].GetPickedPointInObjectSpace()[0],
+        pt4.GetPickedPointInObjectSpace()[0] ) ||
+      itk::Math::NotAlmostEquals(
+        contour->GetControlPoints()[3].GetPickedPointInObjectSpace()[1],
+        pt4.GetPickedPointInObjectSpace()[1] ))
     {
     std::cout << "[FAILED] Did not add/retrieve control point list correctly" << std::endl;
     return EXIT_FAILURE;
@@ -96,10 +119,15 @@ int itkContourSpatialObjectTest(int, char* [])
   std::cout << "[PASSED] Set/GetControlPoints" << std::endl;
 
   // check retrieval of a single point
-  if (itk::Math::NotAlmostEquals(contour->GetControlPoint(0)->GetPickedPoint()[0], pt1.GetPickedPoint()[0]) ||
-      itk::Math::NotAlmostEquals(contour->GetControlPoint(0)->GetPickedPoint()[1], pt1.GetPickedPoint()[1]))
+  if (itk::Math::NotAlmostEquals(
+        contour->GetControlPoint(0)->GetPickedPointInObjectSpace()[0],
+        pt1.GetPickedPointInObjectSpace()[0]) ||
+      itk::Math::NotAlmostEquals(
+        contour->GetControlPoint(0)->GetPickedPointInObjectSpace()[1],
+        pt1.GetPickedPointInObjectSpace()[1]))
     {
-    std::cout << "[FAILED] Did not retrieve single control point correctly" << std::endl;
+    std::cout << "[FAILED] Did not retrieve single control point correctly"
+      << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] GetControlPoint" << std::endl;
@@ -110,33 +138,23 @@ int itkContourSpatialObjectTest(int, char* [])
   //
 
   // first set to not closed and test
-  contour->SetClosed(false);
-  if (contour->GetClosed())
+  contour->SetIsClosed(false);
+  if (contour->GetIsClosed())
     {
-    std::cout << "[FAILED] Did not set/retrieve closed property correctly" << std::endl;
+    std::cout << "[FAILED] Did not set/retrieve closed property correctly"
+      << std::endl;
     return EXIT_FAILURE;
     }
 
   // then set it to closed and test
-  contour->SetClosed(true);
-  if (!contour->GetClosed())
+  contour->SetIsClosed(true);
+  if (!contour->GetIsClosed())
     {
-    std::cout << "[FAILED] Did not set/retrieve closed property correctly" << std::endl;
+    std::cout << "[FAILED] Did not set/retrieve closed property correctly"
+      << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] Set/GetClosed" << std::endl;
-
-
-  //
-  // Test Set/Get DisplayOrientation
-  //
-  contour->SetDisplayOrientation(1);
-  if (contour->GetDisplayOrientation() != 1)
-    {
-    std::cout << "[FAILED] Did not set/retrieve display orientation correctly" << std::endl;
-    return EXIT_FAILURE;
-    }
-  std::cout << "[PASSED] Set/GetDisplayOrientation" << std::endl;
 
 
   //
@@ -163,10 +181,13 @@ int itkContourSpatialObjectTest(int, char* [])
   //
   // Test Set/Get InterpolationType
   //
-  contour->SetInterpolationType(SpatialObjectType::LINEAR_INTERPOLATION);
-  if (contour->GetInterpolationType() != SpatialObjectType::LINEAR_INTERPOLATION)
+  contour->SetInterpolationMethod(
+    SpatialObjectType::InterpolationMethodType::LINEAR_INTERPOLATION);
+  if (contour->GetInterpolationMethod() !=
+        SpatialObjectType::InterpolationMethodType::LINEAR_INTERPOLATION)
     {
-    std::cout << "[FAILED] Did not set/retrieve interpolation type correctly" << std::endl;
+    std::cout << "[FAILED] Did not set/retrieve interpolation type correctly"
+      << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] Set/GetInterpolationType" << std::endl;
@@ -176,41 +197,64 @@ int itkContourSpatialObjectTest(int, char* [])
   // Test Interpolation Points (SetInterpolationPoints, GetInterpolationPoints,
   // GetNumberOfInterpolationPoints, GetInterpolationPoint)
   //
-  SpatialObjectType::InterpolatedPointType intPt1;
-  intPt1.SetPosition(0,0.5);
-  SpatialObjectType::InterpolatedPointType  intPt2;
-  intPt2.SetPosition(0.5,0);
+  SpatialObjectType::ContourPointType intPt1;
+  pnt[0] = 0;
+  pnt[1] = 0.5;
+  intPt1.SetPositionInObjectSpace(pnt);
+  SpatialObjectType::ContourPointType intPt2;
+  pnt[0] = 0.5;
+  pnt[1] = 0;
+  intPt2.SetPositionInObjectSpace(pnt);
 
-  SpatialObjectType::InterpolatedPointListType interpPointList;
+  SpatialObjectType::ContourPointListType interpPointList;
   interpPointList.push_back(intPt1);
   interpPointList.push_back(intPt2);
 
-  contour->SetInterpolatedPoints(interpPointList);
+  contour->SetControlPoints(interpPointList);
+  contour->SetInterpolationMethod(
+    SpatialObjectType::InterpolationMethodType::NO_INTERPOLATION);
+  contour->Update();
 
   // check number of points
-  if (contour->GetNumberOfInterpolatedPoints() != 2)
+  if (contour->GetNumberOfControlPoints() != 2)
     {
-    std::cout << "[FAILED] Did not add the right number of interpolated points" << std::endl;
+    std::cout << "[FAILED] Did not add the right number of interpolated points"
+      << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] GetNumberOfInterpolatedPoints" << std::endl;
 
   // check values of points
-  if (itk::Math::NotAlmostEquals(contour->GetInterpolatedPoints()[0].GetPosition()[0], intPt1.GetPosition()[0]) ||
-      itk::Math::NotAlmostEquals(contour->GetInterpolatedPoints()[0].GetPosition()[1], intPt1.GetPosition()[1]) ||
-      itk::Math::NotAlmostEquals(contour->GetInterpolatedPoints()[1].GetPosition()[0], intPt2.GetPosition()[0]) ||
-      itk::Math::NotAlmostEquals(contour->GetInterpolatedPoints()[1].GetPosition()[1], intPt2.GetPosition()[1]))
+  if (itk::Math::NotAlmostEquals(
+        contour->GetPoints()[0].GetPositionInObjectSpace()[0],
+        intPt1.GetPositionInObjectSpace()[0]) ||
+      itk::Math::NotAlmostEquals(
+        contour->GetPoints()[0].GetPositionInObjectSpace()[1],
+        intPt1.GetPositionInObjectSpace()[1]) ||
+      itk::Math::NotAlmostEquals(
+        contour->GetPoints()[1].GetPositionInObjectSpace()[0],
+        intPt2.GetPositionInObjectSpace()[0]) ||
+      itk::Math::NotAlmostEquals(
+        contour->GetPoints()[1].GetPositionInObjectSpace()[1],
+        intPt2.GetPositionInObjectSpace()[1]))
     {
-    std::cout << "[FAILED] Did not add/retrieve interpolated point list correctly" << std::endl;
+    std::cout
+      << "[FAILED] Did not add/retrieve interpolated point list correctly"
+      << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] Set/GetInterpolatedPoints" << std::endl;
 
   // check retrieval of a single point
-  if (itk::Math::NotAlmostEquals(contour->GetInterpolatedPoint(0)->GetPosition()[0], intPt1.GetPosition()[0]) ||
-      itk::Math::NotAlmostEquals(contour->GetInterpolatedPoint(0)->GetPosition()[1], intPt1.GetPosition()[1]))
+  if (itk::Math::NotAlmostEquals(
+        contour->GetPoint(0)->GetPositionInObjectSpace()[0],
+        intPt1.GetPositionInObjectSpace()[0]) ||
+      itk::Math::NotAlmostEquals(
+        contour->GetPoint(0)->GetPositionInObjectSpace()[1],
+        intPt1.GetPositionInObjectSpace()[1]))
     {
-    std::cout << "[FAILED] Did not retrieve single interpolated point correctly" << std::endl;
+    std::cout << "[FAILED] Did not retrieve single interpolated point correctly"
+      << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "[PASSED] GetInterpolatedPoint" << std::endl;
@@ -219,7 +263,7 @@ int itkContourSpatialObjectTest(int, char* [])
   //
   // Test ComputeLocalBoundingBox
   //
-  if (!contour->ComputeLocalBoundingBox())
+  if (!contour->ComputeMyBoundingBox())
     {
     std::cout << "[FAILED] faild bounding box computation" << std::endl;
     return EXIT_FAILURE;
@@ -233,7 +277,7 @@ int itkContourSpatialObjectTest(int, char* [])
   SpatialObjectType::PointType testPoint;
   testPoint[0] = 0;
   testPoint[1] = 0;
-  if (contour->IsInside(testPoint))
+  if (contour->IsInsideInWorldSpace(testPoint))
     {
     std::cout << "[FAILED] Somehow returned true for IsInside" << std::endl;
     return EXIT_FAILURE;
@@ -242,9 +286,10 @@ int itkContourSpatialObjectTest(int, char* [])
 
 
   //
-  // Test IsEvaluableAt (should always return false since IsInside always returns false)
+  // Test IsEvaluableAt (should always return false since IsInside
+  // always returns false)
   //
-  if (contour->IsEvaluableAt(testPoint))
+  if (contour->IsEvaluableAtInWorldSpace(testPoint))
     {
     std::cout << "[FAILED] Somehow returned true for IsEvaluableAt" << std::endl;
     return EXIT_FAILURE;
@@ -253,11 +298,13 @@ int itkContourSpatialObjectTest(int, char* [])
 
 
   //
-  // Test ValueAt (should always return false and val=0 since IsInside always returns false)
+  // Test ValueAt (should always return false and val=0 since IsInside
+  //   always returns false)
   //
   double val = -1;
   double* valPtr = &val;
-  if (contour->ValueAt(testPoint, *valPtr) || itk::Math::NotExactlyEquals(val, contour->GetDefaultOutsideValue()))
+  if (contour->ValueAtInWorldSpace(testPoint, *valPtr)
+    || itk::Math::NotExactlyEquals(val, contour->GetDefaultOutsideValue()))
     {
     std::cout << "[FAILED] Somehow returned true for ValueAt" << std::endl;
     return EXIT_FAILURE;
@@ -266,7 +313,8 @@ int itkContourSpatialObjectTest(int, char* [])
 
 
   //
-  // Run PrintSelf for the sake of coverage (and to make sure no segfault/exceptions arise)
+  // Run PrintSelf for the sake of coverage (and to make sure no
+  // segfault/exceptions arise)
   //
   itk::Indent idt;
   contour->Print(std::cout, idt);

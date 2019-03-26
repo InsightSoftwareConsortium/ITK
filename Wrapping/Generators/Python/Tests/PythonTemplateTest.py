@@ -48,6 +48,11 @@ assert readerType == readerType2 == readerType3
 assert tpl == itk.Image
 assert parameters == (PixelType, dim)
 
+# test that `isinstance` works
+obj = itk.ImageFileReader[ImageType].New()
+assert isinstance(obj, itk.ImageFileReader.IUC2)
+assert isinstance(obj, itk.ImageFileReader)
+
 # the template must raise a KeyError exception if the template parameter
 # is unknown
 try:
@@ -267,6 +272,23 @@ try:
     writer = itk.ImageFileWriter.New(Input=reader, FileName=filename)
 except TypeError:
     raise Exception("Writer doesn't accept filter with 'Input' keyword")
+
+# Test 'ttype' keyword
+InputImageType = itk.Image[itk.UC, 2]
+# Check that it works with `ttype` being given a list.
+cast_filter = itk.CastImageFilter.New(ttype=[InputImageType, InputImageType])
+# Check that if the wrong number of template parameters are passed, a `RuntimeError`
+# is raised.
+try:
+    itk.CastImageFilter.New(ttype=[InputImageType])
+    raise Exception("Template CastImageFilter should require 2 template parameters")
+except RuntimeError:
+    pass
+# Check that if a tuple is given, it still works. This is especially useful since
+# the function `itk.template()` which returns the template arguments of an object
+# returns tuples and its returned value should be usable in this context.
+template_tuple = itk.template(cast_filter)[1]  # [0] is `<itkTemplate itk::CastImageFilter>`
+cast_filter = itk.CastImageFilter.New(ttype=template_tuple)
 
 # TODO: test auto_progress
 # but how ?

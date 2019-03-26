@@ -476,7 +476,7 @@ int itkMeshTest(int, char* [] )
 
     // Now we can construct a new cell and overwrite the id
     testCell.TakeOwnership(new QuadraticTriangleCellType); // polymorphism;
-    MeshType::PointIdentifier quadraticTrianglePoints[3] = {0,1,2};
+    MeshType::PointIdentifier quadraticTrianglePoints[6] = {0,1,2,3,4,5};
     testCell->SetPointIds(quadraticTrianglePoints);
     mesh->SetCell(2, testCell ); // Internally transfers ownership to the mesh
     std::cout << "QuadraticTriangleCell pointer = " << (void*)testCell.GetPointer() << std::endl;

@@ -42,7 +42,7 @@ public:
   using Self = ContourSpatialObjectPoint;
   using Superclass = SpatialObjectPoint< TPointDimension >;
   using PointType = Point< double, TPointDimension >;
-  using VectorType = CovariantVector< double, TPointDimension >;
+  using CovariantVectorType = CovariantVector< double, TPointDimension >;
 
   /** Constructor. This one defines the number of dimensions
    *  in the ContourSpatialObjectPoint */
@@ -52,30 +52,16 @@ public:
   ~ContourSpatialObjectPoint() override = default;
 
   /** Get the picked point. */
-  const PointType & GetPickedPoint() const;
+  const PointType & GetPickedPointInObjectSpace() const;
 
   /** Set the picked point : N-D case. */
-  void SetPickedPoint(const PointType & point);
-
-  /** Set the picked point : 2D case. */
-  void SetPickedPoint(const double pointx, const double pointy);
-
-  /** Set the picked point : 3D case. */
-  void SetPickedPoint(const double pointx,
-                      const double pointy, const double pointz);
+  void SetPickedPointInObjectSpace(const PointType & point);
 
   /** Get the normal. */
-  const VectorType & GetNormal() const;
+  const CovariantVectorType & GetNormalInObjectSpace() const;
 
   /** Set the normal : N-D case. */
-  void SetNormal(const VectorType & normal);
-
-  /** Set the normal : 2D case. */
-  void SetNormal(const double normalx, const double normaly);
-
-  /** Set the normal : 3D case. */
-  void SetNormal(const double normalx,
-                 const double normaly, const double normalz);
+  void SetNormalInObjectSpace(const CovariantVectorType & normal);
 
   /** Copy a surface point to another. */
   Self & operator=(const ContourSpatialObjectPoint & rhs);
@@ -86,8 +72,8 @@ protected:
 
 private:
 
-  VectorType m_Normal;
-  PointType  m_PickedPoint;
+  CovariantVectorType m_NormalInObjectSpace;
+  PointType           m_PickedPointInObjectSpace;
 };
 } // end of namespace itk
 

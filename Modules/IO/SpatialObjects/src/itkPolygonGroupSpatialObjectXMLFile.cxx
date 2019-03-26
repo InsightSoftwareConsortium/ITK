@@ -46,12 +46,12 @@ PolygonGroupSpatialObjectXMLFileReader::StartElement( const char *name, const ch
 {
   if ( itksys::SystemTools::Strucmp(name, "POLYGONGROUP") == 0 )
     {
-    m_PGroup = PGroupSpatialObjectType::New();
+    m_Group = GroupSpatialObjectType::New();
     }
   else if ( itksys::SystemTools::Strucmp(name, "POLYGON") == 0 )
     {
     m_CurPoly = PolygonSpatialObjectType::New();
-    m_PGroup->AddSpatialObject(m_CurPoly);
+    m_Group->AddChild(m_CurPoly);
     m_CurPointList.clear();
     }
 }
@@ -59,10 +59,10 @@ PolygonGroupSpatialObjectXMLFileReader::StartElement( const char *name, const ch
 void
 PolygonGroupSpatialObjectXMLFileReader::EndElement(const char *name)
 {
-  itk::MetaDataDictionary & thisDic = m_PGroup->GetMetaDataDictionary();
+  itk::MetaDataDictionary & thisDic = m_Group->GetMetaDataDictionary();
   if ( itksys::SystemTools::Strucmp(name, "POLYGONGROUP") == 0 )
     {
-    m_OutputObject = &( *m_PGroup );
+    m_OutputObject = &( *m_Group );
     }
   if ( itksys::SystemTools::Strucmp(name, "PATIENT-ID") == 0 )
     {
@@ -131,8 +131,8 @@ PolygonGroupSpatialObjectXMLFileReader::EndElement(const char *name)
         s = endptr;
         }
       }
-    PointType p;
-    p.SetPosition(pval);
+    PolygonPointType p;
+    p.SetPositionInObjectSpace(pval);
     m_CurPointList.push_back(p);
     }
   else if ( itksys::SystemTools::Strucmp(name, "POLYGON") == 0 )
@@ -246,21 +246,24 @@ PolygonGroupSpatialObjectXMLFileWriter::WriteFile()
 
   //
   // Write out polygondata
-  PolygonGroupType::ChildrenListType *children =
-    m_InputObject->GetChildren(0, nullptr);
+  GroupType::ChildrenListType *children =
+    m_InputObject->GetChildren(GroupType::MaximumDepth, "PolygonSpatialObject");
   auto it = children->begin();
   auto end = children->end();
   while ( it != end )
     {
     WriteStartElement("POLYGON", output);
     output << std::endl;
-    auto * curstrand = dynamic_cast< PolygonSpatialObjectType * >( ( *it ).GetPointer() );
-    PolygonSpatialObjectType::PointListType &         points = curstrand->GetPoints();
-    auto pointIt = points.begin();
-    auto pointItEnd = points.end();
+    auto * curstrand = dynamic_cast< PolygonSpatialObjectType * >(
+      ( *it ).GetPointer() );
+    PolygonSpatialObjectType::PolygonPointListType & polygonPoints =
+      curstrand->GetPoints();
+    auto pointIt = polygonPoints.begin();
+    auto pointItEnd = polygonPoints.end();
     while ( pointIt != pointItEnd )
       {
-      PolygonSpatialObjectType::PointType curpoint = ( *pointIt ).GetPosition();
+      PolygonSpatialObjectType::PointType curpoint =
+        ( *pointIt ).GetPositionInObjectSpace();
       WriteStartElement("POINT", output);
       output << curpoint[0] << " " << curpoint[1] << " "  << curpoint[2];
       WriteEndElement("POINT", output);

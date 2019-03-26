@@ -40,7 +40,7 @@ int itkImageSpatialObjectTest(int, char* [])
   using ImageType = itk::Image<Pixel,NDimensions>;
   using ImageSpatialObject = itk::ImageSpatialObject<NDimensions,Pixel>;
   using Iterator = itk::ImageRegionIterator<ImageType>;
-  using Point = itk::Point<ScalarType,NDimensions>;
+  using PointType = itk::Point<ScalarType,NDimensions>;
 
   ImageType::Pointer image = ImageType::New();
   ImageType::SizeType size = {{ 10, 10, 10 }};
@@ -70,22 +70,27 @@ int itkImageSpatialObjectTest(int, char* [])
   imageSO->Print(std::cout);
 
   imageSO->SetImage(image);
+  imageSO->Update();
+
   ImageSpatialObject::TransformType::OffsetType offset;
   offset.Fill(5);
 
-  imageSO->GetObjectToParentTransform()->SetOffset(offset);
+  imageSO->GetModifiableObjectToParentTransform()->SetOffset(offset);
   imageSO->ComputeObjectToWorldTransform();
 
-  Point q,r;
-  double returnedValue,expectedValue;
+  PointType q;
+  PointType r;
+  double returnedValue;
+  double expectedValue;
 
   r.Fill(9);
   q.Fill(15);
 
-  imageSO->ComputeBoundingBox();
-  std::cout << "Bounding Box = " << imageSO->GetBoundingBox()->GetBounds() << std::endl;
+  imageSO->ComputeMyBoundingBox();
+  std::cout << "Bounding Box = "
+    << imageSO->GetMyBoundingBoxInWorldSpace()->GetBounds() << std::endl;
   std::cout<<"IsInside()...";
-  if( imageSO->IsInside(r) || !imageSO->IsInside(q) )
+  if( imageSO->IsInsideInWorldSpace(r) || !imageSO->IsInsideInWorldSpace(q) )
     {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
@@ -100,7 +105,7 @@ int itkImageSpatialObjectTest(int, char* [])
 
   try
     {
-    imageSO->ValueAt(q,returnedValue);
+    imageSO->ValueAtInWorldSpace(q, returnedValue);
     }
   catch( itk::ExceptionObject & )
     {
@@ -110,7 +115,8 @@ int itkImageSpatialObjectTest(int, char* [])
   std::cout<<"ValueAt()...";
   if( itk::Math::NotAlmostEquals( returnedValue, expectedValue ) )
     {
-    std::cout << "Expected: " << expectedValue << " returned: " << returnedValue << std::endl;
+    std::cout << "Expected: " << expectedValue << " returned: "
+      << returnedValue << std::endl;
     std::cout <<"[FAILED]: " << std::endl;
     return EXIT_FAILURE;
     }
@@ -119,10 +125,11 @@ int itkImageSpatialObjectTest(int, char* [])
     std::cout<<"[PASSED]"<<std::endl;
     }
 
-  ImageSpatialObject::OutputVectorType derivative,expectedDerivative;
+  ImageSpatialObject::DerivativeVectorType derivative;
+  ImageSpatialObject::DerivativeVectorType expectedDerivative;
   Pixel expectedPixel;
 
-  imageSO->DerivativeAt(q,1,derivative);
+  imageSO->DerivativeAtInWorldSpace(q, 1, derivative);
   expectedPixel = 1;
   expectedDerivative[0]=expectedPixel;
   expectedPixel = 10;
@@ -148,7 +155,7 @@ int itkImageSpatialObjectTest(int, char* [])
 
   try
     {
-    imageSO->ValueAt(q,returnedValue);
+    imageSO->ValueAtInWorldSpace(q, returnedValue);
     }
   catch( itk::ExceptionObject & )
     {
@@ -158,7 +165,8 @@ int itkImageSpatialObjectTest(int, char* [])
   std::cout<<"ValueAt() with interpolator...";
   if( std::fabs(returnedValue-expectedValue)>0.001 )
     {
-    std::cout << "Expected: " << expectedValue << " returned: " << returnedValue << std::endl;
+    std::cout << "Expected: " << expectedValue << " returned: "
+      << returnedValue << std::endl;
     return EXIT_FAILURE;
     }
   else
@@ -167,7 +175,7 @@ int itkImageSpatialObjectTest(int, char* [])
     }
 
 
-  imageSO->DerivativeAt(q,1,derivative);
+  imageSO->DerivativeAtInWorldSpace(q, 1, derivative);
   expectedDerivative[0]=1;
   expectedDerivative[1]=10;
   expectedDerivative[2]=100;
@@ -177,7 +185,8 @@ int itkImageSpatialObjectTest(int, char* [])
     || std::fabs(derivative[2]-expectedDerivative[2])>0.00001
     )
     {
-    std::cout << "Expected: " << derivative << " returned: " << expectedDerivative << std::endl;
+    std::cout << "Expected: " << derivative << " returned: "
+      << expectedDerivative << std::endl;
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
     }

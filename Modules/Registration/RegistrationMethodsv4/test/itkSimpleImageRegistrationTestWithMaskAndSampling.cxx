@@ -140,6 +140,7 @@ int PerformSimpleImageRegistrationWithMaskAndSampling( int argc, char *argv[] )
 
   typename ImageMaskSpatialObjectType::Pointer maskSpatialObject = ImageMaskSpatialObjectType::New();
   maskSpatialObject->SetImage( maskImage );
+  maskSpatialObject->Update();
 
   typename ImageReaderType::Pointer movingImageReader = ImageReaderType::New();
   movingImageReader->SetFileName( argv[4] );

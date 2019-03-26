@@ -40,8 +40,9 @@ int itkEllipseSpatialObjectTest(int, char* [])
 
   std::cout << "Testing radii : ";
 
-  myEllipse->SetRadius(radius);
-  EllipseType::ArrayType radius2 = myEllipse->GetRadius();
+  myEllipse->SetRadiusInObjectSpace(radius);
+  myEllipse->Update();
+  EllipseType::ArrayType radius2 = myEllipse->GetRadiusInObjectSpace();
   for(unsigned int i = 0; i<4;i++)
   {
     if(itk::Math::NotExactlyEquals(radius2[i],i))
@@ -52,8 +53,9 @@ int itkEllipseSpatialObjectTest(int, char* [])
   }
   std::cout << "[PASSED]" << std::endl;
 
-  myEllipse->SetRadius(3);
- EllipseType::ArrayType radius3 = myEllipse->GetRadius();
+  myEllipse->SetRadiusInObjectSpace(3);
+  myEllipse->Update();
+  EllipseType::ArrayType radius3 = myEllipse->GetRadiusInObjectSpace();
   std::cout << "Testing Global radii : ";
   for(unsigned int i = 0; i<4;i++)
   {
@@ -69,17 +71,23 @@ int itkEllipseSpatialObjectTest(int, char* [])
    // Point consistency
   std::cout << "Is Inside: ";
   itk::Point<double,4> in;
-  in[0]=1;in[1]=2;in[2]=1;in[3]=1;
+  in[0]=1;
+  in[1]=2;
+  in[2]=1;
+  in[3]=1;
   itk::Point<double,4> out;
-  out[0]=0;out[1]=4;out[2]=0;out[3]=0;
+  out[0]=0;
+  out[1]=4;
+  out[2]=0;
+  out[3]=0;
 
-  if(!myEllipse->IsInside(in))
+  if(!myEllipse->IsInsideInWorldSpace(in))
   {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
   }
 
-  if(myEllipse->IsInside(out))
+  if(myEllipse->IsInsideInWorldSpace(out))
   {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
@@ -92,12 +100,11 @@ int itkEllipseSpatialObjectTest(int, char* [])
 
   // Create myEllipse2 as a child of myEllipse
   EllipseType::Pointer myEllipse2 = EllipseType::New();
-  myEllipse2->SetRadius(1);
-  myEllipse->AddSpatialObject(myEllipse2);
+  myEllipse2->SetRadiusInObjectSpace(1);
+  myEllipse->AddChild(myEllipse2);
 
   EllipseType::TransformType::OffsetType offset;
   offset.Fill(10);
-
   myEllipse->GetModifiableObjectToWorldTransform()->SetOffset(offset);
   myEllipse->ComputeObjectToParentTransform();
 
@@ -107,10 +114,12 @@ int itkEllipseSpatialObjectTest(int, char* [])
   myEllipse2->ComputeObjectToParentTransform();
 
   EllipseType::TransformType::OffsetType offset3;
-  offset3 = myEllipse2->GetObjectToParentTransform()->GetOffset();
+  offset3 = myEllipse2->GetModifiableObjectToParentTransform()->GetOffset();
 
-  if( (itk::Math::NotExactlyEquals(offset3[0],5)) || (itk::Math::NotExactlyEquals(offset3[1],5))
-     ||(itk::Math::NotExactlyEquals(offset3[2],5)) ||(itk::Math::NotExactlyEquals(offset3[3],5))
+  if( (itk::Math::NotExactlyEquals(offset3[0],5))
+     || (itk::Math::NotExactlyEquals(offset3[1],5))
+     ||(itk::Math::NotExactlyEquals(offset3[2],5))
+     ||(itk::Math::NotExactlyEquals(offset3[3],5))
      )
   {
     std::cout<<"[FAILED]"<<std::endl;
@@ -118,10 +127,13 @@ int itkEllipseSpatialObjectTest(int, char* [])
   }
   std::cout<<"[PASSED]"<<std::endl;
 
-  std::cout << "ComputeBoundingBox: ";
-  myEllipse->ComputeBoundingBox();
-  EllipseType::BoundingBoxType * boundingBox = myEllipse->GetBoundingBox();
+  myEllipse->ComputeFamilyBoundingBox( EllipseType::MaximumDepth );
+  myEllipse->ComputeObjectToWorldTransform();
+  const EllipseType::BoundingBoxType * boundingBox
+    = myEllipse->GetFamilyBoundingBoxInWorldSpace();
+  std::cout << "Bounds = " << boundingBox->GetBounds() << std::endl;
 
+  std::cout << "ComputeMyBoundingBox: ";
   for(unsigned int i=0;i<3;i++)
   {
     if(   itk::Math::NotAlmostEquals(boundingBox->GetBounds()[2*i], 7 )

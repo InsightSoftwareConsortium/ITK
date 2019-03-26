@@ -24,7 +24,8 @@ if(_have_numpy_return_code EQUAL 0 AND ITK_BUILD_DEFAULT_MODULES)
 
   itk_python_add_test(NAME PythonTiming COMMAND timing.py)
 endif()
-itk_python_add_test(NAME PythonVerifyAPIConsistency COMMAND verifyAPIConsistency.py)
+itk_python_add_test(NAME PythonVerifyGetOutputAPIConsistency COMMAND verifyGetOutputAPIConsistency.py)
+itk_python_add_test(NAME PythonVerifyTTypeAPIConsistency COMMAND verifyTTypeAPIConsistency.py)
 itk_python_add_test(NAME PythonComplex COMMAND complex.py)
 itk_python_add_test(NAME PythonHelperFunctions COMMAND helpers.py)
 

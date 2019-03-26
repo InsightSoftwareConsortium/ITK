@@ -27,8 +27,8 @@ SpatialObjectReader< NDimensions, PixelType, TMeshTraits >
 ::SpatialObjectReader()
 {
   m_FileName = "";
-  m_Scene = nullptr;
   m_Group = nullptr;
+  m_MetaToSpatialConverter = MetaSceneConverterType::New();
 }
 
 template< unsigned int NDimensions, typename PixelType, typename TMeshTraits >
@@ -36,41 +36,23 @@ void
 SpatialObjectReader< NDimensions, PixelType, TMeshTraits >
 ::Update()
 {
-  m_Scene = m_MetaToSpatialConverter.ReadMeta( m_FileName.c_str() );
+  m_Group = m_MetaToSpatialConverter->ReadMeta( m_FileName.c_str() );
 
-  if ( m_Scene->GetNumberOfObjects(0) == 0 )
+  if ( m_Group->GetNumberOfChildren(0) == 0 )
     {
     itkExceptionMacro("No groups were found in file " << m_FileName);
     }
-
-  if ( m_Scene->GetNumberOfObjects(0) == 1 )
+  else if ( m_Group->GetNumberOfChildren(0) == 1 )
     {
-    typename SceneType::ObjectListType * list = m_Scene->GetObjects(0);
+    typename GroupType::ChildrenListType * list = m_Group->GetChildren(0);
     auto it = list->begin();
-    if ( !strncmp( ( *it )->GetTypeName(), "Group", 5 ) )
+    if ( ( *it )->GetTypeName().find( "GroupSpatialObject" ) != std::string::npos )
       {
       m_Group = static_cast< GroupType * >( ( *it ).GetPointer() );
       }
-    else
-      {
-      m_Group = GroupType::New();
-      m_Group->AddSpatialObject( static_cast< SpatialObjectType * >( ( *it ).GetPointer() ) );
-      }
     delete list;
     }
-  else
-    {
-    m_Group = GroupType::New();
-    typename SceneType::ObjectListType * list = m_Scene->GetObjects(0);
-    auto it = list->begin();
-    auto it_end = list->end();
-    while ( it != it_end )
-      {
-      m_Group->AddSpatialObject( static_cast< SpatialObjectType * >( *it ) );
-      it++;
-      }
-    delete list;
-    }
+  m_Group->Update();
 }
 
 /** Add a converter for a new MetaObject/SpatialObject type */
@@ -81,7 +63,7 @@ SpatialObjectReader< NDimensions, PixelType, TMeshTraits >
                       const char *spatialObjectTypeName,
                       MetaConverterBaseType *converter)
 {
-  this->m_MetaToSpatialConverter.RegisterMetaConverter(metaTypeName,
+  this->m_MetaToSpatialConverter->RegisterMetaConverter(metaTypeName,
                                                      spatialObjectTypeName,
                                                      converter);
 }

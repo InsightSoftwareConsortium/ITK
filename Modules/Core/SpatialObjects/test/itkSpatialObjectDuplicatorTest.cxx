@@ -26,8 +26,8 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
 {
   using EllipseType = itk::EllipseSpatialObject<3>;
   EllipseType::Pointer ellipse = EllipseType::New();
-  ellipse->SetRadius(3);
-  ellipse->GetProperty()->SetColor(0,1,1);
+  ellipse->SetRadiusInObjectSpace(3);
+  ellipse->GetProperty().SetColor(0,1,1);
 
   using DuplicatorType = itk::SpatialObjectDuplicator<EllipseType>;
   DuplicatorType::Pointer duplicator = DuplicatorType::New();
@@ -39,13 +39,13 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
 
   EllipseType::Pointer ellipse_copy = duplicator->GetOutput();
 
-  std::cout << ellipse_copy->GetRadius() << std::endl;
-  std::cout << ellipse_copy->GetProperty()->GetColor() << std::endl;
+  std::cout << ellipse_copy->GetRadiusInObjectSpace() << std::endl;
+  std::cout << ellipse_copy->GetProperty().GetColor() << std::endl;
 
   // Test with a group
   using GroupType = itk::GroupSpatialObject<3>;
   GroupType::Pointer group = GroupType::New();
-  group->AddSpatialObject(ellipse);
+  group->AddChild(ellipse);
 
   using DuplicatorGroupType = itk::SpatialObjectDuplicator<GroupType>;
   DuplicatorGroupType::Pointer duplicatorGroup = DuplicatorGroupType::New();
@@ -56,7 +56,7 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
   GroupType::ChildrenListType* children = group_copy->GetChildren();
 
   EllipseType::Pointer ellipse_copy2 = static_cast<EllipseType*>((*(children->begin())).GetPointer());
-  std::cout << ellipse_copy2->GetRadius() << std::endl;
+  std::cout << ellipse_copy2->GetRadiusInObjectSpace() << std::endl;
 
   delete children;
 
@@ -66,13 +66,13 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
   using DTITubePointType = itk::DTITubeSpatialObjectPoint<3>;
 
   // Tubes
-  DTITubeType::PointListType    list3;
+  DTITubeType::DTITubePointListType    list3;
 
   for( unsigned int i=0; i<7; i++)
     {
     DTITubePointType p;
-    p.SetPosition(i*3,i*3,i*3);
-    p.SetRadius(i);
+    p.SetPositionInObjectSpace(i*3,i*3,i*3);
+    p.SetRadiusInObjectSpace(i);
     p.SetRed(i);
     p.SetGreen(i+1);
     p.SetBlue(i+2);
@@ -97,7 +97,7 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
     }
 
   DTITubeType::Pointer dtiTube = DTITubeType::New();
-  dtiTube->GetProperty()->SetName("Tube 3");
+  dtiTube->GetProperty().SetName("Tube 3");
   dtiTube->SetId(3);
   dtiTube->SetPoints(list3);
 
@@ -109,10 +109,10 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
 
   // Testing DTITubeSO
   std::cout << "Testing DTITubeSpatialObject: ";
-  DTITubeType::PointListType::const_iterator jdti;
+  DTITubeType::DTITubePointListType::const_iterator jdti;
 
   bool found = false;
-  if(!strcmp(dtiTube_copy->GetTypeName(),"DTITubeSpatialObject"))
+  if(!strcmp(dtiTube_copy->GetTypeName().c_str(),"DTITubeSpatialObject"))
     {
     found = true;
     unsigned int value=0;
@@ -129,9 +129,9 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
       {
       for(unsigned int d=0;d<3;d++)
         {
-        if( itk::Math::NotAlmostEquals( (*jdti).GetPosition()[d], value * dtiTube_copy->GetId() ) )
+        if( itk::Math::NotAlmostEquals( (*jdti).GetPositionInWorldSpace()[d], value * dtiTube_copy->GetId() ) )
           {
-          std::cout<<" [FAILED] (Position is: " << (*jdti).GetPosition()[d] << " expected : "<< value * dtiTube_copy->GetId()<< " ) " <<std::endl;
+          std::cout<<" [FAILED] (Position is: " << (*jdti).GetPositionInWorldSpace()[d] << " expected : "<< value * dtiTube_copy->GetId()<< " ) " <<std::endl;
           return EXIT_FAILURE;
           }
         }

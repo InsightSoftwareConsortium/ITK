@@ -26,7 +26,7 @@ static float strandPoints[11][2] =
     {1.75,1.5},{1.5,1.5},{1.5,2},{2,2},{2,1},{1,1}
   };
 using Polygon3DType = itk::PolygonSpatialObject<3>;
-using PolygonGroup3DType = itk::PolygonGroupSpatialObject<3>;
+using PolygonGroup3DType = itk::GroupSpatialObject<3>;
 using PolygonGroup3DPointer = PolygonGroup3DType::Pointer;
 
 int
@@ -39,12 +39,7 @@ buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
       itk::PolygonSpatialObject<3>::Pointer strand
         = itk::PolygonSpatialObject<3>::New();
 
-      if(!PolygonGroup->AddStrand(strand))
-        {
-        std::cerr << "Error adding point" << std::endl;
-        return EXIT_FAILURE;
-        }
-      strand->SetThickness(1.0);
+      strand->SetThicknessInObjectSpace(1.0);
       //
       // add all points to this strand.
       for(auto & strandPoint : strandPoints)
@@ -53,13 +48,14 @@ buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
         pos[0] = strandPoint[0];
         pos[1] = strandPoint[1];
         pos[2] = z;
-        itk::PolygonSpatialObject<3>::PointType curpoint(pos);
-        if(!strand->AddPoint(curpoint))
-          {
-          std::cerr << "Error adding point" << std::endl;
-          return EXIT_FAILURE;
-          }
+        itk::SpatialObjectPoint<3> curpoint;
+        curpoint.SetPositionInObjectSpace(pos);
+        strand->AddPoint(curpoint);
         }
+      strand->Update();
+
+      PolygonGroup->AddChild(strand);
+      PolygonGroup->Update();
       }
     }
   catch(itk::ExceptionObject &)
@@ -75,13 +71,11 @@ int testPolygonGroupEquivalence(PolygonGroup3DPointer &p1,
 {
   //
   // Write out polygondata
-  PolygonGroup3DType::ChildrenListType *children1 =
-    p1->GetChildren(0,nullptr);
+  PolygonGroup3DType::ChildrenListType *children1 = p1->GetChildren();
   auto it1 = children1->begin();
   auto end1 = children1->end();
 
-  PolygonGroup3DType::ChildrenListType *children2 =
-    p2->GetChildren(0,nullptr);
+  PolygonGroup3DType::ChildrenListType *children2 = p2->GetChildren();
   auto it2 = children2->begin();
   auto end2 = children2->end();
 
@@ -96,9 +90,9 @@ int testPolygonGroupEquivalence(PolygonGroup3DPointer &p1,
     auto * curstrand1 = dynamic_cast<Polygon3DType *>((*it1).GetPointer());
     auto * curstrand2 = dynamic_cast<Polygon3DType *>((*it2).GetPointer());
 
-    Polygon3DType::PointListType &points1 =
+    Polygon3DType::PolygonPointListType &points1 =
       curstrand1->GetPoints();
-    Polygon3DType::PointListType &points2 =
+    Polygon3DType::PolygonPointListType &points2 =
       curstrand2->GetPoints();
 
     auto pointIt1
@@ -121,13 +115,14 @@ int testPolygonGroupEquivalence(PolygonGroup3DPointer &p1,
         return EXIT_FAILURE;
         }
       Polygon3DType::PointType curpoint1 =
-        (*pointIt1).GetPosition();
+        (*pointIt1).GetPositionInWorldSpace();
       Polygon3DType::PointType curpoint2 =
-        (*pointIt2).GetPosition();
+        (*pointIt2).GetPositionInWorldSpace();
       if(curpoint1 != curpoint2)
         {
         //Just a silly test to make sure that the positions returned are valid
-        std::cerr << "Error: both points should have the same value: " <<  curpoint1 << " and " << curpoint2 << std::endl;
+        std::cerr << "Error: both points should have the same value: "
+          <<  curpoint1 << " and " << curpoint2 << std::endl;
         //This should never happen in this test.
         return EXIT_FAILURE;
         }

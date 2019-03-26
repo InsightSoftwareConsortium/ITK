@@ -27,18 +27,23 @@ int itkBlobSpatialObjectTest(int, char* [])
 {
   using BlobType = itk::BlobSpatialObject<3>;
   using BlobPointer = BlobType::Pointer;
-  using BlobPointType = itk::SpatialObjectPoint<3>;
+  using BlobPointType = BlobType::BlobPointType;
+  using PointType = BlobType::PointType;
 
   std::cout<<"=================================="<<std::endl;
   std::cout<<"Testing BlobSpatialObject:"<<std::endl<<std::endl;
 
-  BlobType::PointListType list;
+  BlobType::BlobPointListType list;
 
   unsigned int i;
   for( i=0; i<10; i++)
   {
     BlobPointType p;
-    p.SetPosition(i,i+1,i+2);
+    PointType pnt;
+    pnt[0] = i;
+    pnt[1] = i+1;
+    pnt[2] = i+2;
+    p.SetPositionInObjectSpace(pnt);
     p.SetBlue(i);
     p.SetGreen(i+1);
     p.SetRed(i+2);
@@ -48,17 +53,21 @@ int itkBlobSpatialObjectTest(int, char* [])
 
   // For coverage
   BlobPointType p;
-  p.SetPosition(1,2,3);
+  PointType pnt;
+  pnt[0] = 1;
+  pnt[1] = 2;
+  pnt[2] = 3;
+  p.SetPositionInObjectSpace(pnt);
   p.Print(std::cout);
 
   // Create a Blob Spatial Object
   BlobPointer blob = BlobType::New();
   blob->Print(std::cout);
 
-  blob->GetProperty()->SetName("Blob 1");
+  blob->GetProperty().SetName("Blob 1");
   blob->SetId(1);
   blob->SetPoints(list);
-  blob->ComputeBoundingBox();
+  blob->Update();
 
   blob->Print(std::cout);
 
@@ -79,14 +88,14 @@ int itkBlobSpatialObjectTest(int, char* [])
   // Point consistency
   std::cout << "Point consistency: ";
 
-  BlobType::PointListType::const_iterator it = blob->GetPoints().begin();
+  BlobType::BlobPointListType::const_iterator it = blob->GetPoints().begin();
 
   i=0;
   while(it != blob->GetPoints().end())
   {
     for(unsigned int d=0;d<3;d++)
     {
-      if(itk::Math::NotExactlyEquals((*it).GetPosition()[d], i+d))
+      if(itk::Math::NotExactlyEquals((*it).GetPositionInObjectSpace()[d], i+d))
       {
         std::cout<<"[FAILED]"<<std::endl;
         return EXIT_FAILURE;
@@ -105,13 +114,13 @@ int itkBlobSpatialObjectTest(int, char* [])
   itk::Point<double,3> out;
   out[0]=0;out[1]=0;out[2]=0;
 
-  if(!blob->IsInside(in))
+  if(!blob->IsInsideInWorldSpace(in))
   {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
   }
 
-  if(blob->IsInside(out))
+  if(blob->IsInsideInWorldSpace(out))
   {
     std::cout<<"[FAILED]"<<std::endl;
     return EXIT_FAILURE;
@@ -158,7 +167,8 @@ int itkBlobSpatialObjectTest(int, char* [])
 
   // Testing IsEvaluableAt()
   std::cout << "IsEvaluableAt: ";
-  if(!blob->IsEvaluableAt(in) || blob->IsEvaluableAt(out))
+  if(!blob->IsEvaluableAtInWorldSpace(in)
+    || blob->IsEvaluableAtInWorldSpace(out))
   {
      std::cout<<"[FAILED]"<<std::endl;
      return EXIT_FAILURE;
@@ -170,7 +180,7 @@ int itkBlobSpatialObjectTest(int, char* [])
   std::cout << "ValueAt: ";
 
   double value;
-  if(!blob->ValueAt(in,value))
+  if(!blob->ValueAtInWorldSpace(in,value))
   {
      std::cout<<"[FAILED]"<<std::endl;
      return EXIT_FAILURE;
