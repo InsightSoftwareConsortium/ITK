@@ -105,11 +105,11 @@ public:
     {
     region = region_;
     prod[0] = 1;
-    for( int i = 1; i < Dimension; ++i )
+    for( auto i = 1; i < Dimension; ++i )
       {
       prod[i]=prod[i-1]*region.GetSize()[i-1];
       }
-    for(int i = 0; i < Dimension; ++i )
+    for(auto i = 0; i < Dimension; ++i )
       {
       invSpacing[i] = ScalarType(1) / spacing[i];
       }
@@ -118,7 +118,7 @@ public:
   InternalSizeT BufferIndex(const IndexType & x) const
   {
     IndexValueType ans=0;
-    for( int i = 0; i < Dimension; ++i )
+    for( auto i = 0; i < Dimension; ++i )
       {
       ans += this->prod[i] * ( x[i] - this->region.GetIndex()[i] );
       }
@@ -133,16 +133,16 @@ public:
     // Diffusion tensors are homogeneous to the inverse of norms, and are thus rescaled with an inverse spacing.
 
     TensorType D;
-    for(int i=0; i<Dimension; ++i)
-        for(int j=i; j<Dimension; ++j)
+    for(auto i=0; i<Dimension; ++i)
+        for(auto j=i; j<Dimension; ++j)
             D(i,j)=tensor(i,j)*this->invSpacing[i]*this->invSpacing[j];
     this->Stencil( Dispatch< Dimension >(), D, offsets, stencil.second );
 
     InternalSizeT * yIndex = &stencil.first[0];
 
     //Compute buffer offsets from geometrical offsets
-    for(int i=0; i<(int)HalfStencilSize; ++i){
-        for(int orientation = 0; orientation<2; ++orientation, ++yIndex){
+    for(auto i=0; i<(int)HalfStencilSize; ++i){
+        for(auto orientation = 0; orientation<2; ++orientation, ++yIndex){
             const IndexType y = orientation ? x-offsets[i] : x+offsets[i];
             if(this->region.IsInside(y)){
                 *yIndex = this->BufferIndex(y);
@@ -164,9 +164,9 @@ protected:
   {
     // Construct a superbase, and make it obtuse with Selling's algorithm
     VectorType sb[Dimension+1]; //SuperBase
-    for(int i=0; i<Dimension; ++i)
+    for(auto i=0; i<Dimension; ++i)
       {
-      for(int j=0; j<Dimension; ++j)
+      for(auto j=0; j<Dimension; ++j)
         {
         sb[i][j]=(i==j);
         }
@@ -178,9 +178,9 @@ protected:
     for(; iter<maxIter; ++iter)
       {
       bool same=true;
-      for(int i=1; i<=Dimension && same; ++i)
+      for(auto i=1; i<=Dimension && same; ++i)
         {
-        for(int j=0; j<i && same; ++j)
+        for(auto j=0; j<i && same; ++j)
           {
           if( ScalarProduct(D,sb[i],sb[j]) > 0 )
             {
@@ -202,7 +202,7 @@ protected:
       std::cerr << "Warning: Selling's algorithm not stabilized." << std::endl;
       }
 
-    for( int i = 0; i < 3; ++i )
+    for( auto i = 0; i < 3; ++i )
       {
       coefficients[i] = (-0.5)*ScalarProduct(D,sb[(i+1)%3],sb[(i+2)%3]);
       assert(coefficients[i]>=0);
@@ -215,9 +215,9 @@ protected:
   {
     // Construct a superbase, and make it obtuse with Selling's algorithm
     VectorType sb[Dimension+1];
-    for(int i=0; i<Dimension; ++i)
+    for(auto i=0; i<Dimension; ++i)
       {
-      for(int j=0; j<Dimension; ++j)
+      for(auto j=0; j<Dimension; ++j)
         {
         sb[i][j] = (i==j);
         }
@@ -229,11 +229,11 @@ protected:
     for(; iter<maxIter; ++iter)
       {
       bool same=true;
-      for(int i=1; i<=Dimension && same; ++i)
-          for(int j=0; j<i && same; ++j)
+      for(auto i=1; i<=Dimension && same; ++i)
+          for(auto j=0; j<i && same; ++j)
               if( ScalarProduct(D,sb[i],sb[j]) > 0 ){
                   const VectorType u=sb[i], v=sb[j];
-                  for(int k=0,l=0; k<=Dimension; ++k)
+                  for(auto k=0,l=0; k<=Dimension; ++k)
                       if(k!=i && k!=j)
                           sb[l++]=sb[k]+u;
                   sb[2]=-u;
@@ -249,9 +249,9 @@ protected:
 
     // Computation of the weights
     SymmetricSecondRankTensor<ScalarType,Dimension+1> Weights;
-    for(int i=1; i<Dimension+1; ++i)
+    for(auto i=1; i<Dimension+1; ++i)
       {
-      for(int j=0; j<i; ++j)
+      for(auto j=0; j<i; ++j)
         {
         Weights(i,j) = (-0.5)*ScalarProduct(D,sb[i],sb[j]);
         }
@@ -260,9 +260,9 @@ protected:
     // Now that the obtuse superbasis has been created, generate the stencil.
     // First get the dual basis. Obtained by computing the comatrix of Basis[1..Dimension].
 
-    for(int i=0; i<Dimension; ++i)
+    for(auto i=0; i<Dimension; ++i)
       {
-      for(int j=0; j<Dimension; ++j)
+      for(auto j=0; j<Dimension; ++j)
         {
           offsets[i][j] = sb[(i+1)%Dimension][(j+1)%Dimension]*sb[(i+2)%Dimension][(j+2)%Dimension]
           - sb[(i+2)%Dimension][(j+1)%Dimension]*sb[(i+1)%Dimension][(j+2)%Dimension];
@@ -274,7 +274,7 @@ protected:
     offsets[Dimension+2] = offsets[1]-offsets[2];
 
     // The corresponding coefficients are given by the scalar products.
-    for(int i=0; i<Dimension; ++i)
+    for(auto i=0; i<Dimension; ++i)
       {
       coefficients[i]=Weights(i,3);
       }
@@ -325,7 +325,7 @@ LinearAnisotropicDiffusionLBRImageFilter< TImage, TScalar >
       !stencilIt.IsAtEnd();
       ++stencilIt, ++diagIt)
     {
-    for(int i = 0; i < (int)StencilSize; ++i)
+    for(auto i = 0; i < (int)StencilSize; ++i)
       {
       const InternalSizeT yIndex = stencilIt.Value().first[i];
       if( yIndex != OutsideBufferIndex() )
@@ -425,7 +425,7 @@ LinearAnisotropicDiffusionLBRImageFilter< TImage, TScalar >
   m_NextImage->SetRegions(m_PreviousImage->GetBufferedRegion());
   m_NextImage->Allocate();
 
-  for( int k = 0; k < n; ++k )
+  for( auto k = 0; k < n; ++k )
     {
     ImageUpdate(delta);
     std::swap(m_PreviousImage, m_NextImage);
@@ -471,7 +471,7 @@ LinearAnisotropicDiffusionLBRImageFilter< TImage,  TScalar >
        !inputIt.IsAtEnd();
        ++inputIt, ++outputIt, ++stencilIt )
     {
-    for( int i = 0; i < (int)StencilSize; ++i )
+    for( auto i = 0; i < (int)StencilSize; ++i )
       {
       const InternalSizeT   yIndex = stencilIt.Value().first[i];
       if( yIndex != OutsideBufferIndex() )
@@ -514,13 +514,13 @@ LinearAnisotropicDiffusionLBRImageFilter< TImage, TScalar>
                 const VectorType & v)
 {
   ScalarType result(0);
-  for( int i = 0; i < Dimension; ++i )
+  for( auto i = 0; i < Dimension; ++i )
     {
     result += m(i,i) * u[i] * v[i];
     }
-  for( int i = 0; i < Dimension; ++i )
+  for( auto i = 0; i < Dimension; ++i )
     {
-    for( int j = i+1; j < Dimension; ++j )
+    for( auto j = i+1; j < Dimension; ++j )
       {
       result += m(i,j) * (u[i] * v[j] + u[j] * v[i]);
       }
