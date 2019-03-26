@@ -74,6 +74,17 @@ int itkPolyDataTest( int, char *[] )
   polyData->GetPointData( 2, &pointData );
   TEST_SET_GET_VALUE( 9.9, pointData );
 
+  PolyDataType::CellDataContainer::Pointer cellDataContainer = PolyDataType::CellDataContainer::New();
+  cellDataContainer->InsertElement( 0, 2.0 );
+  cellDataContainer->InsertElement( 1, 7.0 );
+  polyData->SetCellData( cellDataContainer );
+  double cellData;
+  polyData->GetCellData( 1, &cellData );
+  TEST_SET_GET_VALUE( 7.0, cellData );
+  polyData->SetCellData( 2, 9.9 );
+  polyData->GetCellData( 2, &cellData );
+  TEST_SET_GET_VALUE( 9.9, cellData );
+
   EXERCISE_BASIC_OBJECT_METHODS( polyData, PolyData, DataObject );
 
   return EXIT_SUCCESS;

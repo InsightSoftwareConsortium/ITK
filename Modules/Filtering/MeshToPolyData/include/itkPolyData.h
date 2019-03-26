@@ -61,6 +61,8 @@ public:
   using PointType = typename MeshTraits::PointType;
   using PointsContainer = typename MeshTraits::PointsContainer;
   using PointDataContainer = typename MeshTraits::PointDataContainer;
+  using CellIdentifier = typename MeshTraits::CellIdentifier;
+  using CellDataContainer = typename MeshTraits::CellDataContainer;
 
   void Initialize() override;
 
@@ -88,6 +90,19 @@ public:
   void SetPointData(PointIdentifier, PixelType);
   bool GetPointData(PointIdentifier, PixelType *) const;
 
+  /** Access m_CellDataContainer, which contains data associated with
+   *  the mesh's cells.  Optionally, this can be nullptr, indicating that
+   *  no data are associated with the cells.  The data for a cell can
+   *  be accessed through its cell identifier.  */
+  void SetCellData(CellDataContainer *);
+  CellDataContainer *  GetCellData();
+  const CellDataContainer * GetCellData() const;
+
+  /** Access routines to fill the CellData container, and get information
+   *  from it.  */
+  void SetCellData(CellIdentifier, PixelType);
+  bool GetCellData(CellIdentifier, PixelType *) const;
+
 protected:
   PolyData();
   ~PolyData() override = default;
@@ -103,6 +118,8 @@ protected:
    * the points.  The data for a point can be accessed through its point
    * identifier. */
   typename PointDataContainer::Pointer m_PointDataContainer;
+
+  typename CellDataContainer::Pointer m_CellDataContainer;
 private:
 };
 
