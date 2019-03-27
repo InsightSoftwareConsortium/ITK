@@ -819,7 +819,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
       for(unsigned int jj=0;jj<3;jj++)
         {
         if (dynamic_cast<EllipseType*>((*obj).GetPointer())->
-          GetRadiusInObjectSpace()[jj] != 9.0)
+          GetRadiiInObjectSpace()[jj] != 9.0)
           {
           std::cout<<" [FAILED]"<< std::endl;
           delete mySceneChildren;

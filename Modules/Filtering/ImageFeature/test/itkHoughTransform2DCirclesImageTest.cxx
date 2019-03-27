@@ -216,8 +216,8 @@ namespace
       success = false;
     }
 
-    const double radius1 = circle1->GetRadiusInObjectSpace()[0];
-    const double radius2 = circle2->GetRadiusInObjectSpace()[0];
+    const double radius1 = circle1->GetRadiiInObjectSpace()[0];
+    const double radius2 = circle2->GetRadiiInObjectSpace()[0];
 
     if ( radius2 < radius1 )
     {
@@ -444,21 +444,21 @@ int itkHoughTransform2DCirclesImageTest( int, char* [] )
   while( it != circleList.end() )
     {
       if( !itk::Math::FloatAlmostEqual(
-          (double)( it->GetPointer()->GetRadiusInObjectSpace()[0] ),
+          (double)( it->GetPointer()->GetRadiiInObjectSpace()[0] ),
         radius[i], 10, radiusTolerance ) &&
         !itk::Math::FloatAlmostEqual(
-          (double)( it->GetPointer()->GetRadiusInObjectSpace()[0] ),
+          (double)( it->GetPointer()->GetRadiiInObjectSpace()[0] ),
         radius[i] * discRadiusRatio, 10, radiusTolerance ) )
       {
       std::cout << "Failure for circle #" << i << std::endl;
       std::cout << "Expected radius: " << radius[i] << ", found "
-        << it->GetPointer()->GetRadiusInObjectSpace() << std::endl;
+        << it->GetPointer()->GetRadiiInObjectSpace() << std::endl;
       success = false;
       }
     else
       {
       std::cout << "Circle #" << i << " radius: "
-        << it->GetPointer()->GetRadiusInObjectSpace() << std::endl;
+        << it->GetPointer()->GetRadiiInObjectSpace() << std::endl;
       }
     ++it;
     ++i;
