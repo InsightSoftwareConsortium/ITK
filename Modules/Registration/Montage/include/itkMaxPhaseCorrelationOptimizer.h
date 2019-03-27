@@ -93,6 +93,12 @@ public:
   itkGetConstMacro( ZeroSuppression, PixelType );
   itkSetClampMacro( ZeroSuppression, PixelType, 1.0, 100.0 );
 
+  /** Get/Set multiplicative factor for biasing the solution towards expectation.
+   * The expectation is that no translation will be needed given current image origins. */
+  itkGetConstMacro( BiasTowardsExpected, double );
+  itkSetClampMacro( BiasTowardsExpected, double, 0.0, 1000.0 );
+
+
 protected:
   MaxPhaseCorrelationOptimizer();
   virtual ~MaxPhaseCorrelationOptimizer(){};
@@ -107,6 +113,7 @@ private:
   typename MaxCalculatorType::Pointer m_MaxCalculator;
   PeakInterpolationMethod             m_PeakInterpolationMethod = PeakInterpolationMethod::Parabolic;
   PixelType                           m_ZeroSuppression = 15;
+  double                              m_BiasTowardsExpected = 10.0;
 };
 
 } // end namespace itk

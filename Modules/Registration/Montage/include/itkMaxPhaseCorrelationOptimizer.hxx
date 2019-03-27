@@ -135,7 +135,8 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
     directExpectedIndex[d] = ( movingOrigin[d] - fixedOrigin[d] ) / spacing[d] + oIndex[d];
     mirrorExpectedIndex[d] = ( movingOrigin[d] - fixedOrigin[d] ) / spacing[d] + adjustedSize[d];
     }
-  distancePenaltyFactor = 100.0 / distancePenaltyFactor; // 10% of image distance for a factor of about 1.0
+
+  distancePenaltyFactor = m_BiasTowardsExpected * m_BiasTowardsExpected / distancePenaltyFactor;
 
   MultiThreaderBase* mt = this->GetMultiThreader();
   mt->ParallelizeImageRegion<ImageDimension>( lpr,
