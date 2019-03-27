@@ -207,7 +207,7 @@ public:
 
   /** Get/set the termination. Once the current optimizer value falls below
    *  TerminationValue, no further points will be appended to the path.
-   *  The default value is 0.0. */
+   *  The default value is 1.0. */
   itkSetMacro(TerminationValue, typename OptimizerType::MeasureType);
   itkGetMacro(TerminationValue, typename OptimizerType::MeasureType);
 
