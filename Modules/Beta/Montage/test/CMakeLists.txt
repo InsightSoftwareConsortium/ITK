@@ -73,17 +73,17 @@ itk_add_test(NAME itkMontagePCMTestFiles15same
     0.0
   )
 
-# itk_add_test(NAME itkMontagePCMTestFiles16
-  # COMMAND MontageTestDriver
-  # itkMontagePCMTestFiles
-    # DATA{Input/OMC/FlatField/16/107.tif}
-    # DATA{Input/OMC/FlatField/16/108.tif}
-    # ${TESTING_OUTPUT_PATH}/itkMontagePCMTestFiles16.nrrd
-    # 1136.0
-    # 0.0
-    # 12.3862
-    # 5.3629
-  # )
+itk_add_test(NAME itkMontagePCMTestFiles16
+  COMMAND MontageTestDriver
+  itkMontagePCMTestFiles
+    DATA{Input/OMC/FlatField/16/107.tif}
+    DATA{Input/OMC/FlatField/16/108.tif}
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestFiles16.nrrd
+    1136.0
+    0.0
+    12.3862
+    5.3629
+  )
 
 itk_add_test(NAME itkMontagePCMTestFilesSynthetic1
   COMMAND MontageTestDriver
