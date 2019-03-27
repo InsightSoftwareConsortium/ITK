@@ -105,8 +105,8 @@ protected:
 
 private:
   typename MaxCalculatorType::Pointer m_MaxCalculator;
-  PeakInterpolationMethod             m_PeakInterpolationMethod;
-  PixelType                           m_ZeroSuppression;
+  PeakInterpolationMethod             m_PeakInterpolationMethod = PeakInterpolationMethod::Parabolic;
+  PixelType                           m_ZeroSuppression = 15;
 };
 
 } // end namespace itk

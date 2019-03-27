@@ -37,8 +37,6 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
 ::MaxPhaseCorrelationOptimizer() : Superclass()
 {
   m_MaxCalculator = MaxCalculatorType::New();
-  m_PeakInterpolationMethod = PeakInterpolationMethod::Parabolic;
-  m_ZeroSuppression = 15;
 }
 
 
