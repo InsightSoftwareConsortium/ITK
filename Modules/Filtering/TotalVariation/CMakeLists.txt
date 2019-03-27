@@ -56,30 +56,18 @@ set(_proxTV_lib "")
 if(ITK_USE_SYSTEM_proxTV)
   find_package(proxTV REQUIRED CONFIG)
   set(_proxTV_lib proxTV::proxTV)
-
-  # When this module is loaded by an app, load proxTV too.
-  set(
-    ${PROJECT_NAME}_EXPORT_CODE_INSTALL
-    "${${PROJECT_NAME}_EXPORT_CODE_INSTALL}
-set(proxTV_DIR \"${proxTV_DIR}\")
-find_package(proxTV REQUIRED CONFIG)
-"
-  )
+  set(proxTV_DIR_INSTALL ${proxTV_DIR})
+  set(proxTV_DIR_BUILD ${proxTV_DIR})
+  # It is only needed to EXPORT_CODE_BUILD when using external proxTV
   set(
     ${PROJECT_NAME}_EXPORT_CODE_BUILD
     "${${PROJECT_NAME}_EXPORT_CODE_BUILD}
 if(NOT ITK_BINARY_DIR)
-  set(proxTV_DIR \"${proxTV_DIR}\")
+  set(proxTV_DIR \"${proxTV_DIR_BUILD}\")
   find_package(proxTV REQUIRED CONFIG)
 endif()
 "
   )
-
-  if(NOT ITK_SOURCE_DIR)
-    include(ITKModuleExternal)
-  else()
-    itk_module_impl()
-  endif()
 else(ITK_USE_SYSTEM_proxTV) # build proxTV here with the selected Eigen3
   # Build proxTV with C++11
   if(NOT CMAKE_CXX_STANDARD)
@@ -91,12 +79,9 @@ else(ITK_USE_SYSTEM_proxTV) # build proxTV here with the selected Eigen3
   if(NOT CMAKE_CXX_EXTENSIONS)
     set(CMAKE_CXX_EXTENSIONS OFF)
   endif()
-  set(proxTV_EPNAME ${PROJECT_NAME}_ExtProject)
-  set(lib_dir ${CMAKE_CURRENT_BINARY_DIR}/${proxTV_EPNAME}-build/lib)
 
   set(proxTV_GIT_REPOSITORY "https://github.com/phcerdan/proxTV.git")
   set(proxTV_GIT_TAG "use_eigen")
-  # itk_download_attempt_check(${proxTV_EPNAME})
   FetchContent_Declare(
     proxtv_fetch
     GIT_REPOSITORY ${proxTV_GIT_REPOSITORY}
@@ -112,15 +97,33 @@ else(ITK_USE_SYSTEM_proxTV) # build proxTV here with the selected Eigen3
   # proxTV will generate a target proxTV::proxTV when using find_package,
   # or a library proxTV when using add_subdirectory
   set(_proxTV_lib proxTV) # proxTV generated in subdirectory
-
-  # Populate module variables
-  if(NOT ITK_SOURCE_DIR)
-    include(ITKModuleExternal)
-  else()
-    set(ITK_DIR ${CMAKE_BINARY_DIR})
-    itk_module_impl()
-  endif()
+  set(proxTV_DIR_INSTALL "\${ITK_MODULES_DIR}/../proxTV")
 endif(ITK_USE_SYSTEM_proxTV)
+
+# When this module is loaded by an app, load proxTV too.
+set(
+  ${PROJECT_NAME}_EXPORT_CODE_INSTALL
+  "${${PROJECT_NAME}_EXPORT_CODE_INSTALL}
+set(proxTV_DIR \"${proxTV_DIR_INSTALL}\")
+find_package(proxTV REQUIRED CONFIG)
+"
+)
+
+# SWIG (wrapping) requires INCLUDE_DIRS
+get_target_property(
+  proxTV_INCLUDE_DIRS
+  ${_proxTV_lib}
+  INTERFACE_INCLUDE_DIRECTORIES
+)
+set(TotalVariation_INCLUDE_DIRS ${proxTV_INCLUDE_DIRS})
+
+# Populate module variables
+if(NOT ITK_SOURCE_DIR)
+  include(ITKModuleExternal)
+else()
+  set(ITK_DIR ${CMAKE_BINARY_DIR})
+  itk_module_impl()
+endif()
 
 if(NOT ITK_USE_SYSTEM_proxTV)
   set(arg_module_target "")
