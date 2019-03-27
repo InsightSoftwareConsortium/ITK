@@ -79,6 +79,8 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
   os << indent << "MaxCalculator: " << m_MaxCalculator << std::endl;
   auto pim = static_cast< typename std::underlying_type< PeakInterpolationMethod >::type >( m_PeakInterpolationMethod );
   os << indent << "PeakInterpolationMethod: " << pim << std::endl;
+  os << indent << "ZeroSuppression: " << m_ZeroSuppression << std::endl;
+  os << indent << "BiasTowardsExpected: " << m_BiasTowardsExpected << std::endl;
 }
 
 template< typename TRegistrationMethod >
