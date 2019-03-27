@@ -26,6 +26,7 @@
 #include "itkVectorImage.h"
 
 #include "itksys/SystemTools.hxx"
+#include <memory>  // For unique_ptr
 #include <fstream>
 
 namespace itk
@@ -388,87 +389,68 @@ void ImageFileReader< TOutputImage, ConvertPixelTraits >
   itkDebugMacro (<< "Setting imageIO IORegion to: " << m_ActualIORegion);
   m_ImageIO->SetIORegion(m_ActualIORegion);
 
-  char *loadBuffer = nullptr;
   // the size of the buffer is computed based on the actual number of
   // pixels to be read and the actual size of the pixels to be read
   // (as opposed to the sizes of the output)
   size_t sizeOfActualIORegion = m_ActualIORegion.GetNumberOfPixels()
                                 * ( m_ImageIO->GetComponentSize() * m_ImageIO->GetNumberOfComponents() );
 
-  try
+  ImageIOBase::IOComponentType ioType =
+    ImageIOBase
+    ::MapPixelType< typename ConvertPixelTraits::ComponentType >::CType;
+  if ( m_ImageIO->GetComponentType() != ioType
+        || ( m_ImageIO->GetNumberOfComponents() !=
+            ConvertPixelTraits::GetNumberOfComponents() ) )
     {
-    ImageIOBase::IOComponentType ioType =
-      ImageIOBase
-      ::MapPixelType< typename ConvertPixelTraits::ComponentType >::CType;
-    if ( m_ImageIO->GetComponentType() != ioType
-         || ( m_ImageIO->GetNumberOfComponents() !=
-              ConvertPixelTraits::GetNumberOfComponents() ) )
-      {
-      // the pixel types don't match so a type conversion needs to be
-      // performed
-      itkDebugMacro( << "Buffer conversion required from: "
-                     << m_ImageIO->GetComponentTypeAsString(m_ImageIO->GetComponentType())
-                     << " to: "
-                     << m_ImageIO->GetComponentTypeAsString(ioType)
-                     << " ConvertPixelTraits::NumComponents "
-                     << ConvertPixelTraits::GetNumberOfComponents()
-                     << " m_ImageIO->NumComponents "
-                     << m_ImageIO->GetNumberOfComponents() );
+    // the pixel types don't match so a type conversion needs to be
+    // performed
+    itkDebugMacro( << "Buffer conversion required from: "
+                    << m_ImageIO->GetComponentTypeAsString(m_ImageIO->GetComponentType())
+                    << " to: "
+                    << m_ImageIO->GetComponentTypeAsString(ioType)
+                    << " ConvertPixelTraits::NumComponents "
+                    << ConvertPixelTraits::GetNumberOfComponents()
+                    << " m_ImageIO->NumComponents "
+                    << m_ImageIO->GetNumberOfComponents() );
 
-      loadBuffer = new char[sizeOfActualIORegion];
-      m_ImageIO->Read( static_cast< void * >( loadBuffer ) );
+    const std::unique_ptr<char[]> loadBuffer(new char[sizeOfActualIORegion]);
+    m_ImageIO->Read( static_cast< void * >( loadBuffer.get() ) );
 
-      // See note below as to why the buffered region is needed and
-      // not actualIOregion
-      this->DoConvertBuffer( static_cast< void * >( loadBuffer ),
-                             output->GetBufferedRegion().GetNumberOfPixels() );
-      }
-    else if ( m_ActualIORegion.GetNumberOfPixels() !=
-              output->GetBufferedRegion().GetNumberOfPixels() )
-      {
-      // NOTE:
-      // for the number of pixels read and the number of pixels
-      // requested to not match, the dimensions of the two regions may
-      // be different, therefore we buffer and copy the pixels
-
-      itkDebugMacro(<< "Buffer required because file dimension is greater then image dimension");
-
-      OutputImagePixelType *outputBuffer = output->GetPixelContainer()->GetBufferPointer();
-
-      loadBuffer = new char[sizeOfActualIORegion];
-      m_ImageIO->Read( static_cast< void * >( loadBuffer ) );
-
-      // we use std::copy here as it should be optimized to memcpy for
-      // plain old data, but still is oop
-      std::copy(reinterpret_cast< const OutputImagePixelType * >( loadBuffer ),
-                             reinterpret_cast< const OutputImagePixelType * >( loadBuffer ) + output->GetBufferedRegion().GetNumberOfPixels(),
-                             outputBuffer);
-      }
-    else
-      {
-      itkDebugMacro(<< "No buffer conversion required.");
-
-      OutputImagePixelType *outputBuffer = output->GetPixelContainer()->GetBufferPointer();
-      m_ImageIO->Read(outputBuffer);
-      }
+    // See note below as to why the buffered region is needed and
+    // not actualIOregion
+    this->DoConvertBuffer( static_cast< void * >( loadBuffer.get() ),
+                            output->GetBufferedRegion().GetNumberOfPixels() );
     }
-  catch ( ... )
+  else if ( m_ActualIORegion.GetNumberOfPixels() !=
+            output->GetBufferedRegion().GetNumberOfPixels() )
     {
-    // if an exception is thrown catch it
+    // NOTE:
+    // for the number of pixels read and the number of pixels
+    // requested to not match, the dimensions of the two regions may
+    // be different, therefore we buffer and copy the pixels
 
-    // clean up
-    delete[] loadBuffer;
-    loadBuffer = nullptr;
+    itkDebugMacro(<< "Buffer required because file dimension is greater then image dimension");
 
-    // then rethrow
-    throw;
+    OutputImagePixelType *outputBuffer = output->GetPixelContainer()->GetBufferPointer();
+
+    const std::unique_ptr<char[]> loadBuffer(new char[sizeOfActualIORegion]);
+    m_ImageIO->Read( static_cast< void * >( loadBuffer.get() ) );
+
+    // we use std::copy_n here as it should be optimized to memcpy for
+    // plain old data, but still is oop
+    std::copy_n(reinterpret_cast< const OutputImagePixelType * >( loadBuffer.get() ),
+                            output->GetBufferedRegion().GetNumberOfPixels(),
+                            outputBuffer);
+    }
+  else
+    {
+    itkDebugMacro(<< "No buffer conversion required.");
+
+    OutputImagePixelType *outputBuffer = output->GetPixelContainer()->GetBufferPointer();
+    m_ImageIO->Read(outputBuffer);
     }
 
   this->UpdateProgress( 1.0f );
-
-  // clean up
-  delete[] loadBuffer;
-  loadBuffer = nullptr;
 }
 
 template< typename TOutputImage, typename ConvertPixelTraits >
