@@ -13,21 +13,13 @@ include(CMakeParseArguments)
 include(FetchContent)
 
 # This be here, just in case, in the future we switch to use lapack instead of eigen for proxTV.
-if(NOT DEFINED TotalVariation_proxTV_USE_EIGEN)
-  option(
-    TotalVariation_proxTV_USE_EIGEN
-    "proxTV in TotalVariation uses EIGEN"
-    ON
-  )
-endif()
+option(TotalVariation_proxTV_USE_EIGEN "proxTV in TotalVariation uses EIGEN" ON)
 # Add the option to use Eigen3 from outside, or the internal Eigen3 install in ITK.
-if(NOT DEFINED ITK_USE_SYSTEM_EIGEN)
-  option(
-    ITK_USE_SYSTEM_EIGEN
-    "Uses external Eigen3, when OFF uses the internal Eigen3 from ITK."
-    OFF
-  )
-endif()
+option(
+  ITK_USE_SYSTEM_EIGEN
+  "Uses external Eigen3, when OFF uses the internal Eigen3 from ITK."
+  OFF
+)
 
 if(TotalVariation_proxTV_USE_EIGEN)
   if(NOT ITK_USE_SYSTEM_EIGEN)
