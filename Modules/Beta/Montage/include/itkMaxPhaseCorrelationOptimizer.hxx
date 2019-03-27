@@ -30,6 +30,36 @@
  *
  */
 
+#ifndef NDEBUG
+#include "itkImageFileWriter.h"
+
+namespace
+{
+template< typename TImage >
+void WriteDebug(const TImage* out, const char *filename)
+{
+  using WriterType = itk::ImageFileWriter<TImage>;
+  typename WriterType::Pointer w = WriterType::New();
+  w->SetInput(out);
+  w->SetFileName(filename);
+  try
+    {
+    w->Update();
+    }
+  catch (itk::ExceptionObject & error)
+    {
+    std::cerr << error << std::endl;
+    }
+}
+}
+#else
+namespace
+{
+template< typename TImage >
+void WriteDebug(TImage*, const char *) {}
+}
+#endif
+
 namespace itk
 {
 template < typename TRegistrationMethod >
@@ -80,7 +110,60 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
     return;
     }
 
-  m_MaxCalculator->SetImage( input );
+  const typename ImageType::RegionType lpr = input->GetLargestPossibleRegion();
+  const typename ImageType::SizeType size = lpr.GetSize();
+  const typename ImageType::IndexType oIndex = lpr.GetIndex();
+
+  const typename ImageType::SpacingType spacing = input->GetSpacing();
+  const typename ImageType::PointType fixedOrigin = fixed->GetOrigin();
+  const typename ImageType::PointType movingOrigin = moving->GetOrigin();
+
+  // create the image which be biased towards the expected solution and be zero-suppressed
+  typename ImageType::Pointer iAdjusted = ImageType::New();
+  iAdjusted->CopyInformation( input );
+  iAdjusted->SetRegions( input->GetBufferedRegion() );
+  iAdjusted->Allocate( false );
+
+  typename ImageType::IndexType adjustedSize;
+  typename ImageType::IndexType directExpectedIndex;
+  typename ImageType::IndexType mirrorExpectedIndex;
+  double distancePenaltyFactor = 0.0;
+  for ( unsigned d = 0; d < ImageDimension; d++ )
+    {
+    adjustedSize[d] = size[d] + oIndex[d];
+    distancePenaltyFactor += adjustedSize[d] * adjustedSize[d]; // make it proportional to image size
+    directExpectedIndex[d] = ( movingOrigin[d] - fixedOrigin[d] ) / spacing[d] + oIndex[d];
+    mirrorExpectedIndex[d] = ( movingOrigin[d] - fixedOrigin[d] ) / spacing[d] + adjustedSize[d];
+    }
+  distancePenaltyFactor = 100.0 / distancePenaltyFactor; // 10% of image distance for a factor of about 1.0
+
+  MultiThreaderBase* mt = this->GetMultiThreader();
+  mt->ParallelizeImageRegion<ImageDimension>( lpr,
+    [&](const typename ImageType::RegionType & region)
+    {
+      itk::ImageRegionConstIterator< ImageType > iIt(input, region);
+      itk::ImageRegionIteratorWithIndex< ImageType > oIt(iAdjusted, region);
+      for (; !oIt.IsAtEnd(); ++iIt, ++oIt)
+        {
+        typename ImageType::IndexType ind = oIt.GetIndex();
+        IndexValueType distDirect = 0;
+        IndexValueType distMirror = 0;
+        for (unsigned d = 0; d < ImageDimension; d++)
+          {
+          distDirect += ( directExpectedIndex[d] - ind[d] ) * ( directExpectedIndex[d] - ind[d] );
+          distMirror += ( mirrorExpectedIndex[d] - ind[d] ) * ( mirrorExpectedIndex[d] - ind[d] );
+          }
+          
+        double distanceFactor = distancePenaltyFactor * std::min( distDirect, distMirror );
+        typename ImageType::PixelType pixel = iIt.Get() / ( 1.0 + distanceFactor );
+        oIt.Set( pixel );
+        }
+    },
+    nullptr );
+
+  WriteDebug( iAdjusted.GetPointer(), "iAdjusted.nrrd" );
+
+  m_MaxCalculator->SetImage( iAdjusted );
   m_MaxCalculator->SetN( std::ceil( this->m_Offsets.size() / 2 ) *
                          ( static_cast< unsigned >( std::pow( 3, ImageDimension ) ) - 1 ) );
 
@@ -109,8 +192,6 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
 
   // eliminate indices belonging to the same blurry peak
   // condition used is city-block distance of one
-  const typename ImageType::RegionType lpr = input->GetLargestPossibleRegion();
-  const typename ImageType::SizeType size = lpr.GetSize();
   unsigned i = 1;
   while ( i < indices.size() )
     {
@@ -148,7 +229,6 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
     }
 
   // suppress trivial zero solution
-  const typename ImageType::IndexType oIndex = lpr.GetIndex();
   const PixelType zeroDeemphasis1 = std::max< PixelType >( 1.0, m_ZeroSuppression / 2.0 );
   for ( i = 0; i < maxs.size(); i++ )
     {
@@ -224,14 +304,14 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
           tempIndex[i] = maxIndex[i];
           continue;
           }
-        y0 = input->GetPixel( tempIndex );
+        y0 = iAdjusted->GetPixel( tempIndex );
         tempIndex[i] = maxIndex[i] + 1;
         if ( !lpr.IsInside( tempIndex ) )
           {
           tempIndex[i] = maxIndex[i];
           continue;
           }
-        y2 = input->GetPixel( tempIndex );
+        y2 = iAdjusted->GetPixel( tempIndex );
         tempIndex[i] = maxIndex[i];
 
         OffsetScalarType omega, theta;
@@ -251,10 +331,6 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
           } // switch PeakInterpolationMethod
         } // for ImageDimension
       } // if Interpolation != None
-
-    const typename ImageType::SpacingType spacing = input->GetSpacing();
-    const typename ImageType::PointType   fixedOrigin = fixed->GetOrigin();
-    const typename ImageType::PointType   movingOrigin = moving->GetOrigin();
 
     for ( i = 0; i < ImageDimension; ++i )
       {
