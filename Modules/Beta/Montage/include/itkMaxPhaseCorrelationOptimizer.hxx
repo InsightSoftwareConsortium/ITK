@@ -138,7 +138,7 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
     mirrorExpectedIndex[d] = ( movingOrigin[d] - fixedOrigin[d] ) / spacing[d] + adjustedSize[d];
     }
 
-  distancePenaltyFactor = m_BiasTowardsExpected * m_BiasTowardsExpected / distancePenaltyFactor;
+  distancePenaltyFactor = -m_BiasTowardsExpected / distancePenaltyFactor;
 
   MultiThreaderBase* mt = this->GetMultiThreader();
   mt->ParallelizeImageRegion<ImageDimension>( lpr,
@@ -149,16 +149,23 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
       for (; !oIt.IsAtEnd(); ++iIt, ++oIt)
         {
         typename ImageType::IndexType ind = oIt.GetIndex();
-        IndexValueType distDirect = 0;
-        IndexValueType distMirror = 0;
+        IndexValueType dist = 0;
         for (unsigned d = 0; d < ImageDimension; d++)
           {
-          distDirect += ( directExpectedIndex[d] - ind[d] ) * ( directExpectedIndex[d] - ind[d] );
-          distMirror += ( mirrorExpectedIndex[d] - ind[d] ) * ( mirrorExpectedIndex[d] - ind[d] );
+          IndexValueType distDirect = ( directExpectedIndex[d] - ind[d] ) * ( directExpectedIndex[d] - ind[d] );
+          IndexValueType distMirror = ( mirrorExpectedIndex[d] - ind[d] ) * ( mirrorExpectedIndex[d] - ind[d] );
+          if ( distDirect <= distMirror )
+            {
+            dist += distDirect;
+            }
+          else
+            {
+            dist += distMirror;
+            }
           }
           
-        double distanceFactor = distancePenaltyFactor * std::min( distDirect, distMirror );
-        typename ImageType::PixelType pixel = iIt.Get() / ( 1.0 + distanceFactor );
+        typename ImageType::PixelType pixel = iIt.Get() * std::exp( distancePenaltyFactor * dist );
+        //typename ImageType::PixelType pixel = std::exp( distancePenaltyFactor * dist );
         oIt.Set( pixel );
         }
     },
