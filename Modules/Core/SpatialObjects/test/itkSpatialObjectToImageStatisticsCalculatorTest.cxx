@@ -173,11 +173,11 @@ int itkSpatialObjectToImageStatisticsCalculatorTest(int, char * [] )
   std::cout << "Allocating spatial object." << std::endl;
   using Ellipse3DType = itk::EllipseSpatialObject<3>;
   Ellipse3DType::Pointer ellipse3D = Ellipse3DType::New();
-  double radius[3];
-  radius[0] = 10;
-  radius[1] = 10;
-  radius[2] = 0;
-  ellipse3D->SetRadiusInObjectSpace(radius);
+  double radii[3];
+  radii[0] = 10;
+  radii[1] = 10;
+  radii[2] = 0;
+  ellipse3D->SetRadiiInObjectSpace(radii);
 
   Ellipse3DType::VectorType offset3D;
   offset3D.Fill(25);

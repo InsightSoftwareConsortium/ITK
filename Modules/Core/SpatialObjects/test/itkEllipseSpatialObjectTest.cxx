@@ -31,21 +31,21 @@ int itkEllipseSpatialObjectTest(int, char* [])
   std::cout << "Testing Print after construction" << std::endl;
   myEllipse->Print(std::cout);
 
-  EllipseType::ArrayType radius;
+  EllipseType::ArrayType radii;
 
   for(unsigned int i = 0; i < 4; i++)
   {
-    radius[i] = i;
+    radii[i] = i;
   }
 
   std::cout << "Testing radii : ";
 
-  myEllipse->SetRadiusInObjectSpace(radius);
+  myEllipse->SetRadiiInObjectSpace(radii);
   myEllipse->Update();
-  EllipseType::ArrayType radius2 = myEllipse->GetRadiusInObjectSpace();
+  EllipseType::ArrayType radii2 = myEllipse->GetRadiiInObjectSpace();
   for(unsigned int i = 0; i<4;i++)
   {
-    if(itk::Math::NotExactlyEquals(radius2[i],i))
+    if(itk::Math::NotExactlyEquals(radii2[i],i))
     {
       std::cout << "[FAILURE]" << std::endl;
       return EXIT_FAILURE;
@@ -55,11 +55,11 @@ int itkEllipseSpatialObjectTest(int, char* [])
 
   myEllipse->SetRadiusInObjectSpace(3);
   myEllipse->Update();
-  EllipseType::ArrayType radius3 = myEllipse->GetRadiusInObjectSpace();
+  EllipseType::ArrayType radii3 = myEllipse->GetRadiiInObjectSpace();
   std::cout << "Testing Global radii : ";
   for(unsigned int i = 0; i<4;i++)
   {
-    if(itk::Math::NotExactlyEquals(radius3[i],3))
+    if(itk::Math::NotExactlyEquals(radii3[i],3))
     {
       std::cout << "[FAILURE]" << std::endl;
       return EXIT_FAILURE;

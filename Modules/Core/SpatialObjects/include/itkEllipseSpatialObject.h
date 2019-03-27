@@ -67,10 +67,10 @@ public:
   void SetRadiusInObjectSpace(double radius);
 
   /** Set radii via an array of radius values */
-  itkSetMacro(RadiusInObjectSpace, ArrayType);
+  itkSetMacro(RadiiInObjectSpace, ArrayType);
 
   /** Get radii via an array of radius values */
-  itkGetConstReferenceMacro(RadiusInObjectSpace, ArrayType);
+  itkGetConstReferenceMacro(RadiiInObjectSpace, ArrayType);
 
   /** Set center point in object space. */
   itkSetMacro( CenterInObjectSpace, PointType );
@@ -99,7 +99,7 @@ protected:
 private:
 
   /* object space */
-  ArrayType m_RadiusInObjectSpace;
+  ArrayType m_RadiiInObjectSpace;
   PointType m_CenterInObjectSpace;
 };
 
