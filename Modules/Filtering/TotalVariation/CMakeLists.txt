@@ -81,6 +81,16 @@ endif()
     itk_module_impl()
   endif()
 else(ITK_USE_SYSTEM_proxTV) # build proxTV here with the selected Eigen3
+  # Build proxTV with C++11
+  if(NOT CMAKE_CXX_STANDARD)
+    set(CMAKE_CXX_STANDARD 11)
+  endif()
+  if(NOT CMAKE_CXX_STANDARD_REQUIRED)
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+  endif()
+  if(NOT CMAKE_CXX_EXTENSIONS)
+    set(CMAKE_CXX_EXTENSIONS OFF)
+  endif()
   set(proxTV_EPNAME ${PROJECT_NAME}_ExtProject)
   set(lib_dir ${CMAKE_CURRENT_BINARY_DIR}/${proxTV_EPNAME}-build/lib)
 
