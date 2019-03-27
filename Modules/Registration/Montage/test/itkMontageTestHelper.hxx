@@ -126,13 +126,14 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
           }
         else // We need a type cast. Instead of fiddling with it, let reader do the conversion.
           {
+          // Read the file again, hoping that OS will cache the file and thus not incurr too much of a penalty
           typename ScalarImageType::Pointer sImage = ReadImage< ScalarImageType >( filename.c_str() );
           sImage->SetOrigin( stageTiles[y][x].Position );
           sImages[y][x] = sImage;
           }
-        std::cout << '.';
+        std::cout << '.' << std::flush;
         }
-      std::cout << '|';
+      std::cout << '|' << std::flush;
       }
     }
   std::cout << std::endl;
