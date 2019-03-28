@@ -39,7 +39,9 @@ exclude = ["ForwardFFTImageFilter",
            "templated_class",
            "HalfHermitianToRealInverseFFTImageFilter",
            "RealToHalfHermitianForwardFFTImageFilter",
-           "CustomColormapFunction"]
+           "CustomColormapFunction",
+           "ScanlineFilterCommon"  # Segfault
+           ]
 
 wrongName = 0
 totalName = 0
