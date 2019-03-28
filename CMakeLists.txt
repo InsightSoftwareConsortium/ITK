@@ -172,18 +172,14 @@ ENDIF()
 IF(KWSYS_USE_Directory)
   SET(KWSYS_USE_Encoding 1)
 ENDIF()
+IF(KWSYS_USE_DynamicLoader)
+  SET(KWSYS_USE_Encoding 1)
+ENDIF()
 IF(KWSYS_USE_FStream)
   SET(KWSYS_USE_Encoding 1)
 ENDIF()
 IF(KWSYS_USE_ConsoleBuf)
   SET(KWSYS_USE_Encoding 1)
-ENDIF()
-
-# Setup the large file support default.
-IF(KWSYS_LFS_DISABLE)
-  SET(KWSYS_LFS_REQUESTED 0)
-ELSE()
-  SET(KWSYS_LFS_REQUESTED 1)
 ENDIF()
 
 # Specify default 8 bit encoding for Windows
@@ -350,30 +346,6 @@ IF(KWSYS_STANDALONE)
       SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -library=stlport4")
     ENDIF()
   ENDIF()
-ENDIF()
-
-#-----------------------------------------------------------------------------
-# Configure Large File Support.
-KWSYS_PLATFORM_CXX_TEST(KWSYS_CXX_HAS_CSTDIO
-  "Checking whether header cstdio is available" DIRECT)
-SET(KWSYS_LFS_AVAILABLE 0)
-IF(KWSYS_LFS_REQUESTED)
-  # Large File Support is requested.
-  SET(KWSYS_LFS_REQUESTED 1)
-
-  # Check for large file support.
-  SET(KWSYS_PLATFORM_CXX_TEST_DEFINES
-    -DKWSYS_CXX_HAS_CSTDIO=${KWSYS_CXX_HAS_CSTDIO})
-  KWSYS_PLATFORM_CXX_TEST_RUN(KWSYS_LFS_WORKS
-    "Checking for Large File Support" DIRECT)
-  SET(KWSYS_PLATFORM_CXX_TEST_DEFINES)
-
-  IF(KWSYS_LFS_WORKS)
-    SET(KWSYS_LFS_AVAILABLE 1)
-  ENDIF()
-ELSE()
-  # Large File Support is not requested.
-  SET(KWSYS_LFS_REQUESTED 0)
 ENDIF()
 
 #-----------------------------------------------------------------------------
@@ -574,9 +546,6 @@ IF(KWSYS_USE_SystemInformation)
       SET_PROPERTY(SOURCE SystemInformation.cxx APPEND PROPERTY
         COMPILE_DEFINITIONS KWSYS_SYS_HAS_MACHINE_CPU_H=1)
     ENDIF()
-  ENDIF()
-  IF(KWSYS_LFS_AVAILABLE AND NOT KWSYS_LFS_DISABLE)
-    SET(KWSYS_PLATFORM_CXX_TEST_DEFINES -DKWSYS_HAS_LFS=1)
   ENDIF()
   KWSYS_PLATFORM_CXX_TEST(KWSYS_CXX_HAS_RLIMIT64
     "Checking whether CXX compiler has rlimit64" DIRECT)
@@ -1130,6 +1099,20 @@ IF(KWSYS_STANDALONE OR CMake_SOURCE_DIR)
       ADD_LIBRARY(${KWSYS_NAMESPACE}TestDynload MODULE testDynload.c)
       SET_PROPERTY(TARGET ${KWSYS_NAMESPACE}TestDynload PROPERTY LABELS ${KWSYS_LABELS_LIB})
       ADD_DEPENDENCIES(${KWSYS_NAMESPACE}TestDynload ${KWSYS_TARGET_INTERFACE})
+
+      if (WIN32)
+        # Windows tests supported flags.
+        add_library(${KWSYS_NAMESPACE}TestDynloadImpl SHARED testDynloadImpl.c)
+        set_property(TARGET ${KWSYS_NAMESPACE}TestDynloadImpl PROPERTY LABELS ${KWSYS_LABELS_LIB})
+        set_property(TARGET ${KWSYS_NAMESPACE}TestDynloadImpl PROPERTY DEFINE_SYMBOL BUILDING_TestDynloadImpl)
+        set_property(TARGET ${KWSYS_NAMESPACE}TestDynloadImpl PROPERTY RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/dynloaddir")
+        add_dependencies(${KWSYS_NAMESPACE}TestDynloadImpl ${KWSYS_TARGET_INTERFACE})
+        add_library(${KWSYS_NAMESPACE}TestDynloadUse MODULE testDynloadUse.c)
+        set_property(TARGET ${KWSYS_NAMESPACE}TestDynloadUse PROPERTY LABELS ${KWSYS_LABELS_LIB})
+        set_property(TARGET ${KWSYS_NAMESPACE}TestDynloadUse PROPERTY LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/dynloaddir")
+        add_dependencies(${KWSYS_NAMESPACE}TestDynloadUse ${KWSYS_TARGET_INTERFACE})
+        target_link_libraries(${KWSYS_NAMESPACE}TestDynloadUse PRIVATE ${KWSYS_NAMESPACE}TestDynloadImpl)
+      endif ()
     ENDIF()
     CREATE_TEST_SOURCELIST(
       KWSYS_CXX_TEST_SRCS ${KWSYS_NAMESPACE}TestsCxx.cxx
