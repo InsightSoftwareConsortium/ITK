@@ -270,8 +270,16 @@ itk_add_test(NAME itkResampleImageTest2UseRefImageOn
                           1)
 itk_add_test(NAME itkResampleImageTest2Streaming
       COMMAND ITKImageGridTestDriver
+    --compare DATA{Baseline/ResampleImageTest2.mha}
+              ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2a.mha
+    --compare DATA{Baseline/ResampleImageTest2.mha}
+              ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2b.mha
+    --compare DATA{Baseline/ResampleImageTest2NearestExtrapolate.mha}
+              ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2c.mha
+    --compare DATA{Baseline/ResampleImageTest2NearestExtrapolate.mha}
+              ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2d.mha
     itkResampleImageTest2Streaming DATA{Input/cthead1.mha}
-                          DATA{Input/cthead1.mha}
+                          DATA{Input/circle.png}
                           ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2aStreaming.mha
                           ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2bStreaming.mha
                           ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2cStreaming.mha
