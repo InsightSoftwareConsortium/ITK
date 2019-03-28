@@ -32,7 +32,8 @@ namespace itk
  * For each end- and way-point, a Fast Marching arrival function is
  * computed. The minimal path is extracted for each segment and
  * concatenated to obtain the total path between the start- and
- * end-points, while passing near the given way-points.
+ * end-points, while passing near the given way-points
+ * (according to the TerminationValue of ArrivalFunctionToPathFilter).
  *
  * The user must provide the following:
  *    1. A real-valued speed function as the filter input
@@ -46,6 +47,8 @@ namespace itk
  * with default settings. Other suitable optimizers include
  * GradientDescentOptimizer and IterateNeighborhoodOptimizer.
  * See itkArrivalFunctionToPathFilter.h for more details.
+ * Note, that the path finding terminates early if the optimizer
+ * runs out of the image bounds, possibly depending on the speed function.
  *
  * This filter is based on the methods described in:
  * [1] J. Sethian. Level Set Methods and Fast Marching Methods, chapter 20.
