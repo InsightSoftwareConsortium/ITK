@@ -23,6 +23,7 @@
 #include "itkImageFileWriter.h"
 #include "itkMaxPhaseCorrelationOptimizer.h"
 #include "itkParseTileConfiguration.h"
+#include "itkRGBToLuminanceImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkTileMergeImageFilter.h"
 #include "itkTileMontage.h"
@@ -70,6 +71,25 @@ ReadImage( const char* filename )
   reader->SetFileName( filename );
   reader->Update();
   return reader->GetOutput();
+}
+
+// use SFINAE to select whether to do simple assignment or RGB to Luminance conversion
+template< typename RGBImage, typename ScalarImage >
+std::enable_if_t< std::is_same< RGBImage, ScalarImage >::value >
+assignRGBtoScalar( typename RGBImage::Pointer rgbImage, typename ScalarImage::Pointer& scalarImage )
+{
+  scalarImage = rgbImage;
+}
+template< typename RGBImage, typename ScalarImage >
+std::enable_if_t< !std::is_same< RGBImage, ScalarImage >::value >
+assignRGBtoScalar( typename RGBImage::Pointer rgbImage, typename ScalarImage::Pointer& scalarImage )
+{
+  using CastType = itk::RGBToLuminanceImageFilter< RGBImage, ScalarImage >;
+  typename CastType::Pointer caster = CastType::New();
+  caster->SetInput( rgbImage );
+  caster->Update();
+  scalarImage = caster->GetOutput();
+  scalarImage->DisconnectPipeline();
 }
 
 // do the registrations and calculate registration errors
@@ -120,17 +140,7 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
         typename OriginalImageType::Pointer image = ReadImage< OriginalImageType >( filename.c_str() );
         image->SetOrigin( stageTiles[y][x].Position );
         oImages[y][x] = image;
-        if ( std::is_same< OriginalImageType, ScalarImageType >::value )
-          {
-          sImages[y][x] = reinterpret_cast< ScalarImageType* >( image.GetPointer() );
-          }
-        else // We need a type cast. Instead of fiddling with it, let reader do the conversion.
-          {
-          // Read the file again, hoping that OS will cache the file and thus not incurr too much of a penalty
-          typename ScalarImageType::Pointer sImage = ReadImage< ScalarImageType >( filename.c_str() );
-          sImage->SetOrigin( stageTiles[y][x].Position );
-          sImages[y][x] = sImage;
-          }
+        assignRGBtoScalar< OriginalImageType, ScalarImageType >( image, sImages[y][x] );
         std::cout << '.' << std::flush;
         }
       std::cout << '|' << std::flush;
