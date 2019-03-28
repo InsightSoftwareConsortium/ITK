@@ -20,6 +20,9 @@
 
 #include "itkMaxPhaseCorrelationOptimizer.h"
 
+#include "itkImageRegionConstIterator.h"
+#include "itkImageRegionIteratorWithIndex.h"
+
 #include <cmath>
 #include <type_traits>
 
@@ -144,8 +147,8 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
   mt->ParallelizeImageRegion<ImageDimension>( lpr,
     [&](const typename ImageType::RegionType & region)
     {
-      itk::ImageRegionConstIterator< ImageType > iIt(input, region);
-      itk::ImageRegionIteratorWithIndex< ImageType > oIt(iAdjusted, region);
+      ImageRegionConstIterator< ImageType > iIt(input, region);
+      ImageRegionIteratorWithIndex< ImageType > oIt(iAdjusted, region);
       for (; !oIt.IsAtEnd(); ++iIt, ++oIt)
         {
         typename ImageType::IndexType ind = oIt.GetIndex();
@@ -344,11 +347,10 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
 
     for ( i = 0; i < ImageDimension; ++i )
       {
-      IndexValueType adjustedSize = IndexValueType( size[i] + oIndex[i] );
       OffsetScalarType directOffset = ( movingOrigin[i] - fixedOrigin[i] )
         - 1 * spacing[i] * ( maxIndex[i] - oIndex[i] );
       OffsetScalarType mirrorOffset = ( movingOrigin[i] - fixedOrigin[i] )
-        - 1 * spacing[i] * ( maxIndex[i] - adjustedSize );
+        - 1 * spacing[i] * ( maxIndex[i] - adjustedSize[i] );
       if ( std::abs( directOffset ) <= std::abs( mirrorOffset ) )
         {
         offset[i] = directOffset;

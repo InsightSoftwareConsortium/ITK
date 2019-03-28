@@ -29,24 +29,19 @@
 template< typename PixelType, typename AccumulatePixelType >
 void
 montage2D( const itk::TileLayout2D& stageTiles, itk::TileLayout2D& actualTiles,
-           const std::string& inputPath, int peakMethodToUse )
+           const std::string& inputPath )
 {
   using ScalarPixelType = typename itk::NumericTraits< PixelType >::ValueType;
   constexpr unsigned Dimension = 2;
   using TransformType = itk::TranslationTransform< double, Dimension >;
   using ScalarImageType = itk::Image< ScalarPixelType, Dimension >;
-  using OriginalImageType = itk::Image< PixelType, Dimension >; // possibly RGB instead of scalar
-  using PCMType = itk::PhaseCorrelationImageRegistrationMethod< ScalarImageType, ScalarImageType >;
   typename ScalarImageType::SpacingType sp;
   sp.Fill( 1.0 ); // most data assumes unit spacing, even if the files themselves have something else (72 DPI, 96 DPI, 300 DPI etc)
-  const unsigned yMontageSize = stageTiles.size();
-  const unsigned xMontageSize = stageTiles[0].size();
+  const size_t yMontageSize = stageTiles.size();
+  const size_t xMontageSize = stageTiles[0].size();
   const unsigned origin1x = xMontageSize > 1 ? 1 : 0; // support 1xN montages
   const unsigned origin1y = yMontageSize > 1 ? 1 : 0; // support Nx1 montages
   const itk::Point< double, Dimension > stageStrideXY = stageTiles[origin1y][origin1x].Position;
-
-  using PeakInterpolationType = typename itk::MaxPhaseCorrelationOptimizer< PCMType >::PeakInterpolationMethod;
-  using PeakFinderUnderlying = typename std::underlying_type< PeakInterpolationType >::type;
 
   using MontageType = itk::TileMontage< ScalarImageType >;
   typename MontageType::Pointer montage = MontageType::New();
@@ -114,7 +109,7 @@ int main( int argc, char *argv[] )
     imageIO->ReadImageInformation();
 
     const unsigned numDimensions = imageIO->GetNumberOfDimensions();
-    if ( numDimensions != 2 )
+    if ( numDimensions != Dimension )
       {
       itkGenericExceptionMacro( "Only 2D images are supported!" );
       }
@@ -124,14 +119,13 @@ int main( int argc, char *argv[] )
     switch ( componentType )
       {
         case itk::ImageIOBase::IOComponentType::UCHAR:
-          montage2D< unsigned char, unsigned int >( stageTiles, actualTiles, inputPath, 1 );
+          montage2D< unsigned char, unsigned int >( stageTiles, actualTiles, inputPath);
           break;
         case itk::ImageIOBase::IOComponentType::USHORT:
-          montage2D< unsigned short, double >( stageTiles, actualTiles, inputPath, 1 );
+          montage2D< unsigned short, double >( stageTiles, actualTiles, inputPath);
           break;
         default: // instantiating too many types leads to long compileation time and big executable
           itkGenericExceptionMacro( "Only unsigned char and unsigned short are supported!" );
-          break;
       }
 
     itk::WriteTileConfiguration2D( argv[2], actualTiles );

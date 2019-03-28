@@ -59,27 +59,23 @@ WriteTransform( const TransformType* transform, std::string filename )
 template< typename PixelType, typename AccumulatePixelType >
 void
 montage2D( const itk::TileLayout2D& stageTiles,
-           const std::string& inputPath, const std::string& outputPath,
-           const std::string& outFilename, int peakMethodToUse,
-           bool setMontageDirectly, unsigned streamSubdivisions )
+           const std::string& inputPath,
+           const std::string& outputPath,
+           const std::string& outFilename )
 {
   using ScalarPixelType = typename itk::NumericTraits< PixelType >::ValueType;
   constexpr unsigned Dimension = 2;
   using TransformType = itk::TranslationTransform< double, Dimension >;
   using ScalarImageType = itk::Image< ScalarPixelType, Dimension >;
   using OriginalImageType = itk::Image< PixelType, Dimension >; // possibly RGB instead of scalar
-  using PCMType = itk::PhaseCorrelationImageRegistrationMethod< ScalarImageType, ScalarImageType >;
   typename ScalarImageType::SpacingType sp;
   sp.Fill( 1.0 ); // most data assumes unit spacing, even if the files themselves have something else (72 DPI, 96 DPI, 300 DPI etc)
   itk::ObjectFactoryBase::RegisterFactory( itk::TxtTransformIOFactory::New() );
-  const unsigned yMontageSize = stageTiles.size();
-  const unsigned xMontageSize = stageTiles[0].size();
+  const size_t yMontageSize = stageTiles.size();
+  const size_t xMontageSize = stageTiles[0].size();
   const unsigned origin1x = xMontageSize > 1 ? 1 : 0; // support 1xN montages
   const unsigned origin1y = yMontageSize > 1 ? 1 : 0; // support Nx1 montages
   const itk::Point< double, Dimension > stageStrideXY = stageTiles[origin1y][origin1x].Position;
-
-  using PeakInterpolationType = typename itk::MaxPhaseCorrelationOptimizer< PCMType >::PeakInterpolationMethod;
-  using PeakFinderUnderlying = typename std::underlying_type< PeakInterpolationType >::type;
 
   using MontageType = itk::TileMontage< ScalarImageType >;
   typename MontageType::Pointer montage = MontageType::New();
@@ -137,8 +133,6 @@ montage2D( const itk::TileLayout2D& stageTiles,
   // MetaImage and HDF5 formats support streaming
   w->SetFileName( outputPath + outFilename );
   // w->UseCompressionOn();
-  // streamSubdivisions of 1 disables streaming (higher memory useage)
-  w->SetNumberOfStreamDivisions( streamSubdivisions );
   w->Update();
 }
 
@@ -148,25 +142,21 @@ template< typename ComponentType, typename AccumulatePixelType >
 void
 montage2D( const itk::TileLayout2D& stageTiles,
            const std::string& inputPath, const std::string& outputPath,
-           const std::string& outFilename, int peakMethodToUse, bool setMontageDirectly,
-           unsigned streamSubdivisions, itk::ImageIOBase::IOPixelType pixelType )
+           const std::string& outFilename, itk::ImageIOBase::IOPixelType pixelType )
 {
   switch ( pixelType )
     {
       case itk::ImageIOBase::IOPixelType::SCALAR:
         montage2D< ComponentType, AccumulatePixelType >(
-          stageTiles, inputPath, outputPath, outFilename,
-          peakMethodToUse, setMontageDirectly, streamSubdivisions );
+          stageTiles, inputPath, outputPath, outFilename );
         break;
       case itk::ImageIOBase::IOPixelType::RGB:
         montage2D< itk::RGBPixel< ComponentType >, itk::RGBPixel< AccumulatePixelType > >(
-          stageTiles, inputPath, outputPath, outFilename,
-          peakMethodToUse, setMontageDirectly, streamSubdivisions );
+          stageTiles, inputPath, outputPath, outFilename );
         break;
       case itk::ImageIOBase::IOPixelType::RGBA:
         montage2D< itk::RGBAPixel< ComponentType >, itk::RGBAPixel< AccumulatePixelType > >(
-          stageTiles, inputPath, outputPath, outFilename,
-          peakMethodToUse, setMontageDirectly, streamSubdivisions );
+          stageTiles, inputPath, outputPath, outFilename );
         break;
       default:
         itkGenericExceptionMacro( "Only sclar, RGB and RGBA images are supported!" );
@@ -200,7 +190,7 @@ int main( int argc, char *argv[] )
   try
     {
     // simplest case would be just calling this:
-    // montage2D< unsigned short >( stageTiles, actualTiles, inputPath, outputPath, argv[3], 1, true, 1 );
+    // montage2D< unsigned short >( stageTiles, actualTiles, inputPath, outputPath, argv[3] );
     // but we examine what is the input type of the first tile and instantiate that
 
     itk::ImageIOBase::Pointer imageIO = itk::ImageIOFactory::CreateImageIO(
@@ -209,7 +199,7 @@ int main( int argc, char *argv[] )
     imageIO->ReadImageInformation();
 
     const unsigned numDimensions = imageIO->GetNumberOfDimensions();
-    if ( numDimensions != 2 )
+    if ( numDimensions != Dimension )
       {
       itkGenericExceptionMacro( "Only 2D images are supported!" );
       }
@@ -219,14 +209,13 @@ int main( int argc, char *argv[] )
     switch ( componentType )
       {
         case itk::ImageIOBase::IOComponentType::UCHAR:
-          montage2D< unsigned char, unsigned int >( stageTiles, inputPath, outputPath, argv[3], 1, true, 1, pixelType );
+          montage2D< unsigned char, unsigned int >( stageTiles, inputPath, outputPath, argv[3], pixelType );
           break;
         case itk::ImageIOBase::IOComponentType::USHORT:
-          montage2D< unsigned short, double >( stageTiles, inputPath, outputPath, argv[3], 1, true, 1, pixelType );
+          montage2D< unsigned short, double >( stageTiles, inputPath, outputPath, argv[3], pixelType );
           break;
         default: // instantiating too many types leads to long compileation time and big executable
           itkGenericExceptionMacro( "Only unsigned char and unsigned short are supported!" );
-          break;
       }
     }
   catch ( itk::ExceptionObject& e )

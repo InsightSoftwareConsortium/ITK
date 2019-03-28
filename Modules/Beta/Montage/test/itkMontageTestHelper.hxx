@@ -75,13 +75,13 @@ ReadImage( const char* filename )
 
 // use SFINAE to select whether to do simple assignment or RGB to Luminance conversion
 template< typename RGBImage, typename ScalarImage >
-std::enable_if_t< std::is_same< RGBImage, ScalarImage >::value >
+typename std::enable_if<std::is_same<RGBImage,ScalarImage>::value, void>::type
 assignRGBtoScalar( typename RGBImage::Pointer rgbImage, typename ScalarImage::Pointer& scalarImage )
 {
   scalarImage = rgbImage;
 }
 template< typename RGBImage, typename ScalarImage >
-std::enable_if_t< !std::is_same< RGBImage, ScalarImage >::value >
+typename std::enable_if<!std::is_same<RGBImage,ScalarImage>::value, void>::type
 assignRGBtoScalar( typename RGBImage::Pointer rgbImage, typename ScalarImage::Pointer& scalarImage )
 {
   using CastType = itk::RGBToLuminanceImageFilter< RGBImage, ScalarImage >;
@@ -91,6 +91,7 @@ assignRGBtoScalar( typename RGBImage::Pointer rgbImage, typename ScalarImage::Po
   scalarImage = caster->GetOutput();
   scalarImage->DisconnectPipeline();
 }
+
 
 // do the registrations and calculate registration errors
 // negative peakMethodToUse means to try them all
@@ -114,8 +115,8 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
   typename ScalarImageType::SpacingType sp;
   sp.Fill( 1.0 ); // OMC test assumes unit spacing, tiles test has explicit unit spacing
   itk::ObjectFactoryBase::RegisterFactory( itk::TxtTransformIOFactory::New() );
-  const unsigned yMontageSize = stageTiles.size();
-  const unsigned xMontageSize = stageTiles[0].size();
+  const size_t yMontageSize = stageTiles.size();
+  const size_t xMontageSize = stageTiles[0].size();
   const unsigned origin1x = xMontageSize > 1 ? 1 : 0; // support 1xN montages
   const unsigned origin1y = yMontageSize > 1 ? 1 : 0; // support Nx1 montages
   const PointType originAdjustment = stageTiles[origin1y][origin1x].Position;
