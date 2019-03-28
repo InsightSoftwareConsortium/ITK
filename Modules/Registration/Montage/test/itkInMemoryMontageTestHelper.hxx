@@ -289,11 +289,11 @@ private:
     for ( itk::TileRow2D tileRow : stageTiles )
       {
       OriginRow row;
-      for ( int col = 0; col < tileRow.size(); col++ )
+      for ( unsigned col = 0; col < tileRow.size(); col++ )
         {
         itk::Tile2D tile = tileRow[col];
         itk::Point< double, Dimension > pos = tile.Position;
-        for ( int i = 0; i < Dimension; i++ )
+        for ( unsigned i = 0; i < Dimension; i++ )
           {
           // Get correct origin value, then add [col * 100] to it
           pos[i] = pos[i] + ( col * 100 );
@@ -342,11 +342,11 @@ private:
     for ( itk::TileRow2D tileRow : stageTiles )
       {
       OriginRow row;
-      for ( int col = 0; col < tileRow.size(); col++ )
+      for ( unsigned col = 0; col < tileRow.size(); col++ )
         {
         itk::Tile2D tile = tileRow[col];
         itk::Point< double, Dimension > pos = tile.Position;
-        for ( int i = 0; i < Dimension; i++ )
+        for ( unsigned i = 0; i < Dimension; i++ )
           {
           // Get correct origin value, divide by 2 to account for the 0.5 spacing, then add [col * 100]
           pos[i] = ( pos[i] / 2 ) + ( col * 100 );
@@ -443,20 +443,20 @@ private:
   }
 
   Origin2D
-  createUnitOrigin2D( int numOfRows, int numOfCols )
+  createUnitOrigin2D( unsigned numOfRows, unsigned numOfCols )
   {
     Origin2D UO;
 
     OriginPoint UO_point;
-    for ( int i = 0; i < Dimension; i++ )
+    for ( unsigned i = 0; i < Dimension; i++ )
       {
       UO_point[i] = 0;
       }
 
-    for ( int i = 0; i < numOfRows; i++ )
+    for ( unsigned i = 0; i < numOfRows; i++ )
       {
       OriginRow row;
-      for ( int j = 0; j < numOfCols; j++ )
+      for ( unsigned j = 0; j < numOfCols; j++ )
         {
         row.push_back( UO_point );
         }
@@ -485,20 +485,20 @@ private:
   }
 
   Spacing2D
-  createSpacing2D( int numOfRows, int numOfCols, double value )
+  createSpacing2D( unsigned numOfRows, unsigned numOfCols, double value )
   {
     Spacing2D US;
 
     SpacingType spacing;
-    for ( int i = 0; i < Dimension; i++ )
+    for ( unsigned i = 0; i < Dimension; i++ )
       {
       spacing[i] = value;
       }
 
-    for ( int i = 0; i < numOfRows; i++ )
+    for ( unsigned i = 0; i < numOfRows; i++ )
       {
       SpacingRow row;
-      for ( int j = 0; j < numOfCols; j++ )
+      for ( unsigned j = 0; j < numOfCols; j++ )
         {
         row.push_back( spacing );
         }
@@ -509,14 +509,14 @@ private:
   }
 
   Transform2D
-  createUnitTransform2D( int numOfRows, int numOfCols )
+  createUnitTransform2D( unsigned numOfRows, unsigned numOfCols )
   {
     Transform2D UT;
 
-    for ( int i = 0; i < numOfRows; i++ )
+    for ( unsigned i = 0; i < numOfRows; i++ )
       {
       TransformPtrRow transform_row;
-      for ( int j = 0; j < numOfCols; j++ )
+      for ( unsigned j = 0; j < numOfCols; j++ )
         {
         typename MontageType::TransformPointer transform = MontageType::TransformType::New();
         transform_row.push_back( transform );
