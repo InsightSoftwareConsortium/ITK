@@ -26,6 +26,7 @@
 #include "itkImageScanlineIterator.h"
 #include "itkSpecialCoordinatesImage.h"
 #include "itkDefaultConvertPixelTraits.h"
+#include "itkImageAlgorithm.h"
 
 #include <type_traits>  // For is_same.
 
@@ -506,17 +507,58 @@ void
 ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType >
 ::GenerateInputRequestedRegion()
 {
-  // Call the superclass' implementation of this method
-  Superclass::GenerateInputRequestedRegion();
-
   // Get pointers to the input and output
-  InputImagePointer inputPtr  = const_cast< TInputImage * >( this->GetInput() );
+  InputImageType * input  = const_cast< InputImageType * >( this->GetInput() );
 
-  // Determining the actual input region is non-trivial, especially
+  // Check whether the input or the output is a
+  // SpecialCoordinatesImage. If either are, then we cannot use the
+  // fast path since index mapping will definitely not be linear.
+  typedef SpecialCoordinatesImage< PixelType, ImageDimension >           OutputSpecialCoordinatesImageType;
+  typedef SpecialCoordinatesImage< InputPixelType, InputImageDimension > InputSpecialCoordinatesImageType;
+
+  const bool isSpecialCoordinatesImage = ( dynamic_cast< const InputSpecialCoordinatesImageType * >( this->GetInput() )
+       || dynamic_cast< const OutputSpecialCoordinatesImageType * >( this->GetOutput() ) );
+
+  const OutputImageType *output = this->GetOutput();
+  // Get the input transform
+  const TransformType *transform = this->GetTransform();
+
+  // Check whether we can use upstream streaming for resampling. Upstream streaming
+  // can be used if the transformation is linear. Transform respond
+  // to the IsLinear() call.
+  if ( !isSpecialCoordinatesImage && transform->GetTransformCategory() == TransformType::Linear )
+    {
+    typename TInputImage::RegionType inputRequestedRegion;
+    inputRequestedRegion = ImageAlgorithm::EnlargeRegionOverBox(output->GetRequestedRegion(),
+        output,
+        input,
+        transform);
+
+    const typename TInputImage::RegionType inputLargestRegion( input->GetLargestPossibleRegion() );
+    if( inputLargestRegion.IsInside( inputRequestedRegion.GetIndex() ) || inputLargestRegion.IsInside( inputRequestedRegion.GetUpperIndex() ) )
+      {
+      // Input requested region is partially outside the largest possible region.
+      //   or
+      // Input requested region is completely inside the largest possible region.
+      input->SetRequestedRegion( inputRequestedRegion );
+      }
+    else if( inputRequestedRegion.IsInside( inputLargestRegion ) )
+      {
+      // Input requested region completely surrounds the largest possible region.
+      input->SetRequestedRegion( inputLargestRegion );
+      }
+    else
+      {
+      // Input requested region is completely outside the largest possible region. Do not set the requested region in this case.
+      }
+    return;
+    }
+
+  // Otherwise, determining the actual input region is non-trivial, especially
   // when we cannot assume anything about the transform being used.
   // So we do the easy thing and request the entire input image.
   //
-  inputPtr->SetRequestedRegionToLargestPossibleRegion();
+  input->SetRequestedRegionToLargestPossibleRegion();
 }
 
 template< typename TInputImage,

@@ -50,8 +50,11 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(NonlinearAffineTransform, AffineTransform);
 
-  /** Override this. See test below. */
-    bool IsLinear() const override { return false; }
+  /** Override this so not linear. See test below. */
+  typename itk::TransformBaseTemplate< TCoordRepType >::TransformCategoryType GetTransformCategory() const override
+    {
+    return itk::TransformBaseTemplate< TCoordRepType >::UnknownTransformCategory;
+    }
 };
 }
 
@@ -149,11 +152,12 @@ int itkResampleImageTest2Streaming( int argc, char * argv [] )
   // This will use ResampleImageFilter::LinearThreadedGenerateData().
   std::cout << "Test with normal AffineTransform." << std::endl;
   writer1->SetNumberOfStreamDivisions(8); //split into 8 pieces for streaming.
+  monitor->ClearPipelineSavedInformation();
   TRY_EXPECT_NO_EXCEPTION( writer1->Update() );
 
-  // this verifies that the pipeline was executed as expected along
-  // with correct region propagation and output information
-  if (!monitor->VerifyAllInputCanStream(8))
+  // Note: We will only request the input 4 times because that last sampled
+  // chunk is completely outside the input and not requested
+  if( !monitor->VerifyInputFilterExecutedStreaming(4) )
     {
     std::cerr << "Streaming failed to execute as expected!" << std::endl;
     std::cerr << monitor;
@@ -178,7 +182,7 @@ int itkResampleImageTest2Streaming( int argc, char * argv [] )
   TRY_EXPECT_NO_EXCEPTION( writer2->Update() );
 
   // check that streaming is not possible for non-linear case
-  if (!monitor->VerifyAllInputCanStream(1))
+  if ( monitor->VerifyInputFilterExecutedStreaming(8) )
     {
     std::cerr << "Streaming succeeded for non-linear transform which should not be the case!" << std::endl;
     std::cerr << monitor;
@@ -205,5 +209,4 @@ int itkResampleImageTest2Streaming( int argc, char * argv [] )
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
-
 }

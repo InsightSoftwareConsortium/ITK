@@ -20,6 +20,7 @@
 #include "itkImage.h"
 #include "itkFixedArray.h"
 #include "itkImageAlgorithm.h"
+#include "itkTransform.h"
 
 int itkImageTest(int, char* [] )
 {
@@ -122,9 +123,12 @@ int itkImageTest(int, char* [] )
   regionRef.SetSize(sizeRef);
   imageRef->SetRegions(regionRef);
 
+  typedef itk::Transform< double, Image::ImageDimension, Image::ImageDimension > TransformType;
+
   Image::RegionType boxRegion = itk::ImageAlgorithm::EnlargeRegionOverBox(image->GetLargestPossibleRegion(),
                                                                           image.GetPointer(),
-                                                                          imageRef.GetPointer());
+                                                                          imageRef.GetPointer(),
+                                                                          static_cast< TransformType *>(nullptr) );
   Image::IndexType correctIndex; correctIndex.Fill(0);
   Image::SizeType correctSize; correctSize.Fill(3);
   if( !(boxRegion.GetIndex() == correctIndex) ||

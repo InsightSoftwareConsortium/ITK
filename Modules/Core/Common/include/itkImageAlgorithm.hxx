@@ -167,11 +167,12 @@ void ImageAlgorithm::DispatchedCopy( const InputImageType *inImage,
     }
 }
 
-template<typename InputImageType, typename OutputImageType>
+template<typename InputImageType, typename OutputImageType, typename TransformType>
 typename OutputImageType::RegionType
 ImageAlgorithm::EnlargeRegionOverBox(const typename InputImageType::RegionType & inputRegion,
                                      const InputImageType* inputImage,
-                                     const OutputImageType* outputImage)
+                                     const OutputImageType* outputImage,
+                                     const TransformType* transform)
 {
   typename OutputImageType::RegionType outputRegion;
 
@@ -217,8 +218,12 @@ ImageAlgorithm::EnlargeRegionOverBox(const typename InputImageType::RegionType &
 
     using PointType = Point< SpacePrecisionType, OutputImageType::ImageDimension >;
     PointType point;
-    inputImage->TransformContinuousIndexToPhysicalPoint(currentCornerIndex, point);
-    outputImage->TransformPhysicalPointToContinuousIndex(point, corners[count]);
+    inputImage->TransformContinuousIndexToPhysicalPoint( currentCornerIndex, point );
+    if( transform != nullptr )
+      {
+      point = transform->TransformPoint( point );
+      }
+    outputImage->TransformPhysicalPointToContinuousIndex( point, corners[count] );
     }
 
   // Compute a rectangular region from the vector of corner indexes
