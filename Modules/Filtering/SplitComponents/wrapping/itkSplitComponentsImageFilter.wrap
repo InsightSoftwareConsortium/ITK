@@ -1,10 +1,39 @@
 itk_wrap_class("itk::SplitComponentsImageFilter" POINTER)
+# We can only wrap types that have been wrapped for
+# ImageToImageFilter (parent class).
+unique(types "${WRAP_ITK_REAL};UC")
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
-  foreach(t ${WRAP_ITK_REAL})
-    itk_wrap_template(
+  foreach(t ${types})
+    if(DEFINED ITKT_IV${t}${d}${d})
+      itk_wrap_template(
         "${ITKM_IV${t}${d}${d}}${ITKM_I${t}${d}}"
         "${ITKT_IV${t}${d}${d}}, ${ITKT_I${t}${d}}"
-    )
+      )
+    endif()
+  endforeach()
+endforeach()
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  unique(types "${WRAP_ITK_SCALAR};UC;D;US;UI;UL;SC;SS;SI;SL;F")
+  # Define filter for all image types that are wrapped.
+  foreach(t ${types})
+    if(NOT DEFINED ITKT_I${t}${d})
+      list(REMOVE_ITEM types ${t})
+    endif()
+  endforeach()
+
+  foreach(t ${types})
+    # Wraps RGB and RGBA types that have been selected to be wrapped.
+    # We have to recompute them all to extract the pixel component type.
+    if(WRAP_ITK_RGB AND DEFINED ITKT_IRGB${t}${d})
+      itk_wrap_template("${ITKM_IRGB${t}${d}}${ITKM_I${t}${d}}"
+                          "${ITKT_IRGB${t}${d}}, ${ITKT_I${t}${d}}, 3"
+      )
+    endif()
+    if(WRAP_ITK_RGBA AND DEFINED ITKT_IRGBA${t}${d})
+      itk_wrap_template("${ITKM_IRGBA${t}${d}}${ITKM_I${t}${d}}"
+                          "${ITKT_IRGBA${t}${d}}, ${ITKT_I${t}${d}}, 4"
+      )
+    endif()
   endforeach()
 endforeach()
 itk_end_wrap_class()
