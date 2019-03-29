@@ -62,6 +62,49 @@ int itkPolyDataTest( int, char *[] )
     TEST_SET_GET_VALUE( point[dim], polyData->GetPoint( 1 )[dim] );
     }
 
+  PolyDataType::CellContainer::Pointer vertices = PolyDataType::CellContainer::New();
+  vertices->InsertElement( 0, 1 );
+  vertices->InsertElement( 1, 4 );
+  vertices->InsertElement( 2, 1 );
+  vertices->InsertElement( 3, 7 );
+  polyData->SetVertices( vertices );
+  TEST_SET_GET_VALUE( vertices.GetPointer(), polyData->GetVertices() );
+
+  PolyDataType::CellContainer::Pointer lines = PolyDataType::CellContainer::New();
+  lines->InsertElement( 0, 2 );
+  lines->InsertElement( 1, 4 );
+  lines->InsertElement( 2, 5 );
+  lines->InsertElement( 3, 2 );
+  lines->InsertElement( 4, 7 );
+  lines->InsertElement( 5, 8 );
+  polyData->SetLines( lines );
+  TEST_SET_GET_VALUE( lines.GetPointer(), polyData->GetLines() );
+
+  PolyDataType::CellContainer::Pointer polygons = PolyDataType::CellContainer::New();
+  polygons->InsertElement( 0, 4 );
+  polygons->InsertElement( 1, 4 );
+  polygons->InsertElement( 2, 5 );
+  polygons->InsertElement( 3, 6 );
+  polygons->InsertElement( 4, 7 );
+  polygons->InsertElement( 5, 4 );
+  polygons->InsertElement( 6, 8 );
+  polygons->InsertElement( 7, 9 );
+  polygons->InsertElement( 8, 10 );
+  polygons->InsertElement( 9, 11 );
+  polyData->SetPolygons( polygons );
+  TEST_SET_GET_VALUE( polygons.GetPointer(), polyData->GetPolygons() );
+
+  PolyDataType::CellContainer::Pointer triangleStrips = PolyDataType::CellContainer::New();
+  triangleStrips->InsertElement( 0, 3 );
+  triangleStrips->InsertElement( 1, 4 );
+  triangleStrips->InsertElement( 2, 5 );
+  triangleStrips->InsertElement( 3, 6 );
+  triangleStrips->InsertElement( 4, 3 );
+  triangleStrips->InsertElement( 5, 8 );
+  triangleStrips->InsertElement( 6, 9 );
+  triangleStrips->InsertElement( 7, 10 );
+  polyData->SetTriangleStrips( triangleStrips );
+  TEST_SET_GET_VALUE( triangleStrips.GetPointer(), polyData->GetTriangleStrips() );
 
   PolyDataType::PointDataContainer::Pointer pointDataContainer = PolyDataType::PointDataContainer::New();
   pointDataContainer->InsertElement( 0, 2.0 );
