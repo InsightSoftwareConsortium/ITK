@@ -167,7 +167,7 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
             }
           }
           
-        typename ImageType::PixelType pixel = iIt.Get() * std::exp( distancePenaltyFactor * dist );
+        typename ImageType::PixelType pixel = 1000*iIt.Get() * std::exp( distancePenaltyFactor * dist );
         //typename ImageType::PixelType pixel = std::exp( distancePenaltyFactor * dist );
         oIt.Set( pixel );
         }
@@ -175,6 +175,33 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
     nullptr );
 
   WriteDebug( iAdjusted.GetPointer(), "iAdjusted.nrrd" );
+
+  // supress trivial zero solution
+  double zsFactor = 1 / ( m_ZeroSuppression + 1e-10 );
+  typename ImageType::IndexType zsIndex = oIndex;
+  iAdjusted->SetPixel( zsIndex, iAdjusted->GetPixel( zsIndex ) / m_ZeroSuppression );
+  // there is no fitting iterator for this, so construct indices manually and use SetPixel
+  for ( unsigned d = 0; d < ImageDimension; d++ )
+    {
+    double dimFactor = 100.0 / size[d]; // turn absolute size into percentages
+    for (IndexValueType i = oIndex[d] + 1; i < adjustedSize[d]; i++)
+      {
+      zsIndex[d] = i;
+      IndexValueType dist = i - oIndex[d];
+      if ( dist > IndexValueType( size[d] / 2 ) ) // wrap around
+        {
+        dist = size[d] - dist;
+        }
+      typename ImageType::PixelType pixel = iAdjusted->GetPixel( zsIndex );
+      double distF = dist * dimFactor;
+      // avoid the initial steep drop of 1/(1+x) by shifting it by 3% of image size
+      pixel *= ( distF + 3 ) / ( m_ZeroSuppression + distF + 3 );
+      iAdjusted->SetPixel( zsIndex, pixel );
+      }
+    zsIndex[d] = oIndex[d]; // reset the index
+    }
+
+  WriteDebug( iAdjusted.GetPointer(), "iAdjustedZS.nrrd" );
 
   m_MaxCalculator->SetImage( iAdjusted );
   m_MaxCalculator->SetN( std::ceil( this->m_Offsets.size() / 2 ) *
@@ -238,32 +265,6 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
     else // examine next index
       {
       ++i;
-      }
-    }
-
-  // suppress trivial zero solution
-  const PixelType zeroDeemphasis1 = std::max< PixelType >( 1.0, m_ZeroSuppression / 2.0 );
-  for ( i = 0; i < maxs.size(); i++ )
-    {
-    // calculate maximum distance along any dimension
-    SizeValueType dist = 0;
-    for ( unsigned d = 0; d < ImageDimension; d++ )
-      {
-      SizeValueType d1 = std::abs( indices[i][d] - oIndex[d] );
-      if ( d1 > size[d] / 2 ) // wrap around
-        {
-        d1 = size[d] - d1;
-        }
-      dist = std::max( dist, d1 );
-      }
-
-    if ( dist == 0 )
-      {
-      maxs[i] /= m_ZeroSuppression;
-      }
-    else if ( dist == 1 )
-      {
-      maxs[i] /= zeroDeemphasis1;
       }
     }
 
