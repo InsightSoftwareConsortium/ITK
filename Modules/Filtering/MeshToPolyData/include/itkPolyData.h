@@ -63,6 +63,7 @@ public:
   using PointDataContainer = typename MeshTraits::PointDataContainer;
   using CellIdentifier = typename MeshTraits::CellIdentifier;
   using CellDataContainer = typename MeshTraits::CellDataContainer;
+  using CellContainer = VectorContainer< CellIdentifier, uint32_t >;
 
   void Initialize() override;
 
@@ -74,6 +75,26 @@ public:
   void SetPoints(PointsContainer *);
   PointsContainer * GetPoints();
   const PointsContainer * GetPoints() const;
+
+  /** Lines in format [1 pointIndex1 1 pointIndex2 1 pointIndex3 ... ] */
+  void SetVertices(CellContainer *);
+  CellContainer * GetVertices();
+  const CellContainer* GetVertices() const;
+
+  /** Lines in format [nPointsLine1 pointIndex1 pointIndex2 nPointsLine2 pointIndex1 pointIndex2 ... ] */
+  void SetLines(CellContainer *);
+  CellContainer * GetLines();
+  const CellContainer* GetLines() const;
+
+  /** Polygons in format [nPointsPolygon1 pointIndex1 pointIndex2 nPointsPolygon2 pointIndex1 pointIndex2 ... ] */
+  void SetPolygons(CellContainer *);
+  CellContainer * GetPolygons();
+  const CellContainer* GetPolygons() const;
+
+  /** TriangleStrips in format [nPointsTriangleStrip1 pointIndex1 pointIndex2 nPointsTriangleStrip2 pointIndex1 pointIndex2 ... ] */
+  void SetTriangleStrips(CellContainer *);
+  CellContainer * GetTriangleStrips();
+  const CellContainer* GetTriangleStrips() const;
 
   void SetPointData(PointDataContainer *);
   PointDataContainer * GetPointData();
@@ -112,6 +133,11 @@ protected:
   /** An object containing points used by the mesh.  Individual points are
    * accessed through point identifiers. */
   typename PointsContainer::Pointer m_PointsContainer;
+
+  typename CellContainer::Pointer m_VerticesContainer;
+  typename CellContainer::Pointer m_LinesContainer;
+  typename CellContainer::Pointer m_PolygonsContainer;
+  typename CellContainer::Pointer m_TriangleStripsContainer;
 
   /** An object containing data associated with the mesh's points.
    * Optionally, this can be nullptr, indicating that no data are associated with
