@@ -155,9 +155,7 @@ int itkResampleImageTest2Streaming( int argc, char * argv [] )
   monitor->ClearPipelineSavedInformation();
   TRY_EXPECT_NO_EXCEPTION( writer1->Update() );
 
-  // Note: We will only request the input 4 times because that last sampled
-  // chunk is completely outside the input and not requested
-  if( !monitor->VerifyInputFilterExecutedStreaming(4) )
+  if( !monitor->VerifyInputFilterExecutedStreaming(8) )
     {
     std::cerr << "Streaming failed to execute as expected!" << std::endl;
     std::cerr << monitor;
