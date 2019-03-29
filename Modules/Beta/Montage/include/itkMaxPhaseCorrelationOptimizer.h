@@ -90,8 +90,8 @@ public:
   void SetPeakInterpolationMethod( const PeakInterpolationMethod peakInterpolationMethod );
 
   /** Get/Set suppression aggressiveness of trivial [0,0,...] solution. */
-  itkGetConstMacro( ZeroSuppression, PixelType );
-  itkSetClampMacro( ZeroSuppression, PixelType, 1.0, 100.0 );
+  itkGetConstMacro( ZeroSuppression, double );
+  itkSetClampMacro( ZeroSuppression, double, 0.0, 100.0 );
 
   /** Get/Set multiplicative factor for biasing the solution towards expectation.
    * The expectation is that no translation will be needed given current image origins. */
@@ -112,7 +112,7 @@ protected:
 private:
   typename MaxCalculatorType::Pointer m_MaxCalculator;
   PeakInterpolationMethod             m_PeakInterpolationMethod = PeakInterpolationMethod::Parabolic;
-  PixelType                           m_ZeroSuppression = 15;
+  double                              m_ZeroSuppression = 10;
   double                              m_BiasTowardsExpected = 10.0;
 };
 
