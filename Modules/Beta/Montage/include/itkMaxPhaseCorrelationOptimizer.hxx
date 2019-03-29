@@ -167,8 +167,7 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
             }
           }
           
-        typename ImageType::PixelType pixel = 1000*iIt.Get() * std::exp( distancePenaltyFactor * dist );
-        //typename ImageType::PixelType pixel = std::exp( distancePenaltyFactor * dist );
+        typename ImageType::PixelType pixel = 1000*iIt.Get() * std::exp( distancePenaltyFactor * dist ); //TODO: remove 1000 factor
         oIt.Set( pixel );
         }
     },
@@ -180,7 +179,7 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
   double zsFactor = 1 / ( m_ZeroSuppression + 1e-10 );
   typename ImageType::IndexType zsIndex = oIndex;
   iAdjusted->SetPixel( zsIndex, iAdjusted->GetPixel( zsIndex ) / m_ZeroSuppression );
-  // there is no fitting iterator for this, so construct indices manually and use SetPixel
+  // there is no fitting iterator for axis lines, so construct indices manually and use SetPixel
   for ( unsigned d = 0; d < ImageDimension; d++ )
     {
     double dimFactor = 100.0 / size[d]; // turn absolute size into percentages
@@ -200,6 +199,40 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
       }
     zsIndex[d] = oIndex[d]; // reset the index
     }
+  // suppress neighborhood of [0,0,...,0]
+  typename ImageType::RegionType zeroRegion=lpr;
+  typename ImageType::SizeType zSize;
+  constexpr IndexValueType znSize = 8;
+  zSize.Fill( znSize );
+  zeroRegion.SetSize( zSize );
+  mt->ParallelizeImageRegion<ImageDimension>( zeroRegion,
+    [&](const typename ImageType::RegionType & region)
+    {
+      ImageRegionIteratorWithIndex< ImageType > oIt(iAdjusted, region);
+      for (; !oIt.IsAtEnd(); ++oIt)
+        {
+        typename ImageType::IndexType ind = oIt.GetIndex();
+        IndexValueType dist = 0;
+        bool skip = false;
+        for (unsigned d = 0; d < ImageDimension; d++)
+          {
+          if (ind[d] == oIndex[d])
+            {
+            skip = true;
+            break;
+            }
+          dist += ind[d] - oIndex[d];
+          }
+        if ( skip || dist > znSize )
+          {
+          continue; // next iteration of the for loop
+          }
+        typename ImageType::PixelType pixel = oIt.Get();
+        pixel *= ( dist + 3 ) / ( m_ZeroSuppression + dist + 3 );
+        oIt.Set( pixel );
+        }
+    },
+    nullptr );
 
   WriteDebug( iAdjusted.GetPointer(), "iAdjustedZS.nrrd" );
 
