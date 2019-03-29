@@ -112,7 +112,7 @@ protected:
 private:
   typename MaxCalculatorType::Pointer m_MaxCalculator;
   PeakInterpolationMethod             m_PeakInterpolationMethod = PeakInterpolationMethod::Parabolic;
-  double                              m_ZeroSuppression = 10;
+  double                              m_ZeroSuppression = 5;
   double                              m_BiasTowardsExpected = 10.0;
 };
 
