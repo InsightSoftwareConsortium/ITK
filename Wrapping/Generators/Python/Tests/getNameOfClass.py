@@ -28,6 +28,15 @@ itk.auto_progress(2)
 itk.force_load()
 # itk.ImageToImageFilter
 
+
+def wrongClassName(cl, name):
+    o = cl.New()
+    # be sure that the type of the instantiated object is the same
+    # than the one of the class. It can be different if the class
+    # is an "abstract" one and don't provide any New() method.
+    # In that case, the one of the superclass is used.
+    return o.GetNameOfClass() != name and itk.class_(o) == cl
+
 # a list of classes to exclude. Typically, the classes with a custom New()
 # method, which return a subclass of the current class
 exclude = ["ForwardFFTImageFilter",
@@ -56,31 +65,19 @@ for t in dir(itk):
             i = T.values()[0]
             # GetNameOfClass() is a virtual method of the LightObject class,
             # so we must instantiate an object with the New() method
-            if 'New' in dir(i):
-                I = i.New()
-                # be sure that the type of the instantiated object is the same
-                # than the one of the class. It can be different if the class
-                # is an "abstract" one and don't provide any New() method.
-                # In that case, the one of the superclass is used.
-                if 'GetNameOfClass' in dir(I):
-                    # print("Checking", t)
-                    totalName += 1
-                    n = I.GetNameOfClass()
-                    if n != t and itk.class_(I) == i:
-                        msg = "%s: wrong class name: %s" % (t, n)
-                        print(msg, file=sys.stderr)
-                        wrongName += 1
+            if 'New' in dir(i) and 'GetNameOfClass' in dir(i):
+                totalName += 1
+                if wrongClassName(i, t):
+                    msg = "%s: wrong class name: %s" % (t, n)
+                    print(msg, file=sys.stderr)
+                    wrongName += 1
         else:
-            if 'New' in dir(T):
-                I = T.New()
-                if 'GetNameOfClass' in dir(I):
-                    # print("Checking", t)
-                    totalName += 1
-                    n = I.GetNameOfClass()
-                    if n != t and itk.class_(I) == T:
-                        msg = "%s: wrong class name: %s" % (t, n)
-                        print(msg, file=sys.stderr)
-                        wrongName += 1
+            if 'New' in dir(T) and 'GetNameOfClass' in dir(T):
+                totalName += 1
+                if wrongClassName(T, t):
+                    msg = "%s: wrong class name: %s" % (t, n)
+                    print(msg, file=sys.stderr)
+                    wrongName += 1
 
 print("%s classes checked." % totalName)
 if wrongName:
