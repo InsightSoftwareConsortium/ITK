@@ -176,60 +176,57 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
   WriteDebug( iAdjusted.GetPointer(), "iAdjusted.nrrd" );
 
   // supress trivial zero solution
-  double zsFactor = 1 / ( m_ZeroSuppression + 1e-10 );
-  typename ImageType::IndexType zsIndex = oIndex;
-  iAdjusted->SetPixel( zsIndex, iAdjusted->GetPixel( zsIndex ) / m_ZeroSuppression );
-  // there is no fitting iterator for axis lines, so construct indices manually and use SetPixel
+  FixedArray< double, ImageDimension > dimFactor; // each dimension might have different size
   for ( unsigned d = 0; d < ImageDimension; d++ )
     {
     double dimFactor = 100.0 / size[d]; // turn absolute size into percentages
-    for (IndexValueType i = oIndex[d] + 1; i < adjustedSize[d]; i++)
-      {
-      zsIndex[d] = i;
-      IndexValueType dist = i - oIndex[d];
-      if ( dist > IndexValueType( size[d] / 2 ) ) // wrap around
-        {
-        dist = size[d] - dist;
-        }
-      typename ImageType::PixelType pixel = iAdjusted->GetPixel( zsIndex );
-      double distF = dist * dimFactor;
-      // avoid the initial steep drop of 1/(1+x) by shifting it by 3% of image size
-      pixel *= ( distF + 3 ) / ( m_ZeroSuppression + distF + 3 );
-      iAdjusted->SetPixel( zsIndex, pixel );
-      }
-    zsIndex[d] = oIndex[d]; // reset the index
     }
-  // suppress neighborhood of [0,0,...,0]
-  typename ImageType::RegionType zeroRegion=lpr;
-  typename ImageType::SizeType zSize;
-  constexpr IndexValueType znSize = 8;
-  zSize.Fill( znSize );
-  zeroRegion.SetSize( zSize );
-  mt->ParallelizeImageRegion<ImageDimension>( zeroRegion,
-    [&](const typename ImageType::RegionType & region)
+  constexpr IndexValueType znSize = 4; // zero neighborhood size
+  mt->ParallelizeImageRegion<ImageDimension>( lpr,
+    [&]( const typename ImageType::RegionType& region )
     {
       ImageRegionIteratorWithIndex< ImageType > oIt(iAdjusted, region);
       for (; !oIt.IsAtEnd(); ++oIt)
         {
+        bool pixelValid = false;
+        typename ImageType::PixelType pixel;
         typename ImageType::IndexType ind = oIt.GetIndex();
         IndexValueType dist = 0;
-        bool skip = false;
-        for (unsigned d = 0; d < ImageDimension; d++)
+        for ( unsigned d = 0; d < ImageDimension; d++ )
           {
-          if (ind[d] == oIndex[d])
-            {
-            skip = true;
-            break;
-            }
           dist += ind[d] - oIndex[d];
           }
-        if ( skip || dist > znSize )
+        if ( dist < znSize ) // neighborhood of [0,0,...,0]
           {
-          continue; // next iteration of the for loop
+          pixel = oIt.Get();
+          pixel *= ( dist + 3 ) / ( m_ZeroSuppression + dist + 3 );
+          pixelValid = true;
           }
-        typename ImageType::PixelType pixel = oIt.Get();
-        pixel *= ( dist + 3 ) / ( m_ZeroSuppression + dist + 3 );
-        oIt.Set( pixel );
+
+        for ( unsigned d = 0; d < ImageDimension; d++ ) // lines/sheets of zero indices
+          {
+          if ( ind[d] == oIndex[d] ) // one of the indices is "zero"
+            {
+            if ( !pixelValid )
+              {
+              pixel = oIt.Get();
+              pixelValid = true;
+              }
+            IndexValueType distD = ind[d] - oIndex[d];
+            if ( distD > IndexValueType( size[d] / 2 ) ) // wrap around
+              {
+              distD = size[d] - distD;
+              }
+            double distF = distD * dimFactor[d];
+            // avoid the initial steep drop of 1/(1+x) by shifting it by 3% of image size
+            pixel *= ( distF + 3 ) / ( m_ZeroSuppression + distF + 3 );
+            }
+          }
+
+        if ( pixelValid ) // either neighborhood or lines/sheets has updated the pixel
+          {
+          oIt.Set( pixel );
+          }
         }
     },
     nullptr );
