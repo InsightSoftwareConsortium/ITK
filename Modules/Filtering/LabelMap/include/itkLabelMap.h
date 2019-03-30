@@ -144,7 +144,7 @@ public:
 
   /**
    * Return the LabelObject with the label given in parameter.
-   * This method thorws an exception if the label doesn't exist in this image,
+   * This method throws an exception if the label doesn't exist in this image,
    * or if the label is the background one.
    */
   LabelObjectType * GetLabelObject(const LabelType & label);
@@ -161,7 +161,7 @@ public:
    * Return the LabelObject with at the position given in parameter.
    * This method can be useful when the labels are not consecutives, but is quite
    * inefficient.
-   * This method thorws an exception if the index doesn't exist in this image.
+   * This method throws an exception if the index doesn't exist in this image.
    */
   LabelObjectType * GetNthLabelObject(const SizeValueType & pos);
   const LabelObjectType * GetNthLabelObject(const SizeValueType & pos) const;
