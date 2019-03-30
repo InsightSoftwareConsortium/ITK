@@ -18,6 +18,7 @@
 
 #include "itkImageMomentsCalculator.h"
 
+#include "itkImageMaskSpatialObject.h"
 
 using PixelType = unsigned short;
 using VectorType = itk::Vector<double,3>;
@@ -28,8 +29,15 @@ using AffineTransformType = CalculatorType::AffineTransformType;
 
 
 int
-itkImageMomentsTest( int itkNotUsed(argc), char * itkNotUsed(argv) [] )
+itkImageMomentsTest( int argc, char * argv [] )
 {
+    if(argc != 2 )
+      {
+      std::cerr << "Usage: " << argv[0] << " <mask|nomask>" << std::endl;
+      return EXIT_FAILURE;
+      }
+    const std::string maskCondition{argv[1]};
+
     /* Define acceptable (absolute) error in computed results.
        All the calculations are done in double and are well-conditioned,
        so we should be able to get within a few epsilon of the right
@@ -39,7 +47,7 @@ itkImageMomentsTest( int itkNotUsed(argc), char * itkNotUsed(argv) [] )
        reasonably close but might deserve investigation some day when all
        the worse problems have been fixed. */
 //    double maxerr = 1.9e-15;
-    double maxerr = 5.0e-15;
+    constexpr double maxerr = 5.0e-15;
 
     /* Define the image size and physical coordinates */
     itk::Size<3> size = {{20, 40, 80}};
@@ -107,6 +115,32 @@ itkImageMomentsTest( int itkNotUsed(argc), char * itkNotUsed(argv) [] )
     /* Compute the moments */
     CalculatorType::Pointer moments = CalculatorType::New();
     moments->SetImage( image );
+    if( maskCondition == std::string("mask") )
+    {
+      //Test the mask spatial object for masked ImageMomentsTest
+      // Make a mask that covers the entire image space
+      using MaskImageType = itk::Image<unsigned char, 3>;
+      MaskImageType::Pointer maskimg  = MaskImageType::New();
+      maskimg->CopyInformation(image);
+      maskimg->SetRegions(image->GetLargestPossibleRegion());
+      maskimg->Allocate();
+      // Masking the entire image should not change the computation results.
+      maskimg->FillBuffer( itk::NumericTraits<PixelType>::OneValue() );
+
+      // convert mask image to mask
+      using LFFImageMaskSpatialObjectType = typename itk::ImageMaskSpatialObject<MaskImageType::ImageDimension>;
+      typename LFFImageMaskSpatialObjectType::Pointer mask = LFFImageMaskSpatialObjectType::New();
+      mask->SetImage(maskimg.GetPointer());
+      mask->ComputeObjectToWorldTransform();
+      //Purposefully use the base class type
+      typename itk::SpatialObject<MaskImageType::ImageDimension>::Pointer test =
+        dynamic_cast<itk::SpatialObject<MaskImageType::ImageDimension> *>( mask.GetPointer() );
+      if( test.IsNull() )
+        {
+        itkGenericExceptionMacro(<< "Failed conversion to SpatialObject base class.");
+        }
+      moments->SetSpatialObjectMask( test.GetPointer() );
+      }
     moments->Compute();
 
     /* Printout info */
