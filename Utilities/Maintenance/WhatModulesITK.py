@@ -117,6 +117,8 @@ if "ITKIOImageBase" in allModules:
     print(r"  ITKImageIO")
 if "ITKIOTransformBase" in allModules:
     print(r"  ITKTransformIO")
+if "ITKIOMeshBase" in allModules:
+    print(r"  ITKMeshIO")
 print(")")
 
 print("Your application code includes " + str(len(allModules)) + " of " + str(len(pathsToModules)) + " itk modules.")
