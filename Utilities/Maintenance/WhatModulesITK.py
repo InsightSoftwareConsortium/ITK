@@ -115,6 +115,8 @@ for module in sorted(allModules):
     print("  " + module)
 if "ITKIOImageBase" in allModules:
     print(r"  ITKImageIO")
+if "ITKIOMeshBase" in allModules:
+    print(r"  ITKMeshIO")
 if "ITKIOTransformBase" in allModules:
     print(r"  ITKTransformIO")
 print(")")
