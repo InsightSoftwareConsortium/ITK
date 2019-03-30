@@ -67,3 +67,27 @@ curr_git_tag=${git_install_req_tag_arr[-1]}
 
 # Sed the latest ITK git tag in the Python setup file
 sed -i "s/${curr_git_tag}/${latest_git_tag}/g" $python_setup_filename
+
+pckg_version_label='version'
+
+# Read the module Python package version tag information
+pckg_version_tag_str=($(grep -A1 -P ${pckg_version_label} $filename))
+
+# Strip the ending comma
+pckg_version_tag_str=${pckg_version_tag_str::-1}
+
+pckg_version_tag_arr=($(echo $pckg_version_tag_str | tr "=" " "))
+
+pckg_version=${pckg_version_tag_arr[1]}
+
+# Strip the inverted commas
+pckg_version=$(echo $pckg_version | tr -d "\'")
+
+pckg_version_arr=($(echo $pckg_version | tr "." " "))
+pckg_major_version=${pckg_version_arr[0]}
+new_pckg_major_version=$((pckg_major_version + 1))
+
+# Update to a new major version
+new_pckg_version="version='$new_pckg_major_version.0.0'"
+
+sed -i "s/${pckg_version_tag_str}/${new_pckg_version}/g" $filename
