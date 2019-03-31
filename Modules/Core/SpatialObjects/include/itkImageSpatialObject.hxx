@@ -131,7 +131,7 @@ ImageSpatialObject< TDimension,  PixelType >
 template< unsigned int TDimension, typename PixelType >
 bool
 ImageSpatialObject< TDimension,  PixelType >
-::ComputeMyBoundingBox() const
+::ProtectedComputeMyBoundingBox() const
 {
   itkDebugMacro("Computing ImageSpatialObject bounding box");
 

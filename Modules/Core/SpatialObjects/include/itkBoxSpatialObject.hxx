@@ -64,7 +64,7 @@ BoxSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 BoxSpatialObject< TDimension >
-::ComputeMyBoundingBox() const
+::ProtectedComputeMyBoundingBox() const
 {
   itkDebugMacro("Computing BoxSpatialObject bounding box");
 

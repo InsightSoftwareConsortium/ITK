@@ -128,12 +128,12 @@ int itkEllipseSpatialObjectTest(int, char* [])
   std::cout<<"[PASSED]"<<std::endl;
 
   myEllipse->ComputeFamilyBoundingBox( EllipseType::MaximumDepth );
-  myEllipse->ComputeObjectToWorldTransform();
+  myEllipse->Update();
   const EllipseType::BoundingBoxType * boundingBox
     = myEllipse->GetFamilyBoundingBoxInWorldSpace();
   std::cout << "Bounds = " << boundingBox->GetBounds() << std::endl;
 
-  std::cout << "ComputeMyBoundingBox: ";
+  std::cout << "Update(): ";
   for(unsigned int i=0;i<3;i++)
   {
     if(   itk::Math::NotAlmostEquals(boundingBox->GetBounds()[2*i], 7 )

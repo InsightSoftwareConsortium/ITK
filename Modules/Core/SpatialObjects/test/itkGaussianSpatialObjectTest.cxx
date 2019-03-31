@@ -111,17 +111,17 @@ int itkGaussianSpatialObjectTest(int, char* [])
   // Once you add children, update their objectToWorldTransform individually
   //   or by calling it at the top level object
   std::cout << "ComputeObjectToWorld" << std::endl;
-  myGaussian->ComputeObjectToWorldTransform();
+  myGaussian->Update();
 
   std::cout << "SetOffset" << std::endl;
   GaussianType::TransformType::OffsetType offset;
   offset.Fill(10);
   myGaussian->GetModifiableObjectToWorldTransform()->SetOffset(offset);
-  myGaussian->ComputeObjectToParentTransform();
+  myGaussian->Update();
 
   // Once you change an object's transform, you must call ComputeObjectToWorld
   //   for it and its children to update their cached transforms
-  myGaussian->ComputeObjectToWorldTransform();
+  myGaussian->Update();
 
   std::cout << "SetOffset2" << std::endl;
   GaussianType::TransformType::OffsetType offset2;
@@ -131,7 +131,7 @@ int itkGaussianSpatialObjectTest(int, char* [])
 
   // Once you change an object's transform, you must call ComputeObjectToWorld
   //   for it and its children to update their cached transforms
-  myGaussian2->ComputeObjectToWorldTransform();
+  myGaussian2->Update();
 
   GaussianType::TransformType::OffsetType offset3;
   offset3 = myGaussian2->GetObjectToParentTransform()->GetOffset();

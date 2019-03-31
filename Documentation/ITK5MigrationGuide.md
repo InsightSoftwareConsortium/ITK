@@ -334,6 +334,8 @@ ObjectSpace.   For example, the `IsInside( point )` function has been replaced b
 `IsInsideInWorldSpace( point )` functions.
 
 As implied above, the changes to SpatialObject are extensive.   They include the following:
+* Replace use of ComputeMyBoundingBox() with Update();
+* Replace use of ComputeObjectToWorldTransform() with Update();
 * Eliminate IndexToX transforms. SpatialObjects exist purely in physical space coordinates
 * Eliminate vnl TreeNode usage. SpatialObjects now track their transforms, parents, and children directly.
 * Eliminate AffineGeometryFrame

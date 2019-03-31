@@ -80,9 +80,6 @@ public:
   /** Get a pointer to the image currently attached to the object. */
   const ImageType * GetImage() const;
 
-  /** Compute the boundaries of the image spatial object. */
-  bool ComputeMyBoundingBox() const override;
-
   /** Returns true if the point is inside, false otherwise. */
   bool IsInsideInObjectSpace(const PointType & point, unsigned int depth=0,
     const std::string & name = "") const override;
@@ -112,6 +109,8 @@ public:
   itkGetConstMacro(Interpolator, InterpolatorType *);
 
 protected:
+  /** Compute the boundaries of the image spatial object. */
+  bool ProtectedComputeMyBoundingBox() const override;
 
   ImageSpatialObject();
   ~ImageSpatialObject() override;

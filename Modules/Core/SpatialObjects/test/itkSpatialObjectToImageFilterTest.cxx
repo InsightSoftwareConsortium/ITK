@@ -42,7 +42,7 @@ int itkSpatialObjectToImageFilterTest(int, char* [] )
   EllipseType::TransformType::OffsetType offset;
   offset.Fill(25);
   ellipse->GetModifiableObjectToParentTransform()->SetOffset(offset);
-  ellipse->ComputeObjectToWorldTransform();
+  ellipse->Update();
 
   using ImageType = itk::Image<double,2>;
 
