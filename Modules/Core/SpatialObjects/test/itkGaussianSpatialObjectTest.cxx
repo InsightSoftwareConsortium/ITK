@@ -114,18 +114,20 @@ int itkGaussianSpatialObjectTest(int, char* [])
   myGaussian->Update();
 
   std::cout << "SetOffset" << std::endl;
+  const GaussianType::TransformType::OffsetType::ValueType offset10 = 10.0;
   GaussianType::TransformType::OffsetType offset;
-  offset.Fill(10);
+  offset.Fill(offset10);
   myGaussian->GetModifiableObjectToWorldTransform()->SetOffset(offset);
-  myGaussian->Update();
+  myGaussian->ComputeObjectToParentTransform();
 
   // Once you change an object's transform, you must call ComputeObjectToWorld
   //   for it and its children to update their cached transforms
   myGaussian->Update();
 
   std::cout << "SetOffset2" << std::endl;
+  const GaussianType::TransformType::OffsetType::ValueType offset15 = 15.0;
   GaussianType::TransformType::OffsetType offset2;
-  offset2.Fill(15);
+  offset2.Fill(offset15);
   myGaussian2->GetModifiableObjectToWorldTransform()->SetOffset(offset2);
   myGaussian2->ComputeObjectToParentTransform();
 
@@ -136,13 +138,13 @@ int itkGaussianSpatialObjectTest(int, char* [])
   GaussianType::TransformType::OffsetType offset3;
   offset3 = myGaussian2->GetObjectToParentTransform()->GetOffset();
 
-  if( itk::Math::NotAlmostEquals(offset3[0], 5.0)
-    || itk::Math::NotAlmostEquals(offset3[1], 5.0)
-    || itk::Math::NotAlmostEquals(offset3[2], 5.0)
-    || itk::Math::NotAlmostEquals(offset3[3], 5.0)
+  if( itk::Math::NotAlmostEquals(offset3[0],  offset15-offset10)
+    || itk::Math::NotAlmostEquals(offset3[1], offset15-offset10)
+    || itk::Math::NotAlmostEquals(offset3[2], offset15-offset10)
+    || itk::Math::NotAlmostEquals(offset3[3], offset15-offset10)
     )
     {
-    std::cout<<"[FAILED]"<<std::endl;
+    std::cout<<"[FAILED] : " << offset3 << " != [5.0,5.0,5.0,5.0]" << std::endl;
     return EXIT_FAILURE;
     }
   std::cout<<"[PASSED]"<<std::endl;

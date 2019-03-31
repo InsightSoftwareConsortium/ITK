@@ -127,8 +127,9 @@ int itkEllipseSpatialObjectTest(int, char* [])
   }
   std::cout<<"[PASSED]"<<std::endl;
 
-  myEllipse->ComputeFamilyBoundingBox( EllipseType::MaximumDepth );
+  //NOTE: ORDER OF Update() and ComputeFamilyBoundingBox() is important.
   myEllipse->Update();
+  myEllipse->ComputeFamilyBoundingBox( EllipseType::MaximumDepth );
   const EllipseType::BoundingBoxType * boundingBox
     = myEllipse->GetFamilyBoundingBoxInWorldSpace();
   std::cout << "Bounds = " << boundingBox->GetBounds() << std::endl;
@@ -136,8 +137,9 @@ int itkEllipseSpatialObjectTest(int, char* [])
   std::cout << "Update(): ";
   for(unsigned int i=0;i<3;i++)
   {
-    if(   itk::Math::NotAlmostEquals(boundingBox->GetBounds()[2*i], 7 )
-       || itk::Math::NotAlmostEquals(boundingBox->GetBounds()[2*i+1], 16 )
+    const EllipseType::BoundingBoxType::BoundsArrayType bounds = boundingBox->GetBounds();
+    if(   itk::Math::NotAlmostEquals(bounds[2*i], 7 )
+       || itk::Math::NotAlmostEquals(bounds[2*i+1], 16 ) // this is 13 if Update() and ComputeFamilyBoundingBox are reversed order.
        )
     {
       std::cout<<"[FAILED]"<<std::endl;
