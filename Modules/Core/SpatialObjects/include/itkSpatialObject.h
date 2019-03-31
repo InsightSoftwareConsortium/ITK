@@ -508,7 +508,7 @@ protected:
   void ProtectedComputeObjectToWorldTransform();
 
   /** Compute bounding box for the object in world space */
-  virtual bool ProtectedComputeMyBoundingBox() const;
+  virtual void ProtectedComputeMyBoundingBox() const;
 
   /** Constructor. */
   SpatialObject();

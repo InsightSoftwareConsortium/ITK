@@ -100,7 +100,7 @@ EllipseSpatialObject< TDimension >
 
 /** Compute the bounds of the ellipse */
 template< unsigned int TDimension >
-bool
+void
 EllipseSpatialObject< TDimension >
 ::ProtectedComputeMyBoundingBox() const
 {
@@ -118,8 +118,6 @@ EllipseSpatialObject< TDimension >
   this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(pnt1);
   this->GetModifiableMyBoundingBoxInObjectSpace()->ConsiderPoint(pnt2);
   this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
-
-  return true;
 }
 
 /** InternalClone */

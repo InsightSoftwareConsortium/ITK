@@ -109,7 +109,7 @@ GaussianSpatialObject< TDimension >
 /** Compute the bounds of the Gaussian (as determined by the
  *  specified radius). */
 template< unsigned int TDimension >
-bool
+void
 GaussianSpatialObject< TDimension >
 ::ProtectedComputeMyBoundingBox() const
 {
@@ -127,8 +127,6 @@ GaussianSpatialObject< TDimension >
   this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(pnt1);
   this->GetModifiableMyBoundingBoxInObjectSpace()->ConsiderPoint(pnt2);
   this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
-
-  return true;
 }
 
 /** Returns the value at one point. */

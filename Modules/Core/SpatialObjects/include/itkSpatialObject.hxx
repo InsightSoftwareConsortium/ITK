@@ -692,7 +692,7 @@ SpatialObject< TDimension >
 }
 
 template< unsigned int TDimension >
-bool
+void
 SpatialObject< TDimension >
 ::ProtectedComputeMyBoundingBox() const
 {
@@ -707,8 +707,6 @@ SpatialObject< TDimension >
 
     this->Modified();
     }
-
-  return false;
 }
 
 /** Get the bounds of the object */

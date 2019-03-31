@@ -62,7 +62,7 @@ BoxSpatialObject< TDimension >
 
 /** Compute the bounds of the box */
 template< unsigned int TDimension >
-bool
+void
 BoxSpatialObject< TDimension >
 ::ProtectedComputeMyBoundingBox() const
 {
@@ -80,8 +80,6 @@ BoxSpatialObject< TDimension >
   this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(pnt1);
   this->GetModifiableMyBoundingBoxInObjectSpace()->ConsiderPoint(pnt2);
   this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
-
-  return true;
 }
 
 /** InternalClone */

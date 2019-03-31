@@ -94,7 +94,7 @@ MeshSpatialObject< TMesh >
 
 /** Compute the bounds of the object which is the same as the internal mesh */
 template< typename TMesh >
-bool
+void
 MeshSpatialObject< TMesh >
 ::ProtectedComputeMyBoundingBox() const
 {
@@ -111,8 +111,6 @@ MeshSpatialObject< TMesh >
   this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(
     m_Mesh->GetBoundingBox()->GetMaximum() );
   this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
-
-  return true;
 }
 
 /** Set the Mesh in the spatial object */

@@ -104,7 +104,7 @@ public:
 
 protected:
   /** Compute the boundaries of the Blob. */
-  bool ProtectedComputeMyBoundingBox() const override;
+  void ProtectedComputeMyBoundingBox() const override;
 
   PointBasedSpatialObject();
   ~PointBasedSpatialObject() override = default;

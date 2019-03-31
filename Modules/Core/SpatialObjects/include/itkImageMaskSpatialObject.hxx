@@ -71,7 +71,7 @@ ImageMaskSpatialObject< TDimension, TPixel >
 }
 
 template< unsigned int TDimension, typename TPixel >
-bool
+void
 ImageMaskSpatialObject< TDimension, TPixel >
 ::ProtectedComputeMyBoundingBox() const
 {
@@ -131,16 +131,13 @@ ImageMaskSpatialObject< TDimension, TPixel >
   if( first )
     {
     tmpPoint.Fill(
-      NumericTraits< typename BoundingBoxType::PointType::ValueType >::
-      ZeroValue() );
+      NumericTraits< typename BoundingBoxType::PointType::ValueType >::ZeroValue() );
 
     this->GetModifiableMyBoundingBoxInObjectSpace()->SetMinimum( tmpPoint );
     this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum( tmpPoint );
 
-    return false;
+    itkExceptionMacro(<< "ImageMask bounding box computation failed.")
     }
-
-  return true;
 }
 
 /** InternalClone */
