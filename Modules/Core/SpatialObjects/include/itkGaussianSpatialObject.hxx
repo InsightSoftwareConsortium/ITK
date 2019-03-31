@@ -34,7 +34,7 @@ GaussianSpatialObject< TDimension >
   m_SigmaInObjectSpace = 1.0;
   m_Maximum = 1.0;
 
-  this->ComputeMyBoundingBox();
+  this->Update();
 }
 
 /** The z-score is the root mean square of the z-scores along
@@ -179,7 +179,7 @@ GaussianSpatialObject< TDimension >
   ellipse->GetModifiableObjectToWorldTransform()->SetParameters(
     this->GetObjectToWorldTransform()->GetParameters() );
 
-  ellipse->ComputeMyBoundingBox();
+  ellipse->Update();
 
   return ellipse;
 }

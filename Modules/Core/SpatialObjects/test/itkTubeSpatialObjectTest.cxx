@@ -144,13 +144,13 @@ int itkTubeSpatialObjectTest(int, char * [] )
   tube2->GetProperty().SetName("Tube 2");
   tube2->SetId(2);
   tube2->SetPoints(list);
-  tube2->ComputeMyBoundingBox();
+  tube2->Update();
 
   TubePointer tube3 = TubeType::New();
   tube3->GetProperty().SetName("Tube 3");
   tube3->SetId(3);
   tube3->SetPoints(list);
-  tube3->ComputeMyBoundingBox();
+  tube3->Update();
 
   GroupPointer tubeNet1 = GroupType::New();
   tubeNet1->GetProperty().SetName("tube network 1");

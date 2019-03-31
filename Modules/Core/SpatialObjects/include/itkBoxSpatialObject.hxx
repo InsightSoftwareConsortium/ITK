@@ -32,7 +32,7 @@ BoxSpatialObject< TDimension >
   m_SizeInObjectSpace.Fill(1);
   m_PositionInObjectSpace.Fill(0);
 
-  this->ComputeMyBoundingBox();
+  this->Update();
 }
 
 /** Test whether a point is inside or outside the object */
