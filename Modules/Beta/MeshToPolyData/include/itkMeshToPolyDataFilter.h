@@ -19,6 +19,7 @@
 #define itkMeshToPolyDataFilter_h
 
 #include "itkProcessObject.h"
+#include "itkPolyData.h"
 
 namespace itk
 {
@@ -49,6 +50,8 @@ public:
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
 
+  using PolyDataType = PolyData< typename InputMeshType::PixelType >;
+
   /** Run-time type information. */
   itkTypeMacro( MeshToPolyDataFilter, ProcessObject );
 
@@ -64,13 +67,21 @@ public:
 
   const InputMeshType * GetInput(unsigned int idx) const;
 
+  PolyDataType * GetOutput();
+  const PolyDataType * GetOutput() const;
+
+  PolyDataType * GetOutput(unsigned int idx);
+
 protected:
   MeshToPolyDataFilter();
-  ~MeshToPolyDataFilter() override {}
+  ~MeshToPolyDataFilter() override = default;
 
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   void GenerateData() override;
+
+  ProcessObject::DataObjectPointer MakeOutput(ProcessObject::DataObjectPointerArraySizeType idx) override;
+  ProcessObject::DataObjectPointer MakeOutput(const ProcessObject::DataObjectIdentifierType &) override;
 
 private:
 
