@@ -662,7 +662,6 @@ SpatialObject< TDimension >
     e.SetDescription("ObjectToParentTransform not invertible.");
     throw e;
     }
-
   ProtectedComputeObjectToWorldTransform();
 }
 

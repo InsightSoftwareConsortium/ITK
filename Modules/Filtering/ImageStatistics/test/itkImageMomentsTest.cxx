@@ -131,7 +131,7 @@ itkImageMomentsTest( int argc, char * argv [] )
       using LFFImageMaskSpatialObjectType = typename itk::ImageMaskSpatialObject<MaskImageType::ImageDimension>;
       typename LFFImageMaskSpatialObjectType::Pointer mask = LFFImageMaskSpatialObjectType::New();
       mask->SetImage(maskimg.GetPointer());
-      mask->ComputeObjectToWorldTransform();
+      mask->Update();
       //Purposefully use the base class type
       typename itk::SpatialObject<MaskImageType::ImageDimension>::Pointer test =
         dynamic_cast<itk::SpatialObject<MaskImageType::ImageDimension> *>( mask.GetPointer() );

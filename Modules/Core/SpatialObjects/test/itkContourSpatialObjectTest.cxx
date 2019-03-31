@@ -63,11 +63,6 @@ int itkContourSpatialObjectTest(int, char* [])
 
 
   //
-  // Test Update() before data added
-  //
-  contour->Update();
-
-  //
   // Test Control Points (SetControlPoints, GetControlPoints,
   // GetNumberOfControlPoints, GetControlPoint)
   //
@@ -78,6 +73,11 @@ int itkContourSpatialObjectTest(int, char* [])
   controlPointList.push_back(pt4);
 
   contour->SetControlPoints(controlPointList);
+
+  //
+  // Test Update() before data added
+  //
+  contour->Update();
 
   // check number of points
   if (contour->GetNumberOfControlPoints() != 4)

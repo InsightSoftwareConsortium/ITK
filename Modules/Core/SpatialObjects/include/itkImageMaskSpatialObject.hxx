@@ -136,7 +136,8 @@ ImageMaskSpatialObject< TDimension, TPixel >
     this->GetModifiableMyBoundingBoxInObjectSpace()->SetMinimum( tmpPoint );
     this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum( tmpPoint );
 
-    itkExceptionMacro(<< "ImageMask bounding box computation failed.")
+    // NOT AN EXCEPTION!!!, used to return false, but never checked
+    // itkExceptionMacro(<< "ImageMask bounding box computation failed.")
     }
 }
 
