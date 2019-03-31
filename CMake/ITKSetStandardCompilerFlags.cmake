@@ -26,7 +26,7 @@ if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.14.0)
   check_pie_supported()
 endif()
 
-function(check_c_compiler_warning_flags c_flag_var)
+function(check_c_compiler_flags c_flag_var)
   set(local_c_flags "")
   set(flag_list "${ARGN}")
   foreach(flag IN LISTS flag_list)
@@ -40,7 +40,7 @@ function(check_c_compiler_warning_flags c_flag_var)
 endfunction()
 
 
-function(check_cxx_compiler_warning_flags cxx_flag_var)
+function(check_cxx_compiler_flags cxx_flag_var)
   set(local_cxx_flags "")
   set(flag_list "${ARGN}")
   foreach(flag IN LISTS flag_list)
@@ -130,11 +130,56 @@ function(check_compiler_warning_flags c_warning_flags_var cxx_warning_flags_var)
     ## Clang compiler likes to warn about this feature that is technically only in
     ## c++0x, but works on many compilers, and if it fails, then alternate methods are used
 
-  check_c_compiler_warning_flags(CMAKE_C_WARNING_FLAGS ${c_flags} ${c_and_cxx_flags})
-  check_cxx_compiler_warning_flags(CMAKE_CXX_WARNING_FLAGS ${c_and_cxx_flags} ${cxx_flags})
+  check_c_compiler_flags(CMAKE_C_WARNING_FLAGS ${c_flags} ${c_and_cxx_flags})
+  check_cxx_compiler_flags(CMAKE_CXX_WARNING_FLAGS ${c_and_cxx_flags} ${cxx_flags})
 
   set(${c_warning_flags_var} "${CMAKE_C_WARNING_FLAGS}" PARENT_SCOPE)
   set(${cxx_warning_flags_var} "${CMAKE_CXX_WARNING_FLAGS}" PARENT_SCOPE)
+endfunction()
+
+
+function(check_compiler_optimization_flags c_optimization_flags_var cxx_optimization_flags_var)
+  set(${c_optimization_flags_var} "" PARENT_SCOPE)
+  set(${cxx_optimization_flags_var} "" PARENT_SCOPE)
+
+  if(MSVC)
+      set(InstructionSetOptimizationFlags
+         # https://docs.microsoft.com/en-us/cpp/build/reference/arch-x64?view=vs-2015
+         /arch:SSE /arch:SSE2 /arch:/AVX ) # /arch:/AVX2 AVX2 circa 2013
+  else()
+    if (${CMAKE_C_COMPILER} MATCHES "icc.*$")
+      set(USING_INTEL_ICC_COMPILER TRUE)
+    endif()
+    if (${CMAKE_CXX_COMPILER} MATCHES "icpc.*$")
+      set(USING_INTEL_ICC_COMPILER TRUE)
+    endif()
+    if(USING_INTEL_ICC_COMPILER)
+      set(InstructionSetOptimizationFlags "" )
+    else()
+      set(InstructionSetOptimizationFlags "")
+    endif ()
+
+    # Check this list on C compiler only
+    set(c_flags "")
+
+    # Check this list on C++ compiler only
+    set(cxx_flags "")
+
+    # Check this list on both C and C++ compilers
+    set(InstructionSetOptimizationFlags
+       # https://gcc.gnu.org/onlinedocs/gcc-4.8.0/gcc/i386-and-x86_002d64-Options.html
+       # NOTE the corei7 release date was 2008
+       -mtune=native # Tune the code for the computer used compile ITK, but allow running on generic cpu archetectures
+       -march=corei7 # Use ABI settings to support corei7 (circa 2008 ABI feature sets, core-avx circa 2013)
+       )
+  endif()
+  set(c_and_cxx_flags ${InstructionSetOptimizationFlags})
+
+  check_c_compiler_flags(    CMAKE_C_WARNING_FLAGS ${c_and_cxx_flags} ${c_flags})
+  check_cxx_compiler_flags(CMAKE_CXX_WARNING_FLAGS ${c_and_cxx_flags} ${cxx_flags})
+
+  set(${c_optimization_flags_var} "${CMAKE_C_WARNING_FLAGS}" PARENT_SCOPE)
+  set(${cxx_optimization_flags_var} "${CMAKE_CXX_WARNING_FLAGS}" PARENT_SCOPE)
 endfunction()
 
 
@@ -304,16 +349,60 @@ macro(check_compiler_platform_flags)
   endif()
 endmacro()#End the platform check function
 
-#-----------------------------------------------------------------------------
-#Check the set of warning flags the compiler supports
-check_compiler_warning_flags(C_WARNING_FLAGS CXX_WARNING_FLAGS)
+if(NOT ITK_C_WARNING_FLAGS OR NOT ITK_CXX_WARNING_FLAGS ) # Only check once if not explicitly set on command line
+  #-----------------------------------------------------------------------------
+  #Check the set of warning flags the compiler supports
+  check_compiler_warning_flags(C_WARNING_FLAGS CXX_WARNING_FLAGS)
+endif()
 
-# Append ITK warnings to the CMake flags.
-# We do not set them in ITK_REQUIRED FLAGS because all project which
-# use ITK don't require these flags .
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${C_WARNING_FLAGS}")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_WARNING_FLAGS}")
+if(NOT ITK_C_WARNING_FLAGS) #Not set on cmake command line option -DITK_C_WARNING_FLAGS:STRING=""
+  set(ITK_C_WARNING_FLAGS ${C_WARNING_FLAGS})
+endif()
+set(ITK_C_WARNING_FLAGS ${ITK_C_WARNING_FLAGS} CACHE STRING "ITK C compiler warning flags. Modify to suit your needs.")
+
+if(NOT ITK_CXX_WARNING_FLAGS) #Not set on cmake command line option -DITK_CXX_WARNING_FLAGS:STRING=""
+  set(ITK_CXX_WARNING_FLAGS ${CXX_WARNING_FLAGS})
+endif()
+set(ITK_CXX_WARNING_FLAGS ${ITK_CXX_WARNING_FLAGS} CACHE STRING "ITK CXX compiler warning flags. Modify to suit your needs.")
+
+mark_as_advanced(ITK_CXX_WARNING_FLAGS)
+mark_as_advanced(ITK_C_WARNING_FLAGS)
+unset(C_WARNING_FLAGS)
+unset(CXX_WARNING_FLAGS)
+
+
+if(NOT ITK_C_OPTIMIZATION_FLAGS OR NOT ITK_CXX_OPTIMIZATION_FLAGS ) # Only check once if not explicitly set on command line
+  #-----------------------------------------------------------------------------
+  #Check the set of warning flags the compiler supports
+  check_compiler_optimization_flags(C_OPTIMIZATION_FLAGS CXX_OPTIMIZATION_FLAGS)
+endif()
+if(NOT ITK_C_OPTIMIZATION_FLAGS) #Not set on cmake command line option -DITK_C_OPTIMIZATION_FLAGS:STRING=""
+  set(ITK_C_OPTIMIZATION_FLAGS ${C_OPTIMIZATION_FLAGS} CACHE STRING "ITK C Compiler ABI/Optimization flags, Use '-march=native' to maximize performance, but break portabilitly.")
+else()
+  set(ITK_C_OPTIMIZATION_FLAGS ${ITK_C_OPTIMIZATION_FLAGS} CACHE STRING "ITK C Compiler ABI/Optimization flags, Use '-march=native' to maximize performance, but break portabilitly.")
+endif()
+if(NOT ITK_CXX_OPTIMIZATION_FLAGS) #Not set on cmake command line option -DITK_CXX_OPTIMIZATION_FLAGS:STRING=""
+  set(ITK_CXX_OPTIMIZATION_FLAGS ${CXX_OPTIMIZATION_FLAGS} CACHE STRING "ITK CXX Compiler ABI/Optimization flags, Use '-march=native' to maximize performance, but break portabilitly.")
+else()
+  set(ITK_CXX_OPTIMIZATION_FLAGS ${ITK_CXX_OPTIMIZATION_FLAGS} CACHE STRING "ITK CXX Compiler ABI/Optimization flags, Use '-march=native' to maximize performance, but break portabilitly.")
+endif()
+mark_as_advanced(ITK_CXX_OPTIMIZATION_FLAGS)
+mark_as_advanced(ITK_C_OPTIMIZATION_FLAGS)
+unset(C_OPTIMIZATION_FLAGS)
+unset(CXX_OPTIMIZATION_FLAGS)
 
 #-----------------------------------------------------------------------------
 #Check the set of platform flags the compiler supports
 check_compiler_platform_flags()
+
+# Append ITK warnings to the CMake flags.
+# We do not set them in ITK_REQUIRED FLAGS because all project which
+# use ITK don't require these flags .
+
+string(REPLACE " " ";" CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${ITK_C_OPTIMIZATION_FLAGS} ${ITK_C_WARNING_FLAGS}")
+list(REMOVE_DUPLICATES CMAKE_C_FLAGS)
+string(REPLACE ";" " " CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
+
+string(REPLACE " " ";" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ITK_CXX_OPTIMIZATION_FLAGS} ${ITK_CXX_WARNING_FLAGS}")
+list(REMOVE_DUPLICATES CMAKE_CXX_FLAGS)
+string(REPLACE ";" " " CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
