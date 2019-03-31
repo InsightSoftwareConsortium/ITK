@@ -29,6 +29,11 @@ MeshToPolyDataFilter< TInputMesh >
 {
   // Modify superclass default values, can be overridden by subclasses
   this->SetNumberOfRequiredInputs(1);
+
+  typename PolyDataType::Pointer output =
+    static_cast< PolyDataType * >( this->MakeOutput(0).GetPointer() );
+  this->ProcessObject::SetNumberOfRequiredOutputs(1);
+  this->ProcessObject::SetNthOutput( 0, output.GetPointer() );
 }
 
 
@@ -66,6 +71,59 @@ MeshToPolyDataFilter< TInputMesh >
 ::GetInput(unsigned int idx) const
 {
   return dynamic_cast< const TInputMesh * > ( this->ProcessObject::GetInput(idx) );
+}
+
+
+template< typename TInputMesh >
+ProcessObject::DataObjectPointer
+MeshToPolyDataFilter< TInputMesh >
+::MakeOutput(ProcessObject::DataObjectPointerArraySizeType)
+{
+  return PolyDataType::New().GetPointer();
+}
+
+
+template< typename TInputMesh >
+ProcessObject::DataObjectPointer
+MeshToPolyDataFilter< TInputMesh >
+::MakeOutput(const ProcessObject::DataObjectIdentifierType &)
+{
+  return PolyDataType::New().GetPointer();
+}
+
+
+template< typename TInputMesh >
+typename MeshToPolyDataFilter< TInputMesh >::PolyDataType *
+MeshToPolyDataFilter< TInputMesh >
+::GetOutput()
+{
+  // we assume that the first output is of the templated type
+  return itkDynamicCastInDebugMode< PolyDataType * >( this->GetPrimaryOutput() );
+}
+
+
+template< typename TInputMesh >
+const typename MeshToPolyDataFilter< TInputMesh >::PolyDataType *
+MeshToPolyDataFilter< TInputMesh >
+::GetOutput() const
+{
+  // we assume that the first output is of the templated type
+  return itkDynamicCastInDebugMode< const PolyDataType * >( this->GetPrimaryOutput() );
+}
+
+
+template< typename TInputMesh >
+typename MeshToPolyDataFilter< TInputMesh >::PolyDataType *
+MeshToPolyDataFilter< TInputMesh >
+::GetOutput(unsigned int idx)
+{
+  auto * out = dynamic_cast< PolyDataType * > ( this->ProcessObject::GetOutput(idx) );
+
+  if ( out == nullptr && this->ProcessObject::GetOutput(idx) != nullptr )
+    {
+    itkWarningMacro (<< "Unable to convert output number " << idx << " to type " <<  typeid( PolyDataType ).name () );
+    }
+  return out;
 }
 
 
