@@ -138,7 +138,7 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 template< unsigned int TDimension, class TSpatialObjectPointType >
 bool
 PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
-::ComputeMyBoundingBox() const
+::ProtectedComputeMyBoundingBox() const
 {
   itkDebugMacro("Computing blob bounding box");
 

@@ -73,7 +73,7 @@ ImageMaskSpatialObject< TDimension, TPixel >
 template< unsigned int TDimension, typename TPixel >
 bool
 ImageMaskSpatialObject< TDimension, TPixel >
-::ComputeMyBoundingBox() const
+::ProtectedComputeMyBoundingBox() const
 {
   using IteratorType = ImageRegionConstIteratorWithIndex< ImageType >;
   IteratorType it( this->GetImage(),

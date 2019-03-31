@@ -60,7 +60,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
   TubeType::TransformType::OffsetType offset;
   offset.Fill(10);
   tube1->GetModifiableObjectToParentTransform()->SetOffset(offset);
-  tube1->ComputeObjectToWorldTransform();
+  tube1->Update();
 
   for( unsigned int i=0; i<10; i++)
     {
@@ -284,7 +284,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
     std::cout<<"[PASSED]"<<std::endl;
     }
 
-  tubeNet1->ComputeMyBoundingBox();
+  tubeNet1->Update();
 
   std::cout<<"HasParent()...";
   if( !tube2->HasParent() )
@@ -299,17 +299,17 @@ int itkTubeSpatialObjectTest(int, char * [] )
 
   translation.Fill(10);
   tubeNet1->GetModifiableObjectToParentTransform()->Translate(translation,false);
-  tubeNet1->ComputeObjectToWorldTransform();
+  tubeNet1->Update();
 
   axis.Fill(0);
   axis[1] = 1;
   angle = itk::Math::pi_over_2;
   tube2->GetModifiableObjectToParentTransform()->Rotate3D(axis,angle);
-  tube2->ComputeObjectToWorldTransform();
+  tube2->Update();
 
   angle = -itk::Math::pi_over_2;
   tube3->GetModifiableObjectToParentTransform()->Rotate3D(axis,angle);
-  tube3->ComputeObjectToWorldTransform();
+  tube3->Update();
 
   in.Fill(25);
   out.Fill(15);

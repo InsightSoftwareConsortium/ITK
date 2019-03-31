@@ -88,10 +88,6 @@ public:
   bool IsInsideInObjectSpace(const PointType & point, unsigned int depth = 0,
     const std::string & name = "") const override;
 
-  /** This function needs to be called every time one of the object's
-   *  components is changed. */
-  bool ComputeMyBoundingBox() const override;
-
   /** Returns the value of the Gaussian at the given point.  */
   bool ValueAtInObjectSpace(const PointType & point, double & value,
     unsigned int depth = 0, const std::string & name = "") const override;
@@ -101,6 +97,10 @@ public:
   typename EllipseSpatialObject< TDimension >::Pointer GetEllipsoid() const;
 
 protected:
+  /** This function needs to be called every time one of the object's
+   *  components is changed. */
+  bool ProtectedComputeMyBoundingBox() const override;
+
   GaussianSpatialObject();
   ~GaussianSpatialObject() override = default;
 

@@ -70,12 +70,13 @@ public:
   bool IsInsideInObjectSpace(const PointType & point, unsigned int depth = 0,
     const std::string & name = "" ) const override;
 
+protected:
+
   /** Get the boundaries of a specific object.  This function needs to
    *  be called every time one of the object's components is
    *  changed. */
-  bool ComputeMyBoundingBox() const override;
+  bool ProtectedComputeMyBoundingBox() const override;
 
-protected:
   BoxSpatialObject();
   ~BoxSpatialObject() override = default;
 

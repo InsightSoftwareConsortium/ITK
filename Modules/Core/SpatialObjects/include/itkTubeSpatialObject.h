@@ -99,14 +99,15 @@ public:
    *  tube network in the scene */
   itkGetConstMacro(Root, bool);
 
-  /** Compute the boundaries of the tube. */
-  bool ComputeMyBoundingBox() const override;
-
   /** Returns true if the point is inside the tube, false otherwise. */
   bool IsInsideInObjectSpace(const PointType & point, unsigned int depth = 0,
     const std::string & name = "") const override;
 
 protected:
+
+  /** Compute the boundaries of the tube. */
+  bool ProtectedComputeMyBoundingBox() const override;
+
   TubeSpatialObject();
   ~TubeSpatialObject() override = default;
 

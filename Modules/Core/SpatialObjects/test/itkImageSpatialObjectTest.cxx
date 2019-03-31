@@ -76,7 +76,7 @@ int itkImageSpatialObjectTest(int, char* [])
   offset.Fill(5);
 
   imageSO->GetModifiableObjectToParentTransform()->SetOffset(offset);
-  imageSO->ComputeObjectToWorldTransform();
+  imageSO->Update();
 
   PointType q;
   PointType r;

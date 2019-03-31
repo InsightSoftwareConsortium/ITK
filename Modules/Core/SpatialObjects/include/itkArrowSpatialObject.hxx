@@ -45,7 +45,7 @@ ArrowSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 ArrowSpatialObject< TDimension >
-::ComputeMyBoundingBox() const
+::ProtectedComputeMyBoundingBox() const
 {
   itkDebugMacro("Computing Rectangle bounding box");
 

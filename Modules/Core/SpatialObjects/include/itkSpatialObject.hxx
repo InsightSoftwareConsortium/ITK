@@ -538,7 +538,7 @@ SpatialObject< TDimension >
   m_ObjectToParentTransform->SetParameters(
     transform->GetParameters() );
 
-  ComputeObjectToWorldTransform();
+  ProtectedComputeObjectToWorldTransform();
 }
 
 /** Set the local to global transformation */
@@ -559,7 +559,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 void
 SpatialObject< TDimension >
-::ComputeObjectToWorldTransform()
+::ProtectedComputeObjectToWorldTransform()
 {
   m_ObjectToWorldTransform->SetFixedParameters(
     this->GetObjectToParentTransform()->GetFixedParameters() );
@@ -574,7 +574,7 @@ SpatialObject< TDimension >
   if( !m_ObjectToWorldTransform->GetInverse( m_ObjectToWorldTransformInverse ) )
     {
     ExceptionObject e(__FILE__);
-    e.SetLocation( "SpatialObject::ComputeObjectToWorldTransform()" );
+    e.SetLocation( "SpatialObject::ProtectedComputeObjectToWorldTransform()" );
     e.SetDescription( "Transform must be invertible." );
     throw e;
     }
@@ -583,7 +583,7 @@ SpatialObject< TDimension >
   typename ChildrenListType::iterator it = m_ChildrenList.begin();
   while ( it != m_ChildrenList.end() )
     {
-    ( *it )->ComputeObjectToWorldTransform();
+      (*it)->Update();
     it++;
     }
 
@@ -609,7 +609,7 @@ SpatialObject< TDimension >
   m_ObjectToWorldTransform->SetParameters( transform->GetParameters() );
 
   ComputeObjectToParentTransform();
-  ComputeObjectToWorldTransform();
+  ProtectedComputeObjectToWorldTransform();
 }
 
 /** Set the local to global transformation */
@@ -663,7 +663,7 @@ SpatialObject< TDimension >
     throw e;
     }
 
-  ComputeObjectToWorldTransform();
+  ProtectedComputeObjectToWorldTransform();
 }
 
 /** Get the modification time  */
@@ -694,7 +694,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 SpatialObject< TDimension >
-::ComputeMyBoundingBox() const
+::ProtectedComputeMyBoundingBox() const
 {
   typename BoundingBoxType::PointType pnt;
   pnt.Fill( NumericTraits< typename BoundingBoxType::PointType::ValueType >::
@@ -1135,7 +1135,7 @@ SpatialObject< TDimension >
       {
       m_ParentId = -1;
       this->SetObjectToParentTransform( oldObjectWorldTransform );
-      this->ComputeObjectToWorldTransform();
+        this->Update();
       }
 
     if( oldParent != nullptr )
@@ -1321,14 +1321,14 @@ SpatialObject< TDimension >
 {
   Superclass::Update();
 
-  this->ComputeMyBoundingBox();
+  this->ProtectedComputeMyBoundingBox();
 
   m_FamilyBoundingBoxInObjectSpace->SetMinimum(
     m_MyBoundingBoxInObjectSpace->GetMinimum() );
   m_FamilyBoundingBoxInObjectSpace->SetMaximum(
     m_MyBoundingBoxInObjectSpace->GetMaximum() );
 
-  this->ComputeObjectToWorldTransform();
+  this->ProtectedComputeObjectToWorldTransform();
 }
 
 /** Return the type of the spatial object as a string

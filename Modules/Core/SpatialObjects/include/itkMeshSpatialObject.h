@@ -74,9 +74,6 @@ public:
   bool IsInsideInObjectSpace(const PointType & point, unsigned int depth=0,
     const std::string & name="") const override;
 
-  /** Compute the boundaries of the iamge spatial object. */
-  bool ComputeMyBoundingBox() const override;
-
   /** Returns the latest modified time of the object and its component. */
   ModifiedTimeType GetMTime() const override;
 
@@ -96,6 +93,8 @@ public:
   itkGetConstMacro(IsInsidePrecisionInObjectSpace, double);
 
 protected:
+  /** Compute the boundaries of the iamge spatial object. */
+  bool ProtectedComputeMyBoundingBox() const override;
 
   MeshSpatialObject();
   ~MeshSpatialObject() override = default;

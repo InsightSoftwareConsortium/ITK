@@ -102,10 +102,10 @@ public:
   bool IsInsideInObjectSpace(const PointType & worldPoint, unsigned int depth=0,
     const std::string & name="") const override;
 
-  /** Compute the boundaries of the Blob. */
-  bool ComputeMyBoundingBox() const override;
-
 protected:
+  /** Compute the boundaries of the Blob. */
+  bool ProtectedComputeMyBoundingBox() const override;
+
   PointBasedSpatialObject();
   ~PointBasedSpatialObject() override = default;
 

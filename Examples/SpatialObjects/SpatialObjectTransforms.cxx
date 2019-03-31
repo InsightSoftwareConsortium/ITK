@@ -48,7 +48,7 @@
 // Several member functions and variables are available to every SpatialObject
 // so that they can readily access the WorldSpace in which they exist:
 //
-// * ComputeObjectToWorldTransform: Composes its ObjectToParentTransform
+// * ProtectedComputeObjectToWorldTransform: Composes its ObjectToParentTransform
 // with its parent's cached ObjectToObjectToWorldTransform, to determine the
 // transform from the object's ObjectSpace to WorldSpace.   This transform is
 // always invertible.   This call will cause all children objects to also
@@ -60,7 +60,7 @@
 // function must be manually called by users.
 //
 // * GetObjectToWorldTransform: Returns the cached ObjectToWorldTransform.
-// It is the user's responsibility to call ComputeObjectToWorldTransform when
+// It is the user's responsibility to call ProtectedComputeObjectToWorldTransform when
 // necessary, prior to calling GetObjectToWorldTransform, otherwise the
 // returned transform may be "stale."
 //
@@ -138,7 +138,7 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // To realize the previous operations on the transformations, we should
-// invoke the \code{ComputeObjectToWorldTransform()} that recomputes all
+// invoke the \code{ProtectedComputeObjectToWorldTransform()} that recomputes all
 // dependent transformations.
 //
 // By calling this function on object1, it will also descend to its children,
@@ -147,7 +147,7 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  object1->ComputeObjectToWorldTransform();
+  object1->Update();
 // Software Guide : EndCodeSnippet
 
 
