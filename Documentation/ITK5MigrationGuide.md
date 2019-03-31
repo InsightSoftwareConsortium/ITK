@@ -316,7 +316,7 @@ children of a SpatialObject are defined within the ObjectSpace of that parent Sp
 
 * ObjectToParent transform is the transform applied to move a SpatialObject within it's parent object's ObjectSpace.   An ObjectToParent
 transform is an invertible affine transform.  It is used to, for example, align a SpatialObject with a parent image (e.g., if an object
-is extracted from one ImageSpatialObject but them aligned to and made a child of another ImageSpatialObject as is needed for atlas-based
+is extracted from one ImageSpatialObject but then aligned to and made a child of another ImageSpatialObject as is needed for atlas-based
 image segmentation or for image-to-image registration).    If an object does not have a parent, then its ObjectToParent transform
 specifies how that object is positioned in "WorldSpace", as defined next.
 
@@ -329,7 +329,7 @@ computations).  It is a composition of all of the ObjectToParent transforms from
 exists.   If an application maintains a single WorldSpace, point selections, object intersections, and such can be readily resolved by
 using the ObjectToWorld transforms (and their inverses) at each object.
 
-Each member fucntion and variable of a SpatialObject now explicitly declares (via its name) if it is operating in WorldSpace or
+Each member function and variable of a SpatialObject now explicitly declares (via its name) if it is operating in WorldSpace or
 ObjectSpace.   For example, the `IsInside( point )` function has been replaced by two functions `IsInsideInObjectSpace( point )` and
 `IsInsideInWorldSpace( point )` functions.
 
