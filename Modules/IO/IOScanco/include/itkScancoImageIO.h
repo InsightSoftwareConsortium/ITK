@@ -87,7 +87,7 @@ public:
    * true/false as to whether the ImageIO can support the dimension
    * indicated. */
   virtual bool
-  SupportsDimension(unsigned long dimension) ITK_OVERRIDE
+  SupportsDimension(unsigned long dimension) override
   {
     if (dimension == 3)
     {
@@ -101,41 +101,41 @@ public:
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
   virtual bool
-  CanReadFile(const char *) ITK_OVERRIDE;
+  CanReadFile(const char *) override;
 
   /** Set the spacing and dimension information for the set filename. */
   virtual void
-  ReadImageInformation() ITK_OVERRIDE;
+  ReadImageInformation() override;
 
   /** Reads the data from disk into the memory buffer provided. */
   virtual void
-  Read(void * buffer) ITK_OVERRIDE;
+  Read(void * buffer) override;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
   /** Determine the file type. Returns true if this ImageIO can write the
    * file specified. */
   virtual bool
-  CanWriteFile(const char *) ITK_OVERRIDE;
+  CanWriteFile(const char *) override;
 
   /** Set the spacing and dimension information for the set filename. */
   virtual void
-  WriteImageInformation() ITK_OVERRIDE;
+  WriteImageInformation() override;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
   virtual void
-  Write(const void * buffer) ITK_OVERRIDE;
+  Write(const void * buffer) override;
 
 
   virtual bool
-  CanStreamRead() ITK_OVERRIDE
+  CanStreamRead() override
   {
     return false;
   }
 
   virtual bool
-  CanStreamWrite() ITK_OVERRIDE
+  CanStreamWrite() override
   {
     return false;
   }
@@ -237,7 +237,7 @@ protected:
   ~ScancoImageIO();
 
   virtual void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScancoImageIO);
