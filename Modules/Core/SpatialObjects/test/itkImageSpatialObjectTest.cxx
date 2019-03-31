@@ -86,7 +86,6 @@ int itkImageSpatialObjectTest(int, char* [])
   r.Fill(9);
   q.Fill(15);
 
-  imageSO->ComputeMyBoundingBox();
   std::cout << "Bounding Box = "
     << imageSO->GetMyBoundingBoxInWorldSpace()->GetBounds() << std::endl;
   std::cout<<"IsInside()...";
