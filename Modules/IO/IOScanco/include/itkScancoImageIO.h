@@ -70,10 +70,10 @@ class IOScanco_EXPORT ScancoImageIO : public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef ScancoImageIO            Self;
-  typedef ImageIOBase              Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  using Self = ScancoImageIO;
+  using Superclass = ImageIOBase;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
