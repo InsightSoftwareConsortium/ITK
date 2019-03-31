@@ -81,26 +81,12 @@ int itkMeshToPolyDataFilterTest( int argc, char * argv[] )
 
   filter->SetInput( meshReader->GetOutput() );
 
-  //// Create input image to avoid test dependencies.
-  //ImageType::SizeType size;
-  //size.Fill( 128 );
-  //ImageType::Pointer image = ImageType::New();
-  //image->SetRegions( size );
-  //image->Allocate();
-  //image->FillBuffer(1.1f);
-
-  //ShowProgress::Pointer showProgress = ShowProgress::New();
-  //filter->AddObserver( itk::ProgressEvent(), showProgress );
-  //filter->SetInput(image);
-
-  //typedef itk::ImageFileWriter< ImageType > WriterType;
-  //WriterType::Pointer writer = WriterType::New();
-  //writer->SetFileName( outputImageFileName );
-  //writer->SetInput( filter->GetOutput() );
-  //writer->SetUseCompression(true);
+  ShowProgress::Pointer showProgress = ShowProgress::New();
+  filter->AddObserver( itk::ProgressEvent(), showProgress );
 
   TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
+  FilterType::PolyDataType::ConstPointer polyData = filter->GetOutput();
 
   return EXIT_SUCCESS;
 }
