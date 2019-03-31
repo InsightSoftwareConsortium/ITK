@@ -136,7 +136,7 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 
 /** Compute bounding box of just this object */
 template< unsigned int TDimension, class TSpatialObjectPointType >
-bool
+void
 PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 ::ProtectedComputeMyBoundingBox() const
 {
@@ -147,7 +147,7 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 
   if ( it == end )
     {
-    return false;
+    itkExceptionMacro(<< "Blob bounding box computation failed.")
     }
 
   PointType pt = ( *it ).GetPositionInObjectSpace();
@@ -162,8 +162,6 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
     it++;
     }
   this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
-
-  return true;
 }
 
 /** Test if a world-coordinate point is inside of this object or its

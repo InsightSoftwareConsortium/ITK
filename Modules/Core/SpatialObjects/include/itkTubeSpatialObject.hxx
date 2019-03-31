@@ -81,7 +81,7 @@ TubeSpatialObject< TDimension, TTubePointType >
 
 /** Compute the bounds of the tube */
 template< unsigned int TDimension, typename TTubePointType >
-bool
+void
 TubeSpatialObject< TDimension, TTubePointType >
 ::ProtectedComputeMyBoundingBox() const
 {
@@ -92,7 +92,7 @@ TubeSpatialObject< TDimension, TTubePointType >
 
   if ( it == end )
     {
-    return false;
+      itkExceptionMacro(<< "Tube bounding box computation failed.")
     }
 
   PointType pt = it->GetPositionInObjectSpace();
@@ -133,8 +133,6 @@ TubeSpatialObject< TDimension, TTubePointType >
     it++;
     }
   this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
-
-  return true;
 }
 
 /** Test whether a point is inside or outside the object

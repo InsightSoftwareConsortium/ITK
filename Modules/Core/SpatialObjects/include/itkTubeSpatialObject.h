@@ -106,7 +106,7 @@ public:
 protected:
 
   /** Compute the boundaries of the tube. */
-  bool ProtectedComputeMyBoundingBox() const override;
+  void ProtectedComputeMyBoundingBox() const override;
 
   TubeSpatialObject();
   ~TubeSpatialObject() override = default;

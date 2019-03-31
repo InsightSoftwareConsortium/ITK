@@ -86,7 +86,7 @@ protected:
   /** Get the boundaries of a specific object.  This function needs to
    *  be called every time one of the object's components is
    *  changed. */
-  bool ProtectedComputeMyBoundingBox() const override;
+  void ProtectedComputeMyBoundingBox() const override;
 
   EllipseSpatialObject();
   ~EllipseSpatialObject() override = default;

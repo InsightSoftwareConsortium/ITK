@@ -129,7 +129,7 @@ ImageSpatialObject< TDimension,  PixelType >
 
 /** Compute the bounds of the image */
 template< unsigned int TDimension, typename PixelType >
-bool
+void
 ImageSpatialObject< TDimension,  PixelType >
 ::ProtectedComputeMyBoundingBox() const
 {
@@ -153,8 +153,6 @@ ImageSpatialObject< TDimension,  PixelType >
   this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(pnt1);
   this->GetModifiableMyBoundingBoxInObjectSpace()->ConsiderPoint(pnt2);
   this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
-
-  return true;
 }
 
 
