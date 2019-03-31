@@ -31,6 +31,8 @@ namespace itk
 class IOScanco_EXPORT ScancoImageIOFactory : public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ScancoImageIOFactory);
+
   /** Standard class typedefs. */
   typedef ScancoImageIOFactory     Self;
   typedef ObjectFactoryBase        Superclass;
@@ -62,9 +64,6 @@ public:
 protected:
   ScancoImageIOFactory();
   ~ScancoImageIOFactory();
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScancoImageIOFactory);
 };
 } // end namespace itk
 

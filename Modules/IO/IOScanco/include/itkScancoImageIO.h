@@ -69,6 +69,8 @@ namespace itk
 class IOScanco_EXPORT ScancoImageIO : public ImageIOBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ScancoImageIO);
+
   /** Standard class typedefs. */
   typedef ScancoImageIO            Self;
   typedef ImageIOBase              Superclass;
@@ -240,8 +242,6 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScancoImageIO);
-
   /** Check the file header to see what type of file it is.
    *
    *  Return values are: 0 if unrecognized, 1 if ISQ/RAD,
