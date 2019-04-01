@@ -30,7 +30,9 @@ MeshSpatialObject< TMesh >
 {
   this->SetTypeName("MeshSpatialObject");
   m_Mesh = MeshType::New();
+#if !defined(ITK_LEGACY_REMOVE)
   m_PixelType = typeid( typename TMesh::PixelType ).name();
+#endif
   m_IsInsidePrecisionInObjectSpace = 1;
 }
 
