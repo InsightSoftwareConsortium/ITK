@@ -132,9 +132,9 @@ int itkResampleImageTest7( int , char *[] )
   // Verify that we only requested a smaller chunk when streaming
   const ImageRegionType finalRequestedRegion( image->GetRequestedRegion() );
   TEST_SET_GET_VALUE( 0, finalRequestedRegion.GetIndex(0) );
-  TEST_SET_GET_VALUE( 49, finalRequestedRegion.GetIndex(1) );
-  TEST_SET_GET_VALUE( 59, finalRequestedRegion.GetSize(0) );
-  TEST_SET_GET_VALUE( 10, finalRequestedRegion.GetSize(1) );
+  TEST_SET_GET_VALUE( 48, finalRequestedRegion.GetIndex(1) );
+  TEST_SET_GET_VALUE( 60, finalRequestedRegion.GetSize(0) );
+  TEST_SET_GET_VALUE( 12, finalRequestedRegion.GetSize(1) );
 
   ImagePointerType outputSDI = streamer->GetOutput();
   outputSDI->DisconnectPipeline();

@@ -76,6 +76,9 @@ public:
   using IndexType = typename Superclass::IndexType;
   using IndexValueType = typename Superclass::IndexValueType;
 
+  /** Size type alias support */
+  using SizeType = typename InputImageType::SizeType;
+
   /** ContinuousIndex type alias support */
   using ContinuousIndexType = typename Superclass::ContinuousIndexType;
 
@@ -123,6 +126,13 @@ public:
   {
     return ( static_cast< RealType >( this->GetInputImage()->GetPixel(index) ) );
   }
+
+  /** Get the radius required for interpolation.
+   *
+   * This defines the number of surrounding pixels required to interpolate at
+   * a given point.
+   */
+  virtual SizeType GetRadius() const = 0;
 
 protected:
   InterpolateImageFunction()= default;

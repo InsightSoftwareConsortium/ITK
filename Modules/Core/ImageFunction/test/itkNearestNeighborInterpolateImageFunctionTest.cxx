@@ -18,6 +18,7 @@
 
 #include <iostream>
 
+#include "itkTestingMacros.h"
 #include "itkMath.h"
 #include "itkImage.h"
 #include "itkVectorImage.h"
@@ -131,6 +132,13 @@ int itkNearestNeighborInterpolateImageFunctionTest( int , char*[] )
 
  InterpolatorType::Pointer interpolator = InterpolatorType::New();
  interpolator->SetInputImage( image );
+
+ typename ImageType::SizeType radius;
+ radius.Fill( 0 );
+ for( unsigned int d = 0; d < Dimension; ++d )
+   {
+   TEST_SET_GET_VALUE( radius[d], interpolator->GetRadius()[d] );
+   }
 
  VectorInterpolatorType::Pointer
   vectorinterpolator = VectorInterpolatorType::New();

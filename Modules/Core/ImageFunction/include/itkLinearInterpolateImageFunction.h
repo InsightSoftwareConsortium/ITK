@@ -82,6 +82,9 @@ public:
   /** Index type alias support */
   using IndexType = typename Superclass::IndexType;
 
+  /** Size type alias support */
+  using SizeType = typename Superclass::SizeType;
+
   /** ContinuousIndex type alias support */
   using ContinuousIndexType = typename Superclass::ContinuousIndexType;
   using InternalComputationType = typename ContinuousIndexType::ValueType;
@@ -100,6 +103,11 @@ public:
   {
     return this->EvaluateOptimized(Dispatch< ImageDimension >(), index);
   }
+
+  SizeType GetRadius() const override
+    {
+    return SizeType::Filled(1);
+    }
 
 protected:
   LinearInterpolateImageFunction() = default;

@@ -74,6 +74,9 @@ public:
   /** Index type alias support */
   using IndexType = typename Superclass::IndexType;
 
+  /** Size type alias support */
+  using SizeType = typename Superclass::SizeType;
+
   /** ContinuousIndex type alias support */
   using ContinuousIndexType = typename Superclass::ContinuousIndexType;
 
@@ -122,6 +125,12 @@ public:
   /** Set the input image.  This must be set by the user, after setting the
     spline order! */
   void SetInputImage(const TImageType *inputData) override;
+
+  SizeType
+  GetRadius() const override
+  {
+    return SizeType::Filled( m_SplineOrder + 1 );
+  }
 
 protected:
   ComplexBSplineInterpolateImageFunction();

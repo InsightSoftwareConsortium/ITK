@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include <iostream>
+#include "itkTestingMacros.h"
 #include "itkImage.h"
 #include "itkWindowedSincInterpolateImageFunction.h"
 #include "itkConstantBoundaryCondition.h"
@@ -185,6 +185,11 @@ int itkWindowedSincInterpolateImageFunctionTest(int, char* [] )
   InterpolatorType::Pointer interp = InterpolatorType::New();
   interp->SetInputImage( image );
   interp->Print( std::cout );
+
+  for( unsigned int d = 0; d < ImageDimension; ++d )
+    {
+    TEST_SET_GET_VALUE( 2, interp->GetRadius()[d] );
+    }
 
   /* Test evaluation at continuous indices and corresponding
      gemetric points */

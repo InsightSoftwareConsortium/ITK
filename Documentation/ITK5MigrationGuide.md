@@ -392,6 +392,10 @@ The nested `GaussianDerivativeImageFunction` types `GaussianDerivativeFunctionTy
 `GaussianDerivativeFunctionPointer` are renamed to `GaussianDerivativeSpatialFunctionType` and
 `GaussianDerivativeSpatialFunctionPointer`, respectively.
 
+All descendents of `itk::InterpolateImageFunction` must implement
+`SizeType GetRadius() const` to indicate support radius of the interpolator.
+This is used in `itk::ResampleImageFilter` to support streaming.
+
 With ITK 5.0, `itk::ProcessObject::VerifyPreconditions()`  and
 `itk::ProcessObject::VerifyInputInformation` are now declared `const`,
 so if you have overridden these virtual member function, make sure that you
