@@ -3,5 +3,5 @@ itk_fetch_module(NeuralNetworks
 for the calculation of artificial neural networks.
 This can be used, for instance, for image classification."
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKNeuralNetworks.git
-  GIT_TAG 674d2201410399d3d7075ffc2a85bcc2e27a0275
+  GIT_TAG 602d7d09a9234d6d90dff4052a83a0143043008b
   )
