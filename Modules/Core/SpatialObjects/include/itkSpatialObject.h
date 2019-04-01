@@ -494,11 +494,13 @@ public:
   bool Evaluate(const PointType & point) const
   { return this->IsInsideInWorldSpace(point); }
 
+#if ! defined ( ITK_LEGACY_REMOVE )
   itkLegacyMacro( void ComputeObjectToWorldTransform() )
   { this->Update(); /* Update() should be used instead of ProtectedComputeObjectToWorldTransform() */ }
 
   itkLegacyMacro( void ComputeMyBoundingBox() )
   { this->Update(); /* Update() should be used instead of ProtectedComputeMyBoundingBox() */}
+#endif
 
 protected:
 
