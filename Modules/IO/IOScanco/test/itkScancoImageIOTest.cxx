@@ -38,16 +38,16 @@ itkScancoImageIOTest(int argc, char * argv[])
 
   // ATTENTION THIS IS THE PIXEL TYPE FOR
   // THE RESULTING IMAGE
-  constexpr unsigned int                   Dimension = 3;
-  typedef short                            PixelType;
-  typedef itk::Image<PixelType, Dimension> ImageType;
+  constexpr unsigned int Dimension = 3;
+  using PixelType = short;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
-  typedef itk::ImageFileReader<ImageType> ReaderType;
-  ReaderType::Pointer                     reader = ReaderType::New();
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  ReaderType::Pointer reader = ReaderType::New();
 
   // force use of ScancoIO
-  typedef itk::ScancoImageIO IOType;
-  IOType::Pointer            scancoIO = IOType::New();
+  using IOType = itk::ScancoImageIO;
+  IOType::Pointer scancoIO = IOType::New();
   reader->SetImageIO(scancoIO);
 
   // check usability of dimension (for coverage)
@@ -81,8 +81,8 @@ itkScancoImageIOTest(int argc, char * argv[])
   std::cout << "region " << region;
 
   // Generate test image
-  typedef itk::ImageFileWriter<ImageType> WriterType;
-  WriterType::Pointer                     writer = WriterType::New();
+  using WriterType = itk::ImageFileWriter<ImageType>;
+  WriterType::Pointer writer = WriterType::New();
   writer->SetInput(reader->GetOutput());
   writer->SetFileName(outputFileName);
   TRY_EXPECT_NO_EXCEPTION(writer->Update());
