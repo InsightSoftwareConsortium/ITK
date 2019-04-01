@@ -63,7 +63,7 @@ public:
 
 protected:
   ScancoImageIOFactory();
-  ~ScancoImageIOFactory();
+  ~ScancoImageIOFactory() override = default;
 };
 } // end namespace itk
 

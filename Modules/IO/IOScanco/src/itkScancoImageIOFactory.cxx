@@ -27,8 +27,6 @@ ScancoImageIOFactory::ScancoImageIOFactory()
     "itkImageIOBase", "itkScancoImageIO", "Scanco Image IO", 1, CreateObjectFunction<ScancoImageIO>::New());
 }
 
-ScancoImageIOFactory::~ScancoImageIOFactory() {}
-
 const char *
 ScancoImageIOFactory::GetITKSourceVersion() const
 {
