@@ -59,12 +59,12 @@ namespace itk
  *
  * Outputs are not guaranteed to be closed paths: contours which intersect the
  * image edge will be left open. All other paths will be closed. (The
- * closed-ness of a path can be tested by checking whether the beginning point
+ * closedness of a path can be tested by checking whether the beginning point
  * is the same as the end point.)
  *
  * Produced paths are oriented. Following the path from beginning to end, image
  * intensity values lower than the contour value are to the left of the path and
- * intensity values grater than the contour value are to the right. In other
+ * intensity values greater than the contour value are to the right. In other
  * words, the image gradient at a path segment is (approximately) in the direct
  * of that segment rotated right by 90 degrees, because the image intensity
  * values increase from left-to-right across the segment. This means that the
@@ -92,6 +92,7 @@ namespace itk
  * \wikiexample{Segmentation/ContourExtractor2DImageFilter,Extract contours from an image}
  * \endwiki
  */
+
 template< typename TInputImage >
 class ITK_TEMPLATE_EXPORT ContourExtractor2DImageFilter:
   public ImageToPathFilter< TInputImage, PolyLineParametricPath< 2 > >
