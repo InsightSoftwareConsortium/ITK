@@ -185,7 +185,7 @@ itkImageRegionSplitterDirectionTest.cxx
 itkImageRegionSplitterMultidimensionalTest.cxx
 itkMetaDataObjectTest.cxx
 # itkVectorMultiplyTest.cxx
-itkThreadPoolTest.cxx
+itkMultithreadingTest.cxx
 )
 if(ITK_BUILD_SHARED_LIBS AND ITK_DYNAMIC_LOADING)
   list(APPEND ITKCommon2Tests itkDownCastTest.cxx)
@@ -588,7 +588,7 @@ itk_add_test(NAME itkRegionSplitterMultidimensionalTest COMMAND ITKCommon2TestDr
 
 itk_add_test(NAME itkMetaDataObjectTest COMMAND ITKCommon2TestDriver itkMetaDataObjectTest)
 
-itk_add_test(NAME itkThreadPoolTest COMMAND ITKCommon2TestDriver itkThreadPoolTest 100)
+itk_add_test(NAME itkMultithreadingTest COMMAND ITKCommon2TestDriver itkMultithreadingTest 100)
 
 if(ITK_BUILD_SHARED_LIBS AND ITK_DYNAMIC_LOADING)
   macro(BuildClientTestLibrary _name _type)
