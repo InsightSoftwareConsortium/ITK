@@ -31,11 +31,13 @@ namespace itk
 class IOScanco_EXPORT ScancoImageIOFactory : public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(ScancoImageIOFactory);
+
   /** Standard class typedefs. */
-  typedef ScancoImageIOFactory     Self;
-  typedef ObjectFactoryBase        Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  using Self = ScancoImageIOFactory;
+  using Superclass = ObjectFactoryBase;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
   virtual const char *
@@ -62,9 +64,6 @@ public:
 protected:
   ScancoImageIOFactory();
   ~ScancoImageIOFactory() override = default;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScancoImageIOFactory);
 };
 } // end namespace itk
 
