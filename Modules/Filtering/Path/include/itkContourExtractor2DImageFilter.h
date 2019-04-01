@@ -59,7 +59,7 @@ namespace itk
  *
  * Outputs are not guaranteed to be closed paths: contours which intersect the
  * image edge will be left open. All other paths will be closed. (The
- * closeness of a path can be tested by checking whether the beginning point
+ * closedness of a path can be tested by checking whether the beginning point
  * is the same as the end point.)
  *
  * Produced paths are oriented. Following the path from beginning to end, image
