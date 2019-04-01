@@ -38,7 +38,7 @@ itkScancoImageIOTest(int argc, char * argv[])
 
   // ATTENTION THIS IS THE PIXEL TYPE FOR
   // THE RESULTING IMAGE
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using PixelType = short;
   using ImageType = itk::Image<PixelType, Dimension>;
 
