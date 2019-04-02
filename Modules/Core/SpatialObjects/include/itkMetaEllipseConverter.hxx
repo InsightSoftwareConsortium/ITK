@@ -51,7 +51,7 @@ MetaEllipseConverter< NDimensions >
     radii[i] = ellipseMO->Radius()[i];
     }
 
-  ellipseSO->SetRadiiInObjectSpace(radii);
+  ellipseSO->SetRadiusInObjectSpace(radii);
   ellipseSO->GetProperty().SetName( ellipseMO->Name() );
   ellipseSO->SetId( ellipseMO->ID() );
   ellipseSO->SetParentId( ellipseMO->ParentID() );
@@ -82,7 +82,7 @@ MetaEllipseConverter< NDimensions >
 
   for ( unsigned int i = 0; i < NDimensions; i++ )
     {
-    radii[i] = ellipseSO->GetRadiiInObjectSpace()[i];
+    radii[i] = ellipseSO->GetRadiusInObjectSpace()[i];
     }
 
   if ( ellipseSO->GetParent() )

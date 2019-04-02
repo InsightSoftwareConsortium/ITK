@@ -171,6 +171,154 @@ ImageMaskSpatialObject< TDimension, TPixel >
 {
   Superclass::PrintSelf(os, indent);
 }
+
+#if ! defined ( ITK_LEGACY_REMOVE )
+template< unsigned int TDimension, typename TPixel >
+typename ImageMaskSpatialObject< TDimension, TPixel >::RegionType
+ImageMaskSpatialObject< TDimension, TPixel >
+::GetAxisAlignedBoundingBoxRegion() const
+{
+  // We will use a slice iterator to iterate through slices orthogonal
+  // to each of the axis of the image to find the bounding box. Each
+  // slice iterator iterates from the outermost slice towards the image
+  // center till it finds a mask pixel. For a 3D image, there will be six
+  // slice iterators, iterating from the periphery inwards till the bounds
+  // along each axes are found. The slice iterators save time and avoid
+  // having to walk the whole image. Since we are using slice iterators,
+  // we will implement this only for 3D images.
+
+  PixelType  outsideValue = NumericTraits< PixelType >::ZeroValue();
+  RegionType region;
+
+  ImagePointer image = this->GetImage();
+
+  IndexType index;
+  SizeType  size;
+
+  for(unsigned int i(0); i < ImageType::ImageDimension; i++)
+    {
+    index[i] = 0;
+    size[i] = 0;
+    }
+
+  if ( ImageType::ImageDimension == 3 )
+    {
+    for ( unsigned int axis = 0; axis < ImageType::ImageDimension; axis++ )
+      {
+      // Two slice iterators along each axis...
+      // Find the orthogonal planes for the slices
+      unsigned int i, j;
+      unsigned int direction[2];
+      for ( i = 0, j = 0; i < 3; ++i )
+        {
+        if ( i != axis )
+          {
+          direction[j] = i;
+          j++;
+          }
+        }
+
+      // Create the forward iterator to find lower bound
+      SliceIteratorType fit( image,  image->GetRequestedRegion() );
+      fit.SetFirstDirection(direction[1]);
+      fit.SetSecondDirection(direction[0]);
+
+      fit.GoToBegin();
+      while ( !fit.IsAtEnd() )
+        {
+        while ( !fit.IsAtEndOfSlice() )
+          {
+          while ( !fit.IsAtEndOfLine() )
+            {
+            if ( fit.Get() != outsideValue )
+              {
+              index[axis] = fit.GetIndex()[axis];
+              fit.GoToReverseBegin(); // skip to the end
+              break;
+              }
+            ++fit;
+            }
+          fit.NextLine();
+          }
+        fit.NextSlice();
+        }
+
+      // Create the reverse iterator to find upper bound
+      SliceIteratorType rit( image,  image->GetRequestedRegion() );
+      rit.SetFirstDirection(direction[1]);
+      rit.SetSecondDirection(direction[0]);
+
+      rit.GoToReverseBegin();
+      while ( !rit.IsAtReverseEnd() )
+        {
+        while ( !rit.IsAtReverseEndOfSlice() )
+          {
+          while ( !rit.IsAtReverseEndOfLine() )
+            {
+            if ( rit.Get() != outsideValue )
+              {
+              size[axis] = rit.GetIndex()[axis] - index[axis] + 1;
+              rit.GoToBegin(); //Skip to reverse end
+              break;
+              }
+            --rit;
+            }
+          rit.PreviousLine();
+          }
+        rit.PreviousSlice();
+        }
+      }
+
+    region.SetIndex(index);
+    region.SetSize(size);
+    }
+  else
+    {
+    //itkExceptionMacro( << "ImageDimension must be 3!" );
+    using IteratorType = ImageRegionConstIteratorWithIndex< ImageType >;
+    IteratorType it( image, image->GetRequestedRegion() );
+    it.GoToBegin();
+
+    for ( unsigned int i = 0; i < ImageType::ImageDimension; ++i )
+      {
+      index[i] = image->GetRequestedRegion().GetSize(i);
+      size[i]  = image->GetRequestedRegion().GetIndex(i);
+      }
+
+    while ( !it.IsAtEnd() )
+      {
+      if ( it.Get() != outsideValue )
+        {
+        IndexType tmpIndex = it.GetIndex();
+        for ( unsigned int i = 0; i < ImageType::ImageDimension; ++i )
+          {
+          if ( index[i] > tmpIndex[i] )
+            {
+            index[i] = tmpIndex[i];
+            }
+
+          const auto tmpSize = static_cast< SizeValueType >( tmpIndex[i] );
+
+          if ( size[i]  < tmpSize )
+            {
+            size[i]  = tmpSize;
+            }
+          }
+        }
+      ++it;
+      }
+
+    for ( unsigned int i = 0; i < ImageType::ImageDimension; ++i )
+      {
+      size[i] = size[i] - index[i] + 1;
+      }
+    region.SetIndex(index);
+    region.SetSize(size);
+    } // end else
+
+  return region;
+}
+#endif //ITK_LEGACY_REMOVE
 } // end namespace itk
 
 #endif //__ImageMaskSpatialObject_hxx

@@ -57,7 +57,7 @@ int main( int , char *[] )
     radius[i] = i;
     }
 
-  myEllipse->SetRadiiInObjectSpace(radius);
+  myEllipse->SetRadiusInObjectSpace(radius);
 // Software Guide : EndCodeSnippet
 // Software Guide : BeginLatex
 //
@@ -70,12 +70,12 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// We can then display the current radius by using the \code{GetRadiiInObjectSpace()}
+// We can then display the current radius by using the \code{GetRadiusInObjectSpace()}
 // function:
 //
 // Software Guide : EndLatex
 // Software Guide : BeginCodeSnippet
-  EllipseType::ArrayType myCurrentRadius = myEllipse->GetRadiiInObjectSpace();
+  EllipseType::ArrayType myCurrentRadius = myEllipse->GetRadiusInObjectSpace();
   std::cout << "Current radius is " << myCurrentRadius << std::endl;
 // Software Guide : EndCodeSnippet
 

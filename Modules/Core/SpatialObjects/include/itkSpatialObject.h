@@ -500,6 +500,15 @@ public:
 
   itkLegacyMacro( void ComputeMyBoundingBox() )
   { this->Update(); /* Update() should be used instead of ProtectedComputeMyBoundingBox() */}
+
+  itkLegacyMacro( void ComputeBoundingBox() )
+  { this->Update(); /* Update() should be used instead of outdated ComputeBoundingBox() */}
+
+  /** Returns true if a point is inside the object in world space. */
+  itkLegacyMacro( virtual bool IsInside(const PointType & point,
+                        unsigned int depth = 0,
+                        const std::string & name = "") const )
+  { return IsInsideInObjectSpace(point, depth, name); };
 #endif
 
 protected:

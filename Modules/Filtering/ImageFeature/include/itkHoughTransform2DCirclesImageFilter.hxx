@@ -274,7 +274,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
       for ( double angle = 0; angle <= 2 * itk::Math::pi; angle += itk::Math::pi / 1000 )
         {
         for ( double length = 0; length < m_DiscRadiusRatio *
-          Circle->GetRadiiInObjectSpace()[0]; length += 1 )
+          Circle->GetRadiusInObjectSpace()[0]; length += 1 )
           {
           const Index< 2 > index =
             {{
