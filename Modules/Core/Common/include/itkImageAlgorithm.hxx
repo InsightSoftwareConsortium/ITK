@@ -167,6 +167,16 @@ void ImageAlgorithm::DispatchedCopy( const InputImageType *inImage,
     }
 }
 
+
+template<typename InputImageType, typename OutputImageType, typename TransformType>
+typename OutputImageType::RegionType
+ImageAlgorithm::EnlargeRegionOverBox(const typename InputImageType::RegionType & inputRegion,
+                                     const InputImageType* inputImage,
+                                     const OutputImageType* outputImage)
+{
+  return EnlargeRegionOverBox(inputRegion, inputImage, outputImage, nullptr);
+}
+
 template<typename InputImageType, typename OutputImageType, typename TransformType>
 typename OutputImageType::RegionType
 ImageAlgorithm::EnlargeRegionOverBox(const typename InputImageType::RegionType & inputRegion,

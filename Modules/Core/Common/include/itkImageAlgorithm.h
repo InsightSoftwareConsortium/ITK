@@ -114,8 +114,14 @@ struct ImageAlgorithm
   static typename OutputImageType::RegionType
   EnlargeRegionOverBox(const typename InputImageType::RegionType & inputRegion,
                        const InputImageType* inputImage,
+                       const OutputImageType* outputImage);
+
+  template<typename InputImageType, typename OutputImageType, typename TransformType>
+  static typename OutputImageType::RegionType
+  EnlargeRegionOverBox(const typename InputImageType::RegionType & inputRegion,
+                       const InputImageType* inputImage,
                        const OutputImageType* outputImage,
-                       const TransformType* transform = nullptr);
+                       const TransformType* transform);
 
 private:
 
