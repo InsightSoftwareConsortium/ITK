@@ -33,7 +33,9 @@ ImageSpatialObject< TDimension,  PixelType >
   m_Image = ImageType::New();
   m_SliceNumber.Fill( 0 );
 
+#if !defined(ITK_LEGACY_REMOVE)
   this->SetPixelTypeName(static_cast<const PixelType *>(nullptr));
+#endif
 
   m_Interpolator = NNInterpolatorType::New();
 }
@@ -226,7 +228,9 @@ ImageSpatialObject< TDimension,  PixelType >
   os << indent << "Interpolator: " << std::endl;
   os << indent << m_Interpolator << std::endl;
   os << indent << "SliceNumber: " << m_SliceNumber << std::endl;
+#if !defined(ITK_LEGACY_REMOVE)
   os << indent << "PixelType: " << m_PixelType << std::endl;
+#endif
 }
 
 /** Get the modification time */

@@ -77,11 +77,13 @@ public:
   /** Returns the latest modified time of the object and its component. */
   ModifiedTimeType GetMTime() const override;
 
-  /** Return the type of pixel used */
-  const char * GetPixelTypeName()
+#if !defined(ITK_LEGACY_REMOVE)
+  /** \deprecated Return the type of pixel used */
+  itkLegacyMacro(const char * GetPixelTypeName())
   {
     return m_PixelType.c_str();
   }
+#endif
 
   /** Set/Get the precision for the IsInsideInObjectSpace function.
    *  This is used when the cell is a triangle, in this case, it's more likely
@@ -105,7 +107,9 @@ protected:
 
 private:
   MeshPointer m_Mesh;
+#if !defined(ITK_LEGACY_REMOVE)
   std::string m_PixelType;
+#endif
   double      m_IsInsidePrecisionInObjectSpace;
 
 };
