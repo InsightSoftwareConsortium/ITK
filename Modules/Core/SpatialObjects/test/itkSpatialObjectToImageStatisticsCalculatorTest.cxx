@@ -177,7 +177,7 @@ int itkSpatialObjectToImageStatisticsCalculatorTest(int, char * [] )
   radii[0] = 10;
   radii[1] = 10;
   radii[2] = 0;
-  ellipse3D->SetRadiiInObjectSpace(radii);
+  ellipse3D->SetRadiusInObjectSpace(radii);
 
   Ellipse3DType::VectorType offset3D;
   offset3D.Fill(25);

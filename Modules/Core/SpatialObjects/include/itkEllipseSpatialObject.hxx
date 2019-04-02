@@ -28,7 +28,7 @@ EllipseSpatialObject< TDimension >
 ::EllipseSpatialObject()
 {
   this->SetTypeName("EllipseSpatialObject");
-  m_RadiiInObjectSpace.Fill(1.0);
+  m_RadiusInObjectSpace.Fill(1.0);
   m_CenterInObjectSpace.Fill(0.0);
   this->Update();
 }
@@ -43,9 +43,9 @@ EllipseSpatialObject< TDimension >
   bool changes = false;
   for( unsigned int i=0; i<ObjectDimension; ++i )
     {
-    if( m_RadiiInObjectSpace[i] != radius )
+    if( m_RadiusInObjectSpace[i] != radius )
       {
-      m_RadiiInObjectSpace[i] = radius;
+      m_RadiusInObjectSpace[i] = radius;
       changes = true;
       }
     }
@@ -70,13 +70,13 @@ EllipseSpatialObject< TDimension >
     double r = 0;
     for ( unsigned int i = 0; i < TDimension; i++ )
       {
-      if ( m_RadiiInObjectSpace[i] > 0.0 )
+      if ( m_RadiusInObjectSpace[i] > 0.0 )
         {
         d = point[i] - m_CenterInObjectSpace[i];
         r += ( d * d )
-          / ( m_RadiiInObjectSpace[i] * m_RadiiInObjectSpace[i] );
+          / ( m_RadiusInObjectSpace[i] * m_RadiusInObjectSpace[i] );
         }
-      else if ( point[i] != 0.0 || m_RadiiInObjectSpace[i] < 0 )
+      else if ( point[i] != 0.0 || m_RadiusInObjectSpace[i] < 0 )
         // Deal with an ellipse with 0 or negative radius;
         {
         r = 2; // Keeps function from returning true here
@@ -110,8 +110,8 @@ EllipseSpatialObject< TDimension >
   PointType    pnt2;
   for ( unsigned int i = 0; i < TDimension; i++ )
     {
-    pnt1[i] = m_CenterInObjectSpace[i] - m_RadiiInObjectSpace[i];
-    pnt2[i] = m_CenterInObjectSpace[i] + m_RadiiInObjectSpace[i];
+    pnt1[i] = m_CenterInObjectSpace[i] - m_RadiusInObjectSpace[i];
+    pnt2[i] = m_CenterInObjectSpace[i] + m_RadiusInObjectSpace[i];
     }
 
   this->GetModifiableMyBoundingBoxInObjectSpace()->SetMinimum(pnt1);
@@ -134,7 +134,7 @@ EllipseSpatialObject< TDimension >
     itkExceptionMacro(<< "Downcast to type " << this->GetNameOfClass()
       << " failed.");
     }
-  rval->SetRadiiInObjectSpace( this->GetRadiiInObjectSpace() );
+  rval->SetRadiusInObjectSpace( this->GetRadiusInObjectSpace() );
   rval->SetCenterInObjectSpace( this->GetCenterInObjectSpace() );
 
   return loPtr;
@@ -148,7 +148,7 @@ EllipseSpatialObject< TDimension >
 {
   os << indent << "EllipseSpatialObject(" << this << ")" << std::endl;
   Superclass::PrintSelf(os, indent);
-  os << "Object Radii: " << m_RadiiInObjectSpace << std::endl;
+  os << "Object Radii: " << m_RadiusInObjectSpace << std::endl;
   os << "Object Center: " << m_CenterInObjectSpace << std::endl;
 }
 
