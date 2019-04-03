@@ -214,6 +214,25 @@ itk_add_test(NAME itkMontageTest-S200-6-C
     0 2 1 1 0
   )
 
+
+itk_add_test(NAME itkMontageTestMNML3
+  COMMAND MontageTestDriver
+  itkMontageTest2D
+    DATA{Input/MNML_3_200x_701/,REGEX:.*}
+    ${TESTING_OUTPUT_PATH}/itkMontageTestMNML3_
+    ${TESTING_OUTPUT_PATH}/itkMontageTestMNML3Pairs
+    1 -1 0 1 0
+  )
+
+itk_add_test(NAME itkMontageTestMNML5
+  COMMAND MontageTestDriver
+  itkMontageTest2D
+    DATA{Input/MNML_5_500x_101/,REGEX:.*}
+    ${TESTING_OUTPUT_PATH}/itkMontageTestMNML5_
+    ${TESTING_OUTPUT_PATH}/itkMontageTestMNML5Pairs
+    0 1 1 1 0
+  )
+
 if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/FlatFielded/36/1000.tif)
 
   set(flatFolder "${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/FlatFielded/36")

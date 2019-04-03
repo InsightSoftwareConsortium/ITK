@@ -1,0 +1,24 @@
+# Define the number of dimensions we are working on
+dim = 2
+
+# Define the image coordinates
+MNML-3_200x_701-Raw_p00.png; ; (0.0, 0.0)
+MNML-3_200x_701-Raw_p01.png; ; (1227.0, 0.0)
+MNML-3_200x_701-Raw_p02.png; ; (2454.0, 0.0)
+MNML-3_200x_701-Raw_p03.png; ; (3681.0, 0.0)
+MNML-3_200x_701-Raw_p07.png; ; (0.0, 919.0)
+MNML-3_200x_701-Raw_p06.png; ; (1227.0, 919.0)
+MNML-3_200x_701-Raw_p05.png; ; (2454.0, 919.0)
+MNML-3_200x_701-Raw_p04.png; ; (3681.0, 919.0)
+MNML-3_200x_701-Raw_p08.png; ; (0.0, 1838.0)
+MNML-3_200x_701-Raw_p09.png; ; (1227.0, 1838.0)
+MNML-3_200x_701-Raw_p10.png; ; (2454.0, 1838.0)
+MNML-3_200x_701-Raw_p11.png; ; (3681.0, 1838.0)
+MNML-3_200x_701-Raw_p15.png; ; (0.0, 2757.0)
+MNML-3_200x_701-Raw_p14.png; ; (1227.0, 2757.0)
+MNML-3_200x_701-Raw_p13.png; ; (2454.0, 2757.0)
+MNML-3_200x_701-Raw_p12.png; ; (3681.0, 2757.0)
+MNML-3_200x_701-Raw_p16.png; ; (0.0, 3676.0)
+MNML-3_200x_701-Raw_p17.png; ; (1227.0, 3676.0)
+MNML-3_200x_701-Raw_p18.png; ; (2454.0, 3676.0)
+MNML-3_200x_701-Raw_p19.png; ; (3681.0, 3676.0)
