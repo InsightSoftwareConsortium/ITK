@@ -205,13 +205,13 @@ private:
   IdentifierType **m_CurrentRow{nullptr};
   IdentifierType **m_CurrentFrame{nullptr};
 
-  unsigned short m_CurrentRowIndex{0};
-  unsigned short m_CurrentFrameIndex{0};
-  unsigned short m_LastRowNum{0};
-  unsigned short m_LastFrameNum{0};
-  unsigned short m_CurrentRowNum{200};
-  unsigned short m_CurrentFrameNum{2000};
-  unsigned char  m_AvailableNodes[14];
+  unsigned int m_CurrentRowIndex{0};
+  unsigned int m_CurrentFrameIndex{0};
+  unsigned int m_LastRowNum{0};
+  unsigned int m_LastFrameNum{0};
+  unsigned int m_CurrentRowNum{200};
+  unsigned int m_CurrentFrameNum{2000};
+  unsigned char m_AvailableNodes[14];
 
   double m_LocationOffset[14][3];
 
