@@ -241,20 +241,20 @@ protected:
 
 private:
   SizeType      m_MontageSize;
-  SizeValueType m_LinearMontageSize;
-  SizeValueType m_FinishedTiles;
+  SizeValueType m_LinearMontageSize = 0;
+  SizeValueType m_FinishedTiles = 0;
   PointType     m_OriginAdjustment;
   SpacingType   m_ForcedSpacing;
   SizeType      m_ObligatoryPadding;
 
   std::vector< std::string >     m_Filenames;
   std::vector< FFTConstPointer > m_FFTCache;
-  typename PCMType::Pointer      m_PCM;
-  typename ReaderType::Pointer   m_Reader;
-  typename ImageType::Pointer    m_Dummy;
+  typename PCMType::Pointer      m_PCM = PCMType::New();
+  typename ReaderType::Pointer   m_Reader = ReaderType::New();
+  typename ImageType::Pointer    m_Dummy = ImageType::New();
 
-  typename PCMOperatorType::Pointer  m_PCMOperator;
-  typename PCMOptimizerType::Pointer m_PCMOptimizer;
+  typename PCMOperatorType::Pointer  m_PCMOperator = PCMOperatorType::New();
+  typename PCMOptimizerType::Pointer m_PCMOptimizer = PCMOptimizerType::New();
 
   // members needed for ResampleIntoSingleImage
   ContinuousIndexType m_MinInner; // minimum index for cropped montage

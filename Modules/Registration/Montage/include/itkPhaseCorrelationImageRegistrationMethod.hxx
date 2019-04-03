@@ -34,30 +34,7 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >::PhaseCorre
   this->SetNumberOfRequiredInputs( 2 );
   this->SetNumberOfRequiredOutputs( 2 ); // for 0-the Transform, 1-the phase correlation image
 
-  m_FixedImage = nullptr;
-  m_MovingImage = nullptr;
-  m_FixedImageFFT = nullptr;
-  m_MovingImageFFT = nullptr;
-  m_Operator = nullptr;
-  m_RealOptimizer = nullptr;
-  m_ComplexOptimizer = nullptr;
-
-  m_FixedConstantPadder = FixedConstantPadderType::New();
-  m_MovingConstantPadder = MovingConstantPadderType::New();
-  m_FixedMirrorPadder = FixedMirrorPadderType::New();
-  m_MovingMirrorPadder = MovingMirrorPadderType::New();
-  m_FixedMirrorWEDPadder = FixedMirrorPadderType::New();
-  m_MovingMirrorWEDPadder = MovingMirrorPadderType::New();
-  m_BandPassFilter = BandBassFilterType::New();
-
-  m_ButterworthOrder = 3;
-  m_LowFrequency2 = 0.0025; // 0.05^2
-  m_HighFrequency2 = 0.25; // 0.5^2
   m_BandPassFilter->SetFunctor( m_BandPassFunctor );
-
-  m_FixedFFT = FFTFilterType::New();
-  m_MovingFFT = FFTFilterType::New();
-  m_IFFT = IFFTFilterType::New();
 
   m_FixedConstantPadder->SetConstant( NumericTraits< FixedImagePixelType >::Zero );
   m_MovingConstantPadder->SetConstant( NumericTraits< MovingImagePixelType >::Zero );
@@ -91,7 +68,6 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >::PhaseCorre
 
   TransformOutputPointer transformDecorator = static_cast< TransformOutputType* >( this->MakeOutput( 0 ).GetPointer() );
   this->ProcessObject::SetNthOutput( 0, transformDecorator.GetPointer() );
-  //std::cout << "output is " << this->GetOutput()->Get() << std::endl;
 
   typename RealImageType::Pointer phaseCorrelation =
     static_cast< RealImageType* >( this->MakeOutput( 1 ).GetPointer() );

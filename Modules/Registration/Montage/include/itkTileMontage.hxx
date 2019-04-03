@@ -33,11 +33,6 @@ template< typename TImageType, typename TCoordinate >
 TileMontage< TImageType, TCoordinate >
 ::TileMontage()
 {
-  m_PCM = PCMType::New();
-  m_PCMOperator = PCMOperatorType::New();
-  m_PCMOptimizer = PCMOptimizerType::New();
-  m_Reader = ReaderType::New();
-  m_Dummy = ImageType::New();
   m_OriginAdjustment.Fill( 0 );
   m_ForcedSpacing.Fill( 0 );
 
@@ -47,7 +42,6 @@ TileMontage< TImageType, TCoordinate >
   pad.Fill( 8 * sizeof( typename TImageType::PixelType ) );
   this->SetObligatoryPadding( pad );
 
-  m_FinishedTiles = 0;
   SizeType initialSize;
   initialSize.Fill( 1 );
   initialSize[0] = 2;

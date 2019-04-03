@@ -28,15 +28,6 @@
 namespace itk
 {
 template< typename TInputImage >
-NMinimaMaximaImageCalculator< TInputImage >::NMinimaMaximaImageCalculator()
-{
-  m_Image = TInputImage::New();
-  m_N = 7;
-  m_RegionSetByUser = false;
-}
-
-
-template< typename TInputImage >
 template< typename Comparator >
 inline void
 NMinimaMaximaImageCalculator<TInputImage>

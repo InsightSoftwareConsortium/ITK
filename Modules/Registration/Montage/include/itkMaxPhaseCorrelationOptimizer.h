@@ -100,8 +100,8 @@ public:
 
 
 protected:
-  MaxPhaseCorrelationOptimizer();
-  virtual ~MaxPhaseCorrelationOptimizer(){};
+  MaxPhaseCorrelationOptimizer() = default;
+  virtual ~MaxPhaseCorrelationOptimizer() = default;
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   /** This method is executed by superclass to execute the computation. */
@@ -110,7 +110,7 @@ protected:
   using MaxCalculatorType = NMinimaMaximaImageCalculator< ImageType >;
 
 private:
-  typename MaxCalculatorType::Pointer m_MaxCalculator;
+  typename MaxCalculatorType::Pointer m_MaxCalculator = MaxCalculatorType::New();
   PeakInterpolationMethod             m_PeakInterpolationMethod = PeakInterpolationMethod::Parabolic;
   double                              m_ZeroSuppression = 5;
   double                              m_BiasTowardsExpected = 10.0;

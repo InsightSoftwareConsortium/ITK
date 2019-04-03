@@ -211,8 +211,8 @@ protected:
   void ResampleSingleRegion( SizeValueType regionIndex );
 
 private:
-  bool      m_CropToFill; // crop to avoid backfround filling?
-  PixelType m_Background; // default background value (not covered by any input tile)
+  bool      m_CropToFill = false; // crop to avoid background filling?
+  PixelType m_Background = PixelType(); // default background value (not covered by any input tile)
 
   std::vector<TransformConstPointer> m_Transforms;
   std::deque<std::mutex>             m_TileReadLocks; //to avoid reading the same tile by more than one thread in parallel

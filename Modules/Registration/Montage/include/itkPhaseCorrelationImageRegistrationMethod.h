@@ -385,38 +385,38 @@ protected:
   FrequencyFunctorType m_LowPassFunctor;
 
 private:
-  OperatorPointer         m_Operator;
-  RealOptimizerPointer    m_RealOptimizer;
-  ComplexOptimizerPointer m_ComplexOptimizer;
+  OperatorPointer         m_Operator = nullptr;
+  RealOptimizerPointer    m_RealOptimizer = nullptr;
+  ComplexOptimizerPointer m_ComplexOptimizer = nullptr;
 
-  MovingImageConstPointer m_MovingImage;
-  FixedImageConstPointer  m_FixedImage;
+  MovingImageConstPointer m_MovingImage = nullptr;
+  FixedImageConstPointer  m_FixedImage = nullptr;
 
-  typename ComplexImageType::Pointer m_FixedImageFFT;
-  typename ComplexImageType::Pointer m_MovingImageFFT;
+  typename ComplexImageType::Pointer m_FixedImageFFT = nullptr;
+  typename ComplexImageType::Pointer m_MovingImageFFT = nullptr;
 
   ParametersType m_TransformParameters;
   SizeType       m_PadToSize;
   SizeType       m_ObligatoryPadding;
-  PaddingMethod  m_PaddingMethod;
+  PaddingMethod  m_PaddingMethod = PaddingMethod::MirrorWithExponentialDecay;
 
-  typename FixedPadderImageFilter::Pointer   m_FixedPadder;
-  typename MovingPadderImageFilter::Pointer  m_MovingPadder;
-  typename FixedConstantPadderType::Pointer  m_FixedConstantPadder;
-  typename MovingConstantPadderType::Pointer m_MovingConstantPadder;
-  typename FixedMirrorPadderType::Pointer    m_FixedMirrorPadder;
-  typename MovingMirrorPadderType::Pointer   m_MovingMirrorPadder;
-  typename FixedMirrorPadderType::Pointer    m_FixedMirrorWEDPadder;
-  typename MovingMirrorPadderType::Pointer   m_MovingMirrorWEDPadder;
-  typename BandBassFilterType::Pointer       m_BandPassFilter;
+  typename FixedPadderImageFilter::Pointer   m_FixedPadder = FixedPadderImageFilter::New();
+  typename MovingPadderImageFilter::Pointer  m_MovingPadder = MovingPadderImageFilter::New();
+  typename FixedConstantPadderType::Pointer  m_FixedConstantPadder = FixedConstantPadderType::New();
+  typename MovingConstantPadderType::Pointer m_MovingConstantPadder = MovingConstantPadderType::New();
+  typename FixedMirrorPadderType::Pointer    m_FixedMirrorPadder = FixedMirrorPadderType::New();
+  typename MovingMirrorPadderType::Pointer   m_MovingMirrorPadder = MovingMirrorPadderType::New();
+  typename FixedMirrorPadderType::Pointer    m_FixedMirrorWEDPadder = FixedMirrorPadderType::New();
+  typename MovingMirrorPadderType::Pointer   m_MovingMirrorWEDPadder = MovingMirrorPadderType::New();
+  typename BandBassFilterType::Pointer       m_BandPassFilter = BandBassFilterType::New();
 
-  unsigned m_ButterworthOrder;
-  double   m_LowFrequency2; //square of low frequency threshold
-  double   m_HighFrequency2; // square of high frequency threshold
+  unsigned m_ButterworthOrder = 3;
+  double   m_LowFrequency2 = 0.0025; // 0.05^2 // square of low frequency threshold
+  double   m_HighFrequency2 = 0.25;  // 0.5^2 // square of high frequency threshold
 
-  typename FFTFilterType::Pointer  m_FixedFFT;
-  typename FFTFilterType::Pointer  m_MovingFFT;
-  typename IFFTFilterType::Pointer m_IFFT;
+  typename FFTFilterType::Pointer  m_FixedFFT = FFTFilterType::New();
+  typename FFTFilterType::Pointer  m_MovingFFT = FFTFilterType::New();
+  typename IFFTFilterType::Pointer m_IFFT = IFFTFilterType::New();
 };
 
 } // end namespace itk
