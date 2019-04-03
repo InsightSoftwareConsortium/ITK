@@ -93,3 +93,8 @@ if(ITK_WRAP_float AND wrap_2_index GREATER -1)
     COMMAND SpatialObjectTest.py
     )
 endif()
+
+set(ITKSpatialObjectsGTests
+  itkImageMaskSpatialObjectGTest.cxx
+)
+CreateGoogleTestDriver(ITKSpatialObjects "${ITKSpatialObjects-Test_LIBRARIES}" "${ITKSpatialObjectsGTests}")
