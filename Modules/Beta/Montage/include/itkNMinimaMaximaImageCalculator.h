@@ -116,8 +116,8 @@ public:
   itkSetMacro( N, SizeValueType );
 
 protected:
-  NMinimaMaximaImageCalculator();
-  ~NMinimaMaximaImageCalculator() override {}
+  NMinimaMaximaImageCalculator() = default;
+  ~NMinimaMaximaImageCalculator() override = default;
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   template<typename Comparator = std::less<PixelType> >
@@ -127,15 +127,15 @@ protected:
   void InternalCompute();
 
 private:
-  ImageConstPointer m_Image;
+  ImageConstPointer m_Image = TInputImage::New();
   ValueVector       m_Minima;
   ValueVector       m_Maxima;
   IndexVector       m_IndicesOfMinima;
   IndexVector       m_IndicesOfMaxima;
-  SizeValueType     m_N;
+  SizeValueType     m_N = 7;
 
   RegionType m_Region;
-  bool       m_RegionSetByUser;
+  bool       m_RegionSetByUser = false;
   bool       m_ComputeMaxima;
   bool       m_ComputeMinima;
   std::mutex m_Mutex;

@@ -34,8 +34,6 @@ template< typename TImageType, typename TPixelAccumulateType, typename TInterpol
 TileMergeImageFilter< TImageType, TPixelAccumulateType, TInterpolator >
 ::TileMergeImageFilter()
 {
-  m_Background = PixelType();
-  m_CropToFill = false;
   this->SetMontageSize( this->m_MontageSize ); // initialize the rest of arrays
 
   // required for GenerateOutputInformation to be called

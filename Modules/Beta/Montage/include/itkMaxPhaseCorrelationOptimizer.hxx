@@ -65,14 +65,6 @@ void WriteDebug(TImage*, const char *) {}
 
 namespace itk
 {
-template < typename TRegistrationMethod >
-MaxPhaseCorrelationOptimizer<TRegistrationMethod>
-::MaxPhaseCorrelationOptimizer() : Superclass()
-{
-  m_MaxCalculator = MaxCalculatorType::New();
-}
-
-
 template< typename TRegistrationMethod >
 void
 MaxPhaseCorrelationOptimizer< TRegistrationMethod >
