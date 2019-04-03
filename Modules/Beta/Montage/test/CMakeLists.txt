@@ -135,6 +135,20 @@ itk_add_test(NAME itkMontagePCMTestFilesSynthetic3D
     1.0
   )
 
+itk_add_test(NAME itkMontagePCMTestFilesDzZ_T1_identity
+  COMMAND MontageTestDriver
+  itkMontagePCMTestFiles
+    DATA{Input/DzZ_T1/DzZ_T1_sup.nrrd}
+    DATA{Input/DzZ_T1/DzZ_T1_inf.nrrd}
+    ${TESTING_OUTPUT_PATH}/DzZ_T1_identity.nrrd
+    0.0
+    100.0
+    0.0
+    0.0
+    40.904
+    0.0
+  )
+
 function(AddTestOMC slicerNumber inMemory)
   itk_add_test(NAME itkMontageTestOMC${slicerNumber}
     COMMAND MontageTestDriver
