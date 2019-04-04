@@ -33,36 +33,6 @@
  *
  */
 
-#ifndef NDEBUG
-#include "itkImageFileWriter.h"
-
-namespace
-{
-template< typename TImage >
-void WriteDebug(const TImage* out, const char *filename)
-{
-  using WriterType = itk::ImageFileWriter<TImage>;
-  typename WriterType::Pointer w = WriterType::New();
-  w->SetInput(out);
-  w->SetFileName(filename);
-  try
-    {
-    w->Update();
-    }
-  catch (itk::ExceptionObject & error)
-    {
-    std::cerr << error << std::endl;
-    }
-}
-}
-#else
-namespace
-{
-template< typename TImage >
-void WriteDebug(TImage*, const char *) {}
-}
-#endif
-
 namespace itk
 {
 template< typename TRegistrationMethod >
