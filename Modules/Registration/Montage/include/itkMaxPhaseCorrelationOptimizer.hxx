@@ -128,7 +128,7 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
             dist += distMirror;
             }
           }
-          
+
         typename ImageType::PixelType pixel = 1000*iIt.Get() * std::exp( distancePenaltyFactor * dist ); //TODO: remove 1000 factor
         oIt.Set( pixel );
         }
@@ -222,46 +222,45 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
     indices.resize( i );
     }
 
-  // eliminate indices belonging to the same blurry peak
-  // condition used is city-block distance of one
-  unsigned i = 1;
-  while ( i < indices.size() )
+  if ( m_MergePeaks > 0 ) // eliminate indices belonging to the same blurry peak
     {
-    unsigned k = 0;
-    while ( k < i )
+    unsigned i = 1;
+    while ( i < indices.size() )
       {
-      // calculate maximum distance along any dimension
-      SizeValueType dist = 0;
-      for ( unsigned d = 0; d < ImageDimension; d++ )
+      unsigned k = 0;
+      while ( k < i )
         {
-        SizeValueType d1 = std::abs( indices[i][d] - indices[k][d] );
-        if ( d1 > size[d] / 2 ) // wrap around
+        // calculate maximum distance along any dimension
+        SizeValueType dist = 0;
+        for ( unsigned d = 0; d < ImageDimension; d++ )
           {
-          d1 = size[d] - d1;
+          SizeValueType d1 = std::abs( indices[i][d] - indices[k][d] );
+          if ( d1 > size[d] / 2 ) // wrap around
+            {
+            d1 = size[d] - d1;
+            }
+          dist = std::max( dist, d1 );
           }
-        dist = std::max( dist, d1 );
+        if ( dist < 2 ) // for city-block this is equivalent to:  dist == 1
+          {
+          break;
+          }
+        ++k;
         }
-      if ( dist < 2 ) // for city-block this is equivalent to:  dist == 1
+
+      if ( k < i ) // k is nearby
         {
-        break;
+        maxs[k] += maxs[i]; // join amplitudes
+        maxs.erase( maxs.begin() + i );
+        indices.erase( indices.begin() + i );
         }
-      ++k;
+      else // examine next index
+        {
+        ++i;
+        }
       }
 
-    if ( k < i ) // k is nearby
-      {
-      maxs[k] += maxs[i]; // join amplitudes
-      maxs.erase( maxs.begin() + i );
-      indices.erase( indices.begin() + i );
-      }
-    else // examine next index
-      {
-      ++i;
-      }
-    }
-
-  // now we need to re-sort the values
-  {
+    // now we need to re-sort the values
     std::vector< unsigned > sIndices;
     sIndices.reserve( maxs.size() );
     for ( i = 0; i < maxs.size(); i++ )
@@ -280,7 +279,7 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
       }
     maxs.swap( tMaxs );
     indices.swap( tIndices );
-  }
+    }
 
   if ( this->m_Offsets.size() > maxs.size() )
     {
@@ -302,7 +301,7 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
       typename ImageType::PixelType y0, y1 = maxs[m], y2;
       typename ImageType::IndexType tempIndex = indices[m];
 
-      for ( i = 0; i < ImageDimension; i++ )
+      for ( unsigned i = 0; i < ImageDimension; i++ )
         {
         tempIndex[i] = maxIndex[i] - 1;
         if ( !lpr.IsInside( tempIndex ) )
@@ -338,7 +337,7 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
         } // for ImageDimension
       } // if Interpolation != None
 
-    for ( i = 0; i < ImageDimension; ++i )
+    for ( unsigned i = 0; i < ImageDimension; ++i )
       {
       OffsetScalarType directOffset = ( movingOrigin[i] - fixedOrigin[i] )
         - 1 * spacing[i] * ( maxIndex[i] - oIndex[i] );
