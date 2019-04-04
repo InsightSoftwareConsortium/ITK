@@ -89,6 +89,10 @@ public:
   itkGetConstMacro( PeakInterpolationMethod, PeakInterpolationMethod );
   void SetPeakInterpolationMethod( const PeakInterpolationMethod peakInterpolationMethod );
 
+  /** Get/Set maximum city-block distance for peak merging. Zero disables it. */
+  itkGetConstMacro( MergePeaks, unsigned );
+  itkSetMacro( MergePeaks, unsigned );
+
   /** Get/Set suppression aggressiveness of trivial [0,0,...] solution. */
   itkGetConstMacro( ZeroSuppression, double );
   itkSetClampMacro( ZeroSuppression, double, 0.0, 100.0 );
@@ -112,6 +116,7 @@ protected:
 private:
   typename MaxCalculatorType::Pointer m_MaxCalculator = MaxCalculatorType::New();
   PeakInterpolationMethod             m_PeakInterpolationMethod = PeakInterpolationMethod::Parabolic;
+  unsigned                            m_MergePeaks = 1;
   double                              m_ZeroSuppression = 5;
   double                              m_BiasTowardsExpected = 10.0;
 };
