@@ -97,6 +97,30 @@ itk_add_test(NAME itkMontagePCMTestFilesFocus
     0.0
   )
 
+itk_add_test(NAME itkMontagePCMTestFilesMNML0304
+  COMMAND MontageTestDriver
+  itkMontagePCMTestFiles
+    DATA{Input/MNML_3_200x_701/MNML-3_200x_701-Raw_p03.png}
+    DATA{Input/MNML_3_200x_701/MNML-3_200x_701-Raw_p04.png}
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestFilesMNML0304.nrrd
+    0.0
+    919.0
+    1.0413443838811
+    2.550816245965091
+  )
+
+itk_add_test(NAME itkMontagePCMTestFilesMNML0304crop
+  COMMAND MontageTestDriver
+  itkMontagePCMTestFiles
+    DATA{Input/Synthetic/MNML3_03bottom.png}
+    DATA{Input/Synthetic/MNML3_04top.png}
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMTestFilesMNML0304crop.nrrd
+    0.0
+    111.0
+    1.0413443838811
+    2.550816245965091
+  )
+
 itk_add_test(NAME itkMontagePCMTestFilesSynthetic1
   COMMAND MontageTestDriver
   itkMontagePCMTestFiles
