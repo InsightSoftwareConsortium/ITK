@@ -30,6 +30,18 @@ ContourSpatialObject< TDimension >
 {
   this->SetTypeName("ContourSpatialObject");
 
+  this->Clear();
+
+  this->Update();
+}
+
+template< unsigned int TDimension >
+void
+ContourSpatialObject< TDimension >
+::Clear( void )
+{
+  Superclass::Clear();
+
   this->GetProperty().SetRed(1);
   this->GetProperty().SetGreen(0);
   this->GetProperty().SetBlue(0);
@@ -40,6 +52,8 @@ ContourSpatialObject< TDimension >
   m_OrientationInObjectSpace = -1;
   m_OrientationInObjectSpaceMTime = this->GetMyMTime();
   m_AttachedToSlice = -1;
+
+  this->Modified();
 }
 
 template< unsigned int TDimension >

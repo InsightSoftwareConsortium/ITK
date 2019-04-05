@@ -56,6 +56,10 @@ public:
   /** Method for creation through the object factory. */
   itkTypeMacro(ArrowSpatialObject, SpatialObject);
 
+  /** Reset the spatial object to its initial condition, yet preserves
+   *   Id, Parent, and Child information */
+  void Clear( void ) override;
+
   /** Set the position of the arrow : this is the point of the arrow */
   itkSetMacro( PositionInObjectSpace, PointType );
 

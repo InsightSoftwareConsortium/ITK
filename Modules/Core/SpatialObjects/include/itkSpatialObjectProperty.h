@@ -45,6 +45,8 @@ public:
 
   using ColorType = RGBAPixel< double >;
 
+  virtual void Clear( void );
+
   void SetColor( const ColorType & color )
   { m_Color = color; }
 

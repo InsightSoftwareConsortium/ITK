@@ -55,6 +55,10 @@ public:
   /** Method for creation through the object factory. */
   itkTypeMacro(PolygonSpatialObject, PointBasedSpatialObject);
 
+  /** Reset the spatial object to its initial condition, yet preserves
+   *   Id, Parent, and Child information */
+  void Clear( void ) override;
+
   /** Method returning plane alignment of strand */
   int GetOrientationInObjectSpace() const;
 

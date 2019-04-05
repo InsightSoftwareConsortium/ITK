@@ -25,6 +25,13 @@ namespace itk
 SpatialObjectProperty
 ::SpatialObjectProperty()
 {
+  this->Clear();
+}
+
+void
+SpatialObjectProperty
+::Clear( void )
+{
   m_Color.SetRed(1);
   m_Color.SetGreen(1);
   m_Color.SetBlue(1);
