@@ -66,6 +66,9 @@ public:
    * each point (for computing world coordinates) */
   virtual void AddPoint( const SpatialObjectPointType & newPoints );
 
+  /** Removes the indicated point from this object */
+  virtual void RemovePoint( IdentifierType id );
+
   /** Assign points to this object, and assigned this object to
    * each point (for computing world coordinates) */
   virtual void SetPoints( const SpatialObjectPointListType & newPoints );

@@ -45,6 +45,22 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
   this->Modified();
 }
 
+/** Remove a Point from the list */
+template< unsigned int TDimension, class TSpatialObjectPointType >
+void
+PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
+::RemovePoint( IdentifierType id )
+{
+  if( id < m_Points.size() )
+    {
+    typename SpatialObjectPointListType::iterator it = m_Points.begin();
+    advance( it, id );
+    m_Points.erase( it );
+    }
+
+  this->Modified();
+}
+
 /** Set Points from a list */
 template< unsigned int TDimension, class TSpatialObjectPointType >
 void
