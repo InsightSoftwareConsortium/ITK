@@ -93,7 +93,6 @@ protected:
   virtual void PrintTrailer(std::ostream & os, Indent indent) const;
 
 private:
-  using EventFactoryFunction = EventObject *();
   void operator=(const EventObject &) = delete;
 };
 
