@@ -149,7 +149,7 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
       }
     }
 
-  // supress trivial zero solution
+  // suppress trivial zero solution
   const typename ImageType::IndexType oIndex = lpr.GetIndex();
   const PixelType zeroDeemphasis1 = std::max< PixelType >( 1.0, m_ZeroSuppression / 2.0 );
   for ( i = 0; i < maxs.size(); i++ )
