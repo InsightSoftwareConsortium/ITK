@@ -65,12 +65,13 @@ public:
   using ImageType = TImage;
   using PixelType = typename ImageType::PixelType;
 
-  static constexpr unsigned int Dimension = ImageType::ImageDimension;
+  using ImageDimensionType = typename ImageType::ImageDimensionType;
+  static constexpr ImageDimensionType ImageDimension = ImageType::ImageDimension;
 
   using ScalarType = TScalar;
-  using TensorType = SymmetricSecondRankTensor< ScalarType, Dimension >;
-  using TensorImageType = Image< TensorType, Dimension >;
-  using RegionType = ImageRegion< Dimension >;
+  using TensorType = SymmetricSecondRankTensor< ScalarType, ImageDimension >;
+  using TensorImageType = Image< TensorType, ImageDimension >;
+  using RegionType = ImageRegion< ImageDimension >;
 
   void SetInputImage(const ImageType* image);
   void SetInputTensor(const TensorImageType* tensorImage);
@@ -94,14 +95,14 @@ protected:
   typename ImageType::ConstPointer GetInputImage();
   typename TensorImageType::ConstPointer GetInputTensor();
 
-  using IndexType = Index<Dimension>;
+  using IndexType = Index<ImageDimension>;
 
   // ******* Containers for the stencils used in the discretization
-  static const unsigned int HalfStencilSize = (Dimension == 2) ? 3 : 6;
+  static const unsigned int HalfStencilSize = (ImageDimension == 2) ? 3 : 6;
   static const unsigned int StencilSize = 2 * HalfStencilSize;
 
   using StencilCoefficientsType = Vector<ScalarType,HalfStencilSize>;
-  using OffsetType = Offset<Dimension>;
+  using OffsetType = Offset<ImageDimension>;
   using StencilOffsetsType = Vector<OffsetType, HalfStencilSize>;
 
   using InternalSizeT = int;
@@ -114,10 +115,10 @@ protected:
   virtual void ImageUpdateLoop(); /// Automatically called by GenerateData
 
   using StencilType = std::pair< StencilBufferIndicesType, StencilCoefficientsType >;
-  using StencilImageType = Image< StencilType, Dimension >;
+  using StencilImageType = Image< StencilType, ImageDimension >;
   typename StencilImageType::Pointer m_StencilImage;
 
-  using ScalarImageType = Image<ScalarType,Dimension>;
+  using ScalarImageType = Image<ScalarType, ImageDimension>;
   typename ScalarImageType::Pointer m_DiagonalCoefficients;
 
   virtual ScalarType MaxStableTimeStep();
@@ -140,7 +141,7 @@ protected:
   struct StencilFunctor;
   struct FunctorType;
 
-  using VectorType = Vector<ScalarType,Dimension>;
+  using VectorType = Vector<ScalarType, ImageDimension>;
   static ScalarType ScalarProduct(const TensorType &, const VectorType &, const VectorType &);
 
 };

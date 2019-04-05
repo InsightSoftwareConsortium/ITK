@@ -105,11 +105,11 @@ public:
     {
     region = region_;
     prod[0] = 1;
-    for( auto i = 1; i < Dimension; ++i )
+    for( ImageDimensionType i = 1; i < ImageDimension; ++i )
       {
       prod[i]=prod[i-1]*region.GetSize()[i-1];
       }
-    for(auto i = 0; i < Dimension; ++i )
+    for(ImageDimensionType i = 0; i < ImageDimension; ++i )
       {
       invSpacing[i] = ScalarType(1) / spacing[i];
       }
@@ -118,7 +118,7 @@ public:
   InternalSizeT BufferIndex(const IndexType & x) const
   {
     IndexValueType ans=0;
-    for( auto i = 0; i < Dimension; ++i )
+    for( ImageDimensionType i = 0; i < ImageDimension; ++i )
       {
       ans += this->prod[i] * ( x[i] - this->region.GetIndex()[i] );
       }
@@ -133,15 +133,15 @@ public:
     // Diffusion tensors are homogeneous to the inverse of norms, and are thus rescaled with an inverse spacing.
 
     TensorType D;
-    for(auto i=0; i<Dimension; ++i)
-        for(auto j=i; j<Dimension; ++j)
+    for(ImageDimensionType i=0; i<ImageDimension; ++i)
+        for(ImageDimensionType j=i; j<ImageDimension; ++j)
             D(i,j)=tensor(i,j)*this->invSpacing[i]*this->invSpacing[j];
-    this->Stencil( Dispatch< Dimension >(), D, offsets, stencil.second );
+    this->Stencil( Dispatch< ImageDimension >(), D, offsets, stencil.second );
 
     InternalSizeT * yIndex = &stencil.first[0];
 
     //Compute buffer offsets from geometrical offsets
-    for(auto i=0; i<(int)HalfStencilSize; ++i){
+    for(unsigned int i=0; i<HalfStencilSize; ++i){
         for(auto orientation = 0; orientation<2; ++orientation, ++yIndex){
             const IndexType y = orientation ? x-offsets[i] : x+offsets[i];
             if(this->region.IsInside(y)){
@@ -163,24 +163,24 @@ protected:
   static void Stencil(const Dispatch< 2 > &, const TensorType & D, StencilOffsetsType & offsets, StencilCoefficientsType & coefficients)
   {
     // Construct a superbase, and make it obtuse with Selling's algorithm
-    VectorType sb[Dimension+1]; //SuperBase
-    for(auto i=0; i<Dimension; ++i)
+    VectorType sb[ImageDimension+1]; //SuperBase
+    for(ImageDimensionType i=0; i<ImageDimension; ++i)
       {
-      for(auto j=0; j<Dimension; ++j)
+      for(ImageDimensionType j=0; j<ImageDimension; ++j)
         {
         sb[i][j]=(i==j);
         }
       }
 
-    sb[Dimension] = -(sb[0]+sb[1]);
+    sb[ImageDimension] = -(sb[0]+sb[1]);
     constexpr int maxIter = 200;
     int iter=0;
     for(; iter<maxIter; ++iter)
       {
       bool same=true;
-      for(auto i=1; i<=Dimension && same; ++i)
+      for(ImageDimensionType i=1; i<=ImageDimension && same; ++i)
         {
-        for(auto j=0; j<i && same; ++j)
+        for(ImageDimensionType j=0; j<i && same; ++j)
           {
           if( ScalarProduct(D,sb[i],sb[j]) > 0 )
             {
@@ -202,7 +202,7 @@ protected:
       std::cerr << "Warning: Selling's algorithm not stabilized." << std::endl;
       }
 
-    for( auto i = 0; i < 3; ++i )
+    for( ImageDimensionType i = 0; i < 3; ++i )
       {
       coefficients[i] = (-0.5)*ScalarProduct(D,sb[(i+1)%3],sb[(i+2)%3]);
       assert(coefficients[i]>=0);
@@ -214,26 +214,26 @@ protected:
   static void Stencil(const Dispatch< 3 > &, const TensorType & D, StencilOffsetsType & offsets, StencilCoefficientsType & coefficients)
   {
     // Construct a superbase, and make it obtuse with Selling's algorithm
-    VectorType sb[Dimension+1];
-    for(auto i=0; i<Dimension; ++i)
+    VectorType sb[ImageDimension+1];
+    for(ImageDimensionType i=0; i<ImageDimension; ++i)
       {
-      for(auto j=0; j<Dimension; ++j)
+      for(ImageDimensionType j=0; j<ImageDimension; ++j)
         {
         sb[i][j] = (i==j);
         }
       }
-    sb[Dimension]=-(sb[0]+sb[1]+sb[2]);
+    sb[ImageDimension]=-(sb[0]+sb[1]+sb[2]);
 
     constexpr int maxIter = 200;
     int iter=0;
     for(; iter<maxIter; ++iter)
       {
       bool same=true;
-      for(auto i=1; i<=Dimension && same; ++i)
-          for(auto j=0; j<i && same; ++j)
+      for(ImageDimensionType i=1; i<=ImageDimension && same; ++i)
+          for(ImageDimensionType j=0; j<i && same; ++j)
               if( ScalarProduct(D,sb[i],sb[j]) > 0 ){
                   const VectorType u=sb[i], v=sb[j];
-                  for(auto k=0,l=0; k<=Dimension; ++k)
+                  for(auto k=0,l=0; k<=ImageDimension; ++k)
                       if(k!=i && k!=j)
                           sb[l++]=sb[k]+u;
                   sb[2]=-u;
@@ -248,40 +248,40 @@ protected:
       }
 
     // Computation of the weights
-    SymmetricSecondRankTensor<ScalarType,Dimension+1> Weights;
-    for(auto i=1; i<Dimension+1; ++i)
+    SymmetricSecondRankTensor<ScalarType,ImageDimension+1> Weights;
+    for(ImageDimensionType i=1; i<ImageDimension+1; ++i)
       {
-      for(auto j=0; j<i; ++j)
+      for(ImageDimensionType j=0; j<i; ++j)
         {
         Weights(i,j) = (-0.5)*ScalarProduct(D,sb[i],sb[j]);
         }
       }
 
     // Now that the obtuse superbasis has been created, generate the stencil.
-    // First get the dual basis. Obtained by computing the comatrix of Basis[1..Dimension].
+    // First get the dual basis. Obtained by computing the comatrix of Basis[1..ImageDimension].
 
-    for(auto i=0; i<Dimension; ++i)
+    for(ImageDimensionType i=0; i<ImageDimension; ++i)
       {
-      for(auto j=0; j<Dimension; ++j)
+      for(ImageDimensionType j=0; j<ImageDimension; ++j)
         {
-          offsets[i][j] = sb[(i+1)%Dimension][(j+1)%Dimension]*sb[(i+2)%Dimension][(j+2)%Dimension]
-          - sb[(i+2)%Dimension][(j+1)%Dimension]*sb[(i+1)%Dimension][(j+2)%Dimension];
+          offsets[i][j] = sb[(i+1)%ImageDimension][(j+1)%ImageDimension]*sb[(i+2)%ImageDimension][(j+2)%ImageDimension]
+          - sb[(i+2)%ImageDimension][(j+1)%ImageDimension]*sb[(i+1)%ImageDimension][(j+2)%ImageDimension];
         }
       }
 
-    offsets[Dimension  ] = offsets[0]-offsets[1];
-    offsets[Dimension+1] = offsets[0]-offsets[2];
-    offsets[Dimension+2] = offsets[1]-offsets[2];
+    offsets[ImageDimension  ] = offsets[0]-offsets[1];
+    offsets[ImageDimension+1] = offsets[0]-offsets[2];
+    offsets[ImageDimension+2] = offsets[1]-offsets[2];
 
     // The corresponding coefficients are given by the scalar products.
-    for(auto i=0; i<Dimension; ++i)
+    for(ImageDimensionType i=0; i<ImageDimension; ++i)
       {
       coefficients[i]=Weights(i,3);
       }
 
-    coefficients[Dimension]   = Weights(0,1);
-    coefficients[Dimension+1] = Weights(0,2);
-    coefficients[Dimension+2] = Weights(1,2);
+    coefficients[ImageDimension]   = Weights(0,1);
+    coefficients[ImageDimension+1] = Weights(0,2);
+    coefficients[ImageDimension+2] = Weights(1,2);
   }
 
   RegionType  region;
@@ -325,7 +325,7 @@ LinearAnisotropicDiffusionLBRImageFilter< TImage, TScalar >
       !stencilIt.IsAtEnd();
       ++stencilIt, ++diagIt)
     {
-    for(auto i = 0; i < (int)StencilSize; ++i)
+    for(unsigned int i = 0; i < StencilSize; ++i)
       {
       const InternalSizeT yIndex = stencilIt.Value().first[i];
       if( yIndex != OutsideBufferIndex() )
@@ -452,7 +452,7 @@ LinearAnisotropicDiffusionLBRImageFilter< TImage,  TScalar >
 ::ImageUpdate(ScalarType delta)
 {
   //Setting up iterators
-  ImageRegion<Dimension> region = GetRequestedRegion();
+  ImageRegion<ImageDimension> region = GetRequestedRegion();
 
   ImageRegionConstIterator<ImageType>   inputIt(m_PreviousImage,region);
   ImageRegionIterator<ImageType>        outputIt(m_NextImage,region);
@@ -471,7 +471,7 @@ LinearAnisotropicDiffusionLBRImageFilter< TImage,  TScalar >
        !inputIt.IsAtEnd();
        ++inputIt, ++outputIt, ++stencilIt )
     {
-    for( auto i = 0; i < (int)StencilSize; ++i )
+    for( unsigned int i = 0; i < StencilSize; ++i )
       {
       const InternalSizeT   yIndex = stencilIt.Value().first[i];
       if( yIndex != OutsideBufferIndex() )
@@ -514,13 +514,13 @@ LinearAnisotropicDiffusionLBRImageFilter< TImage, TScalar>
                 const VectorType & v)
 {
   ScalarType result(0);
-  for( auto i = 0; i < Dimension; ++i )
+  for( ImageDimensionType i = 0; i < ImageDimension; ++i )
     {
     result += m(i,i) * u[i] * v[i];
     }
-  for( auto i = 0; i < Dimension; ++i )
+  for( ImageDimensionType i = 0; i < ImageDimension; ++i )
     {
-    for( auto j = i+1; j < Dimension; ++j )
+    for( ImageDimensionType j = i+1; j < ImageDimension; ++j )
       {
       result += m(i,j) * (u[i] * v[j] + u[j] * v[i]);
       }
