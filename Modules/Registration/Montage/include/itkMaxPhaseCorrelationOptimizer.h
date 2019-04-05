@@ -89,7 +89,7 @@ public:
   itkGetConstMacro( PeakInterpolationMethod, PeakInterpolationMethod );
   void SetPeakInterpolationMethod( const PeakInterpolationMethod peakInterpolationMethod );
 
-  /** Get/Set suppresion aggressiveness of trivial [0,0,...] solution. */
+  /** Get/Set suppression aggressiveness of trivial [0,0,...] solution. */
   itkGetConstMacro( ZeroSuppression, PixelType );
   itkSetClampMacro( ZeroSuppression, PixelType, 1.0, 100.0 );
 
