@@ -29,12 +29,25 @@ GaussianSpatialObject< TDimension >
 ::GaussianSpatialObject()
 {
   this->SetTypeName("GaussianSpatialObject");
+
+  this->Clear();
+
+  this->Update();
+}
+
+template< unsigned int TDimension >
+void
+GaussianSpatialObject< TDimension >
+::Clear( void )
+{
+  Superclass::Clear();
+
   m_CenterInObjectSpace.Fill( 0.0 );
   m_RadiusInObjectSpace = 1.0;
   m_SigmaInObjectSpace = 1.0;
   m_Maximum = 1.0;
 
-  this->Update();
+  this->Modified();
 }
 
 /** The z-score is the root mean square of the z-scores along

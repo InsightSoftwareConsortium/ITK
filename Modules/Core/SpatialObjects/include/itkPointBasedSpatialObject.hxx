@@ -30,7 +30,22 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
   SpatialObject< TDimension >()
 {
   this->SetTypeName("PointBasedSpatialObject");
+
+  this->Clear();
+
+  this->Update();
+}
+
+template< unsigned int TDimension, class TSpatialObjectPointType >
+void
+PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
+::Clear( void )
+{
+  Superclass::Clear();
+
   m_Points.clear();
+
+  this->Modified();
 }
 
 /** Set Points from a list */
@@ -163,7 +178,12 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 
   if ( it == end )
     {
-    itkExceptionMacro(<< "Blob bounding box computation failed.")
+    typename BoundingBoxType::PointType pnt;
+    pnt.Fill( NumericTraits< typename BoundingBoxType::PointType::ValueType >::
+      ZeroValue() );
+    this->GetModifiableMyBoundingBoxInObjectSpace()->SetMinimum(pnt);
+    this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(pnt);
+    return;
     }
 
   PointType pt = ( *it ).GetPositionInObjectSpace();

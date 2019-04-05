@@ -62,6 +62,10 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(EllipseSpatialObject, SpatialObject);
 
+  /** Reset the spatial object to its initial condition, yet preserves
+   *   Id, Parent, and Child information */
+  void Clear( void ) override;
+
   /** Set all radii to the same radius value.  Each radius is
    *  half the length of one axis of the ellipse.  */
   void SetRadiusInObjectSpace(double radius);

@@ -29,11 +29,26 @@ MeshSpatialObject< TMesh >
 ::MeshSpatialObject()
 {
   this->SetTypeName("MeshSpatialObject");
+
+  this->Clear();
+
+  this->Update();
+}
+
+template< typename TMesh >
+void
+MeshSpatialObject< TMesh >
+::Clear( void )
+{
+  Superclass::Clear();
+
   m_Mesh = MeshType::New();
 #if !defined(ITK_LEGACY_REMOVE)
   m_PixelType = typeid( typename TMesh::PixelType ).name();
 #endif
   m_IsInsidePrecisionInObjectSpace = 1;
+
+  this->Modified();
 }
 
 /** Test whether a point is inside or outside the object

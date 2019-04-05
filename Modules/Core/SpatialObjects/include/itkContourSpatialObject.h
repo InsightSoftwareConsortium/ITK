@@ -75,6 +75,10 @@ public:
   /** Method for creation through the object factory. */
   itkTypeMacro(ContourSpatialObject, PointBasedSpatialObject);
 
+  /** Reset the spatial object to its initial condition, yet preserves
+   *   Id, Parent, and Child information */
+  void Clear( void ) override;
+
   /** Returns a reference to the list of the control points. */
   ControlPointListType & GetControlPoints()
   { return m_ControlPoints; }

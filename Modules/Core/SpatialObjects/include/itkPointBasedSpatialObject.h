@@ -62,6 +62,10 @@ public:
   /** Method for creation through the object factory. */
   itkTypeMacro(PointBasedSpatialObject, SpatialObject);
 
+  /** Reset the spatial object to its initial condition, yet preserves
+   *   Id, Parent, and Child information */
+  void Clear( void ) override;
+
   /** Assign points to this object, and assigned this object to
    * each point (for computing world coordinates) */
   virtual void AddPoint( const SpatialObjectPointType & newPoints );

@@ -68,6 +68,10 @@ public:
   /** Method for creation through the object factory. */
   itkTypeMacro(SurfaceSpatialObject, PointBasedSpatialObject);
 
+  /** Restore a spatial object to its initial state, yet preserves Id as well as
+   *   parent and children relationships */
+  virtual void Clear( void ) override;
+
   /** Compute the normals to the surface from neighboring points */
   bool Approximate3DNormals();
 

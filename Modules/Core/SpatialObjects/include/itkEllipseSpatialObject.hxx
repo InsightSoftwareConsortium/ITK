@@ -28,9 +28,23 @@ EllipseSpatialObject< TDimension >
 ::EllipseSpatialObject()
 {
   this->SetTypeName("EllipseSpatialObject");
+
+  this->Clear();
+
+  this->Update();
+}
+
+template< unsigned int TDimension >
+void
+EllipseSpatialObject< TDimension >
+::Clear( void )
+{
+  Superclass::Clear();
+
   m_RadiusInObjectSpace.Fill(1.0);
   m_CenterInObjectSpace.Fill(0.0);
-  this->Update();
+
+  this->Modified();
 }
 
 /** Define the radius of the circle in object space.

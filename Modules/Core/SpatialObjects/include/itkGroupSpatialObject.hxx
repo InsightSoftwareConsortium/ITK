@@ -29,10 +29,6 @@ GroupSpatialObject< TDimension >
 ::GroupSpatialObject()
 {
   this->SetTypeName("GroupSpatialObject");
-  this->GetProperty().SetRed(1);
-  this->GetProperty().SetGreen(0);
-  this->GetProperty().SetBlue(0);
-  this->GetProperty().SetAlpha(1);
 }
 
 /** InternalClone */
