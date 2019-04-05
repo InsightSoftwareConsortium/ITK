@@ -43,16 +43,13 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
   using ImageMaskSpatialObject = itk::ImageMaskSpatialObject<NDimensions>;
   using PixelType = ImageMaskSpatialObject::PixelType;
   using ImageType = itk::Image<PixelType,NDimensions>;
-  using ImageType2 = itk::Image<PixelType,NDimensions>;
   using Iterator = itk::ImageRegionIterator<ImageType>;
-  using Iterator2 = itk::ImageRegionIterator<ImageType2>;
 
   // Direction was not taken into account in the image spatial object
   // explicitly test using images with directions set.
   // Also explicitly uses nonzero origin, non identity scales
   // just to see
 
-  {
   ImageType::Pointer image = ImageType::New();
   ImageType::SizeType size = {{ 50, 50, 50 }};
   ImageType::PointType origin;
@@ -192,94 +189,5 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
       }
     }
   }
-  }
-
-  {
-  ImageType2::Pointer image = ImageType2::New();
-  ImageType2::SizeType size = {{ 50, 50, 50 }};
-  ImageType::PointType origin;
-  origin[0]=1.5;
-  origin[1]=2.1;
-  origin[2]=-3;
-  image->SetOrigin(origin);
-
-  ImageType::SpacingType spacing;
-  spacing[0]=0.5;
-  spacing[1]=0.7;
-  spacing[2]=1.1;
-  image->SetSpacing( spacing );
-
-  ImageType2::IndexType index = {{ 0, 0, 0 }};
-  ImageType2::DirectionType direction;
-  direction.Fill(0.0);
-  direction[0][1]=-1;
-  direction[1][0]=1;
-  direction[2][2]=1;
-  image->SetDirection(direction);
-
-  ImageType::RegionType region;
-
-  region.SetSize(size);
-  region.SetIndex(index);
-
-  image->SetRegions( region );
-  image->Allocate(true); // initialize buffer to zero
-
-  ImageType::RegionType insideRegion;
-  constexpr unsigned int INSIDE_SIZE = 30;
-  constexpr unsigned int INSIDE_INDEX = 10;
-    {
-    const ImageType::SizeType insideSize   =
-      {{ INSIDE_SIZE, INSIDE_SIZE, INSIDE_SIZE }};
-    insideRegion.SetSize( insideSize );
-    }
-    {
-    const ImageType::IndexType insideIndex =
-      {{ INSIDE_INDEX, INSIDE_INDEX, INSIDE_INDEX }};
-    insideRegion.SetIndex( insideIndex );
-    }
-
-  Iterator2 it( image, insideRegion );
-  it.GoToBegin();
-
-  while( !it.IsAtEnd() )
-    {
-    it.Set( itk::NumericTraits< PixelType >::max() );
-    ++it;
-    }
-
-  ImageMaskSpatialObject::Pointer maskSO = ImageMaskSpatialObject::New();
-
-  maskSO->SetImage(image);
-  maskSO->Update();
-
-  Iterator2 itr( image, region );
-  itr.GoToBegin();
-
-  while( !itr.IsAtEnd() )
-    {
-    const ImageType::IndexType constIndex =  itr.GetIndex();
-    const bool reference = insideRegion.IsInside( constIndex );
-    ImageType::PointType point;
-    image->TransformIndexToPhysicalPoint( constIndex, point );
-    const bool test      = maskSO->IsInsideInWorldSpace( point );
-    if( test != reference )
-      {
-      std::cerr << "Error in the evaluation of IsInside() " << std::endl;
-      std::cerr << "Index failed = " << constIndex << std::endl;
-      std::cerr << "Point failed = " << point << std::endl;
-      std::cerr << "Image is a: "<<image->GetNameOfClass()<<std::endl;
-      std::cerr << "Direction is: "<<std::endl<<image->GetDirection()<<std::endl;
-      retval= EXIT_FAILURE;
-      break;
-      }
-      ++itr;
-    }
-  if(retval==EXIT_SUCCESS)
-    {
-    std::cout<<"Test with "<<image->GetNameOfClass()<<" passed."<<std::endl;
-    }
-  }
-
   return retval;
 }
