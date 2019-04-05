@@ -147,7 +147,6 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
       ImageType::PointType point;
       image->TransformIndexToPhysicalPoint(constIndex, point);
       const bool test = maskSO->IsInsideInWorldSpace(point);
-
       if( test != reference )
       {
       std::cerr << "Error in the evaluation of maskSO->IsInsideInWorldSpace() " << std::endl;
@@ -157,6 +156,19 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
       std::cerr << "Direction is: "<<std::endl<<image->GetDirection()<<std::endl;
       retval=EXIT_FAILURE;
       break;
+      }
+      // Should be the same as WorldSpace since there is no heirarchy.
+      const bool test_object_space = maskSO->IsInsideInObjectSpace(point);
+      if( test != test_object_space )
+      {
+        std::cerr << "IsInsideInObjectSpace !=  IsInsideInWorldSpace for object that does not have heirarchy." << std::endl;
+        std::cerr << "Index failed = " << constIndex << std::endl;
+        std::cerr << "Point failed = " << point << std::endl;
+        std::cerr << "Image is a: "<<image->GetNameOfClass()<<std::endl;
+        std::cerr << "Direction is: "<<std::endl<<image->GetDirection()<<std::endl;
+        std::cerr << std::endl;
+        retval=EXIT_FAILURE;
+        break;
       }
     ++itr;
     }
