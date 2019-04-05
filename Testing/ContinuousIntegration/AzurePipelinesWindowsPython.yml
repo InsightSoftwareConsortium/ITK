@@ -43,6 +43,7 @@ jobs:
         set(ENV{CC} cl.exe)
         set(ENV{CXX} cl.exe)
         set(dashboard_cache "
+          DISABLE_MODULE_TESTS:BOOL=ON
           BUILD_SHARED_LIBS:BOOL=ON
           BUILD_EXAMPLES:BOOL=OFF
           ITK_WRAP_PYTHON:BOOL=ON

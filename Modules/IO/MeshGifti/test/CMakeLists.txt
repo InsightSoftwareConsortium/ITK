@@ -16,6 +16,3 @@ itk_add_test(NAME itkMeshFileReadWriteTestGifti2
       DATA{Baseline/aparc.gii}
       ${ITK_TEST_OUTPUT_DIR}/aparc.gii
 )
-
-itk_python_expression_add_test(NAME itkGiftiMeshIOPythonTest
-  EXPRESSION "io = itk.GiftiMeshIO.New()")

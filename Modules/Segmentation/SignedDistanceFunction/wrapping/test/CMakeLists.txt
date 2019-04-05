@@ -1,0 +1,1 @@
+itk_python_expression_add_test(NAME itkPCAShapeSignedDistanceFunctionPythonTest EXPRESSION "itkPCAShapeSignedDistanceFunction = itk.PCAShapeSignedDistanceFunction.New()")

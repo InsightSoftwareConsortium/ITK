@@ -121,6 +121,11 @@ macro(itk_end_wrap_module)
   endif()
 
   itk_end_wrap_module_all_generators()
+  # Add testing
+  set(wrapping_test_directory ${CMAKE_CURRENT_SOURCE_DIR}/test)
+  if(BUILD_TESTING AND EXISTS ${wrapping_test_directory}/CMakeLists.txt)
+    add_subdirectory(${wrapping_test_directory})
+  endif()
 endmacro()
 
 

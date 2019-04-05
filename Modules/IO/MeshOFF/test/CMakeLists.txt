@@ -11,6 +11,3 @@ itk_add_test(NAME itkMeshFileReadWriteOFFTest
       DATA{Baseline/octa.off}
       ${ITK_TEST_OUTPUT_DIR}/octa.off
 )
-
-itk_python_expression_add_test(NAME itkOFFMeshIOPythonTest
-  EXPRESSION "io = itk.OFFMeshIO.New()")

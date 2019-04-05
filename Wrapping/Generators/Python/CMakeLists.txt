@@ -346,7 +346,6 @@ endmacro()
 
 
 macro(itk_end_wrap_module_python)
-
   # Loop over the extra swig input files and add them to the generated files
   # lists. Guess that the generated cxx output will have the same name as
   # the .i input file.
@@ -542,7 +541,6 @@ ${DO_NOT_WAIT_FOR_THREADS_DECLS}
       endforeach()
     endif()
   endif()
-
 endmacro()
 
 

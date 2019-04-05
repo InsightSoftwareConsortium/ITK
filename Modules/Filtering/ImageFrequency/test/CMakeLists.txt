@@ -18,12 +18,6 @@ itk_add_test(NAME itkFrequencyBandImageFilterEvenTest
 itk_add_test(NAME itkFrequencyBandImageFilterOddTest
   COMMAND ITKImageFrequencyTestDriver itkFrequencyBandImageFilterTest "Odd")
 
-itk_python_expression_add_test(NAME itkUnaryFrequencyDomainFilterPythonTest
-  EXPRESSION "instance = itk.UnaryFrequencyDomainFilter.New()")
-
-itk_python_expression_add_test(NAME itkFrequencyBandImageFilterPythonTest
-  EXPRESSION "instance = itk.FrequencyBandImageFilter.New()")
-
 set(${itk-module}GTests
   itkFrequencyIteratorsGTest.cxx
   )

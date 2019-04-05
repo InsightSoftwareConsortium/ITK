@@ -48,6 +48,7 @@ jobs:
         set(CTEST_CMAKE_GENERATOR "Ninja")
         set(BUILD_NAME_SUFFIX "-Python")
         set(dashboard_cache "
+          DISABLE_MODULE_TESTS:BOOL=ON
           BUILD_SHARED_LIBS:BOOL=OFF
           BUILD_EXAMPLES:BOOL=OFF
           ITK_WRAP_PYTHON:BOOL=ON
