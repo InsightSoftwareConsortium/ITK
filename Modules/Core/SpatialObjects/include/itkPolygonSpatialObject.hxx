@@ -30,10 +30,25 @@ PolygonSpatialObject< TDimension >
 ::PolygonSpatialObject()
 {
   this->SetTypeName( "PolygonSpatialObject" );
+
+  this->Clear();
+
+  this->Update();
+}
+
+template< unsigned int TDimension >
+void
+PolygonSpatialObject< TDimension >
+::Clear( void )
+{
+  Superclass::Clear();
+
   m_IsClosed = false;
   m_OrientationInObjectSpace = -1;
   m_OrientationInObjectSpaceMTime = this->GetMyMTime();
   m_ThicknessInObjectSpace = 0.0;
+
+  this->Modified();
 }
 
 template< unsigned int TDimension >

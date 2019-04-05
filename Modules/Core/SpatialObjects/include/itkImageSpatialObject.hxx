@@ -30,6 +30,26 @@ ImageSpatialObject< TDimension,  PixelType >
 ::ImageSpatialObject()
 {
   this->SetTypeName("ImageSpatialObject");
+
+  this->Clear();
+
+  this->Update();
+}
+
+/** Destructor */
+template< unsigned int TDimension, typename PixelType >
+ImageSpatialObject< TDimension,  PixelType >
+::~ImageSpatialObject()
+{
+}
+
+template< unsigned int TDimension, typename PixelType >
+void
+ImageSpatialObject< TDimension,  PixelType >
+::Clear( void )
+{
+  Superclass::Clear();
+
   m_Image = ImageType::New();
   m_SliceNumber.Fill( 0 );
 
@@ -38,13 +58,8 @@ ImageSpatialObject< TDimension,  PixelType >
 #endif
 
   m_Interpolator = NNInterpolatorType::New();
-}
 
-/** Destructor */
-template< unsigned int TDimension, typename PixelType >
-ImageSpatialObject< TDimension,  PixelType >
-::~ImageSpatialObject()
-{
+  this->Modified();
 }
 
 /** Set the interpolator */

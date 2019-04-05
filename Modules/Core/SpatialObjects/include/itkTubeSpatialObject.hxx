@@ -30,6 +30,19 @@ TubeSpatialObject< TDimension, TTubePointType >
 ::TubeSpatialObject()
 {
   this->SetTypeName("TubeSpatialObject");
+
+  this->Clear();
+
+  this->Update();
+}
+
+template< unsigned int TDimension, typename TTubePointType >
+void
+TubeSpatialObject< TDimension, TTubePointType >
+::Clear( void )
+{
+  Superclass::Clear();
+
   this->GetProperty().SetRed(1);
   this->GetProperty().SetGreen(0);
   this->GetProperty().SetBlue(0);
@@ -38,6 +51,8 @@ TubeSpatialObject< TDimension, TTubePointType >
   m_Root = false;
   m_ParentPoint = -1;
   m_EndRounded = false; // default end-type is flat
+
+  this->Modified();
 }
 
 /** InternalClone */

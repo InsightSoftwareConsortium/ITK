@@ -30,7 +30,22 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
   SpatialObject< TDimension >()
 {
   this->SetTypeName("PointBasedSpatialObject");
+
+  this->Clear();
+
+  this->Update();
+}
+
+template< unsigned int TDimension, class TSpatialObjectPointType >
+void
+PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
+::Clear( void )
+{
+  Superclass::Clear();
+
   m_Points.clear();
+
+  this->Modified();
 }
 
 /** Set Points from a list */

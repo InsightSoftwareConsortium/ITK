@@ -74,6 +74,10 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageSpatialObject, SpatialObject);
 
+  /** Reset the spatial object to its initial condition, yet preserves
+   *   Id, Parent, and Child information */
+  void Clear( void ) override;
+
   /** Set the image. */
   void SetImage(const ImageType *image);
 
