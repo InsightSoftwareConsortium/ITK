@@ -47,10 +47,16 @@ ContourSpatialObject< TDimension >
   this->GetProperty().SetBlue(0);
   this->GetProperty().SetAlpha(1);
 
+  m_ControlPoints.clear();
+
   m_InterpolationMethod = NO_INTERPOLATION;
+  m_InterpolationFactor = 2.0;
+
   m_IsClosed = false;
+
   m_OrientationInObjectSpace = -1;
   m_OrientationInObjectSpaceMTime = this->GetMyMTime();
+
   m_AttachedToSlice = -1;
 
   this->Modified();

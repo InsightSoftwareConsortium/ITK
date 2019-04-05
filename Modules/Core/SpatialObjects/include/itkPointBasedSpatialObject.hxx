@@ -178,7 +178,12 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 
   if ( it == end )
     {
-    itkExceptionMacro(<< "Blob bounding box computation failed.")
+    typename BoundingBoxType::PointType pnt;
+    pnt.Fill( NumericTraits< typename BoundingBoxType::PointType::ValueType >::
+      ZeroValue() );
+    this->GetModifiableMyBoundingBoxInObjectSpace()->SetMinimum(pnt);
+    this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(pnt);
+    return;
     }
 
   PointType pt = ( *it ).GetPositionInObjectSpace();
