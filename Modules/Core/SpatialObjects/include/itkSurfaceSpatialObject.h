@@ -70,7 +70,7 @@ public:
 
   /** Restore a spatial object to its initial state, yet preserves Id as well as
    *   parent and children relationships */
-  virtual void Clear( void );
+  virtual void Clear( void ) override;
 
   /** Compute the normals to the surface from neighboring points */
   bool Approximate3DNormals();
