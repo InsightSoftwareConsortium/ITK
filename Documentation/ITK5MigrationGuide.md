@@ -352,21 +352,50 @@ As implied above, the changes to SpatialObject are extensive.   They include the
 * `RemoveChild()` and `RemoveAllChildren()` fixed to remove all pointers to / from those children to / from the tree
 * Helper functions simplify the specification of `IsInsideInObjectSpace()`, `ValueAtInObjectSpace()`, and other computations that potentially traverse an SO tree.
 * Derived classes typically only need to implement `IsInsideInObjectSpace()` and `ComputeMyBoundingBoxInObjectSpace()` member functions. Logic for `ValueAtInObjectSpace()`, `IsInsideInWorldSpace()` and such is improved.
-* `ImageMaskSpatialObject::GetAxisAlignedBoundingBoxRegion()` was removed.   `GetMyBoundingBoxInObjectSpace()` or `GetMyBoundingBoxInWorldSpace()` should be used instead.  If a region in IndexSpace is needed, then consider ITK's LabelMap classes and the [LabelImageToShapelLabelMapFilter](https://itk.org/Doxygen/html/classitk_1_1LabelImageToShapeLabelMapFilter.html).
+* `ImageMaskSpatialObject::GetAxisAlignedBoundingBoxRegion()` was removed.   `GetMyBoundingBoxInObjectSpace()` or `GetMyBoundingBoxInWorldSpace()` should be used instead. If a region in IndexSpace is needed, then transfer the corners of the bounding box into Index Space.
 ```
   //REPLACE typename FixedImageType::RegionType roiRegion = roiMask->GetAxisAlignedBoundingBoxRegion();
-  using LabelType = unsigned char;
-  using ShapeLabelObjectType = itk::ShapeLabelObject< LabelType, Dimension >;
-  using LabelMapType = itk::LabelMap< ShapeLabelObjectType >;
+  // Transform the corners of the bounding box
+  using PointsContainer = typename BoundingBoxType::PointsContainer;
+  const PointsContainer *corners
+    = roiMask->GetMyBoundingBoxInObjectSpace()->GetCorners();
+  typename PointsContainer::Pointer transformedCorners =
+    PointsContainer::New();
+  transformedCorners->Reserve(
+    static_cast<typename PointsContainer::ElementIdentifier>(
+      corners->size() ) );
 
-  using LI2SLMFType = itk::LabelImageToShapeLabelMapFilter<FixedImageType,LabelMapType >;
-  typename LI2SLMFType::Pointer i2l = LI2SLMFType::New();
-  i2l->SetInput(roiImage);
-  i2l->Update();
-  LabelMapType *labelMap = i2l->GetOutput();
-  const typename LabelMapType::SizeValueType numLabelObjects = labelMap->GetNumberOfLabelObjects();
-  ShapeLabelObjectType *labelObject = labelMap->GetNthLabelObject(1);
-  typename FixedImageType::RegionType roiRegion = labelObject->GetBoundingBox();
+  auto it = corners->begin();
+  auto itTrans = transformedCorners->begin();
+  while ( it != corners->end() )
+    {
+    ContinuousIndexType cIndx;
+    roiMask->GetImage()->TransformPhysicalPointToIndex(*it, cIndx);
+    PointType pnt;
+    for( unsigned int i=0; i<Dimensions; ++i )
+      {
+      pnt[i] = cIndx[i];
+      }
+    *itTrans = pnt;
+    ++it;
+    ++itTrans;
+    }
+
+  typename BoundingBoxType::Pointer indexBoundingBox =
+    BoundingBoxType::New();
+  indexBoundingBox->SetPoints(transformedCorners);
+  indexBoundingBox->ComputeBoundingBox();
+
+  RegionType boundingRegion;
+  RegionType::IndexType indx;
+  RegionType::SizeType size;
+  for( unsigned int i=0; i<Dimensions; ++i )
+      {
+      indx[i] = indexBoundingBox->GetMinimum()[i];
+      size[i] = indexBoundingBox->GetMaximum()[i] - indexBoundingBox->GetMinimum()[i] + 1;
+      }
+  boundingRegion.SetIndex( indx );
+  boundingRegion.SetSize( size );
 ```
 
 Class changes
