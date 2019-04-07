@@ -76,63 +76,147 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
 
   {
   /**
-   * Compute the minimum and maximum within the specified mask
-   * region for creating the size of the 2D joint histogram.
-   * Areas outside the masked region should be ignored
+   * Compute the minimum and maximum within the specified
+   * analysis region (specified by a mask or sampled point set)
+   * for creating the size of the 2D joint histogram.
+   * Areas outside the defined analysis region should be ignored
    * in computing the range of intensity values.
    */
 
+  // Determine the min/max of the fixed image axis of the joint histogram.
+  // We need to make robust measures only over the intensity values from requested analysis region
   this->m_FixedImageTrueMin = NumericTraits<typename TFixedImage::PixelType>::max();
   this->m_FixedImageTrueMax = NumericTraits<typename TFixedImage::PixelType>::NonpositiveMin();
-  this->m_MovingImageTrueMin = NumericTraits<typename TMovingImage::PixelType>::max();
-  this->m_MovingImageTrueMax = NumericTraits<typename TMovingImage::PixelType>::NonpositiveMin();
 
-  // We need to make robust measures only over the requested mask region
-  itk::ImageRegionConstIteratorWithIndex<TFixedImage> fi(this->m_FixedImage, this->m_FixedImage->GetBufferedRegion() );
-  while( !fi.IsAtEnd() )
-    {
-    bool usePoint = true;
-    if( ! this->m_FixedImageMask.IsNull() )
-      {
-      // A null mask implies entire space is to be used.
-      typename TFixedImage::PointType fixedSpacePhysicalPoint;
-      this->m_FixedImage->TransformIndexToPhysicalPoint(fi.GetIndex(), fixedSpacePhysicalPoint);
-      usePoint = this->m_FixedImageMask->IsInsideInWorldSpace(
-        fixedSpacePhysicalPoint);
-      }
-    if( usePoint )
-      {
-      const typename TFixedImage::PixelType currValue = fi.Get();
-      this->m_FixedImageTrueMin = (m_FixedImageTrueMin < currValue) ? this->m_FixedImageTrueMin : currValue;
-      this->m_FixedImageTrueMax = (m_FixedImageTrueMax > currValue) ? this->m_FixedImageTrueMax : currValue;
-      }
-    ++fi;
-    }
-
+  // NOTE: If m_UseSampledPointSet is true, then *ONLY* the sparse sampled points
+  //       are used for analysis of the metric, and the fixed space intensity range values
+  //       will be fixed to those values identified in the sparse sampled points.
+  //       The masked value items are not relevant when the sparse sampling is set.
+  if( this->m_UseSampledPointSet ) // Analysis region defined by SampledPointSet
   {
-  itk::ImageRegionConstIteratorWithIndex<TMovingImage> mi(this->m_MovingImage,
-                                                          this->m_MovingImage->GetBufferedRegion() );
-  while( !mi.IsAtEnd() )
+    if( this->m_UseVirtualSampledPointSet ) // Sparse points defined in VirtualSpace
     {
-    bool usePoint = true;
-    if( ! this->m_MovingImageMask.IsNull() )
-      { // A null mask implies entire space is to be used.
-      typename TMovingImage::PointType movingSpacePhysicalPoint;
-      this->m_MovingImage->TransformIndexToPhysicalPoint(mi.GetIndex(),
-        movingSpacePhysicalPoint);
-      usePoint = this->m_MovingImageMask->IsInsideInWorldSpace(
-        movingSpacePhysicalPoint);
-      }
-    if( usePoint )
+      typename Superclass::FixedSampledPointSetType::PointsContainerConstIterator pit =
+          this->m_VirtualSampledPointSet->GetPoints()->Begin();
+      typename Superclass::FixedSampledPointSetType::PointsContainerConstIterator end =
+          this->m_VirtualSampledPointSet->GetPoints()->End();
+
+      if( this->m_FixedTransform.IsNull() )
       {
-      const typename TMovingImage::PixelType currValue = mi.Get();
-      this->m_MovingImageTrueMin = (m_MovingImageTrueMin < currValue) ? this->m_MovingImageTrueMin : currValue;
-      this->m_MovingImageTrueMax = (m_MovingImageTrueMax > currValue) ? this->m_MovingImageTrueMax : currValue;
+        itkExceptionMacro("Unable to get transform for mapping sampled point set from virtual space to fixed image space.");
       }
-    ++mi;
+
+      while(pit != end)
+      {
+        const typename TFixedImage::PointType fixPnt = this->m_FixedTransform->TransformPoint( pit.Value() );
+
+        typename TFixedImage::IndexType idx;
+        const bool isInside = this->m_FixedImage->TransformPhysicalPointToIndex(fixPnt, idx);
+        if(isInside)
+        {
+          const typename TFixedImage::PixelType currValue = this->m_FixedImage->GetPixel(idx);
+          this->m_FixedImageTrueMin = (m_FixedImageTrueMin < currValue) ? this->m_FixedImageTrueMin : currValue;
+          this->m_FixedImageTrueMax = (m_FixedImageTrueMax > currValue) ? this->m_FixedImageTrueMax : currValue;
+        }
+        ++pit;
+      }
+    }
+    else // Sparse points defined in Fixed image space
+    {
+      typename Superclass::FixedSampledPointSetType::PointsContainerConstIterator pit =
+          this->m_FixedSampledPointSet->GetPoints()->Begin();
+      typename Superclass::FixedSampledPointSetType::PointsContainerConstIterator end =
+          this->m_FixedSampledPointSet->GetPoints()->End();
+      while(pit != end)
+      {
+        typename TFixedImage::IndexType idx;
+        const bool isInside = this->m_FixedImage->TransformPhysicalPointToIndex(pit.Value(), idx);
+        if(isInside)
+        {
+          const typename TFixedImage::PixelType currValue = this->m_FixedImage->GetPixel(idx);
+          this->m_FixedImageTrueMin = (m_FixedImageTrueMin < currValue) ? this->m_FixedImageTrueMin : currValue;
+          this->m_FixedImageTrueMax = (m_FixedImageTrueMax > currValue) ? this->m_FixedImageTrueMax : currValue;
+        }
+        ++pit;
+      }
+    }
+  }
+  else  // Use dense sampling potentially with dense mask to identify intensity range
+  {
+    // A null mask implies entire space is to be used.
+    if ( ! this->m_FixedImageMask.IsNull() ) // use only masked samples.
+    {
+      itk::ImageRegionConstIteratorWithIndex<TFixedImage> fi(this->m_FixedImage,
+          this->m_FixedImage->GetBufferedRegion() );
+      while( !fi.IsAtEnd() )
+      {
+        typename TFixedImage::PointType fixedSpacePhysicalPoint;
+        this->m_FixedImage->TransformIndexToPhysicalPoint(fi.GetIndex(),
+            fixedSpacePhysicalPoint);
+        const bool usePoint = this->m_FixedImageMask->IsInsideInWorldSpace(
+            fixedSpacePhysicalPoint);
+        if( usePoint )
+        {
+          const typename TFixedImage::PixelType & currValue = fi.Value();
+          this->m_FixedImageTrueMin = (m_FixedImageTrueMin < currValue) ? this->m_FixedImageTrueMin : currValue;
+          this->m_FixedImageTrueMax = (m_FixedImageTrueMax > currValue) ? this->m_FixedImageTrueMax : currValue;
+        }
+        ++fi;
+      }
+    }
+    else // use entire image for fixed image intensity range of joint histogram
+    {
+      itk::ImageRegionConstIteratorWithIndex<TFixedImage> fi(this->m_FixedImage, this->m_FixedImage->GetBufferedRegion() );
+      while( !fi.IsAtEnd() )
+      {
+        const typename TFixedImage::PixelType & currValue = fi.Value();
+        this->m_FixedImageTrueMin = (m_FixedImageTrueMin < currValue) ? this->m_FixedImageTrueMin : currValue;
+        this->m_FixedImageTrueMax = (m_FixedImageTrueMax > currValue) ? this->m_FixedImageTrueMax : currValue;
+        ++fi;
+      }
     }
   }
 
+  //NOTE: The moving image joint histogram range is not affected by sparse
+  //      sampling of the fixed image space because the moving image samples
+  //      interrogated will change based on updates to the moving image
+  //      transform updates.
+  // Determine the min/max of the moving image axis of the joint histogram.
+  this->m_MovingImageTrueMin = NumericTraits<typename TMovingImage::PixelType>::max();
+  this->m_MovingImageTrueMax = NumericTraits<typename TMovingImage::PixelType>::NonpositiveMin();
+  {
+    itk::ImageRegionConstIteratorWithIndex<TMovingImage> mi(this->m_MovingImage,
+                                                            this->m_MovingImage->GetBufferedRegion() );
+
+    if( ! this->m_MovingImageMask.IsNull() )
+    { // A null mask implies entire space is to be used.
+      while( !mi.IsAtEnd() )
+      {
+        typename TMovingImage::PointType movingSpacePhysicalPoint;
+        this->m_MovingImage->TransformIndexToPhysicalPoint(mi.GetIndex(),
+                                                           movingSpacePhysicalPoint);
+        const bool usePoint = this->m_MovingImageMask->IsInsideInWorldSpace(
+            movingSpacePhysicalPoint);
+        if( usePoint )
+        {
+          const typename TMovingImage::PixelType & currValue = mi.Value();
+          this->m_MovingImageTrueMin = (m_MovingImageTrueMin < currValue) ? this->m_MovingImageTrueMin : currValue;
+          this->m_MovingImageTrueMax = (m_MovingImageTrueMax > currValue) ? this->m_MovingImageTrueMax : currValue;
+        }
+        ++mi;
+      }
+    }
+    else
+    {
+      while( !mi.IsAtEnd() )
+      {
+        const typename TMovingImage::PixelType & currValue = mi.Value();
+        this->m_MovingImageTrueMin = (m_MovingImageTrueMin < currValue) ? this->m_MovingImageTrueMin : currValue;
+        this->m_MovingImageTrueMax = (m_MovingImageTrueMax > currValue) ? this->m_MovingImageTrueMax : currValue;
+        ++mi;
+      }
+    }
+  }
   itkDebugMacro(" FixedImageMin: " << this->m_FixedImageTrueMin << " FixedImageMax: " << this->m_FixedImageTrueMax << std::endl);
   itkDebugMacro(" MovingImageMin: " << this->m_MovingImageTrueMin << " MovingImageMax: " << this->m_MovingImageTrueMax << std::endl);
   }
