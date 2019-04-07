@@ -352,6 +352,7 @@ As implied above, the changes to SpatialObject are extensive.   They include the
 * `RemoveChild()` and `RemoveAllChildren()` fixed to remove all pointers to / from those children to / from the tree
 * Helper functions simplify the specification of `IsInsideInObjectSpace()`, `ValueAtInObjectSpace()`, and other computations that potentially traverse an SO tree.
 * Derived classes typically only need to implement `IsInsideInObjectSpace()` and `ComputeMyBoundingBoxInObjectSpace()` member functions. Logic for `ValueAtInObjectSpace()`, `IsInsideInWorldSpace()` and such is improved.
+* PointBasedSpatialObjects had a PointListType type declaration.  This was confusing because it refered to a list of SpatialObjectPoints and not ITK::Points.  So, to avoid such confusion, now TubeSpatialObjects define TubePointListType, BlobSpatialObjects define BlobPointListType, and so forth.
 * `ImageMaskSpatialObject::GetAxisAlignedBoundingBoxRegion()` was removed.   `GetMyBoundingBoxInObjectSpace()` or `GetMyBoundingBoxInWorldSpace()` should be used instead.  If a region in IndexSpace is needed, then consider ITK's LabelMap classes and the [LabelImageToShapelLabelMapFilter](https://itk.org/Doxygen/html/classitk_1_1LabelImageToShapeLabelMapFilter.html).
 ```
   //REPLACE typename FixedImageType::RegionType roiRegion = roiMask->GetAxisAlignedBoundingBoxRegion();
