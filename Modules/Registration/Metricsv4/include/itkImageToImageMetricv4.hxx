@@ -139,7 +139,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   Superclass::Initialize();
 
   /* Map the fixed samples into the virtual domain and store in
-   * a searpate point set. */
+   * a seperate point set. */
   if( this->m_UseSampledPointSet && !this->m_UseVirtualSampledPointSet)
     {
     this->MapFixedSampledPointSetToVirtual();
