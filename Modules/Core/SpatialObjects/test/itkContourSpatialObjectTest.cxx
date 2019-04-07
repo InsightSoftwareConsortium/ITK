@@ -63,11 +63,6 @@ int itkContourSpatialObjectTest(int, char* [])
 
 
   //
-  // Test ComputeMyBoundingBox before data added
-  //
-  contour->Update();
-
-  //
   // Test Control Points (SetControlPoints, GetControlPoints,
   // GetNumberOfControlPoints, GetControlPoint)
   //
@@ -78,6 +73,11 @@ int itkContourSpatialObjectTest(int, char* [])
   controlPointList.push_back(pt4);
 
   contour->SetControlPoints(controlPointList);
+
+  //
+  // Test Update() before data added
+  //
+  contour->Update();
 
   // check number of points
   if (contour->GetNumberOfControlPoints() != 4)
@@ -261,14 +261,18 @@ int itkContourSpatialObjectTest(int, char* [])
 
 
   //
-  // Test ComputeLocalBoundingBox
+  // Test Update()
   //
-  if (!contour->ComputeMyBoundingBox())
+  try
     {
-    std::cout << "[FAILED] faild bounding box computation" << std::endl;
+    contour->Update();
+    }
+  catch ( itk::ExceptionObject excp )
+    {
+    std::cout << "[FAILED] failed Update()" << std::endl;
     return EXIT_FAILURE;
     }
-  std::cout << "[PASSED] ComputeLocalBoundingBox" << std::endl;
+  std::cout << "[PASSED] Update()" << std::endl;
 
 
   //

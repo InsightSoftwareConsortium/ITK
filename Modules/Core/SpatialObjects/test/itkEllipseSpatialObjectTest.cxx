@@ -40,9 +40,9 @@ int itkEllipseSpatialObjectTest(int, char* [])
 
   std::cout << "Testing radii : ";
 
-  myEllipse->SetRadiiInObjectSpace(radii);
+  myEllipse->SetRadiusInObjectSpace(radii);
   myEllipse->Update();
-  EllipseType::ArrayType radii2 = myEllipse->GetRadiiInObjectSpace();
+  EllipseType::ArrayType radii2 = myEllipse->GetRadiusInObjectSpace();
   for(unsigned int i = 0; i<4;i++)
   {
     if(itk::Math::NotExactlyEquals(radii2[i],i))
@@ -55,7 +55,7 @@ int itkEllipseSpatialObjectTest(int, char* [])
 
   myEllipse->SetRadiusInObjectSpace(3);
   myEllipse->Update();
-  EllipseType::ArrayType radii3 = myEllipse->GetRadiiInObjectSpace();
+  EllipseType::ArrayType radii3 = myEllipse->GetRadiusInObjectSpace();
   std::cout << "Testing Global radii : ";
   for(unsigned int i = 0; i<4;i++)
   {
@@ -127,17 +127,19 @@ int itkEllipseSpatialObjectTest(int, char* [])
   }
   std::cout<<"[PASSED]"<<std::endl;
 
+  //NOTE: ORDER OF Update() and ComputeFamilyBoundingBox() is important.
+  myEllipse->Update();
   myEllipse->ComputeFamilyBoundingBox( EllipseType::MaximumDepth );
-  myEllipse->ComputeObjectToWorldTransform();
   const EllipseType::BoundingBoxType * boundingBox
     = myEllipse->GetFamilyBoundingBoxInWorldSpace();
   std::cout << "Bounds = " << boundingBox->GetBounds() << std::endl;
 
-  std::cout << "ComputeMyBoundingBox: ";
+  std::cout << "Update(): ";
   for(unsigned int i=0;i<3;i++)
   {
-    if(   itk::Math::NotAlmostEquals(boundingBox->GetBounds()[2*i], 7 )
-       || itk::Math::NotAlmostEquals(boundingBox->GetBounds()[2*i+1], 16 )
+    const EllipseType::BoundingBoxType::BoundsArrayType bounds = boundingBox->GetBounds();
+    if(   itk::Math::NotAlmostEquals(bounds[2*i], 7 )
+       || itk::Math::NotAlmostEquals(bounds[2*i+1], 16 ) // this is 13 if Update() and ComputeFamilyBoundingBox are reversed order.
        )
     {
       std::cout<<"[FAILED]"<<std::endl;

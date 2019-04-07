@@ -74,9 +74,9 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
   box2->SetPositionInObjectSpace( offset2 );
   box2->Update();
 
-  scene->ComputeObjectToWorldTransform();
+  scene->Update();
 
-  std::cout <<"Test ComputeMyBoundingBox: " << std::endl;
+  std::cout <<"Test Update(): " << std::endl;
   std::cout << box1->GetMyBoundingBoxInWorldSpace()->GetBounds() << std::endl;
   std::cout << box2->GetMyBoundingBoxInWorldSpace()->GetBounds() << std::endl;
   const BoxType::BoundingBoxType * boundingBox

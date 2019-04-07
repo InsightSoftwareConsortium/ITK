@@ -60,7 +60,6 @@ int itkTubeSpatialObjectTest(int, char * [] )
   TubeType::TransformType::OffsetType offset;
   offset.Fill(10);
   tube1->GetModifiableObjectToParentTransform()->SetOffset(offset);
-  tube1->ComputeObjectToWorldTransform();
 
   for( unsigned int i=0; i<10; i++)
     {
@@ -77,7 +76,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
   p.Print(std::cout);
 
   tube1->SetPoints(list);
-  tube1->ComputeMyBoundingBox();
+  tube1->Update();
 
   in.Fill(15);
   out.Fill(5);
@@ -144,13 +143,13 @@ int itkTubeSpatialObjectTest(int, char * [] )
   tube2->GetProperty().SetName("Tube 2");
   tube2->SetId(2);
   tube2->SetPoints(list);
-  tube2->ComputeMyBoundingBox();
+  tube2->Update();
 
   TubePointer tube3 = TubeType::New();
   tube3->GetProperty().SetName("Tube 3");
   tube3->SetId(3);
   tube3->SetPoints(list);
-  tube3->ComputeMyBoundingBox();
+  tube3->Update();
 
   GroupPointer tubeNet1 = GroupType::New();
   tubeNet1->GetProperty().SetName("tube network 1");
@@ -284,7 +283,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
     std::cout<<"[PASSED]"<<std::endl;
     }
 
-  tubeNet1->ComputeMyBoundingBox();
+  tubeNet1->Update();
 
   std::cout<<"HasParent()...";
   if( !tube2->HasParent() )
@@ -299,17 +298,17 @@ int itkTubeSpatialObjectTest(int, char * [] )
 
   translation.Fill(10);
   tubeNet1->GetModifiableObjectToParentTransform()->Translate(translation,false);
-  tubeNet1->ComputeObjectToWorldTransform();
+  tubeNet1->Update();
 
   axis.Fill(0);
   axis[1] = 1;
   angle = itk::Math::pi_over_2;
   tube2->GetModifiableObjectToParentTransform()->Rotate3D(axis,angle);
-  tube2->ComputeObjectToWorldTransform();
+  tube2->Update();
 
   angle = -itk::Math::pi_over_2;
   tube3->GetModifiableObjectToParentTransform()->Rotate3D(axis,angle);
-  tube3->ComputeObjectToWorldTransform();
+  tube3->Update();
 
   in.Fill(25);
   out.Fill(15);
@@ -477,8 +476,32 @@ int itkTubeSpatialObjectTest(int, char * [] )
   std::cout << "Testing PointBasedSO: ";
   using PointBasedType = itk::PointBasedSpatialObject<3>;
   PointBasedType::Pointer pBSO = PointBasedType::New();
+  PointBasedType::SpatialObjectPointType pnt;
+  PointBasedType::SpatialObjectPointListType  ll;
+  ll.push_back(pnt);
+  pBSO->SetPoints(ll);
   pBSO->GetPoint(0);
-  pBSO->ComputeMyBoundingBox();
+  pBSO->Update();
+  std::cout << "[PASSED]" << std::endl;
+
+  std::cout << "Testing PointBasedSO AddPoint: ";
+  pnt.SetPositionInObjectSpace( 1, 1, 1 );
+  pBSO->AddPoint( pnt );
+  if( pBSO->GetPoint(1)->GetPositionInObjectSpace()[0] != 1 )
+    {
+    std::cout << "[FAILED]" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED]" << std::endl;
+
+  std::cout << "Testing PointBasedSO RemovePoint: ";
+  pBSO->RemovePoint( 0 );
+  if( pBSO->GetPoints().size() != 1 ||
+      pBSO->GetPoint(1)->GetPositionInObjectSpace()[0] != 1 )
+    {
+    std::cout << "[FAILED]" << std::endl;
+    return EXIT_FAILURE;
+    }
   std::cout << "[PASSED]" << std::endl;
 
   std::cout << "[DONE]" << std::endl;

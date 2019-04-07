@@ -98,10 +98,8 @@ using OffsetValueType = signed long;
 /** Type to count and reference number of threads */
 using ThreadIdType = unsigned int;
 
-/** Type to count and reference the modification time of objects.
- * May in the future be replaced by SizeValueType to avoid overflows.
- */
-using ModifiedTimeType = unsigned long;
+/** Type to count and reference the modification time of objects */
+using ModifiedTimeType = SizeValueType;
 
 }
 

@@ -220,7 +220,7 @@ int main( int argc, char *argv[] )
     std::cout << "Center: ";
     std::cout << (*itCircles)->GetCenterInObjectSpace()
               << std::endl;
-    std::cout << "Radius: " << (*itCircles)->GetRadiiInObjectSpace()[0]
+    std::cout << "Radius: " << (*itCircles)->GetRadiusInObjectSpace()[0]
       << std::endl;
     // Software Guide : EndCodeSnippet
 
@@ -240,10 +240,10 @@ int main( int argc, char *argv[] )
       using IndexValueType = ImageType::IndexType::IndexValueType;
       localIndex[0] =
          itk::Math::Round<IndexValueType>(centerPoint[0]
-                  + (*itCircles)->GetRadiiInObjectSpace()[0]*std::cos(angle));
+                  + (*itCircles)->GetRadiusInObjectSpace()[0]*std::cos(angle));
       localIndex[1] =
          itk::Math::Round<IndexValueType>(centerPoint[1]
-                  + (*itCircles)->GetRadiiInObjectSpace()[0]*std::sin(angle));
+                  + (*itCircles)->GetRadiusInObjectSpace()[0]*std::sin(angle));
       OutputImageType::RegionType outputRegion =
                                   localOutputImage->GetLargestPossibleRegion();
 

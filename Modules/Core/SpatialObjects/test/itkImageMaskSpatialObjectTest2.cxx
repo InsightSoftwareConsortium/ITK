@@ -112,8 +112,6 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
   maskSO->SetImage(image);
   maskSO->Update();
 
-  maskSO->ComputeObjectToWorldTransform();
-
   Iterator itr( image, region );
   itr.GoToBegin();
 
@@ -254,8 +252,6 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
 
   maskSO->SetImage(image);
   maskSO->Update();
-
-  maskSO->ComputeObjectToWorldTransform();
 
   Iterator2 itr( image, region );
   itr.GoToBegin();

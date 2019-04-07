@@ -67,10 +67,10 @@ public:
   void SetRadiusInObjectSpace(double radius);
 
   /** Set radii via an array of radius values */
-  itkSetMacro(RadiiInObjectSpace, ArrayType);
+  itkSetMacro(RadiusInObjectSpace, ArrayType);
 
   /** Get radii via an array of radius values */
-  itkGetConstReferenceMacro(RadiiInObjectSpace, ArrayType);
+  itkGetConstReferenceMacro(RadiusInObjectSpace, ArrayType);
 
   /** Set center point in object space. */
   itkSetMacro( CenterInObjectSpace, PointType );
@@ -82,12 +82,25 @@ public:
   bool IsInsideInObjectSpace(const PointType & point, unsigned int depth=0,
     const std::string & name="" ) const override;
 
+#if ! defined ( ITK_LEGACY_REMOVE )
+    itkLegacyMacro( void SetRadius( double radius) )
+    { this->SetRadiusInObjectSpace(radius); }
+
+    itkLegacyMacro( void SetRadius( ArrayType radii) )
+    { this->SetRadiusInObjectSpace(radii); }
+
+    itkLegacyMacro( ArrayType GetRadius( ) const )
+    { return this->GetRadiusInObjectSpace(); }
+
+    itkLegacyMacro( void SetRadiiInObjectSpace( ArrayType radii) )
+    { this->SetRadiusInObjectSpace(radii); }
+#endif
+protected:
   /** Get the boundaries of a specific object.  This function needs to
    *  be called every time one of the object's components is
    *  changed. */
-  bool ComputeMyBoundingBox() const override;
+  void ProtectedComputeMyBoundingBox() const override;
 
-protected:
   EllipseSpatialObject();
   ~EllipseSpatialObject() override = default;
 
@@ -99,7 +112,7 @@ protected:
 private:
 
   /* object space */
-  ArrayType m_RadiiInObjectSpace;
+  ArrayType m_RadiusInObjectSpace;
   PointType m_CenterInObjectSpace;
 };
 

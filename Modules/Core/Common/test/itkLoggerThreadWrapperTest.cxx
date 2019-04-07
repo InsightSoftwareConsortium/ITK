@@ -22,7 +22,7 @@
 #include "itkStdStreamLogOutput.h"
 #include "itkLoggerBase.h"
 #include "itkMultiThreaderBase.h"
-#include "itkTestingMacros.h"
+#include "itkLogTester.h"
 
 /** \class SimpleLogger
  *  \brief Class SimpleLogger is meant to demonstrate how to change the formatting of the LoggerBase mechanism
@@ -96,34 +96,6 @@ protected:
   /** Destructor */
   ~SimpleLogger() override = default;
 };  // class Logger
-
-class LogTester
-{
-public:
-  LogTester(){ this->m_Logger = nullptr; }
-  itk::LoggerBase* GetLogger() { return m_Logger; }
-  void SetLogger(itk::LoggerBase* logger) { m_Logger = logger; }
-  void log() {
-    itkLogMacro( DEBUG, "DEBUG message by itkLogMacro\n" );
-    itkLogMacro( INFO, "INFO message by itkLogMacro\n" );
-    itkLogMacro( WARNING, "WARNING message by itkLogMacro\n" );
-    itkLogMacro( CRITICAL, "CRITICAL message by itkLogMacro\n" );
-    itkLogMacro( FATAL, "FATAL message by itkLogMacro\n" );
-    itkLogMacro( MUSTFLUSH, "MUSTFLUSH message by itkLogMacro\n" );
-  }
-  static void logStatic(LogTester* tester)
-    {
-    itkLogMacroStatic( tester, DEBUG, "DEBUG message by itkLogMacroStatic\n" );
-    itkLogMacroStatic( tester, INFO, "INFO message by itkLogMacroStatic\n" );
-    itkLogMacroStatic( tester, WARNING, "WARNING message by itkLogMacroStatic\n" );
-    itkLogMacroStatic( tester, CRITICAL, "CRITICAL message by itkLogMacroStatic\n" );
-    itkLogMacroStatic( tester, FATAL, "FATAL message by itkLogMacroStatic\n" );
-    itkLogMacroStatic( tester, MUSTFLUSH, "MUSTFLUSH message by itkLogMacroStatic\n" );
-    }
-
-private:
-  itk::LoggerBase* m_Logger;
-};
 
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION ThreadedGenerateLogMessages2(void* arg)
 {
@@ -223,11 +195,11 @@ int itkLoggerThreadWrapperTest( int argc, char * argv[] )
     std::cout << logger << std::endl;
 
     // Logging by the itkLogMacro from a class with itk::ThreadLogger
-    LogTester tester;
+    itk::Testing::LogTester tester;
     tester.SetLogger(logger);
     tester.log();
     // Logging by the itkLogMacroStatic from a class with itk::ThreadLogger
-    LogTester::logStatic(&tester);
+    itk::Testing::LogTester::logStatic(&tester);
 
     std::cout << "  The printed order of 'Messages ##' below might not be predictable because of multi-threaded logging" << std::endl;
     std::cout << "  But the logged messages will be in order." << std::endl;

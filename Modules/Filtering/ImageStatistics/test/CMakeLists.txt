@@ -51,8 +51,10 @@ itk_add_test(NAME itkStandardDeviationProjectionImageFilterTest
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/HeadMRVolumeStandardDeviationProjection.tif}
               ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeStandardDeviationProjection.tif
     itkStandardDeviationProjectionImageFilterTest DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeStandardDeviationProjection.tif)
-itk_add_test(NAME itkImageMomentsTest
-      COMMAND ITKImageStatisticsTestDriver itkImageMomentsTest)
+itk_add_test(NAME itkImageMomentsNoMaskTest
+      COMMAND ITKImageStatisticsTestDriver itkImageMomentsTest nomask)
+itk_add_test(NAME itkImageMomentsWithMaskTest
+      COMMAND ITKImageStatisticsTestDriver itkImageMomentsTest mask)
 itk_add_test(NAME itkImageToHistogramFilterTest
       COMMAND ITKImageStatisticsTestDriver itkImageToHistogramFilterTest)
 itk_add_test(NAME itkImageToHistogramFilterTest2

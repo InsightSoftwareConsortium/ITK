@@ -43,9 +43,9 @@ ArrowSpatialObject< TDimension >
 
 /** Compute the bounding box */
 template< unsigned int TDimension >
-bool
+void
 ArrowSpatialObject< TDimension >
-::ComputeMyBoundingBox() const
+::ProtectedComputeMyBoundingBox() const
 {
   itkDebugMacro("Computing Rectangle bounding box");
 
@@ -53,8 +53,6 @@ ArrowSpatialObject< TDimension >
 
   this->GetModifiableMyBoundingBoxInObjectSpace()->SetMinimum(pnt);
   this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(pnt);
-
-  return true;
 }
 
 /** Check if a given point is on the arrow */

@@ -40,7 +40,7 @@ int itkPointSetToSpatialObjectDemonsRegistrationTest(int, char* [] )
   offset[1] = 50;
   offset[2] = 50;
 
-  ellipse->ComputeObjectToWorldTransform();
+  ellipse->Update();
 
   using PointSetType = itk::Mesh< float, Dimension >;
 

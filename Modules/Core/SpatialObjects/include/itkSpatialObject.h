@@ -175,11 +175,6 @@ public:
   itkGetModifiableObjectMacro(ObjectToWorldTransform, TransformType);
   const TransformType * GetObjectToWorldTransformInverse() const;
 
-  /** Compute the World transform when the local transform is set
-   *  This function should be called each time the local transform
-   *  has been modified */
-  void ComputeObjectToWorldTransform();
-
   /** Transforms points from the object-specific "physical" space
    * to the "physical" space of its parent object.  */
   void SetObjectToParentTransform( const TransformType *transform);
@@ -192,7 +187,7 @@ public:
   /**********************************************************************/
   /* These are the three member functions that a subclass will typically
    *    overwrite.
-   *    * ComputeMyBoundingBox
+   *    * ProtectedComputeMyBoundingBox (protected:)
    *    * IsInsideInObjectSpace
    *    * Update
    *  Optionally, a subclass may also wish to overwrite
@@ -200,9 +195,6 @@ public:
    *    * IsEvaluableAtInObjectSpace - if the extent is beyond IsInisde.
    */
   /**********************************************************************/
-
-  /** Compute bounding box for the object in world space */
-  virtual bool ComputeMyBoundingBox() const;
 
   /** Returns true if a point is inside the object in world space. */
   virtual bool IsInsideInObjectSpace(const PointType & point,
@@ -502,8 +494,32 @@ public:
   bool Evaluate(const PointType & point) const
   { return this->IsInsideInWorldSpace(point); }
 
+#if ! defined ( ITK_LEGACY_REMOVE )
+  itkLegacyMacro( void ComputeObjectToWorldTransform() )
+  { this->Update(); /* Update() should be used instead of ProtectedComputeObjectToWorldTransform() */ }
+
+  itkLegacyMacro( void ComputeMyBoundingBox() )
+  { this->Update(); /* Update() should be used instead of ProtectedComputeMyBoundingBox() */}
+
+  itkLegacyMacro( void ComputeBoundingBox() )
+  { this->Update(); /* Update() should be used instead of outdated ComputeBoundingBox() */}
+
+  /** Returns true if a point is inside the object in world space. */
+  itkLegacyMacro( virtual bool IsInside(const PointType & point,
+                        unsigned int depth = 0,
+                        const std::string & name = "") const )
+  { return IsInsideInObjectSpace(point, depth, name); };
+#endif
 
 protected:
+
+  /** Compute the World transform when the local transform is set
+   *  This function should be called each time the local transform
+   *  has been modified */
+  void ProtectedComputeObjectToWorldTransform();
+
+  /** Compute bounding box for the object in world space */
+  virtual void ProtectedComputeMyBoundingBox() const;
 
   /** Constructor. */
   SpatialObject();
