@@ -29,10 +29,23 @@ BoxSpatialObject< TDimension >
 ::BoxSpatialObject()
 {
   this->SetTypeName("BoxSpatialObject");
+
+  this->Clear();
+
+  this->Update();
+}
+
+template< unsigned int TDimension >
+void
+BoxSpatialObject< TDimension >
+::Clear( void )
+{
+  Superclass::Clear();
+
   m_SizeInObjectSpace.Fill(1);
   m_PositionInObjectSpace.Fill(0);
 
-  this->Update();
+  this->Modified();
 }
 
 /** Test whether a point is inside or outside the object */

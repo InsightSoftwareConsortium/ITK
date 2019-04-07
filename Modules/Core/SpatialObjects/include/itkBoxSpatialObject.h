@@ -54,6 +54,10 @@ public:
   itkNewMacro(Self);
   itkTypeMacro(BoxSpatialObject, SpatialObject);
 
+  /** Reset the spatial object to its initial condition, yet preserves
+   *   Id, Parent, and Child information */
+  void Clear( void ) override;
+
   /** Set the size of the box spatial object in object space. */
   itkSetMacro( SizeInObjectSpace, SizeType );
 

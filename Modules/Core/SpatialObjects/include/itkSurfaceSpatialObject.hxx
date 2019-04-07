@@ -31,10 +31,24 @@ SurfaceSpatialObject< TDimension >
 {
   this->SetTypeName("SurfaceSpatialObject");
 
+  this->Clear();
+
+  this->Update();
+}
+
+template< unsigned int TDimension >
+void
+SurfaceSpatialObject< TDimension >
+::Clear( void )
+{
+  Superclass::Clear();
+
   this->GetProperty().SetRed(1);
   this->GetProperty().SetGreen(0);
   this->GetProperty().SetBlue(0);
   this->GetProperty().SetAlpha(1);
+
+  this->Modified();
 }
 
 /** InternalClone */
