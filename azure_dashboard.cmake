@@ -32,17 +32,9 @@ set(CTEST_TEST_ARGS ${CTEST_TEST_ARGS} PARALLEL_LEVEL ${PARALLEL_LEVEL})
 set_from_env(workspace "AGENT_BUILDDIRECTORY" REQUIRED)
 file(TO_CMAKE_PATH "${workspace}" CTEST_DASHBOARD_ROOT)
 file(RELATIVE_PATH dashboard_source_name "${workspace}" "$ENV{BUILD_SOURCESDIRECTORY}")
-# Make environment variables to CMake variables for CTest
-set_from_env(CTEST_CMAKE_GENERATOR "CTEST_CMAKE_GENERATOR" DEFAULT "Ninja")
-set_from_env(CTEST_BUILD_CONFIGURATION "CTEST_BUILD_CONFIGURATION" DEFAULT "Release")
 
 set_from_env(dashboard_do_coverage "DASHBOARD_DO_COVERAGE" DEFAULT 0)
 set_from_env(CTEST_COVERAGE_COMMAND "CTEST_COVERAGE_COMMAND")
-
-set_from_env(BUILD_SHARED_LIBS "BUILD_SHARED_LIBS" DEFAULT "OFF")
-set_from_env(BUILD_EXAMPLES "BUILD_EXAMPLES" DEFAULT "ON")
-set_from_env(ITK_WRAP_PYTHON "ITK_WRAP_PYTHON" DEFAULT "OFF")
-set_from_env(ITK_BUILD_DEFAULT_MODULES "ITK_BUILD_DEFAULT_MODULES" DEFAULT "ON")
 
 set(dashboard_loop 0)
 
@@ -68,23 +60,15 @@ if(NOT CTEST_BUILD_NAME)
     set(pr "")
   endif()
 
-  set(wrapping )
-  if(ITK_WRAP_PYTHON)
-    set(wrapping "-Python")
-  endif()
-
   set(CTEST_BUILD_NAME
-    "$ENV{AGENT_OS}-Build$ENV{BUILD_BUILDID}${pr}${branch}${wrapping}")
+    "$ENV{AGENT_OS}-Build$ENV{BUILD_BUILDID}${pr}${branch}${BUILD_NAME_SUFFIX}")
 endif()
 
-set(_dashboard_cache "
-    BUILD_EXAMPLES:BOOL=${BUILD_EXAMPLES}
-    BUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
-    ITK_BUILD_DEFAULT_MODULES:BOOL=${ITK_BUILD_DEFAULT_MODULES}
-    ITKGroup_Core:BOOL=ON
-    ITK_DO_NOT_BUILD_TESTDRIVERS=${ITK_WRAP_PYTHON}
-    ITK_WRAP_PYTHON:BOOL=${ITK_WRAP_PYTHON}
-" )
+set(CTEST_CUSTOM_WARNING_EXCEPTION
+  \${CTEST_CUSTOM_WARNING_EXCEPTION}
+  # macOS Azure Pipelines
+  "ld: warning: text-based stub file"
+  )
 
 set_from_env(dashboard_cache "CTEST_CACHE" DEFAULT ${_dashboard_cache})
 
