@@ -78,7 +78,8 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(CoherenceEnhancingDiffusionImageFilter, AnisotropicDiffusionLBRImageFilter);
 
-  static const unsigned int Dimension = Superclass::Dimension;
+  using InputImageDimensionType = typename Superclass::InputImageType::ImageDimensionType;
+  static constexpr InputImageDimensionType InputImageDimension = Superclass::InputImageType::ImageDimension;
 
   using EigenValuesArrayType = typename Superclass::EigenValuesArrayType;
   EigenValuesArrayType EigenValuesTransform(const EigenValuesArrayType &) const override;

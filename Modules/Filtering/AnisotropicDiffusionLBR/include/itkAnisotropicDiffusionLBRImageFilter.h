@@ -62,10 +62,11 @@ public:
   using PixelType = typename ImageType::PixelType;
   using ScalarType = TScalar;
 
-  static const unsigned int Dimension = ImageType::ImageDimension;
+  using ImageDimensionType = typename ImageType::ImageDimensionType;
+  static constexpr ImageDimensionType ImageDimension = ImageType::ImageDimension;
 
-  using TensorType = SymmetricSecondRankTensor< ScalarType, Dimension >;
-  using TensorImageType = Image< TensorType, Dimension >;
+  using TensorType = SymmetricSecondRankTensor< ScalarType, ImageDimension >;
+  using TensorImageType = Image< TensorType, ImageDimension >;
 
   using StructureTensorFilterType = StructureTensorImageFilter<ImageType, TensorImageType>;
   using LinearDiffusionFilterType = LinearAnisotropicDiffusionLBRImageFilter<ImageType, ScalarType>;

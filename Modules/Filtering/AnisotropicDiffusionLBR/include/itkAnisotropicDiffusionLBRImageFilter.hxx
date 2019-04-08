@@ -54,7 +54,7 @@ AnisotropicDiffusionLBRImageFilter< TImage, TScalar >
 
   //        const SpacingType unitSpacing(1); // Better below for non-uniform spacing.
   double minSpacing = referenceSpacing[0];
-  for( unsigned int i = 1; i < Dimension; ++i )
+  for( ImageDimensionType i = 1; i < ImageDimension; ++i )
     {
     minSpacing = std::min(minSpacing,referenceSpacing[i]);
     }
@@ -108,8 +108,8 @@ struct AnisotropicDiffusionLBRImageFilter< TImage, TScalar >
       S.ComputeEigenAnalysis(eigenValues,eigenVectors);
 
       // For convenience, eigenvalues are sorted by increasing order
-      Vector<int,Dimension> order;
-      for(int i=0; i<(int)Dimension; ++i) order[i]=i;
+      Vector<int, ImageDimension> order;
+      for(ImageDimensionType i=0; i < ImageDimension; ++i) order[i]=i;
 
       OrderingType ordering(eigenValues);
 
@@ -119,7 +119,7 @@ struct AnisotropicDiffusionLBRImageFilter< TImage, TScalar >
       EigenValuesArrayType ev = this->eigenValuesFunctor->EigenValuesTransform(eigenValues);
 
       TensorType DiffusionTensor;
-      for(int i=0; i<(int)Dimension; ++i){
+      for(ImageDimensionType i=0; i < ImageDimension; ++i){
           DiffusionTensor(order[i],order[i]) = ev[i];
           for(int j=0; j<i; ++j) DiffusionTensor(i,j) = 0.;
       }

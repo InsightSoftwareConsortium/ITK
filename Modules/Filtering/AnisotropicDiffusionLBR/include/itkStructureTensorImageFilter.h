@@ -65,13 +65,15 @@ public:
   /// Run-time type information (and related methods).
   itkTypeMacro(StructureTensorImageFilter, Superclass);
 
+  using InputImageDimensionType = typename Superclass::InputImageType::ImageDimensionType;
+  static constexpr InputImageDimensionType InputImageDimension = Superclass::InputImageType::ImageDimension;
+
   using ImageType = TImage;
   using PixelType = typename ImageType::PixelType;
-  static const unsigned int Dimension =       ImageType::ImageDimension;
   using TensorImageType = TTensorImage;
   using TensorType = typename TensorImageType::PixelType;
   using ScalarType = typename TensorType::ComponentType;
-  using ScalarImageType = Image<ScalarType, Dimension>;
+  using ScalarImageType = Image<ScalarType, InputImageDimension>;
 
   ///Parameter \f$\sigma\f$ of the structure tensor definition.
   itkSetMacro(NoiseScale, ScalarType);
@@ -102,17 +104,17 @@ protected:
   void IntermediateFilter( const Dispatch< false > & );
   typename TensorImageType::Pointer m_IntermediateResult;
 
-  using CovariantVectorType = CovariantVector<ScalarType,Dimension>;
-  using CovariantImageType = Image<CovariantVectorType,Dimension>;
+  using CovariantVectorType = CovariantVector<ScalarType, InputImageDimension>;
+  using CovariantImageType = Image<CovariantVectorType, InputImageDimension>;
 
   struct OuterFunctor
   {
     TensorType operator()(const CovariantVectorType & u) const
       {
       TensorType m;
-      for( unsigned int i = 0; i < Dimension; ++i )
+      for( InputImageDimensionType i = 0; i < InputImageDimension; ++i )
         {
-        for( unsigned int j = i; j < Dimension; ++j)
+        for( InputImageDimensionType j = i; j < InputImageDimension; ++j)
           {
           m(i,j) = u[i]*u[j];
           }

@@ -41,14 +41,14 @@ CoherenceEnhancingDiffusionImageFilter< TImage, TScalar >
 ::EigenValuesTransform(const EigenValuesArrayType & ev0) const
 {
   const ScalarType evMin = ev0[0];
-  const ScalarType evMax = ev0[Dimension-1];
+  const ScalarType evMax = ev0[InputImageDimension-1];
 
   EigenValuesArrayType ev;
   switch(m_Enhancement)
     {
         // Weickert's filter.
     case CED:
-        for( unsigned int i = 0; i < Dimension; ++i )
+        for( InputImageDimensionType i = 0; i < InputImageDimension; ++i )
           {
           ev[i] = g_CED(evMax-ev0[i]);
           }
@@ -56,7 +56,7 @@ CoherenceEnhancingDiffusionImageFilter< TImage, TScalar >
 
         // A variance, requiring stronger coherence.
     case cCED:
-        for( unsigned int i = 0; i < Dimension; ++i )
+        for( InputImageDimensionType i = 0; i < InputImageDimension; ++i )
           {
           ev[i] = g_CED( (evMax-ev0[i])/(1.+ev0[i]/m_Lambda) );
           }
@@ -64,7 +64,7 @@ CoherenceEnhancingDiffusionImageFilter< TImage, TScalar >
 
         // Weickert's filter.
     case EED:
-        for( unsigned int i = 0; i < Dimension; ++i )
+        for( InputImageDimensionType i = 0; i < InputImageDimension; ++i )
           {
           ev[i] = g_EED(ev0[i]-evMin);
           }
@@ -72,7 +72,7 @@ CoherenceEnhancingDiffusionImageFilter< TImage, TScalar >
 
         // A variant, promoting diffusion in at least one direction at each point.
     case cEED:
-        for( unsigned int i = 0; i < Dimension; ++i )
+        for( InputImageDimensionType i = 0; i < InputImageDimension; ++i )
           {
           ev[i] = g_EED(ev0[i]);
           }
@@ -80,7 +80,7 @@ CoherenceEnhancingDiffusionImageFilter< TImage, TScalar >
 
         // Isotropic tensors, closely related to Perona-Malik's approach.
     case Isotropic:
-        for( unsigned int i = 0; i < Dimension; ++i )
+        for( InputImageDimensionType i = 0; i < InputImageDimension; ++i )
           {
           ev[i] = g_EED(evMax);
           }
