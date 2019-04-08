@@ -124,7 +124,7 @@ int main( int argc, char *argv[] )
         case itk::ImageIOBase::IOComponentType::USHORT:
           montage2D< unsigned short, double >( stageTiles, actualTiles, inputPath);
           break;
-        default: // instantiating too many types leads to long compileation time and big executable
+        default: // instantiating too many types leads to long compilation time and big executable
           itkGenericExceptionMacro( "Only unsigned char and unsigned short are supported!" );
       }
 
