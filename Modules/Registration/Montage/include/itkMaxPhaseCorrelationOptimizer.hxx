@@ -77,9 +77,9 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
     return;
     }
 
-  const typename ImageType::RegionType lpr = input->GetLargestPossibleRegion();
-  const typename ImageType::SizeType size = lpr.GetSize();
-  const typename ImageType::IndexType oIndex = lpr.GetIndex();
+  const typename ImageType::RegionType wholeImage = input->GetLargestPossibleRegion();
+  const typename ImageType::SizeType size = wholeImage.GetSize();
+  const typename ImageType::IndexType oIndex = wholeImage.GetIndex();
 
   const typename ImageType::SpacingType spacing = input->GetSpacing();
   const typename ImageType::PointType fixedOrigin = fixed->GetOrigin();
@@ -106,7 +106,7 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
   distancePenaltyFactor = -m_BiasTowardsExpected / distancePenaltyFactor;
 
   MultiThreaderBase* mt = this->GetMultiThreader();
-  mt->ParallelizeImageRegion<ImageDimension>( lpr,
+  mt->ParallelizeImageRegion< ImageDimension >( wholeImage,
     [&](const typename ImageType::RegionType & region)
     {
       ImageRegionConstIterator< ImageType > iIt(input, region);
@@ -129,7 +129,12 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
             }
           }
 
-        typename ImageType::PixelType pixel = 1000*iIt.Get() * std::exp( distancePenaltyFactor * dist ); //TODO: remove 1000 factor
+        typename ImageType::PixelType pixel = iIt.Get() * std::exp( distancePenaltyFactor * dist );
+#ifndef NDEBUG
+        pixel *= 1000; // make the intensities in this image more humane (close to 1.0)
+        // it is really hard to count zeroes after decimal point when comparing pixel intensities
+        // since this images is used to find maxima, absolute values are irrelevant
+#endif
         oIt.Set( pixel );
         }
     },
@@ -137,14 +142,14 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
 
   WriteDebug( iAdjusted.GetPointer(), "iAdjusted.nrrd" );
 
-  // supress trivial zero solution
+  // suppress trivial zero solution
   FixedArray< double, ImageDimension > dimFactor; // each dimension might have different size
   for ( unsigned d = 0; d < ImageDimension; d++ )
     {
     double dimFactor = 100.0 / size[d]; // turn absolute size into percentages
     }
-  constexpr IndexValueType znSize = 4; // zero neighborhood size
-  mt->ParallelizeImageRegion<ImageDimension>( lpr,
+  constexpr IndexValueType znSize = 4; // zero neighborhood size, in city-block distance
+  mt->ParallelizeImageRegion<ImageDimension>( wholeImage,
     [&]( const typename ImageType::RegionType& region )
     {
       ImageRegionIteratorWithIndex< ImageType > oIt(iAdjusted, region);
@@ -158,9 +163,10 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
           {
           dist += ind[d] - oIndex[d];
           }
-        if ( dist < znSize ) // neighborhood of [0,0,...,0]
+        if ( dist < znSize ) // neighborhood of [0,0,...,0] - in case zero peak is blurred
           {
           pixel = oIt.Get();
+          // avoid the initial steep rise of function x/(1+x) by shifting it by 3
           pixel *= ( dist + 3 ) / ( m_ZeroSuppression + dist + 3 );
           pixelValid = true;
           }
@@ -180,7 +186,7 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
               distD = size[d] - distD;
               }
             double distF = distD * dimFactor[d];
-            // avoid the initial steep drop of 1/(1+x) by shifting it by 3% of image size
+            // avoid the initial steep rise of x/(1+x) by shifting it by 3% of image size
             pixel *= ( distF + 3 ) / ( m_ZeroSuppression + distF + 3 );
             }
           }
@@ -304,14 +310,14 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
       for ( unsigned i = 0; i < ImageDimension; i++ )
         {
         tempIndex[i] = maxIndex[i] - 1;
-        if ( !lpr.IsInside( tempIndex ) )
+        if ( !wholeImage.IsInside( tempIndex ) )
           {
           tempIndex[i] = maxIndex[i];
           continue;
           }
         y0 = iAdjusted->GetPixel( tempIndex );
         tempIndex[i] = maxIndex[i] + 1;
-        if ( !lpr.IsInside( tempIndex ) )
+        if ( !wholeImage.IsInside( tempIndex ) )
           {
           tempIndex[i] = maxIndex[i];
           continue;
