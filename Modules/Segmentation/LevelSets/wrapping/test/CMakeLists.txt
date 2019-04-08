@@ -20,7 +20,7 @@ if(ITK_WRAP_float AND wrap_2_index GREATER -1)
   itk_python_add_test(NAME PythonThresholdSegmentationLevelSetVentricleTest
     TEST_DRIVER_ARGS
     --compare ${ITK_TEST_OUTPUT_DIR}/PythonThresholdSegmentationLevelSetVentricleTest.png
-              DATA{PythonThresholdSegmentationLevelSetVentricleTest.png}
+              DATA{Baseline/PythonThresholdSegmentationLevelSetVentricleTest.png}
     COMMAND ThresholdSegmentationLevelSetImageFilterTest.py
       DATA{${test_input_dir}/BrainProtonDensitySlice.png}
       ${ITK_TEST_OUTPUT_DIR}/PythonThresholdSegmentationLevelSetVentricleTest.png
@@ -30,7 +30,7 @@ if(ITK_WRAP_float AND wrap_2_index GREATER -1)
   itk_python_add_test(NAME PythonThresholdSegmentationLevelSetWhiteMatterTest
     TEST_DRIVER_ARGS
       --compare ${ITK_TEST_OUTPUT_DIR}/ThresholdSegmentationLevelSetWhiteMatterTest.png
-        DATA{PythonThresholdSegmentationLevelSetWhiteMatterTest.png}
+        DATA{Baseline/PythonThresholdSegmentationLevelSetWhiteMatterTest.png}
     COMMAND ThresholdSegmentationLevelSetImageFilterTest.py
       DATA{${test_input_dir}/BrainProtonDensitySlice.png}
       ${ITK_TEST_OUTPUT_DIR}/ThresholdSegmentationLevelSetWhiteMatterTest.png
@@ -38,7 +38,7 @@ if(ITK_WRAP_float AND wrap_2_index GREATER -1)
     )
 
   itk_python_add_test(NAME PythonThresholdSegmentationLevelSetGrayMatterTest
-    TEST_DRIVERS_ARGS
+    TEST_DRIVER_ARGS
       --compare ${ITK_TEST_OUTPUT_DIR}/PythonThresholdSegmentationLevelSetGrayMatterTest.png
                 DATA{Baseline/PythonThresholdSegmentationLevelSetGrayMatterTest.png}
     COMMAND ThresholdSegmentationLevelSetImageFilterTest.py
