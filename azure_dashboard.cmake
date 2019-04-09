@@ -70,8 +70,6 @@ set(CTEST_CUSTOM_WARNING_EXCEPTION
   "ld: warning: text-based stub file"
   )
 
-set_from_env(dashboard_cache "CTEST_CACHE" DEFAULT ${_dashboard_cache})
-
 string(TIMESTAMP build_date "%Y-%m-%d")
 message("CDash Build Identifier: ${build_date} ${CTEST_BUILD_NAME}")
 message("CTEST_SITE = ${CTEST_SITE}")
