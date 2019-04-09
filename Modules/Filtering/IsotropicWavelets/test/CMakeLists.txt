@@ -17,8 +17,6 @@ set(
   # Syntactic sugar utilities
   itkVectorInverseFFTImageFilterTest.cxx
   itkZeroDCImageFilterTest.cxx
-  # Alternative FFT padding
-  itkFFTPadPositiveIndexImageFilterTest.cxx
   # Output data for each wavelet to visualize with python.
   itkIsotropicWaveletFrequencyFunctionTest.cxx
   itkHeldIsotropicWaveletTest.cxx
@@ -603,18 +601,6 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkFrequencyShrinkEvenTest2D.tiff
     2
 )
-##FFTPad
-# TODO: Add 2D Odd Data, current 512x512 input does not cover the class well. Other boundary conditions have been removed.
-itk_add_test(
-  NAME itkFFTPadPositiveIndexImageFilterTestConstant
-  COMMAND
-    IsotropicWaveletsTestDriver
-    itkFFTPadPositiveIndexImageFilterTest
-    DATA{Input/checkershadow_Lch_512x512.tiff}
-    ${ITK_TEST_OUTPUT_DIR}/itkFFTPadPositiveIndexImageFilterTestConstant.tiff
-    2
-    CONSTANT
-)
 ## ZeroDC
 itk_add_test(
   NAME itkZeroDCImageFilterTest
@@ -660,10 +646,6 @@ if(ITK_USE_FFTWF)
   )
 endif()
 
-itk_python_expression_add_test(
-  NAME itkFFTPadPositiveIndexImageFilterPythonTest
-  EXPRESSION "instance = itk.FFTPadPositiveIndexImageFilter.New()"
-)
 itk_python_expression_add_test(
   NAME itkFrequencyExpandImageFilterPythonTest
   EXPRESSION "instance = itk.FrequencyExpandImageFilter.New()"
