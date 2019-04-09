@@ -726,7 +726,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 void
 SpatialObject< TDimension >
-::ProtectedComputeMyBoundingBox() const
+::ComputeMyBoundingBox() const
 {
   typename BoundingBoxType::PointType pnt;
   pnt.Fill( NumericTraits< typename BoundingBoxType::PointType::ValueType >::
@@ -1351,7 +1351,7 @@ SpatialObject< TDimension >
 {
   Superclass::Update();
 
-  this->ProtectedComputeMyBoundingBox();
+  this->ComputeMyBoundingBox();
 
   m_FamilyBoundingBoxInObjectSpace->SetMinimum(
     m_MyBoundingBoxInObjectSpace->GetMinimum() );

@@ -100,7 +100,7 @@ public:
 
 protected:
   /** Compute the boundaries of the iamge spatial object. */
-  void ProtectedComputeMyBoundingBox() const override;
+  void ComputeMyBoundingBox() const override;
 
   MeshSpatialObject();
   ~MeshSpatialObject() override = default;
