@@ -121,7 +121,7 @@ struct AnisotropicDiffusionLBRImageFilter< TImage, TScalar >
       TensorType DiffusionTensor;
       for(ImageDimensionType i=0; i < ImageDimension; ++i){
           DiffusionTensor(order[i],order[i]) = ev[i];
-          for(int j=0; j<i; ++j) DiffusionTensor(i,j) = 0.;
+          for(ImageDimensionType j=0; j<i; ++j) DiffusionTensor(i,j) = 0.;
       }
       return DiffusionTensor.Rotate(eigenVectors.GetTranspose());
   }

@@ -233,7 +233,7 @@ protected:
           for(ImageDimensionType j=0; j<i && same; ++j)
               if( ScalarProduct(D,sb[i],sb[j]) > 0 ){
                   const VectorType u=sb[i], v=sb[j];
-                  for(auto k=0,l=0; k<=ImageDimension; ++k)
+                  for(ImageDimensionType k=0,l=0; k<=ImageDimension; ++k)
                       if(k!=i && k!=j)
                           sb[l++]=sb[k]+u;
                   sb[2]=-u;
