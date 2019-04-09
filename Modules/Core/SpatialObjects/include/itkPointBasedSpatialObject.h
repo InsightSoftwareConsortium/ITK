@@ -62,9 +62,16 @@ public:
   /** Method for creation through the object factory. */
   itkTypeMacro(PointBasedSpatialObject, SpatialObject);
 
+  /** Reset the spatial object to its initial condition, yet preserves
+   *   Id, Parent, and Child information */
+  void Clear( void ) override;
+
   /** Assign points to this object, and assigned this object to
    * each point (for computing world coordinates) */
   virtual void AddPoint( const SpatialObjectPointType & newPoints );
+
+  /** Removes the indicated point from this object */
+  virtual void RemovePoint( IdentifierType id );
 
   /** Assign points to this object, and assigned this object to
    * each point (for computing world coordinates) */
@@ -102,10 +109,10 @@ public:
   bool IsInsideInObjectSpace(const PointType & worldPoint, unsigned int depth=0,
     const std::string & name="") const override;
 
-  /** Compute the boundaries of the Blob. */
-  bool ComputeMyBoundingBox() const override;
-
 protected:
+  /** Compute the boundaries of the Blob. */
+  void ProtectedComputeMyBoundingBox() const override;
+
   PointBasedSpatialObject();
   ~PointBasedSpatialObject() override = default;
 

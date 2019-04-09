@@ -61,6 +61,10 @@ public:
   itkNewMacro(Self);
   itkTypeMacro(GaussianSpatialObject, SpatialObject);
 
+  /** Reset the spatial object to its initial condition, yet preserves
+   *   Id, Parent, and Child information */
+  void Clear( void ) override;
+
   /** The Radius determines the bounding box, and which points are
    * considered to be inside the SpatialObject.  All points with
    * z-score less than the radius are in the object.  */
@@ -88,10 +92,6 @@ public:
   bool IsInsideInObjectSpace(const PointType & point, unsigned int depth = 0,
     const std::string & name = "") const override;
 
-  /** This function needs to be called every time one of the object's
-   *  components is changed. */
-  bool ComputeMyBoundingBox() const override;
-
   /** Returns the value of the Gaussian at the given point.  */
   bool ValueAtInObjectSpace(const PointType & point, double & value,
     unsigned int depth = 0, const std::string & name = "") const override;
@@ -100,7 +100,18 @@ public:
    * EllipseSpatialObject.  */
   typename EllipseSpatialObject< TDimension >::Pointer GetEllipsoid() const;
 
+#if ! defined ( ITK_LEGACY_REMOVE )
+  itkLegacyMacro( void SetSigma(double sigma) )
+  { return this->SetSigmaInObjectSpace(sigma); }
+
+  itkLegacyMacro( double GetSigma() const )
+  { return this->GetSigmaInObjectSpace(); }
+#endif
 protected:
+  /** This function needs to be called every time one of the object's
+   *  components is changed. */
+  void ProtectedComputeMyBoundingBox() const override;
+
   GaussianSpatialObject();
   ~GaussianSpatialObject() override = default;
 

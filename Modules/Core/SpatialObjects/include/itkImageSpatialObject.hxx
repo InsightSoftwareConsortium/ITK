@@ -30,12 +30,10 @@ ImageSpatialObject< TDimension,  PixelType >
 ::ImageSpatialObject()
 {
   this->SetTypeName("ImageSpatialObject");
-  m_Image = ImageType::New();
-  m_SliceNumber.Fill( 0 );
 
-  this->SetPixelTypeName(static_cast<const PixelType *>(nullptr));
+  this->Clear();
 
-  m_Interpolator = NNInterpolatorType::New();
+  this->Update();
 }
 
 /** Destructor */
@@ -43,6 +41,25 @@ template< unsigned int TDimension, typename PixelType >
 ImageSpatialObject< TDimension,  PixelType >
 ::~ImageSpatialObject()
 {
+}
+
+template< unsigned int TDimension, typename PixelType >
+void
+ImageSpatialObject< TDimension,  PixelType >
+::Clear( void )
+{
+  Superclass::Clear();
+
+  m_Image = ImageType::New();
+  m_SliceNumber.Fill( 0 );
+
+#if !defined(ITK_LEGACY_REMOVE)
+  this->SetPixelTypeName(static_cast<const PixelType *>(nullptr));
+#endif
+
+  m_Interpolator = NNInterpolatorType::New();
+
+  this->Modified();
 }
 
 /** Set the interpolator */
@@ -129,9 +146,9 @@ ImageSpatialObject< TDimension,  PixelType >
 
 /** Compute the bounds of the image */
 template< unsigned int TDimension, typename PixelType >
-bool
+void
 ImageSpatialObject< TDimension,  PixelType >
-::ComputeMyBoundingBox() const
+::ProtectedComputeMyBoundingBox() const
 {
   itkDebugMacro("Computing ImageSpatialObject bounding box");
 
@@ -153,8 +170,6 @@ ImageSpatialObject< TDimension,  PixelType >
   this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(pnt1);
   this->GetModifiableMyBoundingBoxInObjectSpace()->ConsiderPoint(pnt2);
   this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
-
-  return true;
 }
 
 
@@ -228,7 +243,9 @@ ImageSpatialObject< TDimension,  PixelType >
   os << indent << "Interpolator: " << std::endl;
   os << indent << m_Interpolator << std::endl;
   os << indent << "SliceNumber: " << m_SliceNumber << std::endl;
+#if !defined(ITK_LEGACY_REMOVE)
   os << indent << "PixelType: " << m_PixelType << std::endl;
+#endif
 }
 
 /** Get the modification time */

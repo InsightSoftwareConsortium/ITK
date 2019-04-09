@@ -45,13 +45,13 @@ MetaEllipseConverter< NDimensions >
 
   EllipseSpatialObjectPointer ellipseSO = EllipseSpatialObjectType::New();
 
-  typename EllipseSpatialObjectType::ArrayType radius;
+  typename EllipseSpatialObjectType::ArrayType radii;
   for ( unsigned int i = 0; i < NDimensions; i++ )
     {
-    radius[i] = ellipseMO->Radius()[i];
+    radii[i] = ellipseMO->Radius()[i];
     }
 
-  ellipseSO->SetRadiusInObjectSpace(radius);
+  ellipseSO->SetRadiusInObjectSpace(radii);
   ellipseSO->GetProperty().SetName( ellipseMO->Name() );
   ellipseSO->SetId( ellipseMO->ID() );
   ellipseSO->SetParentId( ellipseMO->ParentID() );
@@ -78,18 +78,18 @@ MetaEllipseConverter< NDimensions >
 
   auto * ellipseMO = new EllipseMetaObjectType(NDimensions);
 
-  auto * radius = new float[NDimensions];
+  auto * radii = new float[NDimensions];
 
   for ( unsigned int i = 0; i < NDimensions; i++ )
     {
-    radius[i] = ellipseSO->GetRadiusInObjectSpace()[i];
+    radii[i] = ellipseSO->GetRadiusInObjectSpace()[i];
     }
 
   if ( ellipseSO->GetParent() )
     {
     ellipseMO->ParentID( ellipseSO->GetParent()->GetId() );
     }
-  ellipseMO->Radius(radius);
+  ellipseMO->Radius(radii);
   ellipseMO->ID( ellipseSO->GetId() );
 
   ellipseMO->Color( ellipseSO->GetProperty().GetRed(),
@@ -97,7 +97,7 @@ MetaEllipseConverter< NDimensions >
                   ellipseSO->GetProperty().GetBlue(),
                   ellipseSO->GetProperty().GetAlpha() );
 
-  delete[] radius;
+  delete[] radii;
   return ellipseMO;
 }
 

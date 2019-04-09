@@ -74,7 +74,7 @@ int main( int , char *[] )
   GroupType::VectorType offset;
   offset.Fill(10);
   myGroup->GetModifiableObjectToParentTransform()->SetOffset(offset);
-  myGroup->ComputeObjectToWorldTransform();
+  myGroup->Update();
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex

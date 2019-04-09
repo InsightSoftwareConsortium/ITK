@@ -30,16 +30,16 @@ OutputImageType = itk.Image[OutputPixelType, dim]
 
 ellipse = itk.EllipseSpatialObject[dim].New(RadiusInObjectSpace=[10, 5])
 ellipse.GetObjectToParentTransform().SetOffset([20, 20])
-ellipse.ComputeObjectToWorldTransform()
+ellipse.Update()
 
 box = itk.BoxSpatialObject[dim].New(SizeInObjectSpace=20)
 box.GetObjectToParentTransform().SetOffset([20, 40])
-box.ComputeObjectToWorldTransform()
+box.Update()
 
 gaussian = itk.GaussianSpatialObject[dim].New(RadiusInObjectSpace=100)
 gaussian.GetObjectToParentTransform().SetOffset([60, 60])
 gaussian.GetObjectToParentTransform().Scale(10)
-gaussian.ComputeObjectToWorldTransform()
+gaussian.Update()
 
 group = itk.GroupSpatialObject[dim].New()
 group.AddChild(ellipse)

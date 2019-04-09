@@ -72,6 +72,10 @@ public:
   /** Method for creation through the object factory. */
   itkTypeMacro(TubeSpatialObject, PointBasedSpatialObject);
 
+  /** Reset the spatial object to its initial condition, yet preserves
+   *   Id, Parent, and Child information */
+  void Clear( void ) override;
+
   /** Set the type of tube end-type: false = flat, true = rounded */
   itkSetMacro(EndRounded, bool);
   itkGetConstMacro(EndRounded, bool);
@@ -99,14 +103,15 @@ public:
    *  tube network in the scene */
   itkGetConstMacro(Root, bool);
 
-  /** Compute the boundaries of the tube. */
-  bool ComputeMyBoundingBox() const override;
-
   /** Returns true if the point is inside the tube, false otherwise. */
   bool IsInsideInObjectSpace(const PointType & point, unsigned int depth = 0,
     const std::string & name = "") const override;
 
 protected:
+
+  /** Compute the boundaries of the tube. */
+  void ProtectedComputeMyBoundingBox() const override;
+
   TubeSpatialObject();
   ~TubeSpatialObject() override = default;
 

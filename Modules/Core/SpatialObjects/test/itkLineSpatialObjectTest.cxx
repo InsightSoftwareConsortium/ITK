@@ -62,7 +62,7 @@ int itkLineSpatialObjectTest(int, char* [])
   Line->GetProperty().SetName("Line 1");
   Line->SetId(1);
   Line->SetPoints(list);
-  Line->ComputeMyBoundingBox();
+  Line->Update();
 
  // Number of points
   std::cout << "Testing Consistency: " << std::endl;

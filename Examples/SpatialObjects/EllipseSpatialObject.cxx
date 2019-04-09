@@ -70,7 +70,7 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// We can then display the current radius by using the \code{GetRadius()}
+// We can then display the current radius by using the \code{GetRadiusInObjectSpace()}
 // function:
 //
 // Software Guide : EndLatex

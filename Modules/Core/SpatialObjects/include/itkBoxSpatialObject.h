@@ -54,6 +54,10 @@ public:
   itkNewMacro(Self);
   itkTypeMacro(BoxSpatialObject, SpatialObject);
 
+  /** Reset the spatial object to its initial condition, yet preserves
+   *   Id, Parent, and Child information */
+  void Clear( void ) override;
+
   /** Set the size of the box spatial object in object space. */
   itkSetMacro( SizeInObjectSpace, SizeType );
 
@@ -70,12 +74,13 @@ public:
   bool IsInsideInObjectSpace(const PointType & point, unsigned int depth = 0,
     const std::string & name = "" ) const override;
 
+protected:
+
   /** Get the boundaries of a specific object.  This function needs to
    *  be called every time one of the object's components is
    *  changed. */
-  bool ComputeMyBoundingBox() const override;
+  void ProtectedComputeMyBoundingBox() const override;
 
-protected:
   BoxSpatialObject();
   ~BoxSpatialObject() override = default;
 

@@ -22,6 +22,7 @@
 #include <mutex>
 
 std::shared_ptr< std::mutex > sharedMutex;
+bool debugPrint = false;
 
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION execute(void *ptr)
 {
@@ -31,10 +32,14 @@ ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION execute(void *ptr)
   auto * data = static_cast<int *>(threadInfo->UserData);
 
   sharedMutex->lock();
-  std::cout << "Ptr received  :" << ptr << ", Value " << *data << std::endl;
+  if ( debugPrint )
+    {
+    std::cout << "Pointer:" << ptr << "  Value: " << *data
+        << "  WUID: " << threadInfo->WorkUnitID << std::endl;
+    }
   sharedMutex->unlock();
 
-  int    n = 10;
+  int n = 10;
   int m = *data;
   double sum = 1.0;
 
@@ -50,11 +55,11 @@ ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION execute(void *ptr)
   return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
-int itkThreadPoolTest(int argc, char* argv[])
+int itkMultithreadingTest(int argc, char* argv[])
 {
   sharedMutex = std::make_shared< std::mutex >();
 
-  int count = 1000;
+  int count = 10000;
   if( argc > 1 )
     {
     const int nt = std::stoi( argv[1] );
@@ -62,6 +67,10 @@ int itkThreadPoolTest(int argc, char* argv[])
       {
       count = nt;
       }
+    }
+  if ( argc > 2 )
+    {
+    debugPrint = std::stoi( argv[2] );
     }
 
   itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();

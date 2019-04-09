@@ -42,18 +42,30 @@ jobs:
       displayName: 'Download dashboard script and testing data'
 
     - bash: |
+        cat > dashboard.cmake << EOF
+        set(CTEST_BUILD_CONFIGURATION "MinSizeRel")
+        set(CTEST_CMAKE_GENERATOR "Ninja")
+        set(dashboard_cache "
+          BUILD_SHARED_LIBS:BOOL=OFF
+          BUILD_EXAMPLES:BOOL=OFF
+          ITK_WRAP_PYTHON:BOOL=OFF
+        ")
+        include(\$ENV{AGENT_BUILDDIRECTORY}/ITK-dashboard/azure_dashboard.cmake)
+        EOF
+        cat dashboard.cmake
+      workingDirectory: $(Agent.BuildDirectory)/ITK-dashboard
+      displayName: 'Configure CTest script'
+
+    - bash: |
         set -x
 
         c++ --version
         cmake --version
 
-        export BUILD_EXAMPLES=OFF
-        export CTEST_BUILD_CONFIGURATION=MinSizeRel
-        export CTEST_OUTPUT_ON_FAILURE=1
-
-        ctest -S ITK-dashboard/azure_dashboard.cmake -V -j 4
-      workingDirectory: $(Agent.BuildDirectory)
+        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -VV -j 4
       displayName: 'Build and test'
+      env:
+        CTEST_OUTPUT_ON_FAILURE: 1
 
     - script: |
         ci_addons ctest_junit_formatter $(Build.SourcesDirectory)-build > $(Agent.BuildDirectory)/JUnitTestResults.xml

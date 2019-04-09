@@ -30,6 +30,19 @@ TubeSpatialObject< TDimension, TTubePointType >
 ::TubeSpatialObject()
 {
   this->SetTypeName("TubeSpatialObject");
+
+  this->Clear();
+
+  this->Update();
+}
+
+template< unsigned int TDimension, typename TTubePointType >
+void
+TubeSpatialObject< TDimension, TTubePointType >
+::Clear( void )
+{
+  Superclass::Clear();
+
   this->GetProperty().SetRed(1);
   this->GetProperty().SetGreen(0);
   this->GetProperty().SetBlue(0);
@@ -38,6 +51,8 @@ TubeSpatialObject< TDimension, TTubePointType >
   m_Root = false;
   m_ParentPoint = -1;
   m_EndRounded = false; // default end-type is flat
+
+  this->Modified();
 }
 
 /** InternalClone */
@@ -81,9 +96,9 @@ TubeSpatialObject< TDimension, TTubePointType >
 
 /** Compute the bounds of the tube */
 template< unsigned int TDimension, typename TTubePointType >
-bool
+void
 TubeSpatialObject< TDimension, TTubePointType >
-::ComputeMyBoundingBox() const
+::ProtectedComputeMyBoundingBox() const
 {
   itkDebugMacro("Computing tube bounding box");
 
@@ -92,7 +107,12 @@ TubeSpatialObject< TDimension, TTubePointType >
 
   if ( it == end )
     {
-    return false;
+    typename BoundingBoxType::PointType pnt;
+    pnt.Fill( NumericTraits< typename BoundingBoxType::PointType::ValueType >::
+      ZeroValue() );
+    this->GetModifiableMyBoundingBoxInObjectSpace()->SetMinimum(pnt);
+    this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(pnt);
+    return;
     }
 
   PointType pt = it->GetPositionInObjectSpace();
@@ -133,8 +153,6 @@ TubeSpatialObject< TDimension, TTubePointType >
     it++;
     }
   this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
-
-  return true;
 }
 
 /** Test whether a point is inside or outside the object

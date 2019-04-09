@@ -9,21 +9,9 @@ endif()
 itk_python_add_test(NAME PythonImageIOCoverage COMMAND wrappingCoverage.py -b ImageIO -e ${CMAKE_CURRENT_SOURCE_DIR}/exclude-imageio.txt ${ITK_INCLUDE_DIRS})
 itk_python_add_test(NAME PythonTransformCoverage COMMAND wrappingCoverage.py -b Transform -e ${CMAKE_CURRENT_SOURCE_DIR}/exclude-transform.txt ${ITK_INCLUDE_DIRS})
 
-execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "import numpy"
-  RESULT_VARIABLE _have_numpy_return_code
-  OUTPUT_QUIET
-  ERROR_QUIET
-  )
-
-# These two tests can use up all of system memory when the are executed.
-# TODO: find the root cause and re-enable them.  See ITK-3006 on issues.itk.org.
-#itk_python_add_test(PythonFindEmptyClasses findEmptyClasses.py)
-if(_have_numpy_return_code EQUAL 0 AND ITK_BUILD_DEFAULT_MODULES)
-  # Currently unreliably fails. See Issue #96
-  # itk_python_add_test(NAME PythonGetNameOfClass COMMAND getNameOfClass.py)
-
-  itk_python_add_test(NAME PythonTiming COMMAND timing.py)
-endif()
+itk_python_add_test(NAME PythonFindEmptyClasses COMMAND findEmptyClasses.py)
+itk_python_add_test(NAME PythonGetNameOfClass COMMAND getNameOfClass.py)
+itk_python_add_test(NAME PythonTiming COMMAND timing.py)
 itk_python_add_test(NAME PythonVerifyGetOutputAPIConsistency COMMAND verifyGetOutputAPIConsistency.py)
 itk_python_add_test(NAME PythonVerifyTTypeAPIConsistency COMMAND verifyTTypeAPIConsistency.py)
 itk_python_add_test(NAME PythonComplex COMMAND complex.py)
@@ -49,69 +37,12 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
         DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
         5
       )
-    if(_have_numpy_return_code EQUAL 0)
-      itk_python_add_test(NAME PythonExtrasTest
-        COMMAND extras.py
-          DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/out.png ${ITK_TEST_OUTPUT_DIR}
-        )
-    endif()
+    itk_python_add_test(NAME PythonExtrasTest
+      COMMAND extras.py
+        DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/out.png ${ITK_TEST_OUTPUT_DIR}
+      )
   endif()
-
-#   itk_python_add_test(NAME PythonStrelFromImageGrayscaleDilateImageFilter
-#     StrelFromImageGrayscaleDilateImageFilter.py
-#     DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
-#     StrelFromImageGrayscaleDilateImageFilter.png
-#     DATA{${WrapITK_SOURCE_DIR}/images/StrelFromImage.png}
-#     --compare StrelFromImageGrayscaleDilateImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/StrelFromImageGrayscaleDilateImageFilter.png}
-#   )
-
-#   itk_python_add_test(NAME PythonFlatStructuringElementBall
-#     FlatStructuringElement.py
-#     Ball-5.png
-#     Ball
-#     5
-#     --compare Ball-5.png DATA{${WrapITK_SOURCE_DIR}/images/Ball-5.png}
-#   )
-
-#   itk_python_add_test(NAME PythonFlatStructuringElementBox
-#     FlatStructuringElement.py
-#     Box-5.png
-#     Box
-#     5
-#     --compare Box-5.png DATA{${WrapITK_SOURCE_DIR}/images/Box-5.png}
-#   )
-
-#   itk_python_add_test(NAME PythonFlatStructuringElementFromImage
-#     FlatStructuringElement.py
-#     StrelFromImage.png
-#     FromImage
-#     DATA{${WrapITK_SOURCE_DIR}/images/StrelFromImage.png}
-#     --compare StrelFromImage.png DATA{${WrapITK_SOURCE_DIR}/images/StrelFromImage.png}
-#   )
 endif()
-
-if(ITK_WRAP_float AND WRAP_2)
-#   itk_python_add_test(NAME  PythonGeodesicActiveContourWhiteMatterTest
-#     --compare GeodesicActiveContourWhiteMatterTest.png
-#             DATA{${WrapITK_SOURCE_DIR}/images/GeodesicActiveContourWhiteMatterTest.png}
-#     --
-#     GeodesicActiveContourImageFilter.py
-#     DATA{${WrapITK_SOURCE_DIR}/images/BrainProtonDensitySlice.png}
-#     GeodesicActiveContourWhiteMatterTest.png
-#     56 92 5.0 1.0 -0.3 2.0 10.0
-#   )
-
-#   itk_python_add_test(NAME  PythonGeodesicActiveContourGrayMatterTest
-#     --compare GeodesicActiveContourGrayMatterTest.png
-#             DATA{${WrapITK_SOURCE_DIR}/images/GeodesicActiveContourGrayMatterTest.png}
-#     --
-#     GeodesicActiveContourImageFilter.py
-#     DATA{${WrapITK_SOURCE_DIR}/images/BrainProtonDensitySlice.png}
-#     GeodesicActiveContourGrayMatterTest.png
-#     40 90 5.0 .5 -0.3 2.0 10.0
-#   )
-endif()
-
 
 UNIQUE(types "${WRAP_ITK_SCALAR};UC")
 # signed char can't be used to store an image with values up to 255

@@ -74,14 +74,15 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageSpatialObject, SpatialObject);
 
+  /** Reset the spatial object to its initial condition, yet preserves
+   *   Id, Parent, and Child information */
+  void Clear( void ) override;
+
   /** Set the image. */
   void SetImage(const ImageType *image);
 
   /** Get a pointer to the image currently attached to the object. */
   const ImageType * GetImage() const;
-
-  /** Compute the boundaries of the image spatial object. */
-  bool ComputeMyBoundingBox() const override;
 
   /** Returns true if the point is inside, false otherwise. */
   bool IsInsideInObjectSpace(const PointType & point, unsigned int depth=0,
@@ -104,14 +105,18 @@ public:
   int GetSliceNumber(unsigned int dimension)
   { return m_SliceNumber[dimension]; }
 
-  const char * GetPixelTypeName()
+#if !defined(ITK_LEGACY_REMOVE)
+  itkLegacyMacro(const char * GetPixelTypeName())
   { return m_PixelType.c_str(); }
+#endif
 
   /** Set/Get the interpolator */
   void SetInterpolator(InterpolatorType *interpolator);
   itkGetConstMacro(Interpolator, InterpolatorType *);
 
 protected:
+  /** Compute the boundaries of the image spatial object. */
+  void ProtectedComputeMyBoundingBox() const override;
 
   ImageSpatialObject();
   ~ImageSpatialObject() override;
@@ -125,10 +130,14 @@ private:
   ImagePointer    m_Image;
 
   IndexType       m_SliceNumber;
+
+#if !defined(ITK_LEGACY_REMOVE)
   std::string     m_PixelType;
+#endif
 
   typename InterpolatorType::Pointer m_Interpolator;
 
+#if !defined(ITK_LEGACY_REMOVE)
   template <typename T>
   void SetPixelTypeName(const T *)
   { itkWarningMacro("itk::ImageSpatialObject() : PixelType not recognized"); }
@@ -147,6 +156,7 @@ private:
 
   void SetPixelTypeName(const double *)
   { m_PixelType = "double"; }
+#endif
 
 };
 } // end of namespace itk

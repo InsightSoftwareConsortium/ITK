@@ -425,9 +425,9 @@ class itkTemplate(object):
             # this needs to work too.
             ttype = tuple(kwargs.pop('ttype'))
             # If there is not the correct number of template parameters, throw an error.
-            if len(ttype) != len(keys[0]):
+            if len(ttype) != len(list(keys)[0]):
                 raise RuntimeError("Expected %d template parameters. %d parameters given."
-                                   %(len(keys[0]), len(ttype)))
+                                   %(len(list(keys)[0]), len(ttype)))
             keys = [k for k in keys if k == ttype]
         elif len(args) != 0:
             # try to find a type suitable for the primary input provided

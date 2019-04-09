@@ -29,9 +29,26 @@ MeshSpatialObject< TMesh >
 ::MeshSpatialObject()
 {
   this->SetTypeName("MeshSpatialObject");
+
+  this->Clear();
+
+  this->Update();
+}
+
+template< typename TMesh >
+void
+MeshSpatialObject< TMesh >
+::Clear( void )
+{
+  Superclass::Clear();
+
   m_Mesh = MeshType::New();
+#if !defined(ITK_LEGACY_REMOVE)
   m_PixelType = typeid( typename TMesh::PixelType ).name();
+#endif
   m_IsInsidePrecisionInObjectSpace = 1;
+
+  this->Modified();
 }
 
 /** Test whether a point is inside or outside the object
@@ -94,9 +111,9 @@ MeshSpatialObject< TMesh >
 
 /** Compute the bounds of the object which is the same as the internal mesh */
 template< typename TMesh >
-bool
+void
 MeshSpatialObject< TMesh >
-::ComputeMyBoundingBox() const
+::ProtectedComputeMyBoundingBox() const
 {
   PointType pnt1;
   PointType pnt2;
@@ -111,8 +128,6 @@ MeshSpatialObject< TMesh >
   this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(
     m_Mesh->GetBoundingBox()->GetMaximum() );
   this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
-
-  return true;
 }
 
 /** Set the Mesh in the spatial object */

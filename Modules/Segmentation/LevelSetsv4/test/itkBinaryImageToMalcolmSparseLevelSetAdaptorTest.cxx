@@ -31,6 +31,11 @@ int itkBinaryImageToMalcolmSparseLevelSetAdaptorTest( int argc, char* argv[] )
   constexpr unsigned int Dimension = 2;
 
   using InputPixelType = unsigned char;
+  bool debugPrint = false;
+  if ( argc > 3 )
+    {
+    debugPrint = std::stoi( argv[3] );
+    }
 
   using InputImageType = itk::Image< InputPixelType, Dimension >;
   using InputReaderType = itk::ImageFileReader< InputImageType >;
@@ -77,7 +82,10 @@ int itkBinaryImageToMalcolmSparseLevelSetAdaptorTest( int argc, char* argv[] )
     {
     idx = sIt.GetIndex();
     sIt.Set( sparseLevelSet->Evaluate( idx ) );
-    std::cout << int(sparseLevelSet->Evaluate( idx )) << std::endl;
+    if ( debugPrint )
+      {
+      std::cout << int( sparseLevelSet->Evaluate( idx ) ) << std::endl;
+      }
     ++sIt;
     }
 

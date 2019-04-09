@@ -170,7 +170,7 @@ SpatialObjectToImageStatisticsCalculator< TInputImage, TInputSpatialObject,
     {
     // Get the bounding box
     m_SpatialObject->ComputeFamilyBoundingBox(SpatialObjectType::MaximumDepth);
-    m_SpatialObject->ComputeObjectToWorldTransform();
+    m_SpatialObject->Update();
     const typename SpatialObjectType::BoundingBoxType::BoundsArrayType bounds
       = m_SpatialObject->GetFamilyBoundingBoxInWorldSpace()->GetBounds();
 

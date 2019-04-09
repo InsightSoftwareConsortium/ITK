@@ -56,6 +56,10 @@ public:
   /** Method for creation through the object factory. */
   itkTypeMacro(ArrowSpatialObject, SpatialObject);
 
+  /** Reset the spatial object to its initial condition, yet preserves
+   *   Id, Parent, and Child information */
+  void Clear( void ) override;
+
   /** Set the position of the arrow : this is the point of the arrow */
   itkSetMacro( PositionInObjectSpace, PointType );
 
@@ -74,9 +78,6 @@ public:
   /** Get the length of the arrow */
   itkGetConstReferenceMacro(LengthInObjectSpace, double);
 
-  /** Compute the Object bounding box */
-  bool ComputeMyBoundingBox() const override;
-
   /** Returns true if the point is inside the line, false otherwise. */
   bool IsInsideInObjectSpace(const PointType & point, unsigned int depth=0,
     const std::string & name="") const override;
@@ -86,6 +87,9 @@ public:
   double GetLengthInWorldSpace() const;
 
 protected:
+
+  /** Compute the Object bounding box */
+  void ProtectedComputeMyBoundingBox() const override;
 
   ArrowSpatialObject();
   ~ArrowSpatialObject() override = default;

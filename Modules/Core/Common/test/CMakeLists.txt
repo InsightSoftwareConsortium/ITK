@@ -48,7 +48,6 @@ itkPhasedArray3DSpecialCoordinatesImageTest.cxx
 itkPriorityQueueTest.cxx
 itkFileOutputWindowTest.cxx
 itkSymmetricEigenAnalysisTest.cxx
-itkSTLThreadTest.cxx
 itkStreamingImageFilterTest.cxx
 itkStreamingImageFilterTest2.cxx
 itkStreamingImageFilterTest3.cxx
@@ -66,6 +65,7 @@ itkGaussianSpatialFunctionTest.cxx
 itkRealTimeClockTest.cxx
 itkRealTimeIntervalTest
 itkRealTimeStampTest
+itkTimeStampTest.cxx
 itkIntTypesTest.cxx
 itkBSplineKernelFunctionTest.cxx
 itkArrayTest.cxx
@@ -106,21 +106,29 @@ VNLSparseLUSolverTraitsTest.cxx
 )
 
 set(ITKCommon2Tests
-itkMetaProgrammingLibraryTest.cxx
-itkIsConvertible.cxx
-itkIsBaseOf.cxx
-itkPromoteType.cxx
+itkSTLThreadTest.cxx
 itkThreadedIndexedContainerPartitionerTest.cxx
 itkThreadedIteratorRangePartitionerTest.cxx
 itkThreadedIteratorRangePartitionerTest2.cxx
 itkThreadedIteratorRangePartitionerTest3.cxx
 itkThreadedImageRegionPartitionerTest.cxx
+itkThreadLoggerTest.cxx
+itkLoggerThreadWrapperTest.cxx
+itkThreadDefsTest.cxx
+itkMultiThreaderBaseTest.cxx
+itkMultiThreaderTypeFromEnvironmentTest
+itkMultiThreadingEnvironmentTest.cxx
+itkMultiThreaderParallelizeArrayTest.cxx
+itkMultithreadingTest.cxx
+itkBarrierTest.cxx
+
+itkMetaProgrammingLibraryTest.cxx
+itkIsConvertible.cxx
+itkIsBaseOf.cxx
+itkPromoteType.cxx
 itkMetaDataDictionaryTest.cxx
 itkStdStreamLogOutputTest.cxx
 itkOctreeTest.cxx
-itkLoggerThreadWrapperTest.cxx
-itkThreadLoggerTest.cxx
-itkThreadDefsTest.cxx
 itkTimeProbesTest.cxx
 itkTreeContainerTest.cxx
 itkVariableLengthVectorTest.cxx
@@ -133,12 +141,10 @@ itkConicShellInteriorExteriorSpatialFunctionTest.cxx
 itkEllipsoidInteriorExteriorSpatialFunctionTest.cxx
 itkFrustumSpatialFunctionTest.cxx
 itkTorusInteriorExteriorSpatialFunctionTest.cxx
-itkTimeStampTest.cxx
 itkConstNeighborhoodIteratorTest.cxx
 itkShapedNeighborhoodIteratorTest.cxx
 itkMatrixTest.cxx
 itkAutoPointerTest.cxx
-itkBarrierTest.cxx
 itkNeighborhoodIteratorTest.cxx
 itkLoggerManagerTest.cxx
 itkBSplineInterpolationWeightFunctionTest.cxx
@@ -154,10 +160,6 @@ itkObjectFactoryTest2.cxx
 itkObjectFactoryTest3.cxx
 itkMinimumMaximumImageCalculatorTest.cxx
 itkSliceIteratorTest.cxx
-itkMultiThreaderBaseTest.cxx
-itkMultiThreaderTypeFromEnvironmentTest
-itkMultiThreadingEnvironmentTest.cxx
-itkMultiThreaderParallelizeArrayTest.cxx
 itkImageRegionExclusionIteratorWithIndexTest.cxx
 itkFixedArrayTest.cxx
 itkImageTransformTest.cxx
@@ -185,7 +187,6 @@ itkImageRegionSplitterDirectionTest.cxx
 itkImageRegionSplitterMultidimensionalTest.cxx
 itkMetaDataObjectTest.cxx
 # itkVectorMultiplyTest.cxx
-itkThreadPoolTest.cxx
 )
 if(ITK_BUILD_SHARED_LIBS AND ITK_DYNAMIC_LOADING)
   list(APPEND ITKCommon2Tests itkDownCastTest.cxx)
@@ -267,7 +268,7 @@ if(NOT MINGW)
 itk_add_test(NAME itkBarrierTest COMMAND ITKCommon2TestDriver itkBarrierTest)
 itk_add_test(NAME itkBarrierTest107 COMMAND ITKCommon2TestDriver itkBarrierTest 107)
 endif()
-itk_add_test(NAME itkTimeStampTest COMMAND ITKCommon2TestDriver itkTimeStampTest)
+itk_add_test(NAME itkTimeStampTest COMMAND ITKCommon1TestDriver itkTimeStampTest)
 itk_add_test(NAME itkBoundingBoxTest COMMAND ITKCommon1TestDriver itkBoundingBoxTest)
 itk_add_test(NAME itkBoundaryConditionTest COMMAND ITKCommon1TestDriver itkBoundaryConditionTest)
 itk_add_test(NAME itkByteSwapTest COMMAND ITKCommon1TestDriver itkByteSwapTest)
@@ -504,7 +505,7 @@ itk_add_test(NAME itkSymmetricSecondRankTensorImageWriteReadTest COMMAND ITKComm
               ${ITK_TEST_OUTPUT_DIR}/testSymmetricTensorWriteRead.mha)
 itk_add_test(NAME itkSymmetricSecondRankTensorTest COMMAND ITKCommon2TestDriver itkSymmetricSecondRankTensorTest)
 itk_add_test(NAME itkSymmetricEigenAnalysisTest COMMAND ITKCommon1TestDriver itkSymmetricEigenAnalysisTest)
-itk_add_test(NAME itkSTLThreadTest COMMAND ITKCommon1TestDriver itkSTLThreadTest)
+itk_add_test(NAME itkSTLThreadTest COMMAND ITKCommon2TestDriver itkSTLThreadTest)
 itk_add_test(NAME itkStreamingImageFilterTest COMMAND ITKCommon1TestDriver itkStreamingImageFilterTest)
 itk_add_test(NAME itkStreamingImageFilterTest2 COMMAND ITKCommon1TestDriver itkStreamingImageFilterTest2)
 itk_add_test(NAME itkStreamingImageFilterTest3_1 COMMAND ITKCommon1TestDriver
@@ -588,7 +589,7 @@ itk_add_test(NAME itkRegionSplitterMultidimensionalTest COMMAND ITKCommon2TestDr
 
 itk_add_test(NAME itkMetaDataObjectTest COMMAND ITKCommon2TestDriver itkMetaDataObjectTest)
 
-itk_add_test(NAME itkThreadPoolTest COMMAND ITKCommon2TestDriver itkThreadPoolTest 100)
+itk_add_test(NAME itkMultithreadingTest COMMAND ITKCommon2TestDriver itkMultithreadingTest 100)
 
 if(ITK_BUILD_SHARED_LIBS AND ITK_DYNAMIC_LOADING)
   macro(BuildClientTestLibrary _name _type)

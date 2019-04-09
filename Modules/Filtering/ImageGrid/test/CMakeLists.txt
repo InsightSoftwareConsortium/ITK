@@ -245,7 +245,7 @@ itk_add_test(NAME itkResampleImageTest2UseRefImageOff
     --compare DATA{Baseline/ResampleImageTest2NearestExtrapolateUseRefImageOff.png}
               ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2dUseRefImageOff.png
     itkResampleImageTest2 DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
-                          DATA{${ITK_DATA_ROOT}/Input/circle.png}
+                          DATA{Input/circle.png}
                           ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2aUseRefImageOff.png
                           ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2bUseRefImageOff.png
                           ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2cUseRefImageOff.png
@@ -262,7 +262,7 @@ itk_add_test(NAME itkResampleImageTest2UseRefImageOn
     --compare DATA{Baseline/ResampleImageTest2NearestExtrapolateUseRefImageOn.png}
               ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2dUseRefImageOn.png
     itkResampleImageTest2 DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
-                          DATA{${ITK_DATA_ROOT}/Input/circle.png}
+                          DATA{Input/circle.png}
                           ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2aUseRefImageOn.png
                           ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2bUseRefImageOn.png
                           ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2cUseRefImageOn.png
@@ -270,13 +270,20 @@ itk_add_test(NAME itkResampleImageTest2UseRefImageOn
                           1)
 itk_add_test(NAME itkResampleImageTest2Streaming
       COMMAND ITKImageGridTestDriver
+    #--compare DATA{Baseline/ResampleImageTest2.mha}
+              #${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2aStreaming.mha
+    #--compare DATA{Baseline/ResampleImageTest2.mha}
+              #${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2bStreaming.mha
+    #--compare DATA{Baseline/ResampleImageTest2NearestExtrapolate.mha}
+              #${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2cStreaming.mha
+    #--compare DATA{Baseline/ResampleImageTest2NearestExtrapolate.mha}
+              #${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2dStreaming.mha
     itkResampleImageTest2Streaming DATA{Input/cthead1.mha}
-                          DATA{Input/cthead1.mha}
+                          DATA{Input/circle.png}
                           ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2aStreaming.mha
                           ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2bStreaming.mha
                           ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2cStreaming.mha
                           ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2dStreaming.mha)
-set_tests_properties(itkResampleImageTest2Streaming PROPERTIES WILL_FAIL TRUE) # should fail as long as itkResampleFilter does not support streaming for linear transforms GH PR #82
 itk_add_test(NAME itkResampleImageTest3
       COMMAND ITKImageGridTestDriver
     --compare DATA{Baseline/ResampleImageTest3.png}
@@ -297,7 +304,6 @@ itk_add_test(NAME itkResampleImageTest6
     itkResampleImageTest6 10 ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest6.png)
 itk_add_test(NAME itkResampleImageTest7
       COMMAND ITKImageGridTestDriver itkResampleImageTest7)
-set_tests_properties(itkResampleImageTest7 PROPERTIES WILL_FAIL TRUE) # should fail as long as itkResampleFilter does not support streaming for linear transforms GH PR #82
 itk_add_test(NAME itkResamplePhasedArray3DSpecialCoordinatesImageTest
       COMMAND ITKImageGridTestDriver itkResamplePhasedArray3DSpecialCoordinatesImageTest)
 itk_add_test(NAME itkPushPopTileImageFilterTest

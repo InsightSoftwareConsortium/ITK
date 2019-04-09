@@ -29,10 +29,23 @@ BoxSpatialObject< TDimension >
 ::BoxSpatialObject()
 {
   this->SetTypeName("BoxSpatialObject");
+
+  this->Clear();
+
+  this->Update();
+}
+
+template< unsigned int TDimension >
+void
+BoxSpatialObject< TDimension >
+::Clear( void )
+{
+  Superclass::Clear();
+
   m_SizeInObjectSpace.Fill(1);
   m_PositionInObjectSpace.Fill(0);
 
-  this->ComputeMyBoundingBox();
+  this->Modified();
 }
 
 /** Test whether a point is inside or outside the object */
@@ -62,9 +75,9 @@ BoxSpatialObject< TDimension >
 
 /** Compute the bounds of the box */
 template< unsigned int TDimension >
-bool
+void
 BoxSpatialObject< TDimension >
-::ComputeMyBoundingBox() const
+::ProtectedComputeMyBoundingBox() const
 {
   itkDebugMacro("Computing BoxSpatialObject bounding box");
 
@@ -80,8 +93,6 @@ BoxSpatialObject< TDimension >
   this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(pnt1);
   this->GetModifiableMyBoundingBoxInObjectSpace()->ConsiderPoint(pnt2);
   this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
-
-  return true;
 }
 
 /** InternalClone */

@@ -29,12 +29,25 @@ GaussianSpatialObject< TDimension >
 ::GaussianSpatialObject()
 {
   this->SetTypeName("GaussianSpatialObject");
+
+  this->Clear();
+
+  this->Update();
+}
+
+template< unsigned int TDimension >
+void
+GaussianSpatialObject< TDimension >
+::Clear( void )
+{
+  Superclass::Clear();
+
   m_CenterInObjectSpace.Fill( 0.0 );
   m_RadiusInObjectSpace = 1.0;
   m_SigmaInObjectSpace = 1.0;
   m_Maximum = 1.0;
 
-  this->ComputeMyBoundingBox();
+  this->Modified();
 }
 
 /** The z-score is the root mean square of the z-scores along
@@ -109,9 +122,9 @@ GaussianSpatialObject< TDimension >
 /** Compute the bounds of the Gaussian (as determined by the
  *  specified radius). */
 template< unsigned int TDimension >
-bool
+void
 GaussianSpatialObject< TDimension >
-::ComputeMyBoundingBox() const
+::ProtectedComputeMyBoundingBox() const
 {
   itkDebugMacro("Computing Guassian bounding box");
 
@@ -127,8 +140,6 @@ GaussianSpatialObject< TDimension >
   this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(pnt1);
   this->GetModifiableMyBoundingBoxInObjectSpace()->ConsiderPoint(pnt2);
   this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
-
-  return true;
 }
 
 /** Returns the value at one point. */
@@ -179,7 +190,7 @@ GaussianSpatialObject< TDimension >
   ellipse->GetModifiableObjectToWorldTransform()->SetParameters(
     this->GetObjectToWorldTransform()->GetParameters() );
 
-  ellipse->ComputeMyBoundingBox();
+  ellipse->Update();
 
   return ellipse;
 }

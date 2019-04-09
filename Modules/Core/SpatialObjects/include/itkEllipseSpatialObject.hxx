@@ -28,9 +28,23 @@ EllipseSpatialObject< TDimension >
 ::EllipseSpatialObject()
 {
   this->SetTypeName("EllipseSpatialObject");
+
+  this->Clear();
+
+  this->Update();
+}
+
+template< unsigned int TDimension >
+void
+EllipseSpatialObject< TDimension >
+::Clear( void )
+{
+  Superclass::Clear();
+
   m_RadiusInObjectSpace.Fill(1.0);
   m_CenterInObjectSpace.Fill(0.0);
-  this->Update();
+
+  this->Modified();
 }
 
 /** Define the radius of the circle in object space.
@@ -100,9 +114,9 @@ EllipseSpatialObject< TDimension >
 
 /** Compute the bounds of the ellipse */
 template< unsigned int TDimension >
-bool
+void
 EllipseSpatialObject< TDimension >
-::ComputeMyBoundingBox() const
+::ProtectedComputeMyBoundingBox() const
 {
   itkDebugMacro("Computing ellipse bounding box");
 
@@ -118,8 +132,6 @@ EllipseSpatialObject< TDimension >
   this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(pnt1);
   this->GetModifiableMyBoundingBoxInObjectSpace()->ConsiderPoint(pnt2);
   this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
-
-  return true;
 }
 
 /** InternalClone */
@@ -150,7 +162,7 @@ EllipseSpatialObject< TDimension >
 {
   os << indent << "EllipseSpatialObject(" << this << ")" << std::endl;
   Superclass::PrintSelf(os, indent);
-  os << "Object Radius: " << m_RadiusInObjectSpace << std::endl;
+  os << "Object Radii: " << m_RadiusInObjectSpace << std::endl;
   os << "Object Center: " << m_CenterInObjectSpace << std::endl;
 }
 

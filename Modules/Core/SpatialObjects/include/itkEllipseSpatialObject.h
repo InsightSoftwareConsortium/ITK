@@ -62,6 +62,10 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(EllipseSpatialObject, SpatialObject);
 
+  /** Reset the spatial object to its initial condition, yet preserves
+   *   Id, Parent, and Child information */
+  void Clear( void ) override;
+
   /** Set all radii to the same radius value.  Each radius is
    *  half the length of one axis of the ellipse.  */
   void SetRadiusInObjectSpace(double radius);
@@ -82,12 +86,25 @@ public:
   bool IsInsideInObjectSpace(const PointType & point, unsigned int depth=0,
     const std::string & name="" ) const override;
 
+#if ! defined ( ITK_LEGACY_REMOVE )
+    itkLegacyMacro( void SetRadius( double radius) )
+    { this->SetRadiusInObjectSpace(radius); }
+
+    itkLegacyMacro( void SetRadius( ArrayType radii) )
+    { this->SetRadiusInObjectSpace(radii); }
+
+    itkLegacyMacro( ArrayType GetRadius( ) const )
+    { return this->GetRadiusInObjectSpace(); }
+
+    itkLegacyMacro( void SetRadiiInObjectSpace( ArrayType radii) )
+    { this->SetRadiusInObjectSpace(radii); }
+#endif
+protected:
   /** Get the boundaries of a specific object.  This function needs to
    *  be called every time one of the object's components is
    *  changed. */
-  bool ComputeMyBoundingBox() const override;
+  void ProtectedComputeMyBoundingBox() const override;
 
-protected:
   EllipseSpatialObject();
   ~EllipseSpatialObject() override = default;
 

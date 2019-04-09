@@ -30,7 +30,22 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
   SpatialObject< TDimension >()
 {
   this->SetTypeName("PointBasedSpatialObject");
+
+  this->Clear();
+
+  this->Update();
+}
+
+template< unsigned int TDimension, class TSpatialObjectPointType >
+void
+PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
+::Clear( void )
+{
+  Superclass::Clear();
+
   m_Points.clear();
+
+  this->Modified();
 }
 
 /** Set Points from a list */
@@ -41,6 +56,22 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 {
   m_Points.push_back( newPoint );
   m_Points.back().SetSpatialObject( this );
+
+  this->Modified();
+}
+
+/** Remove a Point from the list */
+template< unsigned int TDimension, class TSpatialObjectPointType >
+void
+PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
+::RemovePoint( IdentifierType id )
+{
+  if( id < m_Points.size() )
+    {
+    typename SpatialObjectPointListType::iterator it = m_Points.begin();
+    advance( it, id );
+    m_Points.erase( it );
+    }
 
   this->Modified();
 }
@@ -136,9 +167,9 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 
 /** Compute bounding box of just this object */
 template< unsigned int TDimension, class TSpatialObjectPointType >
-bool
+void
 PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
-::ComputeMyBoundingBox() const
+::ProtectedComputeMyBoundingBox() const
 {
   itkDebugMacro("Computing blob bounding box");
 
@@ -147,7 +178,12 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 
   if ( it == end )
     {
-    return false;
+    typename BoundingBoxType::PointType pnt;
+    pnt.Fill( NumericTraits< typename BoundingBoxType::PointType::ValueType >::
+      ZeroValue() );
+    this->GetModifiableMyBoundingBoxInObjectSpace()->SetMinimum(pnt);
+    this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(pnt);
+    return;
     }
 
   PointType pt = ( *it ).GetPositionInObjectSpace();
@@ -162,8 +198,6 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
     it++;
     }
   this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
-
-  return true;
 }
 
 /** Test if a world-coordinate point is inside of this object or its

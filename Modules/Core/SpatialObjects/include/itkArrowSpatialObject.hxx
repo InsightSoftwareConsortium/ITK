@@ -28,6 +28,19 @@ ArrowSpatialObject< TDimension >
 ::ArrowSpatialObject()
 {
   this->SetTypeName("ArrowSpatialObject");
+
+  this->Clear();
+
+  this->Update();
+}
+
+template< unsigned int TDimension >
+void
+ArrowSpatialObject< TDimension >
+::Clear( void )
+{
+  Superclass::Clear();
+
   this->GetProperty().SetRed(1);
   this->GetProperty().SetGreen(0);
   this->GetProperty().SetBlue(0);
@@ -38,14 +51,14 @@ ArrowSpatialObject< TDimension >
   m_PositionInObjectSpace.Fill(0);
   m_LengthInObjectSpace = 1;
 
-  this->Update();
+  this->Modified();
 }
 
 /** Compute the bounding box */
 template< unsigned int TDimension >
-bool
+void
 ArrowSpatialObject< TDimension >
-::ComputeMyBoundingBox() const
+::ProtectedComputeMyBoundingBox() const
 {
   itkDebugMacro("Computing Rectangle bounding box");
 
@@ -53,8 +66,6 @@ ArrowSpatialObject< TDimension >
 
   this->GetModifiableMyBoundingBoxInObjectSpace()->SetMinimum(pnt);
   this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(pnt);
-
-  return true;
 }
 
 /** Check if a given point is on the arrow */
