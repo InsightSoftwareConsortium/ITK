@@ -726,7 +726,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 void
 SpatialObject< TDimension >
-::ComputeMyBoundingBox() const
+::ComputeMyBoundingBox()
 {
   typename BoundingBoxType::PointType pnt;
   pnt.Fill( NumericTraits< typename BoundingBoxType::PointType::ValueType >::

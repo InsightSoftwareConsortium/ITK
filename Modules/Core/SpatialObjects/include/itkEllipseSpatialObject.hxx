@@ -116,7 +116,7 @@ EllipseSpatialObject< TDimension >
 template< unsigned int TDimension >
 void
 EllipseSpatialObject< TDimension >
-::ComputeMyBoundingBox() const
+::ComputeMyBoundingBox()
 {
   itkDebugMacro("Computing ellipse bounding box");
 
