@@ -191,7 +191,7 @@ public:
   /**********************************************************************/
   /* These are the three member functions that a subclass will typically
    *    overwrite.
-   *    * ProtectedComputeMyBoundingBox (protected:)
+   *    * ComputeMyBoundingBox (protected:)
    *    * IsInsideInObjectSpace
    *    * Update
    *  Optionally, a subclass may also wish to overwrite
@@ -520,7 +520,7 @@ protected:
   void ProtectedComputeObjectToWorldTransform();
 
   /** Compute bounding box for the object in world space */
-  virtual void ProtectedComputeMyBoundingBox() const;
+  virtual void ComputeMyBoundingBox() const;
 
   /** Constructor. */
   SpatialObject();

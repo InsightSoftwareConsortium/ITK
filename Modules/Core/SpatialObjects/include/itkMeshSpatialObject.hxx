@@ -113,7 +113,7 @@ MeshSpatialObject< TMesh >
 template< typename TMesh >
 void
 MeshSpatialObject< TMesh >
-::ProtectedComputeMyBoundingBox() const
+::ComputeMyBoundingBox() const
 {
   PointType pnt1;
   PointType pnt2;

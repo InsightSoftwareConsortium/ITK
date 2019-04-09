@@ -110,7 +110,7 @@ public:
 protected:
   /** This function needs to be called every time one of the object's
    *  components is changed. */
-  void ProtectedComputeMyBoundingBox() const override;
+  void ComputeMyBoundingBox() const override;
 
   GaussianSpatialObject();
   ~GaussianSpatialObject() override = default;

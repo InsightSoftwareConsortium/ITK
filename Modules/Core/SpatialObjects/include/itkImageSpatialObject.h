@@ -110,7 +110,7 @@ public:
 
 protected:
   /** Compute the boundaries of the image spatial object. */
-  void ProtectedComputeMyBoundingBox() const override;
+  void ComputeMyBoundingBox() const override;
 
   ImageSpatialObject();
   ~ImageSpatialObject() override;
