@@ -1,5 +1,3 @@
-itk_module_test()
-
 if(ITK_WRAP_PYTHON)
   execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "import numpy"
     RESULT_VARIABLE _have_numpy_return_code

@@ -406,5 +406,3 @@ itk_add_test(NAME itkUniformRandomSpatialNeighborSubsamplerTest
      ${ITK_TEST_OUTPUT_DIR}/itkUniformRandomSubsamplingTest.mha)
 itk_add_test(NAME itkVectorContainerToListSampleAdaptorTest
       COMMAND ITKStatisticsTestDriver itkVectorContainerToListSampleAdaptorTest)
-itk_python_expression_add_test(NAME itkNormalVariateGeneratorPythonTest
-EXPRESSION "itkNormalVariateGenerator = itk.NormalVariateGenerator.New()")

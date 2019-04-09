@@ -48,6 +48,7 @@ jobs:
         set(CTEST_CMAKE_GENERATOR "Ninja")
         set(BUILD_NAME_SUFFIX "-Python")
         set(dashboard_cache "
+          DISABLE_MODULE_TESTS:BOOL=ON
           BUILD_SHARED_LIBS:BOOL=OFF
           BUILD_EXAMPLES:BOOL=OFF
           ITK_WRAP_PYTHON:BOOL=ON
@@ -64,7 +65,7 @@ jobs:
         c++ --version
         cmake --version
 
-        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -VV -j 4
+        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -VV -j 4 -L Python
       displayName: 'Build and test'
       env:
         CTEST_OUTPUT_ON_FAILURE: 1

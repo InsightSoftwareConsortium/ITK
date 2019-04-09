@@ -11,6 +11,3 @@ itk_add_test(NAME itkMeshFileReadWriteOBJTest
       DATA{Baseline/box.obj}
       ${ITK_TEST_OUTPUT_DIR}/box.obj
 )
-
-itk_python_expression_add_test(NAME itkOBJMeshIOPythonTest
-  EXPRESSION "io = itk.OBJMeshIO.New()")
