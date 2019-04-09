@@ -36,23 +36,29 @@ jobs:
         workingDirectory: $(Agent.BuildDirectory)
         displayName: 'Download dashboard script and testing data'
       - bash: |
-          ctest -V -S ITK-dashboard/azure_dashboard.cmake
-        displayName: Build and test with coverage
+          cat > dashboard.cmake << EOF
+          set(CTEST_BUILD_CONFIGURATION "Debug")
+          set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
+          set(CTEST_BUILD_FLAGS -j2)
+          set(dashboard_cache "
+            BUILD_TESTING:BOOL=ON
+            BUILD_SHARED_LIBS:BOOL=OFF
+            BUILD_EXAMPLES:BOOL=OFF
+            BUILD_DOCUMENTS:BOOL=OFF
+            ITK_WRAP_PYTHON:BOOL=OFF
+            CMAKE_CXX_FLAGS:STRING=-g -O0 -fprofile-arcs -ftest-coverage
+            CMAKE_C_FLAGS:STRING=-g -O0 -fprofile-arcs -ftest-coverage
+            CMAKE_EXE_LINKER_FLAGS:STRING=-g -O0 -fprofile-arcs -ftest-coverage
+            COVERAGE_COMMAND:PATH=/usr/bin/gcov
+          ")
+          include($(Agent.BuildDirectory)/ITK-dashboard/azure_dashboard.cmake)
+          EOF
+          cat dashboard.cmake
+        workingDirectory: $(Agent.BuildDirectory)/ITK-dashboard
+        displayName: 'Configure CTest script'
+      - bash: |
+          ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -VV
+        displayName: 'Build and test with coverage'
         env:
-          CTEST_BUILD_CONFIGURATION: Debug
-          CTEST_BUILD_FLAGS: -j 2
-          CTEST_OUTPUT_ON_FALURE: 1
-          CTEST_CMAKE_GENERATOR: "Unix Makefiles"
-          CTEST_COVERAGE_COMMAND: /usr/bin/gcov
-          CTEST_CACHE: |
-              BUILD_DOCUMENTS:BOOL=OFF
-              BUILD_EXAMPLES:BOOL=OFF
-              BUILD_SHARED_LIBS:BOOL=OFF
-              BUILD_TESTING:BOOL=ON
-              CMAKE_CXX_FLAGS:STRING=-g -O0 -fprofile-arcs -ftest-coverage
-              CMAKE_C_FLAGS:STRING=-g -O0 -fprofile-arcs -ftest-coverage
-              CMAKE_EXE_LINKER_FLAGS:STRING=-g -O0 -fprofile-arcs -ftest-coverage
-              COVERAGE_COMMAND:PATH=/usr/bin/gcov
-          DASHBOARD_DO_COVERAGE: 1
+          CTEST_OUTPUT_ON_FAILURE: 1
           ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS: 2
-        workingDirectory: $(Agent.BuildDirectory)
