@@ -47,8 +47,7 @@ jobs:
           BUILD_SHARED_LIBS:BOOL=ON
           BUILD_EXAMPLES:BOOL=OFF
           ITK_WRAP_PYTHON:BOOL=ON
-          ITK_BUILD_DEFAULT_MODULES:BOOL=OFF
-          ITKGroup_Core:BOOL=ON
+          ITK_BUILD_DEFAULT_MODULES:BOOL=ON
         ")
         include(\$ENV{AGENT_BUILDDIRECTORY}/ITK-dashboard/azure_dashboard.cmake)
         EOF

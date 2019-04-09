@@ -41,7 +41,7 @@ jobs:
 
     - bash: |
         cat > dashboard.cmake << EOF
-        set(CTEST_BUILD_CONFIGURATION "Release")
+        set(CTEST_BUILD_CONFIGURATION "MinSizeRel")
         set(CTEST_CMAKE_GENERATOR "Ninja")
         set(dashboard_cache "
           BUILD_SHARED_LIBS:BOOL=ON
