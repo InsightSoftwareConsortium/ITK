@@ -20,7 +20,7 @@ jobs:
         if [ -n "$(System.PullRequest.SourceCommitId)" ]; then
           git checkout $(System.PullRequest.SourceCommitId)
         fi
-      displayName: Checkout pull request HEAD
+      displayName: 'Checkout pull request HEAD'
 
     - bash: |
         set -x
@@ -29,7 +29,7 @@ jobs:
         sudo apt-get install -y python3-venv python3-numpy python-numpy
         sudo python3 -m pip install --upgrade setuptools
         sudo python3 -m pip install scikit-ci-addons
-      displayName: Install dependencies
+      displayName: 'Install dependencies'
 
     - bash: |
         set -x
@@ -40,26 +40,34 @@ jobs:
         cmake -E tar xfz InsightData-$(ExternalDataVersion).tar.gz
         cmake -E rename InsightToolkit-$(ExternalDataVersion)/.ExternalData/MD5 $(Build.SourcesDirectory)/.ExternalData/MD5
       workingDirectory: $(Agent.BuildDirectory)
-      displayName: Download dashboard script and testing data
+      displayName: 'Download dashboard script and testing data'
 
-    - script: |
+    - bash: |
+        cat > dashboard.cmake << EOF
+        set(CTEST_BUILD_CONFIGURATION "MinSizeRel")
+        set(CTEST_CMAKE_GENERATOR "Ninja")
+        set(BUILD_NAME_SUFFIX "-Python")
+        set(dashboard_cache "
+          BUILD_SHARED_LIBS:BOOL=OFF
+          BUILD_EXAMPLES:BOOL=OFF
+          ITK_WRAP_PYTHON:BOOL=ON
+        ")
+        include(\$ENV{AGENT_BUILDDIRECTORY}/ITK-dashboard/azure_dashboard.cmake)
+        EOF
+        cat dashboard.cmake
+      workingDirectory: $(Agent.BuildDirectory)/ITK-dashboard
+      displayName: 'Configure CTest script'
+
+    - bash: |
         set -x
-
-        if [ -n "$(System.PullRequest.SourceCommitId)" ]; then
-          git checkout $(System.PullRequest.SourceCommitId)
-        fi
 
         c++ --version
         cmake --version
 
-        export BUILD_EXAMPLES=OFF
-        export CTEST_BUILD_CONFIGURATION=MinSizeRel
-        export ITK_WRAP_PYTHON=ON
-        export CTEST_OUTPUT_ON_FAILURE=1
-
-        ctest -S ITK-dashboard/azure_dashboard.cmake -V -j 4
-      workingDirectory: $(Agent.BuildDirectory)
-      displayName: Build and test
+        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -VV -j 4
+      displayName: 'Build and test'
+      env:
+        CTEST_OUTPUT_ON_FAILURE: 1
 
     - script: |
         ci_addons ctest_junit_formatter $(Build.SourcesDirectory)-build > $(Agent.BuildDirectory)/JUnitTestResults.xml
