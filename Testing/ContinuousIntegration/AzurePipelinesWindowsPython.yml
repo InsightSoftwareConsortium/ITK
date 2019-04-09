@@ -59,7 +59,7 @@ jobs:
     - script: |
         cmake --version
         call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -VV -j 4
+        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -VV -j 4 -L Python
       displayName: 'Build and test'
       env:
         CTEST_OUTPUT_ON_FAILURE: 1

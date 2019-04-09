@@ -65,7 +65,7 @@ jobs:
         c++ --version
         cmake --version
 
-        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -VV -j 4
+        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -VV -j 4 -L Python
       displayName: 'Build and test'
       env:
         CTEST_OUTPUT_ON_FAILURE: 1
