@@ -89,7 +89,7 @@ public:
 protected:
 
   /** Compute the Object bounding box */
-  void ComputeMyBoundingBox() const override;
+  void ComputeMyBoundingBox() override;
 
   ArrowSpatialObject();
   ~ArrowSpatialObject() override = default;
