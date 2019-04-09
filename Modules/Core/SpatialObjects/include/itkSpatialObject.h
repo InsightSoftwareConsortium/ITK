@@ -502,9 +502,6 @@ public:
   itkLegacyMacro( void ComputeObjectToWorldTransform() )
   { this->Update(); /* Update() should be used instead of ProtectedComputeObjectToWorldTransform() */ }
 
-  itkLegacyMacro( void ComputeMyBoundingBox() )
-  { this->Update(); /* Update() should be used instead of ProtectedComputeMyBoundingBox() */}
-
   itkLegacyMacro( void ComputeBoundingBox() )
   { this->Update(); /* Update() should be used instead of outdated ComputeBoundingBox() */}
 
