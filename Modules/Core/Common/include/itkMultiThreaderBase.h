@@ -181,7 +181,11 @@ INTEL_PRAGMA_WARN_PUSH
 INTEL_SUPPRESS_warning_1292
 CLANG_PRAGMA_PUSH
 CLANG_SUPPRESS_Wc__14_extensions
+#ifdef ITK_LEGACY_SILENT
+  struct ThreadInfoStruct
+#else
   struct [[deprecated( "Use WorkUnitInfo, ThreadInfoStruct is deprecated since ITK 5.0" )]] ThreadInfoStruct
+#endif
 CLANG_PRAGMA_POP
 INTEL_PRAGMA_WARN_POP
   {
