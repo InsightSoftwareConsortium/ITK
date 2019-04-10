@@ -6,3 +6,4 @@ itk_python_add_test(NAME itkMetaDataDictionaryPythonTest COMMAND itkMetaDataDict
 itk_python_add_test(NAME itkDirectoryPythonTest COMMAND itkDirectoryTest.py)
 itk_python_expression_add_test(NAME itkObjectPythonTest EXPRESSION "itkObject = itk.Object.New()")
 itk_python_add_test(NAME itkIndexOffsetPythonTest COMMAND itkIndexOffsetTest.py)
+itk_python_add_test(NAME itkImageDuplicatorPythonTest COMMAND itkImageDuplicatorTest.py)
