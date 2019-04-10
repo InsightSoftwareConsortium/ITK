@@ -55,16 +55,10 @@ public:
   using ImageType = Image< PixelType, TDimension >;
   using ImagePointer = typename ImageType::ConstPointer;
   using IndexType = typename ImageType::IndexType;
-  using RegionType = typename ImageType::RegionType;
-  using TransformType = typename Superclass::TransformType;
   using PointType = typename Superclass::PointType;
-  using BoundingBoxType = typename Superclass::BoundingBoxType;
   using InterpolatorType = InterpolateImageFunction< ImageType >;
 
   using NNInterpolatorType = NearestNeighborInterpolateImageFunction<ImageType>;
-
-  using PointContainerType = VectorContainer< IdentifierType, PointType >;
-  using PointContainerPointer = typename PointContainerType::Pointer;
 
   static constexpr unsigned int ObjectDimension = TDimension;
 
