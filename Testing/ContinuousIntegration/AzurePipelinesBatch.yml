@@ -40,6 +40,8 @@ jobs:
           set(CTEST_BUILD_CONFIGURATION "Debug")
           set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
           set(CTEST_BUILD_FLAGS -j2)
+          set(CTEST_COVERAGE_COMMAND "/usr/bin/gcov")
+          set(dashboard_do_coverage 1)
           set(dashboard_cache "
             BUILD_TESTING:BOOL=ON
             BUILD_SHARED_LIBS:BOOL=OFF
@@ -49,7 +51,6 @@ jobs:
             CMAKE_CXX_FLAGS:STRING=-g -O0 -fprofile-arcs -ftest-coverage
             CMAKE_C_FLAGS:STRING=-g -O0 -fprofile-arcs -ftest-coverage
             CMAKE_EXE_LINKER_FLAGS:STRING=-g -O0 -fprofile-arcs -ftest-coverage
-            COVERAGE_COMMAND:PATH=/usr/bin/gcov
           ")
           include($(Agent.BuildDirectory)/ITK-dashboard/azure_dashboard.cmake)
           EOF
