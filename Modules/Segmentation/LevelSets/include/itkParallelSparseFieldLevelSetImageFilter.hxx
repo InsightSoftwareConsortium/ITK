@@ -139,6 +139,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   this->SetRMSChange( static_cast< double >( m_ValueOne ) );
   this->DynamicMultiThreadingOff();
   this->SetMultiThreader(PlatformMultiThreader::New());
+  this->SetNumberOfWorkUnits( this->GetMultiThreader()->GetMaximumNumberOfThreads() );
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -1333,7 +1334,22 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 
       if ( str->Filter->m_BoundaryChanged == true )
         {
-        str->Filter->ThreadedLoadBalance (ThreadId);
+        // the situation at this point in time::
+        // the OPTIMAL boundaries (that divide work equally) have changed but ...
+        // the thread data lags behind the boundaries (it is still following the old
+        // boundaries) the m_ZHistogram[], however, reflects the latest optimal
+        // boundaries
+
+        // The task:
+        // 1. Every thread checks for pixels with itself that should NOT be with
+        //    itself anymore (because of the changed boundaries).
+        //    These pixels are now put in extra "buckets" for other threads to grab
+        // 2. WaitForAll ().
+        // 3. Every thread grabs those pixels, from every other thread, that come
+        //    within its boundaries (from the extra buckets).
+        str->Filter->ThreadedLoadBalance1( ThreadId );
+        str->Filter->WaitForAll();
+        str->Filter->ThreadedLoadBalance2( ThreadId );
         str->Filter->WaitForAll();
         }
       }
@@ -2359,25 +2375,8 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
-::ThreadedLoadBalance(ThreadIdType ThreadId)
+::ThreadedLoadBalance1(ThreadIdType ThreadId)
 {
-  // the situation at this point in time::
-  // the OPTIMAL boundaries (that divide work equally) have changed but ...
-  // the thread data lags behind the boundaries (it is still following the old
-  // boundaries) the m_ZHistogram[], however, reflects the latest optimal
-  // boundaries
-
-  // The task:
-  // 1. Every thread checks for pixels with itself that should NOT be with
-  //    itself anymore (because of the changed boundaries).
-  //    These pixels are now put in extra "buckets" for other threads to grab
-  // 2. WaitForAll ().
-  // 3. Every thread grabs those pixels, from every other thread, that come
-  //    within its boundaries (from the extra buckets).
-
-  ////////////////////////////////////////////////////
-  // 1.
-
   unsigned int i;
 
   // cleanup the layers first
@@ -2426,14 +2425,14 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
         }
       }
     }
+}
 
-  ////////////////////////////////////////////////////
-  // 2.
-  this->WaitForAll();
-
-  ////////////////////////////////////////////////////
-  // 3.
-  for ( i = 0; i < 2 * static_cast< unsigned int >( m_NumberOfLayers ) + 1; i++ )
+template< typename TInputImage, typename TOutputImage >
+void
+ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
+::ThreadedLoadBalance2(ThreadIdType ThreadId)
+{
+  for ( unsigned i = 0; i < 2 * static_cast< unsigned int >( m_NumberOfLayers ) + 1; i++ )
     {
     // check all other threads
     for ( ThreadIdType tid = 0; tid < m_NumOfThreads; tid++ )

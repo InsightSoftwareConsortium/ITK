@@ -664,7 +664,8 @@ protected:
 
   /** Redistribute an load among the threads to obtain a more balanced load distribution.
    *  This is performed in parallel by all the threads. */
-  virtual void ThreadedLoadBalance(ThreadIdType ThreadId);
+  void ThreadedLoadBalance1(ThreadIdType ThreadId);
+  void ThreadedLoadBalance2(ThreadIdType ThreadId);
 
   /** Thread synchronization methods. */
   void WaitForAll();
@@ -715,8 +716,6 @@ protected:
 
   /** Local data for each individual thread. */
   struct ThreadData {
-    char pad1[128];
-
     TimeStepType TimeStep;
     ThreadRegionType ThreadRegion;
     ValueType m_RMSChange;
@@ -757,8 +756,6 @@ protected:
     /** Indicates whether to use m_Semaphore[0] or m_Semaphore[1] for
       signalling/waiting */
     unsigned int m_SemaphoreArrayNumber;
-
-    char m_Pad2[128];
   };
 
   /** An array storing the individual (local) data structures for each thread.
