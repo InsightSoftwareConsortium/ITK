@@ -21,7 +21,6 @@
 #include "itkFiniteDifferenceImageFilter.h"
 #include "itkMultiThreaderBase.h"
 #include "itkNarrowBand.h"
-#include "itkBarrier.h"
 #include "itkObjectStore.h"
 #include "itkPlatformMultiThreader.h"
 
