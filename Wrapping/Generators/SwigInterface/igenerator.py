@@ -93,6 +93,10 @@ class SwigInputGenerator(object):
         ".+[(][*][)][(].+" # functor functions
     ]
 
+    forceSnakeCase = [
+      "ImageDuplicator"
+    ]
+
     notWrappedRegExp = re.compile("|".join(["^" + s + "$" for s in notWrapped]))
 
     # stdcomplex code
@@ -518,8 +522,9 @@ class SwigInputGenerator(object):
             classType = getType(typedef)
             bases = [base.related_class.name for base in classType.recursive_bases]
             isProcessObject = 'ProcessObject' in bases
-            if isProcessObject:
-                processObjects.add(classType.name.split('<')[0])
+            short_name = classType.name.split('<')[0]
+            if isProcessObject or short_name in self.forceSnakeCase:
+                processObjects.add(short_name)
         if len(processObjects) > 0:
             self.outputFile.write("\n\n#ifdef SWIGPYTHON\n")
             self.outputFile.write('%pythoncode %{\n')
