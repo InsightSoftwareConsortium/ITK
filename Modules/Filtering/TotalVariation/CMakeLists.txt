@@ -1,6 +1,10 @@
 project(TotalVariation)
 
-set(TotalVariation_LIBRARIES TotalVariation)
+if(ITK_USE_SYSTEM_proxTV)
+  set(TotalVariation_LIBRARIES proxTV::proxTV)
+else()
+  set(TotalVariation_LIBRARIES proxTV)
+endif()
 
 set(${PROJECT_NAME}_THIRD_PARTY 1)
 
