@@ -92,21 +92,20 @@ ParallelSparseFieldCityBlockNeighborList< TNeighborhoodType >
 template< typename TInputImage, typename TOutputImage >
 typename ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::ValueType
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
-::m_ValueOne = NumericTraits< typename ParallelSparseFieldLevelSetImageFilter< TInputImage,
-                                                                                   TOutputImage >::ValueType >::OneValue();
+::m_ValueOne = NumericTraits< typename ParallelSparseFieldLevelSetImageFilter<
+  TInputImage, TOutputImage >::ValueType >::OneValue();
 
 template< typename TInputImage, typename TOutputImage >
 typename ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::ValueType
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
-::m_ValueZero = NumericTraits< typename ParallelSparseFieldLevelSetImageFilter< TInputImage,
-                                                                                    TOutputImage >::ValueType >::ZeroValue();
+::m_ValueZero = NumericTraits< typename ParallelSparseFieldLevelSetImageFilter<
+  TInputImage, TOutputImage >::ValueType >::ZeroValue();
 
 template< typename TInputImage, typename TOutputImage >
 typename ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
-::m_StatusNull = NumericTraits< typename ParallelSparseFieldLevelSetImageFilter< TInputImage,
-                                                                                     TOutputImage >::StatusType >::
-                 NonpositiveMin();
+::m_StatusNull = NumericTraits< typename ParallelSparseFieldLevelSetImageFilter<
+  TInputImage, TOutputImage >::StatusType >::NonpositiveMin();
 
 template< typename TInputImage, typename TOutputImage >
 typename ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >::StatusType
@@ -132,9 +131,7 @@ template< typename TInputImage, typename TOutputImage >
 ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 ::ParallelSparseFieldLevelSetImageFilter() :
   m_NumberOfLayers(ImageDimension),
-  m_IsoSurfaceValue(m_ValueZero),
-  m_Data(nullptr)
-
+  m_IsoSurfaceValue(m_ValueZero)
 {
   this->SetRMSChange( static_cast< double >( m_ValueOne ) );
 }

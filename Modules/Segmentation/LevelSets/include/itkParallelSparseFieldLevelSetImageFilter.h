@@ -747,7 +747,7 @@ protected:
 
   /** An array storing the individual (local) data structures for each thread.
     */
-  ThreadData *m_Data;
+  ThreadData* m_Data{ nullptr };
 
   /** Used to check if there are too few pixels remaining. If yes, then we can
    *  stop iterating. */
