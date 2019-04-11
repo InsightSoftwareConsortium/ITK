@@ -23,7 +23,6 @@
 #include "itkObjectStore.h"
 #include "itkNeighborhoodIterator.h"
 #include "itkMultiThreaderBase.h"
-#include "itkBarrier.h"
 #include <condition_variable>
 #include <vector>
 
@@ -503,21 +502,11 @@ protected:
    *  iterations. */
   void DeallocateData();
 
-  /** Structure for managing thread-specific data */
-  struct ParallelSparseFieldLevelSetThreadStruct {
-    ParallelSparseFieldLevelSetImageFilter *Filter;
-    std::vector< TimeStepType > TimeStepList;
-    std::vector< bool > ValidTimeStepList;
-    TimeStepType TimeStep;
-  };
-
   /** This method calculates the change and does the update, i.e. one iteration
    *  of this iterative solver.  A barrier class is used to synchronize
    *  execution and keep the CalculateChange and ApplyUpdate sections from
    *  executing simultaneously.  */
   void Iterate();
-
-  static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION IterateThreaderCallback(void *arg);
 
   /** This method allows a subclass to override the way in which updates to
    * output values are applied during each iteration.  The default simply
@@ -664,10 +653,8 @@ protected:
 
   /** Redistribute an load among the threads to obtain a more balanced load distribution.
    *  This is performed in parallel by all the threads. */
-  virtual void ThreadedLoadBalance(ThreadIdType ThreadId);
-
-  /** Thread synchronization methods. */
-  void WaitForAll();
+  void ThreadedLoadBalance1(ThreadIdType ThreadId);
+  void ThreadedLoadBalance2(ThreadIdType ThreadId);
 
   void SignalNeighborsAndWait(ThreadIdType ThreadId);
 
@@ -679,9 +666,10 @@ protected:
    * they can override this method. This method is defined but empty in this class. */
   virtual void ThreadedInitializeIteration(ThreadIdType ThreadId);
 
-  /**  For debugging.  Writes the active layer set (grid-points closest to evolving
-   *  interface) to a file. */
-  //  void WriteActivePointsToFile ();
+  /** Thread-specific data */
+  std::vector< TimeStepType > m_TimeStepList;
+  std::vector< bool >         m_ValidTimeStepList;
+  TimeStepType                m_TimeStep;
 
   /** The number of threads to use. */
   ThreadIdType m_NumOfThreads{0};
@@ -710,13 +698,8 @@ protected:
    *  volume  */
   int *m_ZCumulativeFrequency{nullptr};
 
-  /** A global barrier used for synchronization between all threads. */
-  typename Barrier::Pointer m_Barrier;
-
   /** Local data for each individual thread. */
-  struct ThreadData {
-    char pad1[128];
-
+  struct ThreadDataUnaligned {
     TimeStepType TimeStep;
     ThreadRegionType ThreadRegion;
     ValueType m_RMSChange;
@@ -757,13 +740,14 @@ protected:
     /** Indicates whether to use m_Semaphore[0] or m_Semaphore[1] for
       signalling/waiting */
     unsigned int m_SemaphoreArrayNumber;
-
-    char m_Pad2[128];
   };
+
+  itkPadStruct( ITK_CACHE_LINE_ALIGNMENT, ThreadDataUnaligned, ThreadDataPadded );
+  itkAlignedTypedef( ITK_CACHE_LINE_ALIGNMENT, ThreadDataPadded, ThreadData );
 
   /** An array storing the individual (local) data structures for each thread.
     */
-  ThreadData *m_Data;
+  ThreadData* m_Data{ nullptr };
 
   /** Used to check if there are too few pixels remaining. If yes, then we can
    *  stop iterating. */
