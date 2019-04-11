@@ -699,7 +699,7 @@ protected:
   int *m_ZCumulativeFrequency{nullptr};
 
   /** Local data for each individual thread. */
-  struct ThreadData {
+  struct ThreadDataUnaligned {
     TimeStepType TimeStep;
     ThreadRegionType ThreadRegion;
     ValueType m_RMSChange;
@@ -741,6 +741,9 @@ protected:
       signalling/waiting */
     unsigned int m_SemaphoreArrayNumber;
   };
+
+  itkPadStruct( ITK_CACHE_LINE_ALIGNMENT, ThreadDataUnaligned, ThreadDataPadded );
+  itkAlignedTypedef( ITK_CACHE_LINE_ALIGNMENT, ThreadDataPadded, ThreadData );
 
   /** An array storing the individual (local) data structures for each thread.
     */
