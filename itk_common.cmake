@@ -146,14 +146,19 @@ endif()
 
 # Select Git source to use.
 if(NOT DEFINED dashboard_git_url)
-set(dashboard_git_url "https://itk.org/ITK.git")
+  set(dashboard_git_url "https://github.com/InsightSoftwareConsortium/ITK.git")
 endif()
 if(NOT DEFINED dashboard_git_branch)
-  if("${dashboard_model}" STREQUAL "Nightly")
-    set(dashboard_git_branch nightly-master)
-  else()
-    set(dashboard_git_branch master)
-  endif()
+   if("${dashboard_model}" STREQUAL "Nightly")
+     set(dashboard_git_branch follow/master/nightly)
+   else()
+     set(dashboard_git_branch master)
+   endif()
+ else()
+   # map values from outdated client scripts
+   if(dashboard_git_branch STREQUAL "nightly-master")
+     set(dashboard_git_branch follow/master/nightly)
+   endif()
 endif()
 if(NOT DEFINED dashboard_git_crlf)
   if(UNIX)
@@ -223,27 +228,21 @@ if(EXISTS ${CTEST_SOURCE_DIRECTORY})
   endif()
 endif()
 
+# Upstream non-head refs to treat like branches.
+# These are updated by kwrobot.
+set(dashboard_git_extra_branches
+  follow/master/nightly          # updated nightly to master
+  )
+
 # Support initial checkout if necessary.
 if(NOT EXISTS "${CTEST_SOURCE_DIRECTORY}"
     AND NOT DEFINED CTEST_CHECKOUT_COMMAND)
   get_filename_component(_name "${CTEST_SOURCE_DIRECTORY}" NAME)
-  execute_process(COMMAND ${CTEST_GIT_COMMAND} --version OUTPUT_VARIABLE output)
-  string(REGEX MATCH "[0-9]+\\.[0-9]+\\.[0-9]+(\\.[0-9]+(\\.g[0-9a-f]+)?)?" GIT_VERSION "${output}")
-  if(NOT "${GIT_VERSION}" VERSION_LESS "1.6.5")
-    # Have "git clone -b <branch>" option.
-    set(git_branch_new "-b ${dashboard_git_branch}")
-    set(git_branch_old)
-  else()
-    # No "git clone -b <branch>" option.
-    set(git_branch_new)
-    set(git_branch_old "-b ${dashboard_git_branch} origin/${dashboard_git_branch}")
-  endif()
-
     # Generate an initial checkout script.
     set(ctest_checkout_script ${CTEST_DASHBOARD_ROOT}/${_name}-init.cmake)
     file(WRITE ${ctest_checkout_script} "# git repo init script for ${_name}
 execute_process(
-  COMMAND \"${CTEST_GIT_COMMAND}\" clone -n ${git_branch_new} -- \"${dashboard_git_url}\"
+  COMMAND \"${CTEST_GIT_COMMAND}\" clone -n -- \"${dashboard_git_url}\"
           \"${CTEST_SOURCE_DIRECTORY}\"
   )
 if(EXISTS \"${CTEST_SOURCE_DIRECTORY}/.git\")
@@ -251,18 +250,34 @@ if(EXISTS \"${CTEST_SOURCE_DIRECTORY}/.git\")
     COMMAND \"${CTEST_GIT_COMMAND}\" config core.autocrlf ${dashboard_git_crlf}
     WORKING_DIRECTORY \"${CTEST_SOURCE_DIRECTORY}\"
     )
+  foreach(b ${dashboard_git_extra_branches})
+     execute_process(
+       COMMAND \"${CTEST_GIT_COMMAND}\" config --add remote.origin.fetch +refs/\${b}:refs/remotes/origin/\${b}
+       WORKING_DIRECTORY \"${CTEST_SOURCE_DIRECTORY}\"
+       )
+  endforeach()
   execute_process(
-    COMMAND \"${CTEST_GIT_COMMAND}\" checkout ${git_branch_old}
+    COMMAND \"${CTEST_GIT_COMMAND}\" fetch
     WORKING_DIRECTORY \"${CTEST_SOURCE_DIRECTORY}\"
     )
+  foreach(b ${dashboard_git_extra_branches})
+    execute_process(
+       COMMAND \"${CTEST_GIT_COMMAND}\" branch \${b} origin/\${b}
+       WORKING_DIRECTORY \"${CTEST_SOURCE_DIRECTORY}\"
+       )
+     execute_process(
+       COMMAND \"${CTEST_GIT_COMMAND}\" config branch.\${b}.remote origin
+       WORKING_DIRECTORY \"${CTEST_SOURCE_DIRECTORY}\"
+     )
+     execute_process(
+       COMMAND \"${CTEST_GIT_COMMAND}\" config branch.\${b}.merge refs/\${b}
+       WORKING_DIRECTORY \"${CTEST_SOURCE_DIRECTORY}\"
+       )
+  endforeach()
   execute_process(
-    COMMAND \"${CTEST_GIT_COMMAND}\" submodule init
-    WORKING_DIRECTORY \"${CTEST_SOURCE_DIRECTORY}\"
-    )
-  execute_process(
-    COMMAND \"${CTEST_GIT_COMMAND}\" submodule update --
-    WORKING_DIRECTORY \"${CTEST_SOURCE_DIRECTORY}\"
-    )
+     COMMAND \"${CTEST_GIT_COMMAND}\" checkout ${dashboard_git_branch}
+     WORKING_DIRECTORY \"${CTEST_SOURCE_DIRECTORY}\"
+     )
 endif()
 ")
   set(CTEST_CHECKOUT_COMMAND "\"${CMAKE_COMMAND}\" -P \"${ctest_checkout_script}\"")
