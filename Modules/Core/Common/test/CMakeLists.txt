@@ -618,6 +618,7 @@ set(ITKCommonGTests
       itkImageBufferRangeGTest.cxx
       itkIndexRangeGTest.cxx
       itkShapedImageNeighborhoodRangeGTest.cxx
+      itkSizeGTest.cxx
       itkSmartPointerGTest.cxx
       itkVectorContainerGTest.cxx
       itkCommonTypeTraitsGTest.cxx
