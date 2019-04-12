@@ -32,6 +32,7 @@ SingleImageCostFunction<TImage>::SingleImageCostFunction()
   m_Image = nullptr;                 // Provided by user
   m_Interpolator = nullptr;          // Configured in Initialize()
   m_GradientImageFunction = nullptr; // Configured in Initialize()
+  m_DerivativeThreshold = 15.0;      // as in original implementation
 }
 
 
@@ -132,7 +133,6 @@ SingleImageCostFunction<TImage>::GetDerivative(const ParametersType & parameters
   }
 
   // Convert the image function output to the cost function derivative
-  constexpr typename DerivativeType::ValueType DerivativeThreshold = 15.0;
   for (unsigned int i = 0; i < ImageDimension; i++)
   {
     derivative[i] = static_cast<typename DerivativeType::ValueType>(output[i]);
@@ -141,7 +141,7 @@ SingleImageCostFunction<TImage>::GetDerivative(const ParametersType & parameters
     //           (indicated by very large values) which may skew the gradient.
     //           To avoid this skewing effect, we reset gradient values larger
     //           than a given threshold.
-    if (itk::Math::abs(derivative[i]) > DerivativeThreshold)
+    if (itk::Math::abs(derivative[i]) > m_DerivativeThreshold)
     {
       derivative[i] = 0.0;
     }
