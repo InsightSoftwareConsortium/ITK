@@ -29,7 +29,7 @@ add_executable(
 target_link_libraries(iteratorTests "${RLEImage-Test_LIBRARIES}")
 itk_add_test(NAME RLEImageiteratorTests COMMAND iteratorTests)
 
-function(ReadWriteTest ImageName Ext)
+function(ReadWriteTest ImageName Ext) # optional: big
   set(outImage "${ITK_TEST_OUTPUT_DIR}/${ImageName}.${Ext}")
   itk_add_test(
     NAME RLEImage${ImageName}
@@ -42,6 +42,24 @@ function(ReadWriteTest ImageName Ext)
       DATA{Input/${ImageName}.${Ext}}
       ${outImage}
   )
+  if("${ARGN}" STREQUAL "big")
+    set_property(
+      TEST
+        RLEImage${ImageName}
+      APPEND
+      PROPERTY
+        LABELS
+          RUNS_LONG
+    )
+    set_property(
+      TEST
+        RLEImage${ImageName}
+      APPEND
+      PROPERTY
+        RUN_SERIAL
+          True
+    )
+  endif()
 endfunction()
 
 # RLEImage specific tests - quick
@@ -84,5 +102,5 @@ readwritetest(65239R_amygdala_fin nii.gz)
 readwritetest(65239R_amygdala_int nii.gz)
 
 # RLEImage specific tests - long
-readwritetest(wb-seg nrrd)
-readwritetest(wb-seg32 nrrd)
+readwritetest(wb-seg nrrd big)
+readwritetest(wb-seg32 nrrd big)
