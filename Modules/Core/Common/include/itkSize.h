@@ -360,6 +360,17 @@ private:
       }
   }
 
+public:
+
+  /** Returns a Size object, filled with the specified value for each element.
+   */
+  static Self Filled(const SizeValueType value)
+  {
+    Self result;
+    result.Fill(value);
+    return result;
+  }
+
 };  //------------ End struct Size
 
 
