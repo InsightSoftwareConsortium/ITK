@@ -77,7 +77,7 @@ public:
 
 protected:
   MetaConverterBase() {}
-  ~MetaConverterBase() = default;
+  ~MetaConverterBase() override = default;
 
   /** Creator for specific metaObject, defined in subclass */
   virtual MetaObjectType *CreateMetaObject() = 0;
