@@ -146,7 +146,7 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
   FixedArray< double, ImageDimension > dimFactor; // each dimension might have different size
   for ( unsigned d = 0; d < ImageDimension; d++ )
     {
-    double dimFactor = 100.0 / size[d]; // turn absolute size into percentages
+    dimFactor = 100.0 / size[d]; // turn absolute size into percentages
     }
   constexpr IndexValueType znSize = 4; // zero neighborhood size, in city-block distance
   mt->ParallelizeImageRegion<ImageDimension>( wholeImage,
