@@ -191,6 +191,7 @@ ImageMaskSpatialObject< TDimension, TPixel >
   RegionType region;
 
   ImagePointer image = this->GetImage();
+  const RegionType imageRegion = image->GetRequestedRegion();
 
   IndexType index;
   SizeType  size;
@@ -219,7 +220,7 @@ ImageMaskSpatialObject< TDimension, TPixel >
         }
 
       // Create the forward iterator to find lower bound
-      SliceIteratorType fit( image,  image->GetRequestedRegion() );
+      SliceIteratorType fit( image,  imageRegion );
       fit.SetFirstDirection(direction[1]);
       fit.SetSecondDirection(direction[0]);
 
@@ -244,7 +245,7 @@ ImageMaskSpatialObject< TDimension, TPixel >
         }
 
       // Create the reverse iterator to find upper bound
-      SliceIteratorType rit( image,  image->GetRequestedRegion() );
+      SliceIteratorType rit( image,  imageRegion );
       rit.SetFirstDirection(direction[1]);
       rit.SetSecondDirection(direction[0]);
 
@@ -274,16 +275,12 @@ ImageMaskSpatialObject< TDimension, TPixel >
     }
   else
     {
-    //itkExceptionMacro( << "ImageDimension must be 3!" );
     using IteratorType = ImageRegionConstIteratorWithIndex< ImageType >;
-    IteratorType it( image, image->GetRequestedRegion() );
+    IteratorType it( image, imageRegion );
     it.GoToBegin();
 
-    for ( unsigned int i = 0; i < ImageType::ImageDimension; ++i )
-      {
-      index[i] = image->GetRequestedRegion().GetSize(i);
-      size[i]  = image->GetRequestedRegion().GetIndex(i);
-      }
+    IndexType minBoundingBoxIndex = imageRegion.GetIndex() + imageRegion.GetSize();
+    IndexType maxBoundingBoxIndex = imageRegion.GetIndex();
 
     while ( !it.IsAtEnd() )
       {
@@ -292,27 +289,25 @@ ImageMaskSpatialObject< TDimension, TPixel >
         IndexType tmpIndex = it.GetIndex();
         for ( unsigned int i = 0; i < ImageType::ImageDimension; ++i )
           {
-          if ( index[i] > tmpIndex[i] )
-            {
-            index[i] = tmpIndex[i];
-            }
-
-          const auto tmpSize = static_cast< SizeValueType >( tmpIndex[i] );
-
-          if ( size[i]  < tmpSize )
-            {
-            size[i]  = tmpSize;
-            }
+          minBoundingBoxIndex[i] = std::min(minBoundingBoxIndex[i], tmpIndex[i]);
+          maxBoundingBoxIndex[i] = std::max(maxBoundingBoxIndex[i], tmpIndex[i]);
           }
         }
       ++it;
       }
 
+    if (maxBoundingBoxIndex[0] < minBoundingBoxIndex[0])
+      {
+      // In this case, the image region is entirely black (all pixels are zero),
+      // so the bounding box must be empty.
+      return RegionType{};
+      }
+
     for ( unsigned int i = 0; i < ImageType::ImageDimension; ++i )
       {
-      size[i] = size[i] - index[i] + 1;
+      size[i] = maxBoundingBoxIndex[i] - minBoundingBoxIndex[i] + 1;
       }
-    region.SetIndex(index);
+    region.SetIndex(minBoundingBoxIndex);
     region.SetSize(size);
     } // end else
 
