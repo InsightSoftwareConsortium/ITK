@@ -271,6 +271,15 @@ void PNGImageIO::Read(void *buffer)
     {
     row_pointers[ui] = tempImage + rowbytes * ui;
     }
+
+  png_set_error_fn(png_ptr, (png_voidp)nullptr,
+                   itkPNGWriteErrorFunction, itkPNGWriteWarningFunction);
+  if( setjmp( png_jmpbuf( png_ptr ) ) )
+    {
+    itkExceptionMacro( "Error while reading file: "
+                       << this->GetFileName()
+                       << std::endl );
+    }
   png_read_image(png_ptr, row_pointers);
   delete[] row_pointers;
   // close the file
