@@ -104,7 +104,6 @@ itkStdStreamStateSaveTest.cxx
 itkVersionTest.cxx
 VNLSparseLUSolverTraitsTest.cxx
 )
-
 set(ITKCommon2Tests
 itkSTLThreadTest.cxx
 itkThreadedIndexedContainerPartitionerTest.cxx
@@ -631,6 +630,11 @@ if(NOT ITK_BUILD_SHARED_LIBS)
     itk_module_target_label(SharedTestLibrary${_name})
     target_link_libraries(SharedTestLibrary${_name} LINK_PUBLIC ${ITKCommon_LIBRARIES})
     set_property(TARGET SharedTestLibrary${_name} PROPERTY LIBRARY_OUTPUT_DIRECTORY ${ITK_TEST_OUTPUT_DIR})
+      generate_export_header(SharedTestLibrary${_name}
+      EXPORT_FILE_NAME ${ITKCommon_BINARY_DIR}/SharedTestLibrary${_name}Export.h
+      EXPORT_MACRO_NAME SharedTestLibrary${_name}_EXPORT
+      NO_EXPORT_MACRO_NAME SharedTestLibrary${_name}_HIDDEN
+      )
   endmacro()
 
   # Linking static ITK libraries twice, into two different binaries for the same process, is not recommended or supported.
@@ -640,8 +644,7 @@ if(NOT ITK_BUILD_SHARED_LIBS)
   itk_module_target_label(itkObjectFactoryBasePrivateDestructor)
   target_link_libraries(itkObjectFactoryBasePrivateDestructor
       LINK_PUBLIC
-      ${ITKCommon_LIBRARIES}
       SharedTestLibraryA
       SharedTestLibraryB)
-itk_add_test(NAME itkObjectFactoryBasePrivateDestructor COMMAND itkObjectFactoryBasePrivateDestructor)
+  itk_add_test(NAME itkObjectFactoryBasePrivateDestructor COMMAND itkObjectFactoryBasePrivateDestructor)
 endif()

@@ -18,8 +18,10 @@
 #ifndef SharedTestLibraryA_h
 #define SharedTestLibraryA_h
 
+#include "SharedTestLibraryAExport.h"
+
 #include <itkImage.h>
 
-void bar();
+void SharedTestLibraryA_EXPORT bar();
 
 #endif
