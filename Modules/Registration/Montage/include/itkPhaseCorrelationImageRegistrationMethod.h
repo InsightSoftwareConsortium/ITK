@@ -330,6 +330,23 @@ public:
   /** Returns the phase correlation image from the registration process  */
   const RealImageType* GetPhaseCorrelationImage() const;
 
+  /** Resulting vector of offsets. */
+  using OffsetVector = typename RealOptimizerType::OffsetVector;
+
+  /** Get the computed offsets. */
+  virtual const OffsetVector&
+  GetOffsets() const
+    {
+    if ( m_RealOptimizer )
+      {
+      return m_RealOptimizer->GetOffsets();
+      }
+    else
+      {
+      return m_ComplexOptimizer->GetOffsets();
+      }
+    }
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   itkStaticConstMacro( MovingImageDimension, unsigned int, FixedImageType::ImageDimension );
   /** Start concept checking */
