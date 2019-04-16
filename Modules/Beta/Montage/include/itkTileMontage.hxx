@@ -73,6 +73,7 @@ TileMontage< TImageType, TCoordinate >
   nullCount = std::count( m_FFTCache.begin(), m_FFTCache.end(), nullptr );
   os << indent << "FFTCache (filled/capcity): " << m_FFTCache.size() - nullCount
     << "/" << m_FFTCache.size() << std::endl;
+  //os << indent << "Transform Candidates: " << m_TransformCandidates << std::endl;
 
   os << indent << "PhaseCorrelationImageRegistrationMethod: " << m_PCM.GetPointer() << std::endl;
   os << indent << "PCM Optimizer: " << m_PCMOptimizer.GetPointer() << std::endl;
@@ -102,6 +103,7 @@ TileMontage< TImageType, TCoordinate >
     m_MontageSize = montageSize;
     m_Filenames.resize( m_LinearMontageSize );
     m_FFTCache.resize( m_LinearMontageSize );
+    m_TransformCandidates.resize( ImageDimension * m_LinearMontageSize ); // adjacency along each dimension
     this->Modified();
     }
 }
@@ -213,6 +215,27 @@ TileMontage< TImageType, TCoordinate >
 template< typename TImageType, typename TCoordinate >
 typename TileMontage< TImageType, TCoordinate >::TransformPointer
 TileMontage< TImageType, TCoordinate >
+::OffsetToTransform( const typename PCMOptimizerType::OffsetType& translation, typename ImageType::Pointer tileInformation )
+{
+  PointType p0, p;
+  ContinuousIndexType ci;
+  ci.Fill( 0.0 );
+  tileInformation->TransformContinuousIndexToPhysicalPoint( ci, p0 );
+  for ( unsigned d = 0; d < ImageDimension; d++ )
+    {
+    ci[d] = translation[d];
+    }
+  tileInformation->TransformContinuousIndexToPhysicalPoint( ci, p );
+  typename TransformType::OutputVectorType tr = p - p0;
+
+  TransformPointer t = TransformType::New();
+  t->SetOffset( tr );
+  return t;
+}
+
+template< typename TImageType, typename TCoordinate >
+typename TileMontage< TImageType, TCoordinate >::TransformPointer
+TileMontage< TImageType, TCoordinate >
 ::RegisterPair( TileIndexType fixed, TileIndexType moving )
 {
   DataObjectPointerArraySizeType lFixedInd = nDIndexToLinearIndex( fixed );
@@ -229,23 +252,23 @@ TileMontage< TImageType, TCoordinate >
   m_FFTCache[lFixedInd] = m_PCM->GetFixedImageFFT(); // certainly not null
   m_FFTCache[lMovingInd] = m_PCM->GetMovingImageFFT(); // certrainly not null
 
-  const TransformType* regTr = m_PCM->GetOutput()->Get();
-  // this translation is in index space, convert it into physical space
-  typename TransformType::OutputVectorType translation = regTr->GetOffset();
-  PointType p0, p;
-  ContinuousIndexType ci;
-  ci.Fill( 0.0 );
-  mImage->TransformContinuousIndexToPhysicalPoint( ci, p0 );
-  for ( unsigned d = 0; d < ImageDimension; d++ )
+  const typename PCMType::OffsetVector& offsets = m_PCM->GetOffsets();
+  DataObjectPointerArraySizeType regLinearIndex = lMovingInd;
+  for (unsigned d = 0; d < ImageDimension; d++)
     {
-    ci[d] = translation[d];
+    if (fixed[d] != moving[d]) // this is the different dimension
+      {
+      regLinearIndex += d * m_LinearMontageSize;
+      break;
+      }
     }
-  mImage->TransformContinuousIndexToPhysicalPoint( ci, p );
-  translation = p - p0;
+  m_TransformCandidates[regLinearIndex].resize( offsets.size() );
+  for ( unsigned i = 0; i < offsets.size(); i++ )
+    {
+    m_TransformCandidates[regLinearIndex][i] = OffsetToTransform( offsets[i], mImage );
+    }
 
-  TransformPointer t = TransformType::New();
-  t->SetOffset( translation );
-  return t;
+  return m_TransformCandidates[regLinearIndex][0];
 }
 
 template< typename TImageType, typename TCoordinate >
@@ -465,7 +488,7 @@ TileMontage< TImageType, TCoordinate >
   this->WriteOutTransform( ind0, t0 ); // write identity (no translation) for tile 0
   this->MontageDimension( this->ImageDimension - 1, ind0 );
 
-  // clear rest of the cache after montaging is finished
+  // write transforms and clear rest of the cache after montaging is finished
   for ( SizeValueType i = 0; i < m_LinearMontageSize; i++ )
     {
     m_FFTCache[i] = nullptr;
@@ -473,6 +496,7 @@ TileMontage< TImageType, TCoordinate >
       {
       this->SetInputTile( this->LinearIndexTonDIndex( i ), m_Dummy );
       }
+    //this->WriteOutTransform( currentIndex, t );
     }
 }
 
