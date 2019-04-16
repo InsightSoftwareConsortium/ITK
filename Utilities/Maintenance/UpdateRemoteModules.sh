@@ -56,8 +56,8 @@ for filename in ${remote_modules_path}/*.cmake; do
     fi
   fi
 
-  # Sed the the latest commit hash in the CMake file
-  sed -i "" "s/${curr_commit}/${latest_commit}/g" $filename
+  # Search and replace the latest commit hash in the CMake file
+  ex -sc "%s/${curr_commit}/${latest_commit}/g|x" $filename
 
   echo "$repository was updated to latest commit"
 
