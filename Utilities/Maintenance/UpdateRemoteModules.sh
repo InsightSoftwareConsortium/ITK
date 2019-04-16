@@ -24,29 +24,41 @@ cd "${BASH_SOURCE%/*}" &&
 
 remote_modules_path=$(cd ../../Modules/Remote && pwd)
 
-git_repository_tag_label='GIT_REPOSITORY'
-git_tag_label='GIT_TAG'
-
 # Loop over the remote modules' CMake files
 for filename in ${remote_modules_path}/*.cmake; do
 
   # Get the current commit hash
-  curr_commit_str=($(grep $git_tag_label $filename))
-  curr_commit_hash=${curr_commit_str[1]}
+  curr_commit=$(grep -m 1 -o "GIT_TAG \(\w\|\.\|\-\|_\)*" $filename)
+  curr_commit=${curr_commit/GIT_TAG /}
 
   # Read the git repository information
-  repository_str=$(grep $git_repository_tag_label $filename)
-
-  repository_arr=($(echo $repository_str | tr "/" " "))
-  organization=${repository_arr[-2]}
-  repository_name=${repository_arr[-1]}
+  repository=$(grep -m 1 -o "^\s*GIT_REPOSITORY \${git_protocol}://github.com/\(\w\|\.\|\-\|_\|/\)*" $filename)
+  repository=${repository/*GIT_REPOSITORY \${git_protocol\}:\/\/github.com\//}
+  repository=${repository/.git/}
 
   # Get the latest git commit hash of the remote module.
   # Remotes will usually not be tagged.
-  latest_commit_hash=$(git ls-remote git://github.com/$organization/$repository_name | \
-  grep refs/heads/master | cut -f 1)
+  latest_commit=$(git ls-remote git://github.com/$repository refs/heads/master)
+  latest_commit=${latest_commit/	refs\/heads\/master/}
+
+  if [ $curr_commit = $latest_commit ]; then
+    echo "$repository is already up to date"
+    continue
+  fi
+
+  if [ ${#@} -eq 1 ] && [ $1 = "-ongreen" ]; then
+    # Get the repository status
+    # Be careful of rate limiting (https://developer.github.com/v3/#rate-limiting)
+    status=$(curl -s https://api.github.com/repos/$repository/commits/$latest_commit/status | grep -m 1 "state")
+    if [ "$status" != "  \"state\": \"success\"," ]; then
+      echo "$repository's latest build was unsuccessful, skipping file"
+      continue
+    fi
+  fi
 
   # Sed the the latest commit hash in the CMake file
-  sed -i "s/${curr_commit_hash}/${latest_commit_hash}/g" $filename
+  sed -i "" "s/${curr_commit}/${latest_commit}/g" $filename
+
+  echo "$repository was updated to latest commit"
 
 done
