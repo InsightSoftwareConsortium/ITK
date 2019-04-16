@@ -76,8 +76,9 @@ public:
   /** Internal PhaseCorrelationImageRegistrationMethod's type alias. */
   using PCMType = PhaseCorrelationImageRegistrationMethod< ImageType, ImageType >;
 
-  using PCMOperatorType =
-    itk::PhaseCorrelationOperator< typename itk::NumericTraits< PixelType >::RealType, ImageDimension >;
+  using RealType = typename itk::NumericTraits< PixelType >::RealType;
+
+  using PCMOperatorType = itk::PhaseCorrelationOperator< RealType, ImageDimension >;
 
   using PCMOptimizerType = itk::MaxPhaseCorrelationOptimizer< PCMType >;
 
@@ -240,6 +241,7 @@ protected:
   using FFTConstPointer = typename FFTType::ConstPointer;
 
   using TransformVector = std::vector< TransformPointer >;
+  using ConfidencesType = typename PCMType::ConfidencesVector;
 
   // convets translation from index space into physical space
   TransformPointer OffsetToTransform( const typename PCMOptimizerType::OffsetType& translation,
@@ -256,6 +258,7 @@ private:
   std::vector< std::string >     m_Filenames;
   std::vector< FFTConstPointer > m_FFTCache;
   std::vector< TransformVector > m_TransformCandidates; // to adjacent tiles
+  std::vector< ConfidencesType > m_CandidateConfidences;
   typename PCMType::Pointer      m_PCM = PCMType::New();
   typename ReaderType::Pointer   m_Reader = ReaderType::New();
   typename ImageType::Pointer    m_Dummy = ImageType::New();

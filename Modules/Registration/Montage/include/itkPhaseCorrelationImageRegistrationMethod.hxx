@@ -341,7 +341,7 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
 
     if ( m_RealOptimizer )
       {
-      const unsigned offsetCount = 5 + static_cast< unsigned >( std::pow( 2, ImageDimension ) );
+      const unsigned offsetCount = 1 + static_cast< unsigned >( std::pow( 2, ImageDimension ) );
       m_RealOptimizer->SetOffsetCount( offsetCount ); // update can reduce this, so we have to set it each time
       m_RealOptimizer->Update();
       offset = m_RealOptimizer->GetOffsets()[0];

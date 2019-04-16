@@ -302,6 +302,8 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
     indices.resize( this->m_Offsets.size() );
     }
 
+  double confidenceFactor = 1.0 / m_Confidences[0];
+
   for ( unsigned m = 0; m < m_Confidences.size(); m++ )
     {
     using ContinuousIndexType = ContinuousIndex< OffsetScalarType, ImageDimension >;
@@ -364,6 +366,11 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
         }
       }
 
+    //m_Confidences[m] *= confidenceFactor; // normalize - highest confidence will be 1.0
+#ifdef NDEBUG
+    m_Confidences[m] *= 1000.0; // make the intensities more humane (close to 1.0)
+#endif
+    
     this->m_Offsets[m] = offset;
     }
 }
