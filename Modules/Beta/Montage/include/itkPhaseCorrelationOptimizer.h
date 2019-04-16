@@ -81,7 +81,7 @@ public:
   /** Resulting vector of offsets. */
   using OffsetVector = std::vector< OffsetType >;
 
-  /** Get the computed offset. */
+  /** Get the computed offsets. */
   itkGetConstReferenceMacro( Offsets, OffsetVector );
 
   using Superclass::SetInput;
