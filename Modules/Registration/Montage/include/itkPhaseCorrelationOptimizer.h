@@ -19,6 +19,7 @@
 #define itkPhaseCorrelationOptimizer_h
 
 #include "itkImage.h"
+#include "itkNumericTraits.h"
 #include "itkProcessObject.h"
 #include "itkSimpleDataObjectDecorator.h"
 #include <vector>
@@ -84,6 +85,12 @@ public:
   /** Get the computed offsets. */
   itkGetConstReferenceMacro( Offsets, OffsetVector );
 
+  /** Confidences corresponding to offsets. */
+  using ConfidenceVector = std::vector< typename NumericTraits< typename TImage::PixelType >::ValueType >;
+
+  /** Get the confidences corresponding to offsets. */
+  itkGetConstReferenceMacro( Confidences, ConfidenceVector );
+
   using Superclass::SetInput;
 
   /** Sets the input image to the optimizer. */
@@ -134,7 +141,8 @@ protected:
   virtual void ComputeOffset() = 0;
 
 protected:
-  OffsetVector m_Offsets;
+  OffsetVector     m_Offsets;
+  ConfidenceVector m_Confidences;
 };
 
 } // end namespace itk
