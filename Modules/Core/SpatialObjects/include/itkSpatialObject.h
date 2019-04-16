@@ -530,7 +530,7 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  BoundingBoxType * GetModifiableMyBoundingBoxInObjectSpace() const
+  BoundingBoxType * GetModifiableMyBoundingBoxInObjectSpace()
   { return m_MyBoundingBoxInObjectSpace.GetPointer(); }
 
   typename LightObject::Pointer InternalClone() const override;
