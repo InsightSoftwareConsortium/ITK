@@ -215,16 +215,16 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
     throw err;
     }
 
-  typename MaxCalculatorType::ValueVector maxs = m_MaxCalculator->GetMaxima();
+  m_Confidences = m_MaxCalculator->GetMaxima();
   typename MaxCalculatorType::IndexVector indices = m_MaxCalculator->GetIndicesOfMaxima();
-  itkAssertOrThrowMacro( maxs.size() == indices.size(),
+  itkAssertOrThrowMacro( m_Confidences.size() == indices.size(),
       "Maxima and their indices must have the same number of elements" );
   std::greater< PixelType > compGreater;
-  auto zeroBound = std::upper_bound( maxs.begin(), maxs.end(), 0.0, compGreater );
-  if ( zeroBound != maxs.end() ) // there are some non-positive values in here
+  auto zeroBound = std::upper_bound( m_Confidences.begin(), m_Confidences.end(), 0.0, compGreater );
+  if ( zeroBound != m_Confidences.end() ) // there are some non-positive values in here
     {
-    unsigned i = zeroBound - maxs.begin();
-    maxs.resize( i );
+    unsigned i = zeroBound - m_Confidences.begin();
+    m_Confidences.resize( i );
     indices.resize( i );
     }
 
@@ -256,8 +256,8 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
 
       if ( k < i ) // k is nearby
         {
-        maxs[k] += maxs[i]; // join amplitudes
-        maxs.erase( maxs.begin() + i );
+        m_Confidences[k] += m_Confidences[i]; // join amplitudes
+        m_Confidences.erase( m_Confidences.begin() + i );
         indices.erase( indices.begin() + i );
         }
       else // examine next index
@@ -268,43 +268,48 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
 
     // now we need to re-sort the values
     std::vector< unsigned > sIndices;
-    sIndices.reserve( maxs.size() );
-    for ( i = 0; i < maxs.size(); i++ )
+    sIndices.reserve( m_Confidences.size() );
+    for ( i = 0; i < m_Confidences.size(); i++ )
       {
       sIndices.push_back( i );
       }
-    std::sort( sIndices.begin(), sIndices.end(), [maxs]( unsigned a, unsigned b ) { return maxs[a] > maxs[b]; } );
+    std::sort( sIndices.begin(), sIndices.end(),
+      [this]( unsigned a, unsigned b )
+      {
+        return this->m_Confidences[a] > this->m_Confidences[b];
+      }
+    );
 
     // now apply sorted order
-    typename MaxCalculatorType::ValueVector tMaxs( maxs.size() );
-    typename MaxCalculatorType::IndexVector tIndices( maxs.size() );
-    for ( i = 0; i < maxs.size(); i++ )
+    typename MaxCalculatorType::ValueVector tMaxs( m_Confidences.size() );
+    typename MaxCalculatorType::IndexVector tIndices( m_Confidences.size() );
+    for ( i = 0; i < m_Confidences.size(); i++ )
       {
-      tMaxs[i] = maxs[sIndices[i]];
+      tMaxs[i] = m_Confidences[sIndices[i]];
       tIndices[i] = indices[sIndices[i]];
       }
-    maxs.swap( tMaxs );
+    m_Confidences.swap( tMaxs );
     indices.swap( tIndices );
     }
 
-  if ( this->m_Offsets.size() > maxs.size() )
+  if ( this->m_Offsets.size() > m_Confidences.size() )
     {
-    this->SetOffsetCount( maxs.size() );
+    this->SetOffsetCount( m_Confidences.size() );
     }
   else
     {
-    maxs.resize( this->m_Offsets.size() );
+    m_Confidences.resize( this->m_Offsets.size() );
     indices.resize( this->m_Offsets.size() );
     }
 
-  for ( unsigned m = 0; m < maxs.size(); m++ )
+  for ( unsigned m = 0; m < m_Confidences.size(); m++ )
     {
     using ContinuousIndexType = ContinuousIndex< OffsetScalarType, ImageDimension >;
     ContinuousIndexType maxIndex = indices[m];
 
     if ( m_PeakInterpolationMethod != PeakInterpolationMethod::None ) // interpolate the peak
       {
-      typename ImageType::PixelType y0, y1 = maxs[m], y2;
+      typename ImageType::PixelType y0, y1 = m_Confidences[m], y2;
       typename ImageType::IndexType tempIndex = indices[m];
 
       for ( unsigned i = 0; i < ImageDimension; i++ )

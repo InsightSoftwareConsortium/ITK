@@ -336,7 +336,7 @@ public:
   /** Get the computed offsets. */
   virtual const OffsetVector&
   GetOffsets() const
-    {
+  {
     if ( m_RealOptimizer )
       {
       return m_RealOptimizer->GetOffsets();
@@ -345,7 +345,24 @@ public:
       {
       return m_ComplexOptimizer->GetOffsets();
       }
-    }
+  }
+
+  /** Confidences corresponding to offsets. */
+  using ConfidencesVector = typename RealOptimizerType::ConfidenceVector;
+
+  /** Get the confidences corresponding to offsets. */
+  virtual const ConfidencesVector&
+  GetConfidences() const
+  {
+    if ( m_RealOptimizer )
+      {
+      return m_RealOptimizer->GetConfidences();
+      }
+    else
+      {
+      return m_ComplexOptimizer->GetConfidences();
+      }
+  }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   itkStaticConstMacro( MovingImageDimension, unsigned int, FixedImageType::ImageDimension );
