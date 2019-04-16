@@ -239,6 +239,12 @@ protected:
   using FFTPointer = typename FFTType::Pointer;
   using FFTConstPointer = typename FFTType::ConstPointer;
 
+  using TransformVector = std::vector< TransformPointer >;
+
+  // convets translation from index space into physical space
+  TransformPointer OffsetToTransform( const typename PCMOptimizerType::OffsetType& translation,
+                                      typename ImageType::Pointer tileInformation );
+
 private:
   SizeType      m_MontageSize;
   SizeValueType m_LinearMontageSize = 0;
@@ -249,6 +255,7 @@ private:
 
   std::vector< std::string >     m_Filenames;
   std::vector< FFTConstPointer > m_FFTCache;
+  std::vector< TransformVector > m_TransformCandidates; // to adjacent tiles
   typename PCMType::Pointer      m_PCM = PCMType::New();
   typename ReaderType::Pointer   m_Reader = ReaderType::New();
   typename ImageType::Pointer    m_Dummy = ImageType::New();
