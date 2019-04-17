@@ -24,29 +24,66 @@ cd "${BASH_SOURCE%/*}" &&
 
 remote_modules_path=$(cd ../../Modules/Remote && pwd)
 
-git_repository_tag_label='GIT_REPOSITORY'
-git_tag_label='GIT_TAG'
+updated=()
+if [ $# -ge 1 ] && [ $1 = "-ongreen" ]; then
+  ongreen=1
+  failing=()
+else
+  ongreen=0
+fi
 
 # Loop over the remote modules' CMake files
 for filename in ${remote_modules_path}/*.cmake; do
+  echo -n "."
 
   # Get the current commit hash
-  curr_commit_str=($(grep $git_tag_label $filename))
-  curr_commit_hash=${curr_commit_str[1]}
+  curr_commit=$(grep -v "\s*#" $filename | grep -m 1 -o "GIT_TAG \(\w\|\.\|\-\|_\)*")
+  curr_commit=${curr_commit/*GIT_TAG /}
 
   # Read the git repository information
-  repository_str=$(grep $git_repository_tag_label $filename)
-
-  repository_arr=($(echo $repository_str | tr "/" " "))
-  organization=${repository_arr[-2]}
-  repository_name=${repository_arr[-1]}
+  repository=$(grep -v "\s*#" $filename | grep -m 1 -o "GIT_REPOSITORY \${git_protocol}://github.com/\(\w\|\-\|_\|/\)*")
+  repository=${repository/*GIT_REPOSITORY \${git_protocol\}:\/\/github.com\//}
 
   # Get the latest git commit hash of the remote module.
   # Remotes will usually not be tagged.
-  latest_commit_hash=$(git ls-remote git://github.com/$organization/$repository_name | \
-  grep refs/heads/master | cut -f 1)
+  latest_commit=$(git ls-remote git://github.com/$repository refs/heads/master)
+  latest_commit=${latest_commit/	refs\/heads\/master/}
 
-  # Sed the the latest commit hash in the CMake file
-  sed -i "s/${curr_commit_hash}/${latest_commit_hash}/g" $filename
+  if [ $curr_commit = $latest_commit ]; then
+    continue
+  fi
+
+if [ $ongreen -eq 1 ]; then
+    # Get the repository status
+    # Be careful of rate limiting (https://developer.github.com/v3/#rate-limiting)
+    # alternatively using Azure: https://docs.microsoft.com/en-us/azure/data-factory/monitor-programmatically#rest-api
+    status=$(curl -s https://api.github.com/repos/$repository/commits/$latest_commit/status | grep -m 1 -o "\"state\": \"\w*\"")
+    if [ "$status" != "\"state\": \"success\"" ]; then
+      failing+=($repository)
+      continue
+    fi
+  fi
+
+  # Search and replace the latest commit hash in the CMake file
+  ex -sc "%s/${curr_commit}/${latest_commit}/g|x" $filename
+  updated+=($repository)
 
 done
+
+echo -ne "\n"
+
+if [ -n "$updated" ]; then
+  echo -e "Modules \033[1;32mupdated\033[0m:"
+  for module in ${updated[@]}; do
+    echo $module
+  done
+else
+  echo "All modules are up to date"
+fi
+
+if [ $ongreen -eq 1 ] && [ -n "$failing" ]; then
+  echo -e "Modules \033[1;31mfailing\033[0m:"
+  for module in ${failing[@]}; do
+    echo $module
+  done
+fi
