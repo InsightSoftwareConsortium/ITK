@@ -219,14 +219,6 @@ protected:
   /** Accesses output, sets a transform to it, and updates progress. */
   void WriteOutTransform( TileIndexType index, TransformPointer transform );
 
-  /** Read out own output at the specified index. */
-  TransformConstPointer GetTransform( TileIndexType index )
-  {
-    const SizeValueType linearIndex = this->nDIndexToLinearIndex( index );
-    auto dOut = this->GetOutput( linearIndex );
-    return static_cast< TransformOutputType* >( dOut )->Get();
-  }
-
   /** Updates mosaic bounds. The transform applies to input.
    *  input0 is tile in the top-left corner. */
   void UpdateMosaicBounds(
@@ -247,6 +239,8 @@ protected:
   TransformPointer OffsetToTransform( const typename PCMOptimizerType::OffsetType& translation,
                                       typename ImageType::Pointer tileInformation );
 
+  void OptimizeTiles();
+
 private:
   SizeType      m_MontageSize;
   SizeValueType m_LinearMontageSize = 0;
@@ -255,13 +249,14 @@ private:
   SpacingType   m_ForcedSpacing;
   SizeType      m_ObligatoryPadding;
 
-  std::vector< std::string >     m_Filenames;
-  std::vector< FFTConstPointer > m_FFTCache;
-  std::vector< TransformVector > m_TransformCandidates; // to adjacent tiles
-  std::vector< ConfidencesType > m_CandidateConfidences;
-  typename PCMType::Pointer      m_PCM = PCMType::New();
-  typename ReaderType::Pointer   m_Reader = ReaderType::New();
-  typename ImageType::Pointer    m_Dummy = ImageType::New();
+  std::vector< std::string >      m_Filenames;
+  std::vector< FFTConstPointer >  m_FFTCache;
+  std::vector< TransformVector >  m_TransformCandidates; // to adjacent tiles
+  std::vector< ConfidencesType >  m_CandidateConfidences;
+  std::vector< TransformPointer > m_CurrentAdjustments;
+  typename PCMType::Pointer       m_PCM = PCMType::New();
+  typename ReaderType::Pointer    m_Reader = ReaderType::New();
+  typename ImageType::Pointer     m_Dummy = ImageType::New();
 
   typename PCMOperatorType::Pointer  m_PCMOperator = PCMOperatorType::New();
   typename PCMOptimizerType::Pointer m_PCMOptimizer = PCMOptimizerType::New();
