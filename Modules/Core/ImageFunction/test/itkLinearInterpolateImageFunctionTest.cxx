@@ -32,7 +32,7 @@
 
 /* Allows testing up to TDimension=4 */
 template< unsigned int TDimension >
-int RunTest()
+int RunLinearInterpolateTest()
  {
  using PixelType = float;
  const   unsigned int                                  Dimensions = TDimension;
@@ -298,25 +298,25 @@ int itkLinearInterpolateImageFunctionTest( int , char*[] )
   int result = EXIT_SUCCESS;
 
   std::cout << "***** Testing dimensionality of 1 *****" << std::endl;
-  if( RunTest<1>() == EXIT_FAILURE )
+  if( RunLinearInterpolateTest<1>() == EXIT_FAILURE )
     {
     result = EXIT_FAILURE;
     std::cout << "Failed for dimensionality 1." << std::endl;
     }
   std::cout << "***** Testing dimensionality of 2 *****" << std::endl;
-  if( RunTest<2>() == EXIT_FAILURE )
+  if( RunLinearInterpolateTest<2>() == EXIT_FAILURE )
     {
     result = EXIT_FAILURE;
     std::cout << "Failed for dimensionality 2." << std::endl;
     }
   std::cout << "***** Testing dimensionality of 3 *****" << std::endl;
-  if( RunTest<3>() == EXIT_FAILURE )
+  if( RunLinearInterpolateTest<3>() == EXIT_FAILURE )
     {
     result = EXIT_FAILURE;
     std::cout << "Failed for dimensionality 3." << std::endl;
     }
   std::cout << "***** Testing dimensionality of 4 *****" << std::endl;
-  if( RunTest<4>() == EXIT_FAILURE )
+  if( RunLinearInterpolateTest<4>() == EXIT_FAILURE )
     {
     result = EXIT_FAILURE;
     std::cout << "Failed for dimensionality 4." << std::endl;
