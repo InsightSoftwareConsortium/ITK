@@ -37,11 +37,11 @@ for filename in ${remote_modules_path}/*.cmake; do
   echo -n "."
 
   # Get the current commit hash
-  curr_commit=$(grep -m 1 -o "[^#]GIT_TAG \(\w\|\.\|\-\|_\)*" $filename)
+  curr_commit=$(grep -v "\s*#" $filename | grep -m 1 -o "GIT_TAG \(\w\|\.\|\-\|_\)*")
   curr_commit=${curr_commit/*GIT_TAG /}
 
   # Read the git repository information
-  repository=$(grep -m 1 -o "[^#]GIT_REPOSITORY \${git_protocol}://github.com/\(\w\|\-\|_\|/\)*" $filename)
+  repository=$(grep -v "\s*#" $filename | grep -m 1 -o "GIT_REPOSITORY \${git_protocol}://github.com/\(\w\|\-\|_\|/\)*")
   repository=${repository/*GIT_REPOSITORY \${git_protocol\}:\/\/github.com\//}
 
   # Get the latest git commit hash of the remote module.
