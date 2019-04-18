@@ -166,7 +166,9 @@ int main( int argc, char *argv[] )
     point = center + radial;
     polygonPoint.SetPositionInObjectSpace( point );
     polygon->GetPoints().push_back( polygonPoint );
+    std::cout << point[0] << ", " << point[1] << std::endl;
     }
+  polygon->SetIsClosed(true);
   polygon->Update();
   // Software Guide : EndCodeSnippet
 
