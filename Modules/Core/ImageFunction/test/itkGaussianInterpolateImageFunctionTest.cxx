@@ -75,11 +75,12 @@ int itkGaussianInterpolateImageFunctionTest( int, char*[] )
 
   interpolator->SetInputImage(image);
 
-  InterpolatorType::OutputType expectedValues[5][5] = {{0.773964, 0.886982, 1.38698, 1.88698, 2.0},
-    {0.886982, 1.0, 1.5, 2.0, 2.11302},
-    {1.38698, 1.5, 2.0, 2.5, 2.61302},
-    {1.88698, 2.0, 2.5, 3.0, 3.11302},
-    {2.0, 2.11302, 2.61302, 3.11302, 3.22604}};
+  InterpolatorType::OutputType expectedValues[5][5] =
+    {{0.773964, 0.886982, 1.38698, 1.88698, 2.0},
+     {0.886982, 1.0,      1.5,     2.0,     2.11302},
+     {1.38698,  1.5,      2.0,     2.5,     2.61302},
+     {1.88698,  2.0,      2.5,     3.0,     3.11302},
+     {2.0,      2.11302,  2.61302, 3.11302, 3.22604}};
 
   ImageType::PointType point;
   point[0] = 0.0;
