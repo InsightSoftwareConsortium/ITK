@@ -167,6 +167,7 @@ int main( int argc, char *argv[] )
     polygonPoint.SetPositionInObjectSpace( point );
     polygon->GetPoints().push_back( polygonPoint );
     }
+  polygon->SetIsClosed(true);
   polygon->Update();
   // Software Guide : EndCodeSnippet
 

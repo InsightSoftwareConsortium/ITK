@@ -43,7 +43,7 @@ PolygonSpatialObject< TDimension >
 {
   Superclass::Clear();
 
-  m_IsClosed = false;
+  m_IsClosed = true;
   m_OrientationInObjectSpace = -1;
   m_OrientationInObjectSpaceMTime = this->GetMyMTime();
   m_ThicknessInObjectSpace = 0.0;
@@ -144,6 +144,16 @@ PolygonSpatialObject< TDimension >
     a = b;
     it++;
     }
+  if( m_IsClosed )
+    {
+    a = points.begin()->GetPositionInObjectSpace();
+    b = points.back().GetPositionInObjectSpace();
+    // closed PolygonGroup may have the first and last points the same
+    if ( a != b )
+      {
+      area += a[X] * b[Y] - a[Y] * b[X];
+      }
+    }
   area *= 0.5;
   return area < 0.0 ? -area : area;
 }
@@ -241,32 +251,47 @@ PolygonSpatialObject< TDimension >
 
         bool oddNodes = false;
 
-        PointType node1;
-        PointType node2 = it->GetPositionInObjectSpace();
+        PointType node1 = it->GetPositionInObjectSpace();
+        PointType node2;
         ++it;
+        const double x = point[X];
+        const double y = point[Y];
         while( it != itend )
           {
           node2 = it->GetPositionInObjectSpace();
 
-          if( node1 == node2 )
+          if( node1 != node2 )
             {
-            continue;
-            }
-
-          const double x = point[X];
-          const double y = point[Y];
-
-          if ( ( node1[Y] < y && node2[Y] >= y )
-               || ( node2[Y] < y && node1[Y] >= y ) )
-            {
-            if ( node1[X] + ( y - node1[Y] )
-                 / ( node2[Y] - node1[Y] ) * ( node2[X] - node1[X] ) < x )
+            if ( ( node1[Y] <= y && node2[Y] > y )
+                 || ( node2[Y] < y && node1[Y] >= y ) )
               {
-              oddNodes = !oddNodes;
+              if ( node1[X] + ( ( y - node1[Y] ) / ( node2[Y] - node1[Y] ) )
+                * ( node2[X] - node1[X] ) < x )
+                {
+                oddNodes = !oddNodes;
+                }
+              }
+            node1 = node2;
+            }
+          it++;
+          }
+        if( m_IsClosed )
+          {
+          node1 = points.back().GetPositionInObjectSpace();
+          node2 = points.begin()->GetPositionInObjectSpace();
+          // closed PolygonGroup may have the first and last points the same
+          if( node1 != node2 )
+            {
+            if ( ( node1[Y] <= y && node2[Y] > y )
+                 || ( node2[Y] < y && node1[Y] >= y ) )
+              {
+              if ( node1[X] + ( ( y - node1[Y] ) / ( node2[Y] - node1[Y] ) )
+                * ( node2[X] - node1[X] ) < x )
+                {
+                oddNodes = !oddNodes;
+                }
               }
             }
-          node1 = node2;
-          it++;
           }
 
         if( oddNodes )
