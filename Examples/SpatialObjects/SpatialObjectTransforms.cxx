@@ -226,7 +226,8 @@ int main( int , char *[] )
   TransformType::OffsetType Object1ToWorldOffset;
   Object1ToWorldOffset[0] = 3;
   Object1ToWorldOffset[1] = 3;
-  object2->GetModifiableObjectToWorldTransform()->SetOffset(Object1ToWorldOffset);
+  object2->GetModifiableObjectToWorldTransform()->SetOffset(
+    Object1ToWorldOffset);
   object2->ComputeObjectToParentTransform();
 // Software Guide : EndCodeSnippet
 

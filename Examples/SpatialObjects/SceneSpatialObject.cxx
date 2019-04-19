@@ -126,7 +126,8 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  GroupSpatialObjectType::ObjectListType * myObjectList =  scene->GetChildren();
+  GroupSpatialObjectType::ObjectListType * myObjectList =
+    scene->GetChildren();
   std::cout << "Number of children in the GroupSpatialObject = ";
   std::cout << myObjectList->size() << std::endl;
 // Software Guide : EndCodeSnippet
