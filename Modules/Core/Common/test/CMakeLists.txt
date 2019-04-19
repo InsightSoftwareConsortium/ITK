@@ -616,6 +616,7 @@ set(ITKCommonGTests
       itkImageNeighborhoodOffsetsGTest.cxx
       itkImageBufferRangeGTest.cxx
       itkIndexRangeGTest.cxx
+      itkPointGTest.cxx
       itkShapedImageNeighborhoodRangeGTest.cxx
       itkSizeGTest.cxx
       itkSmartPointerGTest.cxx

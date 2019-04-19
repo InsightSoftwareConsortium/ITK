@@ -20,6 +20,7 @@
 
 #include "itkMacro.h"
 #include <algorithm>
+#include <array>
 
 namespace itk
 {
@@ -141,6 +142,12 @@ public:
   /** Conversion constructors */
   FixedArray(const ValueType r[VLength]);
   FixedArray(const ValueType & );
+
+  /** Explicit constructor for std::array. */
+  explicit FixedArray(const std::array<ValueType, VLength>& stdArray)
+  {
+    std::copy_n(stdArray.cbegin(), VLength, m_InternalArray);
+  }
 
   /** Constructor to initialize a fixed array from another of any data type */
   template< typename TFixedArrayValueType >
