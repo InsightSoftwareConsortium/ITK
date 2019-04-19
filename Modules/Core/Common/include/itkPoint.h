@@ -97,6 +97,13 @@ public:
   Point(const TPointValueType & v):BaseArray(v) {}
   Point(const ValueType & v):BaseArray(v) {}
 
+  /** Explicit constructor for std::array. */
+  explicit Point(const std::array<ValueType, NPointDimension>& stdArray)
+    :
+    BaseArray(stdArray)
+  {
+  }
+
   /** Pass-through assignment operator for a plain array. */
   Point & operator=(const ValueType r[NPointDimension]);
 
