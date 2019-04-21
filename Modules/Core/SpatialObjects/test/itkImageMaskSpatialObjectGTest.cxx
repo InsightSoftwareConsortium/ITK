@@ -216,4 +216,58 @@ TEST(ImageMaskSpatialObject, AxisAlignedBoundingBoxRegionIsImageRegionWhenOnlyOn
     itk::ImageRegion<3>{ itk::Index<3>{{-1, -2, -3}}, itk::Size<3>{{3, 4, 5}} });
 }
 
+
+// Tests IsInside for a single zero-valued pixel (non-zero as background).
+TEST(ImageMaskSpatialObject, IsInsideSingleZeroPixel)
+{
+  using ImageType = itk::Image<unsigned char>;
+  constexpr auto ImageDimension = ImageType::ImageDimension;
+  using SizeType = ImageType::SizeType;
+  using PointType = ImageType::PointType;
+
+  // Create an image filled with non-zero valued pixels.
+  const auto image = ImageType::New();
+  image->SetRegions(SizeType::Filled(8));
+  image->Allocate();
+  image->FillBuffer(1);
+
+  constexpr itk::IndexValueType indexValue{ 4 };
+  image->SetPixel({ indexValue, indexValue }, 0);
+
+  const auto spatialObject = itk::ImageMaskSpatialObject<ImageDimension>::New();
+  spatialObject->SetImage(image);
+  spatialObject->Update();
+
+  EXPECT_FALSE(spatialObject->IsInside(PointType{ indexValue }));
+  EXPECT_FALSE(spatialObject->IsInside(PointType{ indexValue - 0.4999 }));
+  EXPECT_FALSE(spatialObject->IsInside(PointType{ indexValue + 0.4999 }));
+}
+
+
+// Tests IsInside for a single non-zero-valued pixel (zero as background).
+TEST(ImageMaskSpatialObject, IsInsideSingleNonZeroPixel)
+{
+  using ImageType = itk::Image<unsigned char>;
+  constexpr auto ImageDimension = ImageType::ImageDimension;
+  using SizeType = ImageType::SizeType;
+  using PointType = ImageType::PointType;
+
+  // Create an image filled with zero valued pixels.
+  const auto image = ImageType::New();
+  image->SetRegions(SizeType::Filled(8));
+  image->Allocate(true);
+
+  constexpr itk::IndexValueType indexValue{ 4 };
+  image->SetPixel({ indexValue, indexValue }, 1);
+
+  const auto spatialObject = itk::ImageMaskSpatialObject<ImageDimension>::New();
+  spatialObject->SetImage(image);
+  spatialObject->Update();
+
+  EXPECT_TRUE(spatialObject->IsInside(PointType{ indexValue }));
+  EXPECT_TRUE(spatialObject->IsInside(PointType{ indexValue - 0.4999 }));
+  EXPECT_TRUE(spatialObject->IsInside(PointType{ indexValue + 0.4999 }));
+}
+
+
 #endif
