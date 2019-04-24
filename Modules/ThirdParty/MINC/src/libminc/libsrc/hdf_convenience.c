@@ -16,6 +16,9 @@
 /* Make 1.8.x compatible files if building with 1.10.x */  
 #if (H5_VERS_MAJOR==1)&&(H5_VERS_MINOR<10)
 #define H5F_LIBVER_V18 H5F_LIBVER_LATEST
+#elif (H5_VERS_MAJOR==1)&&(H5_VERS_MINOR==10)&&(H5_VERS_RELEASE<2)
+#error The selected version of HDF5 library does not support setting backwards compatibility at run-time.\
+  Please use a different version of HDF5
 #endif
 
 /************************************************************************
