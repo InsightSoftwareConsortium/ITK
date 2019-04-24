@@ -26,6 +26,8 @@
 #include "itkTimeStamp.h"
 #include "itkObjectFactory.h"
 
+#include "ITKSpatialObjectsExport.h"
+
 namespace itk
 {
 /**
@@ -33,7 +35,7 @@ namespace itk
  * it's templated over the representation to use for each color component.
  */
 
-class SpatialObjectProperty
+class ITKSpatialObjects_EXPORT SpatialObjectProperty
 {
 public:
 

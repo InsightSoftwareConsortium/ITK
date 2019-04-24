@@ -20,4 +20,5 @@ itk_module(ITKSpatialObjects
     ITKMesh
   DESCRIPTION
     "${DOCUMENTATION}"
+  ENABLE_SHARED
 )
