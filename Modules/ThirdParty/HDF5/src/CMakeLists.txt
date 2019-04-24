@@ -82,6 +82,7 @@ mark_as_advanced(HDF5_MEMORY_ALLOC_SANITY_CHECK)
 mark_as_advanced(HDF5_USE_110_API_DEFAULT)
 mark_as_advanced(HDF5_USE_18_API_DEFAULT)
 mark_as_advanced(HDF5_USE_PREGEN)
+unset(ALLOW_UNSUPPORTED CACHE)
 
 if(BUILD_SHARED_LIBS)
   set(target_extension -shared)
