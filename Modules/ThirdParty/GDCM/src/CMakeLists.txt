@@ -87,3 +87,13 @@ foreach(lib
     itk_module_target(${lib} NO_INSTALL)
   endif()
 endforeach()
+
+unset(BUILD_CODEC CACHE)
+unset(BUILD_DOC CACHE)
+unset(BUILD_JAVA CACHE)
+unset(BUILD_JP3D CACHE)
+unset(BUILD_JPIP CACHE)
+unset(BUILD_JPWL CACHE)
+unset(BUILD_MJ2 CACHE)
+unset(BUILD_PKGCONFIG_FILES CACHE)
+unset(BUILD_VIEWER CACHE)
