@@ -128,6 +128,12 @@ public:
   /** A const reference to the ValueType. */
   using const_reference = const ValueType &;
 
+  /** The return type of the non-const overloads of begin() and end(). */
+  using iterator = ValueType *;
+
+  /** The return type of cbegin() and cend(), and the const overloads of begin() and end(). */
+  using const_iterator = const ValueType *;
+
   using SizeType = unsigned int;
 
 public:
@@ -257,6 +263,36 @@ public:
   ReverseIterator      rEnd();
 
   ConstReverseIterator rEnd() const;
+
+  const_iterator cbegin() const noexcept
+  {
+    return m_InternalArray;
+  }
+
+  iterator begin() noexcept
+  {
+    return m_InternalArray;
+  }
+
+  const_iterator begin() const noexcept
+  {
+    return this->cbegin();
+  }
+
+  const_iterator cend() const noexcept
+  {
+    return m_InternalArray + VLength;
+  }
+
+  iterator end() noexcept
+  {
+    return m_InternalArray + VLength;
+  }
+
+  const_iterator end() const noexcept
+  {
+    return this->cend();
+  }
 
   SizeType      Size() const;
 
