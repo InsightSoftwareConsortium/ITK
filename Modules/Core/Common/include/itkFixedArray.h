@@ -134,6 +134,10 @@ public:
   /** The return type of cbegin() and cend(), and the const overloads of begin() and end(). */
   using const_iterator = const ValueType *;
 
+  using reverse_iterator = std::reverse_iterator<iterator>;
+
+  using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+
   using SizeType = unsigned int;
 
 public:
@@ -292,6 +296,36 @@ public:
   const_iterator end() const noexcept
   {
     return this->cend();
+  }
+
+  reverse_iterator rbegin()
+  {
+    return reverse_iterator{ this->end() };
+  }
+
+  const_reverse_iterator crbegin() const
+  {
+    return const_reverse_iterator{ this->cend() };
+  }
+
+  const_reverse_iterator rbegin() const
+  {
+    return this->crbegin();
+  }
+
+  reverse_iterator rend()
+  {
+    return reverse_iterator{ this->begin() };
+  }
+
+  const_reverse_iterator crend() const
+  {
+    return const_reverse_iterator{ this->cbegin() };
+  }
+
+  const_reverse_iterator rend() const
+  {
+    return this->crend();
   }
 
   SizeType      Size() const;
