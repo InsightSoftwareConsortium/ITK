@@ -337,7 +337,7 @@ private:
   /** The sinc function */
   inline double Sinc(double x) const
   {
-    double px = itk::Math::pi * x;
+    const double px = itk::Math::pi * x;
 
     return ( x == 0.0 ) ? 1.0 : std::sin(px) / px;
   }

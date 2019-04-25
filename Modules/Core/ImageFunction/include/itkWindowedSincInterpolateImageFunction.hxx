@@ -73,11 +73,9 @@ WindowedSincInterpolateImageFunction< TInputImage, VRadius,
                                       TWindowFunction, TBoundaryCondition, TCoordRep >
 ::WindowedSincInterpolateImageFunction()
 {
-  unsigned int dim;
-
   // Compute the offset table size
   m_OffsetTableSize = 1;
-  for ( dim = 0; dim < ImageDimension; dim++ )
+  for(unsigned int dim = 0; dim < ImageDimension; ++dim)
     {
     m_OffsetTableSize *= m_WindowSize;
     }
@@ -118,8 +116,6 @@ WindowedSincInterpolateImageFunction< TInputImage, VRadius,
                                       TWindowFunction, TBoundaryCondition, TCoordRep >
 ::SetInputImage(const ImageType *image)
 {
-  unsigned int dim;
-
   // Call the parent implementation
   Superclass::SetInputImage(image);
 
@@ -146,7 +142,7 @@ WindowedSincInterpolateImageFunction< TInputImage, VRadius,
 
     // Check if the offset has zero weights
     bool nonzero = true;
-    for ( dim = 0; dim < ImageDimension; dim++ )
+    for( unsigned int dim = 0; dim < ImageDimension; ++dim )
       {
       if ( off[dim] == -empty )
         {
@@ -162,7 +158,7 @@ WindowedSincInterpolateImageFunction< TInputImage, VRadius,
       m_OffsetTable[iOffset] = iPos;
 
       // Set the weight table indices
-      for ( dim = 0; dim < ImageDimension; dim++ )
+      for( unsigned int dim = 0; dim < ImageDimension; ++dim )
         {
         m_WeightOffsetTable[iOffset][dim] = off[dim] + VRadius - 1;
         }
@@ -195,13 +191,12 @@ WindowedSincInterpolateImageFunction< TInputImage, VRadius,
 ::EvaluateAtContinuousIndex(
   const ContinuousIndexType & index) const
 {
-  unsigned int dim;
   IndexType    baseIndex;
   double       distance[ImageDimension];
 
   // Compute the integer index based on the continuous one by
   // 'flooring' the index
-  for ( dim = 0; dim < ImageDimension; dim++ )
+  for( unsigned dim = 0; dim < ImageDimension; ++dim )
     {
     baseIndex[dim] = Math::Floor< IndexValueType >(index[dim]);
     distance[dim] = index[dim] - static_cast< double >( baseIndex[dim] );
@@ -218,7 +213,7 @@ WindowedSincInterpolateImageFunction< TInputImage, VRadius,
 
   // Compute the sinc function for each dimension
   double xWeight[ImageDimension][2 * VRadius];
-  for ( dim = 0; dim < ImageDimension; dim++ )
+  for( unsigned int dim = 0; dim < ImageDimension; ++dim )
     {
     // x is the offset, hence the parameter of the kernel
     double x = distance[dim] + VRadius;
@@ -261,7 +256,7 @@ WindowedSincInterpolateImageFunction< TInputImage, VRadius,
 
     // Multiply the intensity by each of the weights. Gotta hope
     // that the compiler will unwrap this loop and pipeline this!
-    for ( dim = 0; dim < ImageDimension; dim++ )
+    for( unsigned int dim = 0; dim < ImageDimension; ++dim )
       {
       xVal *= xWeight[dim][m_WeightOffsetTable[j][dim]];
       }

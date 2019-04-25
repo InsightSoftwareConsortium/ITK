@@ -1,0 +1,12 @@
+itk_wrap_class("itk::WindowedSincInterpolateImageFunction" POINTER)
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    foreach(t ${WRAP_ITK_SCALAR})
+      foreach(r 2;3) # radius
+        itk_wrap_template("${ITKM_I${t}${d}}${r}Hamming" "${ITKT_I${t}${d}}, ${r}, itk::Function::HammingWindowFunction< ${r} >")
+        itk_wrap_template("${ITKM_I${t}${d}}${r}Cosine" "${ITKT_I${t}${d}}, ${r}, itk::Function::CosineWindowFunction< ${r} >")
+        itk_wrap_template("${ITKM_I${t}${d}}${r}Welch" "${ITKT_I${t}${d}}, ${r}, itk::Function::WelchWindowFunction< ${r} >")
+        itk_wrap_template("${ITKM_I${t}${d}}${r}Lanczos" "${ITKT_I${t}${d}}, ${r}, itk::Function::LanczosWindowFunction< ${r} >")
+      endforeach()
+    endforeach()
+  endforeach()
+itk_end_wrap_class()
