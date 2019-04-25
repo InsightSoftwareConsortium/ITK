@@ -16,12 +16,11 @@
  *
  *=========================================================================*/
 
-#include <iostream>
-
 #include "itkImage.h"
 #include "itkGaussianInterpolateImageFunction.h"
 #include "itkMath.h"
 #include "itkTestingMacros.h"
+#include "itkIndexRange.h"
 
 int itkGaussianInterpolateImageFunctionTest( int, char*[] )
 {
@@ -65,13 +64,11 @@ int itkGaussianInterpolateImageFunctionTest( int, char*[] )
   image->SetOrigin(origin);
   image->SetSpacing(spacing);
 
-  for ( unsigned int i = 0; i < 3; ++i )
-  {
-    for ( unsigned int j = 0; j < 3; ++j )
+  using itk::Experimental::ZeroBasedIndexRange;
+  for (const auto index : ZeroBasedIndexRange<ImageType::ImageDimension>(size))
     {
-      image->SetPixel({{i, j}}, i + j);
+    image->SetPixel(index, index[0] + index[1]);
     }
-  }
 
   interpolator->SetInputImage(image);
 
