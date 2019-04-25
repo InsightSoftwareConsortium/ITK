@@ -90,6 +90,76 @@ namespace
     }
   }
 
+
+  template< typename TValue, unsigned int VLength >
+  void Check_new_reverse_iterator_behaves_like_old_ReverseIterator()
+  {
+    using FixedArrayType = itk::FixedArray<TValue, VLength>;
+    FixedArrayType fixedArray{};
+
+    // Assign a different value (1, 2, 3, ...) to each element.
+    std::iota(fixedArray.begin(), fixedArray.end(), 1);
+
+    auto newIterator = fixedArray.rbegin();
+    auto oldIterator = fixedArray.rBegin();
+
+    const auto newEnd = fixedArray.rend();
+    const auto oldEnd = fixedArray.rEnd();
+
+    while((newIterator != newEnd) && (oldIterator != oldEnd))
+    {
+      EXPECT_EQ(*newIterator, *oldIterator);
+      ++newIterator;
+      ++oldIterator;
+    }
+    EXPECT_EQ(newIterator, newEnd);
+    EXPECT_EQ(oldIterator, oldEnd);
+  }
+
+
+  template< typename TValue, unsigned int VLength >
+  void Check_const_and_non_const_reverse_iterators_retrieve_same_values()
+  {
+    using FixedArrayType = itk::FixedArray<TValue, VLength>;
+    using ConstIteratorType = typename FixedArrayType::const_reverse_iterator;
+    using NonConstIteratorType = typename FixedArrayType::reverse_iterator;
+
+    static_assert(!std::is_same<ConstIteratorType, NonConstIteratorType>::value,
+      "Const and non-const reverse_iterator types must be different!");
+
+    FixedArrayType fixedArray{};
+
+    // Assign a different value (1, 2, 3, ...) to each element.
+    std::iota(fixedArray.begin(), fixedArray.end(), 1);
+
+    ConstIteratorType constIterator = fixedArray.crbegin();
+    NonConstIteratorType nonConstIterator = fixedArray.rbegin();
+
+    const ConstIteratorType constEnd = fixedArray.crend();
+    const NonConstIteratorType nonConstEnd = fixedArray.rend();
+
+    while ((constIterator != constEnd) && (nonConstIterator != nonConstEnd))
+    {
+      EXPECT_EQ(*constIterator, *nonConstIterator);
+      ++constIterator;
+      ++nonConstIterator;
+    }
+    EXPECT_EQ(constIterator, constEnd);
+    EXPECT_EQ(nonConstIterator, nonConstEnd);
+  }
+
+
+  template< typename TValue, unsigned int VLength >
+  void Check_reverse_iterators_allow_filling_a_FixedArray()
+  {
+    using FixedArrayType = itk::FixedArray<TValue, VLength>;
+    FixedArrayType fixedArray{};
+
+    // Fill with ones, and then check the result.
+    std::fill(fixedArray.rbegin(), fixedArray.rend(), 1);
+    EXPECT_EQ(fixedArray, FixedArrayType::Filled(1));
+  }
+
 } // End of namespace
 
 
@@ -107,4 +177,29 @@ TEST(FixedArray, SupportsModifyingElementsByRangeBasedForLoop)
 {
   Check_FixedArray_supports_modifying_elements_by_range_based_for_loop<double, 2>();
   Check_FixedArray_supports_modifying_elements_by_range_based_for_loop<int, 3>();
+}
+
+
+// Tests that the new reverse iterators (`rbegin()` and `rend()`, introduced with ITK 5.0)
+// behave just like the old ones (`rBegin()` and `rEnd()`, originally from 2002).
+TEST(FixedArray, NewReverseIteratorBehavesLikeOldReverseIterator)
+{
+  Check_new_reverse_iterator_behaves_like_old_ReverseIterator<double, 2>();
+  Check_new_reverse_iterator_behaves_like_old_ReverseIterator<int, 3>();
+}
+
+
+// Tests that const and non-const reverse iterators retrieve exactly the same values.
+TEST(FixedArray, ConstAndNonConstReverseIteratorRetrieveSameValues)
+{
+  Check_const_and_non_const_reverse_iterators_retrieve_same_values<double, 2>();
+  Check_const_and_non_const_reverse_iterators_retrieve_same_values<int, 3>();
+}
+
+
+// Tests that reverse iterators can be used to fill a FixedArray.
+TEST(FixedArray, CanBeFilledUsingReverseIterators)
+{
+  Check_reverse_iterators_allow_filling_a_FixedArray<double, 2>();
+  Check_reverse_iterators_allow_filling_a_FixedArray<int, 3>();
 }
