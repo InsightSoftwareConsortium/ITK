@@ -1,3 +1,6 @@
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+itk_wrap_include("itkWindowedSincInterpolateImageFunction.h")
+
 set(window_functions "Hamming" "Cosine" "Welch" "Lanczos")
 set(radii 2 3)
 foreach(function ${window_functions})
