@@ -47,7 +47,7 @@ for filename in ${remote_modules_path}/*.cmake; do
   # Get the latest git commit hash of the remote module.
   # Remotes will usually not be tagged.
   latest_commit=$(git ls-remote git://github.com/$repository refs/heads/master)
-  latest_commit=${latest_commit/	refs\/heads\/master/}
+  latest_commit=${latest_commit/[[:space:]]refs\/heads\/master/}
 
   if [ $curr_commit = $latest_commit ]; then
     continue
