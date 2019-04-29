@@ -43,25 +43,29 @@ if(NOT VTK_RENDERING_BACKEND)
     set(VTK_RENDERING_BACKEND OpenGL)
   endif()
 endif()
+set(_target_prefix "vtk")
+if(VTK_VERSION VERSION_GREATER_EQUAL 8.90.0)
+  set(_target_prefix "VTK::")
+endif()
 set(_target_freetypeopengl)
-if(TARGET vtkRenderingFreeType${VTK_RENDERING_BACKEND})
-  set(_target_freetypeopengl vtkRenderingFreeType${VTK_RENDERING_BACKEND})
+if(TARGET ${_target_prefix}RenderingFreeType${VTK_RENDERING_BACKEND})
+  set(_target_freetypeopengl ${_target_prefix}RenderingFreeType${VTK_RENDERING_BACKEND})
 endif()
 
 set(_required_vtk_libraries
-  vtkIOImage
-  vtkImagingSources
+  ${_target_prefix}IOImage
+  ${_target_prefix}ImagingSources
   )
 if(ITK_WRAP_PYTHON)
-  list(APPEND _required_vtk_libraries vtkWrappingPythonCore)
+  list(APPEND _required_vtk_libraries ${_target_prefix}WrappingPythonCore)
 endif()
 if(NOT VTK_RENDERING_BACKEND STREQUAL "None")
   list(APPEND _required_vtk_libraries
-    vtkRendering${VTK_RENDERING_BACKEND}
-    vtkRenderingFreeType
+    ${_target_prefix}Rendering${VTK_RENDERING_BACKEND}
+    ${_target_prefix}RenderingFreeType
     ${_target_freetypeopengl}
-    vtkInteractionStyle
-    vtkInteractionWidgets
+    ${_target_prefix}InteractionStyle
+    ${_target_prefix}InteractionWidgets
   )
 endif()
 if (${VTK_VERSION} VERSION_LESS ${VERSION_MIN})
@@ -122,24 +126,24 @@ if(NOT VTK_RENDERING_BACKEND)
   endif()
 endif()
 set(_target_freetypeopengl)
-if(TARGET vtkRenderingFreeType${VTK_RENDERING_BACKEND})
-  set(_target_freetypeopengl vtkRenderingFreeType${VTK_RENDERING_BACKEND})
+if(TARGET ${_target_prefix}RenderingFreeType${VTK_RENDERING_BACKEND})
+  set(_target_freetypeopengl ${_target_prefix}RenderingFreeType${VTK_RENDERING_BACKEND})
 endif()
 
 set(_required_vtk_libraries
-  vtkIOImage
-  vtkImagingSources
+  ${_target_prefix}IOImage
+  ${_target_prefix}ImagingSources
   )
 if(ITK_WRAP_PYTHON)
-  list(APPEND _required_vtk_libraries vtkWrappingPythonCore)
+  list(APPEND _required_vtk_libraries ${_target_prefix}WrappingPythonCore)
 endif()
 if(NOT VTK_RENDERING_BACKEND STREQUAL \"None\")
   list(APPEND _required_vtk_libraries
-    vtkRendering${VTK_RENDERING_BACKEND}
-    vtkRenderingFreeType
+    ${_target_prefix}Rendering${VTK_RENDERING_BACKEND}
+    ${_target_prefix}RenderingFreeType
     ${_target_freetypeopengl}
-    vtkInteractionStyle
-    vtkInteractionWidgets
+    ${_target_prefix}InteractionStyle
+    ${_target_prefix}InteractionWidgets
   )
 endif()
 if(${VTK_VERSION} VERSION_LESS 6.0.0)
@@ -182,24 +186,24 @@ if(NOT ITK_BINARY_DIR)
       set(VTK_RENDERING_BACKEND OpenGL)
     endif()
   endif()
-  if(TARGET vtkRenderingFreeType${VTK_RENDERING_BACKEND})
-    set(_target_freetypeopengl vtkRenderingFreeType${VTK_RENDERING_BACKEND})
+  if(TARGET ${_target_prefix}RenderingFreeType${VTK_RENDERING_BACKEND})
+    set(_target_freetypeopengl ${_target_prefix}RenderingFreeType${VTK_RENDERING_BACKEND})
   endif()
 
   set(_required_vtk_libraries
-    vtkIOImage
-    vtkImagingSources
+    ${_target_prefix}IOImage
+    ${_target_prefix}ImagingSources
     )
   if(ITK_WRAP_PYTHON)
-    list(APPEND _required_vtk_libraries vtkWrappingPythonCore)
+    list(APPEND _required_vtk_libraries ${_target_prefix}WrappingPythonCore)
   endif()
   if(NOT VTK_RENDERING_BACKEND STREQUAL \"None\")
     list(APPEND _required_vtk_libraries
-      vtkRendering${VTK_RENDERING_BACKEND}
-      vtkRenderingFreeType
+      ${_target_prefix}Rendering${VTK_RENDERING_BACKEND}
+      ${_target_prefix}RenderingFreeType
       ${_target_freetypeopengl}
-      vtkInteractionStyle
-      vtkInteractionWidgets
+      ${_target_prefix}InteractionStyle
+      ${_target_prefix}InteractionWidgets
     )
   endif()
   if( ${VTK_VERSION} VERSION_LESS 6.0.0 )
