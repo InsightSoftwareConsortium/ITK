@@ -19,11 +19,13 @@
 #include "itkVTKImageToImageFilter.h"
 
 #include "vtkImageNoiseSource.h"
+#include "vtkMatrix3x3.h"
 #include "vtkSmartPointer.h"
 
 int itkVTKImageToImageFilterTest(int, char*[])
 {
-  using ImageType = itk::Image<double, 2>;
+  const int dim = 2;
+  using ImageType = itk::Image<double, dim>;
   using VTKNoiseType = vtkSmartPointer<vtkImageNoiseSource>;
   using ConnectorType = itk::VTKImageToImageFilter<ImageType>;
 
@@ -33,15 +35,45 @@ int itkVTKImageToImageFilterTest(int, char*[])
   noise_source->SetMaximum(1.0);
   noise_source->Update();
 
+  auto input = noise_source->GetOutput();
+  input->SetSpacing(0.1, 2.0, 0.0);
+  input->SetOrigin(-0.1, -10, 0.0);
+  input->SetDirectionMatrix(0, 1, 0, -1, 0, 0, 0, 0, 1);
+  input->Print(std::cout);
+
   ConnectorType::Pointer connector = ConnectorType::New();
-  connector->SetInput(noise_source->GetOutput());
+  connector->SetInput(input);
   connector->Update();
 
-  connector->GetOutput()->Print(std::cout);
-  connector->GetImporter()->Print(std::cout);
-  connector->GetExporter()->Print(std::cout);
+  auto output = connector->GetOutput();
+  output->Print(std::cout);
 
-  connector->Print(std::cout);
+  for (int i = 0; i < dim; ++i)
+  {
+    if (output->GetLargestPossibleRegion().GetSize()[i] != static_cast<itk::SizeValueType>(input->GetDimensions()[i]))
+    {
+      std::cerr << "Error: sizes do not match for component (" << i << ")." << std::endl;
+      return EXIT_FAILURE;
+    }
+    if (output->GetSpacing()[i] != input->GetSpacing()[i])
+    {
+      std::cerr << "Error: spacings do not match for component (" << i << ")." << std::endl;
+      return EXIT_FAILURE;
+    }
+    if (output->GetOrigin()[i] != input->GetOrigin()[i])
+    {
+      std::cerr << "Error: origins do not match for component (" << i << ")." << std::endl;
+      return EXIT_FAILURE;
+    }
+    for (int j = 0; j < dim; ++j)
+    {
+      if (output->GetDirection()[i][j] != input->GetDirectionMatrix()->GetData()[i*3+j])
+      {
+        std::cerr << "Error: directions do not match for component (" << i << "," << j << ")." << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+  }
 
   return EXIT_SUCCESS;
 }
