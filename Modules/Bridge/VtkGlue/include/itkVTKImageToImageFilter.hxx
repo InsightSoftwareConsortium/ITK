@@ -41,6 +41,7 @@ VTKImageToImageFilter<TOutputImage>
   this->SetWholeExtentCallback( m_Exporter->GetWholeExtentCallback());
   this->SetSpacingCallback( m_Exporter->GetSpacingCallback());
   this->SetOriginCallback( m_Exporter->GetOriginCallback());
+  this->SetDirectionCallback( m_Exporter->GetDirectionCallback());
   this->SetScalarTypeCallback( m_Exporter->GetScalarTypeCallback());
   this->SetNumberOfComponentsCallback( m_Exporter->GetNumberOfComponentsCallback());
   this->SetPropagateUpdateExtentCallback( m_Exporter->GetPropagateUpdateExtentCallback());

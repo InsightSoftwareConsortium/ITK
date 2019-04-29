@@ -67,6 +67,12 @@ VTKImageExportBase::GetOriginCallback() const
           &VTKImageExportBase::FloatOriginCallbackFunction};
 }
 
+VTKImageExportBase::DirectionCallbackType
+VTKImageExportBase::GetDirectionCallback() const
+{
+  return VTKImageExportBase::DirectionCallbackFunction;
+}
+
 VTKImageExportBase::CallbackTypeProxy
 VTKImageExportBase::GetSpacingCallback() const
 {
@@ -226,6 +232,12 @@ float * VTKImageExportBase::FloatSpacingCallbackFunction(void *userData)
 {
   return static_cast< VTKImageExportBase * >
          ( userData )->FloatSpacingCallback();
+}
+
+double * VTKImageExportBase::DirectionCallbackFunction(void *userData)
+{
+  return static_cast< VTKImageExportBase * >
+         ( userData )->DirectionCallback();
 }
 
 const char * VTKImageExportBase::ScalarTypeCallbackFunction(void *userData)

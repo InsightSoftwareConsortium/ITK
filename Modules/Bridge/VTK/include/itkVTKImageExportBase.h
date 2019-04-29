@@ -57,6 +57,7 @@ public:
   using WholeExtentCallbackType = int *(*)(void *);
   using SpacingCallbackType = double *(*)(void *);
   using OriginCallbackType = double *(*)(void *);
+  using DirectionCallbackType = double *(*)(void *);
   using ScalarTypeCallbackType = const char *(*)(void *);
   using NumberOfComponentsCallbackType = int (*)(void *);
   using PropagateUpdateExtentCallbackType = void (*)(void *, int *);
@@ -105,6 +106,8 @@ private:
 
   CallbackTypeProxy                 GetOriginCallback() const;
 
+  DirectionCallbackType             GetDirectionCallback() const;
+
   ScalarTypeCallbackType            GetScalarTypeCallback() const;
 
   NumberOfComponentsCallbackType    GetNumberOfComponentsCallback() const;
@@ -138,6 +141,8 @@ protected:
 
   virtual double * OriginCallback() = 0;
 
+  virtual double * DirectionCallback() = 0;
+
   virtual float * FloatSpacingCallback() = 0;
 
   virtual float * FloatOriginCallback() = 0;
@@ -165,6 +170,8 @@ private:
   static double * SpacingCallbackFunction(void *);
 
   static double * OriginCallbackFunction(void *);
+
+  static double * DirectionCallbackFunction(void *);
 
   static float * FloatSpacingCallbackFunction(void *);
 

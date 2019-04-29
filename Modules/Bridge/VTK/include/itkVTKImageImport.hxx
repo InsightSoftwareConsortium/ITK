@@ -98,6 +98,7 @@ VTKImageImport< TOutputImage >
   m_FloatSpacingCallback = nullptr;
   m_OriginCallback = nullptr;
   m_FloatOriginCallback = nullptr;
+  m_DirectionCallback = nullptr;
   m_UpdateInformationCallback = nullptr;
   m_ScalarTypeCallback = nullptr;
   m_DataExtentCallback = nullptr;
@@ -235,6 +236,19 @@ VTKImageImport< TOutputImage >
       }
     output->SetOrigin(outOrigin);
     }
+  if ( m_DirectionCallback )
+    {
+    double *inDirection = (m_DirectionCallback)( m_CallbackUserData );
+    typename TOutputImage::DirectionType outDirection;
+    for ( unsigned int i = 0; i < OutputImageDimension; ++i )
+      {
+      for ( unsigned int j = 0; j < OutputImageDimension; ++j )
+        {
+        outDirection[i][j] = inDirection[i*3+j];
+        }
+      }
+    output->SetDirection(outDirection);
+    }
   if ( m_NumberOfComponentsCallback )
     {
     const unsigned int components =
@@ -356,6 +370,10 @@ VTKImageImport< TOutputImage >
   if ( m_FloatOriginCallback )
     {
     os << "FloatOriginCallback: " << m_FloatOriginCallback << std::endl;
+    }
+  if ( m_DirectionCallback )
+    {
+    os << "DirectionCallback: " << m_DirectionCallback << std::endl;
     }
   if ( m_UpdateInformationCallback )
     {
