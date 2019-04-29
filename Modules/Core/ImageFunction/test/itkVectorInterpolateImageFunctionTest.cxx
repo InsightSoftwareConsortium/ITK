@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include <iostream>
-#include "itkVectorLinearInterpolateImageFunction.h"
+#include "itkLinearInterpolateImageFunction.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
 enum{ VectorDimension = 3 };
@@ -25,7 +25,7 @@ enum{ ImageDimension = 3 };
 using PixelType = itk::Vector<unsigned short,VectorDimension>;
 using ImageType = itk::Image<PixelType,ImageDimension>;
 using CoordRepType = double;
-using InterpolatorType = itk::VectorLinearInterpolateImageFunction<ImageType,CoordRepType>;
+using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType,CoordRepType>;
 using IndexType = InterpolatorType::IndexType;
 using PointType = InterpolatorType::PointType;
 using ContinuousIndexType = InterpolatorType::ContinuousIndexType;

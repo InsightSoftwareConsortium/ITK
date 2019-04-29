@@ -22,7 +22,7 @@
 
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
-#include "itkVectorLinearInterpolateImageFunction.h"
+#include "itkLinearInterpolateImageFunction.h"
 
 namespace itk
 {
@@ -43,7 +43,7 @@ VelocityFieldTransform<TParametersValueType, NDimensions>
   this->m_NumberOfIntegrationSteps = 10;
 
   // Setup and assign default interpolator
-  using DefaultInterpolatorType = VectorLinearInterpolateImageFunction<VelocityFieldType, ScalarType>;
+  using DefaultInterpolatorType = LinearInterpolateImageFunction<VelocityFieldType, ScalarType>;
   typename DefaultInterpolatorType::Pointer interpolator = DefaultInterpolatorType::New();
   this->m_VelocityFieldInterpolator = interpolator;
 

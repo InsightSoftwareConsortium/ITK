@@ -83,7 +83,7 @@ namespace itk
  *   \sa SegmentationLevelSetImageFilter
  *   \sa ThresholdSegmentationLevelSetFunction,
  *   \sa SparseFieldLevelSetImageFilter
- * \ingroup ITKLevelSets
+ * \ingroup ITKDeprecated
  */
 template< typename TInputImage,
           typename TFeatureImage,

@@ -19,7 +19,7 @@
 #define itkComposeDisplacementFieldsImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkVectorInterpolateImageFunction.h"
+#include "itkInterpolateImageFunction.h"
 
 namespace itk
 {
@@ -71,7 +71,7 @@ public:
 
   /** Other type alias */
   using RealType = typename VectorType::ComponentType;
-  using InterpolatorType = VectorInterpolateImageFunction
+  using InterpolatorType = InterpolateImageFunction
     <InputFieldType, RealType>;
 
   /** Get the interpolator. */

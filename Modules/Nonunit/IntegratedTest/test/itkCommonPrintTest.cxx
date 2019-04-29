@@ -84,7 +84,6 @@
 #include "itkTranslationTransform.h"
 #include "itkValarrayImageContainer.h"
 #include "itkVarianceImageFunction.h"
-#include "itkVectorLinearInterpolateImageFunction.h"
 #include "itkVectorToRGBImageAdaptor.h"
 #include "itkVectorImage.h"
 #include "itkVersion.h"
@@ -464,10 +463,6 @@ int itkCommonPrintTest(int , char* [])
   itk::VectorImage< float, 3 >::Pointer VectorImageObj =
     itk::VectorImage< float, 3 >::New();
   std::cout << "------------VectorImage" << VectorImageObj;
-
-  itk::VectorLinearInterpolateImageFunction<VectorImageType,float>::Pointer VectorLinearInterpolateImageFunctionObj =
-    itk::VectorLinearInterpolateImageFunction<VectorImageType,float>::New();
-  std::cout << "------------VectorLinearInterpolateImageFunction" << VectorLinearInterpolateImageFunctionObj;
 
   itk::VectorToRGBImageAdaptor<VectorImageType>::Pointer VectorToRGBImageAdaptorObj =
     itk::VectorToRGBImageAdaptor<VectorImageType>::New();

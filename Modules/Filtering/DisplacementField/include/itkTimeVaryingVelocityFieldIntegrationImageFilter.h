@@ -20,7 +20,7 @@
 
 #include "itkImageToImageFilter.h"
 
-#include "itkVectorInterpolateImageFunction.h"
+#include "itkInterpolateImageFunction.h"
 
 namespace itk
 {
@@ -86,11 +86,11 @@ public:
   using PointType = typename DisplacementFieldType::PointType;
   using OutputRegionType = typename DisplacementFieldType::RegionType;
 
-  using VelocityFieldInterpolatorType = VectorInterpolateImageFunction
+  using VelocityFieldInterpolatorType = InterpolateImageFunction
     <TimeVaryingVelocityFieldType, ScalarType>;
   using VelocityFieldInterpolatorPointer = typename VelocityFieldInterpolatorType::Pointer;
 
-  using DisplacementFieldInterpolatorType = VectorInterpolateImageFunction<DisplacementFieldType, ScalarType>;
+  using DisplacementFieldInterpolatorType = InterpolateImageFunction<DisplacementFieldType, ScalarType>;
   using DisplacementFieldInterpolatorPointer = typename DisplacementFieldInterpolatorType::Pointer;
 
   /** Get/Set the time-varying velocity field interpolator.  Default = linear. */

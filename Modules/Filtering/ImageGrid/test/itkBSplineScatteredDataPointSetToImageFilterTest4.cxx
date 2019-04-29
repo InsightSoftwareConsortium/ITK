@@ -20,7 +20,7 @@
 #include "itkBSplineScatteredDataPointSetToImageFilter.h"
 #include "itkBSplineTransform.h"
 #include "itkVectorIndexSelectionCastImageFilter.h"
-#include "itkVectorLinearInterpolateImageFunction.h"
+#include "itkLinearInterpolateImageFunction.h"
 #include "itkTestingMacros.h"
 
 
@@ -205,7 +205,7 @@ int itkBSplineScatteredDataPointSetToImageFilterTest4( int, char * [] )
   // Now instantiate an interpolator to get an approximation of what
   // the transform should produce
 
-  using InterpolatorType = itk::VectorLinearInterpolateImageFunction<VectorImageType>;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<VectorImageType>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   interpolator->SetInputImage( filter->GetOutput() );
 

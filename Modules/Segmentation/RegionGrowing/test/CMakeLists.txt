@@ -3,7 +3,6 @@ set(ITKRegionGrowingTests
 itkNeighborhoodConnectedImageFilterTest.cxx
 itkIsolatedConnectedImageFilterTest.cxx
 itkConfidenceConnectedImageFilterTest.cxx
-itkVectorConfidenceConnectedImageFilterTest.cxx
 itkConnectedThresholdImageFilterTest.cxx
 )
 
@@ -33,17 +32,6 @@ itk_add_test(NAME itkConfidenceConnectedImageFilterTest2
       COMMAND ITKRegionGrowingTestDriver
     --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/ConfidenceConnectedImageFilterTest2.png fcd6bcb56c1689fcef28b57c22475bad
     itkConfidenceConnectedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/ConfidenceConnectedImageFilterTest2.png 9999 9999)
-itk_add_test(NAME itkVectorConfidenceConnectedImageFilterTest
-      COMMAND ITKRegionGrowingTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorConfidenceConnectedImageFilterTest.png}
-              ${ITK_TEST_OUTPUT_DIR}/VectorConfidenceConnectedImageFilterTest.png
-    itkVectorConfidenceConnectedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png} ${ITK_TEST_OUTPUT_DIR}/VectorConfidenceConnectedImageFilterTest.png 72 44 23 67 5.0 6)
-itk_add_test(NAME itkVectorConfidenceConnectedImageFilterTest2
-      COMMAND ITKRegionGrowingTestDriver
-    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/VectorConfidenceConnectedImageFilterTest2.png 06aa8c7e4e2aeb3a3028d5b9d5fe6e27
-    itkVectorConfidenceConnectedImageFilterTest
-      DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png}
-      ${ITK_TEST_OUTPUT_DIR}/VectorConfidenceConnectedImageFilterTest2.png 9999 9999 9999 9999 5.0 6)
 itk_add_test(NAME itkConnectedThresholdImageFilterTest
       COMMAND ITKRegionGrowingTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/ConnectedThresholdImageFilterTest.png}

@@ -26,7 +26,7 @@
 #include "itkInvertDisplacementFieldImageFilter.h"
 #include "itkIterationReporter.h"
 #include "itkMultiplyImageFilter.h"
-#include "itkVectorLinearInterpolateImageFunction.h"
+#include "itkLinearInterpolateImageFunction.h"
 #include "itkWindowConvergenceMonitoringFunction.h"
 
 namespace itk

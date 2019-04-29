@@ -19,7 +19,7 @@
 #define itkDisplacementFieldTransform_hxx
 
 #include "itkDisplacementFieldTransform.h"
-#include "itkVectorLinearInterpolateImageFunction.h"
+#include "itkLinearInterpolateImageFunction.h"
 #include "itkImageToImageFilter.h"
 
 #include "itkImageRegionIteratorWithIndex.h"
@@ -39,7 +39,7 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>::DisplacementField
   this->m_FixedParameters.Fill( 0.0 );
 
   // Setup and assign default interpolator
-  using DefaultInterpolatorType = VectorLinearInterpolateImageFunction< DisplacementFieldType, ScalarType>;
+  using DefaultInterpolatorType = LinearInterpolateImageFunction< DisplacementFieldType, ScalarType>;
   typename DefaultInterpolatorType::Pointer interpolator = DefaultInterpolatorType::New();
   this->m_Interpolator = interpolator;
 

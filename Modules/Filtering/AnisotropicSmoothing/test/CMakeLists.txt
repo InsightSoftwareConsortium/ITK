@@ -3,7 +3,6 @@ set(ITKAnisotropicSmoothingTests
 itkGradientAnisotropicDiffusionImageFilterTest.cxx
 itkCurvatureAnisotropicDiffusionImageFilterTest.cxx
 itkMinMaxCurvatureFlowImageFilterTest.cxx
-itkVectorAnisotropicDiffusionImageFilterTest.cxx
 itkGradientAnisotropicDiffusionImageFilterTest2.cxx
 )
 
@@ -15,8 +14,6 @@ itk_add_test(NAME itkCurvatureAnisotropicDiffusionImageFilterTest
       COMMAND ITKAnisotropicSmoothingTestDriver itkCurvatureAnisotropicDiffusionImageFilterTest)
 itk_add_test(NAME itkMinMaxCurvatureFlowImageFilterTest
       COMMAND ITKAnisotropicSmoothingTestDriver itkMinMaxCurvatureFlowImageFilterTest)
-itk_add_test(NAME itkVectorAnisotropicDiffusionImageFilterTest
-      COMMAND ITKAnisotropicSmoothingTestDriver itkVectorAnisotropicDiffusionImageFilterTest)
 itk_add_test(NAME itkGradientAnisotropicDiffusionImageFilterTest2
       COMMAND ITKAnisotropicSmoothingTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/GradientAnisotropicDiffusionImageFilterTest2.png}

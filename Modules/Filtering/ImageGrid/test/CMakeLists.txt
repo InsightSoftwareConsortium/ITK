@@ -28,7 +28,6 @@ itkBSplineDownsampleImageFilterTest.cxx
 itkTileImageFilterTest.cxx
 itkInterpolateImageFilterTest.cxx
 itkPasteImageFilterTest.cxx
-itkVectorResampleImageFilterTest.cxx
 itkPermuteAxesImageFilterTest.cxx
 itkOrientedImage2DTest.cxx
 itkOrientedImage3DTest.cxx
@@ -175,11 +174,6 @@ itk_add_test(NAME itkPasteImageFilterTest
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/PasteImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/PasteImageFilterTest.png
     itkPasteImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/cake_easy.png} ${ITK_TEST_OUTPUT_DIR}/PasteImageFilterTest.png)
-itk_add_test(NAME itkVectorResampleImageFilterTest
-      COMMAND ITKImageGridTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorResampleImageFilterTest.png}
-              ${ITK_TEST_OUTPUT_DIR}/VectorResampleImageFilterTest.png
-    itkVectorResampleImageFilterTest ${ITK_TEST_OUTPUT_DIR}/VectorResampleImageFilterTest.png)
 itk_add_test(NAME itkPermuteAxesImageFilterTest
       COMMAND ITKImageGridTestDriver itkPermuteAxesImageFilterTest)
 itk_add_test(NAME itkOrientedImage2DTest01

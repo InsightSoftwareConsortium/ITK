@@ -21,8 +21,8 @@
 #include "itkTimeVaryingVelocityFieldTransformParametersAdaptor.h"
 
 #include "itkIdentityTransform.h"
-#include "itkVectorResampleImageFilter.h"
-#include "itkVectorLinearInterpolateImageFunction.h"
+#include "itkResampleImageFilter.h"
+#include "itkLinearInterpolateImageFunction.h"
 #include "itkMath.h"
 
 namespace itk
@@ -207,11 +207,11 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>
   typename IdentityTransformType::Pointer identityTransform = IdentityTransformType::New();
   identityTransform->SetIdentity();
 
-  using LinearInterpolatorType = VectorLinearInterpolateImageFunction<TimeVaryingVelocityFieldType, ParametersValueType>;
+  using LinearInterpolatorType = LinearInterpolateImageFunction<TimeVaryingVelocityFieldType, ParametersValueType>;
   typename LinearInterpolatorType::Pointer interpolator = LinearInterpolatorType::New();
   interpolator->SetInputImage( this->m_Transform->GetVelocityField() );
 
-  using ResamplerType = VectorResampleImageFilter<TimeVaryingVelocityFieldType, TimeVaryingVelocityFieldType, ParametersValueType>;
+  using ResamplerType = ResampleImageFilter<TimeVaryingVelocityFieldType, TimeVaryingVelocityFieldType, ParametersValueType>;
   typename ResamplerType::Pointer resampler = ResamplerType::New();
   resampler->SetInput( this->m_Transform->GetVelocityField() );
   resampler->SetOutputDirection( newFieldDirection );

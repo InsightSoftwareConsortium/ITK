@@ -21,7 +21,7 @@
 #include "itkTimeVaryingVelocityFieldIntegrationImageFilter.h"
 
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkVectorLinearInterpolateImageFunction.h"
+#include "itkLinearInterpolateImageFunction.h"
 
 namespace itk
 {
@@ -46,7 +46,7 @@ TimeVaryingVelocityFieldIntegrationImageFilter
       << "dimensionality of 1 greater than the deformation field (output). " );
     }
 
-  using DefaultVelocityFieldInterpolatorType = VectorLinearInterpolateImageFunction<TimeVaryingVelocityFieldType,
+  using DefaultVelocityFieldInterpolatorType = LinearInterpolateImageFunction<TimeVaryingVelocityFieldType,
     ScalarType>;
 
   typename DefaultVelocityFieldInterpolatorType::Pointer
@@ -54,7 +54,7 @@ TimeVaryingVelocityFieldIntegrationImageFilter
 
   this->m_VelocityFieldInterpolator = velocityFieldInterpolator;
 
-  using DefaultDisplacementFieldInterpolatorType = VectorLinearInterpolateImageFunction<DisplacementFieldType,
+  using DefaultDisplacementFieldInterpolatorType = LinearInterpolateImageFunction<DisplacementFieldType,
     ScalarType>;
 
   typename DefaultDisplacementFieldInterpolatorType::Pointer

@@ -23,7 +23,7 @@
 #include "itkExponentialDisplacementFieldImageFilter.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
-#include "itkVectorLinearInterpolateImageFunction.h"
+#include "itkLinearInterpolateImageFunction.h"
 
 namespace itk
 {
@@ -46,7 +46,7 @@ ConstantVelocityFieldTransform<TParametersValueType, NDimensions>
   this->m_NumberOfIntegrationSteps = 10;
 
   // Setup and assign default interpolator
-  using DefaultInterpolatorType = VectorLinearInterpolateImageFunction<ConstantVelocityFieldType, ScalarType>;
+  using DefaultInterpolatorType = LinearInterpolateImageFunction<ConstantVelocityFieldType, ScalarType>;
   typename DefaultInterpolatorType::Pointer interpolator = DefaultInterpolatorType::New();
   this->m_ConstantVelocityFieldInterpolator = interpolator;
 

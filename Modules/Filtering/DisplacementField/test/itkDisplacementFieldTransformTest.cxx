@@ -24,7 +24,7 @@
 #include "itkMath.h"
 #include "itkNumericTraits.h"
 #include "itkTestingMacros.h"
-#include "itkVectorLinearInterpolateImageFunction.h"
+#include "itkLinearInterpolateImageFunction.h"
 
 
 template <typename TPoint>
@@ -201,7 +201,7 @@ int itkDisplacementFieldTransformTest( int argc, char* argv[] )
   TEST_SET_GET_VALUE( inverseDisplacementField,
     displacementTransform->GetInverseDisplacementField() );
 
-  using InterpolatorType = itk::VectorLinearInterpolateImageFunction<
+  using InterpolatorType = itk::LinearInterpolateImageFunction<
     DisplacementTransformType::DisplacementFieldType,
     DisplacementTransformType::ScalarType>;
 

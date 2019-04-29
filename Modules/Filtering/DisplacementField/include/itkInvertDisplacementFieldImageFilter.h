@@ -19,8 +19,8 @@
 #define itkInvertDisplacementFieldImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkVectorInterpolateImageFunction.h"
-#include "itkVectorLinearInterpolateImageFunction.h"
+#include "itkInterpolateImageFunction.h"
+#include "itkLinearInterpolateImageFunction.h"
 #include <mutex>
 
 namespace itk
@@ -77,9 +77,9 @@ public:
   /** Other type alias */
   using RealType = typename VectorType::ComponentType;
   using RealImageType = Image<RealType, ImageDimension>;
-  using InterpolatorType = VectorInterpolateImageFunction<InputFieldType, RealType>;
+  using InterpolatorType = InterpolateImageFunction<InputFieldType, RealType>;
   using DefaultInterpolatorType =
-      VectorLinearInterpolateImageFunction <InputFieldType, RealType>;
+      LinearInterpolateImageFunction <InputFieldType, RealType>;
 
   /** Get the interpolator. */
   itkGetModifiableObjectMacro( Interpolator, InterpolatorType );

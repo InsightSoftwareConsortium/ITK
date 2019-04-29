@@ -110,7 +110,7 @@ public:
   using VelocityFieldType = ConstantVelocityFieldType;
 
   using ConstantVelocityFieldInterpolatorType =
-      VectorInterpolateImageFunction<ConstantVelocityFieldType, ScalarType>;
+      InterpolateImageFunction<ConstantVelocityFieldType, ScalarType>;
   using ConstantVelocityFieldInterpolatorPointer = typename ConstantVelocityFieldInterpolatorType::Pointer;
 
   /** Define the internal parameter helper used to access the field */

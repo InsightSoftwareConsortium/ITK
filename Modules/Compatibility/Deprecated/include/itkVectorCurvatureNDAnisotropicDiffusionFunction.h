@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkVectorGradientNDAnisotropicDiffusionFunction_h
-#define itkVectorGradientNDAnisotropicDiffusionFunction_h
+#ifndef itkVectorCurvatureNDAnisotropicDiffusionFunction_h
+#define itkVectorCurvatureNDAnisotropicDiffusionFunction_h
 
 #include "itkVectorAnisotropicDiffusionFunction.h"
 #include "itkNeighborhoodAlgorithm.h"
@@ -25,30 +25,30 @@
 
 namespace itk
 {
-/** \class VectorGradientNDAnisotropicDiffusionFunction
+/** \class VectorCurvatureNDAnisotropicDiffusionFunction
  *
  * This class is a simple extension of the
- * GradientNDAnisotropicDiffusionFunction to pixel types of multiple
+ * CurvatureNDAnisotropicDiffusionFunction to pixel types of multiple
  * components.  Vector components are diffused separately, but diffusion of
  * each component is limited by a conductance term which depends on all
  * components.
  *
- * For more information, please see GradientNDAnisotropicDiffusionFunction.
+ * For more information, please see CurvatureNDAnisotropicDiffusionFunction.
  *
- * \sa GradientNDAnisotropicDiffusionFunction
- * \sa VectorCurvatureNDAnisotropicDiffusionFunction
+ * \sa CurvatureNDAnisotropicDiffusionFunction
+ * \sa VectorGradientNDAnisotropicDiffusionFunction
  * \sa AnisotropicDiffusionFunction
- * \ingroup ITKAnisotropicSmoothing
+ * \ingroup ITKDeprecated
  */
 template< typename TImage >
-class ITK_TEMPLATE_EXPORT VectorGradientNDAnisotropicDiffusionFunction:
+class ITK_TEMPLATE_EXPORT VectorCurvatureNDAnisotropicDiffusionFunction:
   public VectorAnisotropicDiffusionFunction< TImage >
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorGradientNDAnisotropicDiffusionFunction);
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorCurvatureNDAnisotropicDiffusionFunction);
 
-  /** Standard class type aliases. */
-  using Self = VectorGradientNDAnisotropicDiffusionFunction;
+  /** Standard itk Self & Superclass type alias */
+  using Self = VectorCurvatureNDAnisotropicDiffusionFunction;
   using Superclass = VectorAnisotropicDiffusionFunction< TImage >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -56,9 +56,9 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods) */
-  itkTypeMacro(VectorGradientNDAnisotropicDiffusionFunction,
-               ScalarAnisotropicDiffusionFunction);
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(VectorCurvatureNDAnisotropicDiffusionFunction,
+               VectorAnisotropicDiffusionFunction);
 
   /** Inherit some parameters from the superclass type. */
   using ImageType = typename Superclass::ImageType;
@@ -67,13 +67,11 @@ public:
   using RadiusType = typename Superclass::RadiusType;
   using NeighborhoodType = typename Superclass::NeighborhoodType;
   using FloatOffsetType = typename Superclass::FloatOffsetType;
+  using ScalarValueType = typename PixelType::ValueType;
 
-  /** Extract vector and image dimension from superclass. */
+  /** Extract the image and vector dimension. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
   static constexpr unsigned int VectorDimension = Superclass::VectorDimension;
-
-  /** Type of a value in a vector (double, float, etc.) */
-  using ScalarValueType = typename PixelType::ValueType;
 
   /** Compute the equation value. */
   PixelType ComputeUpdate(const NeighborhoodType & neighborhood,
@@ -89,8 +87,10 @@ public:
   }
 
 protected:
-  VectorGradientNDAnisotropicDiffusionFunction();
-  ~VectorGradientNDAnisotropicDiffusionFunction() override = default;
+  VectorCurvatureNDAnisotropicDiffusionFunction();
+  ~VectorCurvatureNDAnisotropicDiffusionFunction() override = default;
+  void PrintSelf(std::ostream & os, Indent indent) const override
+  {  Superclass::PrintSelf(os, indent);   }
 
 private:
   /** Inner product function. */
@@ -101,22 +101,20 @@ private:
   std::slice xa_slice[ImageDimension][ImageDimension];
   std::slice xd_slice[ImageDimension][ImageDimension];
 
-  /** Derivative operators. */
-  DerivativeOperator< ScalarValueType,
-                      Self::ImageDimension > m_DerivativeOperator;
+  /** Derivative operator */
+  DerivativeOperator< ScalarValueType, Self::ImageDimension > m_DerivativeOperator;
 
   /** Modified global average gradient magnitude term. */
-  ScalarValueType m_K;
+  double m_K{ 0.0 };
 
   static double m_MIN_NORM;
-
-  SizeValueType m_Stride[ImageDimension];
   SizeValueType m_Center;
+  SizeValueType m_Stride[ImageDimension];
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkVectorGradientNDAnisotropicDiffusionFunction.hxx"
+#include "itkVectorCurvatureNDAnisotropicDiffusionFunction.hxx"
 #endif
 
 #endif

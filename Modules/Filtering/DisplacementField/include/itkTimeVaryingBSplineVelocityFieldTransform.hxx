@@ -25,7 +25,7 @@
 #include "itkImportImageFilter.h"
 #include "itkMultiplyImageFilter.h"
 #include "itkTimeVaryingVelocityFieldIntegrationImageFilter.h"
-#include "itkVectorLinearInterpolateImageFunction.h"
+#include "itkLinearInterpolateImageFunction.h"
 
 namespace itk
 {

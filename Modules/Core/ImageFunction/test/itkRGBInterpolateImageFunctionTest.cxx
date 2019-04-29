@@ -18,7 +18,7 @@
 
 #include <iostream>
 #include "itkRGBPixel.h"
-#include "itkVectorLinearInterpolateImageFunction.h"
+#include "itkLinearInterpolateImageFunction.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
 namespace RGBInterpolate {
@@ -28,7 +28,7 @@ enum{ VectorDimension = 3 }; // RGB is a vector of dimension 3
 using PixelType = itk::RGBPixel<unsigned short>;
 using ImageType = itk::Image<PixelType,ImageDimension>;
 using CoordRepType = double;
-using InterpolatorType = itk::VectorLinearInterpolateImageFunction<ImageType,CoordRepType>;
+using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType,CoordRepType>;
 using IndexType = InterpolatorType::IndexType;
 using PointType = InterpolatorType::PointType;
 using ContinuousIndexType = InterpolatorType::ContinuousIndexType;

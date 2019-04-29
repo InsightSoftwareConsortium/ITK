@@ -23,7 +23,7 @@
 #include "itkLevelSetEquationAdvectionTerm.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkGradientImageFilter.h"
-#include "itkVectorCastImageFilter.h"
+#include "itkCastImageFilter.h"
 
 namespace itk
 {
@@ -100,7 +100,7 @@ LevelSetEquationAdvectionTerm< TInput, TLevelSetContainer >
     derivative->Update();
 
     using DerivativeOutputImageType = typename DerivativeFilterType::OutputImageType;
-    using GradientCasterType = VectorCastImageFilter< DerivativeOutputImageType, AdvectionImageType >;
+    using GradientCasterType = CastImageFilter< DerivativeOutputImageType, AdvectionImageType >;
 
     typename GradientCasterType::Pointer caster = GradientCasterType::New();
     caster->SetInput( derivative->GetOutput() );

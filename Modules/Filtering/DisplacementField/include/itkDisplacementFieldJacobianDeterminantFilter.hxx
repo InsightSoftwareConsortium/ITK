@@ -24,7 +24,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkProgressReporter.h"
-#include "itkVectorCastImageFilter.h"
+#include "itkCastImageFilter.h"
 
 #include "itkMath.h"
 #include "itkMath.h"
@@ -166,8 +166,8 @@ DisplacementFieldJacobianDeterminantFilter< TInputImage, TRealType, TOutputImage
   //
   // cast might not be necessary, but CastImagefilter is optimized for
   // the case where the InputImageType == OutputImageType
-  typename VectorCastImageFilter< TInputImage, RealVectorImageType >::Pointer
-    caster = VectorCastImageFilter< TInputImage, RealVectorImageType >::New();
+  typename CastImageFilter< TInputImage, RealVectorImageType >::Pointer
+    caster = CastImageFilter< TInputImage, RealVectorImageType >::New();
   caster->SetInput( this->GetInput() );
   caster->Update();
   m_RealValuedInputImage = caster->GetOutput();

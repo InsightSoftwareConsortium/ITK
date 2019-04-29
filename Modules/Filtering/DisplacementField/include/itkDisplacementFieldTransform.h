@@ -23,7 +23,7 @@
 #include "itkImage.h"
 #include "itkMatrixOffsetTransformBase.h"
 #include "itkImageVectorOptimizerParametersHelper.h"
-#include "itkVectorInterpolateImageFunction.h"
+#include "itkInterpolateImageFunction.h"
 
 namespace itk
 {
@@ -54,9 +54,9 @@ namespace itk
  * template parameter \c NDimensions, and is an image of vectors of
  * type \c OutputVectorType, with dimensionality NDimensions as well.
  *
- * An interpolator of type \c VectorInterpolateImageFunction is used with
+ * An interpolator of type \c InterpolateImageFunction is used with
  * the displacement field image. By default,
- * VectorLinearInterpolateImageFunction is used, and the user can override
+ * LinearInterpolateImageFunction is used, and the user can override
  * using SetInterpolator.
  *
  * The displacement field data is stored using the common
@@ -164,7 +164,7 @@ public:
   using DisplacementFieldPointer = typename DisplacementFieldType::Pointer;
   using DisplacementFieldConstPointer = typename DisplacementFieldType::ConstPointer;
 
-  using InterpolatorType = VectorInterpolateImageFunction
+  using InterpolatorType = InterpolateImageFunction
     <DisplacementFieldType, ScalarType>;
 
   /** Standard types for the displacement Field */

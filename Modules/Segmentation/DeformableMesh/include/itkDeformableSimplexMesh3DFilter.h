@@ -32,7 +32,7 @@
 #include "itkSimplexMesh.h"
 #include "itkSphereSpatialFunction.h"
 #include "itkFloodFilledSpatialFunctionConditionalIterator.h"
-#include "itkVectorGradientMagnitudeImageFilter.h"
+#include "itkGradientMagnitudeImageFilter.h"
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkArray.h"
 

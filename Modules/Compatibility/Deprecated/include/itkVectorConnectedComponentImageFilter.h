@@ -43,7 +43,7 @@ namespace Functor
  *         similar directions if one minus their dot product is less than a
  *         threshold.  Vectors that are 180 degrees out of phase
  *         are similar.  Assumes that vectors are normalized.
- * \ingroup ITKConnectedComponents
+ * \ingroup ITKDeprecated
  */
 
 template< typename TInput >
@@ -92,7 +92,7 @@ protected:
  *         similar directions if one minus their dot product is less than a
  *         threshold.  Vectors that are 180 degrees out of phase
  *         are similar.  Assumes that vectors are normalized.
- * \ingroup ITKConnectedComponents
+ * \ingroup ITKDeprecated
  */
 template< typename TInputImage, typename TOutputImage, typename TMaskImage = TInputImage >
 class VectorConnectedComponentImageFilter:

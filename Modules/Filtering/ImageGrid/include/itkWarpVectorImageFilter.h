@@ -19,7 +19,7 @@
 #define itkWarpVectorImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkVectorLinearInterpolateImageFunction.h"
+#include "itkLinearInterpolateImageFunction.h"
 #include "itkPoint.h"
 #include "itkFixedArray.h"
 
@@ -136,10 +136,10 @@ public:
 
   /** Interpolator type alias support */
   using CoordRepType = double;
-  using InterpolatorType = VectorInterpolateImageFunction< InputImageType, CoordRepType >;
+  using InterpolatorType = InterpolateImageFunction< InputImageType, CoordRepType >;
   using InterpolatorPointer = typename InterpolatorType::Pointer;
   using DefaultInterpolatorType =
-      VectorLinearInterpolateImageFunction< InputImageType, CoordRepType >;
+      LinearInterpolateImageFunction< InputImageType, CoordRepType >;
 
   /** Point type */
   using PointType = Point< CoordRepType, Self::ImageDimension >;

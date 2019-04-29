@@ -106,7 +106,7 @@ public:
   using PointType = typename VelocityFieldType::PointType;
   using PixelType = typename VelocityFieldType::PixelType;
 
-  using VelocityFieldInterpolatorType = VectorInterpolateImageFunction<VelocityFieldType, ScalarType>;
+  using VelocityFieldInterpolatorType = InterpolateImageFunction<VelocityFieldType, ScalarType>;
   using VelocityFieldInterpolatorPointer = typename VelocityFieldInterpolatorType::Pointer;
 
   /** Define the internal parameter helper used to access the field */

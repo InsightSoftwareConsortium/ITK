@@ -39,7 +39,7 @@ namespace itk
  * \sa MeanImageFunction
  *
  * \ingroup ImageFunctions
- * \ingroup ITKImageFunction
+ * \ingroup ITKDeprecated
  */
 template< typename TInputImage, typename TCoordRep = float >
 class ITK_TEMPLATE_EXPORT VectorMeanImageFunction:

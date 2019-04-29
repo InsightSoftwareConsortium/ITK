@@ -40,7 +40,7 @@ namespace itk
  * https://hdl.handle.net/1926/510
  *
  * \ingroup ImageFunctions
- * \ingroup ITKReview
+ * \ingroup ITKDeprecated
  */
 template<
   typename TInputImage,

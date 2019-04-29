@@ -36,7 +36,6 @@ itkShapedFloodFilledImageFunctionConditionalConstIteratorTest2.cxx
 itkShapedFloodFilledImageFunctionConditionalConstIteratorTest3.cxx
 itkStochasticFractalDimensionImageFilterTest.cxx
 itkTimeAndMemoryProbeTest.cxx
-itkVectorCentralDifferenceImageFunctionTest.cxx
 itkVoxBoCUBImageIOTest.cxx
 itkWarpHarmonicEnergyCalculatorTest.cxx
 itkWarpJacobianDeterminantFilterTest.cxx
@@ -239,8 +238,6 @@ itk_add_test(NAME itkStochasticFractalDimensionImageFilterTest2
     itkStochasticFractalDimensionImageFilterTest 2 DATA{${ITK_DATA_ROOT}/Input/TreeBarkTexture.png} ${ITK_TEST_OUTPUT_DIR}/itkStochasticFractalDimensionImageFilterTest2.mha 2 DATA{${ITK_DATA_ROOT}/Input/circle100.png} 255)
 itk_add_test(NAME itkTimeAndMemoryProbeTest1
       COMMAND ITKReviewTestDriver itkTimeAndMemoryProbeTest)
-itk_add_test(NAME itkVectorCentralDifferenceImageFunctionTest
-      COMMAND ITKReviewTestDriver itkVectorCentralDifferenceImageFunctionTest)
 itk_add_test(NAME itkVoxBoCUBImageIOTest1
       COMMAND ITKReviewTestDriver itkVoxBoCUBImageIOTest
               DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.cub)

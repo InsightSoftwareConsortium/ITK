@@ -17,7 +17,6 @@ itkImageAdaptorInterpolateImageFunctionTest.cxx
 itkCovarianceImageFunctionTest.cxx
 itkRayCastInterpolateImageFunctionTest.cxx
 itkNearestNeighborExtrapolateImageFunctionTest.cxx
-itkVectorMeanImageFunctionTest.cxx
 itkMahalanobisDistanceThresholdImageFunctionTest.cxx
 itkInterpolateTest.cxx
 itkRGBInterpolateImageFunctionTest.cxx
@@ -68,8 +67,6 @@ itk_add_test(NAME itkRayCastInterpolateImageFunctionTest
       COMMAND ITKImageFunctionTestDriver itkRayCastInterpolateImageFunctionTest)
 itk_add_test(NAME itkNearestNeighborExtrapolateImageFunctionTest
       COMMAND ITKImageFunctionTestDriver itkNearestNeighborExtrapolateImageFunctionTest)
-itk_add_test(NAME itkVectorMeanImageFunctionTest
-      COMMAND ITKImageFunctionTestDriver itkVectorMeanImageFunctionTest)
 itk_add_test(NAME itkMahalanobisDistanceThresholdImageFunctionTest
       COMMAND ITKImageFunctionTestDriver itkMahalanobisDistanceThresholdImageFunctionTest)
 itk_add_test(NAME itkInterpolateTest
