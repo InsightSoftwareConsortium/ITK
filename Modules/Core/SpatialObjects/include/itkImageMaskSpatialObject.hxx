@@ -173,11 +173,11 @@ ImageMaskSpatialObject< TDimension, TPixel >
   Superclass::PrintSelf(os, indent);
 }
 
-#if ! defined ( ITK_LEGACY_REMOVE )
+
 template< unsigned int TDimension, typename TPixel >
 typename ImageMaskSpatialObject< TDimension, TPixel >::RegionType
 ImageMaskSpatialObject< TDimension, TPixel >
-::GetAxisAlignedBoundingBoxRegion() const
+::ComputeMyBoundingBoxInIndexSpace() const
 {
   const ImagePointer imagePointer = this->GetImage();
 
@@ -260,6 +260,16 @@ ImageMaskSpatialObject< TDimension, TPixel >
     maxIndex[dim] = subregion.GetIndex(dim);
   }
   return CreateRegion(minIndex, maxIndex);
+}
+
+
+#if ! defined ( ITK_LEGACY_REMOVE )
+template< unsigned int TDimension, typename TPixel >
+typename ImageMaskSpatialObject< TDimension, TPixel >::RegionType
+ImageMaskSpatialObject< TDimension, TPixel >
+::GetAxisAlignedBoundingBoxRegion() const
+{
+  return ComputeMyBoundingBoxInIndexSpace();
 }
 #endif //ITK_LEGACY_REMOVE
 } // end namespace itk

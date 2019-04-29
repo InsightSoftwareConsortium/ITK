@@ -353,51 +353,7 @@ As implied above, the changes to SpatialObject are extensive.   They include the
 * Helper functions simplify the specification of `IsInsideInObjectSpace()`, `ValueAtInObjectSpace()`, and other computations that potentially traverse an SO tree.
 * Derived classes typically only need to implement `IsInsideInObjectSpace()` and `ComputeMyBoundingBoxInObjectSpace()` member functions. Logic for `ValueAtInObjectSpace()`, `IsInsideInWorldSpace()` and such is improved.
 * PointBasedSpatialObjects had a PointListType type declaration.  This was confusing because it refered to a list of SpatialObjectPoints and not ITK::Points.  So, to avoid such confusion, now TubeSpatialObjects define TubePointListType, BlobSpatialObjects define BlobPointListType, and so forth.
-* `ImageMaskSpatialObject::GetAxisAlignedBoundingBoxRegion()` was removed.   `GetMyBoundingBoxInObjectSpace()` or `GetMyBoundingBoxInWorldSpace()` should be used instead. If a region in IndexSpace is needed, then transfer the corners of the bounding box into Index Space.
-```
-  //REPLACE typename FixedImageType::RegionType roiRegion = roiMask->GetAxisAlignedBoundingBoxRegion();
-  // Transform the corners of the bounding box
-  using PointsContainer = typename BoundingBoxType::PointsContainer;
-  const PointsContainer *corners
-    = roiMask->GetMyBoundingBoxInObjectSpace()->GetCorners();
-  typename PointsContainer::Pointer transformedCorners =
-    PointsContainer::New();
-  transformedCorners->Reserve(
-    static_cast<typename PointsContainer::ElementIdentifier>(
-      corners->size() ) );
-
-  auto it = corners->begin();
-  auto itTrans = transformedCorners->begin();
-  while ( it != corners->end() )
-    {
-    ContinuousIndexType cIndx;
-    roiMask->GetImage()->TransformPhysicalPointToIndex(*it, cIndx);
-    PointType pnt;
-    for( unsigned int i=0; i<Dimensions; ++i )
-      {
-      pnt[i] = cIndx[i];
-      }
-    *itTrans = pnt;
-    ++it;
-    ++itTrans;
-    }
-
-  typename BoundingBoxType::Pointer indexBoundingBox =
-    BoundingBoxType::New();
-  indexBoundingBox->SetPoints(transformedCorners);
-  indexBoundingBox->ComputeBoundingBox();
-
-  RegionType boundingRegion;
-  RegionType::IndexType indx;
-  RegionType::SizeType size;
-  for( unsigned int i=0; i<Dimensions; ++i )
-      {
-      indx[i] = indexBoundingBox->GetMinimum()[i];
-      size[i] = indexBoundingBox->GetMaximum()[i] - indexBoundingBox->GetMinimum()[i] + 1;
-      }
-  boundingRegion.SetIndex( indx );
-  boundingRegion.SetSize( size );
-```
+* `ImageMaskSpatialObject::GetAxisAlignedBoundingBoxRegion()` was removed. `ImageMaskSpatialObject::ComputeMyBoundingBoxInIndexSpace()` should be used instead.
 
 Class changes
 -------------
