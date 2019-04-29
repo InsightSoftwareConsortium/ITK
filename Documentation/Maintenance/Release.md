@@ -377,6 +377,16 @@ Alternatively,
 ```
 can be used to specify the version starting with `v`.
 
+Once all tarballs have been collected for uplod to GitHub, create *MD5SUMS* and
+*SHA512SUMS* checksum files. These checksums are used by clients downloading
+the source tarballs to verify their contents, e.g. with `sha512sum -c
+SHA512SUMS`.
+
+```sh
+   md5sum ./Insight* > MD5SUMS
+   sha512sum ./Insight* > SHA512SUMS
+```
+
 Generate Python Packages
 ------------------------
 
@@ -696,6 +706,8 @@ Upload the release artifacts. These include:
 - InsightData-$version.tar.gz
 - InsightData-$version.tar.xz
 - InsightData-$version.tar.zip
+- MD5SUMS
+- SHA512SUMS
 - TODO: Add more...
 
 If this is an alpha, beta, or release candidate release, check the *This is a
