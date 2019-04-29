@@ -270,4 +270,44 @@ TEST(ImageMaskSpatialObject, IsInsideSingleNonZeroPixel)
 }
 
 
+// Tests that the result of IsInside(point) is independent of a distant pixel value.
+TEST(ImageMaskSpatialObject, IsInsideIndependentOfDistantPixels)
+{
+  using ImageType = itk::Image<unsigned char>;
+  constexpr auto ImageDimension = ImageType::ImageDimension;
+  using SizeType = ImageType::SizeType;
+  using IndexType = ImageType::IndexType;
+  using PointType = ImageType::PointType;
+
+  // Create an image filled with zero valued pixels.
+  const auto image = ImageType::New();
+  image->SetRegions(SizeType::Filled(10));
+  image->Allocate(true);
+
+  // Set the value of a pixel to non-zero.
+  constexpr itk::IndexValueType indexValue{ 8 };
+  image->SetPixel({ indexValue, indexValue }, 1);
+
+  const auto spatialObject = itk::ImageMaskSpatialObject<ImageDimension>::New();
+  spatialObject->SetImage(image);
+  spatialObject->Update();
+
+  // Point of interest: a point close to the non-zero pixel.
+  const PointType pointOfInterest{ indexValue - 0.25 };
+
+  const bool isInsideBefore = spatialObject->IsInside(pointOfInterest);
+
+  // Now also set the value of a pixel at (0, 0) to non-zero. This is the pixel
+  // farthest away from the point of interest.
+  image->SetPixel(IndexType(), 1);
+  spatialObject->Update();
+
+  const bool isInsideAfter = spatialObject->IsInside(pointOfInterest);
+
+  // Expect the same return value of IsInside(point), before and after setting
+  // the value of a distant pixel.
+  EXPECT_EQ(isInsideBefore, isInsideAfter);
+}
+
+
 #endif
