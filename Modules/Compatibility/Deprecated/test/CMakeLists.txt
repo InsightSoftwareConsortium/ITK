@@ -6,13 +6,10 @@ itkConditionVariableTest.cxx
 itkSimpleFastMutexLockTest.cxx
 itkVectorAnisotropicDiffusionImageFilterTest.cxx
 itkVectorCentralDifferenceImageFunctionTest.cxx
-itkVectorConfidenceConnectedImageFilterTest.cxx
-itkVectorConnectedComponentImageFilterTest.cxx
 itkVectorExpandImageFilterTest.cxx
 itkVectorGradientMagnitudeImageFilterTest1.cxx
 itkVectorGradientMagnitudeImageFilterTest2.cxx
 itkVectorGradientMagnitudeImageFilterTest3.cxx
-itkVectorMeanImageFunctionTest.cxx
 itkVectorResampleImageFilterTest.cxx
 itkVectorThresholdSegmentationLevelSetImageFilterTest.cxx
 )
@@ -46,22 +43,6 @@ itk_add_test(NAME itkVectorAnisotropicDiffusionImageFilterTest
       COMMAND ITKDeprecatedTestDriver itkVectorAnisotropicDiffusionImageFilterTest)
 itk_add_test(NAME itkVectorCentralDifferenceImageFunctionTest
       COMMAND ITKDeprecatedTestDriver itkVectorCentralDifferenceImageFunctionTest)
-itk_add_test(NAME itkVectorConfidenceConnectedImageFilterTest
-      COMMAND ITKDeprecatedTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorConfidenceConnectedImageFilterTest.png}
-              ${ITK_TEST_OUTPUT_DIR}/VectorConfidenceConnectedImageFilterTest.png
-    itkVectorConfidenceConnectedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png} ${ITK_TEST_OUTPUT_DIR}/VectorConfidenceConnectedImageFilterTest.png 72 44 23 67 5.0 6)
-itk_add_test(NAME itkVectorConfidenceConnectedImageFilterTest2
-      COMMAND ITKDeprecatedTestDriver
-    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/VectorConfidenceConnectedImageFilterTest2.png 06aa8c7e4e2aeb3a3028d5b9d5fe6e27
-    itkVectorConfidenceConnectedImageFilterTest
-      DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png}
-      ${ITK_TEST_OUTPUT_DIR}/VectorConfidenceConnectedImageFilterTest2.png 9999 9999 9999 9999 5.0 6)
-itk_add_test(NAME itkVectorConnectedComponentImageFilterTest
-      COMMAND ITKDeprecatedTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorConnectedComponentImageFilterTest.png,:}
-              ${ITK_TEST_OUTPUT_DIR}/VectorConnectedComponentImageFilterTest.png
-    itkVectorConnectedComponentImageFilterTest ${ITK_TEST_OUTPUT_DIR}/VectorConnectedComponentImageFilterTest.png)
 itk_add_test(NAME itkVectorExpandImageFilterTest
       COMMAND ITKDeprecatedTestDriver itkVectorExpandImageFilterTest)
 itk_add_test(NAME itkVectorGradientMagnitudeImageFilterTest1a
@@ -87,8 +68,6 @@ itk_add_test(NAME itkVectorGradientMagnitudeImageFilterTest2b
 itk_add_test(NAME itkVectorGradientMagnitudeImageFilterTest3
       COMMAND ITKDeprecatedTestDriver itkVectorGradientMagnitudeImageFilterTest3
               DATA{${ITK_DATA_ROOT}/Input/VHFColor.mhd,VHFColor.raw} ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest3.mha 1)
-itk_add_test(NAME itkVectorMeanImageFunctionTest
-      COMMAND ITKDeprecatedTestDriver itkVectorMeanImageFunctionTest)
 itk_add_test(NAME itkVectorResampleImageFilterTest
       COMMAND ITKDeprecatedTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorResampleImageFilterTest.png}
