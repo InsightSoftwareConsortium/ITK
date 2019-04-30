@@ -43,7 +43,7 @@ namespace itk
   /** Platform specific type alias for simple types
    */
 #if defined(ITK_USE_PTHREADS)
-  constexpr std::size_t ITK_MAX_THREADS = 128;
+  constexpr std::size_t ITK_MAX_THREADS = ITK_DEFAULT_MAX_THREADS;
   using MutexType = pthread_mutex_t;
   using FastMutexType = pthread_mutex_t;
   using ThreadFunctionType = void *(*)(void *);
@@ -55,7 +55,7 @@ namespace itk
   using ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION = itk::ITK_THREAD_RETURN_TYPE;
 #elif defined(ITK_USE_WIN32_THREADS)
 
-  constexpr std::size_t ITK_MAX_THREADS = 128;
+  constexpr std::size_t ITK_MAX_THREADS = ITK_DEFAULT_MAX_THREADS;
   using MutexType = HANDLE;
   using FastMutexType = CRITICAL_SECTION;
   typedef unsigned(__stdcall * ThreadFunctionType)(void *);
