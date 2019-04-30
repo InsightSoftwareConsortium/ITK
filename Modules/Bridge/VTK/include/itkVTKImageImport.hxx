@@ -240,11 +240,30 @@ VTKImageImport< TOutputImage >
     {
     double *inDirection = (m_DirectionCallback)( m_CallbackUserData );
     typename TOutputImage::DirectionType outDirection;
-    for ( unsigned int i = 0; i < OutputImageDimension; ++i )
+    for ( unsigned int i = 0; i < 3; ++i )
       {
-      for ( unsigned int j = 0; j < OutputImageDimension; ++j )
+      for ( unsigned int j = 0; j < 3; ++j )
         {
-        outDirection[i][j] = inDirection[i*3+j];
+        if (i < OutputImageDimension && j < OutputImageDimension)
+          {
+          outDirection[i][j] = inDirection[i*3+j];
+          }
+        else if ((i != j) && (inDirection[i*3+j] != 0.0))
+          {
+            std::string ijk = "IJK";
+            std::string xyz = "XYZ";
+            itkExceptionMacro(<< "Cannot convert a VTK image to an ITK image of dimension "
+            << OutputImageDimension << " since the VTK image direction matrix element at ("
+            << i << "," << j << ") is not equal to 0.0:\n"
+            << "   I  J  K\n"
+            << "X  " << inDirection[0] << ", " << inDirection[1] << ", " << inDirection[2] << "\n"
+            << "Y  " << inDirection[3] << ", " << inDirection[4] << ", " << inDirection[5] << "\n"
+            << "Z  " << inDirection[6] << ", " << inDirection[7] << ", " << inDirection[8] << "\n"
+            << "This means that the " << ijk[j] << " data axis has a " << xyz[i]
+            << " component in physical space, but the ITK image can only represent values"
+            << " along " << ijk.substr(0,OutputImageDimension) << " projected on "
+            << xyz.substr(0,OutputImageDimension) << "." << std::endl);
+          }
         }
       }
     output->SetDirection(outDirection);

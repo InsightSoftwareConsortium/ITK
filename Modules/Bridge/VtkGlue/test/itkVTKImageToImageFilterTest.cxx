@@ -75,5 +75,25 @@ int itkVTKImageToImageFilterTest(int, char*[])
     }
   }
 
-  return EXIT_SUCCESS;
+  // Try again with an direction matrix that isn't supported
+  // and ensure it throws an exception
+  input->SetDirectionMatrix(0, 1, 0, 0, 0, 1, 1, 0, 0);
+  try
+    {
+    connector->Update();
+    }
+  catch (itk::ExceptionObject & e)
+    {
+    std::string expectedErrorSubString = "is not equal to 0.0";
+    std::string fullErrorString = e.GetDescription();
+    if (fullErrorString.find(expectedErrorSubString) != std::string::npos)
+      {
+      std::cout << "\nTest passed: the expected exception was thrown: " << e << std::endl;
+      return EXIT_SUCCESS;
+      }
+    std::cerr << "\nTest failed: an unexpected exception was thrown: " << e << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  return EXIT_FAILURE;
 }
