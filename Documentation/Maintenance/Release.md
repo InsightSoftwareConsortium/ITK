@@ -119,17 +119,17 @@ Integrate bug fixes in the release branch
 Update `master` and `release` branches:
 
 ```sh
-   $ git fetch upstream
-   $ git checkout master
-   $ git reset --hard upstream/master
-   $ git checkout release
-   $ git reset --hard upstream/release
+   git fetch upstream
+   git checkout master
+   git reset --hard upstream/master
+   git checkout release
+   git reset --hard upstream/release
 ```
 
 List differences between last release and current release branch:
 
 ```sh
-   $ git shortlog --no-merges $release_version..release
+   git shortlog --no-merges $release_version..release
 ```
 
 Merge bug fix commits in release. The topic branch should be named
@@ -150,19 +150,19 @@ Merge `release-4.13` into `release` (so that `release` keeps track of release hi
 Similarly for the `release-4.13` branch:
 
 ```sh
-   $ git checkout release-4.13
-   $ git pull upstream release-4.13
-   $ git checkout release
-   $ git merge release-4.13
-   $ git push origin release release-4.13
+   git checkout release-4.13
+   git pull upstream release-4.13
+   git checkout release
+   git merge release-4.13
+   git push origin release release-4.13
 ```
 Similarly for the `master` and `release` branches:
 
 ```sh
-   $ git checkout master
-   $ git pull
-   $ git merge release
-   $ git push origin master release
+   git checkout master
+   git pull
+   git merge release
+   git push origin master release
 ```
 
 For patches that need to be merged to the `release-3.20` branch, they are first
@@ -198,7 +198,7 @@ Set the environmental or CMake variable `ExternalData_OBJECT_STORES` to a
 local directory. e.g.
 
 ```sh
-   $ export ExternalData_OBJECT_STORES=${HOME}/data
+   export ExternalData_OBJECT_STORES=${HOME}/data
 ```
 
 Pre-populate the store with the contents of the 'InsightData' tarballs from a
@@ -220,7 +220,7 @@ their source directory that has been added inside ITK source directory
 Build the `ITKData` target
 
 ```sh
-   $ make ITKData
+   make ITKData
 ```
 
 This will download new testing data since the previous release.
@@ -228,7 +228,7 @@ This will download new testing data since the previous release.
 Next, run the script from within the ITK source directory:
 
 ```sh
-   $ ./Utilities/Maintenance/ContentLinkSynchronization.sh ${ExternalData_OBJECT_STORES}
+   ./Utilities/Maintenance/ContentLinkSynchronization.sh ${ExternalData_OBJECT_STORES}
 ```
 
 Do not use `--cleanup` as for the purpose of the GitHub resource, it is
@@ -243,8 +243,8 @@ Next, archive the data on data.kitware.com. Create a folder, e.g.
 `$MAJOR_VERSION.$MINOR_VERSION`, in `ITK/ITKTestingData`, and run
 
 ```sh
-   $ python -m pip install girder-client
-   $ python ./Utilities/Maintenance/ArchiveTestingDataOnGirder.py --object-store ${ExternalData_OBJECT_STORES} --parent-id <the-girder-id-of-the-folder-created> --api-key <your-girder-user-api-key>
+   python -m pip install girder-client
+   python ./Utilities/Maintenance/ArchiveTestingDataOnGirder.py --object-store ${ExternalData_OBJECT_STORES} --parent-id <the-girder-id-of-the-folder-created> --api-key <your-girder-user-api-key>
 ```
 
 This script requires the girder-client Python package install from Girder
@@ -253,7 +253,7 @@ master, November 2016 or later, (Girder > 2.0.0).
 Archive the `InsightData` contents on ITK's file server at kitware:
 
 ```sh
-   $ rsync -v -r ${ExternalData_OBJECT_STORES}/MD5/ public:/projects/Insight/WWW/InsightWeb/files/ExternalData/MD5/
+   rsync -v -r ${ExternalData_OBJECT_STORES}/MD5/ public:/projects/Insight/WWW/InsightWeb/files/ExternalData/MD5/
 ```
 
 Update the data archive at https://github.com/InsightSoftwareConsortium/ITKTestingData.
@@ -269,8 +269,8 @@ maintainers after an ITK Confab.
 Use the commmand:
 
 ```sh
-   $ git checkout master
-   $ git pull
+   git checkout master
+   git pull
 ```
 
 to make sure that the source tree is updated. This must correspond to a source
@@ -287,7 +287,7 @@ tree that has been fully tested in the [Dashboard].
 In the source tree that was just updated, use the command
 
 ```sh
-   $ git tag -m "ITK $version" -s v$version $commit_hash_to_be_tagged
+   git tag -m "ITK $version" -s v$version $commit_hash_to_be_tagged
 ```
 
 where, of course, `$version` must be changed for the for the correct release
@@ -296,7 +296,7 @@ number and $commit_hash_to_be_tagged` to the correct commit hash.
 Push it to the repository
 
 ```sh
-   $ git push upstream v$version
+   git push upstream v$version
 ```
 
 Note that only trusted GPG key holders may do this step.
@@ -307,11 +307,11 @@ Update the `release` branch only during feature releases after the tag for the
 release. Perform a `fast-forward` merge of `master` into release:
 
 ```sh
-   $ git checkout release
-   $ git reset --hard upstream/release
-   $ git merge --ff-only v$version
-   $ git push upstream release
-   $ git checkout master
+   git checkout release
+   git reset --hard upstream/release
+   git merge --ff-only v$version
+   git push upstream release
+   git checkout master
 ```
 
 This will not create a new commit, only move the release branch to the tag,
@@ -364,7 +364,7 @@ repository to create the tarballs:
 Run:
 
 ```sh
-   $ ./Utilities/Maintenance/SourceTarball.bash --tgz
+   ./Utilities/Maintenance/SourceTarball.bash --tgz
 ```
 
 This will generate tarballs for the source and testing data.
@@ -374,7 +374,7 @@ This will generate tarballs for the source and testing data.
 From a `git` bash shell with `wget` in `PATH`, run:
 
 ```sh
-   $ ./Utilities/Maintenance/SourceTarball.bash --zip
+   ./Utilities/Maintenance/SourceTarball.bash --zip
 ``
 
 This should be done on Windows so that the sources have Windows-style newline
@@ -384,7 +384,7 @@ endings.
 specify the version of ITK used to name the output files:
 
 ```sh
-   $ ./Utilities/Maintenance/SourceTarball.bash -v $version $commit_hash_to_be_tagged
+   ./Utilities/Maintenance/SourceTarball.bash -v $version $commit_hash_to_be_tagged
 ```
 where, of course, `$version` must be changed for the for the correct release
 number and $commit_hash_to_be_tagged` to the correct commit hash.
@@ -392,9 +392,19 @@ number and $commit_hash_to_be_tagged` to the correct commit hash.
 Alternatively,
 
 ```sh
-   $ ./Utilities/Maintenance/SourceTarball.bash -v $version v$version
+   ./Utilities/Maintenance/SourceTarball.bash -v $version v$version
 ```
 can be used to specify the version starting with `v`.
+
+Once all tarballs have been collected for uplod to GitHub, create *MD5SUMS* and
+*SHA512SUMS* checksum files. These checksums are used by clients downloading
+the source tarballs to verify their contents, e.g. with `sha512sum -c
+SHA512SUMS`.
+
+```sh
+   md5sum ./Insight* > MD5SUMS
+   sha512sum ./Insight* > SHA512SUMS
+```
 
 Generate Python Packages
 ------------------------
@@ -428,62 +438,64 @@ from the `release` branch locally.
 Build the sdist and wheels for Linux:
 
 ```sh
-  $ ssh metroplex
-  $ cd ~/Packaging/ITKPythonPackage
-  $ git reset --hard HEAD
-  $ git checkout release
-  $ git pull origin release
-  $ git clean -fdx
-  $ /home/kitware/Support/skbuild-venv/bin/python setup.py sdist --formats=gztar,zip
-  $ ./scripts/dockcross-manylinux-build-wheels.sh
-  $ tar cvzf /tmp/dist-linux.tar.gz ./dist
-  $ rm dist/*
-  $ cd ..
-  $ ./ITKPythonPackage/scripts/dockcross-manylinux-build-tarball.sh
+ssh blaster
+cd ~/Packaging/ITKPythonPackage
+git reset --hard HEAD
+git checkout release
+git pull origin release
+git clean -fdx
+/home/kitware/Support/skbuild-venv/bin/python setup.py sdist --formats=gztar,zip
+./scripts/dockcross-manylinux-build-wheels.sh
+tar cvzf /tmp/dist-linux.tar.gz ./dist
+rm dist/*
+cd ..
+./ITKPythonPackage/scripts/dockcross-manylinux-build-tarball.sh
 ```
+
 
 Build the wheels for macOS:
 
 ```sh
-  $ ssh misty
-  $ cd ~/Dashboards/ITK/ITKPythonPackage
-  $ git reset --hard HEAD
-  $ git checkout release
-  $ git pull
-  $ git clean -fdx
-  $ ./scripts/macpython-build-wheels.sh
-  $ tar cvzf /tmp/dist-macos.tar.gz ./dist
-  $ rm dist/*
-  $ cd ..
-  $ ./ITKPythonPackage/scripts/macpython-build-tarball.sh
+ssh misty
+cd ~/Dashboards/ITK/ITKPythonPackage
+git reset --hard HEAD
+git checkout release
+git pull
+git clean -fdx
+./scripts/macpython-build-wheels.sh
+tar cvzf /tmp/dist-macos.tar.gz ./dist
+rm dist/*
+cd ..
+./ITKPythonPackage/scripts/macpython-build-tarball.sh
 ```
 
 Build the wheels for Windows:
 
 ```sh
-  $ vncviewer overload # Open Git Bash shell
-  $ cd /c/P/IPP
-  $ git reset --hard HEAD
-  $ git checkout release
-  $ git pull
-  $ git clean -fdx
-  $ # Open a VS2017 x64 SDK 8.1 Native Tools Command Prompt
-  $ cd C:\P\IPP
-  $ set PATH=C:\cmake-3.12.1\bin;%PATH%
-  $ C:\Python36-x64\python.exe ./scripts/windows_build_wheels.py
-  $ # Back in Git Bash...
-  $ tar cvzf /c/P/dist-windows.tar.gz ./dist
-  $ rm dist/*
-  $ cd ..
-  $ rm -f ./ITKPythonBuilds-windows.zip
-  $ powershell "IPP/scripts/windows-build-tarball.ps1"
-  ```
+vncviewer overload # Open Git Bash shell
+cd /c/P/IPP
+git reset --hard HEAD
+git checkout release
+git pull
+git clean -fdx
+# Open a VS2017 x64 SDK 8.1 Native Tools Command Prompt
+cd C:\P\IPP
+set PATH=C:\cmake-3.12.1\bin;%PATH%
+set PATH=C:\P\doxygen;%PATH%
+C:\Python36-x64\python.exe ./scripts/windows_build_wheels.py
+# Back in Git Bash...
+tar cvzf /c/P/dist-windows.tar.gz ./dist
+rm dist/*
+cd ..
+rm -f ./ITKPythonBuilds-windows.zip
+powershell "IPP/scripts/windows-build-tarball.ps1"
+```
 
 Next, tag the release branch `HEAD` and push to GitHub:
 
 ```sh
-  $ git tag -m "ITKPythonPackage $version" -s v$version HEAD
-  $ git push upstream release v$version
+git tag -m "ITKPythonPackage $version" -s v$version HEAD
+git push upstream release v$version
 ```
 
 ### Upload the wheels to PyPI
@@ -497,7 +509,7 @@ Run `pip install itk` in a fresh virtualenv and run all the
 [ITKExamples](https://github.com/InsightSoftwareConsortium/ITKExamples) Python
 tests against this Python. For example,
 
-```
+```sh
 virtualenv itk-venv
 ./itk-venv/bin/python -m pip install itk
 git clone https://github.com/InsightSoftwareConsortium/ITKExamples
@@ -547,7 +559,7 @@ On a machine with [Doxygen] installed, configure a build with
 documentation tarball, run:
 
 ```sh
-   $ tar -C Utilities/Doxygen/doc -czf vtkDocHtml-$version.tar.gz html
+   tar -C Utilities/Doxygen/doc -czf vtkDocHtml-$version.tar.gz html
 ```
 
 from the top of the build tree.
@@ -567,12 +579,12 @@ Run CMake in the binary build and enable `BUILD_DOXYGEN`, configure and
 generate, then:
 
 ```sh
-   $ cd Binaries/ITK
-   $ make Documentation
-   $ cd Utilities
-   $ mv old_doxygen_directory DoxygenInsightToolkit-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION
-   $ tar -cf DoxygenInsightToolkit-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.tar DoxygenInsightToolkit-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION
-   $ gzip -9 DoxygenInsightToolkit-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.tar
+   cd Binaries/ITK
+   make Documentation
+   cd Utilities
+   mv old_doxygen_directory DoxygenInsightToolkit-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION
+   tar -cf DoxygenInsightToolkit-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.tar DoxygenInsightToolkit-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION
+   gzip -9 DoxygenInsightToolkit-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.tar
 ```
 
 Historical note: Before ITK 3.8, the documentation used to be generated in a
@@ -608,17 +620,17 @@ To create `ItkSoftwareGuide.pdf` to put at itk.org/ItkSoftwareGuide.pdf from
 `InsightSoftwareGuide-Book{1,2}-4.X.0.pdf`, use `pdftk`:
 
 ```
-   $ pdftk ITKSoftwareGuide-Book1.pdf ITKSoftwareGuide-Book2.pdf cat output /tmp/ItkSoftwareGuide.pdf
+   pdftk ITKSoftwareGuide-Book1.pdf ITKSoftwareGuide-Book2.pdf cat output /tmp/ItkSoftwareGuide.pdf
 ```
 
 Update *ItkSoftwareGuide.pdf* hosted at itk.org. Many links point at this resource.
 
 
 ```sh
-   $ scp /tmp/ItkSoftwareGuide.pdf public.kitware.com:/tmp/
-   $ cd /projects/Insight/WWW/InsightWeb
-   $ rm ItkSoftwareGuide.pdf
-   $ mv /tmp/ItkSoftwareGuide.pdf ./ItkSoftwareGuide.pdf
+   scp /tmp/ItkSoftwareGuide.pdf public.kitware.com:/tmp/
+   cd /projects/Insight/WWW/InsightWeb
+   rm ItkSoftwareGuide.pdf
+   mv /tmp/ItkSoftwareGuide.pdf ./ItkSoftwareGuide.pdf
 ```
 ### Prepare the print version
 
@@ -629,8 +641,8 @@ page, and then also one of the blank pages so pages fall on
 Then, run:
 
 ```sh
-   $ pdftk ITKSoftwareGuide-Book1.pdf cat 2-3 5-end output /tmp/ITKSoftwareGuide-Book1.pdf
-   $ pdftk ITKSoftwareGuide-Book2.pdf cat 2-3 5-end output /tmp/ITKSoftwareGuide-Book2.pdf
+   pdftk ITKSoftwareGuide-Book1.pdf cat 2-3 5-end output /tmp/ITKSoftwareGuide-Book1.pdf
+   pdftk ITKSoftwareGuide-Book2.pdf cat 2-3 5-end output /tmp/ITKSoftwareGuide-Book2.pdf
 ```
 
 ### Update the HTML pages
@@ -638,7 +650,7 @@ Then, run:
 `rsync` the newly generated pages to the web server:
 
 ```sh
-   $ rsync -rt html/ kitware@public:/projects/Insight/WWW/InsightWeb/ITKSoftwareGuide/html
+   rsync -rt html/ kitware@public:/projects/Insight/WWW/InsightWeb/ITKSoftwareGuide/html
 ```
 
 Update ITK Sphinx Examples
@@ -655,17 +667,17 @@ and rename them.
 Set the prefix and tag:
 
 ```sh
-   $ tag = $(git describe)
-   $ prefix = InsightSphinxExamples-$version
+   tag = $(git describe)
+   prefix = InsightSphinxExamples-$version
 ```
 where `$version` is the appropriate release number, e.g., `4.12.0`.
 
 Generate the `.tar.gz` and `.zip` tarballs:
 
 ```sh
-   $ git archive --format=tar --prefix=${prefix}/ --output=${prefix}.tar ${tag}
-   $ gzip -9  ${prefix}.tar
-   $ git archive --format=zip -9 --prefix=${prefix}/ --output=${prefix}.zip ${tag}
+   git archive --format=tar --prefix=${prefix}/ --output=${prefix}.tar ${tag}
+   gzip -9  ${prefix}.tar
+   git archive --format=zip -9 --prefix=${prefix}/ --output=${prefix}.zip ${tag}
 ```
 
 Update ITK Wiki Examples
@@ -677,12 +689,12 @@ Download the latest examples from the [ITK wiki examples] (i.e. `git pull`
 on the `ITKWikiExamples` repository), and run:
 
 ```sh
-   $ wget -O ITKWikiExamples-master.zip https://github.com/InsightSoftwareConsortium/ITKWikiExamples/archive/master.zip
-   $ unzip ITKWikiExamples-master.zip
-   $ mv ITKWikiExamples-master InsightWikiExamples-${version}
-   $ zip -r InsightWikiExamples-${version}.zip InsightWikiExamples-${version}
-   $ tar cvf InsightWikiExamples-${version}.tar InsightWikiExamples-${version}
-   $ gzip -9 InsightWikiExamples-${version}.tar
+   wget -O ITKWikiExamples-master.zip https://github.com/InsightSoftwareConsortium/ITKWikiExamples/archive/master.zip
+   unzip ITKWikiExamples-master.zip
+   mv ITKWikiExamples-master InsightWikiExamples-${version}
+   zip -r InsightWikiExamples-${version}.zip InsightWikiExamples-${version}
+   tar cvf InsightWikiExamples-${version}.tar InsightWikiExamples-${version}
+   gzip -9 InsightWikiExamples-${version}.tar
 ```
 
 Upload the release artifacts to GitHub
@@ -713,6 +725,8 @@ Upload the release artifacts. These include:
 - InsightData-$version.tar.gz
 - InsightData-$version.tar.xz
 - InsightData-$version.tar.zip
+- MD5SUMS
+- SHA512SUMS
 - TODO: Add more...
 
 If this is an alpha, beta, or release candidate release, check the *This is a
@@ -781,8 +795,8 @@ Release Notes Posts
 -------------------
 
 ```sh
-   $ cd ITK
-   $ git shortlog --topo-order --no-merges v$old_version..v$new_version
+   cd ITK
+   git shortlog --topo-order --no-merges v$old_version..v$new_version
 ```
 
 TODO: update for ITK
@@ -797,14 +811,14 @@ First, create the `changes.txt` file by giving a commit range to
 `make-changelog.sh`:
 
 ```sh
-   $ make-changelog.sh $previous_release $release
+   make-changelog.sh $previous_release $release
 ```
 
 This file contains all of the changes in the commit range grouped by author.
 It is then processed by `prep-emails.py`:
 
 ```sh
-   $ ./prep-emails.py $version
+   ./prep-emails.py $version
 ```
 
 It takes `changes.txt` and creates a file for each email address:
@@ -815,13 +829,13 @@ updates or wide, sweeping changes.
 Once that is complete, run `send-emails.sh`:
 
 ```sh
-   $ mailer=mutt ./send-emails.sh $version
+   mailer=mutt ./send-emails.sh $version
 ```
 
 The `mailer` environment variable should support this command line:
 
 ```sh
-   $ $mailer -s "$subject" $cc_list "$to" < "$body"
+   mailer -s "$subject" $cc_list "$to" < "$body"
 ```
 
 which is any `sendmail`-compatible program.
