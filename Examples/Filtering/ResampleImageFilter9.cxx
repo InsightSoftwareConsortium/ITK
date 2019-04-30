@@ -36,7 +36,7 @@
 #include "itkImageFileWriter.h"
 #include "itkResampleImageFilter.h"
 #include "itkIdentityTransform.h"
-#include "itkVectorNearestNeighborInterpolateImageFunction.h"
+#include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkRGBPixel.h"
 
@@ -77,11 +77,11 @@ int main( int argc, char * argv[] )
   FilterType::Pointer linearFilter = FilterType::New();
 
   //Interpolators
-  using NearestInterpolatorType = itk::VectorNearestNeighborInterpolateImageFunction<
+  using NearestInterpolatorType = itk::NearestNeighborInterpolateImageFunction<
                        ImageType, double >;
   NearestInterpolatorType::Pointer interpolatorNearest = NearestInterpolatorType::New();
 
-  using LinearInterpolatorType = itk::VectorLinearInterpolateImageFunction<
+  using LinearInterpolatorType = itk::LinearInterpolateImageFunction<
                        ImageType, double >;
   LinearInterpolatorType::Pointer interpolatorLinear = LinearInterpolatorType::New();
 
