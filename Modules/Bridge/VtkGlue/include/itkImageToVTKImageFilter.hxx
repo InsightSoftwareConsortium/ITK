@@ -38,7 +38,9 @@ ImageToVTKImageFilter<TInputImage>
   m_Importer->SetWholeExtentCallback(m_Exporter->GetWholeExtentCallback());
   m_Importer->SetSpacingCallback(m_Exporter->GetSpacingCallback());
   m_Importer->SetOriginCallback(m_Exporter->GetOriginCallback());
+#if VTK_MAJOR_VERSION >= 9 || (VTK_MAJOR_VERSION == 8 && VTK_MINOR_VERSION >= 90)
   m_Importer->SetDirectionCallback(m_Exporter->GetDirectionCallback());
+#endif
   m_Importer->SetScalarTypeCallback(m_Exporter->GetScalarTypeCallback());
   m_Importer->SetNumberOfComponentsCallback(m_Exporter->GetNumberOfComponentsCallback());
   m_Importer->SetPropagateUpdateExtentCallback(m_Exporter->GetPropagateUpdateExtentCallback());

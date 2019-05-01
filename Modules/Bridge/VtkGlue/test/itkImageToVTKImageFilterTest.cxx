@@ -85,6 +85,7 @@ int itkImageToVTKImageFilterTest(int, char *[])
       std::cerr << "Error: origins do not match for component (" << i << ")." << std::endl;
       return EXIT_FAILURE;
     }
+#if VTK_MAJOR_VERSION >= 9 || (VTK_MAJOR_VERSION == 8 && VTK_MINOR_VERSION >= 90)
     for (int j = 0; j < dim; ++j)
     {
       if (input->GetDirection()[i][j] != output->GetDirectionMatrix()->GetData()[i*3+j])
@@ -93,6 +94,7 @@ int itkImageToVTKImageFilterTest(int, char *[])
         return EXIT_FAILURE;
       }
     }
+#endif
   }
 
   return EXIT_SUCCESS;

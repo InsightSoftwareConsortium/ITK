@@ -38,7 +38,9 @@ int itkVTKImageToImageFilterTest(int, char*[])
   auto input = noise_source->GetOutput();
   input->SetSpacing(0.1, 2.0, 0.0);
   input->SetOrigin(-0.1, -10, 0.0);
+#if VTK_MAJOR_VERSION >= 9 || (VTK_MAJOR_VERSION == 8 && VTK_MINOR_VERSION >= 90)
   input->SetDirectionMatrix(0, 1, 0, -1, 0, 0, 0, 0, 1);
+#endif
   input->Print(std::cout);
 
   ConnectorType::Pointer connector = ConnectorType::New();
@@ -47,6 +49,7 @@ int itkVTKImageToImageFilterTest(int, char*[])
 
   auto output = connector->GetOutput();
   output->Print(std::cout);
+
 
   for (int i = 0; i < dim; ++i)
   {
@@ -65,6 +68,7 @@ int itkVTKImageToImageFilterTest(int, char*[])
       std::cerr << "Error: origins do not match for component (" << i << ")." << std::endl;
       return EXIT_FAILURE;
     }
+#if VTK_MAJOR_VERSION >= 9 || (VTK_MAJOR_VERSION == 8 && VTK_MINOR_VERSION >= 90)
     for (int j = 0; j < dim; ++j)
     {
       if (output->GetDirection()[i][j] != input->GetDirectionMatrix()->GetData()[i*3+j])
@@ -73,8 +77,10 @@ int itkVTKImageToImageFilterTest(int, char*[])
         return EXIT_FAILURE;
       }
     }
+#endif
   }
 
+#if VTK_MAJOR_VERSION >= 9 || (VTK_MAJOR_VERSION == 8 && VTK_MINOR_VERSION >= 90)
   // Try again with an direction matrix that isn't supported
   // and ensure it throws an exception
   input->SetDirectionMatrix(0, 1, 0, 0, 0, 1, 1, 0, 0);
@@ -96,4 +102,7 @@ int itkVTKImageToImageFilterTest(int, char*[])
     }
 
   return EXIT_FAILURE;
+#else
+  return EXIT_SUCCESS;
+#endif
 }
