@@ -1,14 +1,9 @@
 Contributing to ITK
 ===================
 
-This page documents how to develop ITK using [Git].
+This article documents how to contribute improvements to ITK.
 
-**Note**: *Git is an extremely powerful version control tool that supports many
-different "workflows" for individual development and collaboration. Here we
-document procedures used by the ITK development community. In the interest of
-simplicity and brevity we do not provide an explanation of why we use this
-approach. Furthermore, this is not a Git tutorial. Please see our [GitHelp]
-guide for third-party documentation.*
+For a *quick start guide*, see the [ITK Git Cheatsheet].
 
 Setup
 -----
@@ -37,7 +32,7 @@ However, other remote names can be used. Note that ITK defines some useful
 Git aliases, such as `review-push`, `pr`, `pr-clean`, and `prepush`, through
 the [`setup-git-aliases`] script for general Git tasks in ITK.
 
-Visit the *Pro Git: Setup* resource in [GitHelp] for further
+Visit the *Pro Git: Setup* resource in [Git Help] for further
 information on setting up your local Git environment.
 
 Workflow
@@ -94,7 +89,7 @@ For release branch fixes, start the topic from `upstream/release`:
    $ git checkout -b my-topic upstream/release
 ```
 
-(*You may visit the* Pro Git: Basic Branching *resource in [GitHelp] for
+(*You may visit the* Pro Git: Basic Branching *resource in [Git Help] for
 further information on working with branches.*)
 
 Edit files and create commits (repeat as needed). Add a prefix to your commit
@@ -110,12 +105,12 @@ message (see below).
    $ git commit
 ```
 
-(*You may visit the* Pro Git: Recording Changes *resource in [GitHelp] for
+(*You may visit the* Pro Git: Recording Changes *resource in [Git Help] for
 further information on making changes and committing snapshots.*)
 
 **Note**: *If your change modifies any of the modules in the
 `Modules/ThirdParty` directory, please read our
-[UpdatingThirdParty](Documentation/UpdatingThirdParty.md) guide.*
+[Updating Third Party] guide.*
 
 Breaking Changes
 ----------------
@@ -255,7 +250,7 @@ normally and then amend the commit:
    $ git commit --amend
 ```
 
-(*You may visit the* Pro Git: Changing the Last Commit *resource in [GitHelp]
+(*You may visit the* Pro Git: Changing the Last Commit *resource in [Git Help]
 for further information on revising and rewriting your commit history.*)
 
 To revise commits further back on the topic, say the `3`rd commit back:
@@ -270,7 +265,7 @@ Follow Git's interactive instructions.
 
 Return to the [Share a Topic](#share-a-topic) step to share the revised topic.
 
-(*You may visit the* Pro Git: Changing Multiple Commits *resource in [GitHelp]
+(*You may visit the* Pro Git: Changing Multiple Commits *resource in [Git Help]
 for further information on changing multiple commits -i.e. not only the last
 one, but further back in your history-, and the* Pro Git: Rebasing *resource on
 taking all the changes that were committed on one branch and replaying them on
@@ -333,9 +328,20 @@ merged. Use `-D` instead of `-d` to force the deletion of an unmerged topic
 branch (*warning*: you could lose commits).
 
 
+More Information
+----------------
+
+- General [Git Help]
+- [GitHub flow guide]
+- [ITK Git Cheatsheet]
+- [Updating Third Party] libraries distributed with ITK
+- [Handling testing data](Documentation/Data.md)
+- [Uploading binary data](Documentation/UploadBinaryData.md)
+
+[ITK Git Cheatsheet]: Documentation/GitCheatSheet.pdf
 [download instructions]: Documentation/Download.md
-[GitHelp]: Documentation/GitHelp.md
-[UpdatingThirdParty]: Documentation/Maintenance/UpdatingThirdParty.md
+[Git Help]: Documentation/GitHelp.md
+[Updating Third Party]: Documentation/Maintenance/UpdatingThirdParty.md
 
 [`SetupForDevelopment.sh`]: https://github.com/InsightSoftwareConsortium/ITK/blob/master/Utilities/SetupForDevelopment.sh
 [`setup-git-aliases`]: https://github.com/InsightSoftwareConsortium/ITK/blob/master/Utilities/GitSetup/setup-git-aliases
