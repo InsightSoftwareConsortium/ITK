@@ -101,20 +101,20 @@ public:
 
     //the starting index for the buffered region
     errid = clSetKernelArg(m_KernelContainer[kernelIdx], argIdx, sizeof(cl_mem),
-      manager->GetGPUBufferedRegionIndex()->GetGPUBufferPointer() );
+      manager->GetModifiableGPUBufferedRegionIndex()->GetGPUBufferPointer() );
     OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
 
     m_KernelArgumentReady[kernelIdx][argIdx].m_IsReady = true;
-    m_KernelArgumentReady[kernelIdx][argIdx].m_GPUDataManager = manager->GetGPUBufferedRegionIndex();
+    m_KernelArgumentReady[kernelIdx][argIdx].m_GPUDataManager = manager->GetModifiableGPUBufferedRegionIndex();
     argIdx++;
 
     //the size for the buffered region
     errid = clSetKernelArg(m_KernelContainer[kernelIdx], argIdx, sizeof(cl_mem),
-      manager->GetGPUBufferedRegionSize()->GetGPUBufferPointer() );
+      manager->GetModifiableGPUBufferedRegionSize()->GetGPUBufferPointer() );
     OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
 
     m_KernelArgumentReady[kernelIdx][argIdx].m_IsReady = true;
-    m_KernelArgumentReady[kernelIdx][argIdx].m_GPUDataManager = manager->GetGPUBufferedRegionSize();
+    m_KernelArgumentReady[kernelIdx][argIdx].m_GPUDataManager = manager->GetModifiableGPUBufferedRegionSize();
     argIdx++;
 
     return true;

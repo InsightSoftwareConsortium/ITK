@@ -202,9 +202,9 @@ GPUNeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueTyp
   // arguments set up
   cl_uint argidx = 0;
   this->m_GPUKernelManager->template SetKernelArgWithImageAndBufferedRegion<GPUInputManagerType>
-    (kHd, argidx, inPtr->GetDataManager() );
+    (kHd, argidx, inPtr->GetModifiableDataManager() );
   this->m_GPUKernelManager->template SetKernelArgWithImageAndBufferedRegion<GPUOutputManagerType>
-    (kHd, argidx, otPtr->GetDataManager() );
+    (kHd, argidx, otPtr->GetModifiableDataManager() );
   this->m_GPUKernelManager->SetKernelArgWithImage(kHd, argidx++, m_NeighborhoodGPUBuffer->GetGPUDataManager() );
 
   for(int i=0; i<(int)TInputImage::ImageDimension; i++)
