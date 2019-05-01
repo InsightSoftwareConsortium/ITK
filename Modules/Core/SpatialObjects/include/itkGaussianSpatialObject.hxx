@@ -124,7 +124,7 @@ GaussianSpatialObject< TDimension >
 template< unsigned int TDimension >
 void
 GaussianSpatialObject< TDimension >
-::ProtectedComputeMyBoundingBox() const
+::ComputeMyBoundingBox()
 {
   itkDebugMacro("Computing Guassian bounding box");
 

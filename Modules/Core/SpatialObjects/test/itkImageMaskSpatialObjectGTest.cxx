@@ -151,30 +151,51 @@ namespace
 // is empty, when all pixel values are 0.
 TEST(ImageMaskSpatialObject, AxisAlignedBoundingBoxIsEmptyWhenAllPixelsAreZero)
 {
-  Expect_AxisAlignedBoundingBoxRegion_is_empty_when_all_pixel_values_are_zero<double, 2>(
-    { {{0, 0}}, {{1, 1}} });
-  Expect_AxisAlignedBoundingBoxRegion_is_empty_when_all_pixel_values_are_zero<unsigned char, 3>(
-    { {{-1, -2, -3}}, {{3, 4, 5}} });
+  // Test 2D images:
+  Expect_AxisAlignedBoundingBoxRegion_is_empty_when_all_pixel_values_are_zero<double>(
+    itk::ImageRegion<2>{ itk::Index<2>{}, itk::Size<2>::Filled(1) });
+  Expect_AxisAlignedBoundingBoxRegion_is_empty_when_all_pixel_values_are_zero<double>(
+    itk::ImageRegion<2>{ itk::Index<2>{{-1, -2}}, itk::Size<2>{{3, 4}} });
+
+  // Test 3D images:
+  Expect_AxisAlignedBoundingBoxRegion_is_empty_when_all_pixel_values_are_zero<unsigned char>(
+    itk::ImageRegion<3>{ itk::Index<3>{}, itk::Size<3>::Filled(1) });
+  Expect_AxisAlignedBoundingBoxRegion_is_empty_when_all_pixel_values_are_zero<unsigned char>(
+    itk::ImageRegion<3>{ itk::Index<3>{{-1, -2, -3}}, itk::Size<3>{{3, 4, 5}} });
 }
 
 
 // Tests that the AABB region is equal to the image region, when all pixel values are non-zero.
 TEST(ImageMaskSpatialObject, AxisAlignedBoundingBoxRegionIsImageRegionWhenAllPixelsAreNonZero)
 {
-  Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_all_pixel_values_are_non_zero<double, 2>(
-    { {{0, 0}}, {{1, 1}} });
-  Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_all_pixel_values_are_non_zero<unsigned char, 3>(
-    { {{-1, -2, -3}}, {{3, 4, 5}} });
+  // Test 2D images:
+  Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_all_pixel_values_are_non_zero<double>(
+    itk::ImageRegion<2>{ itk::Index<2>{}, itk::Size<2>::Filled(1) });
+  Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_all_pixel_values_are_non_zero<double>(
+    itk::ImageRegion<2>{ itk::Index<2>{{-1, -2}}, itk::Size<2>{{3, 4}} });
+
+  // Test 3D images:
+  Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_all_pixel_values_are_non_zero<unsigned char>(
+    itk::ImageRegion<3>{ itk::Index<3>{}, itk::Size<3>::Filled(1) });
+  Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_all_pixel_values_are_non_zero<unsigned char>(
+    itk::ImageRegion<3>{ itk::Index<3>{{-1, -2, -3}}, itk::Size<3>{{3, 4, 5}} });
 }
 
 
 // Tests that the AABB region is equal to the region of a single pixel, when it is the only non-zero pixel.
 TEST(ImageMaskSpatialObject, AxisAlignedBoundingBoxRegionIsRegionOfSinglePixelWhenItIsOnlyNonZeroPixel)
 {
-  Expect_AxisAlignedBoundingBoxRegion_equals_region_of_single_pixel_when_it_is_the_only_non_zero_pixel<double, 2>(
-    { {{0, 0}}, {{1, 1}} });
-  Expect_AxisAlignedBoundingBoxRegion_equals_region_of_single_pixel_when_it_is_the_only_non_zero_pixel<unsigned char, 3>(
-    { {{-1, -2, -3}}, {{3, 4, 5}} });
+  // Test 2D images:
+  Expect_AxisAlignedBoundingBoxRegion_equals_region_of_single_pixel_when_it_is_the_only_non_zero_pixel<double>(
+    itk::ImageRegion<2>{ itk::Index<2>{}, itk::Size<2>::Filled(1) });
+  Expect_AxisAlignedBoundingBoxRegion_equals_region_of_single_pixel_when_it_is_the_only_non_zero_pixel<double>(
+    itk::ImageRegion<2>{ itk::Index<2>{{-1, -2}}, itk::Size<2>{{3, 4}} });
+
+  // Test 3D images:
+  Expect_AxisAlignedBoundingBoxRegion_equals_region_of_single_pixel_when_it_is_the_only_non_zero_pixel<unsigned char>(
+    itk::ImageRegion<3>{ itk::Index<3>{}, itk::Size<3>::Filled(1) });
+  Expect_AxisAlignedBoundingBoxRegion_equals_region_of_single_pixel_when_it_is_the_only_non_zero_pixel<unsigned char>(
+    itk::ImageRegion<3>{ itk::Index<3>{{-1, -2, -3}}, itk::Size<3>{{3, 4, 5}} });
 }
 
 
@@ -182,10 +203,17 @@ TEST(ImageMaskSpatialObject, AxisAlignedBoundingBoxRegionIsRegionOfSinglePixelWh
 // (This condition should hold for N-dimensional image regions, with N >= 2, and region size >= 2^N.)
 TEST(ImageMaskSpatialObject, AxisAlignedBoundingBoxRegionIsImageRegionWhenOnlyOnePixelIsZero)
 {
-  Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_only_a_single_pixel_has_value_zero<double, 2>(
-    { {{0, 0}}, {{2, 2}} });
-  Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_only_a_single_pixel_has_value_zero<unsigned char, 3>(
-    { {{-1, -2, -3}}, {{3, 4, 5}} });
+  // Test 2D images:
+  Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_only_a_single_pixel_has_value_zero<double>(
+    itk::ImageRegion<2>{ itk::Index<2>{}, itk::Size<2>::Filled(2) });
+  Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_only_a_single_pixel_has_value_zero<double>(
+    itk::ImageRegion<2>{ itk::Index<2>{{-1, -2}}, itk::Size<2>{{3, 4}} });
+
+  // Test 3D images:
+  Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_only_a_single_pixel_has_value_zero<unsigned char>(
+    itk::ImageRegion<3>{ itk::Index<3>{}, itk::Size<3>::Filled(2) });
+  Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_only_a_single_pixel_has_value_zero<unsigned char>(
+    itk::ImageRegion<3>{ itk::Index<3>{{-1, -2, -3}}, itk::Size<3>{{3, 4, 5}} });
 }
 
 #endif

@@ -98,7 +98,7 @@ TubeSpatialObject< TDimension, TTubePointType >
 template< unsigned int TDimension, typename TTubePointType >
 void
 TubeSpatialObject< TDimension, TTubePointType >
-::ProtectedComputeMyBoundingBox() const
+::ComputeMyBoundingBox()
 {
   itkDebugMacro("Computing tube bounding box");
 

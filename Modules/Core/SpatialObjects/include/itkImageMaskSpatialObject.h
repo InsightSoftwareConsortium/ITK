@@ -71,16 +71,23 @@ public:
   bool IsInsideInObjectSpace(const PointType & point, unsigned int depth=0,
     const std::string & name="") const override;
 
-#if ! defined ( ITK_LEGACY_REMOVE )
-  /** Compute axis aligned bounding box from the image mask. The bounding box
-   * is returned as an image region. Each call to this function will recompute
-   * the region.
+
+  /** Computes the bounding box of the image mask, in the index space of the image.
+   * The bounding box is returned as an image region. Each call to this function
+   * will recompute the region.
    * This function is useful in cases, where you may have a mask image
    * resulting from say a segmentation and you want to get the smallest box
-   * region that encapsulates the mask image. Currently this is done only for 3D
-   * volumes. */
-  //NOTE: THIS IS THE HISTORICAL IMPLEMETNATION COMPATIBLE WITH PRE 5.0.0
-  //      BEHAVIORS.
+   * region that encapsulates the mask image.
+   *
+   * \note This function is introduced with ITK 5.0, replacing
+   * `GetAxisAlignedBoundingBoxRegion()`.
+   */
+  RegionType ComputeMyBoundingBoxInIndexSpace() const;
+
+#if ! defined ( ITK_LEGACY_REMOVE )
+  /** Compute axis aligned bounding box from the image mask.
+   * \note With ITK 5.0, this function is superseded by `ComputeMyBoundingBoxInIndexSpace()`
+  */
   itkLegacyMacro( RegionType GetAxisAlignedBoundingBoxRegion() const );
 
 #endif
@@ -89,7 +96,7 @@ protected:
   /** Get the boundaries of a specific object.  This function needs to
    *  be called every time one of the object's components is
    *  changed. */
-  void ProtectedComputeMyBoundingBox() const override;
+  void ComputeMyBoundingBox() override;
 
   ImageMaskSpatialObject();
   ~ImageMaskSpatialObject() override = default;

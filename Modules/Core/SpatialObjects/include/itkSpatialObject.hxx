@@ -726,7 +726,7 @@ SpatialObject< TDimension >
 template< unsigned int TDimension >
 void
 SpatialObject< TDimension >
-::ProtectedComputeMyBoundingBox() const
+::ComputeMyBoundingBox()
 {
   typename BoundingBoxType::PointType pnt;
   pnt.Fill( NumericTraits< typename BoundingBoxType::PointType::ValueType >::
@@ -750,7 +750,7 @@ SpatialObject< TDimension >
     // Next Transform the corners of the bounding box
   using PointsContainer = typename BoundingBoxType::PointsContainer;
   const PointsContainer *corners
-    = this->GetModifiableMyBoundingBoxInObjectSpace()->GetCorners();
+    = m_MyBoundingBoxInObjectSpace->GetCorners();
   typename PointsContainer::Pointer transformedCorners =
     PointsContainer::New();
   transformedCorners->Reserve(
@@ -795,9 +795,9 @@ SpatialObject< TDimension >
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
     PointType pointMin
-      = this->GetModifiableMyBoundingBoxInObjectSpace()->GetMinimum();
+      = m_MyBoundingBoxInObjectSpace->GetMinimum();
     PointType pointMax
-      = this->GetModifiableMyBoundingBoxInObjectSpace()->GetMaximum();
+      = m_MyBoundingBoxInObjectSpace->GetMaximum();
     for ( unsigned int i = 0; i < ObjectDimension; i++ )
       {
       if ( Math::NotExactlyEquals(pointMin[i], 0)
@@ -1351,7 +1351,7 @@ SpatialObject< TDimension >
 {
   Superclass::Update();
 
-  this->ProtectedComputeMyBoundingBox();
+  this->ComputeMyBoundingBox();
 
   m_FamilyBoundingBoxInObjectSpace->SetMinimum(
     m_MyBoundingBoxInObjectSpace->GetMinimum() );

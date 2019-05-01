@@ -104,7 +104,6 @@ itkStdStreamStateSaveTest.cxx
 itkVersionTest.cxx
 VNLSparseLUSolverTraitsTest.cxx
 )
-
 set(ITKCommon2Tests
 itkSTLThreadTest.cxx
 itkThreadedIndexedContainerPartitionerTest.cxx
@@ -120,7 +119,6 @@ itkMultiThreaderTypeFromEnvironmentTest
 itkMultiThreadingEnvironmentTest.cxx
 itkMultiThreaderParallelizeArrayTest.cxx
 itkMultithreadingTest.cxx
-itkBarrierTest.cxx
 
 itkMetaProgrammingLibraryTest.cxx
 itkIsConvertible.cxx
@@ -135,7 +133,6 @@ itkVariableLengthVectorTest.cxx
 itkSpatialFunctionTest.cxx
 itkPeriodicBoundaryConditionTest.cxx
 itkSmartPointerTest.cxx
-itkBarrierTest.cxx
 itkVariableSizeMatrixTest.cxx
 itkConicShellInteriorExteriorSpatialFunctionTest.cxx
 itkEllipsoidInteriorExteriorSpatialFunctionTest.cxx
@@ -264,10 +261,6 @@ itk_add_test(NAME itkArrayTest COMMAND ITKCommon1TestDriver itkArrayTest)
 itk_add_test(NAME itkMersenneTwisterRandomVariateGeneratorTest COMMAND ITKCommon1TestDriver itkMersenneTwisterRandomVariateGeneratorTest)
 itk_add_test(NAME itkArray2DTest COMMAND ITKCommon1TestDriver itkArray2DTest)
 itk_add_test(NAME itkAutoPointerTest COMMAND ITKCommon2TestDriver itkAutoPointerTest)
-if(NOT MINGW)
-itk_add_test(NAME itkBarrierTest COMMAND ITKCommon2TestDriver itkBarrierTest)
-itk_add_test(NAME itkBarrierTest107 COMMAND ITKCommon2TestDriver itkBarrierTest 107)
-endif()
 itk_add_test(NAME itkTimeStampTest COMMAND ITKCommon1TestDriver itkTimeStampTest)
 itk_add_test(NAME itkBoundingBoxTest COMMAND ITKCommon1TestDriver itkBoundingBoxTest)
 itk_add_test(NAME itkBoundaryConditionTest COMMAND ITKCommon1TestDriver itkBoundaryConditionTest)
@@ -615,27 +608,45 @@ if(ITK_BUILD_SHARED_LIBS AND ITK_DYNAMIC_LOADING)
     $<TARGET_FILE:ClientTestLibraryB>)
 endif()
 
-# This test doesn't compile.  It exercises the bug I ran into if you multiply 2 vector images; if you
-# try to compile it the compile fails.
-# itk_add_test(NAME itkVectorMultiplyTest COMMAND ITKCommon2TestDriver itkVectorMultiplyTest)
-
-itk_python_add_test(NAME itkMetaDataDictionaryPythonTest COMMAND itkMetaDataDictionaryTest.py)
-itk_python_add_test(NAME itkDirectoryPythonTest COMMAND itkDirectoryTest.py)
-itk_python_expression_add_test(NAME itkObjectPythonTest EXPRESSION "itkObject = itk.Object.New()")
-itk_python_add_test(NAME itkIndexOffsetPythonTest COMMAND itkIndexOffsetTest.py)
-
 set(ITKCommonGTests
       itkAggregateTypesGTest.cxx
       itkBuildInformationGTest.cxx
       itkConnectedImageNeighborhoodShapeGTest.cxx
       itkConstantBoundaryImageNeighborhoodPixelAccessPolicyGTest.cxx
+      itkFixedArrayGTest.cxx
       itkImageNeighborhoodOffsetsGTest.cxx
       itkImageBufferRangeGTest.cxx
       itkIndexRangeGTest.cxx
+      itkPointGTest.cxx
       itkShapedImageNeighborhoodRangeGTest.cxx
+      itkSizeGTest.cxx
       itkSmartPointerGTest.cxx
       itkVectorContainerGTest.cxx
       itkCommonTypeTraitsGTest.cxx
       itkMetaDataDictionaryGTest.cxx
 )
 CreateGoogleTestDriver(ITKCommon "${ITKCommon-Test_LIBRARIES}" "${ITKCommonGTests}")
+if(NOT ITK_BUILD_SHARED_LIBS)
+  macro(BuildSharedTestLibrary _name _type)
+    add_library(SharedTestLibrary${_name} ${_type} SharedTestLibrary${_name}.cxx)
+    itk_module_target_label(SharedTestLibrary${_name})
+    target_link_libraries(SharedTestLibrary${_name} LINK_PUBLIC ${ITKCommon_LIBRARIES})
+    set_property(TARGET SharedTestLibrary${_name} PROPERTY LIBRARY_OUTPUT_DIRECTORY ${ITK_TEST_OUTPUT_DIR})
+      generate_export_header(SharedTestLibrary${_name}
+      EXPORT_FILE_NAME ${ITKCommon_BINARY_DIR}/SharedTestLibrary${_name}Export.h
+      EXPORT_MACRO_NAME SharedTestLibrary${_name}_EXPORT
+      NO_EXPORT_MACRO_NAME SharedTestLibrary${_name}_HIDDEN
+      )
+  endmacro()
+
+  # Linking static ITK libraries twice, into two different binaries for the same process, is not recommended or supported.
+  BuildSharedTestLibrary(A SHARED)
+  BuildSharedTestLibrary(B SHARED)
+  add_executable(itkObjectFactoryBasePrivateDestructor itkObjectFactoryBasePrivateDestructor.cxx )
+  itk_module_target_label(itkObjectFactoryBasePrivateDestructor)
+  target_link_libraries(itkObjectFactoryBasePrivateDestructor
+      LINK_PUBLIC
+      SharedTestLibraryA
+      SharedTestLibraryB)
+  itk_add_test(NAME itkObjectFactoryBasePrivateDestructor COMMAND itkObjectFactoryBasePrivateDestructor)
+endif()

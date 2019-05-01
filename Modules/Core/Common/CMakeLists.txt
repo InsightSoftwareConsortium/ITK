@@ -21,6 +21,8 @@ elseif(CMAKE_HP_PTHREADS_INIT)
 endif()
 set(CMAKE_THREAD_LIBS "${CMAKE_THREAD_LIBS_INIT}" CACHE STRING "Thread library used.")
 mark_as_advanced(CMAKE_THREAD_LIBS)
+set(ITK_DEFAULT_MAX_THREADS 128 CACHE STRING "The maximum number of threads allowed. Default: 128")
+mark_as_advanced(ITK_DEFAULT_MAX_THREADS)
 
 # See if compiler preprocessor has the __FUNCTION__ directive used by itkExceptionMacro
 include(CheckCPPDirective)

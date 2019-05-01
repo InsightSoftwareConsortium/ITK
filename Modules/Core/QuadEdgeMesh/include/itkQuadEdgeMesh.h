@@ -218,7 +218,7 @@ public:
   BoundaryAssignmentsContainerPointer GetBoundaryAssignments(int dimension)
   {
     (void)dimension;
-    return ( (BoundaryAssignmentsContainerPointer)0 );
+    return ( nullptr );
   }
 
   /** overloaded method for backward compatibility */
@@ -226,7 +226,7 @@ public:
     int dimension) const
   {
     (void)dimension;
-    return ( (BoundaryAssignmentsContainerPointer)nullptr );
+    return ( nullptr );
   }
 
 #endif

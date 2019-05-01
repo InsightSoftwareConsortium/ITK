@@ -20,7 +20,7 @@
 
 #include "itkArray.h"
 #include "itkDefaultStaticMeshTraits.h"
-#include "itksys/hash_map.hxx"
+#include <unordered_map>
 #include "itkHexahedronCell.h"
 #include "itkIntTypes.h"
 #include "itkMesh.h"
@@ -145,7 +145,7 @@ public:
 
   /** hash_map type alias. */
 
-  using PointHashMap = itksys::hash_map<
+  using PointHashMap = std::unordered_map<
     PointType,
     IdentifierType,
     StructHashFunction< PointHashType > >;
@@ -388,7 +388,7 @@ protected:
                           // are controlled manually
 
 private:
-  using CellHashMap = itksys::hash_map<
+  using CellHashMap = std::unordered_map<
     Array< IdentifierType >,
     IdentifierType,
     IdentifierArrayHashFunction,

@@ -2,6 +2,7 @@ itk_module_test()
 set(ITKIOPNGTests
 itkPNGImageIOTest.cxx
 itkPNGImageIOTest2.cxx
+itkPNGImageIOTest3.cxx
 itkPNGImageIOTestPalette.cxx
 )
 
@@ -47,3 +48,6 @@ itk_add_test(NAME itkPNGImageIOTest3PaletteNotExpandedGrey
     --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest3PaletteNotExpandedGrey.png
               4a4133ec26e5c83a5cbd9188067b1633
     itkPNGImageIOTestPalette DATA{Input/HeliconiusNumataPalette.png} ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest3PaletteNotExpandedGrey.png 0 0)
+itk_add_test(NAME itkPNGImageIOTestCorrupt
+      COMMAND ITKIOPNGTestDriver
+    itkPNGImageIOTest3 DATA{Input/cthead1-257-corrupt.png})

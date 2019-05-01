@@ -113,7 +113,7 @@ public:
 protected:
 
   MetaSceneConverter();
-  ~MetaSceneConverter() = default;
+  ~MetaSceneConverter() override = default;
 
 private:
 

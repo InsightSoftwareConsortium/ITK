@@ -191,7 +191,7 @@ public:
   /**********************************************************************/
   /* These are the three member functions that a subclass will typically
    *    overwrite.
-   *    * ProtectedComputeMyBoundingBox (protected:)
+   *    * ComputeMyBoundingBox (protected:)
    *    * IsInsideInObjectSpace
    *    * Update
    *  Optionally, a subclass may also wish to overwrite
@@ -502,9 +502,6 @@ public:
   itkLegacyMacro( void ComputeObjectToWorldTransform() )
   { this->Update(); /* Update() should be used instead of ProtectedComputeObjectToWorldTransform() */ }
 
-  itkLegacyMacro( void ComputeMyBoundingBox() )
-  { this->Update(); /* Update() should be used instead of ProtectedComputeMyBoundingBox() */}
-
   itkLegacyMacro( void ComputeBoundingBox() )
   { this->Update(); /* Update() should be used instead of outdated ComputeBoundingBox() */}
 
@@ -523,7 +520,7 @@ protected:
   void ProtectedComputeObjectToWorldTransform();
 
   /** Compute bounding box for the object in world space */
-  virtual void ProtectedComputeMyBoundingBox() const;
+  virtual void ComputeMyBoundingBox();
 
   /** Constructor. */
   SpatialObject();
@@ -533,7 +530,7 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  BoundingBoxType * GetModifiableMyBoundingBoxInObjectSpace() const
+  BoundingBoxType * GetModifiableMyBoundingBoxInObjectSpace()
   { return m_MyBoundingBoxInObjectSpace.GetPointer(); }
 
   typename LightObject::Pointer InternalClone() const override;

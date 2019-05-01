@@ -765,6 +765,54 @@ str = str
 
 %enddef
 
+
+%define DECL_PYTHON_STD_VEC_RAW_TO_SMARTPTR_TYPEMAP(swig_name, swig_name_ptr)
+
+   %typemap(in) std::vector< swig_name_ptr >::value_type const & (swig_name_ptr smart_ptr) {
+      swig_name * img;
+      if( SWIG_ConvertPtr($input,(void **)(&img),$descriptor(swig_name *), 0) == 0 )
+        {
+        smart_ptr = img;
+        $1 = &smart_ptr;
+        }
+      else
+        {
+        PyErr_SetString(PyExc_TypeError, "Expecting argument of type " #swig_name ".");
+        SWIG_fail;
+        }
+    }
+
+    %typemap(in) std::vector<swig_name_ptr> (std::vector< swig_name_ptr> vec_smartptr,
+                                             std::vector< swig_name_ptr> *vec_smartptr_ptr) {
+        if ((SWIG_ConvertPtr($input,(void **)(&vec_smartptr_ptr),$descriptor(std::vector<swig_name_ptr> *), 0)) == -1) {
+            PyErr_Clear();
+            if (PySequence_Check($input)) {
+                for (Py_ssize_t i =0; i < PyObject_Length($input); i++) {
+                    PyObject *o = PySequence_GetItem($input,i);
+                    swig_name * raw_ptr;
+                    if(SWIG_ConvertPtr(o,(void **)(&raw_ptr),$descriptor(swig_name *), 0) == 0) {
+                        vec_smartptr.push_back(raw_ptr);
+                    } else {
+                        PyErr_SetString(PyExc_ValueError,"Expecting a sequence of raw pointers (" #swig_name ")." );
+                        SWIG_fail;
+                    }
+                }
+                $1 = vec_smartptr;
+            }
+            else {
+                PyErr_SetString(PyExc_ValueError,"Expecting a sequence of raw pointers (" #swig_name ") or a std::vector of SmartPointers (" #swig_name_ptr ").");
+                SWIG_fail;
+            }
+        } else if( vec_smartptr_ptr != NULL ) {
+            $1 = *vec_smartptr_ptr;
+        } else {
+            PyErr_SetString(PyExc_ValueError, "Value can't be None");
+            SWIG_fail;
+        }
+    }
+%enddef
+
+
 // some code from stl
 
 %template(mapULD)         std::map< unsigned long, double >;

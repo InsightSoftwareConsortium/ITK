@@ -42,9 +42,7 @@ namespace itk
  *
  * NOTE: This class is only compatible with PlatformMultiThreader!
  *
- * NOTE: This class is deprecated since ITK 5.0!
- *
- * \ingroup ITKCommon
+ * \ingroup ITKDeprecated
  */
 class ITKCommon_EXPORT Barrier
   : public LightObject

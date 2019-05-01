@@ -418,10 +418,11 @@ option(ITK_USE_FLOAT_SPACE_PRECISION "Use single precision for origin/spacing/di
 mark_as_advanced(ITK_USE_FLOAT_SPACE_PRECISION)
 
 # This flag allows to not build itkTestDrivers while still configuring all the tests and disable all
-# tests that do not explicitely override this function (such as the Python tests).
+# tests that are implemented in the `test` folder in each ITK module. It does not disable tests
+# that are implemented in the wrapping folder.
 # This is used by dashboards to speed up compilation and testing on certain platforms.
-option(ITK_DISABLE_ALL_TESTS_BUT_OVERRIDEN "Disable all tests except the ones that override this option" OFF)
-mark_as_advanced(ITK_DISABLE_ALL_TESTS_BUT_OVERRIDEN)
+option(DISABLE_MODULE_TESTS "Disable all ITK module tests in `test` folder" OFF)
+mark_as_advanced(DISABLE_MODULE_TESTS)
 
 #----------------------------------------------------------------------
 # Make sure remote modules are downloaded before sorting out the module

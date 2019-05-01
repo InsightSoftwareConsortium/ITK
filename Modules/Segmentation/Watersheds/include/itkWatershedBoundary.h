@@ -23,7 +23,7 @@
 #include <vector>
 #include "itkImage.h"
 #include "itkProcessObject.h"
-#include "itksys/hash_map.hxx"
+#include <unordered_map>
 
 namespace itk
 {
@@ -115,8 +115,7 @@ public:
   using face_t = Image< face_pixel_t, TDimension >;
 
   /** A hash table holding flat region data structures.   */
-  using flat_hash_t = itksys::hash_map< IdentifierType, flat_region_t,
-                            itksys::hash< IdentifierType > >;
+  using flat_hash_t = std::unordered_map< IdentifierType, flat_region_t >;
   using FlatHashValueType = typename flat_hash_t::value_type;
 
   /** Itk type alias and macros defining smart pointer and type identification.

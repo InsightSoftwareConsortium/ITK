@@ -12,10 +12,9 @@
 #   ADDITIONAL_SRC (optional) - additional source files, which don't contain tests
 
 macro(CreateTestDriver KIT KIT_LIBS KitTests)
-  if(NOT ITK_DISABLE_ALL_TESTS_BUT_OVERRIDEN)
-    set(ADDITIONAL_SRC ${ARGN})
-    if(EMSCRIPTEN)
-      set(emscripten_before "
+  set(ADDITIONAL_SRC ${ARGN})
+  if(EMSCRIPTEN)
+    set(emscripten_before "
 EM_ASM(
   var cmake_source_dir = '${CMAKE_SOURCE_DIR}'.split('/');
   // This is intentionally global so it can be unmounted at the end.
@@ -44,7 +43,7 @@ EM_ASM(
     }
   );
 ")
-      set(emscripten_after "
+    set(emscripten_after "
 EM_ASM(
   FS.unmount(source_mount_dir);
   if(source_mount_dir != binary_mount_dir) {
@@ -52,26 +51,24 @@ EM_ASM(
     }
   );
 ")
-    endif()
-    set(CMAKE_TESTDRIVER_BEFORE_TESTMAIN "${emscripten_before}#include \"itkTestDriverBeforeTest.inc\"")
-    set(CMAKE_TESTDRIVER_AFTER_TESTMAIN "#include \"itkTestDriverAfterTest.inc\"${emscripten_after}")
-    create_test_sourcelist(Tests ${KIT}TestDriver.cxx
-      ${KitTests}
-      EXTRA_INCLUDE itkTestDriverIncludeRequiredIOFactories.h
-      FUNCTION  ProcessArgumentsAndRegisterRequiredFactories
-      )
-    add_executable(${KIT}TestDriver ${KIT}TestDriver.cxx ${Tests} ${ADDITIONAL_SRC})
-    target_link_libraries(${KIT}TestDriver LINK_PUBLIC ${KIT_LIBS} ${ITKTestKernel_LIBRARIES})
-    itk_module_target_label(${KIT}TestDriver)
   endif()
+  set(CMAKE_TESTDRIVER_BEFORE_TESTMAIN "${emscripten_before}#include \"itkTestDriverBeforeTest.inc\"")
+  set(CMAKE_TESTDRIVER_AFTER_TESTMAIN "#include \"itkTestDriverAfterTest.inc\"${emscripten_after}")
+  create_test_sourcelist(Tests ${KIT}TestDriver.cxx
+    ${KitTests}
+    EXTRA_INCLUDE itkTestDriverIncludeRequiredIOFactories.h
+    FUNCTION  ProcessArgumentsAndRegisterRequiredFactories
+    )
+  add_executable(${KIT}TestDriver ${KIT}TestDriver.cxx ${Tests} ${ADDITIONAL_SRC})
+  target_link_libraries(${KIT}TestDriver LINK_PUBLIC ${KIT_LIBS} ${ITKTestKernel_LIBRARIES})
+  itk_module_target_label(${KIT}TestDriver)
 endmacro()
 
 
 macro(CreateTestDriver_SupportBuildInIOFactories KIT KIT_LIBS KitTests)
-  if(NOT ITK_DISABLE_ALL_TESTS_BUT_OVERRIDEN)
-    set(ADDITIONAL_SRC ${ARGN} )
-    if(EMSCRIPTEN)
-      set(emscripten_before "
+  set(ADDITIONAL_SRC ${ARGN} )
+  if(EMSCRIPTEN)
+    set(emscripten_before "
 EM_ASM(
   var cmake_source_dir = '${CMAKE_SOURCE_DIR}'.split('/');
   // This is intentionally global so it can be unmounted at the end.
@@ -100,7 +97,7 @@ EM_ASM(
     }
   );
 ")
-      set(emscripten_after "
+    set(emscripten_after "
 EM_ASM(
   FS.unmount(source_mount_dir);
   if(source_mount_dir != binary_mount_dir) {
@@ -108,38 +105,26 @@ EM_ASM(
     }
   );
 ")
-    endif()
-    set(CMAKE_TESTDRIVER_BEFORE_TESTMAIN "${emscripten_before}#include \"itkTestDriverBeforeTest.inc\"")
-    set(CMAKE_TESTDRIVER_AFTER_TESTMAIN "#include \"itkTestDriverAfterTest.inc\"${emscripten_after}")
-    create_test_sourcelist(Tests ${KIT}TestDriver.cxx
-      ${KitTests}
-      EXTRA_INCLUDE  itkTestDriverIncludeBuiltInIOFactories.h
-      FUNCTION  ProcessArgumentsAndRegisterBuiltInFactories
-      )
-    add_executable(${KIT}TestDriver ${KIT}TestDriver.cxx ${Tests} ${ADDITIONAL_SRC})
-    target_link_libraries(${KIT}TestDriver LINK_PUBLIC ${KIT_LIBS} ${ITKTestKernel_LIBRARIES})
-    itk_module_target_label(${KIT}TestDriver)
   endif()
+  set(CMAKE_TESTDRIVER_BEFORE_TESTMAIN "${emscripten_before}#include \"itkTestDriverBeforeTest.inc\"")
+  set(CMAKE_TESTDRIVER_AFTER_TESTMAIN "#include \"itkTestDriverAfterTest.inc\"${emscripten_after}")
+  create_test_sourcelist(Tests ${KIT}TestDriver.cxx
+    ${KitTests}
+    EXTRA_INCLUDE  itkTestDriverIncludeBuiltInIOFactories.h
+    FUNCTION  ProcessArgumentsAndRegisterBuiltInFactories
+    )
+  add_executable(${KIT}TestDriver ${KIT}TestDriver.cxx ${Tests} ${ADDITIONAL_SRC})
+  target_link_libraries(${KIT}TestDriver LINK_PUBLIC ${KIT_LIBS} ${ITKTestKernel_LIBRARIES})
+  itk_module_target_label(${KIT}TestDriver)
 endmacro()
 
 #-----------------------------------------------------------------------------
 # ITK wrapper for add_test that automatically sets the test's LABELS property
 # to the value of its containing module.
-# OVERRIDE_DISABLE option allows to force the test to be run even if
-# ITK_DISABLE_ALL_TESTS_BUT_OVERRIDEN is ON.
+#
 function(itk_add_test)
-
-  set(options OVERRIDE_DISABLE)
-  set(oneValueArgs )
-  set(multiValueArgs )
-  cmake_parse_arguments(ITK_ADD_TEST "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
-
-  if(ITK_DISABLE_ALL_TESTS_BUT_OVERRIDEN AND NOT OVERRIDE_DISABLE)
-    return()
-  endif()
-
   # Add tests with data in the ITKData group.
-  ExternalData_add_test(ITKData ${ITK_ADD_TEST_UNPARSED_ARGUMENTS})
+  ExternalData_add_test(ITKData ${ARGN})
 
   if("NAME" STREQUAL "${ARGV0}")
     set(_iat_testname ${ARGV1})
@@ -149,7 +134,7 @@ function(itk_add_test)
 
   if(itk-module)
     set(_label ${itk-module})
-    if(TARGET ${itk-module}-all AND "${ITK_ADD_TEST_UNPARSED_ARGUMENTS}" MATCHES "DATA{")
+    if(TARGET ${itk-module}-all AND "${ARGN}" MATCHES "DATA{")
       add_dependencies(${itk-module}-all ITKData)
     endif()
   else()
@@ -179,7 +164,11 @@ endfunction()
 function(itk_python_add_test)
   # No-op if wrapping is not available
   if(NOT ITK_WRAP_PYTHON)
-    return()
+    if(DEFINED ITK_SOURCE_DIR)
+      message(FATAL_ERROR "`itk_python_add_test` should never be called if `ITK_WRAP_PYTHON` if OFF")
+    else()
+      return()
+    endif()
   endif()
 
   set(options )
@@ -214,9 +203,8 @@ function(itk_python_add_test)
     ${command}
     ${PYTHON_ADD_TEST_COMMAND}
     WORKING_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}"
-    OVERRIDE_DISABLE
     )
-  set_property(TEST ${name} APPEND PROPERTY LABELS Python)
+  set_property(TEST ${PYTHON_ADD_TEST_NAME} APPEND PROPERTY LABELS Python)
 endfunction()
 
 #-----------------------------------------------------------------------------
@@ -237,7 +225,11 @@ endfunction()
 function(itk_python_expression_add_test)
   # No-op if wrapping is not available
   if(NOT ITK_WRAP_PYTHON)
-    return()
+    if(DEFINED ITK_SOURCE_DIR)
+      message(FATAL_ERROR "`itk_python_expression_add_test` should never be called if `ITK_WRAP_PYTHON` if OFF")
+    else()
+      return()
+    endif()
   endif()
 
   set(options )

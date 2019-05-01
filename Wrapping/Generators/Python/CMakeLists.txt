@@ -346,7 +346,6 @@ endmacro()
 
 
 macro(itk_end_wrap_module_python)
-
   # Loop over the extra swig input files and add them to the generated files
   # lists. Guess that the generated cxx output will have the same name as
   # the .i input file.
@@ -542,7 +541,6 @@ ${DO_NOT_WAIT_FOR_THREADS_DECLS}
       endforeach()
     endif()
   endif()
-
 endmacro()
 
 
@@ -833,6 +831,21 @@ macro(itk_wrap_simple_type_python wrap_class swig_name)
   if("${cpp_name}" STREQUAL "itk::ImageRegion")
     set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}DECL_PYTHON_IMAGEREGION_CLASS(${swig_name})%template(vector${swig_name}) std::vector< ${swig_name} >;\n")
     ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vector${swig_name}" "${cpp_name}< ${template_params} >")
+  endif()
+
+  if("${cpp_name}" STREQUAL "itk::Image" AND NOT "${swig_name}" MATCHES "Pointer$")
+    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}DECL_PYTHON_STD_VEC_RAW_TO_SMARTPTR_TYPEMAP(${swig_name}, ${swig_name}_Pointer)\n")
+    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(vector${swig_name}) std::vector< ${swig_name}_Pointer >;\n")
+    ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vector${swig_name}" "${cpp_name}< ${template_params} > ")
+  endif()
+
+  if("${cpp_name}" STREQUAL "itk::PCAShapeSignedDistanceFunction" AND NOT "${swig_name}" MATCHES "Pointer$")
+
+    set(import_text "%include ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/itkImage_ext.i\n")
+    string(FIND ${ITK_WRAP_PYTHON_SWIG_EXT} ${import_text} pos)
+    if(${pos} EQUAL -1)
+        set(ITK_WRAP_PYTHON_SWIG_EXT "${import_text}${ITK_WRAP_PYTHON_SWIG_EXT}")
+    endif()
   endif()
 
 

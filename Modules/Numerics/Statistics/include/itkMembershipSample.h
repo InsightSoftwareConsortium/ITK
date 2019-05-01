@@ -18,7 +18,7 @@
 #ifndef itkMembershipSample_h
 #define itkMembershipSample_h
 
-#include "itksys/hash_map.hxx"
+#include <unordered_map>
 #include "itkSubsample.h"
 
 namespace itk
@@ -86,7 +86,7 @@ public:
 
   /** Typedef for the storage that holds a class label for each instance.
    * The relationship between instances and class label is one-to-one */
-  using ClassLabelHolderType = itksys::hash_map< InstanceIdentifier, ClassLabelType >;
+  using ClassLabelHolderType = std::unordered_map< InstanceIdentifier, ClassLabelType >;
 
   /** Typedef for each subsample that stores instance identifiers of instances
    * that belong to a class */

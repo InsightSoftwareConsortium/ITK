@@ -68,6 +68,7 @@ void
 ExtractImageFilter< TInputImage, TOutputImage >
 ::SetExtractionRegion(InputImageRegionType extractRegion)
 {
+  static_assert(InputImageDimension >= OutputImageDimension, "InputImageDimension must be greater than OutputImageDimension");
   m_ExtractionRegion = extractRegion;
 
   unsigned int         nonzeroSizeCount = 0;
@@ -93,8 +94,10 @@ ExtractImageFilter< TInputImage, TOutputImage >
 
   if ( nonzeroSizeCount != OutputImageDimension )
     {
-    itkExceptionMacro("Extraction Region not consistent with output image, "
-                      << "expected " << OutputImageDimension-InputImageDimension
+    itkExceptionMacro("The number of zero sized dimensions in the input image Extraction Region\n"
+                      << "is not consistent with the dimensionality of the output image.\n"
+                      << "Expected the extraction region size (" << extractRegion.GetSize()
+                      << ") to contain " << InputImageDimension-OutputImageDimension
                       << " zero sized dimensions to collapse." );
     }
 

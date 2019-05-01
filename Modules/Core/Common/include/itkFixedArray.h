@@ -20,6 +20,7 @@
 
 #include "itkMacro.h"
 #include <algorithm>
+#include <array>
 
 namespace itk
 {
@@ -127,6 +128,16 @@ public:
   /** A const reference to the ValueType. */
   using const_reference = const ValueType &;
 
+  /** The return type of the non-const overloads of begin() and end(). */
+  using iterator = ValueType *;
+
+  /** The return type of cbegin() and cend(), and the const overloads of begin() and end(). */
+  using const_iterator = const ValueType *;
+
+  using reverse_iterator = std::reverse_iterator<iterator>;
+
+  using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+
   using SizeType = unsigned int;
 
 public:
@@ -141,6 +152,12 @@ public:
   /** Conversion constructors */
   FixedArray(const ValueType r[VLength]);
   FixedArray(const ValueType & );
+
+  /** Explicit constructor for std::array. */
+  explicit FixedArray(const std::array<ValueType, VLength>& stdArray)
+  {
+    std::copy_n(stdArray.cbegin(), VLength, m_InternalArray);
+  }
 
   /** Constructor to initialize a fixed array from another of any data type */
   template< typename TFixedArrayValueType >
@@ -250,6 +267,66 @@ public:
   ReverseIterator      rEnd();
 
   ConstReverseIterator rEnd() const;
+
+  const_iterator cbegin() const noexcept
+  {
+    return m_InternalArray;
+  }
+
+  iterator begin() noexcept
+  {
+    return m_InternalArray;
+  }
+
+  const_iterator begin() const noexcept
+  {
+    return this->cbegin();
+  }
+
+  const_iterator cend() const noexcept
+  {
+    return m_InternalArray + VLength;
+  }
+
+  iterator end() noexcept
+  {
+    return m_InternalArray + VLength;
+  }
+
+  const_iterator end() const noexcept
+  {
+    return this->cend();
+  }
+
+  reverse_iterator rbegin()
+  {
+    return reverse_iterator{ this->end() };
+  }
+
+  const_reverse_iterator crbegin() const
+  {
+    return const_reverse_iterator{ this->cend() };
+  }
+
+  const_reverse_iterator rbegin() const
+  {
+    return this->crbegin();
+  }
+
+  reverse_iterator rend()
+  {
+    return reverse_iterator{ this->begin() };
+  }
+
+  const_reverse_iterator crend() const
+  {
+    return const_reverse_iterator{ this->cbegin() };
+  }
+
+  const_reverse_iterator rend() const
+  {
+    return this->crend();
+  }
 
   SizeType      Size() const;
 

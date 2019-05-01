@@ -22,7 +22,6 @@
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
-#include "itksys/hash_map.hxx"
 #include <map>
 
 namespace itk
@@ -52,7 +51,7 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
 
   // Use a map to keep track of the size of each object.  Object
   // number -> ObjectType (which has Object number and the two sizes)
-  using MapType = itksys::hash_map< LabelType, RelabelComponentObjectType >;
+  using MapType = std::map< LabelType, RelabelComponentObjectType >;
   MapType sizeMap;
   typename MapType::iterator mapIt;
   using MapValueType = typename MapType::value_type;

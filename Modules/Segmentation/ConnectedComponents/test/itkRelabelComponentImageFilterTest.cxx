@@ -37,6 +37,7 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
+  bool success = true;
   using InternalPixelType = unsigned short;
   using LabelPixelType = unsigned long;
   using WritePixelType = unsigned char;
@@ -133,6 +134,7 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
     {
     std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
+    success = false;
     }
 
 
@@ -149,6 +151,7 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
     std::cerr << "Exception caught during statistics calculation!"
               << std::endl;
     std::cerr << excep << std::endl;
+    success = false;
     }
   try
     {
@@ -220,6 +223,7 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
   catch (...)
     {
     std::cerr << "Exception caught while printing statistics" << std::endl;
+    success = false;
     }
 
   // Check for the sizes of the 7 first labels which should be sorted by default
@@ -230,7 +234,7 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
     {
     std::cerr << "Comparing label size to reference value." << std::endl;
     std::cerr << "Got " << relabel->GetSizeOfObjectsInPixels()[i] << ", expected " << ref1[i] << std::endl;
-    return EXIT_FAILURE;
+    success = false;
     }
   }
 
@@ -239,16 +243,25 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
   relabel->Update();
 
   // Check for the sizes of the 7 first labels which are no more sorted
-  unsigned long ref2 [7] = { 1491, 2, 1, 906, 3, 40, 1 };
-  for ( int i=0; i<6; ++i )
+  unsigned long ref2[7] = { 1491, 2, 1, 906, 3, 40, 1 };
+  for ( int i=0; i<7; ++i )
   {
   if ( relabel->GetSizeOfObjectsInPixels()[i] != ref2[i] )
     {
     std::cerr << "Comparing label size to reference value." << std::endl;
     std::cerr << "Got " << relabel->GetSizeOfObjectsInPixels()[i] << ", expected " << ref2[i] << std::endl;
-    return EXIT_FAILURE;
+    success = false;
     }
   }
 
-  return EXIT_SUCCESS;
+  if (success)
+    {
+    std::cout << "Test PASSED!" << std::endl;
+    return EXIT_SUCCESS;
+    }
+  else
+    {
+    std::cout << "Test FAILED!" << std::endl;
+    return EXIT_FAILURE;
+    }
 }

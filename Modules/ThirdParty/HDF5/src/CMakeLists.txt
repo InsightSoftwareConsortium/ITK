@@ -76,6 +76,13 @@ add_subdirectory(itkhdf5)
 
 mark_as_advanced(HDF_ENABLE_LARGE_FILE)
 mark_as_advanced(CTEST_TEST_TIMEOUT)
+mark_as_advanced(HDF5_BUILD_GENERATORS)
+mark_as_advanced(HDF5_ENABLE_DEV_WARNINGS)
+mark_as_advanced(HDF5_MEMORY_ALLOC_SANITY_CHECK)
+mark_as_advanced(HDF5_USE_110_API_DEFAULT)
+mark_as_advanced(HDF5_USE_18_API_DEFAULT)
+mark_as_advanced(HDF5_USE_PREGEN)
+unset(ALLOW_UNSUPPORTED CACHE)
 
 if(BUILD_SHARED_LIBS)
   set(target_extension -shared)

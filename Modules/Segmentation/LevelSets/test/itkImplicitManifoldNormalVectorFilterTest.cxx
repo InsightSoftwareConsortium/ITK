@@ -17,32 +17,9 @@
  *=========================================================================*/
 
 #include <iostream>
+#include "itkSparseFieldFourthOrderLevelSetImageFilter.h"
 #include "itkImplicitManifoldNormalVectorFilter.h"
 #include "itkNormalVectorDiffusionFunction.h"
-
-namespace itk
-{
-
-template <typename TImageType>
-class NormalBandNode
-{
-public:
-  using LevelSetImageType = TImageType;
-  using NodeValueType = typename LevelSetImageType::PixelType;
-  using IndexType = typename LevelSetImageType::IndexType;
-  using NodeDataType = Vector <NodeValueType,
-                  TImageType::ImageDimension>;
-
-  NodeDataType m_Data, m_InputData, m_Update;
-  NodeDataType m_ManifoldNormal [TImageType::ImageDimension];
-  NodeDataType m_Flux [TImageType::ImageDimension];
-
-  IndexType       m_Index;
-  NormalBandNode *Next;
-  NormalBandNode *Previous;
-};
-
-}
 
 int itkImplicitManifoldNormalVectorFilterTest(int, char* [] )
 {

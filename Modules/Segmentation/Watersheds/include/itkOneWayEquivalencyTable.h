@@ -20,7 +20,7 @@
 
 
 #include "itkProcessObject.h"
-#include "itksys/hash_map.hxx"
+#include <unordered_map>
 #include "ITKWatershedsExport.h"
 
 namespace itk
@@ -57,8 +57,7 @@ public:
   itkTypeMacro(OneWayEquivalencyTable, DataObject);
 
   /** Define the container type for this table */
-  using HashTableType = itksys::hash_map< unsigned long, unsigned long,
-                            itksys::hash< unsigned long > >;
+  using HashTableType = std::unordered_map< unsigned long, unsigned long >;
 
   using Iterator = HashTableType::iterator;
   using ConstIterator = HashTableType::const_iterator;

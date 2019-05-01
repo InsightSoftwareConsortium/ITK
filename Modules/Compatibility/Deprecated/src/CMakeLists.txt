@@ -1,4 +1,5 @@
 set(ITKDeprecated_SRCS
+  itkBarrier.cxx
   itkConditionVariable.cxx
   itkFastMutexLock.cxx
   itkMutexLock.cxx

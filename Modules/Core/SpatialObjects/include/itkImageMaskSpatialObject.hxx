@@ -20,6 +20,7 @@
 
 #include "itkMath.h"
 #include "itkImageMaskSpatialObject.h"
+#include "itkImageRegionConstIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 
 namespace itk
@@ -73,7 +74,7 @@ ImageMaskSpatialObject< TDimension, TPixel >
 template< unsigned int TDimension, typename TPixel >
 void
 ImageMaskSpatialObject< TDimension, TPixel >
-::ProtectedComputeMyBoundingBox() const
+::ComputeMyBoundingBox()
 {
   using IteratorType = ImageRegionConstIteratorWithIndex< ImageType >;
   IteratorType it( this->GetImage(),
@@ -172,151 +173,103 @@ ImageMaskSpatialObject< TDimension, TPixel >
   Superclass::PrintSelf(os, indent);
 }
 
+
+template< unsigned int TDimension, typename TPixel >
+typename ImageMaskSpatialObject< TDimension, TPixel >::RegionType
+ImageMaskSpatialObject< TDimension, TPixel >
+::ComputeMyBoundingBoxInIndexSpace() const
+{
+  const ImagePointer imagePointer = this->GetImage();
+
+  if (imagePointer == nullptr)
+  {
+    return {};
+  }
+
+  const ImageType& image = *imagePointer;
+
+  const auto HasForegroundPixels = [&image](const RegionType& region)
+  {
+    for (ImageRegionConstIterator<ImageType> it{ &image, region }; !it.IsAtEnd(); ++it)
+    {
+      constexpr auto zeroValue = NumericTraits<PixelType>::ZeroValue();
+
+      if (it.Get() != zeroValue)
+      {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const auto CreateRegion = [](const IndexType& minIndex, const IndexType& maxIndex)
+  {
+    SizeType regionSize;
+
+    for (unsigned dim = 0; dim < SizeType::Dimension; ++dim)
+    {
+      regionSize[dim] = static_cast<SizeValueType>(maxIndex[dim] + 1 - minIndex[dim]);
+    }
+    return RegionType{ minIndex, regionSize };
+  };
+
+  const RegionType requestedRegion = image.GetRequestedRegion();
+
+  if (requestedRegion.GetNumberOfPixels() == 0)
+  {
+    return {};
+  }
+
+  const SizeType imageSize = requestedRegion.GetSize();
+
+  IndexType minIndex = requestedRegion.GetIndex();
+  IndexType maxIndex = minIndex + imageSize;
+
+  for (auto& maxIndexValue : maxIndex)
+  {
+    --maxIndexValue;
+  }
+
+  // Iterate from high to low (for significant performance reasons).
+  for (int dim = TDimension - 1; dim >= 0; --dim)
+  {
+    auto subregion = CreateRegion(minIndex, maxIndex);
+    subregion.SetSize(dim, 1);
+    const auto initialMaxIndexValue = maxIndex[dim];
+
+    // Estimate minIndex[dim]
+    while (!HasForegroundPixels(subregion))
+    {
+      const auto indexValue = subregion.GetIndex(dim) + 1;
+
+      if (indexValue > initialMaxIndexValue)
+      {
+        // The requested image region has only zero-valued pixels.
+        return {};
+      }
+      subregion.SetIndex(dim, indexValue);
+    }
+    minIndex[dim] = subregion.GetIndex(dim);
+
+    // Estimate maxIndex[dim]
+    subregion.SetIndex(dim, initialMaxIndexValue);
+    while (!HasForegroundPixels(subregion))
+    {
+      subregion.SetIndex(dim, subregion.GetIndex(dim) - 1);
+    }
+    maxIndex[dim] = subregion.GetIndex(dim);
+  }
+  return CreateRegion(minIndex, maxIndex);
+}
+
+
 #if ! defined ( ITK_LEGACY_REMOVE )
 template< unsigned int TDimension, typename TPixel >
 typename ImageMaskSpatialObject< TDimension, TPixel >::RegionType
 ImageMaskSpatialObject< TDimension, TPixel >
 ::GetAxisAlignedBoundingBoxRegion() const
 {
-  // We will use a slice iterator to iterate through slices orthogonal
-  // to each of the axis of the image to find the bounding box. Each
-  // slice iterator iterates from the outermost slice towards the image
-  // center till it finds a mask pixel. For a 3D image, there will be six
-  // slice iterators, iterating from the periphery inwards till the bounds
-  // along each axes are found. The slice iterators save time and avoid
-  // having to walk the whole image. Since we are using slice iterators,
-  // we will implement this only for 3D images.
-
-  PixelType  outsideValue = NumericTraits< PixelType >::ZeroValue();
-  RegionType region;
-
-  ImagePointer image = this->GetImage();
-
-  IndexType index;
-  SizeType  size;
-
-  for(unsigned int i(0); i < ImageType::ImageDimension; i++)
-    {
-    index[i] = 0;
-    size[i] = 0;
-    }
-
-  if ( ImageType::ImageDimension == 3 )
-    {
-    for ( unsigned int axis = 0; axis < ImageType::ImageDimension; axis++ )
-      {
-      // Two slice iterators along each axis...
-      // Find the orthogonal planes for the slices
-      unsigned int i, j;
-      unsigned int direction[2];
-      for ( i = 0, j = 0; i < 3; ++i )
-        {
-        if ( i != axis )
-          {
-          direction[j] = i;
-          j++;
-          }
-        }
-
-      // Create the forward iterator to find lower bound
-      SliceIteratorType fit( image,  image->GetRequestedRegion() );
-      fit.SetFirstDirection(direction[1]);
-      fit.SetSecondDirection(direction[0]);
-
-      fit.GoToBegin();
-      while ( !fit.IsAtEnd() )
-        {
-        while ( !fit.IsAtEndOfSlice() )
-          {
-          while ( !fit.IsAtEndOfLine() )
-            {
-            if ( fit.Get() != outsideValue )
-              {
-              index[axis] = fit.GetIndex()[axis];
-              fit.GoToReverseBegin(); // skip to the end
-              break;
-              }
-            ++fit;
-            }
-          fit.NextLine();
-          }
-        fit.NextSlice();
-        }
-
-      // Create the reverse iterator to find upper bound
-      SliceIteratorType rit( image,  image->GetRequestedRegion() );
-      rit.SetFirstDirection(direction[1]);
-      rit.SetSecondDirection(direction[0]);
-
-      rit.GoToReverseBegin();
-      while ( !rit.IsAtReverseEnd() )
-        {
-        while ( !rit.IsAtReverseEndOfSlice() )
-          {
-          while ( !rit.IsAtReverseEndOfLine() )
-            {
-            if ( rit.Get() != outsideValue )
-              {
-              size[axis] = rit.GetIndex()[axis] - index[axis] + 1;
-              rit.GoToBegin(); //Skip to reverse end
-              break;
-              }
-            --rit;
-            }
-          rit.PreviousLine();
-          }
-        rit.PreviousSlice();
-        }
-      }
-
-    region.SetIndex(index);
-    region.SetSize(size);
-    }
-  else
-    {
-    //itkExceptionMacro( << "ImageDimension must be 3!" );
-    using IteratorType = ImageRegionConstIteratorWithIndex< ImageType >;
-    IteratorType it( image, image->GetRequestedRegion() );
-    it.GoToBegin();
-
-    for ( unsigned int i = 0; i < ImageType::ImageDimension; ++i )
-      {
-      index[i] = image->GetRequestedRegion().GetSize(i);
-      size[i]  = image->GetRequestedRegion().GetIndex(i);
-      }
-
-    while ( !it.IsAtEnd() )
-      {
-      if ( it.Get() != outsideValue )
-        {
-        IndexType tmpIndex = it.GetIndex();
-        for ( unsigned int i = 0; i < ImageType::ImageDimension; ++i )
-          {
-          if ( index[i] > tmpIndex[i] )
-            {
-            index[i] = tmpIndex[i];
-            }
-
-          const auto tmpSize = static_cast< SizeValueType >( tmpIndex[i] );
-
-          if ( size[i]  < tmpSize )
-            {
-            size[i]  = tmpSize;
-            }
-          }
-        }
-      ++it;
-      }
-
-    for ( unsigned int i = 0; i < ImageType::ImageDimension; ++i )
-      {
-      size[i] = size[i] - index[i] + 1;
-      }
-    region.SetIndex(index);
-    region.SetSize(size);
-    } // end else
-
-  return region;
+  return ComputeMyBoundingBoxInIndexSpace();
 }
 #endif //ITK_LEGACY_REMOVE
 } // end namespace itk

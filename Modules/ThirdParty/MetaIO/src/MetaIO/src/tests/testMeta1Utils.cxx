@@ -32,7 +32,7 @@ int main(int, char * [])
   MET_ValueEnumType metType = MET_USHORT;
   MET_ValueEnumType tmpMetType = MET_USHORT;
   char tmpString[80];
-  sprintf(tmpString, "MET_USHORT");
+  snprintf(tmpString, sizeof(tmpString), "MET_USHORT");
   METAIO_STREAM::cout << "MET_StringToType: ";
   MET_StringToType(tmpString, &tmpMetType);
   if(tmpMetType != metType)
@@ -84,7 +84,7 @@ int main(int, char * [])
     METAIO_STREAM::cout << "PASSED" << METAIO_STREAM::endl;
 
   char fName[80];
-  sprintf(fName, "this/is/a/test.com");
+  snprintf(fName, sizeof(fName), "this/is/a/test.com");
 
   METAIO_STREAM::cout << "MET_GetFilePathTest: ";
   MET_GetFilePath(fName, tmpString);
@@ -111,7 +111,7 @@ int main(int, char * [])
   else
     METAIO_STREAM::cout << "PASSED" << METAIO_STREAM::endl;
 
-  sprintf(fName, "this/is/a/test.com"); // Only necessary if previous test fails
+  snprintf(fName, sizeof(fName), "this/is/a/test.com"); // Only necessary if previous test fails
   METAIO_STREAM::cout << "MET_SetFileSuffix: 2:";
   MET_SetFileSuffix(fName, "net");
   if(strcmp(fName, "this/is/a/test.net"))
@@ -119,7 +119,7 @@ int main(int, char * [])
   else
     METAIO_STREAM::cout << "PASSED" << METAIO_STREAM::endl;
 
-  sprintf(fName, "this/is/a/test");
+  snprintf(fName, sizeof(fName), "this/is/a/test");
   METAIO_STREAM::cout << "MET_SetFileSuffix: 3:";
   MET_SetFileSuffix(fName, "net");
   if(strcmp(fName, "this/is/a/test.net"))
@@ -127,7 +127,7 @@ int main(int, char * [])
   else
     METAIO_STREAM::cout << "PASSED" << METAIO_STREAM::endl;
 
-  sprintf(fName, "this/is/a/test"); // Only necessary if previous test fails
+  snprintf(fName, sizeof(fName), "this/is/a/test"); // Only necessary if previous test fails
   METAIO_STREAM::cout << "MET_SetFileSuffix: 4:";
   MET_SetFileSuffix(fName, ".net");
   if(strcmp(fName, "this/is/a/test.net"))

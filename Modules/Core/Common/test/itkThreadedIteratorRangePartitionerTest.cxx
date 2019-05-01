@@ -249,8 +249,8 @@ int itkThreadedIteratorRangePartitionerTest(int, char* [])
             << std::endl;
 
   using DomainType = IteratorRangeDomainThreaderAssociate::TestDomainThreader::DomainType;
-  IteratorRangeDomainThreaderAssociate::DomainContainerType container( 256 );
-  for( unsigned int i = 0; i < 256; ++i )
+  IteratorRangeDomainThreaderAssociate::DomainContainerType container( ITK_DEFAULT_MAX_THREADS + 110 );
+  for ( unsigned int i = 0; i < ITK_DEFAULT_MAX_THREADS + 110; ++i )
     {
     container[i] = i;
     }
