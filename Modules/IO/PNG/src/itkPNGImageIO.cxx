@@ -266,7 +266,7 @@ void PNGImageIO::Read(void *buffer)
 
   auto rowbytes = static_cast<SizeValueType>( png_get_rowbytes(png_ptr, info_ptr) );
   auto * tempImage = static_cast< unsigned char * >( buffer );
-  std::unique_ptr<png_bytep[]> row_pointers (new png_bytep [height]);
+  const std::unique_ptr<png_bytep[]> row_pointers (new png_bytep [height]);
   for ( unsigned int ui = 0; ui < height; ++ui )
     {
     row_pointers[ui] = tempImage + rowbytes * ui;
@@ -593,7 +593,6 @@ void PNGImageIO::WriteSlice(const std::string & fileName, const void *buffer)
                    itkPNGWriteErrorFunction, itkPNGWriteWarningFunction);
   if ( wrapSetjmp( png_ptr) )
     {
-    fclose(fp);
     itkExceptionMacro( "Error while writing Slice to file: "
                        << this->GetFileName()
                        << std::endl
@@ -666,7 +665,7 @@ void PNGImageIO::WriteSlice(const std::string & fileName, const void *buffer)
     png_set_swap(png_ptr);
 #endif
     }
-  std::unique_ptr<png_bytep[]> row_pointers(new png_bytep[height]);
+  const std::unique_ptr<png_bytep[]> row_pointers(new png_bytep[height]);
 
     {
     const int        rowInc = width * numComp * bitDepth / 8;
