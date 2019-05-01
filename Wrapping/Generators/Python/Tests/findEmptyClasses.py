@@ -67,6 +67,10 @@ exclude = ["AuthalicMatrixCoefficients",
            "vnl_file_matrix",
            "vnl_file_vector",
            "vnl_fortran_copy",
+           "CosineWindowFunction",
+           "HammingWindowFunction",
+           "LanczosWindowFunction",
+           "WelchWindowFunction",
            ]
 
 total = 0
