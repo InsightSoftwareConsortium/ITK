@@ -27,7 +27,7 @@ from sys import argv
 #
 if len(argv) < 4:
     print 'Missing Parameters'
-    print 'Usage: ImageRegistration3.py fixedImageFile  movingImageFile outputImagefile'
+    print 'Usage: ImageRegistration5.py fixedImageFile  movingImageFile outputImagefile'
     exit()
 
 
