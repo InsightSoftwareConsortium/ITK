@@ -522,8 +522,11 @@ protected:
   /** Compute bounding box for the object in world space */
   virtual void ComputeMyBoundingBox();
 
-  /** Constructor. */
-  SpatialObject();
+  /** Default constructor. Ensures that its bounding boxes are empty (all
+  * bounds zero-valued), its list of children is empty, and its transform
+  * objects identical to the identity transform, initially.
+  */
+  SpatialObject() = default;
 
   /** Destructor. */
   ~SpatialObject() override;
@@ -538,38 +541,38 @@ protected:
 private:
 
   /** Object Identification Number */
-  int             m_Id;
+  int             m_Id{ -1 };
 
   /** Type of spatial object */
-  std::string     m_TypeName;
+  std::string     m_TypeName{ "SpatialObject" };
 
   PropertyType    m_Property;
 
-  int             m_ParentId;
-  Self *          m_Parent;
+  int             m_ParentId{ -1 };
+  Self *          m_Parent{ nullptr };
 
   RegionType      m_LargestPossibleRegion;
   RegionType      m_RequestedRegion;
   RegionType      m_BufferedRegion;
 
-  BoundingBoxPointer m_MyBoundingBoxInObjectSpace;
-  BoundingBoxPointer m_MyBoundingBoxInWorldSpace;
-  BoundingBoxPointer m_FamilyBoundingBoxInObjectSpace;
-  BoundingBoxPointer m_FamilyBoundingBoxInWorldSpace;
+  const BoundingBoxPointer m_MyBoundingBoxInObjectSpace{ BoundingBoxType::New() };
+  const BoundingBoxPointer m_MyBoundingBoxInWorldSpace{ BoundingBoxType::New() };
+  const BoundingBoxPointer m_FamilyBoundingBoxInObjectSpace{ BoundingBoxType::New() };
+  const BoundingBoxPointer m_FamilyBoundingBoxInWorldSpace{ BoundingBoxType::New() };
 
-  TransformPointer m_ObjectToParentTransform;
-  TransformPointer m_ObjectToParentTransformInverse;
+  const TransformPointer m_ObjectToParentTransform{ TransformType::New() };
+  const TransformPointer m_ObjectToParentTransformInverse{ TransformType::New() };
 
-  TransformPointer m_ObjectToWorldTransform;
-  TransformPointer m_ObjectToWorldTransformInverse;
+  const TransformPointer m_ObjectToWorldTransform{ TransformType::New() };
+  const TransformPointer m_ObjectToWorldTransformInverse{ TransformType::New() };
 
   ChildrenListType m_ChildrenList;
 
   /** Default inside value for the ValueAtInWorldSpace() */
-  double m_DefaultInsideValue;
+  double m_DefaultInsideValue{ 1.0 };
 
   /** Default outside value for the ValueAtInWorldSpace() */
-  double m_DefaultOutsideValue;
+  double m_DefaultOutsideValue{ 0.0 };
 
 };
 
