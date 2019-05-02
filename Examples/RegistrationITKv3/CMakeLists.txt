@@ -80,11 +80,13 @@ target_link_libraries(ITKv3MultiResImageRegistration2 ${ITK_LIBRARIES})
 add_executable(ITKv3MultiResImageRegistration3 MultiResImageRegistration3.cxx )
 target_link_libraries(ITKv3MultiResImageRegistration3 ${ITK_LIBRARIES})
 
-add_executable(ITKv3DeformableRegistration1 DeformableRegistration1.cxx )
-target_link_libraries(ITKv3DeformableRegistration1 ${ITK_LIBRARIES})
+if (ITKFEMRegistration_ENABLED)
+  add_executable(ITKv3DeformableRegistration1 DeformableRegistration1.cxx )
+  target_link_libraries(ITKv3DeformableRegistration1 ${ITK_LIBRARIES})
 
-add_executable(ITKv3DeformableRegistration11 DeformableRegistration11.cxx )
-target_link_libraries(ITKv3DeformableRegistration11 ${ITK_LIBRARIES})
+  add_executable(ITKv3DeformableRegistration11 DeformableRegistration11.cxx )
+  target_link_libraries(ITKv3DeformableRegistration11 ${ITK_LIBRARIES})
+endif()
 
 add_executable(ITKv3DeformableRegistration2 DeformableRegistration2.cxx )
 target_link_libraries(ITKv3DeformableRegistration2 ${ITK_LIBRARIES})
