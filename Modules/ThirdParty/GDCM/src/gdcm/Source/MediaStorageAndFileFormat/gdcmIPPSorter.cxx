@@ -48,7 +48,7 @@ struct dircos_key {
 };
 
 struct dircos_comp {
-  bool operator()( dircos_key const & lhs, dircos_key const & rhs ) {
+  bool operator()( dircos_key const & lhs, dircos_key const & rhs ) const {
     const double *iop1 = lhs.dircos;
     const double *iop2 = rhs.dircos;
     return std::lexicographical_compare(iop1, iop1+6,
