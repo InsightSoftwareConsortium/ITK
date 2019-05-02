@@ -256,7 +256,6 @@ set(ITK_MODULES_DIR "${ITK_BINARY_DIR}/${ITK_INSTALL_PACKAGE_DIR}/Modules")
 
 #-----------------------------------------------------------------------------
 # Provide compatibility options.
-option(ITKV3_COMPATIBILITY "Enable compatibility with ITK3.x when possible." OFF)
 option(ITKV4_COMPATIBILITY "Enable compatibility with ITK4.x when possible." OFF)
 # During major release updates deprecated interface may be needed for backwards compatibility
 option(ITK_LEGACY_REMOVE "Remove current legacy code completely." OFF)
@@ -278,8 +277,8 @@ mark_as_advanced(ITK_LEGACY_SILENT ITK_LEGACY_REMOVE ITK_FUTURE_LEGACY_REMOVE IT
 if(ITKV4_COMPATIBILITY AND ITK_LEGACY_REMOVE)
   message(FATAL_ERROR "Invalid configuration: ITKV4_COMPATIBILITY AND ITK_LEGACY_REMOVE can not both be ON")
 endif()
-if (NOT ITK_LEGACY_SILENT AND ITKV3_COMPATIBILITY)
-  message(WARNING "ITKV3_COMPATIBILITY is removed starting in ITK version 5.0.")
+if (ITKV3_COMPATIBILITY)
+  message(FATAL_ERROR "ITKV3_COMPATIBILITY is removed starting in ITK version 5.0, this option is no longer valid.")
 endif()
 
 #-----------------------------------------------------------------------------
