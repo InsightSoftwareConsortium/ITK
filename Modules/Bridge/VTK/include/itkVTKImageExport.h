@@ -98,6 +98,8 @@ protected:
 
   double * OriginCallback() override;
 
+  double * DirectionCallback() override;
+
   float * FloatSpacingCallback() override;
 
   float * FloatOriginCallback() override;
@@ -118,6 +120,7 @@ private:
   int         m_DataExtent[6];
   double      m_DataSpacing[3];
   double      m_DataOrigin[3];
+  double      m_DataDirection[9];
   float       m_FloatDataSpacing[3];
   float       m_FloatDataOrigin[3];
 };

@@ -98,6 +98,7 @@ VTKImageImport< TOutputImage >
   m_FloatSpacingCallback = nullptr;
   m_OriginCallback = nullptr;
   m_FloatOriginCallback = nullptr;
+  m_DirectionCallback = nullptr;
   m_UpdateInformationCallback = nullptr;
   m_ScalarTypeCallback = nullptr;
   m_DataExtentCallback = nullptr;
@@ -235,6 +236,38 @@ VTKImageImport< TOutputImage >
       }
     output->SetOrigin(outOrigin);
     }
+  if ( m_DirectionCallback )
+    {
+    double *inDirection = (m_DirectionCallback)( m_CallbackUserData );
+    typename TOutputImage::DirectionType outDirection;
+    for ( unsigned int i = 0; i < 3; ++i )
+      {
+      for ( unsigned int j = 0; j < 3; ++j )
+        {
+        if (i < OutputImageDimension && j < OutputImageDimension)
+          {
+          outDirection[i][j] = inDirection[i*3+j];
+          }
+        else if ((i != j) && (inDirection[i*3+j] != 0.0))
+          {
+            std::string ijk = "IJK";
+            std::string xyz = "XYZ";
+            itkExceptionMacro(<< "Cannot convert a VTK image to an ITK image of dimension "
+            << OutputImageDimension << " since the VTK image direction matrix element at ("
+            << i << "," << j << ") is not equal to 0.0:\n"
+            << "   I  J  K\n"
+            << "X  " << inDirection[0] << ", " << inDirection[1] << ", " << inDirection[2] << "\n"
+            << "Y  " << inDirection[3] << ", " << inDirection[4] << ", " << inDirection[5] << "\n"
+            << "Z  " << inDirection[6] << ", " << inDirection[7] << ", " << inDirection[8] << "\n"
+            << "This means that the " << ijk[j] << " data axis has a " << xyz[i]
+            << " component in physical space, but the ITK image can only represent values"
+            << " along " << ijk.substr(0,OutputImageDimension) << " projected on "
+            << xyz.substr(0,OutputImageDimension) << "." << std::endl);
+          }
+        }
+      }
+    output->SetDirection(outDirection);
+    }
   if ( m_NumberOfComponentsCallback )
     {
     const unsigned int components =
@@ -356,6 +389,10 @@ VTKImageImport< TOutputImage >
   if ( m_FloatOriginCallback )
     {
     os << "FloatOriginCallback: " << m_FloatOriginCallback << std::endl;
+    }
+  if ( m_DirectionCallback )
+    {
+    os << "DirectionCallback: " << m_DirectionCallback << std::endl;
     }
   if ( m_UpdateInformationCallback )
     {

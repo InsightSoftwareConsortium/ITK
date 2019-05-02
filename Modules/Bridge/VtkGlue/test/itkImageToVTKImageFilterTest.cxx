@@ -20,29 +20,82 @@
 
 #include "itkRandomImageSource.h"
 
+#include "vtkMatrix3x3.h"
+
 int itkImageToVTKImageFilterTest(int, char *[])
 {
-  using ImageType = itk::Image<float, 2 >;
+  const int dim = 3;
+  using ImageType = itk::Image<float, dim >;
   using SourceType = itk::RandomImageSource<ImageType>;
+  using SpacingType = SourceType::SpacingType;
+  using OriginType = SourceType::PointType;
+  using DirectionType = SourceType::DirectionType;
   using ConnectorType = itk::ImageToVTKImageFilter<ImageType>;
 
   ImageType::SizeType size;
-  size.Fill(20);
+  size[0] = 40;
+  size[1] = 10;
+  size[2] = 20;
   SourceType::Pointer source = SourceType::New();
   source->SetSize(size);
 
+  SpacingType spacing;
+  spacing[0] = 0.5;
+  spacing[1] = -2;
+  spacing[2] = 1;
+  OriginType origin;
+  origin[0] = -1.5;
+  origin[1] = 0.222;
+  origin[2] = 0;
+  DirectionType direction;
+  direction.Fill(0.0);
+  direction[0][1] = 1;
+  direction[1][0] = -1;
+  direction[2][2] = 0.7;
+  source->SetSpacing(spacing);
+  source->SetOrigin(origin);
+  source->SetDirection(direction);
+
+  source->Update();
+  auto input = source->GetOutput();
+  input->Print(std::cout);
+
   ConnectorType::Pointer connector = ConnectorType::New();
-  connector->SetInput(source->GetOutput());
-
+  connector->SetInput(input);
   connector->UpdateLargestPossibleRegion();
-
-  connector->GetOutput()->Print(std::cout);
-  connector->GetImporter()->Print(std::cout);
-  connector->GetExporter()->Print(std::cout);
-
-  connector->Print(std::cout);
-
   connector->Update();
+
+  auto output = connector->GetOutput();
+  output->Print(std::cout);
+
+  for (int i = 0; i < dim; ++i)
+  {
+    if (input->GetLargestPossibleRegion().GetSize()[i] != static_cast<itk::SizeValueType>(output->GetDimensions()[i]))
+    {
+      std::cerr << "Error: sizes do not match for component (" << i << ")." << std::endl;
+      return EXIT_FAILURE;
+    }
+    if (input->GetSpacing()[i] != output->GetSpacing()[i])
+    {
+      std::cerr << "Error: spacings do not match for component (" << i << ")." << std::endl;
+      return EXIT_FAILURE;
+    }
+    if (input->GetOrigin()[i] != output->GetOrigin()[i])
+    {
+      std::cerr << "Error: origins do not match for component (" << i << ")." << std::endl;
+      return EXIT_FAILURE;
+    }
+#if VTK_MAJOR_VERSION >= 9 || (VTK_MAJOR_VERSION == 8 && VTK_MINOR_VERSION >= 90)
+    for (int j = 0; j < dim; ++j)
+    {
+      if (input->GetDirection()[i][j] != output->GetDirectionMatrix()->GetData()[i*3+j])
+      {
+        std::cerr << "Error: directions do not match for component (" << i << "," << j << ")." << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+#endif
+  }
 
   return EXIT_SUCCESS;
 }
