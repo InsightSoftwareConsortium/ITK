@@ -66,10 +66,8 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-//HACK #ifdef ITKV3_COMPATIBILITY
   /** Run-time type information (and related methods).   */
   itkNewMacro(Self);
-//HACK #endif
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Rigid3DTransform, MatrixOffsetTransformBase);

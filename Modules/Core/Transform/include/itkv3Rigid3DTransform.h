@@ -32,8 +32,8 @@ namespace v3
  * NOTE: In ITK4, the itkNewMacro() was removed from
  * itk::Rigid3DTransform. This class, itkv3::Rigid3DTransform provides
  * the ITK3.x functionality. The purpose of the class is provide ITKv3
- * functionality while allowing the user to turn off
- * ITKV3_COMPATIBILITY.
+ * functionality with backward compatibility after ITK 5.0 removal of
+ * ITKV3_COMPATIBILITY support.
  *
  * Even though the name Rigid3DTransform is conceptually closer to
  * what a user may expect, the VersorRigid3DTransform is often a
