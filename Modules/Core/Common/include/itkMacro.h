@@ -77,77 +77,60 @@ namespace itk
 // The following set of defines allows us to suppress false positives
 // and still track down suspicious code
 #if defined(__clang__) && defined(__has_warning)
-#define CLANG_PRAGMA_PUSH ITK_PRAGMA(clang diagnostic push)
-#define CLANG_PRAGMA_POP  ITK_PRAGMA(clang diagnostic pop)
-#if __has_warning("-Wfloat-equal")
-#define CLANG_SUPPRESS_Wfloat_equal ITK_PRAGMA( clang diagnostic ignored "-Wfloat-equal" )
+  #define CLANG_PRAGMA_PUSH ITK_PRAGMA(clang diagnostic push)
+  #define CLANG_PRAGMA_POP  ITK_PRAGMA(clang diagnostic pop)
+  #if __has_warning("-Wfloat-equal")
+    #define CLANG_SUPPRESS_Wfloat_equal ITK_PRAGMA( clang diagnostic ignored "-Wfloat-equal" )
+  #else
+    #define CLANG_SUPPRESS_Wfloat_equal
+  #endif
+  #if __has_warning( "-Wc++14-extensions" )
+    #define CLANG_SUPPRESS_Wc__14_extensions ITK_PRAGMA( clang diagnostic ignored "-Wc++14-extensions" )
+  #else
+    #define CLANG_SUPPRESS_Wc__14_extensions
+  #endif
 #else
-#define CLANG_SUPPRESS_Wfloat_equal
-#endif
-#if __has_warning( "-Wc++14-extensions" )
-#define CLANG_SUPPRESS_Wc__14_extensions ITK_PRAGMA( clang diagnostic ignored "-Wc++14-extensions" )
-#else
-#define CLANG_SUPPRESS_Wc__14_extensions
-#endif
-#else
-#define CLANG_PRAGMA_PUSH
-#define CLANG_PRAGMA_POP
-#define CLANG_SUPPRESS_Wfloat_equal
-#define CLANG_SUPPRESS_Wc__14_extensions
+  #define CLANG_PRAGMA_PUSH
+  #define CLANG_PRAGMA_POP
+  #define CLANG_SUPPRESS_Wfloat_equal
+  #define CLANG_SUPPRESS_Wc__14_extensions
 #endif
 
 // Intel compiler convenience macros
 #if defined(__INTEL_COMPILER)
-#define INTEL_PRAGMA_WARN_PUSH ITK_PRAGMA(warning push)
-#define INTEL_PRAGMA_WARN_POP  ITK_PRAGMA(warning pop)
-#define INTEL_SUPPRESS_warning_1292  ITK_PRAGMA(warning disable 1292)
+  #define INTEL_PRAGMA_WARN_PUSH ITK_PRAGMA(warning push)
+  #define INTEL_PRAGMA_WARN_POP  ITK_PRAGMA(warning pop)
+  #define INTEL_SUPPRESS_warning_1292  ITK_PRAGMA(warning disable 1292)
 #else
-#define INTEL_PRAGMA_WARN_PUSH
-#define INTEL_PRAGMA_WARN_POP
-#define INTEL_SUPPRESS_warning_1292
+  #define INTEL_PRAGMA_WARN_PUSH
+  #define INTEL_PRAGMA_WARN_POP
+  #define INTEL_SUPPRESS_warning_1292
 #endif
 
 // Define ITK_GCC_PRAGMA_DIAG(param1 [param2 [...]]) macro.
 //
-// This macros sets a pragma diagnostic if it supported by the version
-// of GCC being used otherwise it is a no-op.
+// This macro sets a pragma diagnostic
 //
-// GCC diagnostics pragma supported only with GCC >= 4.2
-#if defined( __GNUC__ ) && !defined( __INTEL_COMPILER )
-#  if ( __GNUC__ > 4 ) || (( __GNUC__ >= 4 ) && ( __GNUC_MINOR__ >= 2 ))
-#    define ITK_GCC_PRAGMA_DIAG(x) ITK_PRAGMA(GCC diagnostic x)
-#  else
-#    define ITK_GCC_PRAGMA_DIAG(x)
-#  endif
-#else
-#  define ITK_GCC_PRAGMA_DIAG(x)
-#endif
-
 // Define ITK_GCC_PRAGMA_DIAG_(PUSH|POP) macros.
 //
 // These macros respectively push and pop the diagnostic context
-// if it is supported by the version of GCC being used
-// otherwise it is a no-op.
 //
-// GCC push/pop diagnostics pragma are supported only with GCC >= 4.6
-//
-// Define macro ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP if it is supported.
+// Define macro ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
 #if defined( __GNUC__ ) && !defined( __INTEL_COMPILER )
-#  if ( __GNUC__ > 4 ) || (( __GNUC__ >= 4 ) && ( __GNUC_MINOR__ >= 6 ))
-#    define ITK_GCC_PRAGMA_DIAG_PUSH() ITK_GCC_PRAGMA_DIAG(push)
-#    define ITK_GCC_PRAGMA_DIAG_POP() ITK_GCC_PRAGMA_DIAG(pop)
-#    define ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
-#  else
-#    define ITK_GCC_PRAGMA_DIAG_PUSH()
-#    define ITK_GCC_PRAGMA_DIAG_POP()
-#  endif
+  #define ITK_GCC_PRAGMA_DIAG(x) ITK_PRAGMA(GCC diagnostic x)
+  #define ITK_GCC_PRAGMA_DIAG_PUSH() ITK_GCC_PRAGMA_DIAG(push)
+  #define ITK_GCC_PRAGMA_DIAG_POP() ITK_GCC_PRAGMA_DIAG(pop)
+  #define ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
 #else
-#  define ITK_GCC_PRAGMA_DIAG_PUSH()
-#  define ITK_GCC_PRAGMA_DIAG_POP()
+  #define ITK_GCC_PRAGMA_DIAG(x)
+  #define ITK_GCC_PRAGMA_DIAG_PUSH()
+  #define ITK_GCC_PRAGMA_DIAG_POP()
 #endif
 
 /*
- * ITK only supports MSVC++ 7.1 and greater
+ * ITK only supports MSVC++ 10.0 and greater
+ * MSVC++ 14.0 _MSVC_VER = 1900
+ * MSVC++ 12.0 _MSC_VER = 1800
  * MSVC++ 11.0 _MSC_VER = 1700
  * MSVC++ 10.0 _MSC_VER = 1600
  * MSVC++ 9.0 _MSC_VER = 1500
@@ -157,29 +140,39 @@ namespace itk
  * MSVC++ 6.0 _MSC_VER = 1200
  * MSVC++ 5.0 _MSC_VER = 1100
 */
-#if defined( _MSC_VER ) && ( _MSC_VER < 1310 )
-//#error "_MSC_VER < 1310 (MSVC++ 7.1) not supported under ITKv4"
+#if defined( _MSC_VER ) && ( _MSC_VER < 1600 )
+  #error "MSVC++ < 10.0 is not supported under ITKv5"
 #endif
 #if defined( __SUNPRO_CC ) && ( __SUNPRO_CC < 0x590 )
-#error "__SUNPRO_CC < 0x590 not supported under ITKv4"
+  #error "SUNPro C++ < 0x590 is not supported under ITKv4 and above"
 #endif
 #if defined( __CYGWIN__ )
-#error "The Cygwin compiler is not supported in ITKv4 and above"
+  #error "The Cygwin compiler is not supported in ITKv4 and above"
 #endif
 #if defined( __BORLANDC__ )
-#error "The Borland C compiler is not supported in ITKv4 and above"
+  #error "The Borland C compiler is not supported in ITKv4 and above"
 #endif
 #if defined( __MWERKS__ )
-#error "The MetroWerks compiler is not supported in ITKv4 and above"
+  #error "The MetroWerks compiler is not supported in ITKv4 and above"
 #endif
-#if defined( __GNUC__ ) && ( __GNUC__ < 3 )
-#error "The __GNUC__ version 2.95 compiler is not supprted under ITKv4 and above"
+#if defined( __GNUC__ ) && !defined(__clang__) && !defined(__INTEL_COMPILER) && (( __GNUC__ < 4 ) || (( __GNUC__ == 4 ) && ( __GNUC_MINOR__ < 8 )))
+  #error "GCC < 4.8 is not supported under ITKv5"
+#endif
 #if defined( __sgi )
-//This is true for IRIX 6.5.18m with MIPSPro 7.3.1.3m.
-//TODO: At some future point, it may be necessary to
-//define a minimum __sgi version that will work.
-#error "The __sgi compiler is not supprted under ITKv4 and above"
+  //This is true for IRIX 6.5.18m with MIPSPro 7.3.1.3m.
+  //TODO: At some future point, it may be necessary to
+  //define a minimum __sgi version that will work.
+  #error "The SGI compiler is not supprted under ITKv4 and above"
 #endif
+#if defined(__APPLE__)
+  #if defined( __clang__ ) && (( __clang_major__ < 8 ) || (( __clang_major__ == 8 ) && ( __clang_minor__ < 1 )))
+    #error "Apple LLVM < 8.1 is not supported under ITKv5"
+  #endif
+#elif defined( __clang__ ) && (( __clang_major < 3 ) || (( __clang_major__ == 3 ) && ( __clang_minor__ < 3 )))
+  #error "Clang < 3.3 is not supported under ITKv5"
+#endif
+#if defined( __INTEL_COMPILER ) && ( __INTEL_COMPILER < 1600 )
+  #error "Intel C++ < 16.0 is not supported under ITKv5"
 #endif
 
 // Setup symbol exports
