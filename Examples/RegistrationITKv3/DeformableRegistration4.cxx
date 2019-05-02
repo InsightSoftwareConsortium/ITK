@@ -59,8 +59,8 @@
 //
 //  The parameter space of the \code{BSplineTransform} is composed by
 //  the set of all the deformations associated with the nodes of the BSpline
-//  grid.  This large number of parameters makes possible to represent a wide
-//  variety of deformations, but it also has the price of requiring a
+//  grid.  This large number of parameters makes it possible to represent a wide
+//  variety of deformations, at the cost of requiring a
 //  significant amount of computation time.
 //
 //  \index{itk::BSplineTransform!header}

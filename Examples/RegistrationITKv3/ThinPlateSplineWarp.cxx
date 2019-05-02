@@ -20,8 +20,10 @@
 //                          inputImage  deformedImage deformationField
 //
 //  Software Guide : BeginLatex
+//
 //  This example deforms a 3D volume with the Thin plate spline.
 //  \index{ThinPlateSplineKernelTransform}
+//
 //  Software Guide : EndLatex
 
 
@@ -87,8 +89,10 @@ int main( int argc, char * argv[] )
 
 
   // Software Guide : BeginLatex
+  //
   // Landmarks correspondances may be associated with the SplineKernelTransforms
   // via Point Set containers. Let us define containers for the landmarks.
+  //
   // Software Guide : EndLatex
 
   // Define container for landmarks
@@ -128,8 +132,10 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
+  //
   // The image is then resampled to produce an output image as defined by the
   // transform. Here we use a LinearInterpolator.
+  //
   // Software Guide : EndLatex
 
   // Set the resampler params
@@ -173,8 +179,10 @@ int main( int argc, char * argv[] )
 
 
   // Software Guide : BeginLatex
+  //
   // The deformation field is computed as the difference between the input and
   // the deformed image by using an iterator.
+  //
   // Software Guide : EndLatex
 
   // Compute the deformation field

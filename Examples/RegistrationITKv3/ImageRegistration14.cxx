@@ -60,14 +60,16 @@ public:
   using OptimizerType = itk::OnePlusOneEvolutionaryOptimizer;
   using OptimizerPointer = const OptimizerType *;
 
-  void Execute(itk::Object *caller, const itk::EventObject & event) override
+  void Execute(itk::Object *caller,
+               const itk::EventObject & event) override
     {
     Execute( (const itk::Object *)caller, event);
     }
 
-  void Execute(const itk::Object * object, const itk::EventObject & event) override
+  void Execute(const itk::Object * object,
+               const itk::EventObject & event) override
     {
-      OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
+      auto optimizer = static_cast< OptimizerPointer >( object );
       if( ! itk::IterationEvent().CheckEvent( &event ) )
         {
         return;
@@ -120,7 +122,8 @@ int main( int argc, char *argv[] )
                                     MovingImageType    >;
 
 
-  using MetricType = itk::NormalizedMutualInformationHistogramImageToImageMetric<
+  using MetricType =
+    itk::NormalizedMutualInformationHistogramImageToImageMetric<
                                           FixedImageType,
                                           MovingImageType >;
 
@@ -283,12 +286,12 @@ int main( int argc, char *argv[] )
   std::cout << " Result = " << std::endl;
   std::cout << " Angle (radians) " << finalAngle  << std::endl;
   std::cout << " Angle (degrees) " << finalAngleInDegrees  << std::endl;
-  std::cout << " Center X      = " << finalRotationCenterX  << std::endl;
-  std::cout << " Center Y      = " << finalRotationCenterY  << std::endl;
-  std::cout << " Translation X = " << finalTranslationX  << std::endl;
-  std::cout << " Translation Y = " << finalTranslationY  << std::endl;
-  std::cout << " Iterations    = " << numberOfIterations << std::endl;
-  std::cout << " Metric value  = " << bestValue          << std::endl;
+  std::cout << " Center X       = " << finalRotationCenterX  << std::endl;
+  std::cout << " Center Y       = " << finalRotationCenterY  << std::endl;
+  std::cout << " Translation X  = " << finalTranslationX  << std::endl;
+  std::cout << " Translation Y  = " << finalTranslationY  << std::endl;
+  std::cout << " Iterations     = " << numberOfIterations << std::endl;
+  std::cout << " Metric value   = " << bestValue          << std::endl;
 
   using ResampleFilterType = itk::ResampleImageFilter<
             MovingImageType, FixedImageType >;

@@ -136,8 +136,8 @@ class RescaleDynamicRangeFunctor
 {
 public:
   using OutputPixelType = unsigned char;
-  RescaleDynamicRangeFunctor() {};
-  ~RescaleDynamicRangeFunctor() {};
+  RescaleDynamicRangeFunctor() = default;
+  ~RescaleDynamicRangeFunctor() = default;
   inline OutputPixelType operator()( const TInput &A )
     {
     if( (A > 0.0) )
@@ -192,7 +192,7 @@ public:
       itk::HistogramToEntropyImageFilter< HistogramType, InternalImageType>;
 
   using HistogramToImageFilterPointer =
-        HistogramToEntropyImageFilterType::Pointer;
+    HistogramToEntropyImageFilterType::Pointer;
 
   using OutputImageType = HistogramToEntropyImageFilterType::OutputImageType;
 
@@ -203,7 +203,7 @@ public:
   using OutputPixelType = HistogramToEntropyImageFilterType::OutputPixelType;
 
   HistogramWriter():
-    m_Metric(0)
+    m_Metric(nullptr)
     {
 
     // Software Guide : BeginLatex
@@ -232,7 +232,7 @@ public:
 
     }
 
-  ~HistogramWriter() { };
+  ~HistogramWriter() = default;
 
   void SetMetric( MetricPointer metric )
     {
@@ -320,8 +320,7 @@ public:
     //8 bits.
     using RescaledOutputImageType = itk::Image< unsigned char, Dimension >;
 
-    using RescaleDynamicRangeFunctorType = RescaleDynamicRangeFunctor<
-                              OutputPixelType >;
+    using RescaleDynamicRangeFunctorType = RescaleDynamicRangeFunctor<OutputPixelType>;
 
     using RescaleDynamicRangeFilterType = itk::UnaryFunctorImageFilter<
                                 OutputImageType, RescaledOutputImageType,
@@ -401,14 +400,14 @@ public:
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
   using OptimizerPointer = const OptimizerType *;
 
-  void Execute(itk::Object *caller, const itk::EventObject & event)
+  void Execute(itk::Object *caller, const itk::EventObject & event) override
     {
     Execute( (const itk::Object *)caller, event);
     }
 
-  void Execute(const itk::Object * object, const itk::EventObject & event)
+  void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
-    OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
+    auto optimizer = static_cast< OptimizerPointer >( object );
     if( ! itk::IterationEvent().CheckEvent( &event ) || optimizer == nullptr )
       {
       return;
@@ -565,12 +564,10 @@ int main( int argc, char *argv[] )
 
 
   using FixedNormalizeFilterType = itk::NormalizeImageFilter<
-                                FixedImageType,
-                                InternalImageType >;
+                                FixedImageType, InternalImageType >;
 
   using MovingNormalizeFilterType = itk::NormalizeImageFilter<
-                                MovingImageType,
-                                InternalImageType >;
+                                MovingImageType, InternalImageType >;
 
   FixedNormalizeFilterType::Pointer fixedNormalizer =
                                             FixedNormalizeFilterType::New();
@@ -578,8 +575,7 @@ int main( int argc, char *argv[] )
   MovingNormalizeFilterType::Pointer movingNormalizer =
                                             MovingNormalizeFilterType::New();
   using GaussianFilterType = itk::DiscreteGaussianImageFilter<
-                                      InternalImageType,
-                                      InternalImageType >;
+                                InternalImageType, InternalImageType >;
 
   GaussianFilterType::Pointer fixedSmoother  = GaussianFilterType::New();
   GaussianFilterType::Pointer movingSmoother = GaussianFilterType::New();

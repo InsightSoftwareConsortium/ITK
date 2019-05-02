@@ -46,7 +46,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate19() {};
+  CommandIterationUpdate19() = default;
 
 public:
   using OptimizerType = itk::AmoebaOptimizer;
@@ -59,7 +59,11 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
-    OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
+    auto optimizer = static_cast< OptimizerPointer >( object );
+    if( optimizer == nullptr)
+      {
+      return;
+      }
     if( ! itk::IterationEvent().CheckEvent( &event ) )
       {
       return;

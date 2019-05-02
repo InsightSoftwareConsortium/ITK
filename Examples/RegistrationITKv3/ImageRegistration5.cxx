@@ -88,7 +88,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() = default;
 
 public:
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
@@ -101,7 +101,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
-    OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
+    auto optimizer = static_cast< OptimizerPointer >( object );
     if( ! itk::IterationEvent().CheckEvent( &event ) )
       {
       return;
@@ -270,11 +270,9 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //   The most straightforward method of initializing the transform parameters
-  //   is to configure the transform and then get its parameters with the
-  //   method \code{GetParameters()}. Here we initialize the transform by
+  //   Then, we initialize the transform by
   //   passing the center of the fixed image as the rotation center with the
-  //   \code{SetCenter()} method. Then the translation is set as the vector
+  //   \code{SetCenter()} method. Also, the translation is set as the vector
   //   relating the center of the moving image to the center of the fixed
   //   image.  This last vector is passed with the method
   //   \code{SetTranslation()}.
@@ -312,7 +310,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Keeping in mind that the scale of units in rotation and translation is
+  //  Keep in mind that the scale of units in rotation and translation is
   //  quite different, we take advantage of the scaling functionality provided
   //  by the optimizers. We know that the first element of the parameters array
   //  corresponds to the angle that is measured in radians, while the other
@@ -407,14 +405,14 @@ int main( int argc, char *argv[] )
   const double finalAngleInDegrees = finalAngle * 180.0 / itk::Math::pi;
 
   std::cout << "Result = " << std::endl;
-  std::cout << " Angle (radians)   = " << finalAngle  << std::endl;
-  std::cout << " Angle (degrees)   = " << finalAngleInDegrees  << std::endl;
-  std::cout << " Center X      = " << finalRotationCenterX  << std::endl;
-  std::cout << " Center Y      = " << finalRotationCenterY  << std::endl;
-  std::cout << " Translation X = " << finalTranslationX  << std::endl;
-  std::cout << " Translation Y = " << finalTranslationY  << std::endl;
-  std::cout << " Iterations    = " << numberOfIterations << std::endl;
-  std::cout << " Metric value  = " << bestValue          << std::endl;
+  std::cout << " Angle (radians) = " << finalAngle  << std::endl;
+  std::cout << " Angle (degrees) = " << finalAngleInDegrees  << std::endl;
+  std::cout << " Translation X   = " << finalTranslationX  << std::endl;
+  std::cout << " Translation Y   = " << finalTranslationY  << std::endl;
+  std::cout << " Center X        = " << finalRotationCenterX  << std::endl;
+  std::cout << " Center Y        = " << finalRotationCenterY  << std::endl;
+  std::cout << " Iterations      = " << numberOfIterations << std::endl;
+  std::cout << " Metric value    = " << bestValue          << std::endl;
 
 
   //  Software Guide : BeginLatex
@@ -492,7 +490,7 @@ int main( int argc, char *argv[] )
   // \end{figure}
   //
   //  Figure \ref{fig:ImageRegistration5Plots} shows plots of the main output
-  //  parameters produced from the registration process. This includes, the
+  //  parameters produced from the registration process. This includes the
   //  metric values at every iteration, the angle values at every iteration,
   //  and the translation components of the transform as the registration
   //  progress.
@@ -683,7 +681,7 @@ int main( int argc, char *argv[] )
   //
   //  Figure \ref{fig:ImageRegistration5Plots2} shows plots of the main output
   //  registration parameters when the rotation and translations are combined.
-  //  These results include, the metric values at every iteration, the angle
+  //  These results include the metric values at every iteration, the angle
   //  values at every iteration, and the translation components of the
   //  registration as the registration converges. It can be seen from the
   //  smoothness of these plots that a larger step length could have been

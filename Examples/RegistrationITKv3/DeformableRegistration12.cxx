@@ -39,6 +39,7 @@
 #include "itkTimeProbesCollectorBase.h"
 #include "itkMemoryProbesCollectorBase.h"
 
+
 //  Software Guide : BeginLatex
 //
 //  The following are the most relevant headers to this example.
@@ -72,7 +73,6 @@
 #include "itkCastImageFilter.h"
 #include "itkSquaredDifferenceImageFilter.h"
 
-
 //  The following section of code implements a Command observer
 //  used to monitor the evolution of the registration process.
 //
@@ -86,7 +86,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() = default;
 
 public:
   using OptimizerType = itk::LBFGSBOptimizer;
@@ -99,7 +99,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
-    OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
+    auto optimizer = static_cast< OptimizerPointer >( object );
     if( !(itk::IterationEvent().CheckEvent( &event )) )
       {
       return;
@@ -109,7 +109,6 @@ public:
     std::cout << optimizer->GetInfinityNormOfProjectedGradient() << std::endl;
     }
 };
-
 
 int main( int argc, char *argv[] )
 {
@@ -131,6 +130,7 @@ int main( int argc, char *argv[] )
 
   using FixedImageType = itk::Image< PixelType, ImageDimension >;
   using MovingImageType = itk::Image< PixelType, ImageDimension >;
+
 
   //  Software Guide : BeginLatex
   //
@@ -188,9 +188,9 @@ int main( int argc, char *argv[] )
   //  \index{itk::RegistrationMethod!SetTransform()}
   //
   //  Software Guide : EndLatex
-
+  //
   // Software Guide : BeginCodeSnippet
-  TransformType::Pointer  transform = TransformType::New();
+  TransformType::Pointer transform = TransformType::New();
   registration->SetTransform( transform );
   // Software Guide : EndCodeSnippet
 
@@ -228,20 +228,18 @@ int main( int argc, char *argv[] )
     fixedOrigin[i] = fixedImage->GetOrigin()[i];
     fixedPhysicalDimensions[i] = fixedImage->GetSpacing()[i] *
       static_cast<double>(
-      fixedImage->GetLargestPossibleRegion().GetSize()[i] - 1 );
+        fixedImage->GetLargestPossibleRegion().GetSize()[i] - 1 );
     }
   meshSize.Fill( numberOfGridNodesInOneDimension - SplineOrder );
 
   transform->SetTransformDomainOrigin( fixedOrigin );
-  transform->SetTransformDomainPhysicalDimensions(
-    fixedPhysicalDimensions );
+  transform->SetTransformDomainPhysicalDimensions( fixedPhysicalDimensions );
   transform->SetTransformDomainMeshSize( meshSize );
   transform->SetTransformDomainDirection( fixedImage->GetDirection() );
 
   using ParametersType = TransformType::ParametersType;
 
-  const unsigned int numberOfParameters =
-               transform->GetNumberOfParameters();
+  const unsigned int numberOfParameters = transform->GetNumberOfParameters();
 
   ParametersType parameters( numberOfParameters );
 
@@ -325,7 +323,7 @@ int main( int argc, char *argv[] )
 
   metric->ReinitializeSeed(121212);
 
-  // Add a time probe
+  // Add time and memory probes
   itk::TimeProbesCollectorBase chronometer;
   itk::MemoryProbesCollectorBase memorymeter;
 

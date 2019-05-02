@@ -19,7 +19,8 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-#include "itkDeformationFieldJacobianDeterminantFilter.h"
+// itkDeformationFieldJacobianDeterminantFilter.h -> itkDisplacementFieldJacobianDeterminantFilter.h
+#include "itkDisplacementFieldJacobianDeterminantFilter.h"
 
 int main( int argc, char * argv[] )
 {
@@ -39,7 +40,7 @@ int main( int argc, char * argv[] )
 
   using ReaderType = itk::ImageFileReader< InputImageType >;
 
-  using FilterType = itk::DeformationFieldJacobianDeterminantFilter< InputImageType >;
+  using FilterType = itk::DisplacementFieldJacobianDeterminantFilter< InputImageType >;
 
   // Set up deformation field reader
   ReaderType::Pointer reader = ReaderType::New();

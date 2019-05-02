@@ -70,7 +70,7 @@ using FEMObjectType = itk::fem::FEMObject<2>;
 
 
 //  SoftwareGuide : BeginCodeSnippet
-using fileImage3DType = itk::Image<unsigned char, 3>;
+using FileImage3DType = itk::Image<unsigned char, 3>;
 using Image3DType = itk::Image<float, 3>;
 using Element3DType = itk::fem::Element3DC0LinearHexahedronMembrane;
 using Element3DType2 = itk::fem::Element3DC0LinearTetrahedronMembrane;
@@ -88,8 +88,8 @@ using FEMObject3DType = itk::fem::FEMObject<3>;
 
 
 //  Software Guide : BeginCodeSnippet
-  using RegistrationType =
-       itk::fem::FEMRegistrationFilter<ImageType,ImageType,FEMObjectType>;
+using RegistrationType = itk::fem::FEMRegistrationFilter<
+                              ImageType,ImageType,FEMObjectType>;
 //  Software Guide : EndCodeSnippet
 
 
@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
 //  Software Guide : BeginLatex
 //
 //  In order to begin the registration, we declare an instance of the
-//  FEMRegistrationFilter and set its parameters.  For simplicity, we will call
+//  \code{FEMRegistrationFilter} and set its parameters.  For simplicity, we will call
 //  it \code{registrationFilter}.
 //
 //  Software Guide : EndLatex

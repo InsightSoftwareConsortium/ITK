@@ -21,14 +21,21 @@
 // This example illustrates how to perform Iterative Closest Point (ICP)
 // registration in ITK using a DistanceMap in order to increase the performance.
 // There is of course a trade-off between the time needed for computing the
-// DistanceMap and the time saving obtained by its repeated use during the
-// iterative computation of the point to point distances. It is then necessary
+// DistanceMap and the time saved by its repeated use during the
+// iterative computation of the point-to-point distances. It is then necessary
 // in practice to ponder both factors.
 //
 // \doxygen{EuclideanDistancePointMetric}.
 //
 // Software Guide : EndLatex
 
+// Software Guide : BeginLatex
+//
+// The first step is to include the relevant headers.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
 #include "itkTranslationTransform.h"
 #include "itkEuclideanDistancePointMetric.h"
 #include "itkLevenbergMarquardtOptimizer.h"
@@ -37,6 +44,7 @@
 #include "itkPointSetToImageFilter.h"
 #include <iostream>
 #include <fstream>
+// Software Guide : EndCodeSnippet
 
 int main(int argc, char * argv[] )
 {
@@ -50,9 +58,15 @@ int main(int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-// Software Guide : BeginCodeSnippet
   constexpr unsigned int Dimension = 2;
 
+// Software Guide : BeginLatex
+//
+// Next, define the necessary types for the fixed and moving point sets.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
   using PointSetType = itk::PointSet< float, Dimension >;
 
   PointSetType::Pointer fixedPointSet  = PointSetType::New();
@@ -69,14 +83,7 @@ int main(int argc, char * argv[] )
   PointType movingPoint;
 // Software Guide : EndCodeSnippet
 
-
-// Software Guide : BeginLatex
-//
-// Read the file containing coordinates of fixed points.
-//
-// Software Guide : EndLatex
-
-// Software Guide : BeginCodeSnippet
+  // Read the file containing coordinates of fixed points.
   std::ifstream   fixedFile;
   fixedFile.open( argv[1] );
   if( fixedFile.fail() )
@@ -97,16 +104,8 @@ int main(int argc, char * argv[] )
   fixedPointSet->SetPoints( fixedPointContainer );
   std::cout << "Number of fixed Points = "
         << fixedPointSet->GetNumberOfPoints() << std::endl;
-// Software Guide : EndCodeSnippet
 
-
-// Software Guide : BeginLatex
-//
-// Read the file containing coordinates of moving points.
-//
-// Software Guide : EndLatex
-
-// Software Guide : BeginCodeSnippet
+  // Read the file containing coordinates of moving points.
   std::ifstream   movingFile;
   movingFile.open( argv[2] );
   if( movingFile.fail() )
@@ -127,13 +126,23 @@ int main(int argc, char * argv[] )
   movingPointSet->SetPoints( movingPointContainer );
   std::cout << "Number of moving Points = "
       << movingPointSet->GetNumberOfPoints() << std::endl;
-// Software Guide : EndCodeSnippet
 
-// Software Guide : BeginCodeSnippet
+// Software Guide : BeginLatex
+//
+// Setup the metric, transform, optimizers and registration in a manner
+// similar to the previous two examples.
+//
+// Software Guide : EndLatex
+
   using MetricType = itk::EuclideanDistancePointMetric<
-                          PointSetType, PointSetType>;
+                                    PointSetType,
+                                    PointSetType>;
 
   MetricType::Pointer  metric = MetricType::New();
+
+//-----------------------------------------------------------
+// Set up a Transform
+//-----------------------------------------------------------
 
   using TransformType = itk::TranslationTransform< double, Dimension >;
 
@@ -147,7 +156,8 @@ int main(int argc, char * argv[] )
 
   // Registration Method
   using RegistrationType = itk::PointSetToPointSetRegistrationMethod<
-                                PointSetType, PointSetType >;
+                                            PointSetType,
+                                            PointSetType >;
 
   RegistrationType::Pointer   registration  = RegistrationType::New();
 
@@ -165,37 +175,36 @@ int main(int argc, char * argv[] )
   optimizer->SetValueTolerance( valueTolerance );
   optimizer->SetGradientTolerance( gradientTolerance );
   optimizer->SetEpsilonFunction( epsilonFunction );
-// Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// Start from an Identity transform (in a normal case, the user
-// can probably provide a better guess than the identity...
-//
-// Software Guide : EndLatex
-
-// Software Guide : BeginCodeSnippet
+  // Start from an Identity transform (in a normal case, the user
+  // can probably provide a better guess than the identity...
   transform->SetIdentity();
 
   registration->SetInitialTransformParameters( transform->GetParameters() );
 
+  //------------------------------------------------------
+  // Connect all the components required for Registration
+  //------------------------------------------------------
   registration->SetMetric(        metric        );
   registration->SetOptimizer(     optimizer     );
   registration->SetTransform(     transform     );
   registration->SetFixedPointSet( fixedPointSet );
   registration->SetMovingPointSet(   movingPointSet   );
-// Software Guide : EndCodeSnippet
 
+  //------------------------------------------------------
+  // Prepare the Distance Map in order to accelerate
+  // distance computations.
+  //------------------------------------------------------
+  //
+  //  First map the Fixed Points into a binary image.
+  //  This is needed because the DanielssonDistance
+  //  filter expects an image as input.
+  //
+  //-------------------------------------------------
 // Software Guide : BeginLatex
 //
-// Start from an Identity transform (in a normal case, the user
-// can probably provide a better guess than the identity...
-// Prepare the Distance Map in order to accelerate
-// distance computations.
-//
-// First map the Fixed Points into a binary image.
-// This is needed because the DanielssonDistance
-// filter expects an image as input.
+// In the preparation of the distance map, we first need to map the fixed
+// points into a binary image.
 //
 // Software Guide : EndLatex
 
@@ -216,7 +225,16 @@ int main(int argc, char * argv[] )
 
   BinaryImageType::PointType origin;
   origin.Fill( 0.0 );
+// Software Guide : EndCodeSnippet
 
+// Software Guide : BeginLatex
+//
+// Continue to prepare the distance map, in order to accelerate the distance
+// computations.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
   pointsToImageFilter->SetSpacing( spacing );
   pointsToImageFilter->SetOrigin( origin   );
   pointsToImageFilter->Update();
@@ -230,18 +248,19 @@ int main(int argc, char * argv[] )
   distanceFilter->SetInput( binaryImage );
   distanceFilter->Update();
   metric->SetDistanceMap( distanceFilter->GetOutput() );
+// Software Guide : EndCodeSnippet
+
   try
     {
     registration->Update();
     }
   catch( itk::ExceptionObject & e )
     {
-    std::cout << e << std::endl;
+    std::cerr << e << std::endl;
     return EXIT_FAILURE;
     }
 
   std::cout << "Solution = " << transform->GetParameters() << std::endl;
-// Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;
 }

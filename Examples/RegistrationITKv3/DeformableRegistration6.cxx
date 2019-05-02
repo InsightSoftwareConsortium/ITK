@@ -40,7 +40,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  We include the header files for the transform and the optimizer.
+//  We include the header files for the transform, optimizer and adaptor.
 //
 //  \index{itk::BSplineTransform!header}
 //  \index{itk::LBFGSOptimizer!header}
@@ -88,7 +88,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  We instantiate now the type of the \code{BSplineTransform} using
+  //  We instantiate the type of the \code{BSplineTransform} using
   //  as template parameters the type for coordinates representation, the
   //  dimension of the space, and the order of the BSpline.
   //

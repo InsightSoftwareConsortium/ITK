@@ -139,7 +139,7 @@ public:
 // Software Guide : BeginCodeSnippet
 
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() = default;
 // Software Guide : EndCodeSnippet
 
 public:
@@ -209,7 +209,7 @@ public:
     //  Software Guide : EndLatex
 
     // Software Guide : BeginCodeSnippet
-    OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
+    auto optimizer = static_cast< OptimizerPointer >( object );
     // Software Guide : EndCodeSnippet
 
 
@@ -378,7 +378,7 @@ int main( int argc, char *argv[] )
   //  method. In order for the RTTI mechanism to work correctly, a newly
   //  created event of the desired type must be passed as the first
   //  argument. The second argument is simply the smart pointer to the
-  //  optimizer. Figure \ref{fig:ImageRegistration3Observer} illustrates the
+  //  observer. Figure \ref{fig:ImageRegistration3Observer} illustrates the
   //  interaction between the Command/Observer class and the registration
   //  method.
   //
@@ -458,7 +458,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
 
-  ParametersType finalParameters = registration->GetLastTransformParameters();
+  ParametersType finalParameters =
+                            registration->GetLastTransformParameters();
 
   const double TranslationAlongX = finalParameters[0];
   const double TranslationAlongY = finalParameters[1];

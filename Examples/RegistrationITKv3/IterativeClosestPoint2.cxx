@@ -23,14 +23,59 @@
 //
 // Software Guide : EndLatex
 
+// Software Guide : BeginLatex
+//
+// The first step is to include the relevant headers.
+//
+// Software Guide : EndLatex
+
 // Software Guide : BeginCodeSnippet
-#include "itkTranslationTransform.h"
+#include "itkEuler3DTransform.h"
 #include "itkEuclideanDistancePointMetric.h"
 #include "itkLevenbergMarquardtOptimizer.h"
 #include "itkPointSetToPointSetRegistrationMethod.h"
+#include <iostream>
+#include <fstream>
 // Software Guide : EndCodeSnippet
 
-#include <fstream>
+class CommandIterationUpdate : public itk::Command
+{
+public:
+  using Self = CommandIterationUpdate;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
+  itkNewMacro( Self );
+
+protected:
+  CommandIterationUpdate() = default;
+
+public:
+  using OptimizerType = itk::LevenbergMarquardtOptimizer;
+  using OptimizerPointer = const OptimizerType *;
+
+  void Execute(itk::Object *caller, const itk::EventObject & event) override
+    {
+    Execute( (const itk::Object *)caller, event);
+    }
+
+  void Execute(const itk::Object * object, const itk::EventObject & event) override
+    {
+    auto optimizer = dynamic_cast< OptimizerPointer >( object );
+    if( optimizer == nullptr )
+      {
+      itkExceptionMacro( "Could not cast optimizer." );
+      }
+
+    if( ! itk::IterationEvent().CheckEvent( &event ) )
+      {
+      return;
+      }
+
+    std::cout << "Value = " << optimizer->GetCachedValue() << std::endl;
+    std::cout << "Position = "  << optimizer->GetCachedCurrentPosition();
+    std::cout << std::endl << std::endl;
+    }
+};
 
 
 int main(int argc, char * argv[] )
@@ -45,9 +90,15 @@ int main(int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-// Software Guide : BeginCodeSnippet
   constexpr unsigned int Dimension = 3;
 
+// Software Guide : BeginLatex
+//
+// First, define the necessary types for the moving and fixed point sets.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
   using PointSetType = itk::PointSet< float, Dimension >;
 
   PointSetType::Pointer fixedPointSet  = PointSetType::New();
@@ -64,13 +115,7 @@ int main(int argc, char * argv[] )
   PointType movingPoint;
 // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// Read the file containing coordinates of fixed points.
-//
-// Software Guide : EndLatex
-
-// Software Guide : BeginCodeSnippet
+  // Read the file containing coordinates of fixed points.
   std::ifstream   fixedFile;
   fixedFile.open( argv[1] );
   if( fixedFile.fail() )
@@ -90,17 +135,10 @@ int main(int argc, char * argv[] )
     }
   fixedPointSet->SetPoints( fixedPointContainer );
   std::cout <<
-    "Number of fixed Points = " <<
-    fixedPointSet->GetNumberOfPoints() << std::endl;
-// Software Guide : EndCodeSnippet
+    "Number of fixed Points = " << fixedPointSet->GetNumberOfPoints()
+    << std::endl;
 
-// Software Guide : BeginLatex
-//
-// Read the file containing coordinates of moving points.
-//
-// Software Guide : EndLatex
-
-// Software Guide : BeginCodeSnippet
+  // Read the file containing coordinates of moving points.
   std::ifstream   movingFile;
   movingFile.open( argv[2] );
   if( movingFile.fail() )
@@ -119,58 +157,72 @@ int main(int argc, char * argv[] )
     pointId++;
     }
   movingPointSet->SetPoints( movingPointContainer );
-  std::cout << "Number of moving Points = "
+  std::cout <<
+    "Number of moving Points = "
     << movingPointSet->GetNumberOfPoints() << std::endl;
-// Software Guide : EndCodeSnippet
+
 
 // Software Guide : BeginLatex
 //
-// Set up the Metric.
+// After the points are read in from files, setup the metric to be used
+// later by the registration.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   using MetricType = itk::EuclideanDistancePointMetric<
-                          PointSetType, PointSetType>;
+                          PointSetType, PointSetType >;
 
   MetricType::Pointer  metric = MetricType::New();
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
 //
-// Set up a Transform.
+// Next, setup the tranform, optimizers, and registration.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  using TransformType = itk::TranslationTransform< double, Dimension >;
+  using TransformType = itk::Euler3DTransform< double >;
 
   TransformType::Pointer transform = TransformType::New();
-// Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginLatex
-//
-// Set up a the Optimizer and RegistrationMethod.
-//
-// Software Guide : EndLatex
-
-// Software Guide : BeginCodeSnippet
+  // Optimizer Type
   using OptimizerType = itk::LevenbergMarquardtOptimizer;
 
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
   optimizer->SetUseCostFunctionGradient(false);
 
+  // Registration Method
   using RegistrationType = itk::PointSetToPointSetRegistrationMethod<
-                                PointSetType, PointSetType >;
+                            PointSetType, PointSetType >;
+
 
   RegistrationType::Pointer   registration  = RegistrationType::New();
+// Software Guide : EndCodeSnippet
 
-  // Scale the translation components of the Transform in the Optimizer
+// Software Guide : BeginLatex
+//
+// Scale the translation components of the Transform in the Optimizer
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
   OptimizerType::ScalesType scales( transform->GetNumberOfParameters() );
+// Software Guide : EndCodeSnippet
 
-  constexpr double translationScale = 1000.0;   // dynamic range of translations
-  constexpr double rotationScale = 1.0;   // dynamic range of rotations
+// Software Guide : BeginLatex
+//
+// Next, set the scales and ranges for translations and rotations in the
+// transform. Also, set the convergence criteria and number of iterations
+// to be used by the optimizer.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
+  constexpr double translationScale = 1000.0; // dynamic range of translations
+  constexpr double rotationScale = 1.0;       // dynamic range of rotations
 
   scales[0] = 1.0 / rotationScale;
   scales[1] = 1.0 / rotationScale;
@@ -190,17 +242,24 @@ int main(int argc, char * argv[] )
   optimizer->SetValueTolerance( valueTolerance );
   optimizer->SetGradientTolerance( gradientTolerance );
   optimizer->SetEpsilonFunction( epsilonFunction );
-
-  // Start from an Identity transform (in a normal case, the user
-  // can probably provide a better guess than the identity...
-  transform->SetIdentity();
-
-  registration->SetInitialTransformParameters( transform->GetParameters() );
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
 //
-// Connect all the components required for Registration
+// Here we start with an identity transform, although the user will usually
+// be able to provide a better guess than this.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
+  transform->SetIdentity();
+// Software Guide : EndCodeSnippet
+
+  registration->SetInitialTransformParameters( transform->GetParameters() );
+
+// Software Guide : BeginLatex
+//
+// Connect all the components required for the registration.
 //
 // Software Guide : EndLatex
 
@@ -210,7 +269,11 @@ int main(int argc, char * argv[] )
   registration->SetTransform(     transform     );
   registration->SetFixedPointSet( fixedPointSet );
   registration->SetMovingPointSet(   movingPointSet   );
-
+// Software Guide : EndCodeSnippet
+//
+  // Connect an observer
+  CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
+  optimizer->AddObserver( itk::IterationEvent(), observer );
 
   try
     {
@@ -218,12 +281,12 @@ int main(int argc, char * argv[] )
     }
   catch( itk::ExceptionObject & e )
     {
-    std::cout << e << std::endl;
+    std::cerr << e << std::endl;
     return EXIT_FAILURE;
     }
 
   std::cout << "Solution = " << transform->GetParameters() << std::endl;
-// Software Guide : EndCodeSnippet
+  std::cout << "Stopping condition: " << optimizer->GetStopConditionDescription() << std::endl;
 
   return EXIT_SUCCESS;
 }
