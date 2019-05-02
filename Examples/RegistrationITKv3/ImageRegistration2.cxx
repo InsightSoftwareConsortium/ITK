@@ -101,7 +101,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() = default;
 
 public:
   using OptimizerType = itk::GradientDescentOptimizer;
@@ -114,7 +114,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
-    OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
+    auto optimizer = static_cast< OptimizerPointer >( object );
     if( ! itk::IterationEvent().CheckEvent( &event ) )
       {
       return;
@@ -248,10 +248,6 @@ int main( int argc, char *argv[] )
   metric->SetMovingImageStandardDeviation( 0.4 );
   // Software Guide : EndCodeSnippet
 
-  // For consistent results when regression testing.
-  metric->ReinitializeSeed( 121212 );
-
-
   using FixedImageReaderType = itk::ImageFileReader< FixedImageType  >;
   using MovingImageReaderType = itk::ImageFileReader< MovingImageType >;
 
@@ -293,7 +289,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   using GaussianFilterType = itk::DiscreteGaussianImageFilter<
-                                  InternalImageType, InternalImageType>;
+                             InternalImageType, InternalImageType >;
 
   GaussianFilterType::Pointer fixedSmoother  = GaussianFilterType::New();
   GaussianFilterType::Pointer movingSmoother = GaussianFilterType::New();
@@ -373,12 +369,15 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   const unsigned int numberOfPixels = fixedImageRegion.GetNumberOfPixels();
 
-  const unsigned int numberOfSamples =
-                        static_cast< unsigned int >( numberOfPixels * 0.01 );
+  const auto numberOfSamples =
+    static_cast< unsigned int >( numberOfPixels * 0.01 );
 
   metric->SetNumberOfSpatialSamples( numberOfSamples );
   // Software Guide : EndCodeSnippet
 
+
+  // For consistent results when regression testing.
+  metric->ReinitializeSeed(121212);
 
   //  Software Guide : BeginLatex
   //

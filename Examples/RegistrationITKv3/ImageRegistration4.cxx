@@ -28,9 +28,11 @@
 
 // Software Guide : BeginLatex
 //
-// In this example, we will solve a simple multi-modality problem using another
+// In this example, we will solve a simple multi-modality problem using an
 // implementation of mutual information. This implementation was published by
-// Mattes~\emph{et. al}~\cite{Mattes2003}. One of the main differences between
+// Mattes~\emph{et. al}~\cite{Mattes2003}.
+//
+// One of the main differences between
 // \doxygen{MattesMutualInformationImageToImageMetric} and
 // \doxygen{MutualInformationImageToImageMetric} is that only one spatial
 // sample set is used for the whole registration process instead of using new
@@ -80,7 +82,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() = default;
 
 public:
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
@@ -93,7 +95,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
-    OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
+    auto optimizer = static_cast< OptimizerPointer >( object );
     if( ! itk::IterationEvent().CheckEvent( &event ) )
       {
       return;
@@ -145,8 +147,8 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   using MetricType = itk::MattesMutualInformationImageToImageMetric<
-                                          FixedImageType,
-                                          MovingImageType >;
+    FixedImageType,
+    MovingImageType >;
   // Software Guide : EndCodeSnippet
 
   TransformType::Pointer      transform     = TransformType::New();
@@ -286,7 +288,7 @@ int main( int argc, char *argv[] )
   // size of the step length. The rate at which the step length is reduced is
   // controlled by a relaxation factor. The default value of the factor is
   // $0.5$. This value, however may prove to be inadequate for noisy metrics
-  // since they tend to induce very erratic movements on the optimizers and
+  // since they tend to induce erratic movements on the optimizers and
   // therefore result in many directional changes. In those
   // conditions, the optimizer will rapidly shrink the step length while it is
   // still too far from the location of the extrema in the cost function. In
@@ -321,7 +323,8 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  ParametersType finalParameters = registration->GetLastTransformParameters();
+  ParametersType finalParameters =
+                            registration->GetLastTransformParameters();
 
   double TranslationAlongX = finalParameters[0];
   double TranslationAlongY = finalParameters[1];
@@ -359,7 +362,6 @@ int main( int argc, char *argv[] )
   //  the moving image.
   //
   //  Software Guide : EndLatex
-
 
   using ResampleFilterType = itk::ResampleImageFilter<
                             MovingImageType,
@@ -485,7 +487,9 @@ int main( int argc, char *argv[] )
   //  parameter space. The upper-right figure presents a closer look at the
   //  convergence basin for the last iterations of the optimizer. The bottom of
   //  the same figure shows the sequence of metric values computed as the
-  //  optimizer searched the parameter space.  Comparing these trace plots with
+  //  optimizer searched the parameter space.
+  //
+  //  Comparing these trace plots with
   //  Figures \ref{fig:ImageRegistration2TraceTranslations} and
   //  \ref{fig:ImageRegistration2TraceMetric}, we can see that the measures
   //  produced by MattesMutualInformationImageToImageMetric are smoother than
@@ -503,7 +507,7 @@ int main( int argc, char *argv[] )
   // involved in the fine tuning of parameters for the optimization. For
   // example, the number of bins used in the estimation of Mutual Information
   // has a dramatic effect on the performance of the optimizer. In order to
-  // illustrate this effect, this same example has been executed using a range
+  // illustrate this effect, the same example has been executed using a range
   // of different values for the number of bins, from $10$ to $30$. If you
   // repeat this experiment, you will notice that depending on the number of
   // bins used, the optimizer's path may get trapped early on in local minima.
@@ -523,14 +527,14 @@ int main( int argc, char *argv[] )
   // \label{fig:ImageRegistration4TraceTranslationsNumberOfBins}
   // \end{figure}
   //
-
+  //
   // Effects such as the one illustrated here highlight how useless is to
   // compare different algorithms based on a non-exhaustive search of their
   // parameter setting. It is quite difficult to be able to claim that a
   // particular selection of parameters represent the best combination for
   // running a particular algorithm. Therefore, when comparing the performance
   // of two or more different algorithms, we are faced with the challenge of
-  // proving that none of the algorithms involved in the comparison is being
+  // proving that none of the algorithms involved in the comparison are being
   // run with a sub-optimal set of parameters.
   //
   // Software Guide : EndLatex

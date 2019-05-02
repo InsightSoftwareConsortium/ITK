@@ -24,19 +24,20 @@
 //  \index{WarpImageFilter}
 //  \index{LandmarkDisplacementFieldSource}
 //
+//  In addition to standard headers included in previous examples, this example
+//  requires the following includes:
+//
 //  Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
-#include "itkVector.h"
 #include "itkImage.h"
-#include "itkLandmarkDisplacementFieldSource.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkWarpImageFilter.h"
-// Software Guide : EndCodeSnippet
-
+// Software Guide : BeginCodeSnippet
+#include "itkVector.h"
+#include "itkLandmarkDisplacementFieldSource.h"
 #include <fstream>
-
+// Software Guide : EndCodeSnippet
 
 int main( int argc, char * argv[] )
 {
@@ -55,8 +56,7 @@ int main( int argc, char * argv[] )
 
   using VectorType = itk::Vector< VectorComponentType, Dimension >;
 
-  using DisplacementFieldType = itk::Image< VectorType,  Dimension >;
-
+  using DisplacementFieldType = itk::Image< VectorType, Dimension >;
 
   using PixelType = unsigned char;
   using FixedImageType = itk::Image< PixelType, Dimension >;
@@ -92,9 +92,18 @@ int main( int argc, char * argv[] )
 
   FixedImageType::ConstPointer fixedImage = fixedReader->GetOutput();
 
+//  Software Guide : BeginLatex
+//
+//  After reading in the fixed and moving images, the \code{deformer} object is
+//  instantiated from the \code{itk::LandmarkDisplacementFieldSource} class, and
+//  parameters of the image space and orientation are set.
+//
+//  Software Guide : EndLatex
 
-  using DisplacementSourceType = itk::LandmarkDisplacementFieldSource<
-                                DisplacementFieldType >;
+// Software Guide : BeginCodeSnippet
+
+  using DisplacementSourceType =
+    itk::LandmarkDisplacementFieldSource<DisplacementFieldType>;
 
   DisplacementSourceType::Pointer deformer = DisplacementSourceType::New();
 
@@ -103,13 +112,24 @@ int main( int argc, char * argv[] )
   deformer->SetOutputRegion(  fixedImage->GetLargestPossibleRegion() );
   deformer->SetOutputDirection( fixedImage->GetDirection() );
 
-  //  Create source and target landmarks.
-  //
+// Software Guide : EndCodeSnippet
+
+//  Software Guide : BeginLatex
+//
+//  Source and target landmarks are then created, and the points themselves are
+//  read in from a file stream.
+//
+//  Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
+
   using LandmarkContainerType = DisplacementSourceType::LandmarkContainer;
   using LandmarkPointType = DisplacementSourceType::LandmarkPointType;
 
-  LandmarkContainerType::Pointer sourceLandmarks = LandmarkContainerType::New();
-  LandmarkContainerType::Pointer targetLandmarks = LandmarkContainerType::New();
+  LandmarkContainerType::Pointer sourceLandmarks =
+    LandmarkContainerType::New();
+  LandmarkContainerType::Pointer targetLandmarks =
+    LandmarkContainerType::New();
 
   LandmarkPointType sourcePoint;
   LandmarkPointType targetPoint;
@@ -126,7 +146,7 @@ int main( int argc, char * argv[] )
     {
     sourceLandmarks->InsertElement( pointId, sourcePoint );
     targetLandmarks->InsertElement( pointId, targetPoint );
-    pointId++;
+    ++pointId;
 
     pointsFile >> sourcePoint;
     pointsFile >> targetPoint;
@@ -135,9 +155,27 @@ int main( int argc, char * argv[] )
 
   pointsFile.close();
 
+//  Software Guide : EndCodeSnippet
+
+//  Software Guide : BeginLatex
+//
+//  The source and target landmark objects are then assigned to \code{deformer}.
+//
+//  Software Guide : EndLatex
+
+//  Software Guide : BeginCodeSnippet
 
   deformer->SetSourceLandmarks( sourceLandmarks );
   deformer->SetTargetLandmarks( targetLandmarks );
+
+//  Software Guide : EndCodeSnippet
+
+//  Software Guide : BeginLatex
+//
+//  After calling \code{UpdateLargestPossibleRegion()} on the \code{deformer},
+//  the displacement field may be obtained via the \code{GetOutput()} method.
+//
+//  Software Guide : EndLatex
 
   try
     {

@@ -80,6 +80,7 @@
 //  Software Guide : EndLatex
 
 //  Software Guide : BeginCodeSnippet
+#include "itkImageToSpatialObjectMetric.h"
 //  Software Guide : EndCodeSnippet
 
 
@@ -173,12 +174,14 @@ public:
     }
 
   /** Execute method will print data at each iteration */
-  void Execute(itk::Object *caller, const itk::EventObject & event)
+  void Execute(itk::Object *caller,
+               const itk::EventObject & event) override
     {
     Execute( (const itk::Object *)caller, event);
     }
 
-  void Execute(const itk::Object *, const itk::EventObject & event)
+  void Execute(const itk::Object *,
+               const itk::EventObject & event) override
     {
     if( typeid( event ) == typeid( itk::StartEvent ) )
       {
@@ -203,7 +206,7 @@ public:
 //  Software Guide : EndCodeSnippet
 
 protected:
-  IterationCallback() {};
+  IterationCallback() = default;
   itk::WeakPointer<OptimizerType>   m_Optimizer;
 };
 
@@ -265,7 +268,7 @@ public:
   static constexpr unsigned int ParametricSpaceDimension = 3;
 
   /** Specify the moving spatial object. */
-  void SetMovingSpatialObject( const MovingSpatialObjectType * object)
+  void SetMovingSpatialObject( const MovingSpatialObjectType * object) override
     {
       if(!this->m_FixedImage)
         {
@@ -284,7 +287,7 @@ public:
         {
         this->m_FixedImage->TransformIndexToPhysicalPoint( it.GetIndex(), point );
 
-        if(this->m_MovingSpatialObject->IsInside(point,99999))
+        if(this->m_MovingSpatialObject->IsInsideInWorldSpace(point,99999))
           {
           m_PointList.push_back( point );
           }
@@ -295,7 +298,7 @@ public:
     }
 
   /** Get the Derivatives of the Match Measure */
-  void GetDerivative( const ParametersType &, DerivativeType & ) const
+  void GetDerivative( const ParametersType &, DerivativeType & ) const override
     {
       return;
     }
@@ -319,14 +322,13 @@ public:
 
   /** Get the value for SingleValue optimizers. */
   //  Software Guide : BeginCodeSnippet
-  MeasureType    GetValue( const ParametersType & parameters ) const override
+  MeasureType GetValue( const ParametersType & parameters ) const override
     {
       double value;
       this->m_Transform->SetParameters( parameters );
 
       value = 0;
-      for(PointListType::const_iterator it = m_PointList.begin();
-                                                it != m_PointList.end(); ++it)
+      for(auto it = m_PointList.begin(); it != m_PointList.end(); ++it)
          {
          PointType transformedPoint = this->m_Transform->TransformPoint(*it);
          if( this->m_Interpolator->IsInsideBuffer( transformedPoint ) )
@@ -429,9 +431,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  ellipse1->SetRadius(  10.0  );
-  ellipse2->SetRadius(  10.0  );
-  ellipse3->SetRadius(  10.0  );
+  ellipse1->SetRadiusInObjectSpace(  10.0  );
+  ellipse2->SetRadiusInObjectSpace(  10.0  );
+  ellipse3->SetRadiusInObjectSpace(  10.0  );
   //  Software Guide : EndCodeSnippet
 
 
@@ -454,17 +456,17 @@ int main( int argc, char *argv[] )
   offset[ 0 ] = 100.0;
   offset[ 1 ] =  40.0;
 
-  ellipse1->GetObjectToParentTransform()->SetOffset(offset);
+  ellipse1->GetModifiableObjectToParentTransform()->SetOffset(offset);
   ellipse1->Update();
 
   offset[ 0 ] =  40.0;
   offset[ 1 ] = 150.0;
-  ellipse2->GetObjectToParentTransform()->SetOffset(offset);
+  ellipse2->GetModifiableObjectToParentTransform()->SetOffset(offset);
   ellipse2->Update();
 
   offset[ 0 ] = 150.0;
   offset[ 1 ] = 150.0;
-  ellipse3->GetObjectToParentTransform()->SetOffset(offset);
+  ellipse3->GetModifiableObjectToParentTransform()->SetOffset(offset);
   ellipse3->Update();
   //  Software Guide : EndCodeSnippet
 
@@ -496,9 +498,9 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginCodeSnippet
   GroupType::Pointer group = GroupType::New();
-  group->AddSpatialObject( ellipse1 );
-  group->AddSpatialObject( ellipse2 );
-  group->AddSpatialObject( ellipse3 );
+  group->AddChild( ellipse1 );
+  group->AddChild( ellipse2 );
+  group->AddChild( ellipse3 );
   //  Software Guide : EndCodeSnippet
 
 

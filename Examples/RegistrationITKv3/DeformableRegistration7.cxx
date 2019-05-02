@@ -25,7 +25,7 @@
 // that this example we set the image dimension to 3 and replace the
 // \doxygen{LBFGSOptimizer} optimizer with the \doxygen{LBFGSBOptimizer}. We
 // made the modification because we found that LBFGS does not behave well when
-// the starting positions is at or close to optimal; instead we used LBFGSB in
+// the starting position is at or close to optimal; instead we used LBFGSB in
 // unconstrained mode.
 //
 //
@@ -60,8 +60,8 @@
 //
 //  The parameter space of the \code{BSplineTransform} is composed by
 //  the set of all the deformations associated with the nodes of the BSpline
-//  grid.  This large number of parameters makes possible to represent a wide
-//  variety of deformations, but it also has the price of requiring a
+//  grid.  This large number of parameters enables it to represent a wide
+//  variety of deformations, at the cost of requiring a
 //  significant amount of computation time.
 //
 //  \index{itk::BSplineTransform!header}
@@ -89,16 +89,16 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() = default;
 
 public:
   using OptimizerType = itk::LBFGSBOptimizer;
   using OptimizerPointer = const OptimizerType *;
 
   void Execute(itk::Object *caller, const itk::EventObject & event) override
-    {
-    Execute( (const itk::Object *)caller, event);
-    }
+  {
+  Execute( (const itk::Object *)caller, event);
+  }
 
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {

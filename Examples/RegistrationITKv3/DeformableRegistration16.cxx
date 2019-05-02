@@ -117,7 +117,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() = default;
 
   // define ITK short-hand types
   using PixelType = short;
@@ -138,7 +138,7 @@ public:
 
   void Execute(itk::Object *caller, const itk::EventObject & event) override
     {
-       RegistrationFilterType * filter = static_cast<  RegistrationFilterType * >( caller );
+       auto * filter = static_cast<  RegistrationFilterType * >( caller );
 
        if( !(itk::IterationEvent().CheckEvent( &event )) )
         {
@@ -169,7 +169,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandResolutionLevelUpdate() {};
+  CommandResolutionLevelUpdate() = default;
 
 public:
   void Execute(itk::Object *caller, const itk::EventObject & event) override

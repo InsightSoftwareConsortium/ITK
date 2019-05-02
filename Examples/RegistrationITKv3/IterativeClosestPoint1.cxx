@@ -24,6 +24,12 @@
 //
 // Software Guide : EndLatex
 
+// Software Guide : BeginLatex
+//
+// The first step is to include the relevant headers.
+//
+// Software Guide : EndLatex
+
 // Software Guide : BeginCodeSnippet
 #include "itkTranslationTransform.h"
 #include "itkEuclideanDistancePointMetric.h"
@@ -31,6 +37,7 @@
 #include "itkPointSetToPointSetRegistrationMethod.h"
 // Software Guide : EndCodeSnippet
 
+#include <iostream>
 #include <fstream>
 
 class CommandIterationUpdate : public itk::Command
@@ -42,10 +49,9 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() = default;
 
 public:
-
   using OptimizerType = itk::LevenbergMarquardtOptimizer;
   using OptimizerPointer = const OptimizerType *;
 
@@ -56,7 +62,11 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
-    OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
+    auto optimizer = dynamic_cast< OptimizerPointer >( object );
+    if( optimizer == nullptr )
+      {
+      itkExceptionMacro( "Could not cast optimizer." );
+      }
 
     if( ! itk::IterationEvent().CheckEvent( &event ) )
       {
@@ -66,9 +76,7 @@ public:
     std::cout << "Value = " << optimizer->GetCachedValue() << std::endl;
     std::cout << "Position = "  << optimizer->GetCachedCurrentPosition();
     std::cout << std::endl << std::endl;
-
     }
-
 };
 
 
@@ -83,6 +91,13 @@ int main(int argc, char * argv[] )
       << std::endl;
     return EXIT_FAILURE;
     }
+
+// Software Guide : BeginLatex
+//
+// Next, define the necessary types for the fixed and moving pointsets and
+// point containers.
+//
+// Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   constexpr unsigned int Dimension = 2;
@@ -103,13 +118,7 @@ int main(int argc, char * argv[] )
   PointType movingPoint;
 // Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// Read the file containing coordinates of fixed points.
-//
-// Software Guide : EndLatex
-
-// Software Guide : BeginCodeSnippet
+  // Read the file containing coordinates of fixed points.
   std::ifstream   fixedFile;
   fixedFile.open( argv[1] );
   if( fixedFile.fail() )
@@ -131,15 +140,8 @@ int main(int argc, char * argv[] )
   std::cout <<
     "Number of fixed Points = " <<
     fixedPointSet->GetNumberOfPoints() << std::endl;
-// Software Guide : EndCodeSnippet
 
-// Software Guide : BeginLatex
-//
-// Read the file containing coordinates of moving points.
-//
-// Software Guide : EndLatex
-
-// Software Guide : BeginCodeSnippet
+  // Read the file containing coordinates of moving points.
   std::ifstream   movingFile;
   movingFile.open( argv[2] );
   if( movingFile.fail() )
@@ -160,11 +162,10 @@ int main(int argc, char * argv[] )
   movingPointSet->SetPoints( movingPointContainer );
   std::cout << "Number of moving Points = "
     << movingPointSet->GetNumberOfPoints() << std::endl;
-// Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
 //
-// Set up the Metric.
+// After the points are read in from files, set up the metric type.
 //
 // Software Guide : EndLatex
 
@@ -177,7 +178,8 @@ int main(int argc, char * argv[] )
 
 // Software Guide : BeginLatex
 //
-// Set up a Transform.
+// Now, setup the transform, optimizers, and registration method using the
+// point set types defined earlier.
 //
 // Software Guide : EndLatex
 
@@ -185,32 +187,33 @@ int main(int argc, char * argv[] )
   using TransformType = itk::TranslationTransform< double, Dimension >;
 
   TransformType::Pointer transform = TransformType::New();
-// Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginLatex
-//
-// Set up a the Optimizer and RegistrationMethod.
-//
-// Software Guide : EndLatex
-
-// Software Guide : BeginCodeSnippet
+  // Optimizer Type
   using OptimizerType = itk::LevenbergMarquardtOptimizer;
 
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
   optimizer->SetUseCostFunctionGradient(false);
 
+  // Registration Method
   using RegistrationType = itk::PointSetToPointSetRegistrationMethod<
-                                PointSetType, PointSetType >;
-
+                      PointSetType, PointSetType >;
 
   RegistrationType::Pointer   registration  = RegistrationType::New();
 
   // Scale the translation components of the Transform in the Optimizer
   OptimizerType::ScalesType scales( transform->GetNumberOfParameters() );
   scales.Fill( 0.01 );
+// Software Guide : EndCodeSnippet
 
+// Software Guide : BeginLatex
+//
+// Next we setup the convergence criteria, and other properties required
+// by the optimizer.
+//
+// Software Guide : EndLatex
 
+// Software Guide : BeginCodeSnippet
   unsigned long   numberOfIterations =  100;
   double          gradientTolerance  =  1e-5;    // convergence criterion
   double          valueTolerance     =  1e-5;    // convergence criterion
@@ -222,17 +225,25 @@ int main(int argc, char * argv[] )
   optimizer->SetValueTolerance( valueTolerance );
   optimizer->SetGradientTolerance( gradientTolerance );
   optimizer->SetEpsilonFunction( epsilonFunction );
-
-  // Start from an Identity transform (in a normal case, the user
-  // can probably provide a better guess than the identity...
-  transform->SetIdentity();
-
-  registration->SetInitialTransformParameters( transform->GetParameters() );
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
 //
-// Connect all the components required for Registration
+// In this case we start from an identity transform, but in reality the user
+// will usually be able to provide a better guess than this.
+//
+// Software Guide : EndLatex
+
+// Software Guide : BeginCodeSnippet
+  transform->SetIdentity();
+// Software Guide : EndCodeSnippet
+
+  registration->SetInitialTransformParameters( transform->GetParameters() );
+
+// Software Guide : BeginLatex
+//
+// Finally, connect all the components required for the registration, and an
+// observer.
 //
 // Software Guide : EndLatex
 
@@ -246,6 +257,7 @@ int main(int argc, char * argv[] )
   // Connect an observer
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
+// Software Guide : EndCodeSnippet
 
   try
     {
@@ -253,12 +265,10 @@ int main(int argc, char * argv[] )
     }
   catch( itk::ExceptionObject & e )
     {
-    std::cout << e << std::endl;
+    std::cerr << e << std::endl;
     return EXIT_FAILURE;
     }
 
   std::cout << "Solution = " << transform->GetParameters() << std::endl;
-// Software Guide : EndCodeSnippet
-
   return EXIT_SUCCESS;
 }

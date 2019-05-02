@@ -71,7 +71,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() = default;
 
 public:
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
@@ -84,7 +84,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
-    OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
+    auto optimizer = static_cast< OptimizerPointer >( object );
     if( !(itk::IterationEvent().CheckEvent( &event )) )
       {
       return;
@@ -249,8 +249,7 @@ int main( int argc, char *argv[] )
 
   metric->SetNumberOfHistogramBins( 50 );
 
-  const unsigned int numberOfSamples =
-    static_cast<unsigned int>( fixedRegion.GetNumberOfPixels() * 20.0 / 100.0 );
+  const auto numberOfSamples = static_cast<unsigned int>( fixedRegion.GetNumberOfPixels() * 20.0 / 100.0 );
 
   metric->SetNumberOfSpatialSamples( numberOfSamples );
   metric->ReinitializeSeed( 76926294 );

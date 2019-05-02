@@ -61,7 +61,7 @@
 // Software Guide : BeginLatex
 //
 // The MultiResolutionImageRegistrationMethod solves a registration
-// problem in a coarse to fine manner as illustrated in Figure
+// problem in a coarse-to-fine manner as illustrated in Figure
 // \ref{fig:MultiResRegistrationConcept}. The registration is first performed
 // at the coarsest level using the images at the first level of the fixed and
 // moving image pyramids. The transform parameters determined by the
@@ -167,7 +167,7 @@ public:
   //
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  void Execute(itk::Object * object, const itk::EventObject & event)
+  void Execute(itk::Object * object, const itk::EventObject & event) override
     {
     // Software Guide : EndCodeSnippet
 
@@ -241,7 +241,7 @@ public:
   //
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  void Execute(const itk::Object * , const itk::EventObject & )
+  void Execute(const itk::Object * , const itk::EventObject & ) override
     { return; }
 };
 // Software Guide : EndCodeSnippet

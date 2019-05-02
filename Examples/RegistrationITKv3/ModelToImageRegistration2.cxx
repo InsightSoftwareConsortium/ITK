@@ -89,7 +89,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() = default;
 
 public:
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
@@ -102,7 +102,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
-    OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
+    auto optimizer = static_cast< OptimizerPointer >( object );
     if( typeid( event ) != typeid( itk::IterationEvent ) )
       {
       return;
@@ -255,7 +255,7 @@ int main( int argc, char * argv [] )
   // The geometry of the BoxSpatialObject is such that one of
   // its corners is located at the origin of coordinates.
   //
-  spatialObject->SetSize( boxSize );
+  spatialObject->SetSizeInObjectSpace( boxSize );
 
   ImageType::RegionType region =
                 movingImage->GetLargestPossibleRegion();

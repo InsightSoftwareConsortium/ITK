@@ -79,7 +79,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate(): m_CumulativeIterationIndex(0) {};
+  CommandIterationUpdate() {};
 
 public:
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
@@ -90,9 +90,10 @@ public:
     Execute( (const itk::Object *)caller, event);
     }
 
-  void Execute(const itk::Object * object, const itk::EventObject & event) override
+  void Execute(const itk::Object * object,
+               const itk::EventObject & event) override
     {
-    OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
+    auto optimizer = static_cast< OptimizerPointer >( object );
     if( !(itk::IterationEvent().CheckEvent( &event )) )
       {
       return;
@@ -104,7 +105,7 @@ public:
     }
 
 private:
-  unsigned int m_CumulativeIterationIndex;
+  unsigned int m_CumulativeIterationIndex{0};
 };
 
 //  The following section of code implements a Command observer
@@ -121,21 +122,22 @@ public:
   itkNewMacro( Self );
 
 protected:
-  RegistrationInterfaceCommand() {};
+  RegistrationInterfaceCommand() = default;
 
 public:
   using RegistrationType = TRegistration;
   using RegistrationPointer = RegistrationType *;
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
   using OptimizerPointer = OptimizerType *;
-  void Execute(itk::Object * object, const itk::EventObject & event)
+  void Execute(itk::Object * object, const itk::EventObject & event) override
   {
     if( !(itk::IterationEvent().CheckEvent( &event )) )
       {
       return;
       }
-    RegistrationPointer registration = static_cast<RegistrationPointer>( object );
-    OptimizerPointer optimizer = static_cast< OptimizerPointer >(registration->GetModifiableOptimizer() );
+    auto registration = static_cast<RegistrationPointer>( object );
+    auto optimizer =
+      static_cast< OptimizerPointer >( registration->GetModifiableOptimizer() );
 
     std::cout << "-------------------------------------" << std::endl;
     std::cout << "MultiResolution Level : "
@@ -153,7 +155,7 @@ public:
       optimizer->SetMinimumStepLength( optimizer->GetMinimumStepLength() / 10.0 );
       }
   }
-  void Execute(const itk::Object * , const itk::EventObject & )
+  void Execute(const itk::Object * , const itk::EventObject & ) override
     { return; }
 };
 

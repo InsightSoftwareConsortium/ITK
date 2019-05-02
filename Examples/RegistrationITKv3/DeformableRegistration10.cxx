@@ -53,22 +53,22 @@ constexpr unsigned int Dimension = 3;
     using DisplacementFieldType = itk::Image<  VectorPixelType, Dimension >;
 
     using RegistrationFilterType = itk::CurvatureRegistrationFilter<
-                      InternalImageType, InternalImageType,
-                      DisplacementFieldType,
-                      itk::FastSymmetricForcesDemonsRegistrationFunction<
-                              InternalImageType, InternalImageType,
-                              DisplacementFieldType> >;
+            InternalImageType,
+            InternalImageType,
+            DisplacementFieldType,
+            itk::FastSymmetricForcesDemonsRegistrationFunction<
+            InternalImageType,InternalImageType,DisplacementFieldType> >;
 
   public:
 
-    void Execute(itk::Object *caller, const itk::EventObject & event)
+    void Execute(itk::Object *caller, const itk::EventObject & event) override
       {
         Execute( (const itk::Object *)caller, event);
       }
 
     void Execute(const itk::Object * object, const itk::EventObject & event)
       {
-         const RegistrationFilterType * filter = static_cast< const RegistrationFilterType * >( object );
+        const auto * filter = static_cast< const RegistrationFilterType * >( object );
         if( !(itk::IterationEvent().CheckEvent( &event )) )
           {
           return;
@@ -134,12 +134,10 @@ int main( int argc, char *argv[] )
   using VectorPixelType = itk::Vector< float, Dimension >;
   using DisplacementFieldType = itk::Image<  VectorPixelType, Dimension >;
   using RegistrationFilterType = itk::CurvatureRegistrationFilter<
-                                InternalImageType,
-                                InternalImageType,
-                                DisplacementFieldType,
-                                itk::FastSymmetricForcesDemonsRegistrationFunction<
-                                     InternalImageType,InternalImageType,
-                                     DisplacementFieldType> >;
+          InternalImageType, InternalImageType, DisplacementFieldType,
+          itk::FastSymmetricForcesDemonsRegistrationFunction<
+               InternalImageType,InternalImageType,DisplacementFieldType> >;
+
   RegistrationFilterType::Pointer filter = RegistrationFilterType::New();
   filter->SetTimeStep( 1 );
   filter->SetConstraintWeight( 0.1 );

@@ -51,7 +51,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandProgressUpdate() {};
+  CommandProgressUpdate() = default;
 
 public:
   void Execute(itk::Object *caller, const itk::EventObject & event) override
@@ -61,7 +61,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
-    const itk::ProcessObject * filter = static_cast< const itk::ProcessObject * >( object );
+    const auto * filter = static_cast< const itk::ProcessObject * >( object );
     if( ! itk::ProgressEvent().CheckEvent( &event ) )
       {
       return;
@@ -84,6 +84,13 @@ int main( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
+//  Software Guide : BeginLatex
+//
+//  First, we define the necessary types for the fixed and moving images
+//  and image readers.
+//
+//  Software Guide: EndLatex
+
 // Software Guide : BeginCodeSnippet
   constexpr unsigned int ImageDimension = 2;
 
@@ -95,7 +102,7 @@ int main( int argc, char * argv[] )
   using MovingReaderType = itk::ImageFileReader< MovingImageType >;
 
   using MovingWriterType = itk::ImageFileWriter< MovingImageType >;
-
+// Software Guide : EndCodeSnippet
 
   FixedReaderType::Pointer fixedReader = FixedReaderType::New();
   fixedReader->SetFileName( argv[2] );
@@ -134,6 +141,14 @@ int main( int argc, char * argv[] )
 
   resampler->SetInterpolator( interpolator );
 
+//  Software Guide : BeginLatex
+//
+//  Use the values from the fixed image to set the corresponding values
+//  in the resampler.
+//
+//  Software Guide : EndLatex
+
+//  Software Guide : BeginCodeSnippet
   FixedImageType::SpacingType   fixedSpacing    = fixedImage->GetSpacing();
   FixedImageType::PointType     fixedOrigin     = fixedImage->GetOrigin();
   FixedImageType::DirectionType fixedDirection  = fixedImage->GetDirection();
@@ -168,7 +183,6 @@ int main( int argc, char * argv[] )
 
 
 // Software Guide : BeginCodeSnippet
-
   const unsigned int SpaceDimension = ImageDimension;
   constexpr unsigned int SplineOrder = 3;
   using CoordinateRepType = double;
@@ -179,11 +193,16 @@ int main( int argc, char * argv[] )
                             SplineOrder >;
 
   TransformType::Pointer bsplineTransform = TransformType::New();
-
 //  Software Guide : EndCodeSnippet
 
-// Software Guide : BeginCodeSnippet
+//  Software Guide : BeginLatex
+//
+//  Next, fill the parameters of the B-spline transform using values from
+//  the fixed image and mesh.
+//
+//  Software Guide : EndLatex
 
+// Software Guide : BeginCodeSnippet
   constexpr unsigned int numberOfGridNodes = 7;
 
   TransformType::PhysicalDimensionsType   fixedPhysicalDimensions;
@@ -210,26 +229,25 @@ int main( int argc, char * argv[] )
   const unsigned int numberOfNodes = numberOfParameters / SpaceDimension;
 
   ParametersType parameters( numberOfParameters );
-
 //  Software Guide : EndCodeSnippet
 
 //  Software Guide : BeginLatex
 //
-//  The B-spline grid should now be fed with coeficients at each node. Since
-//  this is a two dimensional grid, each node should receive two coefficients.
+//  The B-spline grid should now be fed with coefficients at each node. Since
+//  this is a two-dimensional grid, each node should receive two coefficients.
 //  Each coefficient pair is representing a displacement vector at this node.
 //  The coefficients can be passed to the B-spline in the form of an array where
 //  the first set of elements are the first component of the displacements for
-//  all the nodes, and the second set of elemets is formed by the second
+//  all the nodes, and the second set of elements is formed by the second
 //  component of the displacements for all the nodes.
 //
-//  In this example we read such displacements from a file, but for convinience
+//  In this example we read such displacements from a file, but for convenience
 //  we have written this file using the pairs of $(x,y)$ displacement for every
 //  node. The elements read from the file should therefore be reorganized when
 //  assigned to the elements of the array. We do this by storing all the odd
 //  elements from the file in the first block of the array, and all the even
 //  elements from the file in the second block of the array. Finally the array
-//  is passed to the B-spline transform using the \code{SetParameters()}.
+//  is passed to the B-spline transform using the \code{SetParameters()} method.
 //
 //  Software Guide : EndLatex
 
@@ -239,10 +257,10 @@ int main( int argc, char * argv[] )
 
   infile.open( argv[1] );
 
-  for( unsigned int n=0; n < numberOfNodes; n++ )
+  for( unsigned int n=0; n < numberOfNodes; ++n )
     {
-    infile >>  parameters[n];
-    infile >>  parameters[n+numberOfNodes];
+    infile >> parameters[n];
+    infile >> parameters[n+numberOfNodes];
     }
 
   infile.close();
@@ -256,9 +274,7 @@ int main( int argc, char * argv[] )
 //  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-
   bsplineTransform->SetParameters( parameters );
-
 //  Software Guide : EndCodeSnippet
 
    CommandProgressUpdate::Pointer observer = CommandProgressUpdate::New();
@@ -288,7 +304,6 @@ int main( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 //  Software Guide : EndCodeSnippet
-
 
   using VectorType = itk::Vector< float, ImageDimension >;
   using DisplacementFieldType = itk::Image< VectorType, ImageDimension >;

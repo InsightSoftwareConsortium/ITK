@@ -27,6 +27,7 @@
 //    OUTPUTS: {ImageRegistration8DifferenceAfter.png}
 //    OUTPUTS: {ImageRegistration8RegisteredSlice.png}
 //  Software Guide : EndCommandLineArgs
+
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{VersorRigid3DTransform}
@@ -55,24 +56,31 @@
 //  \index{itk::Centered\-Transform\-Initializer!header}
 //
 //  Software Guide : EndLatex
+
 // Software Guide : BeginCodeSnippet
 #include "itkVersorRigid3DTransform.h"
 #include "itkCenteredTransformInitializer.h"
 // Software Guide : EndCodeSnippet
+
 //  Software Guide : BeginLatex
 //
 //  The parameter space of the \code{VersorRigid3DTransform} is not a vector
-//  space, due to the fact that addition is not a closed operation in the space
-//  of versor components. This precludes the use of standard gradient descent
-//  algorithms for optimizing the parameter space of this transform. A special
-//  optimizer should be used in this registration configuration. The optimizer
-//  designed for this transform is the
-//  \doxygen{VersorRigid3DTransformOptimizer}. This optimizer uses Versor
-//  composition for updating the first three components of the parameters
-//  array, and Vector addition for updating the last three components of the
-//  parameters array~\cite{Hamilton1866,Joly1905}.
+//  space, because addition is not a closed operation in the space
+//  of versor components. Hence, we need to use Versor composition operation to
+//  update the first three components of the parameter array (rotation parameters),
+//  and Vector addition for updating the last three components of the parameters
+//  array (translation parameters)~\cite{Hamilton1866,Joly1905}.
 //
-//  \index{itk::Versor\-Rigid3D\-Transform\-Optimizer!header}
+//  In the previous version of ITK, a special optimizer, \doxygen{VersorRigid3DTransformOptimizer}
+//  was needed for registration to deal with versor computations.
+//  Fortunately in ITKv4, the \doxygen{RegularStepGradientDescentOptimizerv4}
+//  can be used for both vector and versor transform optimizations because, in the new
+//  registration framework, the task of updating parameters is delegated to the
+//  moving transform itself. The \code{UpdateTransformParameters} method is implemented
+//  in the \doxygen{Transform} class as a virtual function, and all the derived transform
+//  classes can have their own implementations of this function. Due to this
+//  fact, the updating function is re-implemented for versor transforms
+//  so it can handle versor composition of the rotation parameters.
 //
 //  Software Guide : EndLatex
 // Software Guide : BeginCodeSnippet
@@ -99,7 +107,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() = default;
 
 public:
   using OptimizerType = itk::VersorRigid3DTransformOptimizer;
@@ -110,7 +118,7 @@ public:
     }
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
-    OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
+    auto optimizer = static_cast< OptimizerPointer >( object );
     if( ! itk::IterationEvent().CheckEvent( &event ) )
       {
       return;
@@ -150,6 +158,7 @@ int main( int argc, char *argv[] )
   //  \index{itk::Versor\-Rigid3D\-Transform!Instantiation}
   //
   //  Software Guide : EndLatex
+
   // Software Guide : BeginCodeSnippet
   using TransformType = itk::VersorRigid3DTransform< double >;
   // Software Guide : EndCodeSnippet
@@ -169,8 +178,9 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The transform object is constructed below and passed to the registration
-  //  method.
+  //  The initial transform object is constructed below. This transform will be initialized,
+  //  and its initial parameters will be used when
+  //  the registration process starts.
   //
   //  \index{itk::Versor\-Rigid3D\-Transform!New()}
   //  \index{itk::Versor\-Rigid3D\-Transform!Pointer}

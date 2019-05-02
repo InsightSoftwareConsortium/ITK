@@ -82,7 +82,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() = default;
 
 public:
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
@@ -95,7 +95,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
-    OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
+    auto optimizer = static_cast< OptimizerPointer >( object );
     if( ! itk::IterationEvent().CheckEvent( &event ) )
       {
       return;
@@ -135,7 +135,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  We define then the types of the images to be registered.
+  //  We then define the types of the images to be registered.
   //
   //  Software Guide : EndLatex
 
@@ -183,8 +183,8 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The transform object is constructed below and passed to the registration
-  //  method.
+  //  The transform object is constructed below and is initialized before the registration
+  //  process starts.
   //
   //  \index{itk::AffineTransform!New()}
   //  \index{itk::AffineTransform!Pointer}

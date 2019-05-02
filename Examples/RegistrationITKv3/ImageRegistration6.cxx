@@ -109,7 +109,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() = default;
 
 public:
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
@@ -122,7 +122,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
-    OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
+    auto optimizer = static_cast< OptimizerPointer >( object );
     if( ! itk::IterationEvent().CheckEvent( &event ) )
       {
       return;
@@ -191,8 +191,10 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The transform object is constructed below and passed to the
-  //  registration method.
+  //  Like the previous section, a direct initialization method is used here.
+  //  The transform object is constructed below. This transform will
+  //  be initialized, and its initial parameters will be considered as
+  //  the parameters to be used when the registration process begins.
   //
   //  \index{itk::CenteredRigid2DTransform!New()}
   //  \index{itk::CenteredRigid2DTransform!Pointer}
@@ -228,7 +230,7 @@ int main( int argc, char *argv[] )
   //  explicitly call \code{Update()} on the readers since the
   //  CenteredTransformInitializer class will do it as part of its
   //  initialization. The following code instantiates the initializer. This
-  //  class is templated over the fixed and moving image type as well as the
+  //  class is templated over the fixed and moving images type as well as the
   //  transform type. An initializer is then constructed by calling the
   //  \code{New()} method and assigning the result to a
   //  \doxygen{SmartPointer}.
@@ -241,10 +243,12 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   using TransformInitializerType = itk::CenteredTransformInitializer<
-            TransformType, FixedImageType,
-            MovingImageType >;
-  TransformInitializerType::Pointer initializer
-                                            = TransformInitializerType::New();
+    TransformType,
+    FixedImageType,
+    MovingImageType >;
+
+  TransformInitializerType::Pointer initializer =
+    TransformInitializerType::New();
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -304,8 +308,8 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  Now the parameters of the current transform are passed as the initial
-  //  parameters to be used when the registration process starts.
+  //  Now the initialized transform object will be set to the registration method,
+  //  and the starting point of the registration is defined by its initial parameters.
   //
   //  Software Guide : EndLatex
 

@@ -45,7 +45,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  RegistrationInterfaceCommand() {};
+  RegistrationInterfaceCommand() = default;
 
 public:
   using RegistrationType = TRegistration;
@@ -59,9 +59,12 @@ public:
       {
       return;
       }
-    RegistrationPointer registration = static_cast<RegistrationPointer>( object );
-
-    OptimizerPointer optimizer = static_cast< OptimizerPointer >( registration->GetModifiableOptimizer() );
+    auto registration = static_cast<RegistrationPointer>( object );
+    if(registration == nullptr)
+      {
+      return;
+      }
+    auto optimizer = static_cast< OptimizerPointer >(registration->GetModifiableOptimizer() );
 
     std::cout << "-------------------------------------" << std::endl;
     std::cout << "MultiResolution Level : "
@@ -97,20 +100,20 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() = default;
 
 public:
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
   using OptimizerPointer = const OptimizerType *;
 
-  void Execute(itk::Object *caller, const itk::EventObject & event)
+  void Execute(itk::Object *caller, const itk::EventObject & event) override
     {
       Execute( (const itk::Object *)caller, event);
     }
 
-  void Execute(const itk::Object * object, const itk::EventObject & event)
+  void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
-      OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
+      auto optimizer = static_cast< OptimizerPointer >( object );
       if( !(itk::IterationEvent().CheckEvent( &event )) )
         {
         return;

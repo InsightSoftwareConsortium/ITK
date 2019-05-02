@@ -70,7 +70,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() = default;
 
 public:
 
@@ -84,7 +84,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event) override
   {
-    OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
+    auto optimizer = static_cast< OptimizerPointer >( object );
 
     if( ! itk::IterationEvent().CheckEvent( &event ) )
       {
@@ -107,14 +107,14 @@ int main( int argc, char *argv[] )
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
     std::cerr << "outputImagefile [differenceImageAfter]";
-    std::cerr << "[differenceImageBefore]" << std::endl;
+    std::cerr << "[differenceImageBefore] [useEstimator]" << std::endl;
     return EXIT_FAILURE;
     }
 
 
   // Software Guide : BeginLatex
   //
-  // The types of each one of the components in the registration methods should
+  // The type of each registration component should
   // be instantiated first. We start by selecting the image
   // dimension and the types to be used for representing image pixels.
   //
@@ -172,30 +172,18 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   using MetricType = itk::MeanSquaresImageToImageMetric<
-                                    FixedImageType,
-                                    MovingImageType >;
+                                          FixedImageType,
+                                          MovingImageType >;
   // Software Guide : EndCodeSnippet
 
-
-  //  Software Guide : BeginLatex
-  //
-  //  Finally, the type of the interpolator is declared. The interpolator will
-  //  evaluate the intensities of the moving image at non-grid positions.
-  //
-  //  Software Guide : EndLatex
-
-  // Software Guide : BeginCodeSnippet
   using InterpolatorType = itk:: LinearInterpolateImageFunction<
                                     MovingImageType,
                                     double          >;
-  // Software Guide : EndCodeSnippet
-
-
   //  Software Guide : BeginLatex
   //
   //  The registration method type is instantiated using the types of the
-  //  fixed and moving images. This class is responsible for interconnecting
-  //  all the components that we have described so far.
+  //  fixed and moving images as well as the output transform type. This class
+  //  is responsible for interconnecting all the components that we have described so far.
   //
   //  Software Guide : EndLatex
 
@@ -330,7 +318,7 @@ int main( int argc, char *argv[] )
   //  Each optimizer has particular parameters that must be interpreted in the
   //  context of the optimization strategy it implements. The optimizer used in
   //  this example is a variant of gradient descent that attempts to prevent it
-  //  from taking steps that are too large.  At each iteration, this optimizer
+  //  from taking steps that are too large. At each iteration, this optimizer
   //  will take a step along the direction of the \doxygen{ImageToImageMetric}
   //  derivative. The initial length of the step is defined by the user. Each
   //  time the direction of the derivative abruptly changes, the optimizer
@@ -379,7 +367,7 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  The registration process is triggered by an invocation to the
+  //  The registration process is triggered by an invocation of the
   //  \code{Update()} method. If something goes wrong during the
   //  initialization or execution of the registration an exception will be
   //  thrown. We should therefore place the \code{Update()} method
@@ -403,13 +391,10 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  // In a real life application, you may attempt to recover from the error by
-  // taking more effective actions in the catch block. Here we are simply
-  // printing out a message and then terminating the execution of the program.
+  //  In a real life application, you may attempt to recover from the error by
+  //  taking more effective actions in the catch block. Here we are simply
+  //  printing out a message and then terminating the execution of the program.
   //
-  //  Software Guide : EndLatex
-
-  //  Software Guide : BeginLatex
   //
   //  The result of the registration process is an array of parameters that
   //  defines the spatial transformation in an unique way. This final result is
@@ -614,10 +599,13 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   using OutputPixelType = unsigned char;
+
   using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+
   using CastFilterType = itk::CastImageFilter<
                         FixedImageType,
                         OutputImageType >;
+
   using WriterType = itk::ImageFileWriter< OutputImageType >;
   // Software Guide : EndCodeSnippet
 
@@ -692,7 +680,7 @@ int main( int argc, char *argv[] )
   //  Note that the use of subtraction as a method for comparing the images is
   //  appropriate here because we chose to represent the images using a pixel
   //  type \code{float}. A different filter would have been used if the pixel
-  //  type of the images were any of the \code{unsigned} integer type.
+  //  type of the images were any of the \code{unsigned} integer types.
   //
   // Software Guide : EndLatex
 
@@ -702,8 +690,8 @@ int main( int argc, char *argv[] )
   //  Since the differences between the two images may correspond to very low
   //  values of intensity, we rescale those intensities with a
   //  \doxygen{RescaleIntensityImageFilter} in order to make them more visible.
-  //  This rescaling will also make possible to visualize the negative values
-  //  even if we save the difference image in a file format that only support
+  //  This rescaling will also make it possible to visualize the negative values
+  //  even if we save the difference image in a file format that only supports
   //  unsigned pixel values\footnote{This is the case of PNG, BMP, JPEG and
   //  TIFF among other common file formats.}.  We also reduce the
   //  \code{DefaultPixelValue} to ``1'' in order to prevent that value from
@@ -782,13 +770,13 @@ int main( int argc, char *argv[] )
   //  and right borders of the image appear in the gray level selected with the
   //  \code{SetDefaultPixelValue()} in the ResampleImageFilter. The center
   //  image shows the difference between the fixed image and the original
-  //  moving image. That is, the difference before the registration is
-  //  performed. The right image shows the difference between the fixed image
-  //  and the transformed moving image. That is, after the registration has
-  //  been performed.  Both difference images have been rescaled in intensity
+  //  moving image (i.e. the difference before the registration is
+  //  performed). The right image shows the difference between the fixed image
+  //  and the transformed moving image (i.e. after the registration has
+  //  been performed).  Both difference images have been rescaled in intensity
   //  in order to highlight those pixels where differences exist.  Note that
   //  the final registration is still off by a fraction of a pixel, which
-  //  results in bands around edges of anatomical structures to appear in the
+  //  causes bands around edges of anatomical structures to appear in the
   //  difference image. A perfect registration would have produced a null
   //  difference image.
   //

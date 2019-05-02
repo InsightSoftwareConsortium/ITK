@@ -28,7 +28,7 @@
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{CenteredSimilarity2DTransform}
-// class for performing registration in $2D$. The of example code is for
+// class for performing registration in $2D$. The example code is for
 // the most part identical to the code presented in Section
 // \ref{sec:InitializingRegistrationWithMoments}.  The main difference is the
 // use of \doxygen{CenteredSimilarity2DTransform} here rather than the
@@ -97,7 +97,7 @@ public:
   itkNewMacro( Self );
 
 protected:
-  CommandIterationUpdate() {};
+  CommandIterationUpdate() = default;
 
 public:
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
@@ -110,7 +110,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
-    OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
+    auto optimizer = static_cast< OptimizerPointer >( object );
     if( ! itk::IterationEvent().CheckEvent( &event ) )
       {
       return;
@@ -220,23 +220,24 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
 
-// Software Guide : BeginCodeSnippet
+  // Software Guide : BeginCodeSnippet
   using TransformInitializerType = itk::CenteredTransformInitializer<
-            TransformType, FixedImageType,
-            MovingImageType >;
+    TransformType,
+    FixedImageType,
+    MovingImageType >;
 
   TransformInitializerType::Pointer initializer
-                                            = TransformInitializerType::New();
+                                      = TransformInitializerType::New();
 
-  initializer->SetTransform(   transform );
+  initializer->SetTransform( transform );
 
-  initializer->SetFixedImage(  fixedImageReader->GetOutput() );
+  initializer->SetFixedImage( fixedImageReader->GetOutput() );
   initializer->SetMovingImage( movingImageReader->GetOutput() );
 
   initializer->MomentsOn();
 
   initializer->InitializeTransform();
-// Software Guide : EndCodeSnippet
+  // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
@@ -269,8 +270,12 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  We now pass the parameter of the current transform as the initial
-  //  parameters to be used when the registration process starts.
+  //  Now the initialized transform object will be set to the registration method,
+  //  and its initial parameters are used to initialize the registration process.
+  //
+  //  Also, by calling the \code{InPlaceOn()} method, this initialized
+  //  transform will be the output transform
+  //  object or ``grafted'' to the output of the registration process.
   //
   //  Software Guide : EndLatex
 
@@ -310,12 +315,12 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginLatex
   //
-  //  We set also the normal parameters of the optimization method. In this
-  //  case we are using A
-  //  \doxygen{RegularStepGradientDescentOptimizer}. Below, we define the
-  //  optimization parameters like initial step length, minimal step length
-  //  and number of iterations. These last two act as stopping criteria for
-  //  the optimization.
+  //  We also set the ordinary parameters of the optimization method. In this
+  //  case we are using a
+  //  \doxygen{RegularStepGradientDescentOptimizer}. Below we define the
+  //  optimization parameters, i.e. initial learning rate (step length), minimal
+  //  step length and number of iterations. The last two act as stopping criteria
+  //  for the optimization.
   //
   //  Software Guide : EndLatex
 
