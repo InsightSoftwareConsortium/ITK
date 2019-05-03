@@ -203,7 +203,7 @@ public:
   using OutputPixelType = HistogramToEntropyImageFilterType::OutputPixelType;
 
   HistogramWriter():
-    m_Metric(0)
+    m_Metric(nullptr)
     {
 
     // Software Guide : BeginLatex

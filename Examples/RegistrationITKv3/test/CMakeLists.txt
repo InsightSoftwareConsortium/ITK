@@ -408,6 +408,7 @@ itk_add_test(NAME  ITKv3BSplineWarping1Test COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/BSplineWarping1TestTransform.txt
 )
 
+if (ITKFEMRegistration_ENABLED)
 itk_add_test(NAME  ITKv3DeformableRegistration12Test1 COMMAND ${ITK_TEST_DRIVER}
   --compare DATA{Baseline/DeformableRegistration12Test.png}
             ${TEMP}/DeformableRegistration12Test1.png
@@ -469,7 +470,7 @@ itk_add_test(NAME  ITKv3DeformableRegistration12Test4 COMMAND ${ITK_TEST_DRIVER}
         1 1
         ${TEMP}/DeformableRegistration12Test4FinalTransformParameters.txt
 )
-
+endif()
 itk_add_test(NAME  ITKv3DeformableRegistration13Test1 COMMAND ${ITK_TEST_DRIVER}
   --compare DATA{Baseline/DeformableRegistration13Test.png}
             ${TEMP}/DeformableRegistration13Test1.png
@@ -927,7 +928,9 @@ itk_add_test(NAME LandmarkWarping2Test COMMAND ${ITK_TEST_DRIVER}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20.png
         ${TEMP}/LandmarkWarping2Test.png
-)
+        )
+
+if(TEST_DISABLED)
 itk_add_test(NAME ITKv3ImageRegistration12Test COMMAND ${ITK_TEST_DRIVER}
   --compare DATA{${BASELINE}/ImageRegistration12TestPixelCentered.png}
             ${TEMP}/ImageRegistration12TestPixelCentered.png
@@ -938,6 +941,7 @@ itk_add_test(NAME ITKv3ImageRegistration12Test COMMAND ${ITK_TEST_DRIVER}
         ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySliceBorder20Mask.png
         ${TEMP}/ImageRegistration12TestPixelCentered.png
 )
+endif()
 
 itk_add_test(NAME ITKv3ModelToImageRegistration2Test COMMAND ${ITK_TEST_DRIVER}
   $<TARGET_FILE:ITKv3ModelToImageRegistration2>

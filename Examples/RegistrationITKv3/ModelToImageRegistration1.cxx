@@ -284,7 +284,7 @@ public:
         {
         this->m_FixedImage->TransformIndexToPhysicalPoint( it.GetIndex(), point );
 
-        if(this->m_MovingSpatialObject->IsInside(point,99999))
+        if(this->m_MovingSpatialObject->IsInsideInWorldSpace(point,99999))
           {
           m_PointList.push_back( point );
           }
@@ -429,9 +429,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  ellipse1->SetRadius(  10.0  );
-  ellipse2->SetRadius(  10.0  );
-  ellipse3->SetRadius(  10.0  );
+  ellipse1->SetRadiusInObjectSpace(  10.0  );
+  ellipse2->SetRadiusInObjectSpace(  10.0  );
+  ellipse3->SetRadiusInObjectSpace(  10.0  );
   //  Software Guide : EndCodeSnippet
 
 
@@ -496,9 +496,9 @@ int main( int argc, char *argv[] )
 
   //  Software Guide : BeginCodeSnippet
   GroupType::Pointer group = GroupType::New();
-  group->AddSpatialObject( ellipse1 );
-  group->AddSpatialObject( ellipse2 );
-  group->AddSpatialObject( ellipse3 );
+  group->AddChild( ellipse1 );
+  group->AddChild( ellipse2 );
+  group->AddChild( ellipse3 );
   //  Software Guide : EndCodeSnippet
 
 

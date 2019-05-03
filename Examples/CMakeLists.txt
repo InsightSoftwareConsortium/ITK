@@ -17,6 +17,4 @@ add_subdirectory(SpatialObjects)
 add_subdirectory(Statistics)
 add_subdirectory(RegistrationITKv4)
 
-if(ITKV3_COMPATIBILITY)
-  add_subdirectory(RegistrationITKv3)
-endif()
+add_subdirectory(RegistrationITKv3)
