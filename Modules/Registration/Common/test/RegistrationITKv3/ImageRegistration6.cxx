@@ -16,16 +16,13 @@
  *
  *=========================================================================*/
 
-//  Software Guide : BeginCommandLineArgs
 //    INPUTS:  {BrainProtonDensitySliceBorder20.png}
 //    INPUTS:  {BrainProtonDensitySliceR10X13Y17.png}
 //    OUTPUTS: {ImageRegistration6Output.png}
 //    OUTPUTS: {ImageRegistration6DifferenceBefore.png}
 //    OUTPUTS: {ImageRegistration6DifferenceAfter.png}
-//  Software Guide : EndCommandLineArgs
 
 
-// Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{CenteredRigid2DTransform}
 // for performing registration. The example code is for the most part
@@ -65,25 +62,20 @@
 // \index{itk::ImageMomentsCalculator}
 //
 //
-// Software Guide : EndLatex
 
 #include "itkImageRegistrationMethod.h"
 #include "itkMeanSquaresImageToImageMetric.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
 
 
-//  Software Guide : BeginLatex
 //
 //  The following are the most relevant headers in this example.
 //
 //  \index{itk::CenteredRigid2DTransform!header}
 //
-//  Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
 #include "itkCenteredRigid2DTransform.h"
 #include "itkCenteredTransformInitializer.h"
-// Software Guide : EndCodeSnippet
 
 
 #include "itkImageFileReader.h"
@@ -154,7 +146,6 @@ int main( int argc, char *argv[] )
   using MovingImageType = itk::Image< PixelType, Dimension >;
 
 
-  //  Software Guide : BeginLatex
   //
   //  The transform type is instantiated using the code below. The only
   //  template parameter of this class is the representation type of the
@@ -162,11 +153,8 @@ int main( int argc, char *argv[] )
   //
   //  \index{itk::CenteredRigid2DTransform!Instantiation}
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   using TransformType = itk::CenteredRigid2DTransform< double >;
-  // Software Guide : EndCodeSnippet
 
 
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
@@ -191,7 +179,6 @@ int main( int argc, char *argv[] )
   registration->SetInterpolator(  interpolator  );
 
 
-  //  Software Guide : BeginLatex
   //
   //  Like the previous section, a direct initialization method is used here.
   //  The transform object is constructed below. This transform will
@@ -202,12 +189,9 @@ int main( int argc, char *argv[] )
   //  \index{itk::CenteredRigid2DTransform!Pointer}
   //  \index{itk::RegistrationMethod!SetTransform()}
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   TransformType::Pointer  transform = TransformType::New();
   registration->SetTransform( transform );
-  // Software Guide : EndCodeSnippet
 
   using FixedImageReaderType = itk::ImageFileReader< FixedImageType  >;
   using MovingImageReaderType = itk::ImageFileReader< MovingImageType >;
@@ -226,7 +210,6 @@ int main( int argc, char *argv[] )
      fixedImageReader->GetOutput()->GetBufferedRegion() );
 
 
-  //  Software Guide : BeginLatex
   //
   //  The input images are taken from readers. It is not necessary to
   //  explicitly call \code{Update()} on the readers since the
@@ -241,9 +224,7 @@ int main( int argc, char *argv[] )
   // \index{itk::CenteredRigid2DTransform!New()}
   // \index{itk::CenteredRigid2DTransform!SmartPointer}
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   using TransformInitializerType = itk::CenteredTransformInitializer<
     TransformType,
     FixedImageType,
@@ -251,23 +232,17 @@ int main( int argc, char *argv[] )
 
   TransformInitializerType::Pointer initializer =
     TransformInitializerType::New();
-  // Software Guide : EndCodeSnippet
 
-  //  Software Guide : BeginLatex
   //
   //  The initializer is now connected to the transform and to the fixed and
   //  moving images.
   //
-  //  Software Guide : EndLatex
 
 
-  // Software Guide : BeginCodeSnippet
   initializer->SetTransform(   transform );
   initializer->SetFixedImage(  fixedImageReader->GetOutput() );
   initializer->SetMovingImage( movingImageReader->GetOutput() );
-  // Software Guide : EndCodeSnippet
 
-  //  Software Guide : BeginLatex
   //
   //  The use of the geometrical centers is selected by calling
   //  \code{GeometryOn()} while the use of center of mass is selected by
@@ -276,48 +251,33 @@ int main( int argc, char *argv[] )
   //  \index{CenteredTransformInitializer!MomentsOn()}
   //  \index{CenteredTransformInitializer!GeometryOn()}
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   initializer->MomentsOn();
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   //  Finally, the computation of the center and translation is triggered by
   //  the \code{InitializeTransform()} method. The resulting values will be
   //  passed directly to the transform.
   //
-  //  Software Guide : EndLatex
 
 
-  // Software Guide : BeginCodeSnippet
   initializer->InitializeTransform();
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   //  The remaining parameters of the transform are initialized as before.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   transform->SetAngle( 0.0 );
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   //  Now the initialized transform object will be set to the registration method,
   //  and the starting point of the registration is defined by its initial parameters.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   registration->SetInitialTransformParameters( transform->GetParameters() );
-  // Software Guide : EndCodeSnippet
 
 
   using OptimizerScalesType = OptimizerType::ScalesType;
@@ -384,7 +344,6 @@ int main( int argc, char *argv[] )
   std::cout << " Metric value  = " << bestValue          << std::endl;
 
 
-  //  Software Guide : BeginLatex
   //
   //  Let's execute this example over some of the images provided in
   //  \code{Examples/Data}, for example:
@@ -423,9 +382,7 @@ int main( int argc, char *argv[] )
   //  this case to take a look at the actual rotation matrix and offset
   //  resulting form the five parameters.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   transform->SetParameters( finalParameters );
 
   TransformType::MatrixType matrix = transform->GetMatrix();
@@ -433,9 +390,7 @@ int main( int argc, char *argv[] )
 
   std::cout << "Matrix = " << std::endl << matrix << std::endl;
   std::cout << "Offset = " << std::endl << offset << std::endl;
-  // Software Guide : EndCodeSnippet
 
-  //  Software Guide : BeginLatex
   //
   //  Which produces the following output.
   //
@@ -487,10 +442,8 @@ int main( int argc, char *argv[] )
   // \label{fig:TranslationAndRotationCenter}
   // \end{figure}
   //
-  //  Software Guide : EndLatex
 
 
-  //  Software Guide : BeginLatex
   //
   //  You may be wondering why the actual movement is represented by three
   //  parameters when we take the trouble of using five. In particular, why
@@ -500,10 +453,8 @@ int main( int argc, char *argv[] )
   //  offset. Using the minimum three parameters it is not obvious how to
   //  determine what the initial rotation and translations should be.
   //
-  //  Software Guide : EndLatex
 
 
-  //  Software Guide : BeginLatex
   //
   // \begin{figure}
   // \center
@@ -552,7 +503,6 @@ int main( int argc, char *argv[] )
   //  the observer to print the total offset instead of printing the array of
   //  parameters. Let's call that an exercise for the reader!
   //
-  //  Software Guide : EndLatex
 
 
   using ResampleFilterType = itk::ResampleImageFilter<

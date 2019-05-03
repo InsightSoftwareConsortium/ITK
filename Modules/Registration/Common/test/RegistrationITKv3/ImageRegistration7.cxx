@@ -16,16 +16,13 @@
  *
  *=========================================================================*/
 
-//  Software Guide : BeginCommandLineArgs
 //    INPUTS:  {BrainProtonDensitySliceBorder20.png}
 //    INPUTS:  {BrainProtonDensitySliceR10X13Y17S12.png}
 //    OUTPUTS: {ImageRegistration7Output.png}
 //    OUTPUTS: {ImageRegistration7DifferenceBefore.png}
 //    OUTPUTS: {ImageRegistration7DifferenceAfter.png}
 //    ARGUMENTS:    1.0   1.0   0.0
-//  Software Guide : EndCommandLineArgs
 
-// Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{CenteredSimilarity2DTransform}
 // class for performing registration in $2D$. The example code is for
@@ -50,7 +47,6 @@
 //
 // \index{itk::CenteredSimilarity2DTransform}
 //
-// Software Guide : EndLatex
 
 #include "itkImageRegistrationMethod.h"
 #include "itkMeanSquaresImageToImageMetric.h"
@@ -60,18 +56,14 @@
 #include "itkCenteredTransformInitializer.h"
 
 
-//  Software Guide : BeginLatex
 //
 //  In addition to the headers included in previous examples, here the
 //  following header must be included.
 //
 //  \index{itk::CenteredSimilarity2DTransform!header}
 //
-//  Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
 #include "itkCenteredSimilarity2DTransform.h"
-// Software Guide : EndCodeSnippet
 
 
 #include "itkImageFileReader.h"
@@ -145,7 +137,6 @@ int main( int argc, char *argv[] )
   using MovingImageType = itk::Image< PixelType, Dimension >;
 
 
-  //  Software Guide : BeginLatex
   //
   //  The Transform class is instantiated using the code below. The only
   //  template parameter of this class is the representation type of the
@@ -153,11 +144,8 @@ int main( int argc, char *argv[] )
   //
   //  \index{itk::CenteredSimilarity2DTransform!Instantiation}
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   using TransformType = itk::CenteredSimilarity2DTransform< double >;
-  // Software Guide : EndCodeSnippet
 
 
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
@@ -178,7 +166,6 @@ int main( int argc, char *argv[] )
   registration->SetInterpolator(  interpolator  );
 
 
-  //  Software Guide : BeginLatex
   //
   //  The transform object is constructed below and passed to the registration
   //  method.
@@ -187,12 +174,9 @@ int main( int argc, char *argv[] )
   //  \index{itk::CenteredSimilarity2DTransform!Pointer}
   //  \index{itk::RegistrationMethod!SetTransform()}
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   TransformType::Pointer  transform = TransformType::New();
   registration->SetTransform( transform );
-  // Software Guide : EndCodeSnippet
 
 
   using FixedImageReaderType = itk::ImageFileReader< FixedImageType  >;
@@ -213,16 +197,13 @@ int main( int argc, char *argv[] )
      fixedImageReader->GetOutput()->GetBufferedRegion() );
 
 
-  //  Software Guide : BeginLatex
   //
   //  In this example, we again use the helper class
   //  \doxygen{CenteredTransformInitializer} to compute a reasonable
   //  value for the initial center of rotation and the translation.
   //
-  //  Software Guide : EndLatex
 
 
-  // Software Guide : BeginCodeSnippet
   using TransformInitializerType = itk::CenteredTransformInitializer<
     TransformType,
     FixedImageType,
@@ -239,17 +220,14 @@ int main( int argc, char *argv[] )
   initializer->MomentsOn();
 
   initializer->InitializeTransform();
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   //  The remaining parameters of the transform are initialized below.
   //
   //  \index{itk::CenteredSimilarity2DTransform!SetScale()}
   //  \index{itk::CenteredSimilarity2DTransform!SetAngle()}
   //
-  //  Software Guide : EndLatex
 
   double initialScale = 1.0;
 
@@ -265,12 +243,9 @@ int main( int argc, char *argv[] )
     initialAngle =  std::stod( argv[8] );
     }
 
-  // Software Guide : BeginCodeSnippet
   transform->SetScale( initialScale );
   transform->SetAngle( initialAngle );
-  // Software Guide : EndCodeSnippet
 
-  //  Software Guide : BeginLatex
   //
   //  Now the initialized transform object will be set to the registration method,
   //  and its initial parameters are used to initialize the registration process.
@@ -279,14 +254,10 @@ int main( int argc, char *argv[] )
   //  transform will be the output transform
   //  object or ``grafted'' to the output of the registration process.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   registration->SetInitialTransformParameters( transform->GetParameters() );
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   //  Keeping in mind that the scale of units in scaling, rotation and
   //  translation are quite different, we take advantage of the scaling
@@ -297,9 +268,7 @@ int main( int argc, char *argv[] )
   //  factors in the scales associated with translations and the rotation
   //  center.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   using OptimizerScalesType = OptimizerType::ScalesType;
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
   const double translationScale = 1.0 / 100.0;
@@ -312,10 +281,8 @@ int main( int argc, char *argv[] )
   optimizerScales[5] =  translationScale;
 
   optimizer->SetScales( optimizerScales );
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   //  We also set the ordinary parameters of the optimization method. In this
   //  case we are using a
@@ -324,7 +291,6 @@ int main( int argc, char *argv[] )
   //  step length and number of iterations. The last two act as stopping criteria
   //  for the optimization.
   //
-  //  Software Guide : EndLatex
 
   double steplength = 1.0;
 
@@ -333,11 +299,9 @@ int main( int argc, char *argv[] )
     steplength = std::stod( argv[6] );
     }
 
-  // Software Guide : BeginCodeSnippet
   optimizer->SetMaximumStepLength( steplength );
   optimizer->SetMinimumStepLength( 0.0001 );
   optimizer->SetNumberOfIterations( 500 );
-  // Software Guide : EndCodeSnippet
 
 
   // Create the Command observer and register it with the optimizer.
@@ -393,7 +357,6 @@ int main( int argc, char *argv[] )
   std::cout << " Metric value  = " << bestValue          << std::endl;
 
 
-  //  Software Guide : BeginLatex
   //
   //  Let's execute this example over some of the images provided in
   //  \code{Examples/Data}, for example:
@@ -474,7 +437,6 @@ int main( int argc, char *argv[] )
   //  left while the translation components of the registration are presented
   //  in the plot at right.
   //
-  //  Software Guide : EndLatex
 
 
   using ResampleFilterType = itk::ResampleImageFilter< MovingImageType,

@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-// Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{BSplineTransform}
 // class in a manually controlled multi-resolution scheme. Here we define two
@@ -33,24 +32,19 @@
 // \index{itk::LBFGSOptimizer}
 //
 //
-// Software Guide : EndLatex
 
 #include "itkImageRegistrationMethod.h"
 #include "itkMeanSquaresImageToImageMetric.h"
 
-//  Software Guide : BeginLatex
 //
 //  We include the header files for the transform, optimizer and adaptor.
 //
 //  \index{itk::BSplineTransform!header}
 //  \index{itk::LBFGSOptimizer!header}
 //
-//  Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
 #include "itkBSplineTransform.h"
 #include "itkLBFGSOptimizer.h"
-// Software Guide : EndCodeSnippet
 
 
 #include "itkImageFileReader.h"
@@ -88,7 +82,6 @@ int main( int argc, char *argv[] )
   using MovingImageType = itk::Image< PixelType, ImageDimension >;
 
 
-  //  Software Guide : BeginLatex
   //
   //  We instantiate the type of the \code{BSplineTransform} using
   //  as template parameters the type for coordinates representation, the
@@ -97,9 +90,7 @@ int main( int argc, char *argv[] )
   //  \index{BSplineTransform!New}
   //  \index{BSplineTransform!Instantiation}
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   const unsigned int SpaceDimension = ImageDimension;
   constexpr unsigned int SplineOrder = 3;
   using CoordinateRepType = double;
@@ -108,7 +99,6 @@ int main( int argc, char *argv[] )
                             CoordinateRepType,
                             SpaceDimension,
                             SplineOrder >;
-  // Software Guide : EndCodeSnippet
 
 
   using OptimizerType = itk::LBFGSOptimizer;
@@ -137,7 +127,6 @@ int main( int argc, char *argv[] )
   registration->SetInterpolator(  interpolator  );
 
 
-  //  Software Guide : BeginLatex
   //
   //  We construct two transform objects, each one will be configured for a resolution level.
   //  Notice than in this multi-resolution scheme we are not modifying the
@@ -146,12 +135,9 @@ int main( int argc, char *argv[] )
   //
   //  \index{itk::RegistrationMethod!SetTransform()}
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   TransformType::Pointer  transformLow = TransformType::New();
   registration->SetTransform( transformLow );
-  // Software Guide : EndCodeSnippet
 
   using FixedImageReaderType = itk::ImageFileReader< FixedImageType  >;
   using MovingImageReaderType = itk::ImageFileReader< MovingImageType >;
@@ -205,16 +191,12 @@ int main( int argc, char *argv[] )
   parametersLow.Fill( 0.0 );
 
   transformLow->SetParameters( parametersLow );
-  //  Software Guide : EndCodeSnippet
 
-  //  Software Guide : BeginLatex
   //
   //  We now pass the parameters of the current transform as the initial
   //  parameters to be used when the registration process starts.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   registration->SetInitialTransformParameters( transformLow->GetParameters() );
 
 
@@ -239,16 +221,13 @@ int main( int argc, char *argv[] )
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
     }
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   //  Once the registration has finished with the low resolution grid, we
   //  proceed to instantiate a higher resolution
   //  \code{BSplineTransform}.
   //
-  //  Software Guide : EndLatex
 
   TransformType::Pointer  transformHigh = TransformType::New();
 
@@ -272,7 +251,6 @@ int main( int argc, char *argv[] )
   ParametersType parametersHigh( transformHigh->GetNumberOfParameters() );
   parametersHigh.Fill( 0.0 );
 
-  //  Software Guide : BeginLatex
   //
   //  Now we need to initialize the BSpline coefficients of the higher resolution
   //  transform. This is done by first computing the actual deformation field
@@ -280,7 +258,6 @@ int main( int argc, char *argv[] )
   //  Then a BSpline decomposition is done to obtain the BSpline coefficient of
   //  the higher resolution transform.
   //
-  //  Software Guide : EndLatex
 
   unsigned int counter = 0;
 
@@ -331,24 +308,19 @@ int main( int argc, char *argv[] )
 
   transformHigh->SetParameters( parametersHigh );
 
-  //  Software Guide : BeginLatex
   //
   //  We now pass the parameters of the high resolution transform as the initial
   //  parameters to be used in a second stage of the registration process.
   //
-  //  Software Guide : EndLatex
 
   std::cout << "Starting Registration with high resolution transform" << std::endl;
 
-  // Software Guide : BeginCodeSnippet
   registration->SetInitialTransformParameters(transformHigh->GetParameters());
   registration->SetTransform( transformHigh );
-  //  Software Guide : BeginLatex
   //
   //  Typically, we will also want to tighten the optimizer parameters
   //  when we move from lower to higher resolution grid.
   //
-  //  Software Guide : EndLatex
   optimizer->SetGradientConvergenceTolerance( 0.01 );
   optimizer->SetDefaultStepLength( 0.25 );
   try
@@ -361,7 +333,6 @@ int main( int argc, char *argv[] )
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
     }
-  // Software Guide : EndCodeSnippet
 
   // Finally we use the last transform parameters in order to resample the image.
   //

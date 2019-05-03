@@ -16,12 +16,10 @@
  *
  *=========================================================================*/
 
-// Software Guide : BeginLatex
 //
 //  This example illustrates how to do registration with a 2D Rigid Transform
 //  and with MutualInformation metric.
 //
-// Software Guide : EndLatex
 
 
 #include "itkImageRegistrationMethod.h"
@@ -29,9 +27,7 @@
 #include "itkCenteredRigid2DTransform.h"
 #include "itkCenteredTransformInitializer.h"
 
-// Software Guide : BeginCodeSnippet
 #include "itkMattesMutualInformationImageToImageMetric.h"
-// Software Guide : EndCodeSnippet
 
 #include "itkRegularStepGradientDescentOptimizer.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
@@ -103,13 +99,9 @@ int main( int argc, char *argv[] )
   using FixedImageType = itk::Image< PixelType, Dimension >;
   using MovingImageType = itk::Image< PixelType, Dimension >;
 
-  // Software Guide : BeginLatex
   // The CenteredRigid2DTransform applies a rigid transform in 2D space.
-  // Software Guide : EndLatex
-  // Software Guide : BeginCodeSnippet
   using TransformType = itk::CenteredRigid2DTransform< double >;
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
-  // Software Guide : EndCodeSnippet
 
   using InterpolatorType = itk::LinearInterpolateImageFunction<
                                     MovingImageType,
@@ -119,16 +111,12 @@ int main( int argc, char *argv[] )
                                     MovingImageType    >;
 
 
-  // Software Guide : BeginCodeSnippet
   using MetricType = itk::MattesMutualInformationImageToImageMetric<
                                           FixedImageType,
                                           MovingImageType >;
-  // Software Guide : EndCodeSnippet
 
-  // Software Guide : BeginCodeSnippet
   TransformType::Pointer      transform     = TransformType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
-  // Software Guide : EndCodeSnippet
   InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
   RegistrationType::Pointer   registration  = RegistrationType::New();
 
@@ -185,7 +173,6 @@ int main( int argc, char *argv[] )
   registration->SetFixedImageRegion(
        fixedImageReader->GetOutput()->GetBufferedRegion() );
 
-  // Software Guide : BeginLatex
   // The \doxygen{CenteredRigid2DTransform} is initialized by 5 parameters,
   // indicating the angle of rotation, the center coordinates and the
   // translation to be applied after rotation. The initialization is done
@@ -200,8 +187,6 @@ int main( int argc, char *argv[] )
   // mass is computed from the moments obtained from the gray level values.
   // Here we adopt the first approach. The \code{GeometryOn()} method
   // toggles between the approaches.
-  // Software Guide : EndLatex
-  // Software Guide : BeginCodeSnippet
   using TransformInitializerType = itk::CenteredTransformInitializer<
             TransformType, FixedImageType,
             MovingImageType >;
@@ -213,21 +198,17 @@ int main( int argc, char *argv[] )
   initializer->SetMovingImage( movingImageReader->GetOutput() );
   initializer->GeometryOn();
   initializer->InitializeTransform();
-  // Software Guide : EndCodeSnippet
 
   transform->SetAngle( 0.0 );
 
 
   registration->SetInitialTransformParameters( transform->GetParameters() );
 
-  // Software Guide : BeginLatex
   // The optimizer scales the metrics (the gradient in this case) by the
   // scales during each iteration. Hence a large value of the center scale
   // will prevent movement along the center during optimization. Here we
   // assume that the fixed and moving images are likely to be related by
   // a translation.
-  // Software Guide : EndLatex
-  // Software Guide : BeginCodeSnippet
   using OptimizerScalesType = OptimizerType::ScalesType;
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
 
@@ -245,7 +226,6 @@ int main( int argc, char *argv[] )
   optimizer->SetMaximumStepLength( 0.5   );
   optimizer->SetMinimumStepLength( 0.0001 );
   optimizer->SetNumberOfIterations( 400 );
-  // Software Guide : EndCodeSnippet
 
   // Create the Command observer and register it with the optimizer.
   //
@@ -334,7 +314,6 @@ int main( int argc, char *argv[] )
   return EXIT_SUCCESS;
 }
 
-//  Software Guide : BeginLatex
 //
 //  Let's execute this example over some of the images provided in
 //  \code{Examples/Data}, for example:
@@ -355,4 +334,3 @@ int main( int argc, char *argv[] )
 //  Translation Y = 20
 //  \end{verbatim}
 //  These values match the true misalignment introduced in the moving image.
-//  Software Guide : EndLatex

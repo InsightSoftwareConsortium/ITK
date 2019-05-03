@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-// Software Guide : BeginLatex
 //
 // This example illustrates the use of \code{SpatialObject}s as masks for selecting the
 // pixels that should contribute to the computation of Image Metrics. This
@@ -24,7 +23,6 @@
 // the \code{SpatialObject} masks are created and passed to the image metric.
 //
 //
-// Software Guide : EndLatex
 
 #include "itkImageRegistrationMethod.h"
 #include "itkMeanSquaresImageToImageMetric.h"
@@ -40,18 +38,14 @@
 #include "itkCastImageFilter.h"
 #include "itkSquaredDifferenceImageFilter.h"
 
-//  Software Guide : BeginLatex
 //
 //  The most important header in this example is the one corresponding to the
 //  \doxygen{ImageMaskSpatialObject} class.
 //
 //  \index{itk::ImageMaskSpatialObject!header}
 //
-//  Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
 #include "itkImageMaskSpatialObject.h"
-// Software Guide : EndCodeSnippet
 
 //
 //  The following section of code implements a command observer
@@ -190,20 +184,15 @@ int main( int argc, char *argv[] )
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
 
-  //  Software Guide : BeginLatex
   //
   //  Here we instantiate the type of the \doxygen{ImageMaskSpatialObject}
   //  using the same dimension of the images to be registered.
   //
   //  \index{itk::ImageMaskSpatialObject!Instantiation}
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   using MaskType = itk::ImageMaskSpatialObject< Dimension >;
-  // Software Guide : EndCodeSnippet
 
-  //  Software Guide : BeginLatex
   //
   //  Then we use the type for creating the spatial object mask that will
   //  restrict the registration to a reduced region of the image.
@@ -211,39 +200,27 @@ int main( int argc, char *argv[] )
   //  \index{itk::ImageMaskSpatialObject!New}
   //  \index{itk::ImageMaskSpatialObject!Pointer}
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   MaskType::Pointer  spatialObjectMask = MaskType::New();
-  // Software Guide : EndCodeSnippet
 
-  //  Software Guide : BeginLatex
   //
   //  The mask in this case is read from a binary file using the
   //  \code{ImageFileReader} instantiated for an \code{unsigned char} pixel
   //  type.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   using ImageMaskType = itk::Image< unsigned char, Dimension >;
 
   using MaskReaderType = itk::ImageFileReader< ImageMaskType >;
-  // Software Guide : EndCodeSnippet
 
-  //  Software Guide : BeginLatex
   //
   //  The reader is constructed and a filename is passed to it.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   MaskReaderType::Pointer  maskReader = MaskReaderType::New();
 
   maskReader->SetFileName( argv[3] );
-  // Software Guide : EndCodeSnippet
 
-  //  Software Guide : BeginLatex
   //
   //  As usual, the reader is triggered by invoking its \code{Update()} method.
   //  Since this may eventually throw an exception, the call must be placed in
@@ -251,9 +228,7 @@ int main( int argc, char *argv[] )
   //  this \code{try/catch} block at a much higher level, probably under the
   //  control of the GUI.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   try
     {
     maskReader->Update();
@@ -264,32 +239,23 @@ int main( int argc, char *argv[] )
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
     }
-  // Software Guide : EndCodeSnippet
 
-  //  Software Guide : BeginLatex
   //
   //  The output of the mask reader is connected as input to the
   //  \code{ImageMaskSpatialObject}.
   //
   //  \index{itk::ImageMaskSpatialObject!SetImage()}
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   spatialObjectMask->SetImage( maskReader->GetOutput() );
-  // Software Guide : EndCodeSnippet
 
-  //  Software Guide : BeginLatex
   //
   //  Finally, the spatial object mask is passed to the image metric.
   //
   //  \index{itk::ImageToImageMetric!SetFixedImage()}
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   metric->SetFixedImageMask( spatialObjectMask );
-  // Software Guide : EndCodeSnippet
 
   try
     {
@@ -331,7 +297,6 @@ int main( int argc, char *argv[] )
   std::cout << " Iterations    = " << numberOfIterations << std::endl;
   std::cout << " Metric value  = " << bestValue          << std::endl;
 
-  //  Software Guide : BeginLatex
   //
   //  Let's execute this example over some of the images provided in
   //  \code{Examples/Data}, for example:
@@ -346,9 +311,7 @@ int main( int argc, char *argv[] )
   //  $Y$. Both images have unit-spacing and are shown in Figure
   //  \ref{fig:FixedMovingImageRegistration5}.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   transform->SetParameters( finalParameters );
 
   TransformType::MatrixType matrix = transform->GetMatrix();
@@ -356,14 +319,11 @@ int main( int argc, char *argv[] )
 
   std::cout << "Matrix = " << std::endl << matrix << std::endl;
   std::cout << "Offset = " << std::endl << offset << std::endl;
-  // Software Guide : EndCodeSnippet
 
-  //  Software Guide : BeginLatex
   //
   //  Now we resample the moving image using the transform resulting from the
   //  registration process.
   //
-  //  Software Guide : EndLatex
 
   using ResampleFilterType = itk::ResampleImageFilter<
                             MovingImageType,

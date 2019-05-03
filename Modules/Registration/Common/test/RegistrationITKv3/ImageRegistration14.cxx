@@ -16,15 +16,12 @@
  *
  *=========================================================================*/
 
-// Software Guide : BeginLatex
 //
 //  This example illustrates how to do registration with a 2D Rigid Transform
 //  and with the Normalized Mutual Information metric.
 //
-// Software Guide : EndLatex
 
 
-// Software Guide : BeginCodeSnippet
 #include "itkImageRegistrationMethod.h"
 
 #include "itkCenteredRigid2DTransform.h"
@@ -317,6 +314,5 @@ int main( int argc, char *argv[] )
   writer->SetFileName( argv[3] );
   writer->SetInput( resample->GetOutput() );
   writer->Update();
-  // Software Guide : EndCodeSnippet
   return EXIT_SUCCESS;
 }
