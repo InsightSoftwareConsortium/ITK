@@ -67,7 +67,7 @@ class METAIO_EXPORT MetaLandmark : public MetaObject
   ////
   public:
 
-   typedef METAIO_STL::list<LandmarkPnt*> PointListType;
+   typedef std::list<LandmarkPnt*> PointListType;
     ////
     //
     // Constructors & Destructor

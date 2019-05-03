@@ -66,7 +66,7 @@ class METAIO_EXPORT MetaLine : public MetaObject
   ////
   public:
 
-   typedef METAIO_STL::list<LinePnt*> PointListType;
+   typedef std::list<LinePnt*> PointListType;
     ////
     //
     // Constructors & Destructor

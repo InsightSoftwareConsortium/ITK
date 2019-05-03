@@ -138,13 +138,13 @@ class METAIO_EXPORT MetaForm
 
     bool  Read(const char * _fileName=NULL);
 
-    bool  CanReadStream(METAIO_STREAM::ifstream * _stream) const;
+    bool  CanReadStream(std::ifstream * _stream) const;
 
-    bool  ReadStream(METAIO_STREAM::ifstream * _stream);
+    bool  ReadStream(std::ifstream * _stream);
 
     bool  Write(const char * _fileName=NULL);
 
-    bool  WriteStream(METAIO_STREAM::ofstream * _stream);
+    bool  WriteStream(std::ofstream * _stream);
 
   ////
   //
@@ -153,10 +153,10 @@ class METAIO_EXPORT MetaForm
   ////
   protected:
 
-    typedef METAIO_STL::vector<MET_FieldRecordType *> FieldsContainerType;
+    typedef std::vector<MET_FieldRecordType *> FieldsContainerType;
 
-    METAIO_STREAM::ifstream *  m_ReadStream;
-    METAIO_STREAM::ofstream *  m_WriteStream;
+    std::ifstream *  m_ReadStream;
+    std::ofstream *  m_WriteStream;
 
     char  m_FileName[255];
 

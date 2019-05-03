@@ -75,7 +75,7 @@ class METAIO_EXPORT MetaVesselTube : public MetaObject
   ////
   public:
 
-   typedef METAIO_STL::list<VesselTubePnt*> PointListType;
+   typedef std::list<VesselTubePnt*> PointListType;
     ////
     //
     // Constructors & Destructor

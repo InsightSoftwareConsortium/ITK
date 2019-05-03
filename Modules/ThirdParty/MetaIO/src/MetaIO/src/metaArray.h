@@ -151,9 +151,9 @@ class METAIO_EXPORT MetaArray : public MetaForm
                       void * _elementDataBuffer=NULL,
                       bool _autoFreeElementData=false);
 
-    virtual bool CanReadStream(METAIO_STREAM::ifstream * _stream) const;
+    virtual bool CanReadStream(std::ifstream * _stream) const;
 
-    virtual bool ReadStream(METAIO_STREAM::ifstream * _stream,
+    virtual bool ReadStream(std::ifstream * _stream,
                             bool _readElements=true,
                             void * _elementDataBuffer=NULL,
                             bool _autoFreeElementData=false);
@@ -163,7 +163,7 @@ class METAIO_EXPORT MetaArray : public MetaForm
                        bool _writeElements=true,
                        const void * _constElementData=NULL);
 
-    virtual bool WriteStream(METAIO_STREAM::ofstream * _stream,
+    virtual bool WriteStream(std::ofstream * _stream,
                              bool _writeElements=true,
                              const void * _constElementData=NULL);
 
@@ -182,7 +182,7 @@ class METAIO_EXPORT MetaArray : public MetaForm
 
     bool               m_AutoFreeElementData;
 
-    METAIO_STL::streamoff m_CompressedElementDataSize;
+    std::streamoff m_CompressedElementDataSize;
 
     char               m_ElementDataFileName[255];
 
@@ -196,13 +196,13 @@ class METAIO_EXPORT MetaArray : public MetaForm
 
     bool  M_Read(void) override;
 
-    bool  M_ReadElements(METAIO_STREAM::ifstream * _fstream,
+    bool  M_ReadElements(std::ifstream * _fstream,
                          void * _data,
                          int _dataQuantity);
 
-    bool  M_WriteElements(METAIO_STREAM::ofstream * _fstream,
+    bool  M_WriteElements(std::ofstream * _fstream,
                           const void * _data,
-                          METAIO_STL::streamoff _dataQuantity);
+                          std::streamoff _dataQuantity);
 
     };
 

@@ -35,10 +35,10 @@ class METAIO_EXPORT MetaObject
   ////
   protected:
 
-      typedef METAIO_STL::vector<MET_FieldRecordType *> FieldsContainerType;
+      typedef std::vector<MET_FieldRecordType *> FieldsContainerType;
 
-      METAIO_STREAM::ifstream * m_ReadStream;
-      METAIO_STREAM::ofstream * m_WriteStream;
+      std::ifstream * m_ReadStream;
+      std::ofstream * m_WriteStream;
 
       FieldsContainerType m_Fields;
       FieldsContainerType m_UserDefinedWriteFields;
@@ -79,7 +79,7 @@ class METAIO_EXPORT MetaObject
 
       bool  m_BinaryDataByteOrderMSB;
 
-      METAIO_STL::streamoff m_CompressedDataSize;
+      std::streamoff m_CompressedDataSize;
       // Used internally to set if the dataSize should be written
       bool m_WriteCompressedDataSize;
       bool m_CompressedData;
@@ -125,7 +125,7 @@ class METAIO_EXPORT MetaObject
 
       bool  Read(const char * _fileName=NULL);
 
-      bool  ReadStream(int _nDims, METAIO_STREAM::ifstream * _stream);
+      bool  ReadStream(int _nDims, std::ifstream * _stream);
 
       bool  Write(const char * _fileName=NULL);
 
