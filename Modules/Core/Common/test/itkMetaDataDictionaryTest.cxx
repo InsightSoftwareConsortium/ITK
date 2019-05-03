@@ -163,7 +163,6 @@ int itkMetaDataDictionaryTest(int , char * [])
     }
 
 
-
   //NOTE: Must clean up memory allocated with char * StrandedMemory=new char[2345];
   delete[] StrandedMemory;
 
