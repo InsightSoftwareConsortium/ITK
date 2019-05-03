@@ -16,26 +16,21 @@
  *
  *=========================================================================*/
 
-//  Software Guide : BeginCommandLineArgs
 //    INPUTS:  {BrainProtonDensitySliceBorder20.png}
 //    INPUTS:  {BrainProtonDensitySliceRotated10.png}
 //    OUTPUTS: {ImageRegistration5Output.png}
 //    OUTPUTS: {ImageRegistration5DifferenceAfter.png}
 //    OUTPUTS: {ImageRegistration5DifferenceBefore.png}
 //    ARGUMENTS:    0.1
-//  Software Guide : EndCommandLineArgs
 
-//  Software Guide : BeginCommandLineArgs
 //    INPUTS:  {BrainProtonDensitySliceBorder20.png}
 //    INPUTS:  {BrainProtonDensitySliceR10X13Y17.png}
 //    OUTPUTS: {ImageRegistration5Output2.png}
 //    OUTPUTS: {ImageRegistration5DifferenceAfter2.png}
 //    OUTPUTS: {ImageRegistration5DifferenceBefore2.png}
 //    ARGUMENTS:    1.0
-//  Software Guide : EndCommandLineArgs
 
 
-// Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{CenteredRigid2DTransform}
 // for performing rigid registration in $2D$. The example code is for the
@@ -46,25 +41,20 @@
 //
 // \index{itk::CenteredRigid2DTransform}
 //
-// Software Guide : EndLatex
 
 #include "itkImageRegistrationMethod.h"
 #include "itkMeanSquaresImageToImageMetric.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
 
 
-//  Software Guide : BeginLatex
 //
 //  In addition to the headers included in previous examples, the
 //  following header must also be included.
 //
 //  \index{itk::CenteredRigid2DTransform!header}
 //
-//  Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
 #include "itkCenteredRigid2DTransform.h"
-// Software Guide : EndCodeSnippet
 
 
 #include "itkImageFileReader.h"
@@ -134,7 +124,6 @@ int main( int argc, char *argv[] )
   using MovingImageType = itk::Image< PixelType, Dimension >;
 
 
-  //  Software Guide : BeginLatex
   //
   //  The transform type is instantiated using the code below. The only
   //  template parameter for this class is the representation type of the
@@ -142,11 +131,8 @@ int main( int argc, char *argv[] )
   //
   //  \index{itk::CenteredRigid2DTransform!Instantiation}
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   using TransformType = itk::CenteredRigid2DTransform< double >;
-  // Software Guide : EndCodeSnippet
 
 
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
@@ -170,7 +156,6 @@ int main( int argc, char *argv[] )
   registration->SetInterpolator(  interpolator  );
 
 
-  //  Software Guide : BeginLatex
   //
   //  The transform object is constructed below and passed to the registration
   //  method.
@@ -179,12 +164,9 @@ int main( int argc, char *argv[] )
   //  \index{itk::CenteredRigid2DTransform!Pointer}
   //  \index{itk::RegistrationMethod!SetTransform()}
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   TransformType::Pointer  transform = TransformType::New();
   registration->SetTransform( transform );
-  // Software Guide : EndCodeSnippet
 
 
   using FixedImageReaderType = itk::ImageFileReader< FixedImageType  >;
@@ -205,7 +187,6 @@ int main( int argc, char *argv[] )
      fixedImageReader->GetOutput()->GetBufferedRegion() );
 
 
-  //  Software Guide : BeginLatex
   //
   //  In this example, the input images are taken from readers. The code
   //  below updates the readers in order to ensure that the image parameters
@@ -215,26 +196,20 @@ int main( int argc, char *argv[] )
   //  and the moving image center as the initial translation to be applied
   //  after the rotation.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   fixedImageReader->Update();
   movingImageReader->Update();
-  // Software Guide : EndCodeSnippet
 
   using SpacingType = FixedImageType::SpacingType;
   using OriginType = FixedImageType::PointType;
   using RegionType = FixedImageType::RegionType;
   using SizeType = FixedImageType::SizeType;
 
-  //  Software Guide : BeginLatex
   //
   //  The center of rotation is computed using the origin, size and spacing of
   //  the fixed image.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   const SpacingType fixedSpacing = fixedImage->GetSpacing();
@@ -246,16 +221,12 @@ int main( int argc, char *argv[] )
 
   centerFixed[0] = fixedOrigin[0] + fixedSpacing[0] * fixedSize[0] / 2.0;
   centerFixed[1] = fixedOrigin[1] + fixedSpacing[1] * fixedSize[1] / 2.0;
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   //  The center of the moving image is computed in a similar way.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   MovingImageType::Pointer movingImage = movingImageReader->GetOutput();
 
   const SpacingType movingSpacing = movingImage->GetSpacing();
@@ -267,10 +238,8 @@ int main( int argc, char *argv[] )
 
   centerMoving[0] = movingOrigin[0] + movingSpacing[0] * movingSize[0] / 2.0;
   centerMoving[1] = movingOrigin[1] + movingSpacing[1] * movingSize[1] / 2.0;
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   //   Then, we initialize the transform by
   //   passing the center of the fixed image as the rotation center with the
@@ -279,38 +248,26 @@ int main( int argc, char *argv[] )
   //   image.  This last vector is passed with the method
   //   \code{SetTranslation()}.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   transform->SetCenter( centerFixed );
   transform->SetTranslation( centerMoving - centerFixed );
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   //  Let's finally initialize the rotation with a zero angle.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   transform->SetAngle( 0.0 );
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   //  Now we pass the current transform's parameters as the initial
   //  parameters to be used when the registration process starts.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   registration->SetInitialTransformParameters( transform->GetParameters() );
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   //  Keep in mind that the scale of units in rotation and translation is
   //  quite different, we take advantage of the scaling functionality provided
@@ -320,9 +277,7 @@ int main( int argc, char *argv[] )
   //  For this reason we use small factors in the scales associated with
   //  translations and the coordinates of the rotation center .
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   using OptimizerScalesType = OptimizerType::ScalesType;
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
   const double translationScale = 1.0 / 1000.0;
@@ -334,10 +289,8 @@ int main( int argc, char *argv[] )
   optimizerScales[4] = translationScale;
 
   optimizer->SetScales( optimizerScales );
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   //  Next we set the normal parameters of the optimization method. In this
   //  case we are using an \doxygen{RegularStepGradientDescentOptimizer}.
@@ -350,23 +303,18 @@ int main( int argc, char *argv[] )
   //  \index{Regular\-Step\-Gradient\-Descent\-Optimizer!SetMinimumStepLength()}
   //  \index{Regular\-Step\-Gradient\-Descent\-Optimizer!SetNumberOfIterations()}
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   double initialStepLength = 0.1;
-  // Software Guide : EndCodeSnippet
 
   if( argc > 6 )
     {
     initialStepLength = std::stod( argv[6] );
     }
 
-  // Software Guide : BeginCodeSnippet
   optimizer->SetRelaxationFactor( 0.6 );
   optimizer->SetMaximumStepLength( initialStepLength );
   optimizer->SetMinimumStepLength( 0.001 );
   optimizer->SetNumberOfIterations( 200 );
-  // Software Guide : EndCodeSnippet
 
 
   // Create the Command observer and register it with the optimizer.
@@ -417,7 +365,6 @@ int main( int argc, char *argv[] )
   std::cout << " Metric value    = " << bestValue          << std::endl;
 
 
-  //  Software Guide : BeginLatex
   //
   //  Let's execute this example over two of the images provided in
   //  \code{Examples/Data}:
@@ -497,7 +444,6 @@ int main( int argc, char *argv[] )
   //  and the translation components of the transform as the registration
   //  progress.
   //
-  //  Software Guide : EndLatex
 
 
   using ResampleFilterType = itk::ResampleImageFilter<
@@ -603,7 +549,6 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  //  Software Guide : BeginLatex
   //
   //  Let's now consider the case in which rotations and translations are
   //  present in the initial registration, as in the following pair
@@ -690,7 +635,6 @@ int main( int argc, char *argv[] )
   //  supported easily by the optimizer. You may want to modify this value in
   //  order to get a better idea of how to tune the parameters.
   //
-  //  Software Guide : EndLatex
 
 
   return EXIT_SUCCESS;

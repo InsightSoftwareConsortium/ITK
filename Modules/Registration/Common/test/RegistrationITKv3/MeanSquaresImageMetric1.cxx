@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-// Software Guide : BeginLatex
 //
 // This example illustrates how to explore the domain of an image metric.  This
 // is a useful exercise before starting a registration process, since
@@ -28,7 +27,6 @@
 // minima or maxima in which an optimizer may get trapped while exploring the
 // parametric space.
 //
-// Software Guide : EndLatex
 
 
 #include "itkImage.h"
@@ -36,18 +34,14 @@
 #include "itkImageFileWriter.h"
 
 
-// Software Guide : BeginLatex
 //
 // We start by including the headers of the basic components: Metric, Transform
 // and Interpolator.
 //
-// Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
 #include "itkMeanSquaresImageToImageMetric.h"
 #include "itkTranslationTransform.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
-// Software Guide : EndCodeSnippet
 
 
 #include "itkTestDriverIncludeRequiredIOFactories.h"
@@ -61,19 +55,15 @@ int main( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-// Software Guide : BeginLatex
 //
 // We define the dimension and pixel type of the images to be used in the
 // evaluation of the Metric.
 //
-// Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
   constexpr unsigned int Dimension = 2;
   using PixelType = unsigned char;
 
   using ImageType = itk::Image< PixelType, Dimension >;
-// Software Guide : EndCodeSnippet
 
 
   using ReaderType = itk::ImageFileReader< ImageType >;
@@ -95,30 +85,23 @@ int main( int argc, char * argv[] )
     std::cerr << excep << std::endl;
     }
 
-// Software Guide : BeginLatex
 //
 // The type of the Metric is instantiated and one is constructed.  In this case
 // we decided to use the same image type for both the fixed and the moving
 // images.
 //
-// Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
   using MetricType = itk::MeanSquaresImageToImageMetric<
                             ImageType, ImageType >;
 
   MetricType::Pointer metric = MetricType::New();
-// Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginLatex
 //
 // We also instantiate the transform and interpolator types, and create objects
 // of each class.
 //
-// Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
   using TransformType = itk::TranslationTransform< double, Dimension >;
 
   TransformType::Pointer transform = TransformType::New();
@@ -128,7 +111,6 @@ int main( int argc, char * argv[] )
                                     ImageType, double >;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
-// Software Guide : EndCodeSnippet
 
 
   transform->SetIdentity();
@@ -137,20 +119,16 @@ int main( int argc, char * argv[] )
   ImageType::ConstPointer movingImage = movingReader->GetOutput();
 
 
-// Software Guide : BeginLatex
 //
 // The classes required by the metric are connected to it. This includes the
 // fixed and moving images, the interpolator and the transform.
 //
-// Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
   metric->SetTransform( transform );
   metric->SetInterpolator( interpolator );
 
   metric->SetFixedImage(  fixedImage  );
   metric->SetMovingImage( movingImage );
-// Software Guide : EndCodeSnippet
 
   metric->SetFixedImageRegion(  fixedImage->GetBufferedRegion()  );
 
@@ -166,16 +144,13 @@ int main( int argc, char * argv[] )
     }
 
 
-// Software Guide : BeginLatex
 //
 // Finally we select a region of the parametric space to explore. In this case
 // we are using a translation transform in 2D, so we simply select translations
 // from a negative position to a positive position, in both $x$ and $y$. For
 // each one of those positions we invoke the \code{GetValue()} method of the Metric.
 //
-// Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
   MetricType::TransformParametersType displacement( Dimension );
 
   constexpr int rangex = 50;
@@ -191,10 +166,8 @@ int main( int argc, char * argv[] )
       std::cout << dx << "   "  << dy << "   " << value << std::endl;
       }
     }
-// Software Guide : EndCodeSnippet
 
 
-// Software Guide : BeginLatex
 //
 // \begin{figure}
 // \center
@@ -231,7 +204,6 @@ int main( int argc, char * argv[] )
 // metric when those parameters are varied.
 //
 //
-// Software Guide : EndLatex
 
 
   return EXIT_SUCCESS;

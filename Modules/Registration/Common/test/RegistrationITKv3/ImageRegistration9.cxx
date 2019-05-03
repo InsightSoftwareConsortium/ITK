@@ -16,16 +16,13 @@
  *
  *=========================================================================*/
 
-//  Software Guide : BeginCommandLineArgs
 //    INPUTS:  {BrainProtonDensitySliceBorder20.png}
 //    INPUTS:  {BrainProtonDensitySliceR10X13Y17.png}
 //    OUTPUTS: {ImageRegistration9Output.png}
 //    OUTPUTS: {ImageRegistration9DifferenceBefore.png}
 //    OUTPUTS: {ImageRegistration9DifferenceAfter.png}
 //    ARGUMENTS:    1.0 300
-//  Software Guide : EndCommandLineArgs
 
-// Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{AffineTransform}
 // for performing registration in $2D$. The example code is, for the most part,
@@ -37,7 +34,6 @@
 //
 // \index{itk::AffineTransform}
 //
-// Software Guide : EndLatex
 
 #include "itkImageRegistrationMethod.h"
 #include "itkMeanSquaresImageToImageMetric.h"
@@ -46,17 +42,13 @@
 
 #include "itkCenteredTransformInitializer.h"
 
-//  Software Guide : BeginLatex
 //
 //  Let's start by including the header file of the AffineTransform.
 //
 //  \index{itk::AffineTransform!header}
 //
-//  Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
 #include "itkAffineTransform.h"
-// Software Guide : EndCodeSnippet
 
 
 #include "itkImageFileReader.h"
@@ -135,22 +127,17 @@ int main( int argc, char *argv[] )
     }
 
 
-  //  Software Guide : BeginLatex
   //
   //  We then define the types of the images to be registered.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   constexpr unsigned int Dimension = 2;
   using PixelType = float;
 
   using FixedImageType = itk::Image< PixelType, Dimension >;
   using MovingImageType = itk::Image< PixelType, Dimension >;
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   //  The transform type is instantiated using the code below. The template
   //  parameters of this class are the representation type of the space
@@ -158,11 +145,8 @@ int main( int argc, char *argv[] )
   //
   //  \index{itk::AffineTransform!Instantiation}
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   using TransformType = itk::AffineTransform< double, Dimension  >;
-  // Software Guide : EndCodeSnippet
 
 
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
@@ -183,7 +167,6 @@ int main( int argc, char *argv[] )
   registration->SetInterpolator(  interpolator  );
 
 
-  //  Software Guide : BeginLatex
   //
   //  The transform object is constructed below and is initialized before the registration
   //  process starts.
@@ -192,12 +175,9 @@ int main( int argc, char *argv[] )
   //  \index{itk::AffineTransform!Pointer}
   //  \index{itk::RegistrationMethod!SetTransform()}
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   TransformType::Pointer  transform = TransformType::New();
   registration->SetTransform( transform );
-  // Software Guide : EndCodeSnippet
 
 
   using FixedImageReaderType = itk::ImageFileReader< FixedImageType  >;
@@ -216,7 +196,6 @@ int main( int argc, char *argv[] )
      fixedImageReader->GetOutput()->GetBufferedRegion() );
 
 
-  //  Software Guide : BeginLatex
   //
   //  In this example, we again use the
   //  \doxygen{CenteredTransformInitializer} helper class in order to compute
@@ -224,9 +203,7 @@ int main( int argc, char *argv[] )
   //  translation. The initializer is set to use the center of mass of each
   //  image as the initial correspondence correction.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   using TransformInitializerType = itk::CenteredTransformInitializer<
             TransformType, FixedImageType,
             MovingImageType >;
@@ -237,23 +214,17 @@ int main( int argc, char *argv[] )
   initializer->SetMovingImage( movingImageReader->GetOutput() );
   initializer->MomentsOn();
   initializer->InitializeTransform();
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   //  Now we pass the parameters of the current transform as the initial
   //  parameters to be used when the registration process starts.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   registration->SetInitialTransformParameters(
                                  transform->GetParameters() );
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   //  Keeping in mind that the scale of units in scaling, rotation and
   //  translation are quite different, we take advantage of the scaling
@@ -262,7 +233,6 @@ int main( int argc, char *argv[] )
   //  matrix factor, and the last $N$ are the components of the translation to
   //  be applied after multiplication with the matrix is performed.
   //
-  //  Software Guide : EndLatex
 
 
   double translationScale = 1.0 / 1000.0;
@@ -272,7 +242,6 @@ int main( int argc, char *argv[] )
     }
 
 
-  // Software Guide : BeginCodeSnippet
   using OptimizerScalesType = OptimizerType::ScalesType;
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
 
@@ -284,10 +253,8 @@ int main( int argc, char *argv[] )
   optimizerScales[5] =  translationScale;
 
   optimizer->SetScales( optimizerScales );
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   //  We also set the usual parameters of the optimization method. In this
   //  case we are using an
@@ -296,7 +263,6 @@ int main( int argc, char *argv[] )
   //  and number of iterations. These last two act as stopping criteria for
   //  the optimization.
   //
-  //  Software Guide : EndLatex
 
   double steplength = 0.1;
 
@@ -314,25 +280,19 @@ int main( int argc, char *argv[] )
     }
 
 
-  // Software Guide : BeginCodeSnippet
   optimizer->SetMaximumStepLength( steplength );
   optimizer->SetMinimumStepLength( 0.0001 );
   optimizer->SetNumberOfIterations( maxNumberOfIterations );
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   //  We also set the optimizer to do minimization by calling the
   //  \code{MinimizeOn()} method.
   //
   //  \index{itk::Regular\-Step\-Gradient\-Descent\-Optimizer!MinimizeOn()}
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   optimizer->MinimizeOn();
-  // Software Guide : EndCodeSnippet
 
 
   // Create the Command observer and register it with the optimizer.
@@ -341,15 +301,12 @@ int main( int argc, char *argv[] )
   optimizer->AddObserver( itk::IterationEvent(), observer );
 
 
-  //  Software Guide : BeginLatex
   //
   //  Finally we trigger the execution of the registration method by calling
   //  the \code{Update()} method. The call is placed in a \code{try/catch}
   //  block in case any exceptions are thrown.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   try
     {
     registration->Update();
@@ -363,10 +320,8 @@ int main( int argc, char *argv[] )
     std::cerr << err << std::endl;
     return EXIT_FAILURE;
     }
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   //  Once the optimization converges, we recover the parameters from the
   //  registration method. This is done with the
@@ -379,9 +334,7 @@ int main( int argc, char *argv[] )
   //  \index{itk::RegistrationMethod!GetCurrentIteration()}
   //  \index{itk::RegistrationMethod!GetLastTransformParameters()}
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   OptimizerType::ParametersType finalParameters =
                     registration->GetLastTransformParameters();
 
@@ -392,7 +345,6 @@ int main( int argc, char *argv[] )
 
   const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
   const double bestValue = optimizer->GetValue();
-  // Software Guide : EndCodeSnippet
 
 
   // Print out results
@@ -426,7 +378,6 @@ int main( int argc, char *argv[] )
   std::cout << " Angle (degrees) = " << angleInDegrees  << std::endl;
 
 
-  //  Software Guide : BeginLatex
   //
   //  Let's execute this example over two of the images provided in
   //  \code{Examples/Data}:
@@ -511,7 +462,6 @@ int main( int argc, char *argv[] )
   //  is to be computed as a combination of the shift due rotation plus the
   //  explicit translation set on the transform.
   //
-  //  Software Guide : EndLatex
 
 
   //  The following code is used to dump output images to files.

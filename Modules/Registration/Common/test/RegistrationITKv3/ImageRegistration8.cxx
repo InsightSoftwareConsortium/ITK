@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-//  Software Guide : BeginCommandLineArgs
 //    INPUTS: brainweb1e1a10f20.mha
 //    INPUTS: brainweb1e1a10f20Rot10Tx15.mha
 //    ARGUMENTS: ImageRegistration8Output.mhd
@@ -26,9 +25,7 @@
 //    OUTPUTS: {ImageRegistration8DifferenceBefore.png}
 //    OUTPUTS: {ImageRegistration8DifferenceAfter.png}
 //    OUTPUTS: {ImageRegistration8RegisteredSlice.png}
-//  Software Guide : EndCommandLineArgs
 
-// Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{VersorRigid3DTransform}
 // class for performing registration of two $3D$ images. The example code is
@@ -44,25 +41,19 @@
 // \index{itk::Centered\-Transform\-Initializer!In 3D}
 //
 //
-// Software Guide : EndLatex
 #include "itkImageRegistrationMethod.h"
 #include "itkMeanSquaresImageToImageMetric.h"
 
-//  Software Guide : BeginLatex
 //
 //  The following are the most relevant headers of this example.
 //
 //  \index{itk::Versor\-Rigid3D\-Transform!header}
 //  \index{itk::Centered\-Transform\-Initializer!header}
 //
-//  Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
 #include "itkVersorRigid3DTransform.h"
 #include "itkCenteredTransformInitializer.h"
-// Software Guide : EndCodeSnippet
 
-//  Software Guide : BeginLatex
 //
 //  The parameter space of the \code{VersorRigid3DTransform} is not a vector
 //  space, because addition is not a closed operation in the space
@@ -82,10 +73,7 @@
 //  fact, the updating function is re-implemented for versor transforms
 //  so it can handle versor composition of the rotation parameters.
 //
-//  Software Guide : EndLatex
-// Software Guide : BeginCodeSnippet
 #include "itkVersorRigid3DTransformOptimizer.h"
-// Software Guide : EndCodeSnippet
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkResampleImageFilter.h"
@@ -151,7 +139,6 @@ int main( int argc, char *argv[] )
   using FixedImageType = itk::Image< PixelType, Dimension >;
   using MovingImageType = itk::Image< PixelType, Dimension >;
 
-  //  Software Guide : BeginLatex
   //
   //  The Transform class is instantiated using the code below. The only
   //  template parameter to this class is the representation type of the
@@ -159,11 +146,8 @@ int main( int argc, char *argv[] )
   //
   //  \index{itk::Versor\-Rigid3D\-Transform!Instantiation}
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   using TransformType = itk::VersorRigid3DTransform< double >;
-  // Software Guide : EndCodeSnippet
   using OptimizerType = itk::VersorRigid3DTransformOptimizer;
   using MetricType = itk::MeanSquaresImageToImageMetric< FixedImageType, MovingImageType >;
   using InterpolatorType = itk:: LinearInterpolateImageFunction< MovingImageType, double >;
@@ -178,7 +162,6 @@ int main( int argc, char *argv[] )
   registration->SetOptimizer(     optimizer     );
   registration->SetInterpolator(  interpolator  );
 
-  //  Software Guide : BeginLatex
   //
   //  The initial transform object is constructed below. This transform will be initialized,
   //  and its initial parameters will be used when
@@ -188,11 +171,8 @@ int main( int argc, char *argv[] )
   //  \index{itk::Versor\-Rigid3D\-Transform!Pointer}
   //  \index{itk::Registration\-Method!SetTransform()}
   //
-  //  Software Guide : EndLatex
-  // Software Guide : BeginCodeSnippet
   TransformType::Pointer  transform = TransformType::New();
   registration->SetTransform( transform );
-  // Software Guide : EndCodeSnippet
   using FixedImageReaderType = itk::ImageFileReader< FixedImageType  >;
   using MovingImageReaderType = itk::ImageFileReader< MovingImageType >;
   FixedImageReaderType::Pointer  fixedImageReader  = FixedImageReaderType::New();
@@ -205,7 +185,6 @@ int main( int argc, char *argv[] )
   registration->SetFixedImageRegion(
      fixedImageReader->GetOutput()->GetBufferedRegion() );
 
-  //  Software Guide : BeginLatex
   //
   //  The input images are taken from readers. It is not necessary here to
   //  explicitly call \code{Update()} on the readers since the
@@ -220,28 +199,20 @@ int main( int argc, char *argv[] )
   // \index{itk::Centered\-Transform\-Initializer!New()}
   // \index{itk::Centered\-Transform\-Initializer!SmartPointer}
   //
-  //  Software Guide : EndLatex
-  // Software Guide : BeginCodeSnippet
   using TransformInitializerType = itk::CenteredTransformInitializer<
                                         TransformType,
                                         FixedImageType, MovingImageType >;
   TransformInitializerType::Pointer initializer =
                                           TransformInitializerType::New();
-  // Software Guide : EndCodeSnippet
 
-  //  Software Guide : BeginLatex
   //
   //  The initializer is now connected to the transform and to the fixed and
   //  moving images.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   initializer->SetTransform(   transform );
   initializer->SetFixedImage(  fixedImageReader->GetOutput() );
   initializer->SetMovingImage( movingImageReader->GetOutput() );
-  // Software Guide : EndCodeSnippet
-  //  Software Guide : BeginLatex
   //
   //  The use of the geometrical centers is selected by calling
   //  \code{GeometryOn()} while the use of center of mass is selected by
@@ -250,24 +221,16 @@ int main( int argc, char *argv[] )
   //  \index{Centered\-Transform\-Initializer!MomentsOn()}
   //  \index{Centered\-Transform\-Initializer!GeometryOn()}
   //
-  //  Software Guide : EndLatex
-  // Software Guide : BeginCodeSnippet
   initializer->MomentsOn();
-  // Software Guide : EndCodeSnippet
 
-  //  Software Guide : BeginLatex
   //
   //  Finally, the computation of the center and translation is triggered by
   //  the \code{InitializeTransform()} method. The resulting values will be
   //  passed directly to the transform.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   initializer->InitializeTransform();
-  // Software Guide : EndCodeSnippet
 
-  //  Software Guide : BeginLatex
   //
   //  The rotation part of the transform is initialized using a
   //  \doxygen{Versor} which is simply a unit quaternion.  The
@@ -277,8 +240,6 @@ int main( int argc, char *argv[] )
   //  create a versor object and initialize its parameters by passing a
   //  rotation axis and an angle.
   //
-  //  Software Guide : EndLatex
-  // Software Guide : BeginCodeSnippet
   using VersorType = TransformType::VersorType;
   using VectorType = VersorType::VectorType;
   VersorType     rotation;
@@ -289,17 +250,12 @@ int main( int argc, char *argv[] )
   constexpr double angle = 0;
   rotation.Set(  axis, angle  );
   transform->SetRotation( rotation );
-  // Software Guide : EndCodeSnippet
 
-  //  Software Guide : BeginLatex
   //
   //  We now pass the parameters of the current transform as the initial
   //  parameters to be used when the registration process starts.
   //
-  //  Software Guide : EndLatex
-  // Software Guide : BeginCodeSnippet
   registration->SetInitialTransformParameters( transform->GetParameters() );
-  // Software Guide : EndCodeSnippet
   using OptimizerScalesType = OptimizerType::ScalesType;
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
   const double translationScale = 1.0 / 1000.0;
@@ -357,7 +313,6 @@ int main( int argc, char *argv[] )
   std::cout << " Iterations    = " << numberOfIterations << std::endl;
   std::cout << " Metric value  = " << bestValue          << std::endl;
 
-  //  Software Guide : BeginLatex
   //
   //  Let's execute this example over some of the images available in the ftp
   //  site
@@ -403,16 +358,12 @@ int main( int argc, char *argv[] )
   //  It is more illustrative in this case to take a look at the actual
   //  rotation matrix and offset resulting form the $6$ parameters.
   //
-  //  Software Guide : EndLatex
-  // Software Guide : BeginCodeSnippet
   transform->SetParameters( finalParameters );
   TransformType::MatrixType matrix = transform->GetMatrix();
   TransformType::OffsetType offset = transform->GetOffset();
   std::cout << "Matrix = " << std::endl << matrix << std::endl;
   std::cout << "Offset = " << std::endl << offset << std::endl;
-  // Software Guide : EndCodeSnippet
 
-  //  Software Guide : BeginLatex
   //
   //  The output of this print statements is
   //
@@ -432,9 +383,7 @@ int main( int argc, char *argv[] )
   //  happening in the X,Y plane and that the angle is on the order of
   //  $\arcsin{(0.173722)}$ which is very close to 10 degrees, as we expected.
   //
-  //  Software Guide : EndLatex
 
-  //  Software Guide : BeginLatex
   //
   // \begin{figure}
   // \center
@@ -507,7 +456,6 @@ int main( int argc, char *argv[] )
   //  results that in practice are impossible to replicate. That is vanity, not
   //  science.
   //
-  //  Software Guide : EndLatex
 
   using ResampleFilterType = itk::ResampleImageFilter<
                             MovingImageType,

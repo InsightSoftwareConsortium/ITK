@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-// Software Guide : BeginLatex
 //
 // This example illustrates how to combine the MutualInformation metric with an
 // Evolutionary algorithm for optimization.  Evolutionary algorithms are
@@ -31,16 +30,13 @@
 // \index{itk::ImageRegistrationMethod!Multi-Modality}
 // \index{itk::OnePlusOneEvolutionaryOptimizer!Multi-Modality}
 //
-// Software Guide : EndLatex
 
 
-// Software Guide : BeginCodeSnippet
 #include "itkImageRegistrationMethod.h"
 #include "itkTranslationTransform.h"
 #include "itkMattesMutualInformationImageToImageMetric.h"
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
 #include "itkNormalVariateGenerator.h"
-// Software Guide : EndCodeSnippet
 
 
 #include "itkImageFileReader.h"
@@ -126,7 +122,6 @@ int main( int argc, char *argv[] )
                                     FixedImageType,
                                     MovingImageType    >;
 
-  //  Software Guide : BeginLatex
   //
   //  In this example the image types and all registration components,
   //  except the metric, are declared as in Section
@@ -134,13 +129,10 @@ int main( int argc, char *argv[] )
   //  The Mattes mutual information metric type is
   //  instantiated using the image types.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   using MetricType = itk::MattesMutualInformationImageToImageMetric<
                                           FixedImageType,
                                           MovingImageType >;
-  // Software Guide : EndCodeSnippet
 
   TransformType::Pointer      transform     = TransformType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
@@ -193,7 +185,6 @@ int main( int argc, char *argv[] )
   registration->SetInitialTransformParameters( initialParameters );
 
 
-  //  Software Guide : BeginLatex
   //
   //  Evolutionary algorithms are based on testing random variations
   //  of parameters. In order to support the computation of random values,
@@ -204,29 +195,21 @@ int main( int argc, char *argv[] )
   //  \index{itk::NormalVariateGenerator!New()}
   //  \index{itk::NormalVariateGenerator!Pointer}
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   using GeneratorType = itk::Statistics::NormalVariateGenerator;
 
   GeneratorType::Pointer generator = GeneratorType::New();
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   //  The random number generator must be initialized with a seed.
   //
   //  \index{itk::NormalVariateGenerator!Initialize()}
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   generator->Initialize(12345);
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   //  Another significant difference in the metric is that it
   //  computes the negative mutual information and hence we
@@ -234,16 +217,13 @@ int main( int argc, char *argv[] )
   //  example we will use the same optimization parameters as in
   //  Section \ref{sec:IntroductionImageRegistration}.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   optimizer->MaximizeOff();
 
   optimizer->SetNormalVariateGenerator( generator );
   optimizer->Initialize( 10 );
   optimizer->SetEpsilon( 1.0 );
   optimizer->SetMaximumIteration( 4000 );
-  // Software Guide : EndCodeSnippet
 
 
   // Create the Command observer and register it with the optimizer.
@@ -286,7 +266,6 @@ int main( int argc, char *argv[] )
   std::cout << " Metric value  = " << bestValue          << std::endl;
 
 
-  //  Software Guide : BeginLatex
   //
   //  This example is executed using the same multi-modality images as
   //  in the previous one.  The registration converges after $24$ iterations and produces
@@ -299,7 +278,6 @@ int main( int argc, char *argv[] )
   //  These values are a very close match to
   //  the true misalignment introduced in the moving image.
   //
-  //  Software Guide : EndLatex
 
 
   using ResampleFilterType = itk::ResampleImageFilter<

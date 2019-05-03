@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-// Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{BSplineTransform}
 // class for performing registration of two $2D$ images. The example code is
@@ -33,7 +32,6 @@
 // \index{itk::LBFGSOptimizer}
 //
 //
-// Software Guide : EndLatex
 
 #include "itkImageRegistrationMethod.h"
 #include "itkMeanSquaresImageToImageMetric.h"
@@ -41,21 +39,16 @@
 #include "itkTimeProbesCollectorBase.h"
 #include "itkMemoryProbesCollectorBase.h"
 
-//  Software Guide : BeginLatex
 //
 //  The following are the most relevant headers to this example.
 //
 //  \index{itk::BSplineTransform!header}
 //  \index{itk::LBFGSOptimizer!header}
 //
-//  Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
 #include "itkBSplineTransform.h"
 #include "itkLBFGSOptimizer.h"
-// Software Guide : EndCodeSnippet
 
-//  Software Guide : BeginLatex
 //
 //  The parameter space of the \code{BSplineTransform} is composed by
 //  the set of all the deformations associated with the nodes of the BSpline
@@ -65,7 +58,6 @@
 //
 //  \index{itk::BSplineTransform!header}
 //
-//  Software Guide : EndLatex
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -99,7 +91,6 @@ int main( int argc, char *argv[] )
   using MovingImageType = itk::Image< PixelType, ImageDimension >;
 
 
-  //  Software Guide : BeginLatex
   //
   //  We instantiate now the type of the \code{BSplineTransform} using
   //  as template parameters the type for coordinates representation, the
@@ -108,9 +99,7 @@ int main( int argc, char *argv[] )
   //  \index{BSplineTransform!New}
   //  \index{BSplineTransform!Instantiation}
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   const unsigned int SpaceDimension = ImageDimension;
   constexpr unsigned int SplineOrder = 3;
   using CoordinateRepType = double;
@@ -119,7 +108,6 @@ int main( int argc, char *argv[] )
                             CoordinateRepType,
                             SpaceDimension,
                             SplineOrder >;
-  // Software Guide : EndCodeSnippet
 
 
   using OptimizerType = itk::LBFGSOptimizer;
@@ -148,18 +136,14 @@ int main( int argc, char *argv[] )
   registration->SetInterpolator(  interpolator  );
 
 
-  //  Software Guide : BeginLatex
   //
   //  The transform object is constructed below and passed to the registration
   //  method.
   //  \index{itk::RegistrationMethod!SetTransform()}
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   TransformType::Pointer  transform = TransformType::New();
   registration->SetTransform( transform );
-  // Software Guide : EndCodeSnippet
 
   using FixedImageReaderType = itk::ImageFileReader< FixedImageType  >;
   using MovingImageReaderType = itk::ImageFileReader< MovingImageType >;
@@ -181,7 +165,6 @@ int main( int argc, char *argv[] )
 
  registration->SetFixedImageRegion( fixedRegion );
 
-  // Software Guide : BeginCodeSnippet
 
   TransformType::PhysicalDimensionsType   fixedPhysicalDimensions;
   TransformType::MeshSizeType             meshSize;
@@ -214,35 +197,26 @@ int main( int argc, char *argv[] )
   parameters.Fill( 0.0 );
 
   transform->SetParameters( parameters );
-  //  Software Guide : EndCodeSnippet
 
-  //  Software Guide : BeginLatex
   //
   //  We now pass the parameters of the current transform as the initial
   //  parameters to be used when the registration process starts.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   registration->SetInitialTransformParameters( transform->GetParameters() );
-  // Software Guide : EndCodeSnippet
 
   std::cout << "Intial Parameters = " << std::endl;
   std::cout << transform->GetParameters() << std::endl;
 
-  //  Software Guide : BeginLatex
   //
   //  Next we set the parameters of the LBFGS Optimizer.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   optimizer->SetGradientConvergenceTolerance( 0.05 );
   optimizer->SetLineSearchAccuracy( 0.9 );
   optimizer->SetDefaultStepLength( 1.5 );
   optimizer->TraceOn();
   optimizer->SetMaximumNumberOfFunctionEvaluations( 1000 );
-  // Software Guide : EndCodeSnippet
 
   // Add time and memory probes
   itk::TimeProbesCollectorBase chronometer;
@@ -282,7 +256,6 @@ int main( int argc, char *argv[] )
   chronometer.Report( std::cout );
   memorymeter.Report( std::cout );
 
-  //  Software Guide : BeginLatex
   //
   //  Let's execute this example using the rat lung images from the previous examples.
   //
@@ -292,11 +265,8 @@ int main( int argc, char *argv[] )
   // \end{itemize}
   //
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   transform->SetParameters( finalParameters );
-  // Software Guide : EndCodeSnippet
 
 
   using ResampleFilterType = itk::ResampleImageFilter<

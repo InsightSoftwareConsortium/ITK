@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-// Software Guide : BeginLatex
 //
 // This example illustrates the use of the
 // \doxygen{BSplineTransform} class for performing
@@ -30,7 +29,6 @@
 // \index{itk::LBFGSBOptimizer}
 //
 //
-// Software Guide : EndLatex
 
 #include "itkImageRegistrationMethod.h"
 #include "itkMattesMutualInformationImageToImageMetric.h"
@@ -40,21 +38,16 @@
 #include "itkMemoryProbesCollectorBase.h"
 
 
-//  Software Guide : BeginLatex
 //
 //  The following are the most relevant headers to this example.
 //
 //  \index{itk::BSplineTransform!header}
 //  \index{itk::LBFGSBOptimizer!header}
 //
-//  Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
 #include "itkBSplineTransform.h"
 #include "itkLBFGSBOptimizer.h"
-// Software Guide : EndCodeSnippet
 
-//  Software Guide : BeginLatex
 //
 //  The parameter space of the \code{BSplineTransform} is composed by
 //  the set of all the deformations associated with the nodes of the BSpline
@@ -64,7 +57,6 @@
 //
 //  \index{itk::BSplineTransform!header}
 //
-//  Software Guide : EndLatex
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -134,7 +126,6 @@ int main( int argc, char *argv[] )
   using MovingImageType = itk::Image< PixelType, ImageDimension >;
 
 
-  //  Software Guide : BeginLatex
   //
   //  We instantiate now the type of the \code{BSplineTransform} using
   //  as template parameters the type for coordinates representation, the
@@ -143,9 +134,7 @@ int main( int argc, char *argv[] )
   //  \index{BSplineTransform!New}
   //  \index{BSplineTransform!Instantiation}
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   const unsigned int SpaceDimension = ImageDimension;
   constexpr unsigned int SplineOrder = 3;
   using CoordinateRepType = double;
@@ -154,7 +143,6 @@ int main( int argc, char *argv[] )
                             CoordinateRepType,
                             SpaceDimension,
                             SplineOrder >;
-  // Software Guide : EndCodeSnippet
 
 
   using OptimizerType = itk::LBFGSBOptimizer;
@@ -183,18 +171,14 @@ int main( int argc, char *argv[] )
   registration->SetInterpolator(  interpolator  );
 
 
-  //  Software Guide : BeginLatex
   //
   //  The transform object is constructed below and passed to the registration
   //  method.
   //  \index{itk::RegistrationMethod!SetTransform()}
   //
-  //  Software Guide : EndLatex
   //
-  // Software Guide : BeginCodeSnippet
   TransformType::Pointer transform = TransformType::New();
   registration->SetTransform( transform );
-  // Software Guide : EndCodeSnippet
 
   using FixedImageReaderType = itk::ImageFileReader< FixedImageType  >;
   using MovingImageReaderType = itk::ImageFileReader< MovingImageType >;
@@ -217,7 +201,6 @@ int main( int argc, char *argv[] )
 
  registration->SetFixedImageRegion( fixedRegion );
 
-  // Software Guide : BeginCodeSnippet
 
   unsigned int numberOfGridNodesInOneDimension = 7;
 
@@ -248,28 +231,20 @@ int main( int argc, char *argv[] )
   parameters.Fill( 0.0 );
 
   transform->SetParameters( parameters );
-  //  Software Guide : EndCodeSnippet
 
-  //  Software Guide : BeginLatex
   //
   //  We now pass the parameters of the current transform as the initial
   //  parameters to be used when the registration process starts.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   registration->SetInitialTransformParameters( transform->GetParameters() );
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   //  Next we set the parameters of the LBFGSB Optimizer.
   //
-  //  Software Guide : EndLatex
 
 
-  // Software Guide : BeginCodeSnippet
   OptimizerType::BoundSelectionType boundSelect(
     transform->GetNumberOfParameters() );
   OptimizerType::BoundValueType upperBound(
@@ -290,7 +265,6 @@ int main( int argc, char *argv[] )
   optimizer->SetMaximumNumberOfIterations( 200 );
   optimizer->SetMaximumNumberOfEvaluations( 200 );
   optimizer->SetMaximumNumberOfCorrections( 7 );
-  // Software Guide : EndCodeSnippet
 
   // Create the Command observer and register it with the optimizer.
   //
@@ -360,9 +334,7 @@ int main( int argc, char *argv[] )
   chronometer.Report( std::cout );
   memorymeter.Report( std::cout );
 
-  // Software Guide : BeginCodeSnippet
   transform->SetParameters( finalParameters );
-  // Software Guide : EndCodeSnippet
 
 
   using ResampleFilterType = itk::ResampleImageFilter<

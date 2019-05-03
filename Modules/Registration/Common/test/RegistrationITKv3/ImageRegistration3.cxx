@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-// Software Guide : BeginLatex
 //
 // Given the numerous parameters involved in tuning a registration method for
 // a particular application, it is not uncommon for a registration process to
@@ -54,7 +53,6 @@
 // \index{itk::ImageRegistrationMethod!Monitoring}
 //
 //
-// Software Guide : EndLatex
 
 
 #include "itkImageRegistrationMethod.h"
@@ -69,7 +67,6 @@
 #include "itkCastImageFilter.h"
 
 
-//  Software Guide : BeginLatex
 //
 //  The following code illustrates a simple way of creating a
 //  Observer/Command to monitor a registration process. This new
@@ -77,73 +74,53 @@
 //  implementation of the \code{Execute()} method.  First, the header file of
 //  the Command class must be included.
 //
-//  Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
 #include "itkCommand.h"
-// Software Guide : EndCodeSnippet
 
 
-//  Software Guide : BeginLatex
 //
 //  Our custom command class is called \code{CommandIterationUpdate}. It
 //  derives from the Command class and declares for convenience the
 //  types \code{Self} and \code{Superclass}. This facilitate the use of
 //  standard macros later in the class implementation.
 //
-//  Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
 class CommandIterationUpdate : public itk::Command
 {
 public:
   using Self = CommandIterationUpdate;
   using Superclass = itk::Command;
-// Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   //  The following type alias declares the type of the SmartPointer capable of
   //  holding a reference to this object.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   using Pointer = itk::SmartPointer<Self>;
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   //  The \code{itkNewMacro} takes care of defining all the necessary code for
   //  the \code{New()} method. Those with curious minds are invited to see the
   //  details of the macro in the file \code{itkMacro.h} in the
   //  \code{Insight/Code/Common} directory.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   itkNewMacro( Self );
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   //  In order to ensure that the \code{New()} method is used to instantiate
   //  the class (and not the C++ \code{new} operator), the constructor is
   //  declared \code{protected}.
   //
-  //  Software Guide : EndLatex
 
-// Software Guide : BeginCodeSnippet
 
 protected:
   CommandIterationUpdate() = default;
-// Software Guide : EndCodeSnippet
 
 public:
-  //  Software Guide : BeginLatex
   //
   //  Since this Command object will be observing the optimizer,
   //  the following type alias are useful for converting pointers when the
@@ -153,15 +130,11 @@ public:
   //  way. A \code{const} interface ensures that all operations invoked on the
   //  optimizer are read-only.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
   using OptimizerPointer = const OptimizerType *;
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   //  ITK enforces const-correctness. There is hence a distinction between the
   //  \code{Execute()} method that can be invoked from a \code{const} object
@@ -174,31 +147,23 @@ public:
   //  similar case could happen when a user is controlling the registration
   //  process from a GUI.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   void Execute(itk::Object *caller, const itk::EventObject & event) override
     {
     Execute( (const itk::Object *)caller, event);
     }
-  // Software Guide : EndCodeSnippet
 
-  //  Software Guide : BeginLatex
   //
   // Finally we get to the heart of the observer, the \code{Execute()} method.
   // Two arguments are passed to this method. The first argument is the pointer
   // to the object that invoked the event. The second argument is the event that
   // was invoked.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
-    // Software Guide : EndCodeSnippet
 
 
-    //  Software Guide : BeginLatex
     //
     //  Note that the first argument is a pointer to an Object even
     //  though the actual object invoking the event is probably a subclass of
@@ -206,14 +171,10 @@ public:
     //  optimizer. Thus we can perform a \code{dynamic\_cast} to the real type
     //  of the object.
     //
-    //  Software Guide : EndLatex
 
-    // Software Guide : BeginCodeSnippet
     auto optimizer = static_cast< OptimizerPointer >( object );
-    // Software Guide : EndCodeSnippet
 
 
-    //  Software Guide : BeginLatex
     //
     //  The next step is to verify that the event invoked is actually the one in
     //  which we are interested. This is checked using the RTTI\footnote{RTTI
@@ -227,17 +188,13 @@ public:
     //
     // \index{itk::EventObject!CheckEvent}
     //
-    //  Software Guide : EndLatex
 
-    // Software Guide : BeginCodeSnippet
     if( ! itk::IterationEvent().CheckEvent( &event ) )
       {
       return;
       }
-    // Software Guide : EndCodeSnippet
 
 
-    //  Software Guide : BeginLatex
     //
     //  If the event matches the type we are looking for, we are ready to
     //  query data from the optimizer. Here, for example, we get the current
@@ -246,22 +203,17 @@ public:
     //  to the standard output. You could imagine more elaborate actions like
     //  updating a GUI or refreshing a visualization pipeline.
     //
-    //  Software Guide : EndLatex
 
-    // Software Guide : BeginCodeSnippet
     std::cout << optimizer->GetCurrentIteration() << " = ";
     std::cout << optimizer->GetValue() << " : ";
     std::cout << optimizer->GetCurrentPosition() << std::endl;
-    // Software Guide : EndCodeSnippet
     }
 
-  //  Software Guide : BeginLatex
   //
   //  This concludes our implementation of a minimal Command class
   //  capable of observing our registration method.  We can now move on to
   //  configuring the registration process.
   //
-  //  Software Guide : EndLatex
 };
 
 
@@ -345,20 +297,15 @@ int main( int argc, char *argv[] )
   optimizer->MaximizeOff();
 
 
-  //  Software Guide : BeginLatex
   //
   //  Once all the registration components are in place we can create one
   //  instance of our observer. This is done with the standard \code{New()}
   //  method and assigned to a SmartPointer.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   // \begin{figure}
   // \center
@@ -369,10 +316,8 @@ int main( int argc, char *argv[] )
   // \end{figure}
   //
   //
-  //  Software Guide : EndLatex
 
 
-  //  Software Guide : BeginLatex
   //
   //  The newly created command is registered as observer on the
   //  optimizer, using the \code{AddObserver()} method. Note
@@ -384,23 +329,17 @@ int main( int argc, char *argv[] )
   //  interaction between the Command/Observer class and the registration
   //  method.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   optimizer->AddObserver( itk::IterationEvent(), observer );
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   //  At this point, we are ready to execute the registration. The
   //  typical call to \code{Update()} will do it. Note again the
   //  use of the \code{try/catch} block around the \code{Update()}
   //  method in case an exception is thrown.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   try
     {
     registration->Update();
@@ -414,10 +353,8 @@ int main( int argc, char *argv[] )
     std::cout << err << std::endl;
     return EXIT_FAILURE;
     }
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   //  The registration process is applied to the following images in \code{Examples/Data}:
   //
@@ -457,7 +394,6 @@ int main( int argc, char *argv[] )
   //  process and fine-tune parameters without having to wait until the
   //  optimizer stops by itself.
   //
-  //  Software Guide : EndLatex
 
 
   ParametersType finalParameters =

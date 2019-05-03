@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-//  Software Guide : BeginCommandLineArgs
 //    INPUTS:  {BrainT1SliceBorder20.png}
 //    INPUTS:  {BrainProtonDensitySliceShifted13x17y.png}
 //    OUTPUTS: {ImageRegistration4Output.png}
@@ -24,9 +23,7 @@
 //    OUTPUTS: {ImageRegistration4CheckerboardBefore.png}
 //    OUTPUTS: {ImageRegistration4CheckerboardAfter.png}
 //    ARGUMENTS:    24
-//  Software Guide : EndCommandLineArgs
 
-// Software Guide : BeginLatex
 //
 // In this example, we will solve a simple multi-modality problem using an
 // implementation of mutual information. This implementation was published by
@@ -49,15 +46,12 @@
 //
 // \index{itk::ImageRegistrationMethod!Multi-Modality}
 //
-// Software Guide : EndLatex
 
 
-// Software Guide : BeginCodeSnippet
 #include "itkImageRegistrationMethod.h"
 #include "itkTranslationTransform.h"
 #include "itkMattesMutualInformationImageToImageMetric.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
-// Software Guide : EndCodeSnippet
 
 
 #include "itkImageFileReader.h"
@@ -137,7 +131,6 @@ int main( int argc, char *argv[] )
                                     FixedImageType,
                                     MovingImageType    >;
 
-  //  Software Guide : BeginLatex
   //
   //  In this example the image types and all registration components,
   //  except the metric, are declared as in Section
@@ -145,13 +138,10 @@ int main( int argc, char *argv[] )
   //  The Mattes mutual information metric type is
   //  instantiated using the image types.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   using MetricType = itk::MattesMutualInformationImageToImageMetric<
     FixedImageType,
     MovingImageType >;
-  // Software Guide : EndCodeSnippet
 
   TransformType::Pointer      transform     = TransformType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
@@ -163,20 +153,15 @@ int main( int argc, char *argv[] )
   registration->SetInterpolator(  interpolator  );
 
 
-  //  Software Guide : BeginLatex
   //
   //  The metric is created using the \code{New()} method and then
   //  connected to the registration object.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   MetricType::Pointer metric = MetricType::New();
   registration->SetMetric( metric  );
-  // Software Guide : EndCodeSnippet
 
 
-  //  Software Guide : BeginLatex
   //
   //  The metric requires two parameters to be selected: the number of bins
   //  used to compute the entropy and the number of spatial samples used to
@@ -191,12 +176,9 @@ int main( int argc, char *argv[] )
   //  \index{itk::Mattes\-Mutual\-Information\-Image\-To\-Image\-Metric!SetNumberOfHistogramBins()}
   //  \index{itk::Mattes\-Mutual\-Information\-Image\-To\-Image\-Metric!SetNumberOfSpatialSamples()}
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   unsigned int numberOfBins = 24;
   unsigned int numberOfSamples = 10000;
-  // Software Guide : EndCodeSnippet
 
   if( argc > 7 )
     {
@@ -209,16 +191,13 @@ int main( int argc, char *argv[] )
     }
 
 
-  // Software Guide : BeginCodeSnippet
   metric->SetNumberOfHistogramBins( numberOfBins );
   metric->SetNumberOfSpatialSamples( numberOfSamples );
-  // Software Guide : EndCodeSnippet
 
   // For consistent results when regression testing.
   metric->ReinitializeSeed( 121212 );
 
 
-  // Software Guide : BeginLatex
   //
   // One mechanism for bringing the Metric to its limit is to disable the
   // sampling and use all the pixels present in the FixedImageRegion. This can
@@ -228,7 +207,6 @@ int main( int argc, char *argv[] )
   //
   //  \index{itk::Mattes\-Mutual\-Information\-Image\-To\-Image\-Metric!UseAllPixelsOn()}
   //
-  // Software Guide : EndLatex
 
 
   if( argc > 9 )
@@ -267,23 +245,18 @@ int main( int argc, char *argv[] )
   registration->SetInitialTransformParameters( initialParameters );
 
 
-  //  Software Guide : BeginLatex
   //
   //  Another significant difference in the metric is that it computes the
   //  negative mutual information and hence we need to minimize the cost
   //  function in this case. In this example we will use the same optimization
   //  parameters as in Section \ref{sec:IntroductionImageRegistration}.
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   optimizer->MinimizeOn();
   optimizer->SetMaximumStepLength( 2.00 );
   optimizer->SetMinimumStepLength( 0.001 );
   optimizer->SetNumberOfIterations( 200 );
-  // Software Guide : EndCodeSnippet
 
-  // Software Guide : BeginLatex
   //
   // Whenever the regular step gradient descent optimizer encounters that the
   // direction of movement has changed in the parametric space, it reduces the
@@ -299,11 +272,8 @@ int main( int argc, char *argv[] )
   //
   // \index{itk::Regular\-Step\-Gradient\-Descent\-Optimizer!SetRelaxationFactor()}
   //
-  // Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
   optimizer->SetRelaxationFactor( 0.8 );
-  // Software Guide : EndCodeSnippet
 
   // Create the Command observer and register it with the optimizer.
   //
@@ -349,7 +319,6 @@ int main( int argc, char *argv[] )
   std::cout << " Stop Condition  = " << optimizer->GetStopCondition() << std::endl;
 
 
-  //  Software Guide : BeginLatex
   //
   //  This example is executed using the same multi-modality images as the one
   //  in section~\ref{sec:MultiModalityRegistrationViolaWells} The registration
@@ -363,7 +332,6 @@ int main( int argc, char *argv[] )
   //  These values are a very close match to the true misalignment introduced in
   //  the moving image.
   //
-  //  Software Guide : EndLatex
 
   using ResampleFilterType = itk::ResampleImageFilter<
                             MovingImageType,
@@ -415,7 +383,6 @@ int main( int argc, char *argv[] )
   writer->Update();
 
 
-  //  Software Guide : BeginLatex
   //
   // \begin{figure}
   // \center
@@ -433,7 +400,6 @@ int main( int argc, char *argv[] )
   //  the figure present a checkerboard composite of the fixed and moving
   //  images before and after registration respectively.
   //
-  //  Software Guide : EndLatex
 
 
   //
@@ -472,7 +438,6 @@ int main( int argc, char *argv[] )
     }
 
 
-  //  Software Guide : BeginLatex
   //
   // \begin{figure}
   // \center
@@ -501,9 +466,7 @@ int main( int argc, char *argv[] )
   //  onto the optimal value.
   //
   //
-  //  Software Guide : EndLatex
 
-  // Software Guide : BeginLatex
   //
   // You must note however that there are a number of non-trivial issues
   // involved in the fine tuning of parameters for the optimization. For
@@ -539,10 +502,8 @@ int main( int argc, char *argv[] )
   // proving that none of the algorithms involved in the comparison are being
   // run with a sub-optimal set of parameters.
   //
-  // Software Guide : EndLatex
 
 
-  // Software Guide : BeginLatex
   //
   //  The plots in Figures~\ref{fig:ImageRegistration4TraceTranslations}
   //  and~\ref{fig:ImageRegistration4TraceTranslationsNumberOfBins} were
@@ -554,7 +515,6 @@ int main( int argc, char *argv[] )
   //  The use of these scripts was similar to what was described at the end of
   //  section~\ref{sec:MultiModalityRegistrationViolaWells}.
   //
-  // Software Guide : EndLatex
 
 
   return EXIT_SUCCESS;
