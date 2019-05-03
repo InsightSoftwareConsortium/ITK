@@ -169,7 +169,7 @@ public:
 
   /** Input pixel continuous index typdef */
   using ContinuousInputIndexType =
-      ContinuousIndex< TTransformPrecisionType, ImageDimension >;
+      ContinuousIndex< TInterpolatorPrecisionType, ImageDimension >;
 
   /** Typedef to describe the output image region type. */
   using OutputImageRegionType = typename TOutputImage::RegionType;

@@ -66,6 +66,11 @@ void Expect_ResampleImageFilter_preserves_pixel_value(const TPixel inputPixel)
 
 } // namespace
 
+// Compile time check of mixing transform and precision types
+template class itk::ResampleImageFilter<itk::Image<int>, itk::Image<int>, float, float >;
+template class itk::ResampleImageFilter<itk::Image<int>, itk::Image<int>, double, float >;
+template class itk::ResampleImageFilter<itk::Image<int>, itk::Image<int>, float , double >;
+template class itk::ResampleImageFilter<itk::Image<int>, itk::Image<int>, double, double >;
 
 TEST(ResampleImageFilter, FilterPreservesAnyDoublePixelValueByDefault)
 {
