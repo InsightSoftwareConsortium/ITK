@@ -595,14 +595,15 @@ HexahedronCell< TCellInterface >
                    CoordRepType x[Self::CellDimension], InterpolationWeightType *weights)
 {
   this->InterpolationFunctions(pcoords, weights);
-  x[0] = x[1] = x[2] = 0.0;
+  std::fill_n(x, Self::CellDimension, 0.0);
   for ( unsigned int i = 0; i < Self::NumberOfPoints; i++ )
     {
     PointType pt = points->GetElement(m_PointIds[i]);
 
     for ( unsigned int j = 0; j < Self::CellDimension; j++ )
       {
-      x[j] += pt[j] * weights[i];
+      const CoordRepType t = pt[j] * weights[i];
+      x[j] += t;
       }
     }
 }
