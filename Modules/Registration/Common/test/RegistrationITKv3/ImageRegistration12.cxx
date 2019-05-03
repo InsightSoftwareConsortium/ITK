@@ -91,8 +91,10 @@ public:
     }
 };
 
+#include "itkTestDriverIncludeRequiredIOFactories.h"
 int main( int argc, char *argv[] )
 {
+  RegisterRequiredFactories();
   if( argc < 5 )
     {
     std::cerr << "Missing Parameters " << std::endl;
