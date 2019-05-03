@@ -65,7 +65,7 @@ class METAIO_EXPORT MetaSurface : public MetaObject
   ////
   public:
 
-   typedef METAIO_STL::list<SurfacePnt*> PointListType;
+   typedef std::list<SurfacePnt*> PointListType;
     ////
     //
     // Constructors & Destructor

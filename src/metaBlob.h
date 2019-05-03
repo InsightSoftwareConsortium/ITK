@@ -67,7 +67,7 @@ class METAIO_EXPORT MetaBlob : public MetaObject
   ////
   public:
 
-   typedef METAIO_STL::list<BlobPnt*> PointListType;
+   typedef std::list<BlobPnt*> PointListType;
     ////
     //
     // Constructors & Destructor

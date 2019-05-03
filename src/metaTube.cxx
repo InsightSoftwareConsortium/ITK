@@ -62,7 +62,7 @@ MetaTube::
 MetaTube()
 :MetaObject()
 {
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaTube()" << METAIO_STREAM::endl;
+  if(META_DEBUG) std::cout << "MetaTube()" << std::endl;
   Clear();
 }
 
@@ -71,7 +71,7 @@ MetaTube::
 MetaTube(const char *_headerName)
 :MetaObject()
 {
-  if(META_DEBUG)  METAIO_STREAM::cout << "MetaTube()" << METAIO_STREAM::endl;
+  if(META_DEBUG)  std::cout << "MetaTube()" << std::endl;
   Clear();
   Read(_headerName);
 }
@@ -81,7 +81,7 @@ MetaTube::
 MetaTube(const MetaTube *_tube)
 :MetaObject()
 {
-  if(META_DEBUG)  METAIO_STREAM::cout << "MetaTube()" << METAIO_STREAM::endl;
+  if(META_DEBUG)  std::cout << "MetaTube()" << std::endl;
   Clear();
   CopyInfo(_tube);
 }
@@ -91,7 +91,7 @@ MetaTube::
 MetaTube(unsigned int dim)
 :MetaObject(dim)
 {
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaTube()" << METAIO_STREAM::endl;
+  if(META_DEBUG) std::cout << "MetaTube()" << std::endl;
   Clear();
 }
 
@@ -116,20 +116,20 @@ void MetaTube::
 PrintInfo() const
 {
   MetaObject::PrintInfo();
-  METAIO_STREAM::cout << "ParentPoint = " << m_ParentPoint << METAIO_STREAM::endl;
+  std::cout << "ParentPoint = " << m_ParentPoint << std::endl;
   if(m_Root)
     {
-    METAIO_STREAM::cout << "Root = " << "True" << METAIO_STREAM::endl;
+    std::cout << "Root = " << "True" << std::endl;
     }
   else
     {
-    METAIO_STREAM::cout << "Root = " << "True" << METAIO_STREAM::endl;
+    std::cout << "Root = " << "True" << std::endl;
     }
-  METAIO_STREAM::cout << "PointDim = " << m_PointDim << METAIO_STREAM::endl;
-  METAIO_STREAM::cout << "NPoints = " << m_NPoints << METAIO_STREAM::endl;
+  std::cout << "PointDim = " << m_PointDim << std::endl;
+  std::cout << "NPoints = " << m_NPoints << std::endl;
   char str[255];
   MET_TypeToString(m_ElementType, str);
-  METAIO_STREAM::cout << "ElementType = " << str << METAIO_STREAM::endl;
+  std::cout << "ElementType = " << str << std::endl;
 }
 
 void MetaTube::
@@ -193,7 +193,7 @@ ParentPoint() const
 void MetaTube::
 Clear()
 {
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaTube: Clear" << METAIO_STREAM::endl;
+  if(META_DEBUG) std::cout << "MetaTube: Clear" << std::endl;
   MetaObject::Clear();
   // Delete the list of pointers to tubes.
   PointListType::iterator it = m_PointList.begin();
@@ -223,7 +223,7 @@ M_Destroy()
 void MetaTube::
 M_SetupReadFields()
 {
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaTube: M_SetupReadFields" << METAIO_STREAM::endl;
+  if(META_DEBUG) std::cout << "MetaTube: M_SetupReadFields" << std::endl;
 
   MetaObject::M_SetupReadFields();
 
@@ -308,18 +308,18 @@ M_Read()
 {
   if(META_DEBUG)
     {
-    METAIO_STREAM::cout << "MetaTube: M_Read: Loading Header" << METAIO_STREAM::endl;
+    std::cout << "MetaTube: M_Read: Loading Header" << std::endl;
     }
 
   if(!MetaObject::M_Read())
     {
-    METAIO_STREAM::cout << "MetaTube: M_Read: Error parsing file" << METAIO_STREAM::endl;
+    std::cout << "MetaTube: M_Read: Error parsing file" << std::endl;
     return false;
     }
 
   if(META_DEBUG)
     {
-    METAIO_STREAM::cout << "MetaTube: M_Read: Parsing Header" << METAIO_STREAM::endl;
+    std::cout << "MetaTube: M_Read: Parsing Header" << std::endl;
     }
 
   MET_FieldRecordType * mF;
@@ -387,7 +387,7 @@ M_Read()
 
   if(META_DEBUG)
     {
-    METAIO_STREAM::cout << "MetaTube: Parsing point dim" << METAIO_STREAM::endl;
+    std::cout << "MetaTube: Parsing point dim" << std::endl;
     }
 
   int j;
@@ -500,10 +500,10 @@ M_Read()
     int gc = static_cast<int>(m_ReadStream->gcount());
     if(gc != readSize)
       {
-      METAIO_STREAM::cout << "MetaLine: m_Read: data not read completely"
-                << METAIO_STREAM::endl;
-      METAIO_STREAM::cout << "   ideal = " << readSize
-                << " : actual = " << gc << METAIO_STREAM::endl;
+      std::cout << "MetaLine: m_Read: data not read completely"
+                << std::endl;
+      std::cout << "   ideal = " << readSize
+                << " : actual = " << gc << std::endl;
       delete [] posDim;
       delete [] _data;
       return false;
@@ -736,7 +736,7 @@ M_Write()
 
   if(!MetaObject::M_Write())
     {
-    METAIO_STREAM::cout << "MetaTube: M_Read: Error parsing file" << METAIO_STREAM::endl;
+    std::cout << "MetaTube: M_Read: Error parsing file" << std::endl;
     return false;
     }
 
@@ -850,7 +850,7 @@ M_Write()
 
       *m_WriteStream << (*it)->m_ID << " ";
 
-      *m_WriteStream << METAIO_STREAM::endl;
+      *m_WriteStream << std::endl;
       ++it;
       }
     }
