@@ -41,18 +41,12 @@ SimpleDataObjectDecorator< T >
 ::SimpleDataObjectDecorator()
 {
 #if defined( __GNUC__ ) && ( __GNUC__ > 6 )
-#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
-  ITK_GCC_PRAGMA_DIAG_PUSH()
-#endif
+ITK_GCC_PRAGMA_DIAG_PUSH()
 ITK_GCC_PRAGMA_DIAG(ignored "-Wmaybe-uninitialized")
 #endif // defined( __GNUC__ ) && ( __GNUC__ > 6 )
   this->m_Component = ComponentType(); // initialize here to avoid Purify UMR
 #if defined( __GNUC__ ) && ( __GNUC__ > 6 )
-#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
-  ITK_GCC_PRAGMA_DIAG_POP()
-#else
-  ITK_GCC_PRAGMA_DIAG(warning "-Wmaybe-uninitialized")
-#endif
+ITK_GCC_PRAGMA_DIAG_POP()
 #endif // defined( __GNUC__ ) && ( __GNUC__ > 6 )
   this->m_Initialized = false;         // Still needed since not all objects
                                        // are initialized at construction time.

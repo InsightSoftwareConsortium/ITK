@@ -115,12 +115,10 @@ namespace itk
 //
 // These macros respectively push and pop the diagnostic context
 //
-// Define macro ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
 #if defined( __GNUC__ ) && !defined( __INTEL_COMPILER )
   #define ITK_GCC_PRAGMA_DIAG(x) ITK_PRAGMA(GCC diagnostic x)
   #define ITK_GCC_PRAGMA_DIAG_PUSH() ITK_GCC_PRAGMA_DIAG(push)
   #define ITK_GCC_PRAGMA_DIAG_POP() ITK_GCC_PRAGMA_DIAG(pop)
-  #define ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
 #else
   #define ITK_GCC_PRAGMA_DIAG(x)
   #define ITK_GCC_PRAGMA_DIAG_PUSH()
@@ -128,7 +126,7 @@ namespace itk
 #endif
 
 /*
- * ITK only supports MSVC++ 10.0 and greater
+ * ITK only supports MSVC++ 14.0 and greater
  * MSVC++ 14.0 _MSVC_VER = 1900
  * MSVC++ 12.0 _MSC_VER = 1800
  * MSVC++ 11.0 _MSC_VER = 1700
@@ -140,11 +138,11 @@ namespace itk
  * MSVC++ 6.0 _MSC_VER = 1200
  * MSVC++ 5.0 _MSC_VER = 1100
 */
-#if defined( _MSC_VER ) && ( _MSC_VER < 1600 )
-  #error "MSVC++ < 10.0 is not supported under ITKv5"
+#if defined( _MSC_VER ) && ( _MSC_VER < 1900 )
+  #error "Visual Studio < 2015 is not supported under ITKv5"
 #endif
-#if defined( __SUNPRO_CC ) && ( __SUNPRO_CC < 0x590 )
-  #error "SUNPro C++ < 0x590 is not supported under ITKv4 and above"
+#if defined( __SUNPRO_CC ) && ( __SUNPRO_CC < 0x5140 )
+  #error "SUNPro C++ < 5.14.0 is not supported under ITKv4 and above"
 #endif
 #if defined( __CYGWIN__ )
   #error "The Cygwin compiler is not supported in ITKv4 and above"
@@ -171,8 +169,8 @@ namespace itk
 #elif defined( __clang__ ) && (( __clang_major < 3 ) || (( __clang_major__ == 3 ) && ( __clang_minor__ < 3 )))
   #error "Clang < 3.3 is not supported under ITKv5"
 #endif
-#if defined( __INTEL_COMPILER ) && ( __INTEL_COMPILER < 1600 )
-  #error "Intel C++ < 16.0 is not supported under ITKv5"
+#if defined( __INTEL_COMPILER ) && ( __INTEL_COMPILER < 1504 )
+  #error "Intel C++ < 15.0.4 is not supported under ITKv5"
 #endif
 
 // Setup symbol exports
@@ -563,7 +561,7 @@ itkTypeMacro(newexcp, parentexcp);                                \
 #else
 // Setup compile-time warnings for uses of deprecated methods if
 // possible on this compiler.
-#if defined( __GNUC__ ) && !defined( __INTEL_COMPILER ) && ( __GNUC__ > 3 || ( __GNUC__ == 3 && __GNUC_MINOR__ >= 1 ) )
+#if defined( __GNUC__ ) && !defined( __INTEL_COMPILER )
 #define itkLegacyMacro(method) method __attribute__( ( deprecated ) )
 #elif defined( _MSC_VER )
 #define itkLegacyMacro(method) __declspec(deprecated) method
@@ -762,11 +760,7 @@ compilers.
  * and is beneficial in other cases where a value can be constant.
  *
  * \ingroup ITKCommon */
-#if defined(__GNUC__) && ((__GNUC__ * 100) + __GNUC_MINOR__ ) < 405 && !defined( __clang__ ) && !defined( __INTEL_COMPILER )
-#  define itkStaticConstMacro(name,type,value) enum { name = value }
-#else
-#  define itkStaticConstMacro(name,type,value) static constexpr type name = value
-#endif
+#define itkStaticConstMacro(name,type,value) static constexpr type name = value
 
 #define itkGetStaticConstMacro(name) (Self::name)
 

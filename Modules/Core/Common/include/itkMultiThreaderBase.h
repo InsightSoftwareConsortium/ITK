@@ -173,9 +173,7 @@ public:
    * (void *)arg passed into the SetSingleMethod.
    *
    * DEPRECATED! Use WorkUnitInfo instead. */
-#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
-  ITK_GCC_PRAGMA_DIAG_PUSH()
-#endif
+ITK_GCC_PRAGMA_DIAG_PUSH()
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 INTEL_PRAGMA_WARN_PUSH
 INTEL_SUPPRESS_warning_1292
@@ -195,11 +193,7 @@ INTEL_PRAGMA_WARN_POP
     ThreadFunctionType ThreadFunction;
     enum { SUCCESS, ITK_EXCEPTION, ITK_PROCESS_ABORTED_EXCEPTION, STD_EXCEPTION, UNKNOWN } ThreadExitCode;
     };
-#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
-  ITK_GCC_PRAGMA_DIAG_POP()
-#else
-  ITK_GCC_PRAGMA_DIAG(warning "-Wattributes")
-#endif
+ITK_GCC_PRAGMA_DIAG_POP()
 #endif //ITK_LEGACY_REMOVE
 
   /** This is the structure that is passed to the thread that is

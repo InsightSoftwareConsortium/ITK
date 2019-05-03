@@ -72,8 +72,6 @@ int itkMetaDataDictionaryTest(int , char * [])
   MyDictionary.Print(std::cout);
 
 
-  // Iterator are broken on VS6
-#if !(defined(_MSC_VER) && _MSC_VER < 1300)
   std::cout << "Exercise the Iterator access" << std::endl;
   try
     {
@@ -165,7 +163,6 @@ int itkMetaDataDictionaryTest(int , char * [])
     }
 
 
-#endif
 
   //NOTE: Must clean up memory allocated with char * StrandedMemory=new char[2345];
   delete[] StrandedMemory;
