@@ -10,6 +10,14 @@ ITKTransform, and optimizers can be found in ITKOptimizers. To compare the
 moving image to the fixed image with the image metric, an interpolator is
 required-- these can be found in ITKImageFunction.")
 
+if(BUILD_EXAMPLES)
+set(EXAMPLE_TEST_CASE_DEPENDANCIES
+  ITKImageCompare
+  ITKIOTransformBase
+  ITKIOImageBase
+)
+endif()
+
 itk_module(ITKRegistrationCommon
   DEPENDS
     ITKOptimizers
@@ -29,6 +37,7 @@ itk_module(ITKRegistrationCommon
     ITKImageSources
     ITKColormap
     ITKQuadEdgeMesh
+    ${EXAMPLE_TEST_CASE_DEPENDANCIES}
   DESCRIPTION
     "${DOCUMENTATION}"
 )
