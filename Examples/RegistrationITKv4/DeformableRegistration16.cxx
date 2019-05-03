@@ -97,7 +97,8 @@
 #include "itkMultiResolutionImageRegistrationMethod.h"
 #include "itkHistogramMatchingImageFilter.h"
 #include "itkCastImageFilter.h"
-#include "itkWarpImageFilter.h"
+#include "itkResampleImageFilter.h"
+#include "itkDisplacementFieldTransform.h"
 
 unsigned int RmsCounter = 0;
 double MaxRmsE[4] = {0.8,  0.75,  0.4, 0.2};
@@ -288,9 +289,14 @@ int main( int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
+  using DisplacementFieldTransformType = itk::DisplacementFieldTransform<InternalPixelType, Dimension>;
+  auto displacementTransform = DisplacementFieldTransformType::New();
+  displacementTransform->SetDisplacementField( multires->GetOutput() );
+
   // compute the output (warped) image
-  using WarperType = itk::WarpImageFilter< ImageType, ImageType, DisplacementFieldType >;
-  using InterpolatorType = itk::LinearInterpolateImageFunction< ImageType, double >;
+  using InterpolatorPrecisionType = double;
+  using WarperType = itk::ResampleImageFilter< ImageType, ImageType, InterpolatorPrecisionType, InternalPixelType >;
+  using InterpolatorType = itk::LinearInterpolateImageFunction< ImageType, InterpolatorPrecisionType >;
 
   WarperType::Pointer warper = WarperType::New();
 
@@ -302,7 +308,7 @@ int main( int argc, char * argv [] )
   warper->SetOutputSpacing( targetImage->GetSpacing() );
   warper->SetOutputOrigin( targetImage->GetOrigin() );
   warper->SetOutputDirection( targetImage->GetDirection() );
-  warper->SetDisplacementField( multires->GetOutput() );
+  warper->SetTransform( displacementTransform );
 
   using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
