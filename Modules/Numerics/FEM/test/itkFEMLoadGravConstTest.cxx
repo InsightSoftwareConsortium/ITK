@@ -43,10 +43,10 @@ int itkFEMLoadGravConstTest(int argc, char *argv[])
   SpatialReader->SetFileName( argv[1] );
   SpatialReader->Update();
 
-  FEMSpatialObjectReaderType::ScenePointer myScene = SpatialReader->GetScene();
-  if( !myScene )
+  FEMSpatialObjectReaderType::GroupPointer myGroup = SpatialReader->GetGroup();
+  if( !myGroup )
     {
-    std::cout << "No Scene : [FAILED]" << std::endl;
+    std::cout << "No Group : [FAILED]" << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << " [PASSED]" << std::endl;
@@ -55,7 +55,7 @@ int itkFEMLoadGravConstTest(int argc, char *argv[])
   using FEMObjectSpatialObjectType = itk::FEMObjectSpatialObject<2>;
 
   FEMObjectSpatialObjectType::ChildrenListType* children = SpatialReader->GetGroup()->GetChildren();
-  if( strcmp( (*(children->begin() ) )->GetTypeName(), "FEMObjectSpatialObject") )
+  if( (*(children->begin() ) )->GetTypeName() != "FEMObjectSpatialObject" )
     {
     std::cout << " [FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -86,7 +86,7 @@ int itkFEMLoadGravConstTest(int argc, char *argv[])
   using FEMSpatialObjectWriterType = itk::FEMSpatialObjectWriter<2>;
   using FEMSpatialObjectWriterPointer = FEMSpatialObjectWriterType::Pointer;
   FEMSpatialObjectWriterPointer SpatialWriter = FEMSpatialObjectWriterType::New();
-  SpatialWriter->SetInput(SpatialReader->GetScene() );
+  SpatialWriter->SetInput(SpatialReader->GetGroup() );
   SpatialWriter->SetFileName( argv[2] );
   SpatialWriter->Update();
 
