@@ -468,7 +468,11 @@ class itkTemplate(object):
         else:
             imageIO = itk.ImageIOFactory.CreateImageIO( inputFileName, itk.ImageIOFactory.ReadMode )
         if not imageIO:
-            raise RuntimeError("No ImageIO is registered to handle the given file.")
+            msg = ""
+            if not os.path.isfile(inputFileName):
+                msg += ("\nThe file doesn't exist. \n" +
+                       "Filename = %s" % inputFileName)
+            raise RuntimeError("Could not create IO object for reading file %s" % inputFileName + msg)
         componentTypeDic= {"float": itk.F, "double": itk.D,
         "unsigned_char": itk.UC, "unsigned_short": itk.US, "unsigned_int": itk.UI,
         "unsigned_long": itk.UL, "unsigned_long_long": itk.ULL, "char": itk.SC, "short": itk.SS,

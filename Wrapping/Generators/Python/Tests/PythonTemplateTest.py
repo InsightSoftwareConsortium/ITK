@@ -76,18 +76,27 @@ reader2 = readerType.New()
 reader = readerType.New(FileName='test.png')
 assert reader.GetFileName() == 'test.png'
 
-# wwith a wrong attribute name
+# with a wrong attribute name
 try:
     reader = readerType.New(WrongName='test.png')
     raise Exception('no exception sent for wrong attribute name')
 except AttributeError:
     pass
 
-# wwith a wrong attribute type
+# with a wrong attribute type
 try:
     reader = readerType.New(FileName=1)
     raise Exception('no exception sent for wrong attribute type')
 except:
+    pass
+
+# with a wrong file name
+try:
+    reader = itk.ImageFileReader.New(FileName="wrong filename")
+    raise Exception('no exception sent for wrong file name')
+except RuntimeError as e:
+    if not "The file doesn't exist." in str(e):
+        raise e
     pass
 
 # pass filter as argument for input
