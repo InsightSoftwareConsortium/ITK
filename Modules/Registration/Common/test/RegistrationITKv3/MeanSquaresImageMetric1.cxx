@@ -50,8 +50,10 @@
 // Software Guide : EndCodeSnippet
 
 
+#include "itkTestDriverIncludeRequiredIOFactories.h"
 int main( int argc, char * argv[] )
 {
+  RegisterRequiredFactories();
   if( argc < 3 )
     {
     std::cerr << "Usage: " << std::endl;
