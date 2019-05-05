@@ -338,16 +338,15 @@ void GDCMImageIO::Read(void *pointer)
     // WARNING: sizeof(Real World Value) != sizeof(Stored Pixel)
     len = len * outputpt.GetPixelSize() / pixeltype.GetPixelSize();
     }
-
-  if ( ( pi == gdcm::PhotometricInterpretation::YBR_FULL_422 ||
-         pi == gdcm::PhotometricInterpretation::YBR_FULL ) &&
-       ( pixeltype == gdcm::PixelFormat::UINT8 ||
-         pixeltype == gdcm::PixelFormat::INT8 ) &&
-       m_NumberOfComponents == 3 )
-  {
-    unsigned char * copy = reinterpret_cast<unsigned char *>(pointer);
-    for (unsigned long x = 0; x < len; x+=3)
+  else if ( ( pi == gdcm::PhotometricInterpretation::YBR_FULL_422 ||
+              pi == gdcm::PhotometricInterpretation::YBR_FULL ) &&
+            ( pixeltype == gdcm::PixelFormat::UINT8 ||
+              pixeltype == gdcm::PixelFormat::INT8 ) &&
+            m_NumberOfComponents == 3 )
     {
+    unsigned char * copy = reinterpret_cast<unsigned char *>(pointer);
+    for (unsigned long long x = 0; x < len; x+=3)
+      {
       const unsigned char a = copy[x  ];
       const unsigned char b = copy[x+1];
       const unsigned char c = copy[x+2];
@@ -366,8 +365,8 @@ void GDCMImageIO::Read(void *pointer)
       copy[x  ]=(unsigned char)(R);
       copy[x+1]=(unsigned char)(G);
       copy[x+2]=(unsigned char)(B);
+      }
     }
-  }
 
 #ifndef NDEBUG
   // \postcondition
