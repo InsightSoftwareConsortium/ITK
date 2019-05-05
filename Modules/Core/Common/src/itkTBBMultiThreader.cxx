@@ -137,7 +137,12 @@ namespace
 {
 struct TBBImageRegionSplitter : public itk::ImageIORegion
 {
-  static const bool is_splittable_in_proportion = true;
+  // Optional. If true, the proportional splitting constructor
+  // is defined for the range and may be used by parallel algorithms.
+  // https://software.intel.com/en-us/node/506143
+  // This variable must exist for tbb to properly identify and use this
+  // specialization.
+  static constexpr bool is_splittable_in_proportion = true;
   TBBImageRegionSplitter(const TBBImageRegionSplitter&) = default;
   TBBImageRegionSplitter(const itk::ImageIORegion& region)
       :itk::ImageIORegion(region) //use itk::ImageIORegion's copy constructor
@@ -148,26 +153,31 @@ struct TBBImageRegionSplitter : public itk::ImageIORegion
 
   TBBImageRegionSplitter(TBBImageRegionSplitter& region, tbb::proportional_split p)
   {
-    *this = region; //most things will be the same
-    for (int d = int(this->GetImageDimension()) - 1; d >= 0; d--) //prefer to split along highest dimension
-      {
-      if (this->GetSize(d) > 1) //split along this dimension
+    // The following if statement is primarily used to ensure use of
+    // is_splittable_in_proportion to avoid unused variable warning.
+    if( TBBImageRegionSplitter::is_splittable_in_proportion == true )
+    {
+      *this = region; //most things will be the same
+      for (int d = int(this->GetImageDimension()) - 1; d >= 0; d--) //prefer to split along highest dimension
         {
-        size_t myP = (this->GetSize(d) * p.right()) / (p.left() + p.right());
-        if (myP == 0)
+        if (this->GetSize(d) > 1) //split along this dimension
           {
-          ++myP;
+          size_t myP = (this->GetSize(d) * p.right()) / (p.left() + p.right());
+          if (myP == 0)
+            {
+            ++myP;
+            }
+          else if (myP == this->GetSize(d))
+            {
+            --myP;
+            }
+          this->SetSize(d, myP);
+          region.SetSize(d, region.GetSize(d) - myP);
+          region.SetIndex(d, myP + region.GetIndex(d));
+          return;
           }
-        else if (myP == this->GetSize(d))
-          {
-          --myP;
-          }
-        this->SetSize(d, myP);
-        region.SetSize(d, region.GetSize(d) - myP);
-        region.SetIndex(d, myP + region.GetIndex(d));
-        return;
         }
-      }
+    }
     itkGenericExceptionMacro("An ImageIORegion could not be split. Region: " << region);
   }
 
