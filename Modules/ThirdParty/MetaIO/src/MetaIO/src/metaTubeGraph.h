@@ -76,7 +76,7 @@ class METAIO_EXPORT MetaTubeGraph : public MetaObject
   ////
   public:
 
-   typedef METAIO_STL::vector<TubeGraphPnt*> PointListType;
+   typedef std::vector<TubeGraphPnt*> PointListType;
     ////
     //
     // Constructors & Destructor

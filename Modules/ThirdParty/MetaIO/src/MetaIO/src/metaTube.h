@@ -67,7 +67,7 @@ class METAIO_EXPORT MetaTube : public MetaObject
   ////
   public:
 
-   typedef METAIO_STL::list<TubePnt*> PointListType;
+   typedef std::list<TubePnt*> PointListType;
     ////
     //
     // Constructors & Destructor

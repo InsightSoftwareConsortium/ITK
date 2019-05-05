@@ -54,7 +54,7 @@ MetaBlob::
 MetaBlob()
 :MetaObject()
 {
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaBlob()" << METAIO_STREAM::endl;
+  if(META_DEBUG) std::cout << "MetaBlob()" << std::endl;
   m_NPoints = 0;
   Clear();
 }
@@ -64,7 +64,7 @@ MetaBlob::
 MetaBlob(const char *_headerName)
 :MetaObject()
 {
-  if(META_DEBUG)  METAIO_STREAM::cout << "MetaBlob()" << METAIO_STREAM::endl;
+  if(META_DEBUG)  std::cout << "MetaBlob()" << std::endl;
   m_NPoints = 0;
   Clear();
   Read(_headerName);
@@ -75,7 +75,7 @@ MetaBlob::
 MetaBlob(const MetaBlob *_blob)
 :MetaObject()
 {
-  if(META_DEBUG)  METAIO_STREAM::cout << "MetaBlob()" << METAIO_STREAM::endl;
+  if(META_DEBUG)  std::cout << "MetaBlob()" << std::endl;
   m_NPoints = 0;
   Clear();
   CopyInfo(_blob);
@@ -88,7 +88,7 @@ MetaBlob::
 MetaBlob(unsigned int dim)
 :MetaObject(dim)
 {
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaBlob()" << METAIO_STREAM::endl;
+  if(META_DEBUG) std::cout << "MetaBlob()" << std::endl;
   m_NPoints = 0;
   Clear();
 }
@@ -106,11 +106,11 @@ void MetaBlob::
 PrintInfo() const
 {
   MetaObject::PrintInfo();
-  METAIO_STREAM::cout << "PointDim = " << m_PointDim << METAIO_STREAM::endl;
-  METAIO_STREAM::cout << "NPoints = " << m_NPoints << METAIO_STREAM::endl;
+  std::cout << "PointDim = " << m_PointDim << std::endl;
+  std::cout << "NPoints = " << m_NPoints << std::endl;
   char str[255];
   MET_TypeToString(m_ElementType, str);
-  METAIO_STREAM::cout << "ElementType = " << str << METAIO_STREAM::endl;
+  std::cout << "ElementType = " << str << std::endl;
 }
 
 void MetaBlob::
@@ -150,9 +150,9 @@ NPoints() const
 void MetaBlob::
 Clear()
 {
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaBlob: Clear" << METAIO_STREAM::endl;
+  if(META_DEBUG) std::cout << "MetaBlob: Clear" << std::endl;
   MetaObject::Clear();
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaBlob: Clear: m_NPoints" << METAIO_STREAM::endl;
+  if(META_DEBUG) std::cout << "MetaBlob: Clear: m_NPoints" << std::endl;
   // Delete the list of pointers to blobs.
   PointListType::iterator it = m_PointList.begin();
   while(it != m_PointList.end())
@@ -178,7 +178,7 @@ M_Destroy()
 void MetaBlob::
 M_SetupReadFields()
 {
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaBlob: M_SetupReadFields" << METAIO_STREAM::endl;
+  if(META_DEBUG) std::cout << "MetaBlob: M_SetupReadFields" << std::endl;
 
   MetaObject::M_SetupReadFields();
 
@@ -255,15 +255,15 @@ M_SetupWriteFields()
 bool MetaBlob::
 M_Read()
 {
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaBlob: M_Read: Loading Header" << METAIO_STREAM::endl;
+  if(META_DEBUG) std::cout << "MetaBlob: M_Read: Loading Header" << std::endl;
 
   if(!MetaObject::M_Read())
   {
-    METAIO_STREAM::cout << "MetaBlob: M_Read: Error parsing file" << METAIO_STREAM::endl;
+    std::cout << "MetaBlob: M_Read: Error parsing file" << std::endl;
     return false;
   }
 
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaBlob: M_Read: Parsing Header" << METAIO_STREAM::endl;
+  if(META_DEBUG) std::cout << "MetaBlob: M_Read: Parsing Header" << std::endl;
 
   MET_FieldRecordType * mF;
 
@@ -335,9 +335,9 @@ M_Read()
     size_t gc = static_cast<size_t>(m_ReadStream->gcount());
     if(gc != readSize)
     {
-      METAIO_STREAM::cout << "MetaBlob: m_Read: data not read completely"
-                << METAIO_STREAM::endl;
-      METAIO_STREAM::cout << "   ideal = " << readSize << " : actual = " << gc << METAIO_STREAM::endl;
+      std::cout << "MetaBlob: m_Read: data not read completely"
+                << std::endl;
+      std::cout << "   ideal = " << readSize << " : actual = " << gc << std::endl;
       delete [] _data;
       delete [] posDim;
       return false;
@@ -431,8 +431,8 @@ M_Write()
 
   if(!MetaObject::M_Write())
     {
-    METAIO_STREAM::cout << "MetaBlob: M_Read: Error parsing file"
-                        << METAIO_STREAM::endl;
+    std::cout << "MetaBlob: M_Read: Error parsing file"
+                        << std::endl;
     return false;
     }
 
@@ -486,7 +486,7 @@ M_Write()
         *m_WriteStream << (*it)->m_Color[d] << " ";
         }
 
-      *m_WriteStream << METAIO_STREAM::endl;
+      *m_WriteStream << std::endl;
       ++it;
       }
     }

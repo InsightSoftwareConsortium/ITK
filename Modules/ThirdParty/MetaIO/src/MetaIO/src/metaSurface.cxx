@@ -57,7 +57,7 @@ MetaSurface::
 MetaSurface()
 :MetaObject()
 {
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaSurface()" << METAIO_STREAM::endl;
+  if(META_DEBUG) std::cout << "MetaSurface()" << std::endl;
   Clear();
 }
 
@@ -66,7 +66,7 @@ MetaSurface::
 MetaSurface(const char *_headerName)
 :MetaObject()
 {
-  if(META_DEBUG)  METAIO_STREAM::cout << "MetaSurface()" << METAIO_STREAM::endl;
+  if(META_DEBUG)  std::cout << "MetaSurface()" << std::endl;
   Clear();
   Read(_headerName);
 }
@@ -76,7 +76,7 @@ MetaSurface::
 MetaSurface(const MetaSurface *_surface)
 :MetaObject()
 {
-  if(META_DEBUG)  METAIO_STREAM::cout << "MetaSurface()" << METAIO_STREAM::endl;
+  if(META_DEBUG)  std::cout << "MetaSurface()" << std::endl;
   Clear();
   CopyInfo(_surface);
 }
@@ -88,7 +88,7 @@ MetaSurface::
 MetaSurface(unsigned int dim)
 :MetaObject(dim)
 {
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaSurface()" << METAIO_STREAM::endl;
+  if(META_DEBUG) std::cout << "MetaSurface()" << std::endl;
   Clear();
 }
 
@@ -106,11 +106,11 @@ void MetaSurface::
 PrintInfo() const
 {
   MetaObject::PrintInfo();
-  METAIO_STREAM::cout << "PointDim = " << m_PointDim << METAIO_STREAM::endl;
-  METAIO_STREAM::cout << "NPoints = " << m_NPoints << METAIO_STREAM::endl;
+  std::cout << "PointDim = " << m_PointDim << std::endl;
+  std::cout << "NPoints = " << m_NPoints << std::endl;
   char str[255];
   MET_TypeToString(m_ElementType, str);
-  METAIO_STREAM::cout << "ElementType = " << str << METAIO_STREAM::endl;
+  std::cout << "ElementType = " << str << std::endl;
 }
 
 void MetaSurface::
@@ -149,7 +149,7 @@ NPoints() const
 void MetaSurface::
 Clear()
 {
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaSurface: Clear" << METAIO_STREAM::endl;
+  if(META_DEBUG) std::cout << "MetaSurface: Clear" << std::endl;
   MetaObject::Clear();
   m_NPoints = 0;
   // Delete the list of pointers to tubes.
@@ -176,7 +176,7 @@ M_Destroy()
 void MetaSurface::
 M_SetupReadFields()
 {
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaSurface: M_SetupReadFields" << METAIO_STREAM::endl;
+  if(META_DEBUG) std::cout << "MetaSurface: M_SetupReadFields" << std::endl;
 
   MetaObject::M_SetupReadFields();
 
@@ -205,7 +205,7 @@ M_SetupReadFields()
 void MetaSurface::
 M_SetupWriteFields()
 {
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaSurface: M_SetupWriteFields" << METAIO_STREAM::endl;
+  if(META_DEBUG) std::cout << "MetaSurface: M_SetupWriteFields" << std::endl;
 
   strcpy(m_ObjectTypeName,"Surface");
   MetaObject::M_SetupWriteFields();
@@ -253,15 +253,15 @@ ElementType(MET_ValueEnumType _elementType)
 bool MetaSurface::
 M_Read()
 {
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaSurface: M_Read: Loading Header" << METAIO_STREAM::endl;
+  if(META_DEBUG) std::cout << "MetaSurface: M_Read: Loading Header" << std::endl;
 
   if(!MetaObject::M_Read())
   {
-    METAIO_STREAM::cout << "MetaSurface: M_Read: Error parsing file" << METAIO_STREAM::endl;
+    std::cout << "MetaSurface: M_Read: Error parsing file" << std::endl;
     return false;
   }
 
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaSurface: M_Read: Parsing Header" << METAIO_STREAM::endl;
+  if(META_DEBUG) std::cout << "MetaSurface: M_Read: Parsing Header" << std::endl;
 
   MET_FieldRecordType * mF;
 
@@ -309,9 +309,9 @@ M_Read()
     int gc = static_cast<int>(m_ReadStream->gcount());
     if(gc != readSize)
     {
-      METAIO_STREAM::cout << "MetaSurface: m_Read: data not read completely"
-                << METAIO_STREAM::endl;
-      METAIO_STREAM::cout << "   ideal = " << readSize << " : actual = " << gc << METAIO_STREAM::endl;
+      std::cout << "MetaSurface: m_Read: data not read completely"
+                << std::endl;
+      std::cout << "   ideal = " << readSize << " : actual = " << gc << std::endl;
       delete [] _data;
       return false;
     }
@@ -412,11 +412,11 @@ bool MetaSurface::
 M_Write()
 {
 
-  if(META_DEBUG) METAIO_STREAM::cout << "MetaSurface: M_Write" << METAIO_STREAM::endl;
+  if(META_DEBUG) std::cout << "MetaSurface: M_Write" << std::endl;
 
   if(!MetaObject::M_Write())
   {
-    METAIO_STREAM::cout << "MetaSurface: M_Read: Error parsing file" << METAIO_STREAM::endl;
+    std::cout << "MetaSurface: M_Read: Error parsing file" << std::endl;
     return false;
   }
 
@@ -485,7 +485,7 @@ M_Write()
         *m_WriteStream << (*it)->m_Color[d] << " ";
       }
 
-      *m_WriteStream << METAIO_STREAM::endl;
+      *m_WriteStream << std::endl;
       ++it;
     }
   }
