@@ -44,22 +44,19 @@ ImageMaskSpatialObject< TDimension, TPixel >
 {
   if( this->GetTypeName().find( name ) != std::string::npos )
     {
-    if( this->GetMyBoundingBoxInObjectSpace()->IsInside(point) )
+    typename Superclass::InterpolatorType::ContinuousIndexType index;
+    if( this->GetImage()->TransformPhysicalPointToContinuousIndex( point,
+        index ) )
       {
-      typename Superclass::InterpolatorType::ContinuousIndexType index;
-      if( this->GetImage()->TransformPhysicalPointToContinuousIndex( point,
-          index ) )
+      using InterpolatorOutputType = typename InterpolatorType::OutputType;
+      bool insideMask = (
+        Math::NotExactlyEquals(
+          DefaultConvertPixelTraits<InterpolatorOutputType>::GetScalarValue(
+            this->GetInterpolator()->EvaluateAtContinuousIndex(index)),
+          NumericTraits<PixelType>::ZeroValue() ) );
+      if( insideMask )
         {
-        using InterpolatorOutputType = typename InterpolatorType::OutputType;
-        bool insideMask = (
-          Math::NotExactlyEquals(
-            DefaultConvertPixelTraits<InterpolatorOutputType>::GetScalarValue(
-              this->GetInterpolator()->EvaluateAtContinuousIndex(index)),
-            NumericTraits<PixelType>::ZeroValue() ) );
-        if( insideMask )
-          {
-          return true;
-          }
+        return true;
         }
       }
     }
