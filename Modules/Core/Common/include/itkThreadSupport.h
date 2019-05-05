@@ -36,6 +36,7 @@
 #include "itkWindows.h"
 #include <winbase.h>
 #endif
+#include "itkConfigure.h"
 
 
 namespace itk
