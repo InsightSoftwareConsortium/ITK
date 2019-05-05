@@ -339,6 +339,36 @@ void GDCMImageIO::Read(void *pointer)
     len = len * outputpt.GetPixelSize() / pixeltype.GetPixelSize();
     }
 
+  if ( ( pi == gdcm::PhotometricInterpretation::YBR_FULL_422 ||
+         pi == gdcm::PhotometricInterpretation::YBR_FULL ) &&
+       ( pixeltype == gdcm::PixelFormat::UINT8 ||
+         pixeltype == gdcm::PixelFormat::INT8 ) &&
+       m_NumberOfComponents == 3 )
+  {
+    unsigned char * copy = reinterpret_cast<unsigned char *>(pointer);
+    for (unsigned long x = 0; x < len; x+=3)
+    {
+      const unsigned char a = copy[x  ];
+      const unsigned char b = copy[x+1];
+      const unsigned char c = copy[x+2];
+      int R = 38142*(a-16)+52298*(c-128);
+      int G = 38142*(a-16)-26640*(c-128)-12845*(b-128);
+      int B = 38142*(a-16)+66093*(b-128);
+      R = (R+16384)>>15;
+      G = (G+16384)>>15;
+      B = (B+16384)>>15;
+      if (R <   0) R =   0;
+      if (R > 255) R = 255;
+      if (G <   0) G =   0;
+      if (G > 255) G = 255;
+      if (B <   0) B =   0;
+      if (B > 255) B = 255;
+      copy[x  ]=(unsigned char)(R);
+      copy[x+1]=(unsigned char)(G);
+      copy[x+2]=(unsigned char)(B);
+    }
+  }
+
 #ifndef NDEBUG
   // \postcondition
   // Now that len was updated (after unpacker 12bits -> 16bits, rescale...) ,
