@@ -29,6 +29,13 @@ jobs:
         displayName: 'Checkout pull request HEAD'
       - bash: |
           set -x
+          sudo apt-get update
+          sudo apt-get install -y python3-venv
+          sudo python3 -m pip install --upgrade setuptools
+          sudo python3 -m pip install scikit-ci-addons
+        displayName: 'Install dependencies'
+      - bash: |
+          set -x
           git clone -b dashboard --single-branch https://github.com/InsightSoftwareConsortium/ITK.git ITK-dashboard
 
           curl -L https://github.com/InsightSoftwareConsortium/ITK/releases/download/v$(ExternalDataVersion)/InsightData-$(ExternalDataVersion).tar.gz -O
