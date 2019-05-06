@@ -15,6 +15,8 @@ set(EXAMPLE_TEST_CASE_DEPENDANCIES
   ITKImageCompare
   ITKIOTransformBase
   ITKIOImageBase
+  ITKPDEDeformableRegistration
+  ITKFFT
 )
 endif()
 
