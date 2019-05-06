@@ -342,8 +342,7 @@ void GDCMImageIO::Read(void *pointer)
               pi == gdcm::PhotometricInterpretation::YBR_FULL ) &&
             ( pixeltype == gdcm::PixelFormat::UINT8 ||
               pixeltype == gdcm::PixelFormat::INT8 ) &&
-            ( len%3 == 0 ) &&
-            m_NumberOfComponents == 3 )
+            len%3 == 0 && m_NumberOfComponents == 3 )
     {
     unsigned char * copy = reinterpret_cast<unsigned char *>(pointer);
     for (unsigned long long x = 0; x < len; x+=3)
