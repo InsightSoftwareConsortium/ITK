@@ -26,6 +26,7 @@ jobs:
           if [ -n "$(System.PullRequest.SourceCommitId)" ]; then
             git checkout $(System.PullRequest.SourceCommitId)
           fi
+        displayName: 'Checkout pull request HEAD'
       - bash: |
           set -x
           git clone -b dashboard --single-branch https://github.com/InsightSoftwareConsortium/ITK.git ITK-dashboard
@@ -41,6 +42,7 @@ jobs:
           set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
           set(CTEST_BUILD_FLAGS -j2)
           set(CTEST_COVERAGE_COMMAND "/usr/bin/gcov")
+          set(BUILD_NAME_SUFFIX "-gcov")
           set(dashboard_do_coverage 1)
           set(dashboard_cache "
             BUILD_TESTING:BOOL=ON
@@ -63,3 +65,14 @@ jobs:
         env:
           CTEST_OUTPUT_ON_FAILURE: 1
           ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS: 2
+      - script: |
+          ci_addons ctest_junit_formatter $(Build.SourcesDirectory)-build > $(Agent.BuildDirectory)/JUnitTestResults.xml
+        condition: succeededOrFailed()
+        displayName: 'Format CTest output in JUnit format'
+
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFiles: "$(Agent.BuildDirectory)/JUnitTestResults.xml"
+          testRunTitle: 'CTest $(Agent.OS)'
+        condition: succeededOrFailed()
+        displayName: 'Publish test results'
