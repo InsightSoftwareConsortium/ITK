@@ -20,7 +20,7 @@
 #include <cstddef>
 
 // Better name demanging for gcc
-#ifndef __EMSCRIPTEN__
+#if defined( __GNUC__ ) && !defined( __EMSCRIPTEN__ )
 #define GCC_USEDEMANGLE
 #endif
 

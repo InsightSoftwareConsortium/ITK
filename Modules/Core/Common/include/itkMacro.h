@@ -127,22 +127,21 @@ namespace itk
 
 /*
  * ITK only supports MSVC++ 14.0 and greater
- * MSVC++ 14.0 _MSVC_VER = 1900
- * MSVC++ 12.0 _MSC_VER = 1800
- * MSVC++ 11.0 _MSC_VER = 1700
- * MSVC++ 10.0 _MSC_VER = 1600
- * MSVC++ 9.0 _MSC_VER = 1500
- * MSVC++ 8.0 _MSC_VER = 1400
- * MSVC++ 7.1 _MSC_VER = 1310
- * MSVC++ 7.0 _MSC_VER = 1300
- * MSVC++ 6.0 _MSC_VER = 1200
- * MSVC++ 5.0 _MSC_VER = 1100
+ * MSVC++ 14.0 _MSC_VER == 1900 (Visual Studio 2015 version 14.0)
+ * MSVC++ 14.1 _MSC_VER == 1910 (Visual Studio 2017 version 15.0)
+ * MSVC++ 14.11 _MSC_VER == 1911 (Visual Studio 2017 version 15.3)
+ * MSVC++ 14.12 _MSC_VER == 1912 (Visual Studio 2017 version 15.5)
+ * MSVC++ 14.13 _MSC_VER == 1913 (Visual Studio 2017 version 15.6)
+ * MSVC++ 14.14 _MSC_VER == 1914 (Visual Studio 2017 version 15.7)
+ * MSVC++ 14.15 _MSC_VER == 1915 (Visual Studio 2017 version 15.8)
+ * MSVC++ 14.16 _MSC_VER == 1916 (Visual Studio 2017 version 15.9)
+ * MSVC++ 14.2 _MSC_VER == 1920 (Visual Studio 2019 Version 16.0)
 */
 #if defined( _MSC_VER ) && ( _MSC_VER < 1900 )
   #error "Visual Studio < 2015 is not supported under ITKv5"
 #endif
 #if defined( __SUNPRO_CC ) && ( __SUNPRO_CC < 0x5140 )
-  #error "SUNPro C++ < 5.14.0 is not supported under ITKv4 and above"
+  #error "SUNPro C++ < 5.14.0 is not supported under ITKv5 and above"
 #endif
 #if defined( __CYGWIN__ )
   #error "The Cygwin compiler is not supported in ITKv4 and above"
