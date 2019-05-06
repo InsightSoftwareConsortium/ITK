@@ -21,6 +21,13 @@ function(set_from_env var env_var)
   endif()
 endfunction()
 
+function(set_if_undef var default)
+  if(NOT DEFINED var)
+      set(${var} ${default} PARENT_SCOPE)
+  endif()
+endfunction()
+
+
 set_from_env(CTEST_SITE "AGENT_MACHINENAME" REQUIRED)
 set(CTEST_SITE "Azure.${CTEST_SITE}")
 set(CTEST_UPDATE_VERSION_ONLY 1)
@@ -33,8 +40,7 @@ set_from_env(workspace "AGENT_BUILDDIRECTORY" REQUIRED)
 file(TO_CMAKE_PATH "${workspace}" CTEST_DASHBOARD_ROOT)
 file(RELATIVE_PATH dashboard_source_name "${workspace}" "$ENV{BUILD_SOURCESDIRECTORY}")
 
-set_from_env(dashboard_do_coverage "DASHBOARD_DO_COVERAGE" DEFAULT 0)
-set_from_env(CTEST_COVERAGE_COMMAND "CTEST_COVERAGE_COMMAND")
+set_if_undef(dashboard_do_coverage 0)
 
 set(dashboard_loop 0)
 
