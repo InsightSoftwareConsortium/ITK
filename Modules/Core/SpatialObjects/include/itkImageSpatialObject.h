@@ -79,8 +79,10 @@ public:
   const ImageType * GetImage() const;
 
   /** Returns true if the point is inside, false otherwise. */
-  bool IsInsideInObjectSpace(const PointType & point, unsigned int depth=0,
-    const std::string & name = "") const override;
+  bool IsInsideInObjectSpace(const PointType & point) const override;
+
+  /* Avoid hiding the overload that supports depth and name arguments */
+  using Superclass::IsInsideInObjectSpace;
 
   /** Returns the value of the image at the requested point.
    *  Returns true if that value is valid */

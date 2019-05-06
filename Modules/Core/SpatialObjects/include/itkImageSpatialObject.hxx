@@ -84,25 +84,10 @@ ImageSpatialObject< TDimension,  PixelType >
 template< unsigned int TDimension, typename PixelType >
 bool
 ImageSpatialObject< TDimension,  PixelType >
-::IsInsideInObjectSpace(const PointType & point, unsigned int depth,
-  const std::string & name) const
+::IsInsideInObjectSpace(const PointType & point) const
 {
-  if( this->GetTypeName().find( name ) != std::string::npos )
-    {
-    IndexType index;
-    bool isInside = m_Image->TransformPhysicalPointToIndex( point, index );
-    if( isInside )
-      {
-      return true;
-      }
-    }
-
-  if( depth > 0 )
-    {
-    return Superclass::IsInsideChildrenInObjectSpace(point, depth-1, name);
-    }
-
-  return false;
+  IndexType index;
+  return m_Image->TransformPhysicalPointToIndex( point, index );
 }
 
 /** Return the value of the image at a specified point

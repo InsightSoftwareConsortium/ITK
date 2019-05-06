@@ -205,40 +205,31 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 template< unsigned int TDimension, class TSpatialObjectPointType >
 bool
 PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
-::IsInsideInObjectSpace( const PointType & point, unsigned int depth,
-    const std::string & name) const
+::IsInsideInObjectSpace(const PointType & point) const
 {
-  if( this->GetTypeName().find( name ) != std::string::npos )
+  if( this->GetMyBoundingBoxInObjectSpace()->IsInside( point ) )
     {
-    if( this->GetMyBoundingBoxInObjectSpace()->IsInside( point ) )
+    auto it = m_Points.begin();
+    auto itEnd = m_Points.end();
+
+    while ( it != itEnd )
       {
-      auto it = m_Points.begin();
-      auto itEnd = m_Points.end();
-
-      while ( it != itEnd )
+      bool equals = true;
+      for( unsigned int i=0; i<TDimension; ++i )
         {
-        bool equals = true;
-        for( unsigned int i=0; i<TDimension; ++i )
+        if( ! Math::AlmostEquals( point[i],
+            it->GetPositionInObjectSpace()[i] ) )
           {
-          if( ! Math::AlmostEquals( point[i],
-              it->GetPositionInObjectSpace()[i] ) )
-            {
-            equals = false;
-            break;
-            }
+          equals = false;
+          break;
           }
-        if( equals )
-          {
-          return true;
-          }
-        it++;
         }
+      if( equals )
+        {
+        return true;
+        }
+      it++;
       }
-    }
-
-  if( depth > 0 )
-    {
-    return Superclass::IsInsideChildrenInObjectSpace(point, depth-1, name);
     }
 
   return false;

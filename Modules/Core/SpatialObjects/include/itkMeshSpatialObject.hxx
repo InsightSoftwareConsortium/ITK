@@ -57,53 +57,44 @@ MeshSpatialObject< TMesh >
 template< typename TMesh >
 bool
 MeshSpatialObject< TMesh >
-::IsInsideInObjectSpace(const PointType & point, unsigned int depth,
-  const std::string & name) const
+::IsInsideInObjectSpace(const PointType & point) const
 {
-  if( this->GetTypeName().find( name ) != std::string::npos )
+  if( this->GetMyBoundingBoxInObjectSpace()->IsInside( point ) )
     {
-    if( this->GetMyBoundingBoxInObjectSpace()->IsInside( point ) )
+    typename MeshType::CellsContainerPointer cells =  m_Mesh->GetCells();
+    typename MeshType::CellsContainer::ConstIterator it = cells->Begin();
+    while ( it != cells->End() )
       {
-      typename MeshType::CellsContainerPointer cells =  m_Mesh->GetCells();
-      typename MeshType::CellsContainer::ConstIterator it = cells->Begin();
-      while ( it != cells->End() )
+      using CoordRepType = typename MeshType::CoordRepType;
+      CoordRepType position[Dimension];
+      for ( unsigned int i = 0; i < Dimension; i++ )
         {
-        using CoordRepType = typename MeshType::CoordRepType;
-        CoordRepType position[Dimension];
-        for ( unsigned int i = 0; i < Dimension; i++ )
-          {
-          position[i] = point[i];
-          }
-
-        // If this is a triangle cell we need to check the distance
-        if ( it.Value()->GetNumberOfPoints() == 3 )
-          {
-          double minDist = 0.0;
-          const bool pointIsInsideInObjectSpace = it.Value()->EvaluatePosition(
-            position, m_Mesh->GetPoints(), nullptr, nullptr, &minDist, nullptr);
-
-          if ( pointIsInsideInObjectSpace
-            && minDist <= this->m_IsInsidePrecisionInObjectSpace )
-            {
-            return true;
-            }
-          }
-        else
-          {
-          if ( it.Value()->EvaluatePosition(position, m_Mesh->GetPoints(),
-              nullptr, nullptr, nullptr, nullptr) )
-            {
-            return true;
-            }
-          }
-        ++it;
+        position[i] = point[i];
         }
-      }
-    }
 
-  if( depth > 0 )
-    {
-    return Superclass::IsInsideChildrenInObjectSpace( point, depth-1, name );
+      // If this is a triangle cell we need to check the distance
+      if ( it.Value()->GetNumberOfPoints() == 3 )
+        {
+        double minDist = 0.0;
+        const bool pointIsInsideInObjectSpace = it.Value()->EvaluatePosition(
+          position, m_Mesh->GetPoints(), nullptr, nullptr, &minDist, nullptr);
+
+        if ( pointIsInsideInObjectSpace
+          && minDist <= this->m_IsInsidePrecisionInObjectSpace )
+          {
+          return true;
+          }
+        }
+      else
+        {
+        if ( it.Value()->EvaluatePosition(position, m_Mesh->GetPoints(),
+            nullptr, nullptr, nullptr, nullptr) )
+          {
+          return true;
+          }
+        }
+      ++it;
+      }
     }
 
   return false;

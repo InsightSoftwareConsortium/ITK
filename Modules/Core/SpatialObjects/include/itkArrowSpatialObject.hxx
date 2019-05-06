@@ -72,33 +72,24 @@ ArrowSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 ArrowSpatialObject< TDimension >
-::IsInsideInObjectSpace(const PointType & point, unsigned int depth,
-  const std::string & name) const
+::IsInsideInObjectSpace(const PointType & point) const
 {
   itkDebugMacro("Checking the point [" << point << "] is on the Line");
 
-  if( this->GetTypeName().find( name ) != std::string::npos )
-    {
-    PointType pnt = this->GetPositionInObjectSpace();
+  PointType pnt = this->GetPositionInObjectSpace();
 
-    bool isInside = true;
-    for ( unsigned int i = 0; i < TDimension; i++ )
+  bool isInside = true;
+  for ( unsigned int i = 0; i < TDimension; i++ )
+    {
+    if( Math::NotExactlyEquals( point[i], pnt[i] ) )
       {
-      if( Math::NotExactlyEquals( point[i], pnt[i] ) )
-        {
-        isInside = false;
-        break;
-        }
-      }
-    if( isInside )
-      {
-      return true;
+      isInside = false;
+      break;
       }
     }
-
-  if( depth > 0 )
+  if( isInside )
     {
-    return Superclass::IsInsideChildrenInObjectSpace( point, depth-1, name );
+    return true;
     }
 
   return false;

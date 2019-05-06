@@ -161,116 +161,107 @@ TubeSpatialObject< TDimension, TTubePointType >
 template< unsigned int TDimension, typename TTubePointType >
 bool
 TubeSpatialObject< TDimension, TTubePointType >
-::IsInsideInObjectSpace(const PointType & point, unsigned int depth,
-  const std::string & name ) const
+::IsInsideInObjectSpace(const PointType & point) const
 {
-  if( this->GetTypeName().find( name ) != std::string::npos )
+  if( this->GetMyBoundingBoxInObjectSpace()->IsInside(point) )
     {
-    if( this->GetMyBoundingBoxInObjectSpace()->IsInside(point) )
+    double minSquareDist = 999999.0;
+    double tempSquareDist;
+    auto it = this->m_Points.begin();
+    auto it2 = this->m_Points.begin();
+    auto end = this->m_Points.end();
+    auto minIt = it;
+
+    if ( !m_EndRounded ) // flat end-type
       {
-      double minSquareDist = 999999.0;
-      double tempSquareDist;
-      auto it = this->m_Points.begin();
-      auto it2 = this->m_Points.begin();
-      auto end = this->m_Points.end();
-      auto minIt = it;
-
-      if ( !m_EndRounded ) // flat end-type
+      it2++; // next point
+      while ( it2 != end )
         {
-        it2++; // next point
-        while ( it2 != end )
+        // Check if the point is on the normal plane
+        PointType a = ( *it ).GetPositionInObjectSpace();
+        PointType b = ( *it2 ).GetPositionInObjectSpace();
+
+        double A = 0;
+        double B = 0;
+
+        for ( unsigned int i = 0; i < TDimension; i++ )
           {
-          // Check if the point is on the normal plane
-          PointType a = ( *it ).GetPositionInObjectSpace();
-          PointType b = ( *it2 ).GetPositionInObjectSpace();
-
-          double A = 0;
-          double B = 0;
-
-          for ( unsigned int i = 0; i < TDimension; i++ )
-            {
-            A += ( b[i] - a[i] ) * ( point[i] - a[i] );
-            B += ( b[i] - a[i] ) * ( b[i] - a[i] );
-            }
-
-          double lambda = A / B;
-
-          if ( ( ( it != this->m_Points.begin() )
-                 && ( lambda > -( ( *it ).GetRadiusInObjectSpace()
-                     / ( 2 * std::sqrt(B) ) ) )
-                 && ( lambda < 0 ) )
-               || ( ( lambda <= 1.0 ) && ( lambda >= 0.0 ) )
-                )
-            {
-            PointType p;
-
-            if ( lambda >= 0 )
-              {
-              for ( unsigned int i = 0; i < TDimension; i++ )
-                {
-                p[i] = a[i] + lambda * ( b[i] - a[i] );
-                }
-              }
-            else
-              {
-              for ( unsigned int i = 0; i < TDimension; i++ )
-                {
-                p[i] = b[i] + lambda * ( b[i] - a[i] );
-                }
-              }
-
-            // TODO: Verify not squared?
-            tempSquareDist = point.EuclideanDistanceTo(p);
-
-            double R;
-            if ( lambda >= 0 )
-              {
-              R = ( *it ).GetRadiusInObjectSpace()
-                + lambda * ( ( *it2 ).GetRadiusInObjectSpace()
-                  - ( *it ).GetRadiusInObjectSpace() );
-              }
-            else
-              {
-              R = ( *it2 ).GetRadiusInObjectSpace()
-                + lambda * ( ( *it2 ).GetRadiusInObjectSpace()
-                  - ( *it ).GetRadiusInObjectSpace() );
-              }
-
-            if ( tempSquareDist <= R )
-              {
-              return true;
-              }
-            }
-          it++;
-          it2++;
-          }
-        }
-      else // rounded end-type
-        {
-        while ( it != end )
-          {
-          tempSquareDist = point.SquaredEuclideanDistanceTo(
-            ( *it ).GetPositionInObjectSpace() );
-          if ( tempSquareDist <= minSquareDist )
-            {
-            minSquareDist = tempSquareDist;
-            minIt = it;
-            }
-          it++;
+          A += ( b[i] - a[i] ) * ( point[i] - a[i] );
+          B += ( b[i] - a[i] ) * ( b[i] - a[i] );
           }
 
-        double dist = std::sqrt(minSquareDist);
-        if ( dist <= ( minIt->GetRadiusInObjectSpace() ) )
+        double lambda = A / B;
+
+        if ( ( ( it != this->m_Points.begin() )
+               && ( lambda > -( ( *it ).GetRadiusInObjectSpace()
+                   / ( 2 * std::sqrt(B) ) ) )
+               && ( lambda < 0 ) )
+             || ( ( lambda <= 1.0 ) && ( lambda >= 0.0 ) )
+              )
           {
-          return true;
+          PointType p;
+
+          if ( lambda >= 0 )
+            {
+            for ( unsigned int i = 0; i < TDimension; i++ )
+              {
+              p[i] = a[i] + lambda * ( b[i] - a[i] );
+              }
+            }
+          else
+            {
+            for ( unsigned int i = 0; i < TDimension; i++ )
+              {
+              p[i] = b[i] + lambda * ( b[i] - a[i] );
+              }
+            }
+
+          // TODO: Verify not squared?
+          tempSquareDist = point.EuclideanDistanceTo(p);
+
+          double R;
+          if ( lambda >= 0 )
+            {
+            R = ( *it ).GetRadiusInObjectSpace()
+              + lambda * ( ( *it2 ).GetRadiusInObjectSpace()
+                - ( *it ).GetRadiusInObjectSpace() );
+            }
+          else
+            {
+            R = ( *it2 ).GetRadiusInObjectSpace()
+              + lambda * ( ( *it2 ).GetRadiusInObjectSpace()
+                - ( *it ).GetRadiusInObjectSpace() );
+            }
+
+          if ( tempSquareDist <= R )
+            {
+            return true;
+            }
           }
+        it++;
+        it2++;
         }
       }
-    }
+    else // rounded end-type
+      {
+      while ( it != end )
+        {
+        tempSquareDist = point.SquaredEuclideanDistanceTo(
+          ( *it ).GetPositionInObjectSpace() );
+        if ( tempSquareDist <= minSquareDist )
+          {
+          minSquareDist = tempSquareDist;
+          minIt = it;
+          }
+        it++;
+        }
 
-  if( depth > 0 )
-    {
-    return Superclass::IsInsideChildrenInObjectSpace( point, depth-1, name );
+      double dist = std::sqrt(minSquareDist);
+      if ( dist <= ( minIt->GetRadiusInObjectSpace() ) )
+        {
+        return true;
+        }
+      }
     }
 
   return false;

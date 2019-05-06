@@ -39,30 +39,22 @@ ImageMaskSpatialObject< TDimension, TPixel >
 template< unsigned int TDimension, typename TPixel >
 bool
 ImageMaskSpatialObject< TDimension, TPixel >
-::IsInsideInObjectSpace(const PointType & point, unsigned int depth,
-  const std::string & name ) const
+::IsInsideInObjectSpace(const PointType & point) const
 {
-  if( this->GetTypeName().find( name ) != std::string::npos )
+  typename Superclass::InterpolatorType::ContinuousIndexType index;
+  if( this->GetImage()->TransformPhysicalPointToContinuousIndex( point,
+      index ) )
     {
-    typename Superclass::InterpolatorType::ContinuousIndexType index;
-    if( this->GetImage()->TransformPhysicalPointToContinuousIndex( point,
-        index ) )
+    using InterpolatorOutputType = typename InterpolatorType::OutputType;
+    bool insideMask = (
+      Math::NotExactlyEquals(
+        DefaultConvertPixelTraits<InterpolatorOutputType>::GetScalarValue(
+          this->GetInterpolator()->EvaluateAtContinuousIndex(index)),
+        NumericTraits<PixelType>::ZeroValue() ) );
+    if( insideMask )
       {
-      using InterpolatorOutputType = typename InterpolatorType::OutputType;
-      bool insideMask = (
-        Math::NotExactlyEquals(
-          DefaultConvertPixelTraits<InterpolatorOutputType>::GetScalarValue(
-            this->GetInterpolator()->EvaluateAtContinuousIndex(index)),
-          NumericTraits<PixelType>::ZeroValue() ) );
-      if( insideMask )
-        {
-        return true;
-        }
+      return true;
       }
-    }
-  if( depth > 0 )
-    {
-    return Superclass::IsInsideChildrenInObjectSpace( point, depth, name );
     }
 
   return false;
