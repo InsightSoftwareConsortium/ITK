@@ -233,12 +233,12 @@ MetaFEMObjectConverter<NDimensions>
        o1->SetGlobalNumber(load->m_GN);
        o1->SetEdge(load->m_EdgeNumber);
 
-       METAIO_STL::vector< METAIO_STL::vector<float> > force = load->m_ForceMatrix;
+       std::vector< std::vector<float> > force = load->m_ForceMatrix;
 
        numRows = static_cast<int>( force.size() );
        if(numRows)
          {
-         METAIO_STL::vector<float> forcevector = force[0];
+         std::vector<float> forcevector = force[0];
          auto numCols = static_cast<int>( forcevector.size() );
          o1->GetForce().set_size(numRows, numCols);
          for ( int i = 0; i < numRows; i++ )
@@ -514,7 +514,7 @@ MetaFEMObjectConverter<NDimensions>
 
        for ( int i = 0; i < numRows; i++ )
          {
-         METAIO_STL::vector<float> F(numCols);
+         std::vector<float> F(numCols);
          for ( int j = 0; j < numCols; j++ )
            {
            F[j] = force[i][j];
