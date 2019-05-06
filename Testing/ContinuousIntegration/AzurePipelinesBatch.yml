@@ -41,6 +41,7 @@ jobs:
           set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
           set(CTEST_BUILD_FLAGS -j2)
           set(CTEST_COVERAGE_COMMAND "/usr/bin/gcov")
+          set(BUILD_NAME_SUFFIX "-gcov")
           set(dashboard_do_coverage 1)
           set(dashboard_cache "
             BUILD_TESTING:BOOL=ON
