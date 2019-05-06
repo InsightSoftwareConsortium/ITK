@@ -26,6 +26,7 @@ jobs:
           if [ -n "$(System.PullRequest.SourceCommitId)" ]; then
             git checkout $(System.PullRequest.SourceCommitId)
           fi
+        displayName: 'Checkout pull request HEAD'
       - bash: |
           set -x
           git clone -b dashboard --single-branch https://github.com/InsightSoftwareConsortium/ITK.git ITK-dashboard
