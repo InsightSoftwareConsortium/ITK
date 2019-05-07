@@ -158,7 +158,10 @@ protected:
   /** Color of the point */
   ColorType m_Color;
 
-  typename SpatialObjectType::Pointer m_SpatialObject;
+  // The SpatialObjectPoint keeps a reference to its owning parent
+  // spatial object for its spatial context. A WeakPointer is used to
+  // avoid a memory leak.
+  WeakPointer<SpatialObjectType> m_SpatialObject;
 };
 
 } // end of namespace itk
