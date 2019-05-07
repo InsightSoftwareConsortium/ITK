@@ -162,14 +162,31 @@ SpatialObject< TDimension >
 ::IsInsideInObjectSpace(const PointType & point, unsigned int depth,
   const std::string & name) const
 {
-  if( depth > 0 )
+  if (name.empty() || (this->GetTypeName().find(name) != std::string::npos))
     {
-    return IsInsideChildrenInObjectSpace( point, depth-1, name );
+    if (this->IsInsideInObjectSpace(point))
+      {
+      return true;
+      }
+    }
+
+  if (depth > 0)
+    {
+    return Self::IsInsideChildrenInObjectSpace(point, depth-1, name);
     }
   else
     {
     return false;
     }
+}
+
+template< unsigned int TDimension >
+bool
+SpatialObject< TDimension >
+::IsInsideInObjectSpace(const PointType & itkNotUsed(point)) const
+{
+  // This overload is virtual, and should be overridden.
+  return false;
 }
 
 /** Return if a point is inside the object or its children */

@@ -201,9 +201,13 @@ public:
   /**********************************************************************/
 
   /** Returns true if a point is inside the object in world space. */
-  virtual bool IsInsideInObjectSpace(const PointType & point,
-                        unsigned int depth = 0,
+  bool IsInsideInObjectSpace(const PointType & point,
+                        unsigned int depth,
                         const std::string & name = "") const;
+
+  /** Returns false by default, but is overridden in order to return true
+   * if a point is inside the object. */
+  virtual bool IsInsideInObjectSpace(const PointType & point) const;
 
   /** Update - Optionally used to compute a world-coordinate representation of
    *   the object.   Object-dependent implementation. */

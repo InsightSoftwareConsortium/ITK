@@ -85,35 +85,26 @@ GaussianSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 GaussianSpatialObject< TDimension >
-::IsInsideInObjectSpace(const PointType & point, unsigned int depth,
-  const std::string & name) const
+::IsInsideInObjectSpace(const PointType & point) const
 {
-  if ( this->GetTypeName().find( name ) != std::string::npos )
+  if ( m_RadiusInObjectSpace > itk::Math::eps )
     {
-    if ( m_RadiusInObjectSpace > itk::Math::eps )
+    if ( this->GetMyBoundingBoxInObjectSpace()->IsInside(point) )
       {
-      if ( this->GetMyBoundingBoxInObjectSpace()->IsInside(point) )
+      double r = 0;
+      for ( unsigned int i = 0; i < TDimension; i++ )
         {
-        double r = 0;
-        for ( unsigned int i = 0; i < TDimension; i++ )
-          {
-          r += (point[i] - m_CenterInObjectSpace[i])
-                * (point[i] - m_CenterInObjectSpace[i]);
-          }
+        r += (point[i] - m_CenterInObjectSpace[i])
+              * (point[i] - m_CenterInObjectSpace[i]);
+        }
 
-        r /= ( m_RadiusInObjectSpace * m_RadiusInObjectSpace );
+      r /= ( m_RadiusInObjectSpace * m_RadiusInObjectSpace );
 
-        if ( r <= 1.0 )
-          {
-          return true;
-          }
+      if ( r <= 1.0 )
+        {
+        return true;
         }
       }
-    }
-
-  if( depth > 0 )
-    {
-    return Superclass::IsInsideChildrenInObjectSpace(point, depth-1, name);
     }
 
   return false;

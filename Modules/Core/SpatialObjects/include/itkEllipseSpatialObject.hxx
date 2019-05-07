@@ -75,38 +75,29 @@ EllipseSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 EllipseSpatialObject< TDimension >
-::IsInsideInObjectSpace(const PointType & point, unsigned int depth,
-  const std::string & name) const
+::IsInsideInObjectSpace(const PointType & point) const
 {
-  if( this->GetTypeName().find( name ) != std::string::npos )
+  double d;
+  double r = 0;
+  for ( unsigned int i = 0; i < TDimension; i++ )
     {
-    double d;
-    double r = 0;
-    for ( unsigned int i = 0; i < TDimension; i++ )
+    if ( m_RadiusInObjectSpace[i] > 0.0 )
       {
-      if ( m_RadiusInObjectSpace[i] > 0.0 )
-        {
-        d = point[i] - m_CenterInObjectSpace[i];
-        r += ( d * d )
-          / ( m_RadiusInObjectSpace[i] * m_RadiusInObjectSpace[i] );
-        }
-      else if ( point[i] != 0.0 || m_RadiusInObjectSpace[i] < 0 )
-        // Deal with an ellipse with 0 or negative radius;
-        {
-        r = 2; // Keeps function from returning true here
-        break;
-        }
+      d = point[i] - m_CenterInObjectSpace[i];
+      r += ( d * d )
+        / ( m_RadiusInObjectSpace[i] * m_RadiusInObjectSpace[i] );
       }
-
-    if ( r < 1 )
+    else if ( point[i] != 0.0 || m_RadiusInObjectSpace[i] < 0 )
+      // Deal with an ellipse with 0 or negative radius;
       {
-      return true;
+      r = 2; // Keeps function from returning true here
+      break;
       }
     }
 
-  if( depth > 0 )
+  if ( r < 1 )
     {
-    return Superclass::IsInsideChildrenInObjectSpace( point, depth-1, name );
+    return true;
     }
 
   return false;

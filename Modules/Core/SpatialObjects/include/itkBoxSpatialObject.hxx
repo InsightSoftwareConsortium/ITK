@@ -52,25 +52,11 @@ BoxSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 BoxSpatialObject< TDimension >
-::IsInsideInObjectSpace(const PointType & point, unsigned int depth,
-  const std::string & name) const
+::IsInsideInObjectSpace(const PointType & point) const
 {
   itkDebugMacro("Checking the point [" << point << "] is in the box");
 
-  if( this->GetTypeName().find( name ) != std::string::npos )
-    {
-    if( this->GetMyBoundingBoxInObjectSpace()->IsInside( point ) )
-      {
-      return true;
-      }
-    }
-
-  if( depth > 0 )
-    {
-    return Superclass::IsInsideChildrenInObjectSpace(point, depth-1, name);
-    }
-
-  return false;
+  return this->GetMyBoundingBoxInObjectSpace()->IsInside( point );
 }
 
 /** Compute the bounds of the box */
