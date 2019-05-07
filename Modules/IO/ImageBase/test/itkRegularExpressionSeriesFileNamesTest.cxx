@@ -45,21 +45,6 @@ int itkRegularExpressionSeriesFileNamesTest(int ac, char* av[])
     std::cout << "File: " << (*nit).c_str() << std::endl;
     }
 
-// numeric sort
-  fit->SetRegularExpression("[^0-9]*([0-9]*)");
-  fit->NumericSortOn();
-  fit->SetSubMatch(1);
-  names = fit->GetFileNames();
-  std::cout << "Numeric Sort--------" << std::endl;
-  for (nit = names.begin();
-       nit != names.end();
-       ++nit)
-    {
-    std::cout << "File: " << (*nit).c_str() << std::endl;
-    }
-
-  std::cout << fit;
-
   // Show only those files with numbers in the names
   fit->SetRegularExpression("([0-9]+)");
   fit->NumericSortOn();
