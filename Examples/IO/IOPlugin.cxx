@@ -18,6 +18,7 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itksys/SystemTools.hxx"
 
 int main( int argc, char *argv[] )
 {
@@ -45,7 +46,7 @@ int main( int argc, char *argv[] )
 #endif
       }
     myenv += std::string(argv[3]);
-    putenv (const_cast<char *>(myenv.c_str()));
+    itksys::SystemTools::PutEnv(myenv.c_str());
 
     itk::ObjectFactoryBase::ReHash();
     }
