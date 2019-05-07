@@ -429,6 +429,61 @@ def class_(obj):
     else:
         return obj.__class__
 
+def python_type(obj):
+    """Returns the Python type name of an object
+
+    The Python name corresponding to the given instantiated object is printed.
+    This includes both the Python name and the parameters of the object. A user
+    can copy and paste the printed value to instantiate a new object of the
+    same type."""
+    import itkTemplate
+    from itkTypes import itkCType
+
+    def in_itk(name):
+        import itk
+        # Remove "itk::" and "std::" from template name.
+        # Only happens for ITK objects.
+        shortname = name.split('::')[-1]
+        shortname = shortname.split('itk')[-1]
+
+        namespace = itk
+        # A type cannot be part of ITK if its name was not modified above. This
+        # check avoids having an input of type `list` and return `itk.list` that
+        # also exists.
+        likely_itk = (shortname != name or name[:3] == 'vnl')
+        if likely_itk and hasattr(namespace, shortname):
+            return namespace.__name__ + '.' + shortname  # Prepend name with 'itk.'
+        else:
+            return name
+
+    def recursive(obj, level):
+        try:
+            T, P = template(obj)
+            name = in_itk(T.__name__)
+            parameters = []
+            for t in P:
+                parameters.append(recursive(t, level+1))
+            return name + "[" + ",".join(parameters) + "]"
+        except KeyError:
+            if isinstance(obj, itkCType):  # Handles CTypes differently
+                return 'itk.' + obj.short_name
+            elif hasattr(obj, "__name__"):
+                # This should be where most ITK types end up.
+                return in_itk(obj.__name__)
+            elif (not isinstance(obj, type)
+                  and type(obj) != itkTemplate.itkTemplate and level != 0):
+                # obj should actually be considered a value, not a type,
+                # or it is already an itkTemplate type.
+                # A value can be an integer that is a template parameter.
+                # This does not happen at the first level of the recursion
+                # as it is not possible that this object would be a template
+                # parameter. Checking the level `0` allows e.g. to find the
+                # type of an object that is a `list` or an `int`.
+                return str(obj)
+            else:
+                return in_itk(type(obj).__name__)
+    return recursive(obj, 0)
+
 
 def range(image_or_filter):
     """Return the range of values in a image of in the output image of a filter
