@@ -626,7 +626,9 @@ set(ITKCommonGTests
       itkMetaDataDictionaryGTest.cxx
 )
 CreateGoogleTestDriver(ITKCommon "${ITKCommon-Test_LIBRARIES}" "${ITKCommonGTests}")
-if(NOT ITK_BUILD_SHARED_LIBS)
+# If `-static` was passed to CMAKE_EXE_LINKER_FLAGS, compilation fails. No need to
+# test this case.
+if(NOT ITK_BUILD_SHARED_LIBS AND NOT CMAKE_EXE_LINKER_FLAGS MATCHES ".*-static.*")
   macro(BuildSharedTestLibrary _name _type)
     add_library(SharedTestLibrary${_name} ${_type} SharedTestLibrary${_name}.cxx)
     itk_module_target_label(SharedTestLibrary${_name})
