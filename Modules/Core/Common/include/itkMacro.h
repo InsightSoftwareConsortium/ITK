@@ -77,109 +77,99 @@ namespace itk
 // The following set of defines allows us to suppress false positives
 // and still track down suspicious code
 #if defined(__clang__) && defined(__has_warning)
-#define CLANG_PRAGMA_PUSH ITK_PRAGMA(clang diagnostic push)
-#define CLANG_PRAGMA_POP  ITK_PRAGMA(clang diagnostic pop)
-#if __has_warning("-Wfloat-equal")
-#define CLANG_SUPPRESS_Wfloat_equal ITK_PRAGMA( clang diagnostic ignored "-Wfloat-equal" )
+  #define CLANG_PRAGMA_PUSH ITK_PRAGMA(clang diagnostic push)
+  #define CLANG_PRAGMA_POP  ITK_PRAGMA(clang diagnostic pop)
+  #if __has_warning("-Wfloat-equal")
+    #define CLANG_SUPPRESS_Wfloat_equal ITK_PRAGMA( clang diagnostic ignored "-Wfloat-equal" )
+  #else
+    #define CLANG_SUPPRESS_Wfloat_equal
+  #endif
+  #if __has_warning( "-Wc++14-extensions" )
+    #define CLANG_SUPPRESS_Wc__14_extensions ITK_PRAGMA( clang diagnostic ignored "-Wc++14-extensions" )
+  #else
+    #define CLANG_SUPPRESS_Wc__14_extensions
+  #endif
 #else
-#define CLANG_SUPPRESS_Wfloat_equal
-#endif
-#if __has_warning( "-Wc++14-extensions" )
-#define CLANG_SUPPRESS_Wc__14_extensions ITK_PRAGMA( clang diagnostic ignored "-Wc++14-extensions" )
-#else
-#define CLANG_SUPPRESS_Wc__14_extensions
-#endif
-#else
-#define CLANG_PRAGMA_PUSH
-#define CLANG_PRAGMA_POP
-#define CLANG_SUPPRESS_Wfloat_equal
-#define CLANG_SUPPRESS_Wc__14_extensions
+  #define CLANG_PRAGMA_PUSH
+  #define CLANG_PRAGMA_POP
+  #define CLANG_SUPPRESS_Wfloat_equal
+  #define CLANG_SUPPRESS_Wc__14_extensions
 #endif
 
 // Intel compiler convenience macros
 #if defined(__INTEL_COMPILER)
-#define INTEL_PRAGMA_WARN_PUSH ITK_PRAGMA(warning push)
-#define INTEL_PRAGMA_WARN_POP  ITK_PRAGMA(warning pop)
-#define INTEL_SUPPRESS_warning_1292  ITK_PRAGMA(warning disable 1292)
+  #define INTEL_PRAGMA_WARN_PUSH ITK_PRAGMA(warning push)
+  #define INTEL_PRAGMA_WARN_POP  ITK_PRAGMA(warning pop)
+  #define INTEL_SUPPRESS_warning_1292  ITK_PRAGMA(warning disable 1292)
 #else
-#define INTEL_PRAGMA_WARN_PUSH
-#define INTEL_PRAGMA_WARN_POP
-#define INTEL_SUPPRESS_warning_1292
+  #define INTEL_PRAGMA_WARN_PUSH
+  #define INTEL_PRAGMA_WARN_POP
+  #define INTEL_SUPPRESS_warning_1292
 #endif
 
 // Define ITK_GCC_PRAGMA_DIAG(param1 [param2 [...]]) macro.
 //
-// This macros sets a pragma diagnostic if it supported by the version
-// of GCC being used otherwise it is a no-op.
+// This macro sets a pragma diagnostic
 //
-// GCC diagnostics pragma supported only with GCC >= 4.2
-#if defined( __GNUC__ ) && !defined( __INTEL_COMPILER )
-#  if ( __GNUC__ > 4 ) || (( __GNUC__ >= 4 ) && ( __GNUC_MINOR__ >= 2 ))
-#    define ITK_GCC_PRAGMA_DIAG(x) ITK_PRAGMA(GCC diagnostic x)
-#  else
-#    define ITK_GCC_PRAGMA_DIAG(x)
-#  endif
-#else
-#  define ITK_GCC_PRAGMA_DIAG(x)
-#endif
-
 // Define ITK_GCC_PRAGMA_DIAG_(PUSH|POP) macros.
 //
 // These macros respectively push and pop the diagnostic context
-// if it is supported by the version of GCC being used
-// otherwise it is a no-op.
 //
-// GCC push/pop diagnostics pragma are supported only with GCC >= 4.6
-//
-// Define macro ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP if it is supported.
 #if defined( __GNUC__ ) && !defined( __INTEL_COMPILER )
-#  if ( __GNUC__ > 4 ) || (( __GNUC__ >= 4 ) && ( __GNUC_MINOR__ >= 6 ))
-#    define ITK_GCC_PRAGMA_DIAG_PUSH() ITK_GCC_PRAGMA_DIAG(push)
-#    define ITK_GCC_PRAGMA_DIAG_POP() ITK_GCC_PRAGMA_DIAG(pop)
-#    define ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
-#  else
-#    define ITK_GCC_PRAGMA_DIAG_PUSH()
-#    define ITK_GCC_PRAGMA_DIAG_POP()
-#  endif
+  #define ITK_GCC_PRAGMA_DIAG(x) ITK_PRAGMA(GCC diagnostic x)
+  #define ITK_GCC_PRAGMA_DIAG_PUSH() ITK_GCC_PRAGMA_DIAG(push)
+  #define ITK_GCC_PRAGMA_DIAG_POP() ITK_GCC_PRAGMA_DIAG(pop)
 #else
-#  define ITK_GCC_PRAGMA_DIAG_PUSH()
-#  define ITK_GCC_PRAGMA_DIAG_POP()
+  #define ITK_GCC_PRAGMA_DIAG(x)
+  #define ITK_GCC_PRAGMA_DIAG_PUSH()
+  #define ITK_GCC_PRAGMA_DIAG_POP()
 #endif
 
 /*
- * ITK only supports MSVC++ 7.1 and greater
- * MSVC++ 11.0 _MSC_VER = 1700
- * MSVC++ 10.0 _MSC_VER = 1600
- * MSVC++ 9.0 _MSC_VER = 1500
- * MSVC++ 8.0 _MSC_VER = 1400
- * MSVC++ 7.1 _MSC_VER = 1310
- * MSVC++ 7.0 _MSC_VER = 1300
- * MSVC++ 6.0 _MSC_VER = 1200
- * MSVC++ 5.0 _MSC_VER = 1100
+ * ITK only supports MSVC++ 14.0 and greater
+ * MSVC++ 14.0 _MSC_VER == 1900 (Visual Studio 2015 version 14.0)
+ * MSVC++ 14.1 _MSC_VER == 1910 (Visual Studio 2017 version 15.0)
+ * MSVC++ 14.11 _MSC_VER == 1911 (Visual Studio 2017 version 15.3)
+ * MSVC++ 14.12 _MSC_VER == 1912 (Visual Studio 2017 version 15.5)
+ * MSVC++ 14.13 _MSC_VER == 1913 (Visual Studio 2017 version 15.6)
+ * MSVC++ 14.14 _MSC_VER == 1914 (Visual Studio 2017 version 15.7)
+ * MSVC++ 14.15 _MSC_VER == 1915 (Visual Studio 2017 version 15.8)
+ * MSVC++ 14.16 _MSC_VER == 1916 (Visual Studio 2017 version 15.9)
+ * MSVC++ 14.2 _MSC_VER == 1920 (Visual Studio 2019 Version 16.0)
 */
-#if defined( _MSC_VER ) && ( _MSC_VER < 1310 )
-//#error "_MSC_VER < 1310 (MSVC++ 7.1) not supported under ITKv4"
+#if defined( _MSC_VER ) && ( _MSC_VER < 1900 )
+  #error "Visual Studio < 2015 is not supported under ITKv5"
 #endif
-#if defined( __SUNPRO_CC ) && ( __SUNPRO_CC < 0x590 )
-#error "__SUNPRO_CC < 0x590 not supported under ITKv4"
+#if defined( __SUNPRO_CC ) && ( __SUNPRO_CC < 0x5140 )
+  #error "SUNPro C++ < 5.14.0 is not supported under ITKv5 and above"
 #endif
 #if defined( __CYGWIN__ )
-#error "The Cygwin compiler is not supported in ITKv4 and above"
+  #error "The Cygwin compiler is not supported in ITKv4 and above"
 #endif
 #if defined( __BORLANDC__ )
-#error "The Borland C compiler is not supported in ITKv4 and above"
+  #error "The Borland C compiler is not supported in ITKv4 and above"
 #endif
 #if defined( __MWERKS__ )
-#error "The MetroWerks compiler is not supported in ITKv4 and above"
+  #error "The MetroWerks compiler is not supported in ITKv4 and above"
 #endif
-#if defined( __GNUC__ ) && ( __GNUC__ < 3 )
-#error "The __GNUC__ version 2.95 compiler is not supprted under ITKv4 and above"
+#if defined( __GNUC__ ) && !defined(__clang__) && !defined(__INTEL_COMPILER) && (( __GNUC__ < 4 ) || (( __GNUC__ == 4 ) && ( __GNUC_MINOR__ < 8 )))
+  #error "GCC < 4.8 is not supported under ITKv5"
+#endif
 #if defined( __sgi )
-//This is true for IRIX 6.5.18m with MIPSPro 7.3.1.3m.
-//TODO: At some future point, it may be necessary to
-//define a minimum __sgi version that will work.
-#error "The __sgi compiler is not supprted under ITKv4 and above"
+  //This is true for IRIX 6.5.18m with MIPSPro 7.3.1.3m.
+  //TODO: At some future point, it may be necessary to
+  //define a minimum __sgi version that will work.
+  #error "The SGI compiler is not supprted under ITKv4 and above"
 #endif
+#if defined(__APPLE__)
+  #if defined( __clang__ ) && (( __clang_major__ < 8 ) || (( __clang_major__ == 8 ) && ( __clang_minor__ < 1 )))
+    #error "Apple LLVM < 8.1 is not supported under ITKv5"
+  #endif
+#elif defined( __clang__ ) && (( __clang_major < 3 ) || (( __clang_major__ == 3 ) && ( __clang_minor__ < 3 )))
+  #error "Clang < 3.3 is not supported under ITKv5"
+#endif
+#if defined( __INTEL_COMPILER ) && ( __INTEL_COMPILER < 1504 )
+  #error "Intel C++ < 15.0.4 is not supported under ITKv5"
 #endif
 
 // Setup symbol exports
@@ -570,7 +560,7 @@ itkTypeMacro(newexcp, parentexcp);                                \
 #else
 // Setup compile-time warnings for uses of deprecated methods if
 // possible on this compiler.
-#if defined( __GNUC__ ) && !defined( __INTEL_COMPILER ) && ( __GNUC__ > 3 || ( __GNUC__ == 3 && __GNUC_MINOR__ >= 1 ) )
+#if defined( __GNUC__ ) && !defined( __INTEL_COMPILER )
 #define itkLegacyMacro(method) method __attribute__( ( deprecated ) )
 #elif defined( _MSC_VER )
 #define itkLegacyMacro(method) __declspec(deprecated) method
@@ -769,11 +759,7 @@ compilers.
  * and is beneficial in other cases where a value can be constant.
  *
  * \ingroup ITKCommon */
-#if defined(__GNUC__) && ((__GNUC__ * 100) + __GNUC_MINOR__ ) < 405 && !defined( __clang__ ) && !defined( __INTEL_COMPILER )
-#  define itkStaticConstMacro(name,type,value) enum { name = value }
-#else
-#  define itkStaticConstMacro(name,type,value) static constexpr type name = value
-#endif
+#define itkStaticConstMacro(name,type,value) static constexpr type name = value
 
 #define itkGetStaticConstMacro(name) (Self::name)
 

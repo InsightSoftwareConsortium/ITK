@@ -243,9 +243,7 @@ public:
       return *this;
       }
 
-#if !(defined(_MSC_VER) && (_MSC_VER <= 1200))
   protected:
-#endif
     //This copy constructor is actually used in Iterator Begin()!
     Iterator(NeighborhoodIteratorType iter, InstanceIdentifier iid):ConstIterator( iter, iid )
       {

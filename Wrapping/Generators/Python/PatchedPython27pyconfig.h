@@ -233,8 +233,7 @@ typedef int pid_t;
 #endif /* _MSC_VER */
 
 /* define some ANSI types that are not defined in earlier Win headers */
-#if defined(_MSC_VER) && _MSC_VER >= 1200
-/* This file only exists in VC 6.0 or higher */
+#if defined(_MSC_VER)
 #include <basetsd.h>
 #endif
 
@@ -272,13 +271,6 @@ typedef int pid_t;
 #if defined(__GNUC__) && defined(_WIN32)
 /* XXX These defines are likely incomplete, but should be easy to fix.
    They should be complete enough to build extension modules. */
-/* Suggested by Rene Liebscher <R.Liebscher@gmx.de> to avoid a GCC 2.91.*
-   bug that requires structure imports.  More recent versions of the
-   compiler don't exhibit this bug.
-*/
-#if (__GNUC__==2) && (__GNUC_MINOR__<=91)
-#warning "Please use an up-to-date version of gcc! (>2.91 recommended)"
-#endif
 
 #define COMPILER "[gcc]"
 #define PY_LONG_LONG long long
@@ -366,12 +358,7 @@ Py_NO_ENABLE_SHARED to find out.  Also support MS_NO_COREDLL for b/w compat */
 #	define SIZEOF_FPOS_T 8
 #	define SIZEOF_HKEY 4
 #	define SIZEOF_SIZE_T 4
-	/* MS VS2005 changes time_t to a 64-bit type on all platforms */
-#	if defined(_MSC_VER) && _MSC_VER >= 1400
-#	define SIZEOF_TIME_T 8
-#	else
 #	define SIZEOF_TIME_T 4
-#	endif
 #endif
 
 #ifdef _DEBUG
@@ -388,18 +375,10 @@ Py_NO_ENABLE_SHARED to find out.  Also support MS_NO_COREDLL for b/w compat */
 #define SIZEOF_DOUBLE 8
 #define SIZEOF_FLOAT 4
 
-/* VC 7.1 has them and VC 6.0 does not.  VC 6.0 has a version number of 1200.
-   Microsoft eMbedded Visual C++ 4.0 has a version number of 1201 and doesn't
-   define these.
-   If some compiler does not provide them, modify the #if appropriately. */
+/* If some compiler does not provide them, modify the #if appropriately. */
 #if defined(_MSC_VER)
-#if _MSC_VER > 1300
 #define HAVE_UINTPTR_T 1
 #define HAVE_INTPTR_T 1
-#else
-/* VC6, VS 2002 and eVC4 don't support the C99 LL suffix for 64-bit integer literals */
-#define Py_LL(x) x##I64
-#endif  /* _MSC_VER > 1200  */
 #endif  /* _MSC_VER */
 
 #endif
@@ -446,9 +425,7 @@ Py_NO_ENABLE_SHARED to find out.  Also support MS_NO_COREDLL for b/w compat */
 #define HAVE_COPYSIGN 1
 
 /* Define to 1 if you have the `round' function. */
-#if _MSC_VER >= 1800
 #define HAVE_ROUND 1
-#endif
 
 /* Define to 1 if you have the `isinf' macro. */
 #define HAVE_DECL_ISINF 1

@@ -32,9 +32,7 @@ namespace
     return rval;
   }
 
-#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
-  ITK_GCC_PRAGMA_DIAG_PUSH()
-#endif
+ITK_GCC_PRAGMA_DIAG_PUSH()
 ITK_GCC_PRAGMA_DIAG(ignored "-Wunused-function")
   template<>
   std::string GetTransformDimensionAsString<2>()
@@ -91,11 +89,7 @@ ITK_GCC_PRAGMA_DIAG(ignored "-Wunused-function")
     std::string rval("9_9");
     return rval;
   }
-#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
-  ITK_GCC_PRAGMA_DIAG_POP()
-#else
-  ITK_GCC_PRAGMA_DIAG(warning "-Wunused-function")
-#endif
+ITK_GCC_PRAGMA_DIAG_POP()
 
 }
 
@@ -211,18 +205,12 @@ CompositeTransformIOHelperTemplate<TParametersValueType>
   return 1;
 }
 
-#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
-  ITK_GCC_PRAGMA_DIAG_PUSH()
-#endif
+ITK_GCC_PRAGMA_DIAG_PUSH()
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 
 template class ITKIOTransformBase_EXPORT CompositeTransformIOHelperTemplate< double >;
 template class ITKIOTransformBase_EXPORT CompositeTransformIOHelperTemplate< float >;
 
-#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
-  ITK_GCC_PRAGMA_DIAG_POP()
-#else
-  ITK_GCC_PRAGMA_DIAG(warning "-Wattributes")
-#endif
+ITK_GCC_PRAGMA_DIAG_POP()
 
 }  // end namespace itk
