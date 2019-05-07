@@ -891,6 +891,14 @@ class pipeline:
                 else:
                     raise ValueError("Index can only be 0 on that object")
 
+    def GetNumberOfOutputs(self):
+        """Return the number of outputs
+        """
+        if len(self.filters) == 0:
+            return 1
+        else:
+            return self.filters[-1].GetNumberOfOutputs()
+
     def SetInput(self, input):
         """Set the input of the pipeline
         """
@@ -922,10 +930,7 @@ class pipeline:
             self.Update()
 
     def __len__(self):
-        if len(self.filters) == 0:
-            return 1
-        else:
-            return self.filters[-1].GetNumberOfOutputs()
+        return self.GetNumberOfOutputs()
 
     def __getitem__(self, item):
         return self.GetOutput(item)

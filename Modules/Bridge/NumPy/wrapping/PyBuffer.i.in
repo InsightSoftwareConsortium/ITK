@@ -70,7 +70,7 @@
             if source:
                 source.UpdateLargestPossibleRegion()
 
-        arrayView = itkPyBuffer@PyBufferTypes@.GetArrayViewFromImage(image, keep_axes)
+        arrayView = itkPyBuffer@PyBufferTypes@.GetArrayViewFromImage(image, keep_axes, update)
 
         # perform deep copy of the image buffer
         arr = numpy.array(arrayView, copy=True)
