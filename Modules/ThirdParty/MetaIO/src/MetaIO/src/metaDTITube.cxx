@@ -132,11 +132,11 @@ MetaDTITube::
   // Delete the list of pointers to DTITubes.
   PointListType::iterator it = m_PointList.begin();
   while(it != m_PointList.end())
-  {
+{
     DTITubePnt* pnt = *it;
     ++it;
     delete pnt;
-  }
+}
   m_PointList.clear();
   M_Destroy();
 }
@@ -229,11 +229,11 @@ Clear()
   // Delete the list of pointers to DTITubes.
   PointListType::iterator it = m_PointList.begin();
   while(it != m_PointList.end())
-  {
+{
     DTITubePnt* pnt = *it;
     ++it;
     delete pnt;
-  }
+}
   m_PointList.clear();
 
   m_ParentPoint= -1;

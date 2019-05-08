@@ -67,7 +67,7 @@ static const std::streamoff MET_MaxChunkSize = 1024*1024*1024;
 MET_FieldRecordType *
 MET_GetFieldRecord(const char * _fieldName,
                    std::vector<MET_FieldRecordType *> * _fields)
-  {
+{
   std::vector<MET_FieldRecordType *>::iterator fieldIter;
   for(fieldIter=_fields->begin(); fieldIter!=_fields->end(); ++fieldIter)
     {
@@ -77,13 +77,13 @@ MET_GetFieldRecord(const char * _fieldName,
       }
     }
   return nullptr;
-  }
+}
 
 
 int
 MET_GetFieldRecordNumber(const char * _fieldName,
                          std::vector<MET_FieldRecordType *> * _fields)
-  {
+{
   int i;
   for(i=0; i<(int)_fields->size(); i++)
     {
@@ -93,14 +93,14 @@ MET_GetFieldRecordNumber(const char * _fieldName,
       }
     }
   return -1;
-  }
+}
 
 
 //
 // Sizeof METTYPE
 //
 bool MET_SizeOfType(MET_ValueEnumType _vType, int *s)
-  {
+{
   *s = MET_ValueTypeSize[_vType];
   if(_vType < MET_STRING)
     {
@@ -110,14 +110,11 @@ bool MET_SizeOfType(MET_ValueEnumType _vType, int *s)
     {
     return false;
     }
-  }
+}
 
 
-//
-//
-//
 bool MET_SystemByteOrderMSB()
-  {
+{
   const int l = 1;
   const char * u = (const char *) & l;
 
@@ -129,14 +126,14 @@ bool MET_SystemByteOrderMSB()
     {
     return true;
     }
-  }
+}
 
 
 //
 // Read the type of the object
 //
 std::string MET_ReadForm(std::istream &_fp)
-  {
+{
   std::streampos pos = _fp.tellg();
   std::vector<MET_FieldRecordType *> fields;
   MET_FieldRecordType* mF = new MET_FieldRecordType;
@@ -157,13 +154,13 @@ std::string MET_ReadForm(std::istream &_fp)
 
   delete mF;
   return std::string();
-  }
+}
 
 //
 // Read the type of the object
 //
 std::string MET_ReadType(std::istream &_fp)
-  {
+{
   std::streampos pos = _fp.tellg();
   std::vector<MET_FieldRecordType *> fields;
   MET_FieldRecordType* mF = new MET_FieldRecordType;
@@ -184,13 +181,13 @@ std::string MET_ReadType(std::istream &_fp)
 
   delete mF;
   return std::string();
-  }
+}
 
 //
 // Read the subtype of the object
 //
 char* MET_ReadSubType(std::istream &_fp)
-  {
+{
   std::streampos pos = _fp.tellg();
   std::vector<MET_FieldRecordType *> fields;
   MET_FieldRecordType* mF;
@@ -217,14 +214,14 @@ char* MET_ReadSubType(std::istream &_fp)
   ret[value.size()] = '\0';
   delete mF;
   return ret;
-  }
+}
 
 
 //
 // String To Type
 //
 bool MET_StringToType(const char *_s, MET_ValueEnumType *_vType)
-  {
+{
   int i;
   for(i=0; i<MET_NUM_VALUE_TYPES; i++)
     {
@@ -237,13 +234,13 @@ bool MET_StringToType(const char *_s, MET_ValueEnumType *_vType)
 
   *_vType = MET_OTHER;
   return false;
-  }
+}
 
 //
 // METType To String
 //
 bool MET_TypeToString(MET_ValueEnumType _vType, char *_s)
-  {
+{
   assert(_vType>=0);
   if(_vType<MET_NUM_VALUE_TYPES)
     {
@@ -252,7 +249,7 @@ bool MET_TypeToString(MET_ValueEnumType _vType, char *_s)
     }
 
   return false;
-  }
+}
 
 
 
@@ -262,7 +259,7 @@ bool MET_TypeToString(MET_ValueEnumType _vType, char *_s)
 bool MET_ValueToDouble(MET_ValueEnumType _type, const void *_data,
                        std::streamoff _index,
                        double *_value)
-  {
+{
   switch(_type)
     {
     case MET_ASCII_CHAR:
@@ -330,13 +327,13 @@ bool MET_ValueToDouble(MET_ValueEnumType _type, const void *_data,
       *_value = 0;
       return false;
     }
-  }
+}
 
 bool MET_DoubleToValue(double _value,
                        MET_ValueEnumType _type,
                        void *_data,
                        std::streamoff _index)
-  {
+{
   switch(_type)
     {
     case MET_ASCII_CHAR:
@@ -397,14 +394,14 @@ bool MET_DoubleToValue(double _value,
     default:
       return false;
     }
-  }
+}
 
 bool MET_ValueToValue(MET_ValueEnumType _fromType, const void *_fromData,
                       std::streamoff _index,
                       MET_ValueEnumType _toType, void *_toData,
                       double _fromMin, double _fromMax,
                       double _toMin, double _toMax)
-  {
+{
   double tf;
   MET_ValueToDouble(_fromType, _fromData, _index, &tf);
   if(_toMin != _toMax && _fromMin != _fromMax)
@@ -479,7 +476,7 @@ bool MET_ValueToValue(MET_ValueEnumType _fromType, const void *_fromData,
     default:
       return false;
     }
-  }
+}
 
 // Uncompress a stream given an uncompressedSeekPosition
 METAIO_EXPORT
@@ -688,13 +685,10 @@ std::streamoff MET_UncompressStream(std::ifstream * stream,
 }
 
 
-//
-//
-//
 unsigned char * MET_PerformCompression(const unsigned char * source,
                                        std::streamoff sourceSize,
                                        std::streamoff * compressedDataSize)
-  {
+{
 
   z_stream  z;
   z.zalloc  = (alloc_func)nullptr;
@@ -754,16 +748,13 @@ unsigned char * MET_PerformCompression(const unsigned char * source,
   *compressedDataSize = cur_out_start;  // don't use z.total_out, it's limited to 2^32!
   deflateEnd(&z);
   return compressed_data;
-  }
+}
 
-//
-//
-//
 bool MET_PerformUncompression(const unsigned char * sourceCompressed,
                               std::streamoff sourceCompressedSize,
                               unsigned char * uncompressedData,
                               std::streamoff uncompressedDataSize)
-  {
+{
   z_stream d_stream;
 
   d_stream.zalloc = (alloc_func)nullptr;
@@ -808,11 +799,8 @@ bool MET_PerformUncompression(const unsigned char * sourceCompressed,
   while (err != Z_STREAM_END && err >= 0);
   inflateEnd(&d_stream);
   return true;
-  }
+}
 
-//
-//
-//
 bool MET_StringToWordArray(const char *s, int *n, char ***val)
 {
   ptrdiff_t l = strlen(s);
@@ -879,11 +867,8 @@ bool MET_StringToWordArray(const char *s, int *n, char ***val)
   return true;
 }
 
-//
-//
-//
 bool MET_GetFilePath(const char *_fName, char *_fPath)
-  {
+{
   long i;
 
   size_t l = strlen(_fName);
@@ -905,13 +890,10 @@ bool MET_GetFilePath(const char *_fName, char *_fPath)
     _fPath[0] = '\0';
     return false;
     }
-  }
+}
 
-//
-//
-//
 bool MET_GetFileSuffixPtr(const char *_fName, int *i)
-  {
+{
   *i = static_cast<int>( strlen(_fName) );
   int j = *i - 5;
   if(j<0)
@@ -931,13 +913,10 @@ bool MET_GetFileSuffixPtr(const char *_fName, int *i)
     }
   *i = 0;
   return false;
-  }
+}
 
-//
-//
-//
 bool MET_SetFileSuffix(char *_fName, const char *_suf)
-  {
+{
   int i;
   MET_GetFileSuffixPtr(_fName, &i);
   if(i>0)
@@ -958,16 +937,13 @@ bool MET_SetFileSuffix(char *_fName, const char *_suf)
     strcat(_fName, _suf);
     return true;
     }
-  }
+}
 
-//
-//
-//
 bool MET_InitWriteField(MET_FieldRecordType * _mf,
                         const char *_name,
                         MET_ValueEnumType _type,
                         double _v)
-  {
+{
   strcpy(_mf->name, _name);
   _mf->type = _type;
   _mf->defined = true;
@@ -977,7 +953,7 @@ bool MET_InitWriteField(MET_FieldRecordType * _mf,
   _mf->terminateRead = false;
   _mf->value[0] = _v;
   return true;
-  }
+}
 
 bool MET_InitReadField(MET_FieldRecordType * _mf,
                                   const char *_name,
@@ -985,7 +961,7 @@ bool MET_InitReadField(MET_FieldRecordType * _mf,
                                   bool _required,
                                   int _dependsOn,
                                   size_t _length)
-  {
+{
   strcpy(_mf->name, _name);
   _mf->type = _type;
   _mf->defined = false;
@@ -995,13 +971,10 @@ bool MET_InitReadField(MET_FieldRecordType * _mf,
   _mf->length = static_cast<int>(_length);
   _mf->value[0] = 0;
   return true;
-  }
+}
 
-//
-//
-//
 static bool MET_SkipToVal(std::istream &fp)
-  {
+{
   int c;
   if( fp.eof() )
     {
@@ -1030,13 +1003,10 @@ static bool MET_SkipToVal(std::istream &fp)
   fp.putback(static_cast<char>(c));
 
   return true;
-  }
+}
 
-//
-//
-//
 static bool MET_IsComplete(std::vector<MET_FieldRecordType *> * fields)
-  {
+{
   std::vector<MET_FieldRecordType *>::iterator fieldIter;
   for(fieldIter=fields->begin(); fieldIter!=fields->end(); ++fieldIter)
     {
@@ -1048,14 +1018,14 @@ static bool MET_IsComplete(std::vector<MET_FieldRecordType *> * fields)
       }
     }
   return true;
-  }
+}
 
 //
 bool MET_Read(std::istream &fp,
               std::vector<MET_FieldRecordType *> * fields,
               char _MET_SeperatorChar, bool oneLine, bool display_warnings,
               std::vector<MET_FieldRecordType *> * newFields)
-  {
+{
 
   char s[1024];
   int i;
@@ -1092,7 +1062,7 @@ bool MET_Read(std::istream &fp,
 
     // trim white space on name
     i--;
-    while(IsBlank(s[i]) && i>0)
+    while(i>0 && IsBlank(s[i]))
       {
       s[i--] = '\0';
       }
@@ -1292,12 +1262,12 @@ bool MET_Read(std::istream &fp,
     }
 
   return MET_IsComplete(fields);
-  }
+}
 
 // Workaround for ancient compilers.
 #if defined(_MSC_VER) || defined(__HP_aCC)
 static std::string convert_ulonglong_to_string(MET_ULONG_LONG_TYPE val)
-  {
+{
   std::string result;
   while (val > 0)
     {
@@ -1305,14 +1275,14 @@ static std::string convert_ulonglong_to_string(MET_ULONG_LONG_TYPE val)
     val /= 10;
     }
   return result;
-  }
+}
 #endif
 
 //
 bool MET_Write(std::ostream &fp,
                std::vector<MET_FieldRecordType *> * fields,
                char _MET_SeperatorChar)
-  {
+{
   MET_SeperatorChar = _MET_SeperatorChar;
 
   int j;
@@ -1579,7 +1549,7 @@ bool MET_Write(std::ostream &fp,
 
 bool MET_WriteFieldToFile(std::ostream & _fp, const char *_fieldName,
                           MET_ValueEnumType _pType, size_t _n, const void *_v)
-  {
+{
   size_t i;
   MET_FieldRecordType f;
 
@@ -1704,11 +1674,11 @@ bool MET_WriteFieldToFile(std::ostream & _fp, const char *_fieldName,
   MET_Write(_fp, &l);
 
   return true;
-  }
+}
 
 bool MET_WriteFieldToFile(std::ostream & _fp, const char *_fieldName,
   MET_ValueEnumType _pType, double _v)
-  {
+{
   MET_FieldRecordType f;
 
   snprintf(f.name, sizeof(f.name), "%s", _fieldName);
@@ -1725,11 +1695,11 @@ bool MET_WriteFieldToFile(std::ostream & _fp, const char *_fieldName,
   MET_Write(_fp, &l);
 
   return true;
-  }
+}
 
 bool MET_StringToInterpolationType(const char * _str,
                                MET_InterpolationEnumType * _type)
-  {
+{
   int i;
 
   for(i=0; i<MET_NUM_INTERPOLATION_TYPES; i++)
@@ -1742,14 +1712,14 @@ bool MET_StringToInterpolationType(const char * _str,
   *_type = MET_NO_INTERPOLATION;
 
   return false;
-  }
+}
 
 bool MET_InterpolationTypeToString(MET_InterpolationEnumType _type,
                                char * _str)
-  {
+{
   strcpy(_str, MET_InterpolationTypeName[(int)_type]);
   return true;
-  }
+}
 
 /** Make sure that all the byte are read and written as LSB */
 void MET_SwapByteIfSystemMSB(void* val, MET_ValueEnumType _type)

@@ -164,11 +164,11 @@ Clear()
     // Delete the list of pointers to lines.
   PointListType::iterator it = m_PointList.begin();
   while(it != m_PointList.end())
-  {
+{
     LinePnt* pnt = *it;
     ++it;
     delete pnt;
-  }
+}
   m_PointList.clear();
 
   strcpy(m_PointDim, "x y z v1x v1y v1z");
@@ -229,12 +229,12 @@ M_SetupWriteFields()
   m_Fields.push_back(mF);
 
   if(strlen(m_PointDim)>0)
-  {
+{
     mF = new MET_FieldRecordType;
     MET_InitWriteField(mF, "PointDim", MET_STRING,
                            strlen(m_PointDim),m_PointDim);
     m_Fields.push_back(mF);
-  }
+}
 
   m_NPoints = (int)m_PointList.size();
   mF = new MET_FieldRecordType;
@@ -266,10 +266,10 @@ M_Read()
   if(META_DEBUG) std::cout << "MetaLine: M_Read: Loading Header" << std::endl;
 
   if(!MetaObject::M_Read())
-  {
+{
     std::cout << "MetaLine: M_Read: Error parsing file" << std::endl;
     return false;
-  }
+}
 
   if(META_DEBUG) std::cout << "MetaLine: M_Read: Parsing Header" << std::endl;
 
@@ -277,21 +277,21 @@ M_Read()
 
   mF = MET_GetFieldRecord("NPoints", &m_Fields);
   if(mF->defined)
-  {
+{
     m_NPoints= (int)mF->value[0];
-  }
+}
 
   mF = MET_GetFieldRecord("ElementType", &m_Fields);
   if(mF->defined)
-  {
+{
     MET_StringToType((char *)(mF->value), &m_ElementType);
-  }
+}
 
   mF = MET_GetFieldRecord("PointDim", &m_Fields);
   if(mF->defined)
-  {
+{
     strcpy(m_PointDim,(char *)(mF->value));
-  }
+}
 
   int pntDim;
   char** pntVal = nullptr;
@@ -307,7 +307,7 @@ M_Read()
   float v[16];
 
   if(m_BinaryData)
-  {
+{
     int elementSize;
     MET_SizeOfType(m_ElementType, &elementSize);
     int readSize = m_NPoints*(m_NDims*m_NDims+4)*elementSize;
@@ -377,9 +377,9 @@ M_Read()
       m_PointList.push_back(pnt);
     }
     delete [] _data;
-  }
+}
   else
-  {
+{
     for(int j=0; j<m_NPoints; j++)
     {
       LinePnt* pnt = new LinePnt(m_NDims);
@@ -431,7 +431,7 @@ M_Read()
     {
       c = static_cast<char>(m_ReadStream->get());// to avoid unrecognized characters
     }
-  }
+}
 
   return true;
 }
@@ -519,7 +519,7 @@ M_Write()
       *m_WriteStream << std::endl;
       ++it;
     }
-  }
+}
 
   return true;
 

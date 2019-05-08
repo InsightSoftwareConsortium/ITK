@@ -179,7 +179,7 @@ public:
 
 
 class METAIO_EXPORT MetaMesh : public MetaObject
-  {
+{
 
   /////
   //
@@ -296,7 +296,7 @@ class METAIO_EXPORT MetaMesh : public MetaObject
     MET_ValueEnumType m_PointDataType;
     MET_ValueEnumType m_CellDataType;
 
-  };
+};
 
 #if (METAIO_USE_NAMESPACE)
 };

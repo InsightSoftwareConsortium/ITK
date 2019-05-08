@@ -156,11 +156,11 @@ Clear()
   // Delete the list of pointers to tubes.
   PointListType::iterator it = m_PointList.begin();
   while(it != m_PointList.end())
-  {
+{
     LandmarkPnt* pnt = *it;
     ++it;
     delete pnt;
-  }
+}
   m_PointList.clear();
   m_NPoints = 0;
   strcpy(m_PointDim, "x y z red green blue alpha");
@@ -232,12 +232,12 @@ M_SetupWriteFields()
   m_Fields.push_back(mF);
 
   if(strlen(m_PointDim)>0)
-  {
+{
     mF = new MET_FieldRecordType;
     MET_InitWriteField(mF, "PointDim", MET_STRING,
                            strlen(m_PointDim),m_PointDim);
     m_Fields.push_back(mF);
-  }
+}
 
   m_NPoints = (int)m_PointList.size();
   mF = new MET_FieldRecordType;
@@ -258,10 +258,10 @@ M_Read()
   if(META_DEBUG) std::cout << "MetaLandmark: M_Read: Loading Header" << std::endl;
 
   if(!MetaObject::M_Read())
-  {
+{
     std::cout << "MetaLandmark: M_Read: Error parsing file" << std::endl;
     return false;
-  }
+}
 
   if(META_DEBUG) std::cout << "MetaLandmark: M_Read: Parsing Header" << std::endl;
 
@@ -269,29 +269,29 @@ M_Read()
 
   mF = MET_GetFieldRecord("NPoints", &m_Fields);
   if(mF->defined)
-  {
+{
     m_NPoints= (int)mF->value[0];
-  }
+}
 
   mF = MET_GetFieldRecord("ElementType", &m_Fields);
   if(mF->defined)
-  {
+{
     MET_StringToType((char *)(mF->value), &m_ElementType);
-  }
+}
 
 
   mF = MET_GetFieldRecord("PointDim", &m_Fields);
   if(mF->defined)
-  {
+{
     strcpy(m_PointDim,(char *)(mF->value));
-  }
+}
 
   int* posDim= new int[m_NDims];
   int i;
   for(i= 0; i < m_NDims; i++)
-  {
+{
     posDim[i] = -1;
-  }
+}
 
   int pntDim;
   char** pntVal = nullptr;
@@ -300,7 +300,7 @@ M_Read()
 
   int j;
   for(j = 0; j < pntDim; j++)
-  {
+{
     if(!strcmp(pntVal[j], "x") || !strcmp(pntVal[j], "X"))
     {
       posDim[0] = j;
@@ -314,7 +314,7 @@ M_Read()
       posDim[2] = j;
     }
 
-  }
+}
 
   for(i=0;i<pntDim;i++)
     {
@@ -325,7 +325,7 @@ M_Read()
   float v[16];
 
   if(m_BinaryData)
-  {
+{
     int elementSize;
     MET_SizeOfType(m_ElementType, &elementSize);
     std::streamsize readSize = m_NPoints*(m_NDims+4)*elementSize;
@@ -380,9 +380,9 @@ M_Read()
       m_PointList.push_back(pnt);
     }
     delete [] _data;
-  }
+}
   else
-  {
+{
     for(j=0; j<(int)m_NPoints; j++)
     {
       LandmarkPnt* pnt = new LandmarkPnt(m_NDims);
@@ -413,7 +413,7 @@ M_Read()
     {
       c = static_cast<char>(m_ReadStream->get());// to avoid unrecognize charactere
     }
-  }
+}
 
   delete [] posDim;
   return true;
@@ -425,14 +425,14 @@ M_Write()
 {
 
   if(!MetaObject::M_Write())
-  {
+{
     std::cout << "MetaLandmark: M_Read: Error parsing file" << std::endl;
     return false;
-  }
+}
 
   /** Then copy all points */
   if(m_BinaryData)
-  {
+{
     PointListType::const_iterator it = m_PointList.begin();
     PointListType::const_iterator itEnd = m_PointList.end();
     int elementSize;
@@ -461,9 +461,9 @@ M_Write()
     m_WriteStream->write((char *)data,(m_NDims+4)*m_NPoints*elementSize);
     m_WriteStream->write("\n",1);
     delete [] data;
-  }
+}
   else
-  {
+{
     PointListType::const_iterator it = m_PointList.begin();
     PointListType::const_iterator itEnd = m_PointList.end();
 
@@ -483,7 +483,7 @@ M_Write()
       *m_WriteStream << std::endl;
       ++it;
     }
-  }
+}
 
   return true;
 

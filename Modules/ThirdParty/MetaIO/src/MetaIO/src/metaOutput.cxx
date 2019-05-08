@@ -198,7 +198,7 @@ MetaOutput()
 {
   m_MetaCommand = nullptr;
   m_CurrentVersion = "0.1";
-  }
+}
 
 /** Destructor */
 MetaOutput::
@@ -352,17 +352,17 @@ std::string MetaOutput::GetHostip()
   char** address = phe->h_addr_list;
   int m_numaddrs = 0;
   while (*address)
-  {
+{
     m_numaddrs++;
     address++;
-  }
+}
 
   std::string m_ip = "";
   if (m_numaddrs != 0)
-  {
+{
     memcpy(&addr, phe->h_addr_list[m_numaddrs-1], sizeof(struct in_addr));
     m_ip = inet_ntoa(addr);
-  }
+}
 
  return m_ip;
 }

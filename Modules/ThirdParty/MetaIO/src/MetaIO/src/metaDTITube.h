@@ -69,7 +69,7 @@ public:
 
 
 class METAIO_EXPORT MetaDTITube : public MetaObject
-  {
+{
 
   /////
   //
@@ -165,7 +165,7 @@ class METAIO_EXPORT MetaDTITube : public MetaObject
     std::vector<PositionType> m_Positions;
 
     int GetPosition(const char*) const;
-  };
+};
 
 #if (METAIO_USE_NAMESPACE)
 };

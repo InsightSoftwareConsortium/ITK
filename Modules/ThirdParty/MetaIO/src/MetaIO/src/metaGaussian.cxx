@@ -162,10 +162,10 @@ M_Read()
                            << std::endl;
 
   if(!MetaObject::M_Read())
-  {
+{
     std::cout << "MetaGaussian: M_Read: Error parsing file" << std::endl;
     return false;
-  }
+}
 
   if(META_DEBUG) std::cout << "MetaGaussian: M_Read: Parsing Header"
                            << std::endl;
@@ -174,21 +174,21 @@ M_Read()
 
   mF = MET_GetFieldRecord("Maximum", &m_Fields);
   if( mF->defined )
-  {
+{
     m_Maximum = (float)mF->value[0];
-  }
+}
 
   mF = MET_GetFieldRecord("Radius", &m_Fields);
   if( mF->defined )
-  {
+{
     m_Radius = (float)mF->value[0];
-  }
+}
 
   mF = MET_GetFieldRecord("Sigma", &m_Fields);
   if( mF->defined )
-  {
+{
     m_Sigma = (float)mF->value[0];
-  }
+}
 
   return true;
 }

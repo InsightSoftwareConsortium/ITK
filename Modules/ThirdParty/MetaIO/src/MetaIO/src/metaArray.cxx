@@ -33,7 +33,7 @@ namespace METAIO_NAMESPACE {
 MetaArray::
 MetaArray()
 :MetaForm()
-  {
+{
   if(META_DEBUG)
     {
     std::cout << "MetaArray()" << std::endl;
@@ -47,13 +47,13 @@ MetaArray()
   strcpy(m_ElementDataFileName, "");
 
   MetaArray::Clear();
-  }
+}
 
 //
 MetaArray::
 MetaArray(const char *_headerName)
 :MetaForm()
-  {
+{
   if(META_DEBUG)
     {
     std::cout << "MetaArray()" << std::endl;
@@ -69,7 +69,7 @@ MetaArray(const char *_headerName)
   MetaArray::Clear();
 
   MetaArray::Read(_headerName);
-  }
+}
 
 //
 MetaArray::
@@ -77,7 +77,7 @@ MetaArray(MetaArray *_vector,
           bool _allocateElementData,
           bool _autoFreeElementData)
 :MetaForm()
-  {
+{
   if(META_DEBUG)
    {
    std::cout << "MetaArray()" << std::endl;
@@ -100,7 +100,7 @@ MetaArray(MetaArray *_vector,
                       _autoFreeElementData);
 
   CopyInfo(_vector);
-  }
+}
 
 //
 MetaArray::
@@ -111,7 +111,7 @@ MetaArray(int _length,
           bool _allocateElementData,
           bool _autoFreeElementData)
 :MetaForm()
-  {
+{
   if(META_DEBUG)
    {
    std::cout << "MetaArray()" << std::endl;
@@ -132,19 +132,19 @@ MetaArray(int _length,
                       _elementData,
                       _allocateElementData,
                       _autoFreeElementData);
-  }
+}
 
 //
 MetaArray::
 ~MetaArray()
-  {
+{
   M_Destroy();
-  }
+}
 
 //
 void MetaArray::
 PrintInfo() const
-  {
+{
   MetaForm::PrintInfo();
 
   std::cout << "Length = " << (int)m_Length << std::endl;
@@ -179,17 +179,17 @@ PrintInfo() const
   std::cout << "ElementData = "
                       << ((m_ElementData==nullptr)?"NULL":"Valid")
                       << std::endl;
-  }
+}
 
 void MetaArray::
 CopyInfo(const MetaForm * _form)
-  {
+{
   MetaForm::CopyInfo(_form);
-  }
+}
 
 void MetaArray::
 Clear()
-  {
+{
   if(META_DEBUG)
     {
     std::cout << "MetaArray: Clear" << std::endl;
@@ -216,7 +216,7 @@ Clear()
   m_AutoFreeElementData = true;
 
   MetaForm::Clear();
-  }
+}
 
 bool MetaArray::
 InitializeEssential(int _length,
@@ -225,7 +225,7 @@ InitializeEssential(int _length,
                     void * _elementData,
                     bool _allocateElementData,
                     bool _autoFreeElementData)
-  {
+{
   if(META_DEBUG)
     {
     std::cout << "MetaArray: Initialize" << std::endl;
@@ -274,11 +274,11 @@ InitializeEssential(int _length,
     }
 
   return result;
-  }
+}
 
 bool MetaArray::
 AllocateElementData(bool _autoFreeElementData)
-  {
+{
   if(m_AutoFreeElementData)
     {
     if(m_ElementData != nullptr)
@@ -302,68 +302,68 @@ AllocateElementData(bool _autoFreeElementData)
     {
     return false;
     }
-  }
+}
 
 int MetaArray::
 Length() const
-  {
+{
   return m_Length;
-  }
+}
 
 void MetaArray::
 Length(int _length)
-  {
+{
   if(m_Length != _length)
     {
     InitializeEssential(_length, m_ElementType, m_ElementNumberOfChannels);
     }
-  }
+}
 
 int MetaArray::
 NDims() const
-  {
+{
   return Length();
-  }
+}
 
 void MetaArray::
 NDims(int _length)
-  {
+{
   Length(_length);
-  }
+}
 
 MET_ValueEnumType MetaArray::
 ElementType() const
-  {
+{
   return m_ElementType;
-  }
+}
 
 void MetaArray::
 ElementType(MET_ValueEnumType _elementType)
-  {
+{
   if(m_ElementType != _elementType)
     {
     InitializeEssential(m_Length, _elementType, m_ElementNumberOfChannels);
     }
-  }
+}
 
 int MetaArray::
 ElementNumberOfChannels() const
-  {
+{
   return m_ElementNumberOfChannels;
-  }
+}
 
 void MetaArray::
 ElementNumberOfChannels(int _elementNumberOfChannels)
-  {
+{
   if(m_ElementNumberOfChannels != _elementNumberOfChannels)
     {
     InitializeEssential(m_Length, m_ElementType, _elementNumberOfChannels);
     }
-  }
+}
 
 void MetaArray::
 ElementByteOrderSwap()
-  {
+{
   if(META_DEBUG)
     {
     std::cout << "MetaArray: ElementByteOrderSwap"
@@ -413,24 +413,24 @@ ElementByteOrderSwap()
       }
     }
   m_BinaryDataByteOrderMSB = !m_BinaryDataByteOrderMSB;
-  }
+}
 
 bool MetaArray::
 ElementByteOrderFix()
-  {
+{
   if(m_BinaryDataByteOrderMSB != MET_SystemByteOrderMSB())
     {
     ElementByteOrderSwap();
     return true;
     }
   return true;
-  }
+}
 
 bool MetaArray::
 ConvertElementDataTo(MET_ValueEnumType _toElementType,
                      double _fromMin, double _fromMax,
                      double _toMin, double _toMax)
-  {
+{
   if(m_ElementData == nullptr)
     {
     return false;
@@ -461,14 +461,14 @@ ConvertElementDataTo(MET_ValueEnumType _toElementType,
     }
 
   return true;
-  }
+}
 
 bool MetaArray::
 ImportBufferToElementData(const void * _fromBuffer,
                           MET_ValueEnumType _fromElementType,
                           double _fromMin, double _fromMax,
                           double _toMin, double _toMax)
-  {
+{
   if(m_ElementData == nullptr)
     {
     AllocateElementData(true);
@@ -510,88 +510,76 @@ ImportBufferToElementData(const void * _fromBuffer,
     }
 
   return true;
-  }
+}
 
 
-//
-//
-//
 bool MetaArray::
 AutoFreeElementData() const
-  {
+{
   return m_AutoFreeElementData;
-  }
+}
 
 void MetaArray::
 AutoFreeElementData(bool _autoFreeElementData)
-  {
+{
   m_AutoFreeElementData = _autoFreeElementData;
-  }
+}
 
 
-//
-//
-//
 const char * MetaArray::
 ElementDataFileName() const
-  {
+{
   return m_ElementDataFileName;
-  }
+}
 
 void MetaArray::
 ElementDataFileName(const char * _elementDataFileName)
-  {
+{
   strcpy(m_ElementDataFileName, _elementDataFileName);
-  }
+}
 
 
-//
-//
-//
 void * MetaArray::
 ElementData()
-  {
+{
   return m_ElementData;
-  }
+}
 
 double MetaArray::
 ElementData(int _i) const
-  {
+{
   double tf = 0;
   MET_ValueToDouble(m_ElementType, m_ElementData, _i, &tf);
 
   return tf;
-  }
+}
 
 void MetaArray::
 ElementData(void * _elementData, bool _arrayControlsElementData)
-  {
+{
   if(m_AutoFreeElementData)
     {
     delete [] (char *)m_ElementData;
     }
   m_ElementData = _elementData;
   m_AutoFreeElementData = _arrayControlsElementData;
-  }
+}
 
 bool MetaArray::
 ElementData(int _i, double _v)
-  {
+{
   if(_i<m_Length*m_ElementNumberOfChannels)
     {
     MET_DoubleToValue(_v, m_ElementType, m_ElementData, _i);
     return true;
     }
   return false;
-  }
+}
 
 
-//
-//
-//
 bool MetaArray::
 CanRead(const char *_headerName) const
-  {
+{
   // First check the extension
   std::string fname = _headerName;
   if( fname == "" )
@@ -640,13 +628,13 @@ CanRead(const char *_headerName) const
   inputStream.close();
 
   return result;
-  }
+}
 
 
 bool MetaArray::
 Read(const char *_headerName, bool _readElements,
      void * _elementDataBuffer, bool _autoFreeElementData)
-  {
+{
   if(_headerName != nullptr)
     {
     strcpy(m_FileName, _headerName);
@@ -682,23 +670,23 @@ Read(const char *_headerName, bool _readElements,
   delete tmpStream;
 
   return result;
-  }
+}
 
 
 bool MetaArray::
 CanReadStream(std::ifstream * _stream) const
-  {
+{
   if(!strncmp(MET_ReadForm(*_stream).c_str(), "Array", 5))
     {
     return true;
     }
   return false;
-  }
+}
 
 bool MetaArray::
 ReadStream(std::ifstream * _stream, bool _readElements,
            void * _elementDataBuffer, bool _autoFreeElementData)
-  {
+{
   if(META_DEBUG)
     {
     std::cout << "MetaArray: ReadStream" << std::endl;
@@ -781,17 +769,14 @@ ReadStream(std::ifstream * _stream, bool _readElements,
   m_ReadStream = nullptr;
 
   return true;
-  }
+}
 
-//
-//
-//
 //
 
 bool MetaArray::
 Write(const char *_headName, const char *_dataName, bool _writeElements,
       const void *_constElementData)
-  {
+{
   if(_headName != nullptr && strlen(_headName)>1)
     {
     FileName(_headName);
@@ -855,10 +840,10 @@ Write(const char *_headName, const char *_dataName, bool _writeElements,
 // Some older sgi compilers have a error in the ofstream constructor
 // that requires a file to exist for output
 #ifdef __sgi
-  {
+{
   std::ofstream tFile(m_FileName, std::ios::out);
   tFile.close();
-  }
+}
   tmpWriteStream->open(m_FileName, std::ios::out);
 #else
   tmpWriteStream->open(m_FileName, std::ios::binary |
@@ -887,12 +872,12 @@ Write(const char *_headName, const char *_dataName, bool _writeElements,
   delete tmpWriteStream;
 
   return result;
-  }
+}
 
 bool MetaArray::
 WriteStream(std::ofstream * _stream, bool _writeElements,
             const void *_constElementData)
-  {
+{
   if(m_WriteStream != nullptr)
     {
     std::cout << "MetaArray: WriteStream: two files open?"
@@ -965,11 +950,11 @@ WriteStream(std::ofstream * _stream, bool _writeElements,
   m_WriteStream = nullptr;
 
   return true;
-  }
+}
 
 void MetaArray::
 M_Destroy()
-  {
+{
   if(m_AutoFreeElementData && m_ElementData != nullptr)
     {
     delete [] (char *)m_ElementData;
@@ -977,11 +962,11 @@ M_Destroy()
   m_ElementData = nullptr;
 
   MetaForm::M_Destroy();
-  }
+}
 
 void MetaArray::
 M_SetupReadFields()
-  {
+{
   if(META_DEBUG)
     {
     std::cout << "MetaArray: M_SetupReadFields"
@@ -1014,11 +999,11 @@ M_SetupReadFields()
   mF->required = true;
   mF->terminateRead = true;
   m_Fields.push_back(mF);
-  }
+}
 
 void MetaArray::
 M_SetupWriteFields()
-  {
+{
   strcpy(m_FormTypeName, "Array");
   MetaForm::M_SetupWriteFields();
 
@@ -1048,12 +1033,12 @@ M_SetupWriteFields()
                      m_ElementDataFileName);
   mF->terminateRead = true;
   m_Fields.push_back(mF);
-  }
+}
 
 
 bool MetaArray::
 M_Read()
-  {
+{
   if(META_DEBUG)
     {
     std::cout << "MetaArray: M_Read: Loading Header"
@@ -1112,15 +1097,12 @@ M_Read()
     }
 
   return true;
-  }
+}
 
-//
-//
-//
 bool MetaArray::
 M_ReadElements(std::ifstream * _fstream, void * _data,
                int _dataQuantity)
-  {
+{
   if(META_DEBUG)
     {
     std::cout << "MetaArray: M_ReadElements" << std::endl;
@@ -1183,15 +1165,12 @@ M_ReadElements(std::ifstream * _fstream, void * _data,
     }
 
   return true;
-  }
+}
 
-//
-//
-//
 bool MetaArray::
 M_WriteElements(std::ofstream * _fstream, const void * _data,
                std::streamoff _dataQuantity)
-  {
+{
   bool localData = false;
   std::ofstream* tmpWriteStream;
   if(!strcmp(m_ElementDataFileName, "LOCAL"))
@@ -1258,7 +1237,7 @@ M_WriteElements(std::ofstream * _fstream, const void * _data,
     }
 
   return true;
-  }
+}
 
 
 #if (METAIO_USE_NAMESPACE)

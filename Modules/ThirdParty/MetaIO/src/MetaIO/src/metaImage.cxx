@@ -56,10 +56,10 @@ void openWriteStream(std::ofstream & outputStream, const char * fname, bool appe
 // Some older sgi compilers have a error in the ofstream constructor
 // that requires a file to exist for output
 #ifdef __sgi
-  {
+{
   std::ofstream tFile(fname, std::ios::out);
   tFile.close();
-  }
+}
 #endif
 
   if(!append)
@@ -101,7 +101,7 @@ static const std::streamoff MaxIOChunk = 1024*1024*1024;
 MetaImage::
 MetaImage()
 :MetaObject()
-  {
+{
   if(META_DEBUG)
     {
     std::cout << "MetaImage()" << std::endl;
@@ -111,13 +111,13 @@ MetaImage()
   m_CompressionTable->compressedStream = nullptr;
   m_CompressionTable->buffer = nullptr;
   Clear();
-  }
+}
 
 //
 MetaImage::
 MetaImage(const char *_headerName)
 :MetaObject()
-  {
+{
   if(META_DEBUG)
     {
     std::cout << "MetaImage()" << std::endl;
@@ -129,13 +129,13 @@ MetaImage(const char *_headerName)
   Clear();
 
   Read(_headerName);
-  }
+}
 
 //
 MetaImage::
 MetaImage(MetaImage *_im)
 :MetaObject()
-  {
+{
   if(META_DEBUG)
     {
     std::cout << "MetaImage()" << std::endl;
@@ -154,7 +154,7 @@ MetaImage(MetaImage *_im)
                       _im->ElementData(),
                       false);
   CopyInfo(_im);
-  }
+}
 
 //
 void MetaImage::
@@ -164,7 +164,7 @@ InitHelper(int _nDims,
           MET_ValueEnumType _elementType,
           int _elementNumberOfChannels,
           void *_elementData)
-  {
+{
   if(META_DEBUG)
     {
     std::cout << "MetaImage()" << std::endl;
@@ -194,7 +194,7 @@ InitHelper(int _nDims,
                         _elementData, false);
     }
 
-  }
+}
 
 //
 MetaImage::
@@ -205,7 +205,7 @@ MetaImage(int _nDims,
           int _elementNumberOfChannels,
           void *_elementData)
 :MetaObject()
-  {
+{
   // Only consider at most 10 element of spacing:
   // See MetaObject::InitializeEssential(_nDims)
   double tmpElementSpacing[10];
@@ -216,7 +216,7 @@ MetaImage(int _nDims,
     }
    InitHelper(_nDims, _dimSize, tmpElementSpacing, _elementType,
      _elementNumberOfChannels, _elementData);
-  }
+}
 
 //
 MetaImage::
@@ -227,10 +227,10 @@ MetaImage(int _nDims,
           int _elementNumberOfChannels,
           void *_elementData)
 :MetaObject()
-  {
+{
   InitHelper(_nDims, _dimSize, _elementSpacing, _elementType,
     _elementNumberOfChannels, _elementData);
-  }
+}
 
 //
 MetaImage::
@@ -239,7 +239,7 @@ MetaImage(int _x, int _y,
           MET_ValueEnumType _elementType,
           int _elementNumberOfChannels, void *_elementData)
 :MetaObject()
-  {
+{
   if(META_DEBUG)
     {
     std::cout << "MetaImage()" << std::endl;
@@ -278,7 +278,7 @@ MetaImage(int _x, int _y,
                         _elementData,
                         false);
     }
-  }
+}
 
 //
 MetaImage::
@@ -290,7 +290,7 @@ MetaImage(int _x, int _y, int _z,
           int _elementNumberOfChannels,
           void *_elementData)
 :MetaObject()
-  {
+{
   if(META_DEBUG)
     {
     std::cout << "MetaImage()" << std::endl;
@@ -331,19 +331,19 @@ MetaImage(int _x, int _y, int _z,
                         _elementData,
                         false);
     }
-  }
+}
 
 //
 MetaImage::
 ~MetaImage()
-  {
+{
   M_Destroy();
-  }
+}
 
 //
 void MetaImage::
 PrintInfo() const
-  {
+{
   int i;
 
   MetaObject::PrintInfo();
@@ -423,11 +423,11 @@ PrintInfo() const
   std::cout << "ElementDataFileName = "
                       << m_ElementDataFileName << std::endl;
 
-  }
+}
 
 void MetaImage::
 CopyInfo(const MetaObject * _object)
-  {
+{
   MetaObject::CopyInfo(_object);
 
   if(_object)
@@ -467,7 +467,7 @@ CopyInfo(const MetaObject * _object)
       ElementToIntensityFunctionOffset(im->ElementToIntensityFunctionOffset());
       }
     }
-  }
+}
 
 /** Clear function */
 void MetaImage::Clear()
@@ -561,7 +561,7 @@ InitializeEssential(int _nDims,
                     int _elementNumberOfChannels,
                     void * _elementData,
                     bool _allocElementMemory)
-  {
+{
   if(META_DEBUG)
     {
     std::cout << "MetaImage: Initialize" << std::endl;
@@ -626,193 +626,163 @@ InitializeEssential(int _nDims,
     }
 
   return true;
-  }
+}
 
 
-//
-//
-//
 int MetaImage::
 HeaderSize() const
-  {
+{
   return m_HeaderSize;
-  }
+}
 
 void MetaImage::
 HeaderSize(int _headerSize)
-  {
+{
   m_HeaderSize = _headerSize;
-  }
+}
 
-//
-//
-//
 MET_ImageModalityEnumType MetaImage::
 Modality() const
-  {
+{
   return m_Modality;
-  }
+}
 
 void MetaImage::
 Modality(MET_ImageModalityEnumType _modality)
-  {
+{
   m_Modality = _modality;
-  }
+}
 
-//
-//
-//
 const int * MetaImage::
 DimSize() const
-  {
+{
   return m_DimSize;
-  }
+}
 
 int MetaImage::
 DimSize(int _i) const
-  {
+{
   return m_DimSize[_i];
-  }
+}
 
-//
-//
-//
 std::streamoff MetaImage::
 Quantity() const
-  {
+{
   return m_Quantity;
-  }
+}
 
-//
-//
-//
 const std::streamoff * MetaImage::
 SubQuantity() const
-  {
+{
   return m_SubQuantity;
-  }
+}
 
 std::streamoff MetaImage::
 SubQuantity(int _i) const
-  {
+{
   return m_SubQuantity[_i];
-  }
+}
 
-//
-//
-//
 const float * MetaImage::
 SequenceID() const
-  {
+{
   return m_SequenceID;
-  }
+}
 
 float MetaImage::
 SequenceID(int _i) const
-  {
+{
   return m_SequenceID[_i];
-  }
+}
 
 void MetaImage::
 SequenceID(const float *_sequenceID)
-  {
+{
   memcpy(m_SequenceID, _sequenceID, m_NDims*sizeof(float));
-  }
+}
 
 void MetaImage::
 SequenceID(int _i, float _value)
-  {
+{
   m_SequenceID[_i] = _value;
-  }
+}
 
-//
-//
-//
 bool MetaImage::
 ElementSizeValid() const
-  {
+{
   return m_ElementSizeValid;
-  }
+}
 
 void MetaImage::
 ElementSizeValid(bool _elementSizeValid)
-  {
+{
   m_ElementSizeValid = _elementSizeValid;
-  }
+}
 
 const double * MetaImage::
 ElementSize() const
-  {
+{
   return m_ElementSize;
-  }
+}
 
 double MetaImage::
 ElementSize(int _i) const
-  {
+{
   return m_ElementSize[_i];
-  }
+}
 
 void MetaImage::
 ElementSize(const double *_elementSize)
-  {
+{
   memcpy(m_ElementSize, _elementSize, m_NDims*sizeof(*m_ElementSize));
   m_ElementSizeValid = true;
-  }
+}
 
 void MetaImage::
 ElementSize(const float *_elementSize)
-  {
+{
   for(int i = 0; i < m_NDims; ++i)
     {
     m_ElementSize[i] = static_cast<double>(_elementSize[i]);
     }
   m_ElementSizeValid = true;
-  }
+}
 
 
 void MetaImage::
 ElementSize(int _i, double _value)
-  {
+{
   m_ElementSize[_i] = _value;
   m_ElementSizeValid = true;
-  }
+}
 
-//
-//
-//
 MET_ValueEnumType MetaImage::
 ElementType() const
-  {
+{
   return m_ElementType;
-  }
+}
 
 void MetaImage::
 ElementType(MET_ValueEnumType _elementType)
-  {
+{
   m_ElementType = _elementType;
-  }
+}
 
-//
-//
-//
 int MetaImage::
 ElementNumberOfChannels() const
-  {
+{
   return m_ElementNumberOfChannels;
-  }
+}
 
 void MetaImage::
 ElementNumberOfChannels(int _elementNumberOfChannels)
-  {
+{
   m_ElementNumberOfChannels = _elementNumberOfChannels;
-  }
+}
 
-//
-//
-//
 void MetaImage::
 ElementByteOrderSwap(std::streamoff _quantity)
-  {
+{
 
   // use the user provided value if provided or the internal ivar
   std::streamoff quantity = _quantity ? _quantity : m_Quantity;
@@ -866,37 +836,34 @@ ElementByteOrderSwap(std::streamoff _quantity)
       }
     }
   m_BinaryDataByteOrderMSB = !m_BinaryDataByteOrderMSB;
-  }
+}
 
 bool MetaImage::
 ElementByteOrderFix(std::streamoff _quantity)
-  {
+{
   if(m_BinaryDataByteOrderMSB != MET_SystemByteOrderMSB())
     {
     ElementByteOrderSwap(_quantity);
     return true;
     }
   return true;
-  }
+}
 
-//
-//
-//
 bool MetaImage::
 ElementMinMaxValid() const
-  {
+{
   return m_ElementMinMaxValid;
-  }
+}
 
 void MetaImage::
 ElementMinMaxValid(bool _elementMinMaxValid)
-  {
+{
   m_ElementMinMaxValid = _elementMinMaxValid;
-  }
+}
 
 void MetaImage::
 ElementMinMaxRecalc()
-  {
+{
   double tf;
 
   if(m_ElementData == nullptr)
@@ -922,136 +889,121 @@ ElementMinMaxRecalc()
     }
 
   m_ElementMinMaxValid = true;
-  }
+}
 
 double MetaImage::
 ElementMin() const
-  {
+{
   return m_ElementMin;
-  }
+}
 
 void MetaImage::
 ElementMin(double _elementMin)
-  {
+{
   m_ElementMin = _elementMin;
-  }
+}
 
 double MetaImage::
 ElementMax() const
-  {
+{
   return m_ElementMax;
-  }
+}
 
 void MetaImage::
 ElementMax(double _elementMax)
-  {
+{
   m_ElementMax = _elementMax;
-  }
+}
 
-//
-//
-//
 double MetaImage::
 ElementToIntensityFunctionSlope() const
-  {
+{
   return m_ElementToIntensityFunctionSlope;
-  }
+}
 
 void MetaImage::
 ElementToIntensityFunctionSlope(double _elementToIntensityFunctionSlope)
-  {
+{
   m_ElementToIntensityFunctionSlope = _elementToIntensityFunctionSlope;
-  }
+}
 
 double MetaImage::
 ElementToIntensityFunctionOffset() const
-  {
+{
   return m_ElementToIntensityFunctionOffset;
-  }
+}
 
 void MetaImage::
 ElementToIntensityFunctionOffset(double _elementOffset)
-  {
+{
   m_ElementToIntensityFunctionOffset = _elementOffset;
-  }
+}
 
-//
-//
-//
 bool MetaImage::
 AutoFreeElementData() const
-  {
+{
   return m_AutoFreeElementData;
-  }
+}
 
 void MetaImage::
 AutoFreeElementData(bool _autoFreeElementData)
-  {
+{
   m_AutoFreeElementData = _autoFreeElementData;
-  }
+}
 
-//
-//
-//
 const char * MetaImage::
 ElementDataFileName() const
-  {
+{
   return m_ElementDataFileName;
-  }
+}
 
 void MetaImage::
 ElementDataFileName(const char * _elementDataFileName)
-  {
+{
   strcpy(m_ElementDataFileName, _elementDataFileName);
-  }
+}
 
-//
-//
-//
 void * MetaImage::
 ElementData()
-  {
+{
   return m_ElementData;
-  }
+}
 
 double MetaImage::
 ElementData(std::streamoff _i) const
-  {
+{
   double tf = 0;
   MET_ValueToDouble(m_ElementType, m_ElementData, _i, &tf);
 
   return tf;
-  }
+}
 
 bool MetaImage::
 ElementData(std::streamoff _i, double _v)
-  {
+{
   if(_i<m_Quantity)
     {
     MET_DoubleToValue(_v, m_ElementType, m_ElementData, _i);
     return true;
     }
   return false;
-  }
+}
 
 void MetaImage::
 ElementData(void * _elementData, bool _autoFreeElementData)
-  {
+{
   if(m_AutoFreeElementData)
     {
     delete [] (char *)m_ElementData;
     }
   m_ElementData = _elementData;
   m_AutoFreeElementData = _autoFreeElementData;
-  }
+}
 
-//
-//
-//
 bool MetaImage::
 ConvertElementDataTo(MET_ValueEnumType _elementType,
                      double _toMin, double _toMax)
-  {
+{
   int eSize;
   MET_SizeOfType(_elementType, &eSize);
   void * newElementData = new char[ static_cast<size_t>(
@@ -1083,11 +1035,11 @@ ConvertElementDataTo(MET_ValueEnumType _elementType,
   m_AutoFreeElementData = true;
 
   return true;
-  }
+}
 
 bool MetaImage::
 ConvertElementDataToIntensityData(MET_ValueEnumType _elementType)
-  {
+{
   ElementByteOrderFix();
   if(!ElementMinMaxValid())
     {
@@ -1100,11 +1052,11 @@ ConvertElementDataToIntensityData(MET_ValueEnumType _elementType)
                    + m_ElementMin;
 
   return ConvertElementDataTo(_elementType, toMin, toMax);
-  }
+}
 
 bool MetaImage::
 ConvertIntensityDataToElementData(MET_ValueEnumType _elementType)
-  {
+{
   ElementByteOrderFix();
   if(!ElementMinMaxValid())
     {
@@ -1117,7 +1069,7 @@ ConvertIntensityDataToElementData(MET_ValueEnumType _elementType)
                    + toMin;
 
   return ConvertElementDataTo(_elementType, toMin, toMax);
-  }
+}
 
 // return true if the file exists
 bool MetaImage::M_FileExists(const char* filename) const
@@ -1228,12 +1180,9 @@ M_GetTagValue(const std::string & buffer, const char* tag) const
   return value;
 }
 
-//
-//
-//
 bool MetaImage::
 CanRead(const char *_headerName) const
-  {
+{
   // First check the extension
   std::string fname = _headerName;
   if(  fname == "" )
@@ -1290,11 +1239,11 @@ CanRead(const char *_headerName) const
   std::string elementDataFileName = M_GetTagValue(header,"ElementDataFile");
 
   return true;
-  }
+}
 
 bool MetaImage::
 Read(const char *_headerName, bool _readElements, void * _buffer)
-  {
+{
   M_Destroy();
 
   Clear();
@@ -1330,17 +1279,17 @@ Read(const char *_headerName, bool _readElements, void * _buffer)
   delete tmpReadStream;
 
   return true;
-  }
+}
 
 bool MetaImage::
 CanReadStream(std::ifstream * _stream) const
-  {
+{
   if(!strncmp(MET_ReadType(*_stream).c_str(), "Image", 5))
     {
     return true;
     }
   return false;
-  }
+}
 
 
 bool MetaImage::
@@ -1348,7 +1297,7 @@ ReadStream(int _nDims,
            std::ifstream * _stream,
            bool _readElements,
            void * _buffer)
-  {
+{
   if(!MetaObject::ReadStream(_nDims, _stream))
     {
     std::cerr << "MetaImage: Read: Cannot parse file"
@@ -1605,19 +1554,16 @@ ReadStream(int _nDims,
     }
 
   return true;
-  }
+}
 
 
-//
-//
-//
 bool MetaImage::
 Write(const char *_headName,
       const char *_dataName,
       bool _writeElements,
       const void * _constElementData,
       bool _append)
-  {
+{
   if(_headName != nullptr)
     {
     FileName(_headName);
@@ -1711,13 +1657,13 @@ Write(const char *_headName,
   delete tmpWriteStream;
 
   return result;
-  }
+}
 
 bool MetaImage::
 WriteStream(std::ofstream * _stream,
             bool _writeElements,
             const void * _constElementData)
-  {
+{
   if(m_WriteStream != nullptr)
     {
     std::cerr << "MetaArray: WriteStream: two files open?"
@@ -1787,7 +1733,7 @@ WriteStream(std::ofstream * _stream,
   m_WriteStream = nullptr;
 
   return true;
-  }
+}
 
 
 /** Write a portion of an image */
@@ -2174,18 +2120,18 @@ M_WriteElementsROI(std::ofstream * _fstream,
 
 bool MetaImage::
 Append(const char *_headName)
-  {
+{
   if(META_DEBUG)
    {
    std::cout << "MetaImage: Append" << std::endl;
    }
 
   return this->Write(_headName, nullptr, true, nullptr, true);
-  }
+}
 
 void MetaImage::
 M_Destroy()
-  {
+{
   if(m_AutoFreeElementData && m_ElementData != nullptr)
     {
     delete [] (char *)m_ElementData;
@@ -2204,11 +2150,11 @@ M_Destroy()
   m_CompressionTable = nullptr;
 
   MetaObject::M_Destroy();
-  }
+}
 
 void MetaImage::
 M_SetupReadFields()
-  {
+{
   if(META_DEBUG)
     {
     std::cout << "MetaImage: M_SetupReadFields"
@@ -2280,11 +2226,11 @@ M_SetupReadFields()
   mF->required = true;
   mF->terminateRead = true;
   m_Fields.push_back(mF);
-  }
+}
 
 void MetaImage::
 M_SetupWriteFields()
-  {
+{
   strcpy(m_ObjectTypeName,"Image");
   MetaObject::M_SetupWriteFields();
 
@@ -2389,14 +2335,11 @@ M_SetupWriteFields()
                      m_ElementDataFileName);
   mF->terminateRead = true;
   m_Fields.push_back(mF);
-  }
+}
 
-//
-//
-//
 bool MetaImage::
 M_Read()
-  {
+{
   if(META_DEBUG)
     {
     std::cout << "MetaImage: M_Read: Loading Header"
@@ -2536,15 +2479,12 @@ M_Read()
     }
 
   return true;
-  }
+}
 
-//
-//
-//
 bool MetaImage::
 M_ReadElements(std::ifstream * _fstream, void * _data,
                std::streamoff _dataQuantity)
-  {
+{
   if(META_DEBUG)
     {
     std::cout << "MetaImage: M_ReadElements" << std::endl;
@@ -2626,13 +2566,13 @@ M_ReadElements(std::ifstream * _fstream, void * _data,
     }
 
   return true;
-  }
+}
 
 bool MetaImage::
 M_WriteElements(std::ofstream * _fstream,
                 const void * _data,
                 std::streamoff _dataQuantity)
-  {
+{
 
   if(!strcmp(m_ElementDataFileName, "LOCAL"))
     {
@@ -2713,14 +2653,14 @@ M_WriteElements(std::ofstream * _fstream,
     }
 
   return true;
-  }
+}
 
 
 bool MetaImage::
 M_WriteElementData(std::ofstream * _fstream,
                    const void * _data,
                    std::streamoff _dataQuantity)
-  {
+{
   if(!m_BinaryData)
     {
 
@@ -2780,7 +2720,7 @@ M_WriteElementData(std::ofstream * _fstream,
     }
 
   return true;
-  }
+}
 
 /** Streaming related functions */
 bool MetaImage::
@@ -3590,7 +3530,7 @@ M_ReadElementData(std::ifstream * _fstream,
     }
 
   return true;
-  }
+}
 
 
 #if (METAIO_USE_NAMESPACE)
