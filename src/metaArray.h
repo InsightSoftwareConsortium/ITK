@@ -48,7 +48,7 @@ namespace METAIO_NAMESPACE {
 #endif
 
 class METAIO_EXPORT MetaArray : public MetaForm
-  {
+{
   /////
   //
   // PUBLIC

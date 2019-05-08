@@ -315,10 +315,10 @@ M_Write()
 {
 
   if(!MetaObject::M_Write())
-  {
+{
     std::cout << "MetaLandmark: M_Read: Error parsing file" << std::endl;
     return false;
-  }
+}
 
   /** Then copy all points */
   if(m_BinaryData)
@@ -523,7 +523,7 @@ M_Read()
       k += sizeof(double);
       }
     delete [] _data;
-  }
+}
   else
     {
     for(unsigned int k=0; k<parametersDimension; k++)

@@ -86,7 +86,7 @@ PrintInfo() const
 
 void MetaArrow::
 CopyInfo(const MetaObject * _object)
-  {
+{
   MetaObject::CopyInfo(_object);
 
   if(_object)
@@ -110,7 +110,7 @@ CopyInfo(const MetaObject * _object)
         }
       }
     }
-  }
+}
 
 
 void  MetaArrow::
@@ -207,10 +207,10 @@ M_Read()
   if(META_DEBUG) std::cout << "MetaArrow: M_Read: Loading Header" << std::endl;
 
   if(!MetaObject::M_Read())
-  {
+{
     std::cout << "MetaArrow: M_Read: Error parsing file" << std::endl;
     return false;
-  }
+}
 
   if(META_DEBUG) std::cout << "MetaArrow: M_Read: Parsing Header" << std::endl;
 

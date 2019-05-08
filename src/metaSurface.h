@@ -56,7 +56,7 @@ public:
 
 
 class METAIO_EXPORT MetaSurface : public MetaObject
-  {
+{
 
   /////
   //
@@ -133,7 +133,7 @@ class METAIO_EXPORT MetaSurface : public MetaObject
 
     MET_ValueEnumType m_ElementType;
 
-  };
+};
 
 #if (METAIO_USE_NAMESPACE)
 };

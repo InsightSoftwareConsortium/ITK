@@ -26,7 +26,7 @@ namespace METAIO_NAMESPACE {
 
 TubePnt::
 TubePnt(int dim)
-  {
+{
   m_Dim = dim;
   m_X = new float[m_Dim];
   m_T = new float[m_Dim];
@@ -46,16 +46,16 @@ TubePnt(int dim)
   m_Color[2]=0.0f;
   m_Color[3]=1.0f;
   m_ID = -1;
-  }
+}
 
 TubePnt::
 ~TubePnt()
-  {
+{
   delete []m_X;
   delete []m_V1;
   delete []m_V2;
   delete []m_T;
-  }
+}
 
 /** MetaTube Constructors */
 MetaTube::
@@ -102,11 +102,11 @@ MetaTube::
   // Delete the list of pointers to tubes.
   PointListType::iterator it = m_PointList.begin();
   while(it != m_PointList.end())
-  {
+{
     TubePnt* pnt = *it;
     ++it;
     delete pnt;
-  }
+}
   m_PointList.clear();
   M_Destroy();
 }
@@ -198,11 +198,11 @@ Clear()
   // Delete the list of pointers to tubes.
   PointListType::iterator it = m_PointList.begin();
   while(it != m_PointList.end())
-  {
+{
     TubePnt* pnt = *it;
     ++it;
     delete pnt;
-  }
+}
   m_PointList.clear();
 
   m_ParentPoint= -1;

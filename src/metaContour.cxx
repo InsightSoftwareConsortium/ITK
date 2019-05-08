@@ -27,7 +27,7 @@ namespace METAIO_NAMESPACE {
 
 ContourControlPnt::
 ContourControlPnt(int dim)
-  {
+{
   m_Id = 0;
   m_Dim = dim;
   m_X = new float[m_Dim];
@@ -44,15 +44,15 @@ ContourControlPnt(int dim)
   m_Color[1]=0.0f;
   m_Color[2]=0.0f;
   m_Color[3]=1.0f;
-  }
+}
 
 ContourControlPnt::
 ~ContourControlPnt()
-  {
+{
   delete [] m_X;
   delete [] m_XPicked;
   delete [] m_V;
-  }
+}
 
 /** Constructor */
 MetaContour::
@@ -350,10 +350,10 @@ M_Read()
   if(META_DEBUG) std::cout << "MetaContour: M_Read: Loading Header" << std::endl;
 
   if(!MetaObject::M_Read())
-  {
+{
     std::cout << "MetaContour: M_Read: Error parsing file" << std::endl;
     return false;
-  }
+}
 
   if(META_DEBUG) std::cout << "MetaContour: M_Read: Parsing Header" << std::endl;
 

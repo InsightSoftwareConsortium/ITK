@@ -61,7 +61,7 @@ namespace METAIO_NAMESPACE {
 #endif
 
 class METAIO_EXPORT MetaImage : public MetaObject
-  {
+{
   public:
 
     ////
@@ -407,7 +407,7 @@ class METAIO_EXPORT MetaImage : public MetaObject
               int _elementNumberOfChannels,
               void *_elementData);
 
-  };
+};
 
 #if (METAIO_USE_NAMESPACE)
 };

@@ -60,7 +60,7 @@ public:
     bool                      required;
     bool                      userDefined;
     bool                      complete;
-  };
+};
 
   struct ParameterGroup{
     std::string                     name;
@@ -263,7 +263,7 @@ public:
 
   void SetVerbose(bool verbose) {m_Verbose = verbose;}
   void SetParseFailureOnUnrecognizedOption(bool fail)
-  { m_FailOnUnrecognizedOption = fail; }
+{ m_FailOnUnrecognizedOption = fail; }
 
   /** Return true if we got the --xml */
   bool GotXMLFlag()

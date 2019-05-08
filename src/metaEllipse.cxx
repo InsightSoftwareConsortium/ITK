@@ -82,9 +82,9 @@ PrintInfo() const
   MetaObject::PrintInfo();
   std::cout << "Radius = ";
   for(int i=0;i<m_NDims;i++)
-  {
+{
     std::cout << m_Radius[i] << " ";
-  }
+}
   std::cout << std::endl;
 }
 
@@ -98,9 +98,9 @@ void  MetaEllipse::
 Radius(const float* radius)
 {
   for(int i=0; i<m_NDims; i++)
-  {
+{
     m_Radius[i] = radius[i];
-  }
+}
 }
 
 
@@ -108,9 +108,9 @@ void  MetaEllipse::
 Radius(float radius)
 {
   for(int i=0;i<m_NDims;i++)
-  {
+{
     m_Radius[i] = radius;
-  }
+}
 }
 
 void  MetaEllipse::
@@ -143,9 +143,9 @@ Clear()
   memset(m_Radius, 0, 100*sizeof(float));
 
   for(int i=0; i<m_NDims; i++)
-  {
+{
     m_Radius[i] = 1;
-  }
+}
 }
 
 /** Destroy ellipse information */
@@ -194,10 +194,10 @@ M_Read()
   if(META_DEBUG) std::cout << "MetaEllipse: M_Read: Loading Header" << std::endl;
 
   if(!MetaObject::M_Read())
-  {
+{
     std::cout << "MetaEllipse: M_Read: Error parsing file" << std::endl;
     return false;
-  }
+}
 
   if(META_DEBUG) std::cout << "MetaEllipse: M_Read: Parsing Header" << std::endl;
 
@@ -205,12 +205,12 @@ M_Read()
 
   mF = MET_GetFieldRecord("Radius", &m_Fields);
   if(mF->defined)
-  {
+{
     for(int i=0;i<m_NDims;i++)
     {
       m_Radius[i]= (float)mF->value[i];
     }
-  }
+}
 
   return true;
 }

@@ -298,12 +298,12 @@ protected:
 
   // to keep track of the type element created
   enum
-  {
+{
     NODE            = 0,
     MATERIAL        = 1,
     ELEMENT         = 2,
     LOAD            = 3
-  };
+};
 
 };
 

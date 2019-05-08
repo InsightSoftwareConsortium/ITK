@@ -91,9 +91,9 @@ ExtractVersionFromCVS(std::string version)
 
 void MetaCommand::
 SetVersionFromCVS(std::string cvsVersion)
-  {
+{
   this->SetVersion( this->ExtractVersionFromCVS( cvsVersion ).c_str() );
-  }
+}
 
 
 /** */

@@ -57,7 +57,7 @@ public:
 
 
 class METAIO_EXPORT MetaLine : public MetaObject
-  {
+{
 
   /////
   //
@@ -135,7 +135,7 @@ class METAIO_EXPORT MetaLine : public MetaObject
 
     MET_ValueEnumType m_ElementType;
 
-  };
+};
 
 #if (METAIO_USE_NAMESPACE)
 };
