@@ -42,7 +42,7 @@ void ImageIOBase::Reset(const bool)
     m_Strides[i] = 0;
     }
   m_NumberOfDimensions = 0;
-  m_UseCompression = false;
+
   m_UseStreamedReading = false;
   m_UseStreamedWriting = false;
   m_ExpandRGBPalette   = true;
@@ -338,6 +338,12 @@ unsigned int ImageIOBase::GetPixelSize() const
     }
 
   return this->GetComponentSize() * this->GetNumberOfComponents();
+}
+
+void ImageIOBase::SetMaximumCompressionLevel( int _MaximumCompressionLevel )
+{
+  this->m_MaximumCompressionLevel = _MaximumCompressionLevel;
+  this->SetCompressionLevel( this->GetCompressionLevel() );
 }
 
 unsigned int ImageIOBase::GetComponentSize() const
@@ -1162,6 +1168,9 @@ void ImageIOBase::PrintSelf(std::ostream & os, Indent indent) const
     {
     os << indent << "UseCompression: Off" << std::endl;
     }
+  os << indent << "CompressionLevel: " << m_CompressionLevel << std::endl;
+  os << indent << "MaximumCompressionLevel: " << m_MaximumCompressionLevel << std::endl;
+  os << indent << "Compressor: " << m_Compressor << std::endl;
   if( m_UseStreamedReading )
     {
     os << indent << "UseStreamedReading: On" << std::endl;

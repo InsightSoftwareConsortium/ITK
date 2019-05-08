@@ -49,8 +49,8 @@ public:
   itkTypeMacro(JPEGImageIO, ImageIOBase);
 
   /** Set/Get the level of quality for the output images. */
-  itkSetMacro(Quality, int);
-  itkGetConstMacro(Quality, int);
+  virtual void SetQuality(int _JPEGQuality) { this->SetCompressionLevel(_JPEGQuality); }
+  virtual int GetQuality() const { return this->GetCompressionLevel(); }
 
   /**  */
   itkSetMacro(Progressive, bool);
@@ -92,9 +92,6 @@ protected:
 
   void WriteSlice(std::string & fileName, const void *buffer);
 
-  /** Determines the quality of compression for written files.
-   *  default = 95 */
-  int m_Quality;
   /** Default = true*/
   bool m_Progressive;
 };

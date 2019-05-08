@@ -130,8 +130,9 @@ public:
   /** Set/Get the level of quality for the output images if
     * Compression is JPEG. Settings vary from 1 to 100.
     * 100 is the highest quality. Default is 75 */
-  itkSetClampMacro(JPEGQuality, int, 1, 100);
-  itkGetConstMacro(JPEGQuality, int);
+  virtual void SetJPEGQuality(int _JPEGQuality) { this->SetCompressionLevel(_JPEGQuality); }
+  virtual int GetJPEGQuality() const { return this->GetCompressionLevel(); }
+
 
   /** Get a const ref to the palette of the image. In the case of non palette
     * image or ExpandRGBPalette set to true, a vector of size
@@ -177,7 +178,6 @@ protected:
   void ReadTIFFTags();
 
   int m_Compression{ TIFFImageIO::PackBits };
-  int m_JPEGQuality{ 75 };
 
   PaletteType m_ColorPalette;
 

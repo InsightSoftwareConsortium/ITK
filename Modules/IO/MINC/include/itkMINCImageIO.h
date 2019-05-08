@@ -86,11 +86,6 @@ public:
     return dim<4;
   }
 
-  /** Set/Get the level of compression for the output images.
-   *  0-9; 0 = none, 9 = maximum. */
-  void SetCompressionLevel(int level);
-  int GetCompressionLevel() const;
-
   /*-------- This part of the interface deals with reading data. ------ */
 
   /** Determine the file type. Returns true if this ImageIO can read the

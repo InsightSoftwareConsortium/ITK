@@ -42,7 +42,8 @@ HDF5ImageIO::HDF5ImageIO()
     this->AddSupportedWriteExtension(ext);
     this->AddSupportedReadExtension(ext);
     }
-
+  this->Self::SetMaximumCompressionLevel(9);
+  this->Self::SetCompressionLevel(5);
 }
 
 HDF5ImageIO::~HDF5ImageIO()
@@ -1234,7 +1235,10 @@ HDF5ImageIO
     // in this case, set the chunk size to be the N-1 dimension
     // region
     H5::DSetCreatPropList plist;
-    plist.setDeflate(5);
+
+    // we have implicit compression enabled here?
+    plist.setDeflate( this->GetCompressionLevel() );
+
     dims[0] = 1;
     plist.setChunk(numDims,dims);
     delete[] dims;

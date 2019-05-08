@@ -212,6 +212,7 @@ TIFFImageIO::TIFFImageIO() :
 
 {
   this->SetNumberOfDimensions( 2 );
+  this->Self::SetJPEGQuality( 75 );
 
   m_ComponentType = UCHAR;
   m_PixelType = SCALAR;
@@ -251,7 +252,7 @@ void TIFFImageIO::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Compression: " << m_Compression << std::endl;
-  os << indent << "JPEGQuality: " << m_JPEGQuality << std::endl;
+  os << indent << "JPEGQuality: " << this->GetJPEGQuality() << std::endl;
   if( !m_ColorPalette.empty()  )
     {
     os << indent << "Image RGB palette:" << "\n";
@@ -674,7 +675,7 @@ void TIFFImageIO::InternalWrite(const void *buffer)
 
     if ( compression == COMPRESSION_JPEG )
       {
-      TIFFSetField(tif, TIFFTAG_JPEGQUALITY, m_JPEGQuality);
+      TIFFSetField(tif, TIFFTAG_JPEGQUALITY, this->GetJPEGQuality() );
       TIFFSetField(tif, TIFFTAG_JPEGCOLORMODE, JPEGCOLORMODE_RGB);
       }
     else if ( compression == COMPRESSION_DEFLATE )
