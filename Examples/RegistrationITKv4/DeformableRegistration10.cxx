@@ -159,10 +159,7 @@ int main( int argc, char *argv[] )
   multires->SetNumberOfIterations( nIterations );
   multires->Update();
 
-  using WarperType = itk::WarpImageFilter<
-                          MovingImageType,
-                          MovingImageType,
-                          DisplacementFieldType  >;
+  using WarperType = itk::ResampleImageFilter< MovingImageType, MovingImageType >;
   using InterpolatorType = itk::LinearInterpolateImageFunction<
                                    MovingImageType,
                                    double          >;
