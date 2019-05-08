@@ -100,7 +100,7 @@ template< typename PixelType, typename AccumulatePixelType >
 int
 montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actualTiles,
              const std::string& inputPath, const std::string& outFilename, bool varyPaddingMethods,
-             int peakMethodToUse, bool loadIntoMemory, unsigned streamSubdivisions )
+             int peakMethodToUse, bool loadIntoMemory, unsigned streamSubdivisions, bool writeTransformFiles )
 {
   int result = EXIT_SUCCESS;
   using ScalarPixelType = typename itk::NumericTraits< PixelType >::ValueType;
@@ -246,8 +246,11 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
           totalError += singleError;
           registrationErrors << std::endl;
           std::cout << std::endl;
-          WriteTransform( regTr, outFilename + std::to_string( padMethod ) + "_" + std::to_string( peakMethod )
-                          + "_Tr_" + std::to_string( x ) + "_" + std::to_string( y ) + ".tfm" );
+          if ( writeTransformFiles )
+            {
+            WriteTransform( regTr, outFilename + std::to_string( padMethod ) + "_" + std::to_string( peakMethod )
+                            + "_Tr_" + std::to_string( x ) + "_" + std::to_string( y ) + ".tfm" );
+            }
           }
         }
       double avgError = totalError / ( xMontageSize * ( yMontageSize - 1 ) + ( xMontageSize - 1 ) * yMontageSize );
