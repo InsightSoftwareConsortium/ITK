@@ -55,6 +55,11 @@ int itkMontageTest2D(int argc, char* argv[])
     {
     doPairs = std::stoi( argv[8] );
     }
+  bool writeTransforms = false;
+  if ( argc > 9 )
+    {
+    writeTransforms = std::stoi( argv[9] );
+    }
 
   std::string inputPath = argv[1];
   if ( inputPath.back() != '/' && inputPath.back() != '\\' )
@@ -76,7 +81,7 @@ int itkMontageTest2D(int argc, char* argv[])
     {
     r1 = montageTest< itk::RGBPixel< unsigned char >, itk::RGBPixel< unsigned int > >(
       stageTiles, actualTiles, inputPath, argv[2],
-      varyPaddingMethods, peakMethod, loadIntoMemory, streamSubdivisions );
+      varyPaddingMethods, peakMethod, loadIntoMemory, streamSubdivisions, writeTransforms );
     if ( doPairs )
       {
       r2 = pairwiseTests< unsigned char >(
@@ -87,7 +92,7 @@ int itkMontageTest2D(int argc, char* argv[])
     {
     r1 = montageTest< unsigned short, double >(
       stageTiles, actualTiles, inputPath, argv[2],
-      varyPaddingMethods, peakMethod, loadIntoMemory, streamSubdivisions );
+      varyPaddingMethods, peakMethod, loadIntoMemory, streamSubdivisions, writeTransforms );
     if ( doPairs )
       {
       r2 = pairwiseTests< unsigned short >(
