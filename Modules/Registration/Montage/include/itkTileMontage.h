@@ -119,6 +119,18 @@ public:
   itkSetMacro( ForcedSpacing, SpacingType );
   itkGetConstMacro( ForcedSpacing, SpacingType );
 
+  /** Set/Get absolute registration threshold.
+   * The maximum allowed residual error for a registration pair during
+   * global optimization. Expressed in number of pixels. Default: 1.0. */
+  itkSetMacro( AbsoluteThreshold, float );
+  itkGetConstMacro( AbsoluteThreshold, float );
+
+  /** Set/Get relative registration threshold.
+   * The maximum allowed deviation for a registration pair during global
+   * optimization. Expressed in multiples of standard deviation. Default: 3.0. */
+  itkSetMacro( RelativeThreshold, float );
+  itkGetConstMacro( RelativeThreshold, float );
+
   /** Set/Get obligatory padding.
    * If set, padding of this many pixels is added on both beginning and end
    * sides of each dimension of the image. */
@@ -247,6 +259,8 @@ private:
   SizeValueType m_FinishedTiles = 0;
   PointType     m_OriginAdjustment;
   SpacingType   m_ForcedSpacing;
+  float         m_AbsoluteThreshold = 1.0;
+  float         m_RelativeThreshold = 3.0;
   SizeType      m_ObligatoryPadding;
 
   std::vector< std::string >      m_Filenames;

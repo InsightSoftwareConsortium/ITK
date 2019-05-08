@@ -234,6 +234,7 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
 
       std::cout << "    PeakMethod " << peakMethod << std::endl;
       itk::SimpleFilterWatcher fw( montage, "montage" );
+      // montage->SetDebug( true ); // enable more debugging output from global tile optimization
       montage->Update();
 
       std::cout << std::fixed;
