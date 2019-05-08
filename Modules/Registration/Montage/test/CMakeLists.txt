@@ -275,7 +275,7 @@ itk_add_test(NAME itkMontagePCMTestFilesDzZ_T1_identity
     0.0
   )
 
-endif() # ITKMontage_EnableFailingTests
+endif(ITKMontage_EnableFailingTests)
 
 if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/FlatFielded/36/1000.tif)
 
@@ -327,7 +327,7 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/FlatFielded/36/1000.tif)
       0 1 1 5 0
     )
     
-    endif() # ITKMontage_EnableFailingTests
+    endif(ITKMontage_EnableFailingTests)
 endif()
 
 if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles/Image_10_10.tif)
