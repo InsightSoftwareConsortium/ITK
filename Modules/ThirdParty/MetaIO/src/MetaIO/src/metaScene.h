@@ -40,7 +40,7 @@ namespace METAIO_NAMESPACE {
 #endif
 
 class METAIO_EXPORT MetaScene : public MetaObject
-  {
+{
 
   /////
   //
@@ -115,7 +115,7 @@ class METAIO_EXPORT MetaScene : public MetaObject
 
     ObjectListType    m_ObjectList;
 
-  };
+};
 
 #if (METAIO_USE_NAMESPACE)
 };

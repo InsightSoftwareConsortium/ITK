@@ -62,31 +62,28 @@ extern int META_DEBUG;
 
 // Types used for storing the compression table
 typedef struct MET_CompressionOffset
-  {
+{
   std::streamoff uncompressedOffset;
   std::streamoff compressedOffset;
-  } MET_CompressionOffsetType;
+} MET_CompressionOffsetType;
 
-typedef std::vector<MET_CompressionOffsetType>
-                                                 MET_CompressionOffsetListType;
+typedef std::vector<MET_CompressionOffsetType> MET_CompressionOffsetListType;
 
 typedef struct MET_CompressionTable
-  {
+{
   MET_CompressionOffsetListType offsetList;
   z_stream* compressedStream;
-  char*     buffer;
+  char* buffer;
   std::streamoff bufferSize;
-  } MET_CompressionTableType;
+} MET_CompressionTableType;
 
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
 METAIO_EXPORT MET_FieldRecordType *
-  MET_GetFieldRecord(const char * _fieldName,
-                           std::vector<MET_FieldRecordType *> * _fields);
+MET_GetFieldRecord(const char * _fieldName, std::vector<MET_FieldRecordType *> * _fields);
 
 METAIO_EXPORT
-int MET_GetFieldRecordNumber(const char * _fieldName,
-                           std::vector<MET_FieldRecordType *> * _fields);
+int MET_GetFieldRecordNumber(const char * _fieldName, std::vector<MET_FieldRecordType *> * _fields);
 
 METAIO_EXPORT
 bool MET_SizeOfType(MET_ValueEnumType _type, int *_size);
@@ -205,12 +202,10 @@ METAIO_EXPORT
 bool MET_TypeToString(MET_ValueEnumType _type, char *_str);
 
 METAIO_EXPORT
-bool MET_StringToInterpolationType(const char * _str,
-                                MET_InterpolationEnumType * _type);
+bool MET_StringToInterpolationType(const char * _str, MET_InterpolationEnumType * _type);
 
 METAIO_EXPORT
-bool MET_InterpolationTypeToString(MET_InterpolationEnumType _type,
-                                char * _str);
+bool MET_InterpolationTypeToString(MET_InterpolationEnumType _type, char * _str);
 
 inline
 MET_ValueEnumType MET_GetPixelType(const std::type_info & ptype)
@@ -363,7 +358,7 @@ bool MET_InitWriteField(MET_FieldRecordType * _mf,
                                    MET_ValueEnumType _type,
                                    size_t _length,
                                    T *_v)
-  {
+{
   strncpy(_mf->name, _name,254);
   _mf->name[254] = '\0';
   _mf->type = _type;
@@ -395,7 +390,7 @@ bool MET_InitWriteField(MET_FieldRecordType * _mf,
     ((char *)(_mf->value))[(sizeof(_mf->value)-1)] = '\0';
     }
   return true;
-  }
+}
 
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////

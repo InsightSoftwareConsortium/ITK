@@ -27,7 +27,7 @@ namespace METAIO_NAMESPACE {
 #endif
 
 class METAIO_EXPORT MetaObject
-  {
+{
   ////
   //
   // PROTECTED
@@ -368,7 +368,7 @@ class METAIO_EXPORT MetaObject
         return m_DoublePrecision;
         }
 
-  };
+};
 
 #if (METAIO_USE_NAMESPACE)
 };

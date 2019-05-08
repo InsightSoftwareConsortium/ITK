@@ -26,7 +26,7 @@ namespace METAIO_NAMESPACE {
 #endif
 
 class METAIO_EXPORT MetaForm
-  {
+{
   public:
 
     MetaForm(void);
@@ -191,7 +191,7 @@ class METAIO_EXPORT MetaForm
 
     virtual bool M_Write(void);
 
-  };
+};
 
 #if (METAIO_USE_NAMESPACE)
 };

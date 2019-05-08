@@ -159,11 +159,11 @@ Clear()
   // Delete the list of pointers to tubes.
   PointListType::iterator it = m_PointList.begin();
   while(it != m_PointList.end())
-  {
+{
     TubeGraphPnt* pnt = *it;
     ++it;
     delete pnt;
-  }
+}
   m_PointList.clear();
 
   m_Root = 0;

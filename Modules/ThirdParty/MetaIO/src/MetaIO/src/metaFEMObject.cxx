@@ -931,7 +931,11 @@ bool MetaFEMObject::M_Read_Element(std::string element_name)
 {
   unsigned int n, materialGN;
   int info[2];
-  this->GetElementDimensionAndNumberOfNodes(element_name, info);
+  if(this->GetElementDimensionAndNumberOfNodes(element_name, info) == nullptr)
+    {
+    std::cout << "Invalid element_name" << std::endl;
+    return false;
+    }
 
   int GN = this->ReadGlobalNumber();
 
@@ -1352,48 +1356,54 @@ bool MetaFEMObject::M_Read_Load(std::string load_name)
 
 int* MetaFEMObject::GetElementDimensionAndNumberOfNodes(std::string c_string, int info[2])
 {
-  if((c_string == "Element2DC0LinearLineStress") || (c_string == "Element2DC1Beam"))
+  if((c_string == "Element2DC0LinearLineStress") ||
+     (c_string == "Element2DC1Beam"))
     {
     info[0] = 2;
     info[1] = 2;
     }
 
-  if((c_string == "Element2DC0LinearTriangularMembrane") ||
-     (c_string == "Element2DC0LinearTriangularStrain") ||
-     (c_string == "Element2DC0LinearTriangularStress"))
+  else if((c_string == "Element2DC0LinearTriangularMembrane") ||
+          (c_string == "Element2DC0LinearTriangularStrain") ||
+          (c_string == "Element2DC0LinearTriangularStress"))
     {
     info[0] = 3;
     info[1] = 2;
     }
 
-  if((c_string == "Element2DC0LinearQuadrilateralMembrane") ||
-     (c_string == "Element2DC0LinearQuadrilateralStrain") ||
-     (c_string == "Element2DC0LinearQuadrilateralStress"))
+  else if((c_string == "Element2DC0LinearQuadrilateralMembrane") ||
+          (c_string == "Element2DC0LinearQuadrilateralStrain") ||
+          (c_string == "Element2DC0LinearQuadrilateralStress"))
     {
     info[0] = 4;
     info[1] = 2;
     }
 
 
-  if((c_string == "Element2DC0QuadraticTriangularStrain") ||
-     (c_string == "Element2DC0QuadraticTriangularStress"))
+  else if((c_string == "Element2DC0QuadraticTriangularStrain") ||
+          (c_string == "Element2DC0QuadraticTriangularStress"))
     {
     info[0] = 6;
     info[1] = 2;
     }
 
-  if((c_string == "Element3DC0LinearHexahedronMembrane") ||
-     (c_string == "Element3DC0LinearHexahedronStrain"))
+  else if((c_string == "Element3DC0LinearHexahedronMembrane") ||
+          (c_string == "Element3DC0LinearHexahedronStrain"))
     {
     info[0] = 8;
     info[1] = 3;
     }
 
-  if((c_string == "Element3DC0LinearTetrahedronMembrane") ||
-     (c_string == "Element3DC0LinearTetrahedronStrain"))
+  else if((c_string == "Element3DC0LinearTetrahedronMembrane") ||
+          (c_string == "Element3DC0LinearTetrahedronStrain"))
     {
     info[0] = 4;
     info[1] = 3;
+    }
+
+  else
+    {
+    return nullptr;
     }
 
   return info;

@@ -202,38 +202,38 @@ Clear()
   // Delete the list of pointers to points.
   PointListType::iterator it_pnt = m_PointList.begin();
   while(it_pnt != m_PointList.end())
-  {
+{
     MeshPoint* pnt = *it_pnt;
     ++it_pnt;
     delete pnt;
-  }
+}
 
   // Delete the list of pointers to celllinks
   CellLinkListType::iterator it_celllinks = m_CellLinks.begin();
   while(it_celllinks != m_CellLinks.end())
-  {
+{
     MeshCellLink* link = *it_celllinks;
     ++it_celllinks;
     delete link;
-  }
+}
 
   // Delete the list of pointers to pointdata
   PointDataListType::iterator it_pointdata = m_PointData.begin();
   while(it_pointdata != m_PointData.end())
-  {
+{
     MeshDataBase* data = *it_pointdata;
     ++it_pointdata;
     delete data;
-  }
+}
 
   // Delete the list of pointers to celldata
   CellDataListType::iterator it_celldata = m_CellData.begin();
   while(it_celldata != m_CellData.end())
-  {
+{
     MeshDataBase* data = *it_celldata;
     ++it_celldata;
     delete data;
-  }
+}
 
   // Initialize the new array
   for(unsigned int i=0;i<MET_NUM_CELL_TYPES;i++)
@@ -365,12 +365,12 @@ M_SetupWriteFields()
     }
 
   if(strlen(m_PointDim)>0)
-  {
+{
     mF = new MET_FieldRecordType;
     MET_InitWriteField(mF, "PointDim", MET_STRING,
                            strlen(m_PointDim),m_PointDim);
     m_Fields.push_back(mF);
-  }
+}
 
   m_NPoints = (int)m_PointList.size();
   mF = new MET_FieldRecordType;
@@ -391,10 +391,10 @@ M_Read()
   if(META_DEBUG) std::cout << "MetaMesh: M_Read: Loading Header" << std::endl;
 
   if(!MetaObject::M_Read())
-  {
+{
     std::cout << "MetaMesh: M_Read: Error parsing file" << std::endl;
     return false;
-  }
+}
 
   if(META_DEBUG) std::cout << "MetaMesh: M_Read: Parsing Header" << std::endl;
 
@@ -403,42 +403,42 @@ M_Read()
   unsigned int numberOfCellTypes =0;
   mF = MET_GetFieldRecord("NCellTypes", &m_Fields);
   if(mF->defined)
-  {
+{
     numberOfCellTypes= (int)mF->value[0];
-  }
+}
 
   mF = MET_GetFieldRecord("NPoints", &m_Fields);
   if(mF->defined)
-  {
+{
     m_NPoints= (int)mF->value[0];
-  }
+}
 
   mF = MET_GetFieldRecord("PointType", &m_Fields);
   if(mF->defined)
-  {
+{
     MET_StringToType((char *)(mF->value), &m_PointType);
-  }
+}
 
   mF = MET_GetFieldRecord("PointDataType", &m_Fields);
   if(mF->defined)
-  {
+{
     MET_StringToType((char *)(mF->value), &m_PointDataType);
-  }
+}
 
   mF = MET_GetFieldRecord("CellDataType", &m_Fields);
   if(mF->defined)
-  {
+{
     MET_StringToType((char *)(mF->value), &m_CellDataType);
-  }
+}
 
   mF = MET_GetFieldRecord("PointDim", &m_Fields);
   if(mF->defined)
-  {
+{
     strcpy(m_PointDim,(char *)(mF->value));
-  }
+}
 
   if(m_BinaryData)
-  {
+{
     int elementSize;
     MET_SizeOfType(m_PointType, &elementSize);
     int readSize = m_NPoints*(m_NDims)*elementSize+m_NPoints*sizeof(int);
@@ -998,6 +998,7 @@ M_Read()
     m_PointData.push_back(pd);
     }
   delete [] _data;
+  _data = nullptr;
 
   // If no point data, reset the pointer to the stream to the previous position
   if(m_NPointData == 0)
@@ -1308,7 +1309,7 @@ M_Write()
           }
         }
     }
-  }
+}
 
   // Now write the cell links
   if(!m_CellLinks.empty())

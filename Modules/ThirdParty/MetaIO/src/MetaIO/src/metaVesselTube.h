@@ -66,7 +66,7 @@ public:
 
 
 class METAIO_EXPORT MetaVesselTube : public MetaObject
-  {
+{
 
   /////
   //
@@ -165,7 +165,7 @@ class METAIO_EXPORT MetaVesselTube : public MetaObject
 
     PointListType m_PointList;
     MET_ValueEnumType m_ElementType;
-  };
+};
 
 #if (METAIO_USE_NAMESPACE)
 };

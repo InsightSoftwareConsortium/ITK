@@ -374,9 +374,6 @@ Read(const char *_headerName)
 }
 
 
-//
-//
-//
 bool MetaScene::
 Write(const char *_headName)
 {
