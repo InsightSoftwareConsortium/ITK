@@ -273,6 +273,10 @@ void TIFFImageIO::InternalSetCompressor(const std::string &_compressor)
     {
     this->SetCompression(PackBits);
     }
+  else if (_compressor == "NOCOMPRESSION")
+    {
+    this->SetCompression(NoCompression);
+    }
   else if (_compressor == "JPEG" )
     {
     this->SetCompression(JPEG);
