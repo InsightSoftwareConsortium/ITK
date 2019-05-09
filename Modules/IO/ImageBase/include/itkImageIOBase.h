@@ -205,7 +205,7 @@ public:
   itkGetConstMacro(UseCompression, bool);
   itkBooleanMacro(UseCompression);
 
-  /** \brief Set/Get a compression level hint in range 0-100
+  /** \brief Set/Get a compression level hint
    *
    * If compression is enabled by UseCompression, then this is the
    * hint to the actually ImageIO of the requested compression level
@@ -214,17 +214,17 @@ public:
   itkSetClampMacro(CompressionLevel, int, 1, this->GetMaximumCompressionLevel() );
   itkGetConstMacro(CompressionLevel, int);
 
-  /** \brief Set/Get the compression algorithm to used
+  /** \brief Set/Get the compression algorithm to use
    *
    * If compression is enabled by UseCompression, then the string is
    * used as a suggestion for the compression algorithm to use. If the
    * string identifier is not recognized, then a warning is produced,
    * and the default is used.
    *
-   * \nb Not all ImageIO's support compression, to this all
-   * compression requests may be ignored.
+   * \nb These compression hints may be ignored if the ImageIO does
+   * not support compression or the options requested.
    **/
-  itkSetMacro(Compressor, std::string);
+  virtual void SetCompressor( std::string _c );
   itkGetConstReferenceMacro(Compressor, std::string);
 
   /** Set/Get a boolean to use streaming while reading or not. */
@@ -614,10 +614,14 @@ protected:
   int m_MaximumCompressionLevel{100};
   std::string m_Compressor{};
 
-  /** Set/Get enforced maximum compression level value to limit range */
+  /** Set/Get enforced maximum compression level value to limit range  */
   virtual void SetMaximumCompressionLevel(int);
   itkGetConstMacro(MaximumCompressionLevel, int);
 
+  /** Called when the compressor changes value. The compressor string
+   * is converted to uppercase for case insensitive comparisons.
+   **/
+  virtual void InternalSetCompressor(const std::string &COMPRESSOR);
 
   /** Should we use streaming for reading */
   bool m_UseStreamedReading;

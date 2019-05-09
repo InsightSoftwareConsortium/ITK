@@ -213,6 +213,7 @@ TIFFImageIO::TIFFImageIO() :
 {
   this->SetNumberOfDimensions( 2 );
   this->Self::SetJPEGQuality( 75 );
+  this->Self::SetCompressor("PackBits");
 
   m_ComponentType = UCHAR;
   m_PixelType = SCALAR;
@@ -261,6 +262,32 @@ void TIFFImageIO::PrintSelf(std::ostream & os, Indent indent) const
       os << indent << "[" << i << "]"
          << itk::NumericTraits< PaletteType::value_type >::PrintType( m_ColorPalette[i] ) << std::endl;
       }
+    }
+}
+
+
+void TIFFImageIO::InternalSetCompressor(const std::string &_compressor)
+{
+  if (_compressor == "PACKBITS")
+    {
+    this->SetCompression(PackBits);
+    }
+  else if (_compressor == "JPEG" )
+    {
+    this->SetCompression(JPEG);
+    }
+  else if (_compressor == "DEFLATE" )
+    {
+    this->SetCompression(Deflate);
+    }
+  else if (_compressor == "LZW" )
+    {
+    this->SetCompression(LZW);
+    }
+  else
+    {
+    itkWarningMacro("Unknown compressor: \"" << _compressor << "\", setting to default.");
+    this->SetCompressor("PackBits");
     }
 }
 

@@ -260,6 +260,8 @@ public:
   itkSetEnumMacro(CompressionType, TCompressionType);
   itkGetEnumMacro(CompressionType, TCompressionType);
 
+  void InternalSetCompressor(const std::string &_compressor ) override;
+
 protected:
   GDCMImageIO();
   ~GDCMImageIO() override;

@@ -100,32 +100,16 @@ public:
     };
   //ETX
 
-  // Description:
-  // Set compression type. Sinze LZW compression is patented outside US, the
-  // additional work steps have to be taken in order to use that compression.
-  void SetCompressionToNoCompression() { this->SetCompression(NoCompression); }
-  void SetCompressionToPackBits()      { this->SetCompression(PackBits); }
-  void SetCompressionToJPEG()          { this->SetCompression(JPEG); }
-  void SetCompressionToDeflate()       { this->SetCompression(Deflate); }
-  void SetCompressionToLZW()           { this->SetCompression(LZW); }
+  /** \brief Set type and automatically enable/disable compression.
+   *
+   * Since LZW compression is patented outside US, the additional work
+   * steps have to be taken in order to use that compression.  */
+  void SetCompressionToNoCompression() { this->UseCompressionOff(); this->SetCompressor("NoCompression"); }
+  void SetCompressionToPackBits()      { this->UseCompressionOn(); this->SetCompressor("PackBits"); }
+  void SetCompressionToJPEG()          { this->UseCompressionOn(); this->SetCompressor("JPEG"); }
+  void SetCompressionToDeflate()       { this->UseCompressionOn(); this->SetCompressor("Deflate"); }
+  void SetCompressionToLZW()           { this->UseCompressionOn(); this->SetCompressor("LZW"); }
 
-  void SetCompression(int compression)
-  {
-    m_Compression = compression;
-
-    // This If block isn't strictly necessary:
-    // SetCompression(true); would be sufficient.  However, it reads strangely
-    // for SetCompression(NoCompression) to then set SetCompression(true).
-    // Doing it this way is probably also less likely to break in the future.
-    if ( compression == NoCompression )
-      {
-      this->SetUseCompression(false); // this is for the ImageIOBase class
-      }
-    else
-      {
-      this->SetUseCompression(true);  // this is for the ImageIOBase class
-      }
-  }
 
   /** Set/Get the level of quality for the output images if
     * Compression is JPEG. Settings vary from 1 to 100.
@@ -144,6 +128,15 @@ protected:
   TIFFImageIO();
   ~TIFFImageIO() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
+
+  void InternalSetCompressor(const std::string &_compressor) override;
+
+  // This method is protected because it does not keep
+  // ImageIO::m_Compressor and TIFFImageIO::m_Compression in sync.
+  void SetCompression(int compression)
+  {
+    m_Compression = compression;
+  }
 
   void InternalWrite(const void *buffer);
 
@@ -177,7 +170,7 @@ protected:
 
   void ReadTIFFTags();
 
-  int m_Compression{ TIFFImageIO::PackBits };
+  int m_Compression;
 
   PaletteType m_ColorPalette;
 
