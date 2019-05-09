@@ -42,7 +42,7 @@ NrrdImageIO::NrrdImageIO()
     this->AddSupportedReadExtension(ext);
     }
 
-  this->SetCompressor("gzip");
+  this->Self::SetCompressor("");
 }
 
 NrrdImageIO::~NrrdImageIO() = default;
@@ -68,6 +68,16 @@ void NrrdImageIO::InternalSetCompressor(const std::string &_compressor )
 {
   this->m_NrrdCompressionEncoding = nullptr;
 
+  // set default to gzip
+  if (_compressor == "")
+    {
+    if (nrrdEncodingGzip->available())
+      {
+      this->m_NrrdCompressionEncoding = nrrdEncodingGzip;
+      }
+    return;
+    }
+
   const NrrdEncoding *nrrdCompressionEncodings[] = { nrrdEncodingGzip,
                                                      nrrdEncodingBzip2 };
 
@@ -88,12 +98,7 @@ void NrrdImageIO::InternalSetCompressor(const std::string &_compressor )
       }
 
     }
-  itkWarningMacro("Unknown compressor: \"" << _compressor << "\", setting to default.");
-  // set to GZip
-  if (nrrdEncodingGzip->available())
-    {
-    this->m_NrrdCompressionEncoding = nrrdEncodingGzip;
-    }
+  this->Superclass::InternalSetCompressor(_compressor);
 }
 
 ImageIOBase::IOComponentType

@@ -100,8 +100,7 @@ GDCMImageIO::GDCMImageIO()
   m_GlobalNumberOfDimensions = 2;
   // By default use JPEG2000. For legacy system, one should prefer JPEG since
   // JPEG2000 was only recently added to the DICOM standard
-  this->Self::SetCompressor("JPEG2000");
-  m_CompressionType = JPEG2000;
+  this->Self::SetCompressor("");
 
   const char *extensions[] =
     {
@@ -1448,7 +1447,8 @@ bool GDCMImageIO::GetLabelFromTag(const std::string & tag,
 void GDCMImageIO::InternalSetCompressor(const std::string &_compressor )
 {
 
-  if (_compressor == "JPEG2000")
+  if (_compressor == "" ||
+      _compressor == "JPEG2000")
     {
     m_CompressionType = JPEG2000;
     }
@@ -1458,8 +1458,7 @@ void GDCMImageIO::InternalSetCompressor(const std::string &_compressor )
     }
   else
     {
-    itkWarningMacro("Unknown compressor: \"" << _compressor << "\", setting to default.");
-    this->SetCompressor("JPEG2000");
+    this->Superclass::InternalSetCompressor(_compressor);
     }
 }
 

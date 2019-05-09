@@ -207,22 +207,22 @@ public:
 
   /** \brief Set/Get a compression level hint
    *
-   * If compression is enabled by UseCompression, then this is the
-   * hint to the actually ImageIO of the requested compression level
-   * range is dependent on the ImageIO.
+   * If compression is enabled by UseCompression, then the value
+   * may be used for as the compression level dependent upon the
+   * compressor.
    **/
   itkSetClampMacro(CompressionLevel, int, 1, this->GetMaximumCompressionLevel() );
   itkGetConstMacro(CompressionLevel, int);
 
   /** \brief Set/Get the compression algorithm to use
    *
-   * If compression is enabled by UseCompression, then the string is
-   * used as a suggestion for the compression algorithm to use. If the
-   * string identifier is not recognized, then a warning is produced,
-   * and the default is used.
+   * If compression is enabled by UseCompression, then the value is
+   * used to select the compression algorithm. An empty string
+   * represent the default compressor. If string identifier is not
+   * recognized a warning is produced and the default is used.
    *
    * \nb These compression hints may be ignored if the ImageIO does
-   * not support compression or the options requested.
+   * not support compression or the compression is not enabled.
    **/
   virtual void SetCompressor( std::string _c );
   itkGetConstReferenceMacro(Compressor, std::string);

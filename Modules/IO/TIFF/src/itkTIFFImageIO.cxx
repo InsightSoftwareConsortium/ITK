@@ -213,7 +213,7 @@ TIFFImageIO::TIFFImageIO() :
 {
   this->SetNumberOfDimensions( 2 );
   this->Self::SetJPEGQuality( 75 );
-  this->Self::SetCompressor("PackBits");
+  this->Self::SetCompressor("");
 
   m_ComponentType = UCHAR;
   m_PixelType = SCALAR;
@@ -268,7 +268,8 @@ void TIFFImageIO::PrintSelf(std::ostream & os, Indent indent) const
 
 void TIFFImageIO::InternalSetCompressor(const std::string &_compressor)
 {
-  if (_compressor == "PACKBITS")
+  if (_compressor == "" ||
+      _compressor == "PACKBITS" )
     {
     this->SetCompression(PackBits);
     }
@@ -286,8 +287,7 @@ void TIFFImageIO::InternalSetCompressor(const std::string &_compressor)
     }
   else
     {
-    itkWarningMacro("Unknown compressor: \"" << _compressor << "\", setting to default.");
-    this->SetCompressor("PackBits");
+    this->Superclass::InternalSetCompressor(_compressor);
     }
 }
 
