@@ -28,6 +28,9 @@ namespace itk
  *
  * \brief ImageIO object for reading and writing PNG images
  *
+ * Compression is support with only the default compressor. The
+ * compression level option is supported in the range 0-9.
+ *
  * \ingroup IOFilters
  *
  * \ingroup ITKIOPNG

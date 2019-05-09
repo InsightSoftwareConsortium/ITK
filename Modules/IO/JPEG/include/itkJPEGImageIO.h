@@ -28,6 +28,9 @@ namespace itk
  *
  * \brief ImageIO object for reading and writing JPEG images
  *
+ * Compression is supported with only the default compressor. The
+ * compression level option is supported in the range 0-100.
+ *
  * \ingroup IOFilters
  *
  * \ingroup ITKIOJPEG

@@ -32,8 +32,12 @@ class TIFFReaderInternal;
  *
  * \brief ImageIO object for reading and writing TIFF images
  *
- * \ingroup IOFilters
+ * The compressors supported include "PackBits" (default), "JPEG",
+ * "DEFLATE" and may also include "LZW". Only the "JPEG" compressor
+ * supports the compression level for JPEG quality parameter in the
+ * range 0-100.
  *
+ * \ingroup IOFilters
  * \ingroup ITKIOTIFF
  *
  * \wiki

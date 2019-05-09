@@ -53,6 +53,9 @@ namespace itk
  *
  * GDCM build, instead of the one included within ITK itself.
  *
+ * The compressors supported include "JPEG2000" (default), and
+ * "JPEG". The compression level parameter is not supported.
+ *
  *  \warning There are several restrictions to this current writer:
  *           -  Even though during the writing process you pass in a DICOM file as input
  *              The output file may not contains ALL DICOM field from the input file.

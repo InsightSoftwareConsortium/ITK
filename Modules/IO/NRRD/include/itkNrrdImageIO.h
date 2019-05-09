@@ -33,6 +33,10 @@ namespace itk
  * The Nrrd format was developed as part of the Teem package
  * (teem.sourceforge.net).
  *
+ * The compressor supported may include "gzip" (default) and
+ * "bzip2".  Only the "gzip" compressor support the compression level
+ * in the range 0-9.
+ *
  *  \ingroup IOFilters
  * \ingroup ITKIONRRD
  */
