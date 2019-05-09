@@ -43,6 +43,8 @@ NrrdImageIO::NrrdImageIO()
     }
 
   this->Self::SetCompressor("");
+  this->Self::SetMaximumCompressionLevel(9);
+  this->Self::SetCompressionLevel(6); // nrrd default
 }
 
 NrrdImageIO::~NrrdImageIO() = default;
@@ -1102,6 +1104,8 @@ void NrrdImageIO::Write(const void *buffer)
        && this->m_NrrdCompressionEncoding->available() )
     {
     nio->encoding = this->m_NrrdCompressionEncoding;
+    nio->zlibLevel = this->GetCompressionLevel();
+    //nio->zlibStrategy = default
     }
   else
     {
