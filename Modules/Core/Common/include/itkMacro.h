@@ -159,13 +159,13 @@ namespace itk
   //This is true for IRIX 6.5.18m with MIPSPro 7.3.1.3m.
   //TODO: At some future point, it may be necessary to
   //define a minimum __sgi version that will work.
-  #error "The SGI compiler is not supprted under ITKv4 and above"
+  #error "The SGI compiler is not supported under ITKv4 and above"
 #endif
 #if defined(__APPLE__)
   #if defined( __clang__ ) && (( __clang_major__ < 8 ) || (( __clang_major__ == 8 ) && ( __clang_minor__ < 1 )))
     #error "Apple LLVM < 8.1 is not supported under ITKv5"
   #endif
-#elif defined( __clang__ ) && (( __clang_major < 3 ) || (( __clang_major__ == 3 ) && ( __clang_minor__ < 3 )))
+#elif defined( __clang__ ) && (( __clang_major__ < 3 ) || (( __clang_major__ == 3 ) && ( __clang_minor__ < 3 )))
   #error "Clang < 3.3 is not supported under ITKv5"
 #endif
 #if defined( __INTEL_COMPILER ) && ( __INTEL_COMPILER < 1504 )
