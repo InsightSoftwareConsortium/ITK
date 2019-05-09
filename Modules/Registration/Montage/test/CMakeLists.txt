@@ -218,6 +218,45 @@ itk_add_test(NAME itkMontageTest-S200-6-C
     0 2 1 1 0 0
   )
 
+function(AddTestTi64flat slicerNumber)
+  set(inDir "${CMAKE_CURRENT_LIST_DIR}/Input/Ti64Cylinder/FlatField/1000${slicerNumber}/")
+  if (EXISTS ${inDir}10099.tif)   
+    itk_add_test(NAME itkMontageTestTi64flat${slicerNumber}
+      COMMAND MontageTestDriver
+      itkMontageTest2D
+        ${inDir}
+        ${TESTING_OUTPUT_PATH}/itkMontageTestTi64flat${slicerNumber}_
+        ${TESTING_OUTPUT_PATH}/itkMockMontageTestTi64flat${slicerNumber}_
+        0 2 1 1 0 0
+      )
+  endif()
+endfunction()
+
+AddTestTi64flat(0)
+AddTestTi64flat(1)
+AddTestTi64flat(2)
+AddTestTi64flat(3)
+AddTestTi64flat(4)
+
+function(AddTestTi64raw slicerNumber)
+  set(inDir "${CMAKE_CURRENT_LIST_DIR}/Input/Ti64Cylinder/Raw/LEROY_0041_Region #1_${slicerNumber}_Mosaic.tif_Files/")
+  if (EXISTS "${inDir}LEROY_0041_Region #1_${slicerNumber}_Mosaic_p099.tif")
+    itk_add_test(NAME itkMontageTestTi64raw${slicerNumber}
+      COMMAND MontageTestDriver
+      itkMontageTest2D
+        ${inDir}
+        ${TESTING_OUTPUT_PATH}/itkMontageTestTi64raw${slicerNumber}_
+        ${TESTING_OUTPUT_PATH}/itkMockMontageTestTi64raw${slicerNumber}_
+        0 2 1 1 0 0
+      )
+  endif()
+endfunction()
+
+AddTestTi64raw(0)
+AddTestTi64raw(1)
+AddTestTi64raw(2)
+AddTestTi64raw(3)
+AddTestTi64raw(4)
 
 itk_add_test(NAME itkMontageTestMNML3
   COMMAND MontageTestDriver
