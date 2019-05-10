@@ -160,6 +160,48 @@ namespace
     EXPECT_EQ(fixedArray, FixedArrayType::Filled(1));
   }
 
+
+  template< typename TValue, unsigned int VLength >
+  void Check_iterators_increment_return_value()
+  {
+    using FixedArrayType = itk::FixedArray<TValue, VLength>;
+    FixedArrayType fixedArray{};
+
+    std::iota(fixedArray.begin(), fixedArray.end(), 1);
+
+    typename FixedArrayType::iterator newIterator = fixedArray.begin();
+    typename FixedArrayType::Iterator oldIterator = fixedArray.Begin();
+    typename FixedArrayType::reverse_iterator newReverseIterator = fixedArray.rbegin();
+    typename FixedArrayType::ReverseIterator oldReverseIterator = fixedArray.rBegin();
+
+    unsigned int index = 0;
+    unsigned int reverseIndex = VLength - 1;
+    for (unsigned int i = 0; i < VLength; ++i){
+      EXPECT_EQ(*newIterator++, fixedArray[index]);
+      EXPECT_EQ(*newReverseIterator++, fixedArray[reverseIndex]);
+      EXPECT_EQ(*oldIterator++, fixedArray[index]);
+      EXPECT_EQ(*oldReverseIterator++, fixedArray[reverseIndex]);
+      index++;
+      reverseIndex--;
+    }
+
+    newIterator = fixedArray.begin();
+    oldIterator = fixedArray.Begin();
+    newReverseIterator = fixedArray.rbegin();
+    oldReverseIterator = fixedArray.rBegin();
+
+    index = 0;
+    reverseIndex = VLength - 1;
+    for (unsigned int i = 0; i < VLength - 1; ++i){
+      index++;
+      reverseIndex--;
+      EXPECT_EQ(*++newIterator, fixedArray[index]);
+      EXPECT_EQ(*++newReverseIterator, fixedArray[reverseIndex]);
+      EXPECT_EQ(*++oldIterator, fixedArray[index]);
+      EXPECT_EQ(*++oldReverseIterator, fixedArray[reverseIndex]);
+    }
+  }
+
 } // End of namespace
 
 
@@ -202,4 +244,12 @@ TEST(FixedArray, CanBeFilledUsingReverseIterators)
 {
   Check_reverse_iterators_allow_filling_a_FixedArray<double, 2>();
   Check_reverse_iterators_allow_filling_a_FixedArray<int, 3>();
+}
+
+
+// Tests that increment operators return a valid iterator
+TEST(FixedArray, IteratorIncrementReturnValue)
+{
+  Check_iterators_increment_return_value<double, 2>();
+  Check_iterators_increment_return_value<int, 3>();
 }

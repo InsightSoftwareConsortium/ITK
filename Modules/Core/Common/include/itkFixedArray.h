@@ -80,10 +80,10 @@ public:
   {
   public:
     explicit ReverseIterator(Iterator i):m_Iterator(i) {}
-    Iterator operator++()        { return --m_Iterator; }
-    Iterator operator++(int)     { return m_Iterator--; }
-    Iterator operator--()        { return ++m_Iterator; }
-    Iterator operator--(int)     { return m_Iterator++; }
+    ReverseIterator operator++()        { return ReverseIterator( --m_Iterator ); }
+    ReverseIterator operator++(int)     { return ReverseIterator( m_Iterator-- ); }
+    ReverseIterator operator--()        { return ReverseIterator( ++m_Iterator ); }
+    ReverseIterator operator--(int)     { return ReverseIterator( m_Iterator++ ); }
     Iterator operator->() const { return ( m_Iterator - 1 ); }
     ValueType & operator*() const { return *( m_Iterator - 1 ); }
     bool operator!=(const ReverseIterator & rit) const { return m_Iterator != rit.m_Iterator; }
@@ -103,10 +103,10 @@ public:
   public:
     explicit ConstReverseIterator(ConstIterator i):m_Iterator(i) {}
     ConstReverseIterator(const ReverseIterator & rit) { m_Iterator = rit.m_Iterator; }
-    ConstIterator operator++()         { return --m_Iterator; }
-    ConstIterator operator++(int)      { return m_Iterator--; }
-    ConstIterator operator--()         { return ++m_Iterator; }
-    ConstIterator operator--(int)      { return m_Iterator++; }
+    ConstReverseIterator operator++()         { return ConstReverseIterator( --m_Iterator ); }
+    ConstReverseIterator operator++(int)      { return ConstReverseIterator( m_Iterator-- ); }
+    ConstReverseIterator operator--()         { return ConstReverseIterator( ++m_Iterator ); }
+    ConstReverseIterator operator--(int)      { return ConstReverseIterator( m_Iterator++ ); }
     ConstIterator operator->() const { return ( m_Iterator - 1 ); }
     const ValueType & operator*() const { return *( m_Iterator - 1 ); }
     bool operator!=(const ConstReverseIterator & rit) const { return m_Iterator != rit.m_Iterator; }
