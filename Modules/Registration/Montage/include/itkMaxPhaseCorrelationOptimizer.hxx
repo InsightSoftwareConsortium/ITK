@@ -215,16 +215,16 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
     throw err;
     }
 
-  m_Confidences = m_MaxCalculator->GetMaxima();
+  this->m_Confidences = m_MaxCalculator->GetMaxima();
   typename MaxCalculatorType::IndexVector indices = m_MaxCalculator->GetIndicesOfMaxima();
-  itkAssertOrThrowMacro( m_Confidences.size() == indices.size(),
+  itkAssertOrThrowMacro( this->m_Confidences.size() == indices.size(),
       "Maxima and their indices must have the same number of elements" );
   std::greater< PixelType > compGreater;
-  auto zeroBound = std::upper_bound( m_Confidences.begin(), m_Confidences.end(), 0.0, compGreater );
-  if ( zeroBound != m_Confidences.end() ) // there are some non-positive values in here
+  auto zeroBound = std::upper_bound( this->m_Confidences.begin(), this->m_Confidences.end(), 0.0, compGreater );
+  if ( zeroBound != this->m_Confidences.end() ) // there are some non-positive values in here
     {
-    unsigned i = zeroBound - m_Confidences.begin();
-    m_Confidences.resize( i );
+    unsigned i = zeroBound - this->m_Confidences.begin();
+    this->m_Confidences.resize( i );
     indices.resize( i );
     }
 
@@ -256,8 +256,8 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
 
       if ( k < i ) // k is nearby
         {
-        m_Confidences[k] += m_Confidences[i]; // join amplitudes
-        m_Confidences.erase( m_Confidences.begin() + i );
+        this->m_Confidences[k] += this->m_Confidences[i]; // join amplitudes
+        this->m_Confidences.erase( this->m_Confidences.begin() + i );
         indices.erase( indices.begin() + i );
         }
       else // examine next index
@@ -268,8 +268,8 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
 
     // now we need to re-sort the values
     std::vector< unsigned > sIndices;
-    sIndices.reserve( m_Confidences.size() );
-    for ( i = 0; i < m_Confidences.size(); i++ )
+    sIndices.reserve( this->m_Confidences.size() );
+    for ( i = 0; i < this->m_Confidences.size(); i++ )
       {
       sIndices.push_back( i );
       }
@@ -281,37 +281,37 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
     );
 
     // now apply sorted order
-    typename MaxCalculatorType::ValueVector tMaxs( m_Confidences.size() );
-    typename MaxCalculatorType::IndexVector tIndices( m_Confidences.size() );
-    for ( i = 0; i < m_Confidences.size(); i++ )
+    typename MaxCalculatorType::ValueVector tMaxs( this->m_Confidences.size() );
+    typename MaxCalculatorType::IndexVector tIndices( this->m_Confidences.size() );
+    for ( i = 0; i < this->m_Confidences.size(); i++ )
       {
-      tMaxs[i] = m_Confidences[sIndices[i]];
+      tMaxs[i] = this->m_Confidences[sIndices[i]];
       tIndices[i] = indices[sIndices[i]];
       }
-    m_Confidences.swap( tMaxs );
+    this->m_Confidences.swap( tMaxs );
     indices.swap( tIndices );
     }
 
-  if ( this->m_Offsets.size() > m_Confidences.size() )
+  if ( this->m_Offsets.size() > this->m_Confidences.size() )
     {
-    this->SetOffsetCount( m_Confidences.size() );
+    this->SetOffsetCount( this->m_Confidences.size() );
     }
   else
     {
-    m_Confidences.resize( this->m_Offsets.size() );
+    this->m_Confidences.resize( this->m_Offsets.size() );
     indices.resize( this->m_Offsets.size() );
     }
 
-  double confidenceFactor = 1.0 / m_Confidences[0];
+  double confidenceFactor = 1.0 / this->m_Confidences[0];
 
-  for ( unsigned m = 0; m < m_Confidences.size(); m++ )
+  for ( unsigned m = 0; m < this->m_Confidences.size(); m++ )
     {
     using ContinuousIndexType = ContinuousIndex< OffsetScalarType, ImageDimension >;
     ContinuousIndexType maxIndex = indices[m];
 
     if ( m_PeakInterpolationMethod != PeakInterpolationMethod::None ) // interpolate the peak
       {
-      typename ImageType::PixelType y0, y1 = m_Confidences[m], y2;
+      typename ImageType::PixelType y0, y1 = this->m_Confidences[m], y2;
       typename ImageType::IndexType tempIndex = indices[m];
 
       for ( unsigned i = 0; i < ImageDimension; i++ )
@@ -366,9 +366,9 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
         }
       }
 
-    //m_Confidences[m] *= confidenceFactor; // normalize - highest confidence will be 1.0
+    //this->m_Confidences[m] *= confidenceFactor; // normalize - highest confidence will be 1.0
 #ifdef NDEBUG
-    m_Confidences[m] *= 1000.0; // make the intensities more humane (close to 1.0)
+    this->m_Confidences[m] *= 1000.0; // make the intensities more humane (close to 1.0)
 #endif
     
     this->m_Offsets[m] = offset;
