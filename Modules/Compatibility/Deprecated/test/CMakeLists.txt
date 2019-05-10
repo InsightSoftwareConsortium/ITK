@@ -4,6 +4,7 @@ itkAtomicIntTest.cxx
 itkBarrierTest.cxx
 itkConditionVariableTest.cxx
 itkSimpleFastMutexLockTest.cxx
+itkVectorResampleImageFilterTest.cxx
 )
 
 if (NOT ITK_LEGACY_REMOVE)
@@ -30,3 +31,9 @@ set_tests_properties(itkSimpleFastMutexLockTest PROPERTIES TIMEOUT 60)
 if (NOT ITK_LEGACY_REMOVE)
   itk_add_test(NAME itkSpawnThreadTest COMMAND ITKDeprecatedTestDriver itkSpawnThreadTest 100)
 endif()
+
+itk_add_test(NAME itkVectorResampleImageFilterTest
+      COMMAND ITKImageGridTestDriver
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorResampleImageFilterTest.png}
+              ${ITK_TEST_OUTPUT_DIR}/VectorResampleImageFilterTest.png
+    itkVectorResampleImageFilterTest ${ITK_TEST_OUTPUT_DIR}/VectorResampleImageFilterTest.png)
