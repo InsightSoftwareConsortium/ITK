@@ -18,7 +18,7 @@
 #ifndef itkStatisticsImageFilter_h
 #define itkStatisticsImageFilter_h
 
-#include "itkImageToImageFilter.h"
+#include "itkImageSink.h"
 #include "itkNumericTraits.h"
 #include "itkArray.h"
 #include "itkSimpleDataObjectDecorator.h"
@@ -52,14 +52,14 @@ namespace itk
  */
 template< typename TInputImage >
 class ITK_TEMPLATE_EXPORT StatisticsImageFilter:
-  public ImageToImageFilter< TInputImage, TInputImage >
+  public ImageSink< TInputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsImageFilter);
 
   /** Standard Self type alias */
   using Self = StatisticsImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TInputImage >;
+  using Superclass = ImageSink< TInputImage >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
 
@@ -139,10 +139,16 @@ public:
 
   const RealObjectType * GetSumOfSquaresOutput() const;
 
+  // Change the acces from protected to public to expose streaming option
+  using Superclass::SetNumberOfStreamDivisions;
+  using Superclass::GetNumberOfStreamDivisions;
+
   /** Make a DataObject of the correct type to be used as the specified
    * output. */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
-  using Superclass::MakeOutput;
+
+  using ProcessObject::MakeOutput;
+
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
@@ -163,19 +169,13 @@ protected:
   void AllocateOutputs() override;
 
   /** Initialize some accumulators before the threads run. */
-  void BeforeThreadedGenerateData() override;
+  void BeforeStreamedGenerateData() override;
 
   /** Do final mean and variance computation from data accumulated in threads.
    */
-  void AfterThreadedGenerateData() override;
+  void AfterStreamedGenerateData() override;
 
-  void DynamicThreadedGenerateData( const RegionType &) override;
-
-  // Override since the filter needs all the data for the algorithm
-  void GenerateInputRequestedRegion() override;
-
-  // Override since the filter produces all of its output
-  void EnlargeOutputRequestedRegion(DataObject *data) override;
+  void ThreadedStreamedGenerateData( const RegionType &) override;
 
 private:
   CompensatedSummation<RealType> m_ThreadSum;

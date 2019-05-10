@@ -35,20 +35,22 @@ StatisticsImageFilter< TInputImage >
 {
   // first output is a copy of the image, DataObject created by superclass
   //
+  auto outputPointer =  this->MakeOutput(0);
+  this->ProcessObject::SetNumberOfRequiredOutputs(1);
+  this->ProcessObject::SetNthOutput( 0, outputPointer );
+
   // allocate the data objects for the outputs which are
   // just decorators around pixel types
   for ( int i = 1; i < 3; ++i )
     {
-    typename PixelObjectType::Pointer output =
-      static_cast< PixelObjectType * >( this->MakeOutput(i).GetPointer() );
+    auto output = this->MakeOutput(i);
     this->ProcessObject::SetNthOutput( i, output.GetPointer() );
     }
   // allocate the data objects for the outputs which are
   // just decorators around real types
   for ( int i = 3; i < 8; ++i )
     {
-    typename RealObjectType::Pointer output =
-      static_cast< RealObjectType * >( this->MakeOutput(i).GetPointer() );
+    auto output = this->MakeOutput(i);
     this->ProcessObject::SetNthOutput( i, output.GetPointer() );
     }
 
@@ -207,36 +209,14 @@ StatisticsImageFilter< TInputImage >
 template< typename TInputImage >
 void
 StatisticsImageFilter< TInputImage >
-::GenerateInputRequestedRegion()
-{
-  Superclass::GenerateInputRequestedRegion();
-  if ( this->GetInput() )
-    {
-    InputImagePointer image =
-      const_cast< typename Superclass::InputImageType * >( this->GetInput() );
-    image->SetRequestedRegionToLargestPossibleRegion();
-    }
-}
-
-template< typename TInputImage >
-void
-StatisticsImageFilter< TInputImage >
-::EnlargeOutputRequestedRegion(DataObject *data)
-{
-  Superclass::EnlargeOutputRequestedRegion(data);
-  data->SetRequestedRegionToLargestPossibleRegion();
-}
-
-template< typename TInputImage >
-void
-StatisticsImageFilter< TInputImage >
 ::AllocateOutputs()
 {
   // Pass the input through as the output
   InputImagePointer image =
     const_cast< TInputImage * >( this->GetInput() );
 
-  this->GraftOutput(image);
+  // TODO
+  // this->GraftOutput(image);
 
   // Nothing that needs to be allocated for the remaining outputs
 }
@@ -244,8 +224,10 @@ StatisticsImageFilter< TInputImage >
 template< typename TInputImage >
 void
 StatisticsImageFilter< TInputImage >
-::BeforeThreadedGenerateData()
+::BeforeStreamedGenerateData()
 {
+  Superclass::BeforeStreamedGenerateData();
+
   // Resize the thread temporaries
   m_Count = NumericTraits< SizeValueType >::ZeroValue();
   m_SumOfSquares = NumericTraits< RealType >::ZeroValue();
@@ -258,8 +240,10 @@ StatisticsImageFilter< TInputImage >
 template< typename TInputImage >
 void
 StatisticsImageFilter< TInputImage >
-::AfterThreadedGenerateData()
+::AfterStreamedGenerateData()
 {
+  Superclass::AfterStreamedGenerateData();
+
   const SizeValueType count = m_Count;
   const RealType      sumOfSquares(m_SumOfSquares);
   const PixelType     minimum = m_ThreadMin;
@@ -284,7 +268,7 @@ StatisticsImageFilter< TInputImage >
 template< typename TInputImage >
 void
 StatisticsImageFilter< TInputImage >
-::DynamicThreadedGenerateData(const RegionType & regionForThread)
+::ThreadedStreamedGenerateData(const RegionType & regionForThread)
 {
 
   CompensatedSummation<RealType> sum = NumericTraits< RealType >::ZeroValue();
