@@ -18,7 +18,7 @@
 #ifndef itkLabelStatisticsImageFilter_h
 #define itkLabelStatisticsImageFilter_h
 
-#include "itkImageToImageFilter.h"
+#include "itkImageSink.h"
 #include "itkNumericTraits.h"
 #include "itkSimpleDataObjectDecorator.h"
 #include "itkHistogram.h"
@@ -57,14 +57,14 @@ namespace itk
  */
 template< typename TInputImage, typename TLabelImage >
 class ITK_TEMPLATE_EXPORT LabelStatisticsImageFilter:
-  public ImageToImageFilter< TInputImage, TInputImage >
+  public ImageSink< TInputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelStatisticsImageFilter);
 
   /** Standard Self type alias */
   using Self = LabelStatisticsImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TInputImage >;
+  using Superclass = ImageSink< TInputImage >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
 
@@ -322,6 +322,11 @@ public:
   void SetHistogramParameters(const int numBins, RealType lowerBound,
                               RealType upperBound);
 
+  // Change the acces from protected to public to expose streaming option
+  using Superclass::SetNumberOfStreamDivisions;
+  using Superclass::GetNumberOfStreamDivisions;
+
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro( InputHasNumericTraitsCheck,
@@ -334,18 +339,11 @@ protected:
   ~LabelStatisticsImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  /** Pass the input through unmodified. Do this by Grafting in the
-    AllocateOutputs method. */
-  void AllocateOutputs() override;
-
   /** Do final mean and variance computation from data accumulated in threads.
     */
-  void AfterThreadedGenerateData() override;
+  void AfterStreamedGenerateData() override;
 
-  void DynamicThreadedGenerateData( const RegionType & ) override;
-
-  // Override since the filter produces all of its output
-  void EnlargeOutputRequestedRegion(DataObject *data) override;
+  void ThreadedStreamedGenerateData( const RegionType & ) override;
 
 private:
 

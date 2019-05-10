@@ -41,29 +41,6 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
 template< typename TInputImage, typename TLabelImage >
 void
 LabelStatisticsImageFilter< TInputImage, TLabelImage >
-::EnlargeOutputRequestedRegion(DataObject *data)
-{
-  Superclass::EnlargeOutputRequestedRegion(data);
-  data->SetRequestedRegionToLargestPossibleRegion();
-}
-
-template< typename TInputImage, typename TLabelImage >
-void
-LabelStatisticsImageFilter< TInputImage, TLabelImage >
-::AllocateOutputs()
-{
-  // Pass the input through as the output
-  InputImagePointer image =
-    const_cast< TInputImage * >( this->GetInput() );
-
-  this->GraftOutput(image);
-
-  // Nothing that needs to be allocated for the remaining outputs
-}
-
-template< typename TInputImage, typename TLabelImage >
-void
-LabelStatisticsImageFilter< TInputImage, TLabelImage >
 ::SetHistogramParameters(const int numBins, RealType lowerBound, RealType upperBound)
 {
   m_NumBins[0] = numBins;
@@ -140,8 +117,10 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
 template< typename TInputImage, typename TLabelImage >
 void
 LabelStatisticsImageFilter< TInputImage, TLabelImage >
-::AfterThreadedGenerateData()
+::AfterStreamedGenerateData()
 {
+  Superclass::AfterStreamedGenerateData();
+
   // compute the remainder of the statistics
   for ( auto &mapValue : m_LabelStatistics )
     {
@@ -186,7 +165,7 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
 template< typename TInputImage, typename TLabelImage >
 void
 LabelStatisticsImageFilter< TInputImage, TLabelImage >
-::DynamicThreadedGenerateData(const RegionType & outputRegionForThread)
+::ThreadedStreamedGenerateData(const RegionType & outputRegionForThread)
 {
 
   MapType localStatistics;
