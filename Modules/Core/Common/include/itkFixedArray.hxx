@@ -146,6 +146,8 @@ FixedArray< TValue, VLength >
   return ConstIterator(m_InternalArray + VLength);
 }
 
+#if !defined ( ITK_LEGACY_REMOVE )
+
 /**
  * Get a begin ReverseIterator.
  */
@@ -189,6 +191,8 @@ FixedArray< TValue, VLength >
 {
   return ConstReverseIterator(m_InternalArray);
 }
+
+#endif // defined ( ITK_LEGACY_REMOVE )
 
 /**
  * Get the size of the FixedArray.
