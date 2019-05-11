@@ -221,7 +221,7 @@ int testMetaImage(int , char * [])
 
 
   // testing metaImageUtils
-  auto * modality = new char[255];
+  std::string modality;
   if(!MET_ImageModalityToString(MET_MOD_CT,modality))
     {
       std::cout << "MET_ImageModalityToString: FAIL" << std::endl;
@@ -231,8 +231,6 @@ int testMetaImage(int , char * [])
     {
     std::cout << "Modality  = " << modality << std::endl;
     }
-
-  delete[] modality;
 
   //Testing Append function
   std::cout << "Testing Append:";
