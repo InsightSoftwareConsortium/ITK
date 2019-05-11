@@ -402,6 +402,9 @@ b40f74e07d74614c75be4aceac63b87e80e589d1 on 2018-11-14.
 
 `itk::Barrier` has been moved to `ITKDeprecated` module.
 
+`FixedArray` member functions `rBegin()` and `rEnd()` are replaced by `rbegin()` and `rend()`,
+which return a `reverse_iterator`, compatible with the Standard C++ Library.
+
 Python changes
 --------------
 

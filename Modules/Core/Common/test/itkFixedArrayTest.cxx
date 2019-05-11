@@ -114,17 +114,17 @@ int itkFixedArrayTest(int, char* [] )
     ++cit;
     }
 
-  std::cout << "FixedArray<unsigned int, 20>::ReverseIterator rit = array20.rBegin();" << std::endl;
-  itk::FixedArray<unsigned int, 20>::ReverseIterator rit = array20.rBegin();
-  while (rit != array20.rEnd())
+  std::cout << "FixedArray<unsigned int, 20>::reverse_iterator rit = array20.rbegin();" << std::endl;
+  itk::FixedArray<unsigned int, 20>::reverse_iterator rit = array20.rbegin();
+  while (rit != array20.rend())
     {
     std::cout << *rit << std::endl;
     ++rit;
     }
 
-  std::cout << "FixedArray<unsigned int, 20>::ConstReverseIterator crit = array20.rBegin();" << std::endl;
-  itk::FixedArray<unsigned int, 20>::ConstReverseIterator crit = array20.rBegin();
-  while (crit != array20.rEnd())
+  std::cout << "FixedArray<unsigned int, 20>::const_reverse_iterator crit = array20.rbegin();" << std::endl;
+  itk::FixedArray<unsigned int, 20>::const_reverse_iterator crit = array20.rbegin();
+  while (crit != array20.rend())
     {
     std::cout << *crit << std::endl;
     ++crit;

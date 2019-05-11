@@ -260,13 +260,13 @@ public:
 
   ConstIterator End() const;
 
-  ReverseIterator      rBegin();
+  itkLegacyMacro(ReverseIterator      rBegin());
 
-  ConstReverseIterator rBegin() const;
+  itkLegacyMacro(ConstReverseIterator rBegin() const);
 
-  ReverseIterator      rEnd();
+  itkLegacyMacro(ReverseIterator      rEnd());
 
-  ConstReverseIterator rEnd() const;
+  itkLegacyMacro(ConstReverseIterator rEnd() const);
 
   const_iterator cbegin() const noexcept
   {
