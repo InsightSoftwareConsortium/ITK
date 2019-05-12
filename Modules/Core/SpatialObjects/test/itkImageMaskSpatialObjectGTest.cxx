@@ -232,7 +232,7 @@ TEST(ImageMaskSpatialObject, IsInsideSingleZeroPixel)
   image->FillBuffer(1);
 
   constexpr itk::IndexValueType indexValue{ 4 };
-  image->SetPixel({ indexValue, indexValue }, 0);
+  image->SetPixel({{ indexValue, indexValue }}, 0);
 
   const auto spatialObject = itk::ImageMaskSpatialObject<ImageDimension>::New();
   spatialObject->SetImage(image);
@@ -258,7 +258,7 @@ TEST(ImageMaskSpatialObject, IsInsideSingleNonZeroPixel)
   image->Allocate(true);
 
   constexpr itk::IndexValueType indexValue{ 4 };
-  image->SetPixel({ indexValue, indexValue }, 1);
+  image->SetPixel({{ indexValue, indexValue }}, 1);
 
   const auto spatialObject = itk::ImageMaskSpatialObject<ImageDimension>::New();
   spatialObject->SetImage(image);
@@ -286,7 +286,7 @@ TEST(ImageMaskSpatialObject, IsInsideIndependentOfDistantPixels)
 
   // Set the value of a pixel to non-zero.
   constexpr itk::IndexValueType indexValue{ 8 };
-  image->SetPixel({ indexValue, indexValue }, 1);
+  image->SetPixel({{ indexValue, indexValue }}, 1);
 
   const auto spatialObject = itk::ImageMaskSpatialObject<ImageDimension>::New();
   spatialObject->SetImage(image);
