@@ -324,7 +324,7 @@ public:
 
   void swap(Index & other)
   {
-    std::swap_ranges(begin(), end(), other.begin() );
+    std::swap(m_InternalArray, other.m_InternalArray);
   }
 
   iterator begin()
@@ -520,7 +520,7 @@ template <unsigned int VDimension>
 inline void
 swap(Index<VDimension> & one, Index<VDimension> & two)
 {
-  std::swap_ranges(one.begin(), one.end(), two.begin() );
+  std::swap(one.m_InternalArray, two.m_InternalArray);
 }
 
 // static constexpr definition explicitly needed in C++11

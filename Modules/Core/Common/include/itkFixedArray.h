@@ -334,7 +334,7 @@ public:
 
   void swap(FixedArray &other)
     {
-      std::swap_ranges(this->Begin(), this->End(), other.Begin());
+      std::swap(m_InternalArray, other.m_InternalArray);
     }
 
 private:
