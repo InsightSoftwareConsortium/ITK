@@ -9,14 +9,15 @@ right away. If you believe that legal action should be taken, do so.
 
 If you believe you are experiencing unacceptable behavior that will not be
 tolerated as outlined above, or you have witnessed a breach to this Code of
-Conduct, please fill in [this form](http://thisform.com)[note: to be defined].
-For inperson ITK event or activities, please also notify the designated contact
-point. The form reaches our Code of Conduct Committee members. After receiving
-a concise description of your situation, they will review and determine next
-steps. In addition to conducting any investigation, they can provide a range of
-resources, from a private consultation to other community resources. They will
-involve other colleagues only as needed to appropriately address each
-situation.
+Conduct, please email one of the members of the [Insight Software Consortium
+Board Members](https://www.insightsoftwareconsortium.org/board.html). The contacted ISC Board Member will appropriately forward
+the report to the Code of Conduct Committee. For inperson ITK event or
+activities, please also notify the designated contact point. After receiving a
+concise description of your situation, the Committee members will review and
+determine next steps. In addition to conducting any investigation, they can
+provide a range of resources, from a private consultation to other community
+resources. They will involve other colleagues only as needed to appropriately
+address each situation.
 
 If you experience behavior outside of ITK communities, in person or online,
 that makes participation in ITK not a safe and positive community experience
@@ -46,10 +47,12 @@ the Committee directly, or ask the Committee for advice.
 In your report please include:
 
   * Your contact information (so we can get in touch with you if we need to
-  follow up).
+  follow up): given name, family name, email address, and phone number, if
+  necessary.
   * Names (real, nicknames, or pseudonyms) of any individuals involved. If
   there were other witnesses besides you, please try to include them as well.
-  * When and where the incident occurred. Please be as specific as possible.
+  * Event details: when and where the incident occurred. Please be as specific
+  as possible.
   * Your account of what occurred. If there is a publicly available record
   (e.g. a mailing list archive or a public IRC logger) please include a link.
   * Any extra context you believe existed for the incident.
@@ -78,7 +81,7 @@ containing the following information:
   * Any extra context for the incident.
   * If this incident might be ongoing.
   * Any other relevant information (including other reports in case generated
-  by third parties if applicable)
+  by third parties if applicable).
   * Actions taken.
 
 The ISC Committee will then decide, according to the
