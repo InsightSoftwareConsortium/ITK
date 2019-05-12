@@ -92,7 +92,7 @@ public:
   /** Get Vector lengths */
   VectorLengthType GetVectorLength() const { return m_VectorLength; }
 
-  DefaultVectorPixelAccessor()  {}
+  DefaultVectorPixelAccessor() = default;
 
   /** Constructor to initialize VectorLength at construction time */
   DefaultVectorPixelAccessor(VectorLengthType l)

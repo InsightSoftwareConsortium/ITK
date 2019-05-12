@@ -77,7 +77,7 @@ public:
   }
 
 
-  DefaultVectorPixelAccessorFunctor () : m_Begin(nullptr) {}
+  DefaultVectorPixelAccessorFunctor() = default;
 
   /** Set the PixelAccessor. This is set at construction time by the image iterators.
    * The type PixelAccessorType is obtained from the ImageType over which the iterators
@@ -106,7 +106,7 @@ public:
 
 private:
   PixelAccessorType  m_PixelAccessor;    // The pixel accessor
-  InternalPixelType *m_Begin;            // Begin of the buffer
+  InternalPixelType *m_Begin{nullptr};   // Begin of the buffer
 };
 }
 
