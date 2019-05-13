@@ -95,7 +95,7 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
   this->Modified();
 }
 
-/** Determine closest point in world space */
+/** Determine closest point in object space */
 template< unsigned int TDimension, class TSpatialObjectPointType >
 TSpatialObjectPointType
 PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
