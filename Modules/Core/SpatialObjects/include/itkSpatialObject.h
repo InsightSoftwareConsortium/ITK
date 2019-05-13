@@ -200,7 +200,7 @@ public:
    */
   /**********************************************************************/
 
-  /** Returns true if a point is inside the object in world space. */
+  /** Returns true if a point is inside the object in object space. */
   bool IsInsideInObjectSpace(const PointType & point,
                         unsigned int depth,
                         const std::string & name = "") const;
@@ -509,7 +509,7 @@ public:
   itkLegacyMacro( void ComputeBoundingBox() )
   { this->Update(); /* Update() should be used instead of outdated ComputeBoundingBox() */}
 
-  /** Returns true if a point is inside the object in world space. */
+  /** Returns true if a point is inside the object in object space. */
   itkLegacyMacro( virtual bool IsInside(const PointType & point,
                         unsigned int depth = 0,
                         const std::string & name = "") const )
@@ -523,7 +523,7 @@ protected:
    *  has been modified */
   void ProtectedComputeObjectToWorldTransform();
 
-  /** Compute bounding box for the object in world space */
+  /** Compute bounding box for the object in object space */
   virtual void ComputeMyBoundingBox();
 
   /** Default constructor. Ensures that its bounding boxes are empty (all
