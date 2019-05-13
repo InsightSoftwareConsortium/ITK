@@ -103,7 +103,6 @@ void
 StreamingImageFilter< TInputImage, TOutputImage >
 ::UpdateOutputData( DataObject *itkNotUsed(output) )
 {
-  unsigned int idx;
 
   /**
    * prevent chasing our tail
@@ -212,11 +211,11 @@ StreamingImageFilter< TInputImage, TOutputImage >
   /**
    * Now we have to mark the data as up to data.
    */
-  for ( idx = 0; idx < this->GetNumberOfOutputs(); ++idx )
+  for (auto &outputName : this->GetOutputNames() )
     {
-    if ( this->GetOutput(idx) )
+    if (this->ProcessObject::GetOutput(outputName))
       {
-      this->GetOutput(idx)->DataHasBeenGenerated();
+      this->ProcessObject::GetOutput(outputName)->DataHasBeenGenerated();
       }
     }
 
