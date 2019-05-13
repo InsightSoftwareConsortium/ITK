@@ -91,53 +91,25 @@ public:
   using PixelObjectType = SimpleDataObjectDecorator< PixelType >;
 
   /** Return the computed Minimum. */
-  PixelType GetMinimum() const
-  { return this->GetMinimumOutput()->Get(); }
-  PixelObjectType * GetMinimumOutput();
-
-  const PixelObjectType * GetMinimumOutput() const;
+  itkGetDecoratedOutputMacro(Minimum, PixelType);
 
   /** Return the computed Maximum. */
-  PixelType GetMaximum() const
-  { return this->GetMaximumOutput()->Get(); }
-  PixelObjectType * GetMaximumOutput();
-
-  const PixelObjectType * GetMaximumOutput() const;
+  itkGetDecoratedOutputMacro(Maximum, PixelType);
 
   /** Return the computed Mean. */
-  RealType GetMean() const
-  { return this->GetMeanOutput()->Get(); }
-  RealObjectType * GetMeanOutput();
-
-  const RealObjectType * GetMeanOutput() const;
+  itkGetDecoratedOutputMacro(Mean, RealType);
 
   /** Return the computed Standard Deviation. */
-  RealType GetSigma() const
-  { return this->GetSigmaOutput()->Get(); }
-  RealObjectType * GetSigmaOutput();
-
-  const RealObjectType * GetSigmaOutput() const;
+  itkGetDecoratedOutputMacro(Sigma, RealType);
 
   /** Return the computed Variance. */
-  RealType GetVariance() const
-  { return this->GetVarianceOutput()->Get(); }
-  RealObjectType * GetVarianceOutput();
-
-  const RealObjectType * GetVarianceOutput() const;
+  itkGetDecoratedOutputMacro(Variance, RealType);
 
   /** Return the compute Sum. */
-  RealType GetSum() const
-  { return this->GetSumOutput()->Get(); }
-  RealObjectType * GetSumOutput();
-
-  const RealObjectType * GetSumOutput() const;
+  itkGetDecoratedOutputMacro(Sum, RealType);
 
   /** Return the compute Sum of Squares. */
-  RealType GetSumOfSquares() const
-  { return this->GetSumOfSquaresOutput()->Get(); }
-  RealObjectType * GetSumOfSquaresOutput();
-
-  const RealObjectType * GetSumOfSquaresOutput() const;
+  itkGetDecoratedOutputMacro(SumOfSquares, RealType);
 
   // Change the acces from protected to public to expose streaming option
   using Superclass::SetNumberOfStreamDivisions;
@@ -145,11 +117,9 @@ public:
 
   /** Make a DataObject of the correct type to be used as the specified
    * output. */
-  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
-
-  using ProcessObject::MakeOutput;
-
-  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
+  using DataObjectIdentifierType = ProcessObject::DataObjectIdentifierType;
+  using Superclass::MakeOutput;
+  DataObjectPointer MakeOutput( const DataObjectIdentifierType & name ) override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -163,27 +133,30 @@ protected:
   ~StatisticsImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  /** Pass the input through unmodified. Do this by Grafting in the
-   *  AllocateOutputs method.
-   */
-  void AllocateOutputs() override;
-
   /** Initialize some accumulators before the threads run. */
   void BeforeStreamedGenerateData() override;
 
-  /** Do final mean and variance computation from data accumulated in threads.
+  /** Set outputs to computed values from all regions
    */
   void AfterStreamedGenerateData() override;
 
   void ThreadedStreamedGenerateData( const RegionType &) override;
 
+  itkSetDecoratedOutputMacro(Minimum, PixelType);
+  itkSetDecoratedOutputMacro(Maximum, PixelType);
+  itkSetDecoratedOutputMacro(Mean, RealType);
+  itkSetDecoratedOutputMacro(Sigma, RealType);
+  itkSetDecoratedOutputMacro(Variance, RealType);
+  itkSetDecoratedOutputMacro(Sum, RealType);
+  itkSetDecoratedOutputMacro(SumOfSquares, RealType);
+
 private:
-  CompensatedSummation<RealType> m_ThreadSum;
-  CompensatedSummation<RealType> m_SumOfSquares;
+  CompensatedSummation<RealType> m_ThreadSum{1};
+  CompensatedSummation<RealType> m_SumOfSquares{1};
 
   SizeValueType m_Count{1};
-  PixelType     m_ThreadMin;
-  PixelType     m_ThreadMax;
+  PixelType     m_ThreadMin{1};
+  PixelType     m_ThreadMax{1};
 
   std::mutex m_Mutex;
 }; // end of class
