@@ -612,7 +612,7 @@ protected:
 
   int m_CompressionLevel{30};
   int m_MaximumCompressionLevel{100};
-  std::string m_Compressor{};
+  std::string m_Compressor{"uninitialized"};
 
   /** Set/Get enforced maximum compression level value to limit range  */
   virtual void SetMaximumCompressionLevel(int);
