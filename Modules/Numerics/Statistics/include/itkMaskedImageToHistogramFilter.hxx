@@ -30,7 +30,7 @@ template< typename TImage, typename TMaskImage >
 MaskedImageToHistogramFilter< TImage, TMaskImage >
 ::MaskedImageToHistogramFilter()
 {
-//  this->SetNumberOfRequiredInputs(2);
+  Self::AddRequiredInputName("MaskImage");
   this->SetMaskValue( NumericTraits<MaskPixelType>::max() );
 }
 
@@ -79,7 +79,7 @@ MaskedImageToHistogramFilter< TImage, TMaskImage >
 template< typename TImage, typename TMaskImage >
 void
 MaskedImageToHistogramFilter< TImage, TMaskImage >
-::ThreadedComputeHistogram(const RegionType & inputRegionForThread)
+::ThreadedStreamedGenerateData(const RegionType & inputRegionForThread)
 {
   const unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
   const HistogramType *outputHistogram = this->GetOutput();
