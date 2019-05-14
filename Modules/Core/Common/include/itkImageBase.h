@@ -398,15 +398,27 @@ public:
   virtual void SetSpacing(const double spacing[VImageDimension]);
   virtual void SetSpacing(const float spacing[VImageDimension]);
 
-  /** Get the index (discrete) of a voxel from a physical point.
+  /** Returns the index (discrete) of a voxel from a physical point.
    * Floating point index results are rounded to integers
-   * Returns true if the resulting index is within the image, false otherwise
+   * \note This specific overload does not figure out whether or not
+   * the returned index is inside the image. Of course, the user can
+   * still test this afterwards by calling ImageRegion::IsInside(index):
+     \code
+      auto index = image->TransformPhysicalPointToIndex(point);
+      if (image->GetLargestPossibleRegion().IsInside(index)) // Et cetera...
+     \endcode
+   * Which is equivalent to the following code, which calls the other overload:
+     \code
+      IndexType index;
+      if (image->TransformPhysicalPointToIndex(point, index)) // Et cetera...
+     \endcode
    * \sa Transform */
   template< typename TCoordRep >
-  bool TransformPhysicalPointToIndex(
-    const Point< TCoordRep, VImageDimension > & point,
-    IndexType & index) const
+  IndexType TransformPhysicalPointToIndex(
+    const Point< TCoordRep, VImageDimension > & point) const
   {
+    IndexType index;
+
     for ( unsigned int i = 0; i < VImageDimension; i++ )
       {
       TCoordRep sum = NumericTraits< TCoordRep >::ZeroValue();
@@ -416,20 +428,45 @@ public:
         }
       index[i] = Math::RoundHalfIntegerUp< IndexValueType >(sum);
       }
+    return index;
+  }
+
+  /** Get the index (discrete) of a voxel from a physical point.
+   * Floating point index results are rounded to integers
+   * Returns true if the resulting index is within the image, false otherwise
+   * \sa Transform */
+  template< typename TCoordRep >
+  bool TransformPhysicalPointToIndex(
+    const Point< TCoordRep, VImageDimension > & point,
+    IndexType & index) const
+  {
+    index = TransformPhysicalPointToIndex(point);
+
     // Now, check to see if the index is within allowed bounds
     const bool isInside = this->GetLargestPossibleRegion().IsInside(index);
     return isInside;
   }
 
-  /** \brief Get the continuous index from a physical point
-   *
-   * Returns true if the resulting index is within the image, false otherwise.
+
+  /** \brief Returns the continuous index from a physical point
+   * \note This specific overload does not figure out whether or not
+   *  the returned index is inside the image. Of course, the user can
+   * still test this afterwards by calling ImageRegion::IsInside(index):
+     \code
+     auto index = image->TransformPhysicalPointToContinuousIndex<double>(point);
+     if (image->GetLargestPossibleRegion().IsInside(index)) // Et cetera...
+     \endcode
+   * Which is equivalent to the following code, which calls the other overload:
+     \code
+     itk::ContinuousIndex<double, ImageDimension> index;
+     if (image->TransformPhysicalPointToContinuousIndex(point, index)) // Et cetera...
+     \endcode
    * \sa Transform */
-  template< typename TCoordRep, typename TIndexRep >
-  bool TransformPhysicalPointToContinuousIndex(
-    const Point< TCoordRep, VImageDimension > & point,
-    ContinuousIndex< TIndexRep, VImageDimension > & index) const
+  template< typename TIndexRep, typename TCoordRep >
+  ContinuousIndex< TIndexRep, VImageDimension > TransformPhysicalPointToContinuousIndex(
+    const Point< TCoordRep, VImageDimension > & point) const
   {
+    ContinuousIndex< TIndexRep, VImageDimension > index;
     Vector< SpacePrecisionType, VImageDimension > cvector;
 
     for ( unsigned int k = 0; k < VImageDimension; ++k )
@@ -441,10 +478,22 @@ public:
       {
       index[i] = static_cast< TIndexRep >( cvector[i] );
       }
+    return index;
+  }
+
+  /** \brief Get the continuous index from a physical point
+   *
+   * Returns true if the resulting index is within the image, false otherwise.
+   * \sa Transform */
+  template< typename TCoordRep, typename TIndexRep >
+  bool TransformPhysicalPointToContinuousIndex(
+    const Point< TCoordRep, VImageDimension > & point,
+    ContinuousIndex< TIndexRep, VImageDimension > & index) const
+  {
+    index = TransformPhysicalPointToContinuousIndex<TIndexRep>(point);
 
     // Now, check to see if the index is within allowed bounds
     const bool isInside = this->GetLargestPossibleRegion().IsInside(index);
-
     return isInside;
   }
 
@@ -468,6 +517,19 @@ public:
       }
   }
 
+  /** Returns a physical point (in the space which
+   * the origin and spacing information comes from)
+   * from a continuous index (in the index space)
+   * \sa Transform */
+  template< typename TCoordRep, typename TIndexRep >
+  Point< TCoordRep, VImageDimension > TransformContinuousIndexToPhysicalPoint(
+    const ContinuousIndex< TIndexRep, VImageDimension > & index) const
+  {
+    Point< TCoordRep, VImageDimension > point;
+    TransformContinuousIndexToPhysicalPoint(index, point);
+    return point;
+  }
+
   /** Get a physical point (in the space which
    * the origin and spacing information comes from)
    * from a discrete index (in the index space)
@@ -486,6 +548,20 @@ public:
         point[i] += m_IndexToPhysicalPoint[i][j] * index[j];
         }
       }
+  }
+
+  /** Returns a physical point (in the space which
+   * the origin and spacing information comes from)
+   * from a discrete index (in the index space)
+   *
+   * \sa Transform */
+  template< typename TCoordRep >
+  Point< TCoordRep, VImageDimension > TransformIndexToPhysicalPoint(
+    const IndexType & index) const
+  {
+    Point< TCoordRep, VImageDimension > point;
+    TransformIndexToPhysicalPoint(index, point);
+    return point;
   }
 
   /** Take a vector or covariant vector that has been computed in the
@@ -523,6 +599,22 @@ public:
       }
   }
 
+  /** Take a vector or covariant vector that has been computed in the
+   * coordinate system parallel to the image grid and rotate it by the
+   * direction cosines in order to get it in terms of the coordinate system of
+   * the image acquisition device. Returns the resulting gradient.
+   * \sa Image
+   */
+  template< typename TCoordRep >
+  FixedArray< TCoordRep, VImageDimension > TransformLocalVectorToPhysicalVector(
+    const FixedArray< TCoordRep, VImageDimension > & inputGradient) const
+  {
+    FixedArray< TCoordRep, VImageDimension > outputGradient;
+    TransformLocalVectorToPhysicalVector(inputGradient, outputGradient);
+    return outputGradient;
+  }
+
+
   /** Take a vector or covariant vector that has been computed in terms of the
    * coordinate system of the image acquisition device, and rotate it by the
    * inverse direction cosines in order to get it in the coordinate system
@@ -554,6 +646,21 @@ public:
         }
       outputGradient[i] = static_cast< TCoordRep >( sum );
       }
+  }
+
+  /** Take a vector or covariant vector that has been computed in terms of the
+   * coordinate system of the image acquisition device, and rotate it by the
+   * inverse direction cosines in order to get it in the coordinate system
+   * parallel to the image grid. Returns the result.
+   *
+   */
+  template< typename TCoordRep >
+  FixedArray< TCoordRep, VImageDimension > TransformPhysicalVectorToLocalVector(
+    const FixedArray< TCoordRep, VImageDimension > & inputGradient) const
+  {
+    FixedArray< TCoordRep, VImageDimension > outputGradient;
+    TransformPhysicalVectorToLocalVector(inputGradient, outputGradient);
+    return outputGradient;
   }
 
   /** Copy information from the specified data set.  This method is
