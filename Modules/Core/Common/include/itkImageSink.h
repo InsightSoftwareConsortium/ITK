@@ -22,6 +22,7 @@
 #include "itkImage.h"
 #include "itkImageRegionSplitterBase.h"
 #include "itkImageRegionSplitterSlowDimension.h"
+#include "itkImageToImageFilterCommon.h"
 
 namespace itk
 {
@@ -50,7 +51,8 @@ namespace itk
 **/
 template <class TInputImage >
 class ImageSink
-  : public StreamingProcessObject
+  : public StreamingProcessObject,
+    private ImageToImageFilterCommon
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageSink);
@@ -96,6 +98,42 @@ public:
 
   virtual void Update( ) override;
 
+
+  /** get/set the Coordinate tolerance
+   *  This tolerance is used when comparing the space defined
+   *  by the input images.  ITK has a requirement that multiple input
+   *  images be congruent in space by default.
+   */
+  itkSetMacro(CoordinateTolerance,double);
+  itkGetConstMacro(CoordinateTolerance,double);
+
+  /** get/set the direction tolerance
+   *  This tolerance is used to make sure that all input
+   *  images are oriented the same before performing the filter's
+   *  transformations.
+   */
+  itkSetMacro(DirectionTolerance,double);
+  itkGetConstMacro(DirectionTolerance,double);
+
+  /** get/set the global default direction tolerance
+   *
+   * This value is used to initialize the DirectionTolerance upon
+   * class construction of \b any Image filters. This has no
+   * effect on currently constructed classes.
+   */
+  using ImageToImageFilterCommon::SetGlobalDefaultDirectionTolerance;
+  using ImageToImageFilterCommon::GetGlobalDefaultDirectionTolerance;
+
+
+  /** get/set the global default coordinate tolerance
+   *
+   * This value is used to initialize the CoordinateTolerance upon
+   * class construction of \b any ImageToImage filter. This has no
+   * effect on currently constructed  classes.
+   */
+  using ImageToImageFilterCommon::SetGlobalDefaultCoordinateTolerance;
+  using ImageToImageFilterCommon::GetGlobalDefaultCoordinateTolerance;
+
 protected:
   ImageSink();
   ~ImageSink() = default;
@@ -107,6 +145,8 @@ protected:
   virtual void  GenerateNthInputRequestedRegion (unsigned int inputRequestedRegionNumber) override;
 
   virtual void AllocateOutputs( ) {}
+
+  void VerifyInputInformation() ITKv5_CONST override;
 
   void BeforeStreamedGenerateData( ) override {this->AllocateOutputs();}
 
@@ -134,6 +174,13 @@ private:
   unsigned int          m_NumberOfStreamDivisions;
   RegionSplitterPointer m_RegionSplitter;
   InputImageRegionType  m_CurrentInputRegion;
+
+  /**
+   *  Tolerances for checking whether input images are defined to
+   *  occupy the same physical space.
+   */
+  double m_CoordinateTolerance;
+  double m_DirectionTolerance;
 };
 
 }

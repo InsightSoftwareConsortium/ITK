@@ -173,8 +173,8 @@ public:
 
   /** get/set the Coordinate tolerance
    *  This tolerance is used when comparing the space defined
-   *  by the input images.  With ITK 4.x a requirement has
-   *  been added that both input images be congruent in space.
+   *  by the input images.  ITK has a requirement that multiple input
+   *  images be congruent in space by default.
    */
   itkSetMacro(CoordinateTolerance,double);
   itkGetConstMacro(CoordinateTolerance,double);

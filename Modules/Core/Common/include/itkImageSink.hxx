@@ -20,6 +20,7 @@
 
 #include "itkImageSink.h"
 #include "itkProgressTransformer.h"
+#include "itkInputDataObjectConstIterator.h"
 
 namespace itk
 {
@@ -27,7 +28,9 @@ namespace itk
 template <class TInputImage>
 ImageSink<TInputImage>
 ::ImageSink()
-  : m_NumberOfStreamDivisions{1}
+  : m_NumberOfStreamDivisions{1},
+    m_CoordinateTolerance{Self::GetGlobalDefaultCoordinateTolerance()},
+    m_DirectionTolerance{Self::GetGlobalDefaultDirectionTolerance()}
 {
   // create default region splitter
   m_RegionSplitter = ImageRegionSplitterSlowDimension::New();
@@ -108,6 +111,8 @@ ImageSink<TInputImage>
   Superclass::PrintSelf( os, indent );
   os << indent << "NumberOfStreamDivisions: " << this->m_NumberOfStreamDivisions << std::endl;
   os << indent << "RegionSplitter: " << this->m_RegionSplitter << std::endl;
+  os << indent << "CoordinateTolerance: " << this->m_CoordinateTolerance << std::endl;
+  os << indent << "DirectionTolerance: " << this->m_DirectionTolerance << std::endl;
 }
 
 
@@ -173,6 +178,86 @@ ImageSink<TInputImage>
     }
 }
 
+
+template <class TInputImage>
+void
+ImageSink<TInputImage>
+::VerifyInputInformation() ITKv5_CONST
+{
+  using ImageBaseType = const ImageBase< InputImageDimension >;
+
+  ImageBaseType *inputPtr1 = nullptr;
+  InputDataObjectConstIterator it(this);
+
+  for(; !it.IsAtEnd(); ++it )
+    {
+    // Check whether the output is an image of the appropriate
+    // dimension (use ProcessObject's version of the GetInput()
+    // method since it returns the input as a pointer to a
+    // DataObject as opposed to the subclass version which
+    // static_casts the input to an TInputImage).
+    inputPtr1 = dynamic_cast< ImageBaseType * >( it.GetInput() );
+
+    if ( inputPtr1 )
+      {
+      break;
+      }
+    }
+
+    for (; !it.IsAtEnd(); ++it )
+    {
+    auto * inputPtrN = dynamic_cast< ImageBaseType * >( it.GetInput() );
+
+    // Physical space computation only matters if we're using two
+    // images, and not an image and a constant.
+    if( inputPtrN )
+      {
+      // check that the image occupy the same physical space, and that
+      // each index is at the same physical location
+
+      // tolerance for origin and spacing depends on the size of pixel
+      // tolerance for directions a fraction of the unit cube.
+      const SpacePrecisionType coordinateTol
+        = std::abs(this->m_CoordinateTolerance * inputPtr1->GetSpacing()[0]); // use first dimension spacing
+
+      if ( !inputPtr1->GetOrigin().GetVnlVector().is_equal(inputPtrN->GetOrigin().GetVnlVector(), coordinateTol) ||
+           !inputPtr1->GetSpacing().GetVnlVector().is_equal(inputPtrN->GetSpacing().GetVnlVector(), coordinateTol) ||
+           !inputPtr1->GetDirection().GetVnlMatrix().as_ref().is_equal(inputPtrN->GetDirection().GetVnlMatrix(), this->m_DirectionTolerance) )
+        {
+        std::ostringstream originString, spacingString, directionString;
+        if ( !inputPtr1->GetOrigin().GetVnlVector().is_equal(inputPtrN->GetOrigin().GetVnlVector(), coordinateTol) )
+          {
+          originString.setf( std::ios::scientific );
+          originString.precision( 7 );
+          originString << "InputImage Origin: " << inputPtr1->GetOrigin()
+                       << ", InputImage" << it.GetName() << " Origin: " << inputPtrN->GetOrigin() << std::endl;
+          originString << "\tTolerance: " << coordinateTol << std::endl;
+          }
+        if ( !inputPtr1->GetSpacing().GetVnlVector().is_equal(inputPtrN->GetSpacing().GetVnlVector(), coordinateTol) )
+          {
+          spacingString.setf( std::ios::scientific );
+          spacingString.precision( 7 );
+          spacingString << "InputImage Spacing: " << inputPtr1->GetSpacing()
+                        << ", InputImage" << it.GetName() << " Spacing: " << inputPtrN->GetSpacing() << std::endl;
+          spacingString << "\tTolerance: " << coordinateTol << std::endl;
+          }
+        if ( !inputPtr1->GetDirection().GetVnlMatrix().as_ref().is_equal(inputPtrN->GetDirection().GetVnlMatrix(), this->m_DirectionTolerance) )
+          {
+          directionString.setf( std::ios::scientific );
+          directionString.precision( 7 );
+          directionString << "InputImage Direction: " << inputPtr1->GetDirection()
+                          << ", InputImage" << it.GetName() << " Direction: " << inputPtrN->GetDirection() << std::endl;
+          directionString << "\tTolerance: " << this->m_DirectionTolerance << std::endl;
+          }
+        itkExceptionMacro(<< "Inputs do not occupy the same physical space! "
+                          << std::endl
+                          << originString.str() << spacingString.str()
+                          << directionString.str() );
+        }
+      }
+    }
+
+}
 
 template <class TInputImage>
 void
