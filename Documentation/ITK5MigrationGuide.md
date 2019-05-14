@@ -402,8 +402,18 @@ b40f74e07d74614c75be4aceac63b87e80e589d1 on 2018-11-14.
 
 `itk::Barrier` has been moved to `ITKDeprecated` module.
 
+
 `FixedArray` member functions `rBegin()` and `rEnd()` are replaced by `rbegin()` and `rend()`,
 which return a `reverse_iterator`, compatible with the Standard C++ Library.
+
+`itk::ImageTransformer` has been moved to `ITKDeprecated` module. The new `itk::ImageSink` filter can be used in its place.
+
+`itk::StatisticsImageFilter`, `itk::LabelStatisticsImageFilter` and
+`itk::MinimumMaximumImageFilter` no longer produce an image as their
+primary output, as it was a shallow copy of the primary
+input. Additionally, minor API changes have occoured related to the
+decorated output methods to conform to ITK conventions.
+
 
 Python changes
 --------------
