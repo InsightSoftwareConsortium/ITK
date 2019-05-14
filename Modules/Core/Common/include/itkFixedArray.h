@@ -26,7 +26,7 @@ namespace itk
 {
 
 /** \class FixedArray
- *  \brief Simulate a standard C array with copy semnatics.
+ *  \brief Simulate a standard C array with copy semantics.
  *
  * Simulates a standard C array, except that copy semantics are used instead
  * of reference semantics.  Also, arrays of different sizes cannot be
@@ -163,33 +163,30 @@ public:
   template< typename TFixedArrayValueType >
   FixedArray(const FixedArray< TFixedArrayValueType, VLength > & r)
   {
-    typename FixedArray< TFixedArrayValueType, VLength >::ConstIterator input = r.Begin();
-    Iterator i = this->Begin();
-    while ( i != this->End() )
-      {
-      *i++ = static_cast< TValue >( *input++ );
-      }
+    auto input = r.cbegin();
+
+    for (auto& element : m_InternalArray)
+    {
+      element = static_cast< TValue >( *input++ );
+    }
   }
 
   template< typename TScalarValue >
   FixedArray(const TScalarValue *r)
-    {
-      std::copy(r, r + this->Size(), this->GetDataPointer());
-    }
+  {
+    std::copy_n(r, VLength, m_InternalArray);
+  }
 
   /** Operator= defined for a variety of types. */
   template< typename TFixedArrayValueType >
   FixedArray & operator=(const FixedArray< TFixedArrayValueType, VLength > & r)
   {
-    if ( (const void *)r.Begin() != (const void *)m_InternalArray )
-      {
-      typename FixedArray< TFixedArrayValueType, VLength >::ConstIterator input = r.Begin();
-      Iterator i = this->Begin();
-      while ( i != this->End() )
-        {
-        *i++ = static_cast< TValue >( *input++ );
-        }
-      }
+    auto input = r.cbegin();
+
+    for (auto& element : m_InternalArray)
+    {
+      element = static_cast< TValue >( *input++ );
+    }
     return *this;
   }
 
@@ -236,19 +233,19 @@ public:
   const_reference operator[](unsigned long long index) const { return m_InternalArray[index]; }
 
   /** Set/Get element methods are more convenient in wrapping languages */
-  void SetElement(unsigned short index, const_reference value)
+  void SetElement(unsigned int index, const_reference value)
   { m_InternalArray[index] = value; }
-  const_reference GetElement(unsigned short index) const { return m_InternalArray[index]; }
+  const_reference GetElement(unsigned int index) const { return m_InternalArray[index]; }
 
   /** Return a pointer to the data. */
   ValueType * GetDataPointer()
   {
-    return m_InternalArray; \
+    return m_InternalArray;
   }
 
   const ValueType * GetDataPointer() const
   {
-    return m_InternalArray; \
+    return m_InternalArray;
   }
 
   /** Get various iterators to the array. */
