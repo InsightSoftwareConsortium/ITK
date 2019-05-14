@@ -21,8 +21,8 @@
 #include "itkDisplacementFieldTransformParametersAdaptor.h"
 
 #include "itkIdentityTransform.h"
-#include "itkVectorResampleImageFilter.h"
-#include "itkVectorLinearInterpolateImageFunction.h"
+#include "itkResampleImageFilter.h"
+#include "itkLinearInterpolateImageFunction.h"
 #include "itkMath.h"
 
 namespace itk
@@ -207,11 +207,11 @@ DisplacementFieldTransformParametersAdaptor<TTransform>
   typename IdentityTransformType::Pointer identityTransform = IdentityTransformType::New();
   identityTransform->SetIdentity();
 
-  using LinearInterpolatorType = VectorLinearInterpolateImageFunction<DisplacementFieldType, ParametersValueType>;
+  using LinearInterpolatorType = LinearInterpolateImageFunction<DisplacementFieldType, ParametersValueType>;
   typename LinearInterpolatorType::Pointer interpolator = LinearInterpolatorType::New();
   interpolator->SetInputImage( this->m_Transform->GetDisplacementField() );
 
-  using ResamplerType = VectorResampleImageFilter<DisplacementFieldType, DisplacementFieldType, ParametersValueType>;
+  using ResamplerType = ResampleImageFilter<DisplacementFieldType, DisplacementFieldType, ParametersValueType>;
   typename ResamplerType::Pointer resampler = ResamplerType::New();
   resampler->SetInput( this->m_Transform->GetDisplacementField() );
   resampler->SetOutputDirection( newFieldDirection );

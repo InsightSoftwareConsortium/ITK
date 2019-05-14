@@ -21,8 +21,8 @@
 #include "itkConstantVelocityFieldTransformParametersAdaptor.h"
 
 #include "itkIdentityTransform.h"
-#include "itkVectorResampleImageFilter.h"
-#include "itkVectorLinearInterpolateImageFunction.h"
+#include "itkResampleImageFilter.h"
+#include "itkLinearInterpolateImageFunction.h"
 #include "itkMath.h"
 
 namespace itk
@@ -207,11 +207,11 @@ ConstantVelocityFieldTransformParametersAdaptor<TTransform>
   typename IdentityTransformType::Pointer identityTransform = IdentityTransformType::New();
   identityTransform->SetIdentity();
 
-  using LinearInterpolatorType = VectorLinearInterpolateImageFunction<ConstantVelocityFieldType, ParametersValueType>;
+  using LinearInterpolatorType = LinearInterpolateImageFunction<ConstantVelocityFieldType, ParametersValueType>;
   typename LinearInterpolatorType::Pointer interpolator = LinearInterpolatorType::New();
   interpolator->SetInputImage( this->m_Transform->GetConstantVelocityField() );
 
-  using ResamplerType = VectorResampleImageFilter<ConstantVelocityFieldType, ConstantVelocityFieldType, ParametersValueType>;
+  using ResamplerType = ResampleImageFilter<ConstantVelocityFieldType, ConstantVelocityFieldType, ParametersValueType>;
   typename ResamplerType::Pointer resampler = ResamplerType::New();
   resampler->SetInput( this->m_Transform->GetConstantVelocityField() );
   resampler->SetOutputDirection( newFieldDirection );

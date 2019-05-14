@@ -28,9 +28,8 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkVectorResampleImageFilter.h"
+#include "itkResampleImageFilter.h"
 #include "itkIdentityTransform.h"
-#include "itkVectorLinearInterpolateImageFunction.h"
 #include "itkRGBPixel.h"
 
 
@@ -60,14 +59,12 @@ int main( int argc, char * argv[] )
   writer->SetFileName( argv[2] );
 
 
-  using FilterType = itk::VectorResampleImageFilter<
+  using FilterType = itk::ResampleImageFilter<
                             ImageType, ImageType >;
 
   FilterType::Pointer filter = FilterType::New();
 
-  using InterpolatorType = itk::VectorLinearInterpolateImageFunction<
-                       ImageType, double >;
-
+  using InterpolatorType = itk::LinearInterpolateImageFunction< ImageType, double >;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
   filter->SetInterpolator( interpolator );

@@ -52,7 +52,7 @@ namespace itk
  * be used instead of the VectorResampleImageFilter.
  *
  * \ingroup GeometricTransform
- * \ingroup ITKImageGrid
+ * \ingroup ITKDeprecated
  *
  * \wiki
  * \wikiexample{VectorImages/VectorResampleImageFilter,Translate a vector image}
