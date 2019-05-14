@@ -45,7 +45,6 @@ struct ITKIOMINC_HIDDEN MINCImageIOPImpl
   midimhandle_t *m_MincApparentDims;
   mitype_t       m_Volume_type;
   miclass_t      m_Volume_class;
-  int            m_CompressionLevel;
 
   // MINC2 volume handle , currently opened
   mihandle_t     m_Volume;
@@ -252,7 +251,8 @@ MINCImageIO::MINCImageIO()
     }
 
   this->m_UseCompression = true;
-  this->m_MINCPImpl->m_CompressionLevel = 4; // Range 0-9; 0 = no file compression, 9 =
+  this->Self::SetMaximumCompressionLevel(9);
+  this->Self::SetCompressionLevel(4);  // Range 0-9; 0 = no file compression, 9 =
                                 // maximum file compression
   this->m_MINCPImpl->m_Volume_type = MI_TYPE_FLOAT;
   this->m_MINCPImpl->m_Volume_class = MI_CLASS_REAL;
@@ -264,23 +264,6 @@ MINCImageIO::~MINCImageIO()
   this->CloseVolume();
   delete m_MINCPImpl;
 }
-
-void MINCImageIO::SetCompressionLevel(int level)
-{
-   itkDebugMacro("setting CompressionLevel to " << level);
-
-   if ( this->m_MINCPImpl->m_CompressionLevel != level )
-     {
-     this->m_MINCPImpl->m_CompressionLevel = level;
-     this->Modified();
-     }
-}
-
-int MINCImageIO::GetCompressionLevel() const
-{
-  return this->m_MINCPImpl->m_CompressionLevel;
-}
-
 
 void MINCImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
@@ -1135,7 +1118,7 @@ void MINCImageIO::WriteImageInformation()
       itkExceptionMacro( << "Could not set MINC compression");
       }
 
-    if(miset_props_zlib_compression(hprops,this->m_MINCPImpl->m_CompressionLevel)<0)
+    if(miset_props_zlib_compression(hprops,this->GetCompressionLevel())<0)
       {
       itkExceptionMacro( << "Could not set MINC compression level");
       }

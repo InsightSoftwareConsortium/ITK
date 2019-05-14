@@ -39,6 +39,32 @@ int itkTIFFImageIOCompressionTestHelper( int, char * argv[], int JPEGQuality )
   typename ReaderType::Pointer reader = ReaderType::New();
   typename WriterType::Pointer writer = WriterType::New();
 
+
+  itk::TIFFImageIO::Pointer imageIO = itk::TIFFImageIO::New();
+  TRY_EXPECT_NO_EXCEPTION( imageIO->SetCompressor("") );
+  TEST_EXPECT_EQUAL( imageIO->GetCompressor(), "" );
+
+  TRY_EXPECT_NO_EXCEPTION( imageIO->SetCompressor("JPEG") );
+  TEST_EXPECT_EQUAL( imageIO->GetCompressor(), "JPEG" );
+
+  TRY_EXPECT_NO_EXCEPTION( imageIO->SetCompressor("PackBits") );
+  TEST_EXPECT_EQUAL( imageIO->GetCompressor(), "PackBits" );
+
+  TRY_EXPECT_NO_EXCEPTION( imageIO->SetCompressor("LZW") );
+  TEST_EXPECT_EQUAL( imageIO->GetCompressor(), "LZW" );
+
+  TRY_EXPECT_NO_EXCEPTION( imageIO->SetCompressor("SomethingThatDoesNotExist") );
+  TEST_EXPECT_EQUAL( imageIO->GetCompressor(), "" );
+
+  TRY_EXPECT_NO_EXCEPTION( imageIO->SetCompressor("Deflate") );
+  TEST_EXPECT_EQUAL( imageIO->GetCompressor(), "Deflate" );
+
+  imageIO->SetCompressionLevel(2);
+  TEST_EXPECT_EQUAL( imageIO->GetCompressionLevel(), 2 );
+
+  imageIO->SetCompressionLevel(110);
+  TEST_EXPECT_EQUAL( imageIO->GetCompressionLevel(), 100 );
+
   itk::TIFFImageIO::Pointer io = itk::TIFFImageIO::New();
   reader->SetFileName( argv[1] );
   reader->SetImageIO( io );
@@ -53,24 +79,43 @@ int itkTIFFImageIOCompressionTestHelper( int, char * argv[], int JPEGQuality )
 
   if( compression == "Deflate" )
     {
+
     io->SetCompressionToDeflate();
+
+    TEST_EXPECT_EQUAL(compression, io->GetCompressor());
+    TEST_EXPECT_TRUE(io->GetUseCompression());
     }
   else if( compression == "LZW" )
     {
     io->SetCompressionToLZW();
+
+    TEST_EXPECT_EQUAL(compression, io->GetCompressor());
+    TEST_EXPECT_TRUE(io->GetUseCompression());
     }
   else if( compression == "JPEG" )
     {
+
     io->SetCompressionToJPEG();
     io->SetJPEGQuality( JPEGQuality );
+
+    TEST_EXPECT_EQUAL(compression, io->GetCompressor());
+    TEST_EXPECT_EQUAL(io->GetCompressionLevel(), JPEGQuality);
+    TEST_EXPECT_TRUE(io->GetUseCompression());
     }
   else if( compression == "PackBits" )
     {
+
     io->SetCompressionToPackBits();
+
+    TEST_EXPECT_EQUAL(compression, io->GetCompressor());
+    TEST_EXPECT_TRUE(io->GetUseCompression());
     }
   else if( compression == "NoCompression" )
     {
+
     io->SetCompressionToNoCompression();
+
+    TEST_EXPECT_TRUE(!io->GetUseCompression());
     }
   else
     {
@@ -243,5 +288,7 @@ int itkTIFFImageIOCompressionTest( int argc, char* argv[] )
       std::cout << "unknown pixel type" << std::endl;
       break;
     }
+
+
   return EXIT_FAILURE;
 }

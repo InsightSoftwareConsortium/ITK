@@ -28,6 +28,9 @@ namespace itk
  *
  * \brief ImageIO object for reading and writing JPEG images
  *
+ * Compression is supported with only the default compressor. The
+ * compression level option is supported in the range 0-100.
+ *
  * \ingroup IOFilters
  *
  * \ingroup ITKIOJPEG
@@ -49,8 +52,8 @@ public:
   itkTypeMacro(JPEGImageIO, ImageIOBase);
 
   /** Set/Get the level of quality for the output images. */
-  itkSetMacro(Quality, int);
-  itkGetConstMacro(Quality, int);
+  virtual void SetQuality(int _JPEGQuality) { this->SetCompressionLevel(_JPEGQuality); }
+  virtual int GetQuality() const { return this->GetCompressionLevel(); }
 
   /**  */
   itkSetMacro(Progressive, bool);
@@ -92,9 +95,6 @@ protected:
 
   void WriteSlice(std::string & fileName, const void *buffer);
 
-  /** Determines the quality of compression for written files.
-   *  default = 95 */
-  int m_Quality;
   /** Default = true*/
   bool m_Progressive;
 };

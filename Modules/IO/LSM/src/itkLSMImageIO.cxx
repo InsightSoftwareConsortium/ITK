@@ -101,6 +101,8 @@ LSMImageIO::LSMImageIO()
 
   this->AddSupportedReadExtension(".lsm");
   this->AddSupportedReadExtension(".LSM");
+
+  this->Self::SetCompressionLevel(75);
 }
 
 LSMImageIO::~LSMImageIO() = default;
@@ -357,7 +359,7 @@ void LSMImageIO::Write(const void *buffer)
 
     if ( compression == COMPRESSION_JPEG )
       {
-      TIFFSetField(tif, TIFFTAG_JPEGQUALITY, 75); // Parameter
+      TIFFSetField(tif, TIFFTAG_JPEGQUALITY, this->GetCompressionLevel()); // Parameter
       TIFFSetField(tif, TIFFTAG_JPEGCOLORMODE, JPEGCOLORMODE_RGB);
       photometric = PHOTOMETRIC_YCBCR;
       }

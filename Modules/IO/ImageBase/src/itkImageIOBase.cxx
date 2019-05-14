@@ -42,7 +42,7 @@ void ImageIOBase::Reset(const bool)
     m_Strides[i] = 0;
     }
   m_NumberOfDimensions = 0;
-  m_UseCompression = false;
+
   m_UseStreamedReading = false;
   m_UseStreamedWriting = false;
   m_ExpandRGBPalette   = true;
@@ -338,6 +338,34 @@ unsigned int ImageIOBase::GetPixelSize() const
     }
 
   return this->GetComponentSize() * this->GetNumberOfComponents();
+}
+
+
+void ImageIOBase::SetCompressor( std::string _c )
+{
+  if ( this->m_Compressor != _c )
+    {
+    this->m_Compressor = _c;
+    this->Modified();
+
+    std::transform(_c.begin(), _c.end(), _c.begin(), ::toupper);
+    this->InternalSetCompressor(_c);
+    }
+}
+
+void ImageIOBase::SetMaximumCompressionLevel( int _MaximumCompressionLevel )
+{
+  this->m_MaximumCompressionLevel = _MaximumCompressionLevel;
+  this->SetCompressionLevel( this->GetCompressionLevel() );
+}
+
+void ImageIOBase::InternalSetCompressor(const std::string &_compressor)
+{
+  if (_compressor != "")
+    {
+    itkWarningMacro("Unknown compressor: \"" << _compressor << "\", setting to default.");
+    this->SetCompressor("");
+    }
 }
 
 unsigned int ImageIOBase::GetComponentSize() const
@@ -1162,6 +1190,9 @@ void ImageIOBase::PrintSelf(std::ostream & os, Indent indent) const
     {
     os << indent << "UseCompression: Off" << std::endl;
     }
+  os << indent << "CompressionLevel: " << m_CompressionLevel << std::endl;
+  os << indent << "MaximumCompressionLevel: " << m_MaximumCompressionLevel << std::endl;
+  os << indent << "Compressor: " << m_Compressor << std::endl;
   if( m_UseStreamedReading )
     {
     os << indent << "UseStreamedReading: On" << std::endl;

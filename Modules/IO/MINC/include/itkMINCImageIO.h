@@ -55,6 +55,9 @@ struct ITKIOMINC_HIDDEN MINCImageIOPImpl;
  * reads the regularly sampled dimensions as I am not sure how to deal
  * with "iregularly sampled" dimensions yet!
  *
+ * Compression is supported with only the default compressor. The
+ * compression level option is supported in the range 0-9.
+ *
  * This code was contributed in the Insight Journal paper:
  * "MINC2.0 IO Support for ITK"
  * by Baghdadi L.
@@ -85,11 +88,6 @@ public:
   {
     return dim<4;
   }
-
-  /** Set/Get the level of compression for the output images.
-   *  0-9; 0 = none, 9 = maximum. */
-  void SetCompressionLevel(int level);
-  int GetCompressionLevel() const;
 
   /*-------- This part of the interface deals with reading data. ------ */
 

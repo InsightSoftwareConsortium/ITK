@@ -294,7 +294,14 @@ PNGImageIO::PNGImageIO() :
 
   m_ComponentType = UCHAR;
   m_PixelType = SCALAR;
-  m_UseCompression = false;
+
+  this->Self::UseCompressionOff();
+
+  // Determines the level of compression for written files.
+  // Range 0-9; 0 = none, 9 = maximum , default = 4 */
+  this->Self::SetMaximumCompressionLevel(9);
+  this->Self::SetCompressionLevel( 4 );
+
 
   m_Spacing[0] = 1.0;
   m_Spacing[1] = 1.0;
@@ -321,7 +328,7 @@ void PNGImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "CompressionLevel: " << m_CompressionLevel << std::endl;
+  os << indent << "CompressionLevel: " << this->GetCompressionLevel() << std::endl;
   if( !m_ColorPalette.empty()  )
     {
     os << indent << "ColorPalette:" << std::endl;
@@ -645,7 +652,7 @@ void PNGImageIO::WriteSlice(const std::string & fileName, const void *buffer)
   if ( m_UseCompression )
     {
     // Set the image compression level.
-    png_set_compression_level(png_ptr, m_CompressionLevel);
+    png_set_compression_level(png_ptr, this->GetCompressionLevel());
     }
 
   // write out the spacing information:
