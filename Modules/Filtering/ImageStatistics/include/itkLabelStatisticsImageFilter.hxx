@@ -29,7 +29,8 @@ template< typename TInputImage, typename TLabelImage >
 LabelStatisticsImageFilter< TInputImage, TLabelImage >
 ::LabelStatisticsImageFilter()
 {
-  this->SetNumberOfRequiredInputs(2);
+  Self::AddRequiredInputName("LabelInput");
+
   m_UseHistograms = false;
   m_NumBins.SetSize(1);
   m_NumBins[0] = 256;

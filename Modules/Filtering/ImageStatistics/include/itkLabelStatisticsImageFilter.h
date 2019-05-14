@@ -252,17 +252,8 @@ public:
   }
 
   /** Set the label image */
-  void SetLabelInput(const TLabelImage *input)
-  {
-    // Process object is not const-correct so the const casting is required.
-    this->SetNthInput( 1, const_cast< TLabelImage * >( input ) );
-  }
-
-  /** Get the label image */
-  const LabelImageType * GetLabelInput() const
-  {
-    return itkDynamicCastInDebugMode< LabelImageType * >( const_cast< DataObject * >( this->ProcessObject::GetInput(1) ) );
-  }
+  itkSetInputMacro(LabelInput, TLabelImage);
+  itkGetInputMacro(LabelInput, TLabelImage);
 
   /** Does the specified label exist? Can only be called after a call
    * a call to Update(). */
