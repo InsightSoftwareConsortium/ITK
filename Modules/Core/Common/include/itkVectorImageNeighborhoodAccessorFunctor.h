@@ -54,9 +54,8 @@ public:
   using ImageBoundaryConditionType = ImageBoundaryCondition<ImageType, TOutput>;
 
   VectorImageNeighborhoodAccessorFunctor(VectorLengthType length):
-    m_VectorLength(length), m_OffsetMultiplier(length - 1), m_Begin(nullptr) {}
-  VectorImageNeighborhoodAccessorFunctor():
-     m_Begin(nullptr) {}
+    m_VectorLength(length), m_OffsetMultiplier(length - 1) {}
+  VectorImageNeighborhoodAccessorFunctor() = default;
 
   /** Set the pointer index to the start of the buffer.
    * This must be set by the iterators to the starting location of the buffer.
@@ -129,7 +128,7 @@ private:
   VectorLengthType m_VectorLength{0};
   VectorLengthType m_OffsetMultiplier{0}; // m_OffsetMultiplier = m_VectorLength-1
                                        // (precomputed for speedup).
-  InternalPixelType *m_Begin;          // Begin of the buffer.
+  InternalPixelType *m_Begin{nullptr}; // Begin of the buffer.
 };
 } // end namespace itk
 #endif
