@@ -11,3 +11,9 @@ itk_add_test(NAME itkMeshFileReadWriteOBJTest
       DATA{Baseline/box.obj}
       ${ITK_TEST_OUTPUT_DIR}/box.obj
 )
+
+itk_add_test(NAME itkMeshFileReadWriteOBJWithPointDataTest
+      COMMAND ITKIOMeshTestDriver itkMeshFileReadWriteTest
+      DATA{Baseline/bunny.obj}
+      ${ITK_TEST_OUTPUT_DIR}/bunny.vtk
+)
