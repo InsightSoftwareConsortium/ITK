@@ -44,7 +44,7 @@ NrrdImageIO::NrrdImageIO()
 
   this->Self::SetCompressor("");
   this->Self::SetMaximumCompressionLevel(9);
-  this->Self::SetCompressionLevel(6); // nrrd default
+  this->Self::SetCompressionLevel(2);
 }
 
 NrrdImageIO::~NrrdImageIO() = default;
