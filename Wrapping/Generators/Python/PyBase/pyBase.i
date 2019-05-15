@@ -512,9 +512,11 @@ str = str
                     } else if (PyFloat_Check(o)) {
                         itks[i] = (type)PyFloat_AsDouble(o);
                     } else {
+                        Py_DECREF(o);
                         PyErr_SetString(PyExc_ValueError,"Expecting a sequence of int or float");
                         return NULL;
                     }
+                    Py_DECREF(o);
                 }
                 $1 = &itks;
             }else if (PyInt_Check($input)) {
@@ -559,8 +561,10 @@ str = str
                         itks[i] = (type)PyFloat_AsDouble(o);
                     } else {
                         PyErr_SetString(PyExc_ValueError,"Expecting a sequence of int or float");
+                        Py_DECREF(o);
                         return NULL;
                     }
+                    Py_DECREF(o);
                 }
                 $1 = itks;
             }else if (PyInt_Check($input)) {
@@ -624,19 +628,27 @@ str = str
     %typemap(in) type& (type itks) {
         if ((SWIG_ConvertPtr($input,(void **)(&$1),$1_descriptor, 0)) == -1) {
             PyErr_Clear();
-            itks = type( PyObject_Length($input) );
-            for (unsigned int i =0; i < itks.Size(); i++) {
-                PyObject *o = PySequence_GetItem($input,i);
-                if (PyInt_Check(o)) {
-                    itks[i] = (value_type)PyInt_AsLong(o);
-                } else if (PyFloat_Check(o)) {
-                    itks[i] = (value_type)PyFloat_AsDouble(o);
-                } else {
-                    PyErr_SetString(PyExc_ValueError,"Expecting a sequence of int or float");
-                    return NULL;
+            if (PySequence_Check($input)) {
+                itks = type( PyObject_Length($input) );
+                for (unsigned int i =0; i < itks.Size(); i++) {
+                    PyObject *o = PySequence_GetItem($input,i);
+                    if (PyInt_Check(o)) {
+                        itks[i] = (value_type)PyInt_AsLong(o);
+                    } else if (PyFloat_Check(o)) {
+                        itks[i] = (value_type)PyFloat_AsDouble(o);
+                    } else {
+                        PyErr_SetString(PyExc_ValueError,"Expecting a sequence of values.");
+                        return NULL;
+                    }
                 }
+            } else {
+                PyErr_SetString(PyExc_TypeError,"Expecting an type, or a sequence of values.");
+                return NULL;
             }
             $1 = &itks;
+        } else {
+            PyErr_SetString(PyExc_TypeError,"Expecting an type, or a sequence of values.");
+            SWIG_fail;
         }
 }
 
@@ -655,19 +667,30 @@ str = str
     type * s;
     if ((SWIG_ConvertPtr($input,(void **)(&s),$descriptor(type *), 0)) == -1) {
         PyErr_Clear();
-        itks = type( PyObject_Length($input) );
-        for (unsigned int i =0; i < itks.Size(); i++) {
-            PyObject *o = PySequence_GetItem($input,i);
-            if (PyInt_Check(o)) {
-                itks[i] = (value_type)PyInt_AsLong(o);
-            } else if (PyFloat_Check(o)) {
-                itks[i] = (value_type)PyFloat_AsDouble(o);
-            } else {
-                PyErr_SetString(PyExc_ValueError,"Expecting a sequence of int or float");
-                return NULL;
+        if (PySequence_Check($input)) {
+            itks = type( PyObject_Length($input) );
+            for (unsigned int i =0; i < itks.Size(); i++) {
+                PyObject *o = PySequence_GetItem($input,i);
+                if (PyInt_Check(o)) {
+                    itks[i] = (value_type)PyInt_AsLong(o);
+                } else if (PyFloat_Check(o)) {
+                    itks[i] = (value_type)PyFloat_AsDouble(o);
+                } else {
+                    PyErr_SetString(PyExc_ValueError,"Expecting a sequence of values.");
+                    return NULL;
+                }
             }
         }
+        else {
+            PyErr_SetString(PyExc_TypeError,"Expecting an type, or a sequence of values.");
+            return NULL;
+        }
         $1 = itks;
+    } else if( s != NULL ) {
+        $1 = *s;
+    } else {
+        PyErr_SetString(PyExc_TypeError,"Expecting an type, or a sequence of values.");
+        SWIG_fail;
     }
 }
 
