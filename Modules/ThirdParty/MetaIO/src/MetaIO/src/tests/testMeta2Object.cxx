@@ -61,8 +61,8 @@ int main(int, char * [])
   char* name = static_cast<char*>(tObj.GetUserField("MyName"));
   if(strcmp(name,"Julien"))
   {
-    METAIO_STREAM::cout << "MyName: FAIL" << METAIO_STREAM::endl;
-    return 0;
+    std::cout << "MyName: FAIL" << std::endl;
+    return EXIT_FAILURE;
   }
 
   int* array = static_cast<int*>(tObj.GetUserField("MyArray"));
@@ -71,8 +71,8 @@ int main(int, char * [])
   {
     if(array[i] != i+1)
     {
-      METAIO_STREAM::cout << "MyArray: FAIL" << METAIO_STREAM::endl;
-      return 0;
+      std::cout << "MyArray: FAIL" << std::endl;
+      return EXIT_FAILURE;
     }
   }
 
@@ -81,11 +81,12 @@ int main(int, char * [])
   {
     if(matrix[i] != i)
     {
-      METAIO_STREAM::cout << "MyMatrix: FAIL" << METAIO_STREAM::endl;
+      std::cout << "MyMatrix: FAIL" << std::endl;
+      return EXIT_FAILURE;
     }
   }
 
-  METAIO_STREAM::cout << "PASSED!" << METAIO_STREAM::endl;
+  std::cout << "PASSED!" << std::endl;
 
   tObj.Clear();
   tObj.ClearUserFields();
@@ -102,31 +103,34 @@ int main(int, char * [])
   tObj.PrintInfo();
   if(tObj.NDims() != 2)
     {
-    METAIO_STREAM::cout << "NDims: FAIL" << METAIO_STREAM::endl;
+    std::cout << "NDims: FAIL" << std::endl;
+    return EXIT_FAILURE;
     }
   else
     {
-    METAIO_STREAM::cout << "NDims: PASS" << METAIO_STREAM::endl;
+    std::cout << "NDims: PASS" << std::endl;
     }
 
   int zero = 0;
   if(tObj.Position(zero) != 4)
     {
-    METAIO_STREAM::cout << "Position: FAIL :" << tObj.Position(zero) << METAIO_STREAM::endl;
+    std::cout << "Position: FAIL :" << tObj.Position(zero) << std::endl;
+    return EXIT_FAILURE;
     }
   else
     {
-    METAIO_STREAM::cout << "Position: PASS" << METAIO_STREAM::endl;
+    std::cout << "Position: PASS" << std::endl;
     }
 
   if(tObj.ElementSpacing(zero) != 2)
     {
-    METAIO_STREAM::cout << "ElementSpacing: FAIL: " << tObj.ElementSpacing(zero) << METAIO_STREAM::endl;
+    std::cout << "ElementSpacing: FAIL: " << tObj.ElementSpacing(zero) << std::endl;
+    return EXIT_FAILURE;
     }
   else
     {
-    METAIO_STREAM::cout << "ElementSpacing: PASS" << METAIO_STREAM::endl;
+    std::cout << "ElementSpacing: PASS" << std::endl;
     }
 
-  return 1;
+  return EXIT_SUCCESS;
   }

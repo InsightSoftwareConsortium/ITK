@@ -41,7 +41,7 @@
 
 namespace {
 
-void openReadStream(std::ifstream & inputStream, const char * fname)
+void openReadStream(std::ifstream & inputStream, const std::string& fname)
 {
 #ifdef __sgi
   inputStream.open( fname, std::ios::in );
@@ -51,7 +51,7 @@ void openReadStream(std::ifstream & inputStream, const char * fname)
 #endif
 }
 
-void openWriteStream(std::ofstream & outputStream, const char * fname, bool append)
+void openWriteStream(std::ofstream & outputStream, const std::string& fname, bool append)
 {
 // Some older sgi compilers have a error in the ofstream constructor
 // that requires a file to exist for output
@@ -83,8 +83,6 @@ void openWriteStream(std::ofstream & outputStream, const char * fname, bool appe
 #endif
     }
 }
-
-const unsigned int MAXPATHLENGTH = 2048;
 
 } // end anonymous namespace
 
@@ -348,7 +346,7 @@ PrintInfo() const
 
   MetaObject::PrintInfo();
 
-  char s[MAXPATHLENGTH];
+  std::string s;
   MET_ImageModalityToString(m_Modality, s);
   std::cout << "Modality = " << s << std::endl;
 
@@ -386,7 +384,7 @@ PrintInfo() const
     }
   std::cout << std::endl;
 
-  char str[MAXPATHLENGTH];
+  char str[22];
   MET_TypeToString(m_ElementType, str);
   std::cout << "ElementType = " << str << std::endl;
 
@@ -505,7 +503,7 @@ void MetaImage::Clear()
 
   m_ElementData = nullptr;
 
-  strcpy(m_ElementDataFileName, "");
+  m_ElementDataFileName = "";
 
   MetaObject::Clear();
 
@@ -954,13 +952,13 @@ AutoFreeElementData(bool _autoFreeElementData)
 const char * MetaImage::
 ElementDataFileName() const
 {
-  return m_ElementDataFileName;
+  return m_ElementDataFileName.c_str();
 }
 
 void MetaImage::
 ElementDataFileName(const char * _elementDataFileName)
 {
-  strcpy(m_ElementDataFileName, _elementDataFileName);
+  m_ElementDataFileName = _elementDataFileName;
 }
 
 void * MetaImage::
@@ -1252,7 +1250,7 @@ Read(const char *_headerName, bool _readElements, void * _buffer)
 
   if(_headerName != nullptr)
     {
-    strcpy(m_FileName, _headerName);
+    m_FileName = _headerName;
     }
 
   M_PrepareNewReadStream();
@@ -1329,22 +1327,22 @@ ReadStream(int _nDims,
     int i;
     size_t j;
     bool usePath;
-    char pathName[MAXPATHLENGTH];
-    char fName[2*MAXPATHLENGTH+1];
+    std::string pathName;
+    std::string fName;
     usePath = MET_GetFilePath(m_FileName, pathName);
 
-    if(!strcmp("Local", m_ElementDataFileName) ||
-       !strcmp("LOCAL", m_ElementDataFileName) ||
-       !strcmp("local", m_ElementDataFileName))
+    if("Local" == m_ElementDataFileName ||
+       "LOCAL" == m_ElementDataFileName ||
+       "local" == m_ElementDataFileName)
       {
       M_ReadElements(_stream, m_ElementData, m_Quantity);
       }
-    else if(!strncmp("LIST", m_ElementDataFileName,4))
+    else if("LIST" == m_ElementDataFileName.substr(0, 4))
       {
       int fileImageDim = m_NDims - 1;
       int nWrds;
       char **wrds;
-      MET_StringToWordArray(m_ElementDataFileName, &nWrds, &wrds);
+      MET_StringToWordArray(m_ElementDataFileName.c_str(), &nWrds, &wrds);
       if(nWrds > 1)
         {
         fileImageDim = (int)atof(wrds[1]);
@@ -1360,7 +1358,7 @@ ReadStream(int _nDims,
         // overall dimension then default to a size of m_NDims - 1.
         fileImageDim = m_NDims-1;
         }
-      char s[1024];
+      std::string s;
       std::ifstream* readStreamTemp = new std::ifstream;
       int elementSize;
       MET_SizeOfType(m_ElementType, &elementSize);
@@ -1372,21 +1370,21 @@ ReadStream(int _nDims,
         }
       for(i=0; i< totalFiles && !_stream->eof(); i++)
         {
-        _stream->getline(s, 1024);
+        std::getline(*_stream, s);
         if(!_stream->eof())
           {
-          j = strlen(s)-1;
+          j = s.length() - 1;
           while(j>0 && (isspace(s[j]) || !isprint(s[j])))
             {
             s[j--] = '\0';
             }
-          if(usePath && !FileIsFullPath(s))
+          if(usePath && !FileIsFullPath(s.c_str()))
             {
-            snprintf(fName, sizeof(fName), "%s%s", pathName, s);
+            fName = pathName + s;
             }
           else
             {
-            strcpy(fName, s);
+            fName = s;
             }
 
           openReadStream(*readStreamTemp, fName);
@@ -1405,7 +1403,7 @@ ReadStream(int _nDims,
         }
       delete readStreamTemp;
       }
-    else if(strstr(m_ElementDataFileName, "%"))
+    else if(m_ElementDataFileName.find('%') != std::string::npos)
       {
       int elementSize;
       MET_SizeOfType(m_ElementType, &elementSize);
@@ -1416,9 +1414,9 @@ ReadStream(int _nDims,
       int minV = 1;
       int maxV = m_DimSize[m_NDims-1];
       int stepV = 1;
-      char s[MAXPATHLENGTH];
+      std::string s;
       std::ifstream* readStreamTemp = new std::ifstream;
-      MET_StringToWordArray(m_ElementDataFileName, &nWrds, &wrds);
+      MET_StringToWordArray(m_ElementDataFileName.c_str(), &nWrds, &wrds);
       if(nWrds >= 2)
         {
         minV = (int)atof(wrds[1]);
@@ -1474,14 +1472,14 @@ ReadStream(int _nDims,
       int cnt = 0;
       for(i=minV; i<=maxV; i += stepV)
         {
-        snprintf(s, sizeof(s), wrds[0], i);
-        if(usePath && !FileIsFullPath(s))
+        s = string_format(wrds[0], i);
+        if(usePath && !FileIsFullPath(s.c_str()))
           {
-          snprintf(fName, sizeof(fName), "%s%s", pathName, s);
+          fName = pathName + s;
           }
         else
           {
-          strcpy(fName, s);
+          fName = s;
           }
         openReadStream(*readStreamTemp,fName);
         if(!readStreamTemp->is_open())
@@ -1508,13 +1506,13 @@ ReadStream(int _nDims,
       }
     else
       {
-      if(usePath && !FileIsFullPath(m_ElementDataFileName))
+      if(usePath && !FileIsFullPath(m_ElementDataFileName.c_str()))
         {
-        snprintf(fName, sizeof(fName), "%s%s", pathName, m_ElementDataFileName);
+        fName = pathName + m_ElementDataFileName;
         }
       else
         {
-        strcpy(fName, m_ElementDataFileName);
+        fName = m_ElementDataFileName;
         }
 
       std::ifstream* readStreamTemp = new std::ifstream;
@@ -1570,7 +1568,7 @@ Write(const char *_headName,
     }
 
   bool userDataFileName = true;
-  if(_dataName == nullptr && strlen(m_ElementDataFileName) == 0)
+  if(_dataName == nullptr && m_ElementDataFileName.empty())
     {
     userDataFileName = false;
     int sPtr = 0;
@@ -1585,7 +1583,7 @@ Write(const char *_headName,
         {
         MET_SetFileSuffix(m_FileName, "mhd");
         }
-      strcpy(m_ElementDataFileName, m_FileName);
+      m_ElementDataFileName = m_FileName;
       if(m_CompressedData)
         {
         MET_SetFileSuffix(m_ElementDataFileName, "zraw");
@@ -1605,7 +1603,7 @@ Write(const char *_headName,
   // make sure suffix is valid
   if(!_append)
     {
-    if(!strcmp(m_ElementDataFileName, "LOCAL"))
+    if (m_ElementDataFileName == "LOCAL")
       {
       MET_SetFileSuffix(m_FileName, "mha");
       }
@@ -1615,16 +1613,16 @@ Write(const char *_headName,
       }
     }
 
-  char pathName[MAXPATHLENGTH];
+  std::string pathName;
   bool usePath = MET_GetFilePath(m_FileName, pathName);
   if(usePath)
     {
-    char elementPathName[MAXPATHLENGTH];
+    std::string elementPathName;
     MET_GetFilePath(m_ElementDataFileName, elementPathName);
-    if(!strcmp(pathName, elementPathName))
+    if (pathName == elementPathName)
       {
-      strcpy(elementPathName, &m_ElementDataFileName[strlen(pathName)]);
-      strcpy(m_ElementDataFileName, elementPathName);
+      elementPathName = m_ElementDataFileName.substr(pathName.length());
+      m_ElementDataFileName = elementPathName;
       }
     }
 
@@ -1674,7 +1672,7 @@ WriteStream(std::ofstream * _stream,
   m_WriteStream = _stream;
 
   unsigned char * compressedElementData = nullptr;
-  if(m_BinaryData && m_CompressedData && !strstr(m_ElementDataFileName, "%"))
+  if(m_BinaryData && m_CompressedData && m_ElementDataFileName.find('%') == std::string::npos)
     // compressed & !slice/file
     {
     int elementSize;
@@ -1686,14 +1684,16 @@ WriteStream(std::ofstream * _stream,
       compressedElementData = MET_PerformCompression(
                                   (const unsigned char *)m_ElementData,
                                   m_Quantity * elementNumberOfBytes,
-                                  & m_CompressedDataSize );
+                                  & m_CompressedDataSize,
+                                  m_CompressionLevel );
       }
     else
       {
       compressedElementData = MET_PerformCompression(
                                   (const unsigned char *)_constElementData,
                                   m_Quantity * elementNumberOfBytes,
-                                  & m_CompressedDataSize );
+                                  & m_CompressedDataSize,
+                                  m_CompressionLevel );
       }
     }
 
@@ -1703,7 +1703,7 @@ WriteStream(std::ofstream * _stream,
 
   if(_writeElements)
     {
-    if(m_BinaryData && m_CompressedData && !strstr(m_ElementDataFileName, "%"))
+    if(m_BinaryData && m_CompressedData && m_ElementDataFileName.find('%') == std::string::npos)
       // compressed & !slice/file
       {
       M_WriteElements(m_WriteStream,
@@ -1828,7 +1828,7 @@ bool MetaImage::WriteROI( int * _indexMin, int * _indexMax,
     // Write the region
     if( !M_FileExists(filename.c_str()) )
       {
-      char pathName[MAXPATHLENGTH];
+      std::string pathName;
       MET_GetFilePath(_headName, pathName);
       filename = pathName+filename;
       }
@@ -1888,7 +1888,7 @@ bool MetaImage::WriteROI( int * _indexMin, int * _indexMax,
 
     // Get the data filename right...
     bool userDataFileName = true;
-    if( _dataName == nullptr && strlen(m_ElementDataFileName) == 0 )
+    if( _dataName == nullptr && m_ElementDataFileName.empty() )
       {
       userDataFileName = false;
       int sPtr = 0;
@@ -1903,7 +1903,7 @@ bool MetaImage::WriteROI( int * _indexMin, int * _indexMax,
           {
           MET_SetFileSuffix(m_FileName, "mhd");
           }
-        strcpy(m_ElementDataFileName, m_FileName);
+        m_ElementDataFileName = m_FileName;
         if(m_CompressedData)
           {
           MET_SetFileSuffix(m_ElementDataFileName, "zraw");
@@ -1920,8 +1920,8 @@ bool MetaImage::WriteROI( int * _indexMin, int * _indexMax,
       ElementDataFileName(_dataName);
       }
 
-    if( !strcmp(m_ElementDataFileName, "LIST")
-        || strstr(m_ElementDataFileName, "%") )
+    if( m_ElementDataFileName == "LIST"
+        || m_ElementDataFileName.find('%') != std::string::npos)
       {
       std::cerr
                << "MetaImage cannot insert ROI into a list of files."
@@ -1933,7 +1933,7 @@ bool MetaImage::WriteROI( int * _indexMin, int * _indexMax,
     // existing file via the append bool argument.
     if(!_append)
       {
-      if(!strcmp(m_ElementDataFileName, "LOCAL"))
+      if (m_ElementDataFileName == "LOCAL")
         {
         MET_SetFileSuffix(m_FileName, "mha");
         }
@@ -1943,16 +1943,16 @@ bool MetaImage::WriteROI( int * _indexMin, int * _indexMax,
         }
       }
 
-    char pathName[MAXPATHLENGTH];
+    std::string pathName;
     bool usePath = MET_GetFilePath(m_FileName, pathName);
     if(usePath)
       {
-      char elementPathName[MAXPATHLENGTH];
+      std::string elementPathName;
       MET_GetFilePath(m_ElementDataFileName, elementPathName);
-      if(!strcmp(pathName, elementPathName))
+      if (pathName == elementPathName)
         {
-        strcpy(elementPathName, &m_ElementDataFileName[strlen(pathName)]);
-        strcpy(m_ElementDataFileName, elementPathName);
+        elementPathName = m_ElementDataFileName.substr(pathName.length());
+        m_ElementDataFileName = elementPathName;
         }
       }
 
@@ -1987,21 +1987,21 @@ bool MetaImage::WriteROI( int * _indexMin, int * _indexMax,
     // If data is in a separate file, set dataPos and point to that file.
     //   ( we've already verified the name isn't LIST and doesn't
     //     contain % )
-    if( strcmp( m_ElementDataFileName, "LOCAL" ) != 0 )
+    if( m_ElementDataFileName != "LOCAL" )
       {
       m_WriteStream = nullptr;
       tmpWriteStream->close();
 
       dataPos = 0;
 
-      char dataFileName[MAXPATHLENGTH+256];
-      if(usePath&& !FileIsFullPath(m_ElementDataFileName))
+      std::string dataFileName;
+      if(usePath&& !FileIsFullPath(m_ElementDataFileName.c_str()))
         {
-        snprintf(dataFileName, sizeof(dataFileName), "%s%s", pathName, m_ElementDataFileName);
+        dataFileName = pathName + m_ElementDataFileName;
         }
       else
         {
-        strcpy(dataFileName, m_ElementDataFileName);
+        dataFileName = m_ElementDataFileName;
         }
 
       openWriteStream(*tmpWriteStream, dataFileName, _append);
@@ -2240,7 +2240,7 @@ M_SetupWriteFields()
   MET_InitWriteField(mF, "DimSize", MET_INT_ARRAY, m_NDims, m_DimSize);
   m_Fields.push_back(mF);
 
-  char s[MAXPATHLENGTH];
+  char s[22];
   if(m_HeaderSize > 0 || m_HeaderSize == -1)
     {
     mF = new MET_FieldRecordType;
@@ -2331,8 +2331,8 @@ M_SetupWriteFields()
 
   mF = new MET_FieldRecordType;
   MET_InitWriteField(mF, "ElementDataFile", MET_STRING,
-                     strlen(m_ElementDataFileName),
-                     m_ElementDataFileName);
+                     m_ElementDataFileName.length(),
+                     m_ElementDataFileName.c_str());
   mF->terminateRead = true;
   m_Fields.push_back(mF);
 }
@@ -2475,7 +2475,7 @@ M_Read()
   mF = MET_GetFieldRecord("ElementDataFile", &m_Fields);
   if(mF && mF->defined)
     {
-    strcpy(m_ElementDataFileName, (char *)(mF->value));
+    m_ElementDataFileName = (char *)(mF->value);
     }
 
   return true;
@@ -2574,28 +2574,28 @@ M_WriteElements(std::ofstream * _fstream,
                 std::streamoff _dataQuantity)
 {
 
-  if(!strcmp(m_ElementDataFileName, "LOCAL"))
+  if (m_ElementDataFileName == "LOCAL")
     {
     MetaImage::M_WriteElementData(_fstream, _data, _dataQuantity);
     }
   else // write the data in a separate file
     {
-    char dataFileName[MAXPATHLENGTH+256];
-    char pathName[MAXPATHLENGTH];
+    std::string dataFileName;
+    std::string pathName;
     bool usePath = MET_GetFilePath(m_FileName, pathName);
-    if(usePath&& !FileIsFullPath(m_ElementDataFileName))
+    if(usePath&& !FileIsFullPath(m_ElementDataFileName.c_str()))
       {
-      snprintf(dataFileName, sizeof(dataFileName), "%s%s", pathName, m_ElementDataFileName);
+      dataFileName = pathName + m_ElementDataFileName;
       }
     else
       {
-      strcpy(dataFileName, m_ElementDataFileName);
+      dataFileName = m_ElementDataFileName;
       }
 
-    if(strstr(dataFileName, "%")) // write slice by slice
+    if(dataFileName.find('%') != std::string::npos) // write slice by slice
       {
       int i;
-      char fName[MAXPATHLENGTH];
+      std::string fName;
       int elementSize;
       MET_SizeOfType(m_ElementType, &elementSize);
       std::streamoff elementNumberOfBytes = elementSize*m_ElementNumberOfChannels;
@@ -2604,7 +2604,7 @@ M_WriteElements(std::ofstream * _fstream,
       std::ofstream* writeStreamTemp = new std::ofstream;
       for(i=1; i<=m_DimSize[m_NDims-1]; i++)
         {
-        snprintf(fName, sizeof(fName), dataFileName, i);
+        fName = string_format(dataFileName, i);
 
         openWriteStream(*writeStreamTemp, fName, false);
 
@@ -2625,7 +2625,8 @@ M_WriteElements(std::ofstream * _fstream,
           compressedData = MET_PerformCompression(
                   &(((const unsigned char *)_data)[(i-1)*sliceNumberOfBytes]),
                   sliceNumberOfBytes,
-                  & compressedDataSize );
+                  & compressedDataSize,
+                  m_CompressionLevel );
 
           // Write the compressed data
           MetaImage::M_WriteElementData( writeStreamTemp,
@@ -2738,7 +2739,7 @@ ReadROI(int * _indexMin, int * _indexMax,
 
   if(_headerName != nullptr)
     {
-    strcpy(m_FileName, _headerName);
+    m_FileName = _headerName;
     }
 
   M_PrepareNewReadStream();
@@ -2814,24 +2815,24 @@ bool MetaImage::ReadROIStream(int * _indexMin, int * _indexMax,
       }
 
     bool usePath;
-    char pathName[MAXPATHLENGTH];
-    char fName[2*MAXPATHLENGTH+1];
+    std::string pathName;
+    std::string fName;
     usePath = MET_GetFilePath(m_FileName, pathName);
 
-    if(!strcmp("Local", m_ElementDataFileName) ||
-       !strcmp("LOCAL", m_ElementDataFileName) ||
-       !strcmp("local", m_ElementDataFileName))
+    if("Local" == m_ElementDataFileName ||
+       "LOCAL" == m_ElementDataFileName ||
+       "local" == m_ElementDataFileName)
       {
       M_ReadElementsROI(_stream, m_ElementData, quantity,
                         _indexMin, _indexMax, subSamplingFactor,
                         m_Quantity);
       }
-    else if(!strncmp("LIST", m_ElementDataFileName,4))
+    else if("LIST" == m_ElementDataFileName.substr(0, 4))
       {
       int fileImageDim = m_NDims - 1;
       int nWrds;
       char **wrds;
-      MET_StringToWordArray(m_ElementDataFileName, &nWrds, &wrds);
+      MET_StringToWordArray(m_ElementDataFileName.c_str(), &nWrds, &wrds);
       if(nWrds > 1)
         {
         fileImageDim = (int)atof(wrds[1]);
@@ -2876,11 +2877,11 @@ bool MetaImage::ReadROIStream(int * _indexMin, int * _indexMax,
             }
           if(usePath && !FileIsFullPath(s))
             {
-            snprintf(fName, sizeof(fName), "%s%s", pathName, s);
+            fName = pathName + s;
             }
           else
             {
-            strcpy(fName, s);
+            fName = s;
             }
 
           openReadStream(*readStreamTemp, fName);
@@ -2917,7 +2918,7 @@ bool MetaImage::ReadROIStream(int * _indexMin, int * _indexMax,
         }
       delete readStreamTemp;
       }
-    else if(strstr(m_ElementDataFileName, "%"))
+    else if(m_ElementDataFileName.find('%') != std::string::npos)
       {
       int elementSize;
       MET_SizeOfType(m_ElementType, &elementSize);
@@ -2928,9 +2929,9 @@ bool MetaImage::ReadROIStream(int * _indexMin, int * _indexMax,
       int minV = 1;
       int maxV = m_DimSize[m_NDims-1];
       int stepV = 1;
-      char s[MAXPATHLENGTH];
+      std::string s;
       std::ifstream* readStreamTemp = new std::ifstream;
-      MET_StringToWordArray(m_ElementDataFileName, &nWrds, &wrds);
+      MET_StringToWordArray(m_ElementDataFileName.c_str(), &nWrds, &wrds);
       if(nWrds >= 2)
         {
         minV = (int)atof(wrds[1]);
@@ -2992,14 +2993,14 @@ bool MetaImage::ReadROIStream(int * _indexMin, int * _indexMax,
 
       for(i=minV; i<=maxV; i += stepV)
         {
-        snprintf(s, sizeof(s), wrds[0], i);
-        if(usePath && !FileIsFullPath(s))
+        s = string_format(wrds[0], i);
+        if(usePath && !FileIsFullPath(s.c_str()))
           {
-          snprintf(fName, sizeof(fName), "%s%s", pathName, s);
+          fName = pathName + s;
           }
         else
           {
-          strcpy(fName, s);
+          fName = s;
           }
 
 
@@ -3049,13 +3050,13 @@ bool MetaImage::ReadROIStream(int * _indexMin, int * _indexMax,
       }
     else
       {
-      if(usePath && !FileIsFullPath(m_ElementDataFileName))
+      if(usePath && !FileIsFullPath(m_ElementDataFileName.c_str()))
         {
-        snprintf(fName, sizeof(fName), "%s%s", pathName, m_ElementDataFileName);
+        fName = pathName + m_ElementDataFileName;
         }
       else
         {
-        strcpy(fName, m_ElementDataFileName);
+        fName = m_ElementDataFileName;
         }
 
       std::ifstream* readStreamTemp = new std::ifstream;

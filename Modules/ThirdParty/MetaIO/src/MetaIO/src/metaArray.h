@@ -184,7 +184,7 @@ class METAIO_EXPORT MetaArray : public MetaForm
 
     std::streamoff m_CompressedElementDataSize;
 
-    char               m_ElementDataFileName[255];
+    std::string        m_ElementDataFileName;
 
     void *             m_ElementData;
 
