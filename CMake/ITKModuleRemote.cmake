@@ -149,10 +149,15 @@ endfunction()
 # The following options are currently supported:
 #    [GIT_REPOSITORY url]        # URL of git repo
 #    [GIT_TAG tag]               # Git branch name, commit id or tag
+#
+# An CMake variable REMOTE_GIT_TAG_${_name} can be set
+# in to override the value in the remote module configuration file.
+# The intent of the REMOTE_GIT_TAG_${_name} variable override is to
+# facilitate testing of remote module branch behaviors without
+# requiring changes to the ITK code base.
 function(itk_fetch_module _name _description)
   option(Module_${_name} "${_description}" OFF)
   mark_as_advanced(Module_${_name})
-
 
   # Fetch_$_remote_module} is deprecated. To maintain backward compatibility:
   if(Fetch_${_name})
@@ -177,9 +182,21 @@ function(itk_fetch_module _name _description)
     if("${_version}" VERSION_LESS 1.6.6)
       message(FATAL_ERROR "Git version 1.6.6 or later is required.")
     endif()
+
+    set(REMOTE_GIT_TAG "${_fetch_options_GIT_TAG}")
+
+    if( DEFINED REMOTE_GIT_TAG_${_name} AND NOT "${REMOTE_GIT_TAG_${_name}}" STREQUAL "${_fetch_options_GIT_TAG}")
+      set(REMOTE_GIT_TAG "${REMOTE_GIT_TAG_${_name}}")
+      message(STATUS "NOTE: Using override 'REMOTE_GIT_TAG_${_name}=${REMOTE_GIT_TAG}'\n"
+                     "      instead of value 'GIT_TAG=${_fetch_options_GIT_TAG}'\n"
+                     "      specified in file ${ITK_SOURCE_DIR}/Modules/Remote/${_name}.remote.cmake'")
+    endif()
+    set(REMOTE_GIT_TAG_${_name} "${REMOTE_GIT_TAG}" CACHE STRING "Override default GIT_TAG value for remote module ${_name}")
+    mark_as_advanced(REMOTE_GIT_TAG_${_name})
+
     _fetch_with_git("${GIT_EXECUTABLE}"
       "${_fetch_options_GIT_REPOSITORY}"
-      "${_fetch_options_GIT_TAG}"
+      "${REMOTE_GIT_TAG}"
       "${ITK_SOURCE_DIR}/Modules/Remote/${_name}"
       )
   endif()
