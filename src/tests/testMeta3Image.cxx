@@ -3,7 +3,7 @@
 #include <metaImage.h>
 
 int main(int, char * [])
-  {
+{
 
   MetaImage tIm(8, 8, 1, 2, MET_CHAR);
 
@@ -15,8 +15,8 @@ int main(int, char * [])
     {
     if(i != tIm.ElementData(i))
       {
-      METAIO_STREAM::cout << "Assigned Element Values Maintained: FAIL" << METAIO_STREAM::endl;
-      return 0;
+      std::cout << "Assigned Element Values Maintained: FAIL" << std::endl;
+      return EXIT_FAILURE;
       }
     }
 
@@ -29,11 +29,10 @@ int main(int, char * [])
     {
     if(i != tIm.ElementData(i))
       {
-      METAIO_STREAM::cout << "Read Element Values: FAIL" << METAIO_STREAM::endl;
-      return 0;
+      std::cout << "Read Element Values: FAIL" << std::endl;
+      return EXIT_FAILURE;
       }
     }
 
-
-  return 1;
-  }
+  return EXIT_SUCCESS;
+}

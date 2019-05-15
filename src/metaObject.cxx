@@ -214,8 +214,6 @@ void MetaObject
   m_AdditionalReadFields.clear();
 }
 
-//
-//
 void MetaObject::
 FileName(const char *_fileName)
 {
@@ -223,7 +221,7 @@ FileName(const char *_fileName)
     {
     if(_fileName[0] != '\0')
       {
-      strcpy(m_FileName, _fileName);
+      m_FileName = _fileName;
       }
     }
 }
@@ -231,7 +229,7 @@ FileName(const char *_fileName)
 const char * MetaObject::
 FileName() const
 {
-  return m_FileName;
+  return m_FileName.c_str();
 }
 
 void MetaObject::
@@ -271,7 +269,7 @@ Read(const char *_fileName)
 
   if(_fileName != nullptr)
     {
-    strcpy(m_FileName, _fileName);
+    m_FileName = _fileName;
     }
 
   std::ifstream * tmpReadStream = new std::ifstream;
@@ -1030,6 +1028,16 @@ bool MetaObject::CompressedData() const
   return m_CompressedData;
 }
 
+void MetaObject::CompressionLevel(int _compressionLevel)
+{
+  m_CompressionLevel = _compressionLevel;
+}
+
+int MetaObject::CompressionLevel() const
+{
+  return m_CompressionLevel;
+}
+
 void  MetaObject::BinaryData(bool _binaryData)
 {
   m_BinaryData = _binaryData;
@@ -1080,6 +1088,7 @@ Clear()
   m_BinaryDataByteOrderMSB = MET_SystemByteOrderMSB();
   m_CompressedDataSize = 0;
   m_CompressedData = false;
+  m_CompressionLevel = 2;
   m_WriteCompressedDataSize = true;
 
   m_DistanceUnits = MET_DISTANCE_UNITS_UNKNOWN;

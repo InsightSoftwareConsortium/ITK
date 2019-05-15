@@ -687,17 +687,14 @@ std::streamoff MET_UncompressStream(std::ifstream * stream,
 
 unsigned char * MET_PerformCompression(const unsigned char * source,
                                        std::streamoff sourceSize,
-                                       std::streamoff * compressedDataSize)
+                                       std::streamoff * compressedDataSize,
+                                       int compressionLevel)
 {
 
   z_stream  z;
   z.zalloc  = (alloc_func)nullptr;
   z.zfree   = (free_func)nullptr;
   z.opaque  = (voidpf)nullptr;
-
-  // Compression rate
-  // Choices are Z_BEST_SPEED,Z_BEST_COMPRESSION,Z_DEFAULT_COMPRESSION
-  int compression_rate = Z_DEFAULT_COMPRESSION;
 
   std::streamoff buffer_out_size = sourceSize;
   std::streamoff max_chunk_size = MET_MaxChunkSize;
@@ -706,7 +703,7 @@ unsigned char * MET_PerformCompression(const unsigned char * source,
   unsigned char * output_buffer     = new unsigned char[chunk_size];
   unsigned char * compressed_data   = new unsigned char[buffer_out_size];
 
-  /*int ret =*/ deflateInit(&z, compression_rate);
+  /*int ret =*/ deflateInit(&z, compressionLevel);
   //assert(ret == Z_OK);
 
   std::streamoff cur_in_start = 0;
@@ -867,34 +864,22 @@ bool MET_StringToWordArray(const char *s, int *n, char ***val)
   return true;
 }
 
-bool MET_GetFilePath(const char *_fName, char *_fPath)
+bool MET_GetFilePath(const std::string& _fName, std::string& _fPath)
 {
-  long i;
-
-  size_t l = strlen(_fName);
-
-  for(i=(long)l-1; i>=0; i--)
+  auto const pos = _fName.find_last_of("/\\");
+  if (pos == std::string::npos)
     {
-    if(_fName[i] == '\\' || _fName[i] == '/')
-      break;
-    }
-
-  if(i >= 0 && (_fName[i] == '/' || _fName[i] == '\\'))
-    {
-    strcpy(_fPath, _fName);
-    _fPath[i+1] = '\0';
-    return true;
-    }
-  else
-    {
-    _fPath[0] = '\0';
+    _fPath = "";
     return false;
     }
+
+  _fPath = _fName.substr(0, pos + 1);
+  return true;
 }
 
-bool MET_GetFileSuffixPtr(const char *_fName, int *i)
+bool MET_GetFileSuffixPtr(const std::string& _fName, int *i)
 {
-  *i = static_cast<int>( strlen(_fName) );
+  *i = static_cast<int>( _fName.length() );
   int j = *i - 5;
   if(j<0)
     {
@@ -915,26 +900,28 @@ bool MET_GetFileSuffixPtr(const char *_fName, int *i)
   return false;
 }
 
-bool MET_SetFileSuffix(char *_fName, const char *_suf)
+bool MET_SetFileSuffix(std::string& _fName, const std::string& _suf)
 {
   int i;
   MET_GetFileSuffixPtr(_fName, &i);
   if(i>0)
     {
+    const char * suffixStart;
     if(_suf[0] == '.')
-      _fName[i-1] = '\0';
+      suffixStart = &_suf[1];
     else
-      _fName[i] = '\0';
-    strcat(_fName, _suf);
+      suffixStart = &_suf[0];
+    _fName.resize(i);
+    _fName.append(suffixStart);
     return true;
     }
   else
     {
     if( _suf[0] != '.')
       {
-      strcat(_fName, ".");
+      _fName.append(1, '.');
       }
-    strcat(_fName, _suf);
+    _fName.append(_suf);
     return true;
     }
 }

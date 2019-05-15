@@ -314,7 +314,8 @@ bool MET_ValueToValue(MET_ValueEnumType _fromType,
 METAIO_EXPORT
 unsigned char * MET_PerformCompression(const unsigned char * source,
                                        std::streamoff sourceSize,
-                                       std::streamoff * compressedDataSize);
+                                       std::streamoff * compressedDataSize,
+                                       int compressionLevel);
 
 METAIO_EXPORT
 bool MET_PerformUncompression(const unsigned char * sourceCompressed,
@@ -336,13 +337,13 @@ std::streamoff MET_UncompressStream(std::ifstream * stream,
 // FILES NAMES
 /////////////////////////////////////////////////////////
 METAIO_EXPORT
-bool MET_GetFilePath(const char *_fName, char *_fPath);
+bool MET_GetFilePath(const std::string& _fName, std::string& _fPath);
 
 METAIO_EXPORT
-bool MET_GetFileSuffixPtr(const char *_fName, int *i);
+bool MET_GetFileSuffixPtr(const std::string& _fName, int *i);
 
 METAIO_EXPORT
-bool MET_SetFileSuffix(char *_fName, const char *_suf);
+bool MET_SetFileSuffix(std::string& _fName, const std::string& _suf);
 
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////

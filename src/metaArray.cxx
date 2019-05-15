@@ -44,7 +44,7 @@ MetaArray()
 
   m_CompressedElementDataSize = 0;
 
-  strcpy(m_ElementDataFileName, "");
+  m_ElementDataFileName = "";
 
   MetaArray::Clear();
 }
@@ -64,7 +64,7 @@ MetaArray(const char *_headerName)
 
   m_CompressedElementDataSize = 0;
 
-  strcpy(m_ElementDataFileName, "");
+  m_ElementDataFileName = "";
 
   MetaArray::Clear();
 
@@ -88,7 +88,7 @@ MetaArray(MetaArray *_vector,
 
   m_CompressedElementDataSize = 0;
 
-  strcpy(m_ElementDataFileName, "");
+  m_ElementDataFileName = "";
 
   MetaArray::Clear();
 
@@ -122,7 +122,7 @@ MetaArray(int _length,
 
   m_CompressedElementDataSize = 0;
 
-  strcpy(m_ElementDataFileName, "");
+  m_ElementDataFileName = "";
 
   MetaArray::Clear();
 
@@ -203,7 +203,7 @@ Clear()
 
   m_CompressedElementDataSize = 0;
 
-  strcpy(m_ElementDataFileName, "");
+  m_ElementDataFileName = "";
 
   if(m_AutoFreeElementData)
     {
@@ -529,13 +529,13 @@ AutoFreeElementData(bool _autoFreeElementData)
 const char * MetaArray::
 ElementDataFileName() const
 {
-  return m_ElementDataFileName;
+  return m_ElementDataFileName.c_str();
 }
 
 void MetaArray::
 ElementDataFileName(const char * _elementDataFileName)
 {
-  strcpy(m_ElementDataFileName, _elementDataFileName);
+  m_ElementDataFileName = _elementDataFileName;
 }
 
 
@@ -637,7 +637,7 @@ Read(const char *_headerName, bool _readElements,
 {
   if(_headerName != nullptr)
     {
-    strcpy(m_FileName, _headerName);
+    m_FileName = _headerName;
     }
 
   std::ifstream * tmpStream = new std::ifstream;
@@ -662,7 +662,7 @@ Read(const char *_headerName, bool _readElements,
 
   if(_headerName != nullptr)
     {
-    strcpy(m_FileName, _headerName);
+    m_FileName = _headerName;
     }
 
   tmpStream->close();
@@ -723,15 +723,15 @@ ReadStream(std::ifstream * _stream, bool _readElements,
                       _autoFreeElementData);
 
   bool usePath;
-  char pathName[255];
-  char fName[1024];
+  std::string pathName;
+  std::string fName;
   usePath = MET_GetFilePath(m_FileName, pathName);
 
   if(_readElements)
     {
-    if(!strcmp("Local", m_ElementDataFileName) ||
-       !strcmp("LOCAL", m_ElementDataFileName) ||
-       !strcmp("local", m_ElementDataFileName))
+    if("Local" == m_ElementDataFileName ||
+       "LOCAL" == m_ElementDataFileName ||
+       "local" == m_ElementDataFileName)
       {
       M_ReadElements(m_ReadStream, m_ElementData, m_Length);
       }
@@ -739,11 +739,11 @@ ReadStream(std::ifstream * _stream, bool _readElements,
       {
       if(usePath)
         {
-        snprintf(fName, sizeof(fName), "%s%s", pathName, m_ElementDataFileName);
+        fName = pathName + m_ElementDataFileName;
         }
       else
         {
-        strcpy(fName, m_ElementDataFileName);
+        fName = m_ElementDataFileName;
         }
       std::ifstream* readStreamTemp = new std::ifstream;
 
@@ -791,7 +791,7 @@ Write(const char *_headName, const char *_dataName, bool _writeElements,
     }
   else
     {
-    if( strlen(m_ElementDataFileName) == 0 )
+    if( m_ElementDataFileName.empty() )
       {
       tmpDataFileName = true;
       }
@@ -802,10 +802,10 @@ Write(const char *_headName, const char *_dataName, bool _writeElements,
   if( !strcmp(&(m_FileName[sPtr]), "mvh") )
     {
     MET_SetFileSuffix(m_FileName, "mvh");
-    if( strlen(m_ElementDataFileName) == 0 ||
-        !strcmp(m_ElementDataFileName, "LOCAL") )
+    if( m_ElementDataFileName.empty() ||
+        m_ElementDataFileName == "LOCAL" )
       {
-      ElementDataFileName(m_FileName);
+      ElementDataFileName(m_FileName.c_str());
       }
     if(m_CompressedData)
       {
@@ -822,16 +822,16 @@ Write(const char *_headName, const char *_dataName, bool _writeElements,
     ElementDataFileName("LOCAL");
     }
 
-  char pathName[255];
+  std::string pathName;
   bool usePath = MET_GetFilePath(m_FileName, pathName);
   if(usePath)
     {
-    char elementPathName[255];
+    std::string elementPathName;
     MET_GetFilePath(m_ElementDataFileName, elementPathName);
-    if(!strcmp(pathName, elementPathName))
+    if(pathName == elementPathName)
       {
-      strcpy(elementPathName, &m_ElementDataFileName[strlen(pathName)]);
-      strcpy(m_ElementDataFileName, elementPathName);
+      elementPathName = m_ElementDataFileName.substr(pathName.length());
+      m_ElementDataFileName = elementPathName;
       }
     }
 
@@ -899,14 +899,16 @@ WriteStream(std::ofstream * _stream, bool _writeElements,
       compressedElementData = MET_PerformCompression(
                                     (const unsigned char *)m_ElementData,
                                     m_Length * elementNumberOfBytes,
-                                    & m_CompressedElementDataSize);
+                                    & m_CompressedElementDataSize,
+                                    2 );
       }
     else
       {
       compressedElementData = MET_PerformCompression(
                                     (const unsigned char *)_constElementData,
                                     m_Length * elementNumberOfBytes,
-                                    & m_CompressedElementDataSize);
+                                    & m_CompressedElementDataSize,
+                                    2 );
       }
     }
 
@@ -1029,8 +1031,8 @@ M_SetupWriteFields()
 
   mF = new MET_FieldRecordType;
   MET_InitWriteField(mF, "ElementDataFile", MET_STRING,
-                     strlen(m_ElementDataFileName),
-                     m_ElementDataFileName);
+                     m_ElementDataFileName.length(),
+                     m_ElementDataFileName.c_str());
   mF->terminateRead = true;
   m_Fields.push_back(mF);
 }
@@ -1093,7 +1095,7 @@ M_Read()
   mF = MET_GetFieldRecord("ElementDataFile", &m_Fields);
   if(mF && mF->defined)
     {
-    strcpy(m_ElementDataFileName, (char *)(mF->value));
+    m_ElementDataFileName = (char *)(mF->value);
     }
 
   return true;
@@ -1173,7 +1175,7 @@ M_WriteElements(std::ofstream * _fstream, const void * _data,
 {
   bool localData = false;
   std::ofstream* tmpWriteStream;
-  if(!strcmp(m_ElementDataFileName, "LOCAL"))
+  if (m_ElementDataFileName == "LOCAL")
     {
     localData = true;
     tmpWriteStream = _fstream;
@@ -1183,16 +1185,16 @@ M_WriteElements(std::ofstream * _fstream, const void * _data,
     localData = false;
     tmpWriteStream = new std::ofstream;
 
-    char dataFileName[1024];
-    char pathName[255];
+    std::string dataFileName;
+    std::string pathName;
     bool usePath = MET_GetFilePath(m_FileName, pathName);
     if(usePath)
       {
-      snprintf(dataFileName, sizeof(dataFileName), "%s%s", pathName, m_ElementDataFileName);
+      dataFileName = pathName + m_ElementDataFileName;
       }
     else
       {
-      strcpy(dataFileName, m_ElementDataFileName);
+      dataFileName = m_ElementDataFileName;
       }
 
 // Some older sgi compilers have a error in the ofstream constructor
