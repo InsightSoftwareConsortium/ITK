@@ -207,6 +207,10 @@ ImageFileWriter< TInputImage >
 
   // configure compression
   m_ImageIO->SetUseCompression(m_UseCompression);
+  if ( m_CompressionLevel >= 0 )
+    {
+    m_ImageIO->SetCompressionLevel( m_CompressionLevel );
+    }
 
   // configure meta dictionary
   if ( m_UseInputMetaDataDictionary )
@@ -428,6 +432,7 @@ ImageFileWriter< TInputImage >
 
   os << indent << "IO Region: " << m_PasteIORegion << "\n";
   os << indent << "Number of Stream Divisions: " << m_NumberOfStreamDivisions << "\n";
+  os << indent << "CompressionLevel: " << m_CompressionLevel << "\n";
 
   if ( m_UseCompression )
     {

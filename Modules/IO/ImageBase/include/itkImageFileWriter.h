@@ -184,6 +184,11 @@ public:
   itkGetConstReferenceMacro(UseCompression, bool);
   itkBooleanMacro(UseCompression);
 
+  /** Set the compression level. \sa ImageIOBase for details.
+   * Set to a negative number to use ImageIO's default compression level. */
+  itkSetMacro( CompressionLevel, int );
+  itkGetConstReferenceMacro( CompressionLevel, int );
+
   /** By default the MetaDataDictionary is taken from the input image and
    *  passed to the ImageIO. In some cases, however, a user may prefer to
    *  introduce her/his own MetaDataDictionary. This is often the case of
@@ -214,6 +219,7 @@ private:
 
   bool m_FactorySpecifiedImageIO{ false }; // did factory mechanism set the ImageIO?
   bool m_UseCompression{ false };
+  int  m_CompressionLevel{ -1 };
   bool m_UseInputMetaDataDictionary{ true };
 };
 } // end namespace itk
