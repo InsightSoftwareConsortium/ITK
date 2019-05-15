@@ -195,7 +195,7 @@ public:
   itkBooleanMacro(UseInputMetaDataDictionary);
 
 protected:
-  ImageFileWriter();
+  ImageFileWriter() = default;
   ~ImageFileWriter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -206,19 +206,15 @@ private:
   std::string m_FileName;
 
   ImageIOBase::Pointer m_ImageIO;
-  bool                 m_UserSpecifiedImageIO; // track whether the ImageIO
-                                               // is user specified
+  bool                 m_UserSpecifiedImageIO{ false };
 
-  ImageIORegion m_PasteIORegion;
-  unsigned int  m_NumberOfStreamDivisions;
-  bool          m_UserSpecifiedIORegion;    // track whether the region
-                                            // is user specified
-  bool m_FactorySpecifiedImageIO;           //track whether the factory
-                                            //  mechanism set the ImageIO
-  bool m_UseCompression;
-  bool m_UseInputMetaDataDictionary;        // whether to use the
-                                            // MetaDataDictionary from the
-                                            // input or not.
+  ImageIORegion m_PasteIORegion{ TInputImage::ImageDimension };
+  unsigned int  m_NumberOfStreamDivisions{ 1 };
+  bool          m_UserSpecifiedIORegion{ false };
+
+  bool m_FactorySpecifiedImageIO{ false }; // did factory mechanism set the ImageIO?
+  bool m_UseCompression{ false };
+  bool m_UseInputMetaDataDictionary{ true };
 };
 } // end namespace itk
 

@@ -38,27 +38,12 @@ namespace itk
 {
 //---------------------------------------------------------
 template< typename TInputImage >
-ImageFileWriter< TInputImage >
-::ImageFileWriter():
-  m_PasteIORegion(TInputImage::ImageDimension)
-{
-  m_UseCompression = false;
-  m_UseInputMetaDataDictionary = true;
-  m_FactorySpecifiedImageIO = false;
-  m_UserSpecifiedIORegion = false;
-  m_UserSpecifiedImageIO = false;
-  m_NumberOfStreamDivisions = 1;
-}
-
-//---------------------------------------------------------
-template< typename TInputImage >
 void
 ImageFileWriter< TInputImage >
 ::SetInput(const InputImageType *input)
 {
   // ProcessObject is not const_correct so this cast is required here.
-  this->ProcessObject::SetNthInput( 0,
-                                    const_cast< TInputImage * >( input ) );
+  this->ProcessObject::SetNthInput( 0, const_cast< TInputImage * >( input ) );
 }
 
 //---------------------------------------------------------
