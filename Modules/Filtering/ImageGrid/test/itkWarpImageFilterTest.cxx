@@ -20,7 +20,7 @@
 
 #include "itkMath.h"
 #include "itkWarpImageFilter.h"
-#include "itkVectorCastImageFilter.h"
+#include "itkCastImageFilter.h"
 #include "itkStreamingImageFilter.h"
 #include "itkVectorImage.h"
 #include "itkMath.h"
@@ -306,7 +306,7 @@ int itkWarpImageFilterTest(int, char* [] )
   std::cout << "Run ExpandImageFilter with streamer";
   std::cout << std::endl;
 
-  using VectorCasterType = itk::VectorCastImageFilter<FieldType,FieldType>;
+  using VectorCasterType = itk::CastImageFilter<FieldType,FieldType>;
   VectorCasterType::Pointer vcaster = VectorCasterType::New();
 
   vcaster->SetInput( warper->GetDisplacementField() );

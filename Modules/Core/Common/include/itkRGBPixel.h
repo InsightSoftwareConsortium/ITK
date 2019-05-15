@@ -24,7 +24,7 @@
 #endif
 
 #include "itkIndent.h"
-#include "itkFixedArray.h"
+#include "itkVector.h"
 #include "itkMath.h"
 
 namespace itk
@@ -102,7 +102,6 @@ public:
   Self & operator=(const ComponentType r[3]);
 
   /** Aritmetic operations between pixels. Return a new RGBPixel. */
-  /** Aritmetic operations between pixels. Return a new RGBAPixel. */
   Self operator+(const Self & vec) const;
   Self operator-(const Self & vec) const;
   Self operator *(const ComponentType & f) const;
@@ -118,6 +117,17 @@ public:
   bool operator<(const Self & vec) const;
 
   bool operator==(const Self & vec) const;
+
+  /** Implicit casting operator. Return an equivalent itk::Vector. */
+  template< typename TPixelOutput >
+  operator Vector< TPixelOutput, 3 >() const
+  {
+    Vector< TPixelOutput, 3 > v;
+    v[0] = static_cast< TPixelOutput >( this->operator[](0) );
+    v[1] = static_cast< TPixelOutput >( this->operator[](1) );
+    v[2] = static_cast< TPixelOutput >( this->operator[](2) );
+    return v;
+  }
 
   /** Return the number of components. */
   static unsigned int GetNumberOfComponents(){ return 3; }

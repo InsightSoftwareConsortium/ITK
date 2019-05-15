@@ -21,7 +21,7 @@
 #include "itkLevelSetFunction.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkVectorLinearInterpolateImageFunction.h"
-#include "itkVectorCastImageFilter.h"
+#include "itkCastImageFilter.h"
 
 namespace itk
 {
@@ -151,7 +151,7 @@ protected:
   typename VectorImageType::Pointer m_AdvectionImage;
 
   /** A casting functor to convert between vector types.  */
-  Functor::VectorCast< typename VectorInterpolatorType::OutputType,
+  Functor::Cast< typename VectorInterpolatorType::OutputType,
                        VectorType > m_VectorCast;
 
   /** Returns the propagation speed from the precalculated speed image.*/

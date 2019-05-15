@@ -60,7 +60,7 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkVectorCastImageFilter.h"
+#include "itkCastImageFilter.h"
 #include "itkScalarToRGBPixelFunctor.h"
 
 int main( int argc, char *argv[] )
@@ -80,7 +80,7 @@ int main( int argc, char *argv[] )
   // work properly.  The preprocessing stages are applied directly to the
   // vector-valued data and the segmentation uses floating point
   // scalar data.  Images are converted from RGB pixel type to
-  // numerical vector type using \doxygen{VectorCastImageFilter}.
+  // numerical vector type using \doxygen{CastImageFilter}.
   //
   // Software Guide : EndLatex
 
@@ -103,7 +103,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   using FileReaderType = itk::ImageFileReader< RGBImageType >;
   using CastFilterType =
-      itk::VectorCastImageFilter< RGBImageType, VectorImageType >;
+      itk::CastImageFilter< RGBImageType, VectorImageType >;
   using DiffusionFilterType =
     itk::VectorGradientAnisotropicDiffusionImageFilter<
                         VectorImageType, VectorImageType >;

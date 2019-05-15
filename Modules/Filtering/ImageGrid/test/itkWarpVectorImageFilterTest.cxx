@@ -19,7 +19,7 @@
 #include <iostream>
 
 #include "itkWarpVectorImageFilter.h"
-#include "itkVectorCastImageFilter.h"
+#include "itkCastImageFilter.h"
 #include "itkStreamingImageFilter.h"
 
 // class to produce a linear image pattern
@@ -298,7 +298,7 @@ int itkWarpVectorImageFilterTest(int, char* [] )
   std::cout << "Run ExpandImageFilter with streamer";
   std::cout << std::endl;
 
-  using VectorCasterType = itk::VectorCastImageFilter<FieldType,FieldType>;
+  using VectorCasterType = itk::CastImageFilter<FieldType,FieldType>;
   VectorCasterType::Pointer vcaster = VectorCasterType::New();
 
   vcaster->SetInput( warper->GetDisplacementField() );

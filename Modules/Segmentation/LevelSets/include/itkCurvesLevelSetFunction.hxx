@@ -23,7 +23,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkGradientImageFilter.h"
-#include "itkVectorCastImageFilter.h"
+#include "itkCastImageFilter.h"
 #include "itkImageAlgorithm.h"
 
 namespace itk
@@ -82,7 +82,7 @@ void CurvesLevelSetFunction< TImageType, TFeatureImageType >
     derivative->Update();
 
     using DerivativeOutputImageType = typename DerivativeFilterType::OutputImageType;
-    using GradientCasterType = VectorCastImageFilter< DerivativeOutputImageType, VectorImageType >;
+    using GradientCasterType = CastImageFilter< DerivativeOutputImageType, VectorImageType >;
 
     typename GradientCasterType::Pointer caster = GradientCasterType::New();
     caster->SetInput( derivative->GetOutput() );

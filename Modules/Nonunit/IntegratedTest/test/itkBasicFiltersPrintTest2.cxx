@@ -83,7 +83,6 @@
 #include "itkTwoOutputExampleImageFilter.h"
 #include "ITKVTKImageExport.h"
 #include "itkVTKImageImport.h"
-#include "itkVectorCastImageFilter.h"
 #include "itkVectorCurvatureAnisotropicDiffusionImageFilter.h"
 #include "itkVectorExpandImageFilter.h"
 #include "itkVectorGradientAnisotropicDiffusionImageFilter.h"
@@ -394,10 +393,6 @@ int itkBasicFiltersPrintTest2(int , char* [])
   itk::VTKImageImport<OutputType>::Pointer VTKImageImportObj =
     itk::VTKImageImport<OutputType>::New();
   std::cout << "-------------VTKImageImport" << VTKImageImportObj;
-
-  itk::VectorCastImageFilter<VectorImageType,VectorImageType>::Pointer VectorCastImageFilterObj =
-    itk::VectorCastImageFilter<VectorImageType,VectorImageType>::New();
-  std::cout << "-------------VectorCastImageFilter" << VectorCastImageFilterObj;
 
   itk::VectorCurvatureAnisotropicDiffusionImageFilter<VectorImageType,VectorImageType>::Pointer VectorCurvatureAnisotropicDiffusionImageFilterObj =
     itk::VectorCurvatureAnisotropicDiffusionImageFilter<VectorImageType,VectorImageType>::New();
