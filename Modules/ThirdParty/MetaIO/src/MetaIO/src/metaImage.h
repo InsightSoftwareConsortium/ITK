@@ -341,7 +341,7 @@ class METAIO_EXPORT MetaImage : public MetaObject
 
     void  *            m_ElementData;
 
-    char               m_ElementDataFileName[255];
+    std::string        m_ElementDataFileName;
 
 
     void  M_Destroy(void) override;

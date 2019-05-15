@@ -142,12 +142,14 @@ PrintInfo() const
                       << std::endl;
 
   // Print User's fields :
-  FieldsContainerType::const_iterator  itw = m_UserDefinedWriteFields.begin();
-  FieldsContainerType::const_iterator  itr  = m_UserDefinedReadFields.begin();
-  FieldsContainerType::const_iterator  endw = m_UserDefinedWriteFields.end();
+  FieldsContainerType::const_iterator itw = m_UserDefinedWriteFields.begin();
+  FieldsContainerType::const_iterator endw = m_UserDefinedWriteFields.end();
+  FieldsContainerType::const_iterator itr = m_UserDefinedReadFields.begin();
+  FieldsContainerType::const_iterator endr = m_UserDefinedReadFields.end();
   FieldsContainerType::const_iterator it;
   while( itw != endw )
     {
+    bool skip = false;
     if((*itw)->defined)
       {
       it=itw;
@@ -155,58 +157,68 @@ PrintInfo() const
     else
       {
       it=itr;
-      }
-
-    printf("%s: ",(*it)->name);
-
-    if((*it)->type == MET_STRING)
-      {
-      printf("%s",(char *) (*it)->value);
-      }
-    else if( (*it)->type == MET_ASCII_CHAR ||
-             (*it)->type == MET_CHAR ||
-             (*it)->type == MET_UCHAR ||
-             (*it)->type == MET_SHORT ||
-             (*it)->type == MET_USHORT ||
-             (*it)->type == MET_LONG ||
-             (*it)->type == MET_ULONG ||
-             (*it)->type == MET_INT ||
-             (*it)->type == MET_UINT ||
-             (*it)->type == MET_FLOAT ||
-             (*it)->type == MET_DOUBLE )
-      {
-      printf("%s : %f\n",(*it)->name,(*it)->value[0]);
-      }
-    else if( (*it)->type ==MET_CHAR_ARRAY ||
-             (*it)->type ==MET_UCHAR_ARRAY ||
-             (*it)->type ==MET_SHORT_ARRAY ||
-             (*it)->type ==MET_USHORT_ARRAY ||
-             (*it)->type ==MET_INT_ARRAY ||
-             (*it)->type ==MET_UINT_ARRAY ||
-             (*it)->type ==MET_FLOAT_ARRAY ||
-             (*it)->type ==MET_DOUBLE_ARRAY )
-      {
-      for(i=0; i<(*it)->length; i++)
+      if (it != endr) // either a defined write field or a read field before reaching the end
         {
-        printf("%f ",(*it)->value[i]);
+        skip = true;
         }
       }
-    else if((*it)->type == MET_FLOAT_MATRIX)
+
+    if (!skip)
       {
-      std::cout << std::endl;
-      for(i=0; i<(*it)->length*(*it)->length; i++)
+      printf("%s: ",(*it)->name);
+
+      if((*it)->type == MET_STRING)
         {
-        printf("%f ",(*it)->value[i]);
-        if(i==(*it)->length-1)
+        printf("%s",(char *) (*it)->value);
+        }
+      else if( (*it)->type == MET_ASCII_CHAR ||
+               (*it)->type == MET_CHAR ||
+               (*it)->type == MET_UCHAR ||
+               (*it)->type == MET_SHORT ||
+               (*it)->type == MET_USHORT ||
+               (*it)->type == MET_LONG ||
+               (*it)->type == MET_ULONG ||
+               (*it)->type == MET_INT ||
+               (*it)->type == MET_UINT ||
+               (*it)->type == MET_FLOAT ||
+               (*it)->type == MET_DOUBLE )
+        {
+        printf("%s : %f\n",(*it)->name,(*it)->value[0]);
+        }
+      else if( (*it)->type ==MET_CHAR_ARRAY ||
+               (*it)->type ==MET_UCHAR_ARRAY ||
+               (*it)->type ==MET_SHORT_ARRAY ||
+               (*it)->type ==MET_USHORT_ARRAY ||
+               (*it)->type ==MET_INT_ARRAY ||
+               (*it)->type ==MET_UINT_ARRAY ||
+               (*it)->type ==MET_FLOAT_ARRAY ||
+               (*it)->type ==MET_DOUBLE_ARRAY )
+        {
+        for(i=0; i<(*it)->length; i++)
           {
-          std::cout << std::endl;
+          printf("%f ",(*it)->value[i]);
           }
         }
+      else if((*it)->type == MET_FLOAT_MATRIX)
+        {
+        std::cout << std::endl;
+        for(i=0; i<(*it)->length*(*it)->length; i++)
+          {
+          printf("%f ",(*it)->value[i]);
+          if(i==(*it)->length-1)
+            {
+            std::cout << std::endl;
+            }
+          }
+        }
+      std::cout << std::endl;
       }
-    std::cout << std::endl;
 
     ++itw;
-    ++itr;
+    if (itr != endr)
+      {
+      ++itr;
+      }
     }
 }
 
@@ -317,7 +329,7 @@ InitializeEssential()
 const char * MetaForm::
 FileName() const
 {
-  return m_FileName;
+  return m_FileName.c_str();
 }
 
 void MetaForm::
@@ -325,11 +337,11 @@ FileName(const char *_fileName)
 {
   if(_fileName != nullptr)
     {
-    strcpy(m_FileName, _fileName);
+    m_FileName = _fileName;
     }
   else
     {
-    m_FileName[0] = '\0';
+    m_FileName = "";
     }
 }
 
@@ -568,7 +580,7 @@ Read(const char *_fileName)
 
   if(_fileName != nullptr)
     {
-    strcpy(m_FileName, _fileName);
+    m_FileName = _fileName;
     }
 
   std::cout << "Read FileName = _" << m_FileName << "_"
@@ -595,7 +607,7 @@ Read(const char *_fileName)
   // ensure filename is not changed
   if(_fileName != nullptr)
     {
-    strcpy(m_FileName, _fileName);
+    m_FileName =_fileName;
     }
 
   tmpReadStream->close();

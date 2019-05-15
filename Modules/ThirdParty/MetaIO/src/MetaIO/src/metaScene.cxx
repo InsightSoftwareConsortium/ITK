@@ -150,7 +150,7 @@ Read(const char *_headerName)
 
   if(_headerName != nullptr)
     {
-    strcpy(m_FileName, _headerName);
+    m_FileName = _headerName;
     }
 
   if(META_DEBUG) std::cout << "MetaScene: Read: Opening stream" << std::endl;
@@ -179,7 +179,7 @@ Read(const char *_headerName)
 
   if(_headerName != nullptr)
     {
-    strcpy(m_FileName, _headerName);
+    m_FileName = _headerName;
     }
 
   if(m_Event)
