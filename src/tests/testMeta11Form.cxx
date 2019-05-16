@@ -1,6 +1,5 @@
-#include <stdio.h>
-#include <fstream>
-#include <ctype.h>
+#include <iostream>
+#include <cstdlib>
 
 #include <metaForm.h>
 
@@ -52,6 +51,7 @@ int main(int, char * [])
     return EXIT_FAILURE;
   }
   std::cout << "MyName: " << name << std::endl;
+  delete[] name;
 
   int* array = static_cast<int*>(tObj.GetUserField("MyArray"));
 
@@ -64,6 +64,7 @@ int main(int, char * [])
     }
   }
   std::cout << "MyArray: PASS" << std::endl;
+  delete[] array;
 
   float* matrix = static_cast<float*>(tObj.GetUserField("MyMatrix"));
   for(i=0; i<4; i++)
@@ -75,6 +76,7 @@ int main(int, char * [])
     }
   }
   std::cout << "MyMatrix: PASS" << std::endl;
+  delete[] matrix;
 
   tObj.Clear();
   tObj.ClearUserFields();

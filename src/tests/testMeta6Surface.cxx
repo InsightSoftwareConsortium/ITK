@@ -1,5 +1,6 @@
-#include <stdio.h>
-#include <ctype.h>
+#include <iostream>
+#include <cstdlib>
+
 #include <metaSurface.h>
 
 int main(int, char * [])
@@ -85,6 +86,7 @@ int main(int, char * [])
     ++it;
   }
 
+  delete surface;
   std::cout << "done" << std::endl;
   return EXIT_SUCCESS;
 }
