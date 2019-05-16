@@ -110,18 +110,6 @@ public:
 
   bool operator==(const Self & vec) const;
 
-  /** Implicit casting operator. Return an equivalent itk::Vector. */
-  template< typename TPixelOutput >
-  operator Vector< TPixelOutput, 4 >() const
-  {
-    Vector< TPixelOutput, 4 > v;
-    v[0] = static_cast< TPixelOutput >( this->operator[](0) );
-    v[1] = static_cast< TPixelOutput >( this->operator[](1) );
-    v[2] = static_cast< TPixelOutput >( this->operator[](2) );
-    v[3] = static_cast< TPixelOutput >( this->operator[](3) );
-    return v;
-  }
-
   /** Return the number of components. */
   static unsigned int GetNumberOfComponents() { return 4; }
 

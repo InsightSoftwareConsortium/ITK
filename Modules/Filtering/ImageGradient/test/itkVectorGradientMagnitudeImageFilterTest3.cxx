@@ -20,14 +20,15 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkPipelineMonitorImageFilter.h"
+#include "itkRGBToVectorImageAdaptor.h"
 
 int itkVectorGradientMagnitudeImageFilterTest3(int ac, char* av[] )
 {
   using RGBPixelType = itk::RGBPixel<unsigned char>;
   using RGBImageType = itk::Image<RGBPixelType, 3>;
-
   using Monitor1Filter = itk::PipelineMonitorImageFilter<RGBImageType>;
-  using FilterType = itk::VectorGradientMagnitudeImageFilter<RGBImageType>;
+  using AdaptorType = itk::RGBToVectorImageAdaptor<RGBImageType>;
+  using FilterType = itk::VectorGradientMagnitudeImageFilter<AdaptorType>;
   using ReaderType = itk::ImageFileReader<RGBImageType>;
   using Monitor2Filter = itk::PipelineMonitorImageFilter<FilterType::OutputImageType>;
   using WriterType = itk::ImageFileWriter<FilterType::OutputImageType>;
@@ -46,8 +47,11 @@ int itkVectorGradientMagnitudeImageFilterTest3(int ac, char* av[] )
   monitor1->SetInput( reader->GetOutput() );
   monitor1->ClearPipelineOnGenerateOutputInformationOff();
 
+  AdaptorType::Pointer adaptor = AdaptorType::New();
+  adaptor->SetImage( monitor1->GetOutput() );
+
   FilterType::Pointer filter = FilterType::New();
-  filter->SetInput( monitor1->GetOutput() );
+  filter->SetInput( adaptor );
 
   const int mode = ::std::stoi( av[3] );
 
