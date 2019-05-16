@@ -21,6 +21,8 @@
 #include "itkPoint.h"
 #include "itkIndex.h"
 
+#include <type_traits> // For is_floating_point.
+
 namespace itk
 {
 /** \class ContinuousIndex
@@ -28,8 +30,7 @@ namespace itk
  *
  * ContinuousIndex is a templated class that holds a set of coordinates
  * (components).
- * The template parameter TCoordRep can be any data type that behaves
- * like a primitive (or atomic) data type (int, short, float, complex).
+ * The template parameter TCoordRep can be any floating point type (float, double).
  * The VIndexDimension defines the number of  components in the continuous
  * index array.
  *
@@ -44,6 +45,9 @@ namespace itk
 template< typename TCoordRep = double, unsigned int VIndexDimension = 2 >
 class ContinuousIndex:public Point< TCoordRep, VIndexDimension >
 {
+  static_assert(std::is_floating_point<TCoordRep>::value,
+    "The coordinates of a continuous index must be represented by floating point numbers.");
+
 public:
   /** Standard class type aliases. */
   using Self = ContinuousIndex;
@@ -81,7 +85,7 @@ public:
   {
     for ( unsigned int i = 0; i < VIndexDimension; i++ )
       {
-      ( *this )[i] = TCoordRep(index[i]);
+      ( *this )[i] = static_cast<TCoordRep>(index[i]);
       }
   }
 };
