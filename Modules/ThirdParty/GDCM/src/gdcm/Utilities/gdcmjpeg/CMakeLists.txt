@@ -1,4 +1,6 @@
-cmake_minimum_required(VERSION 3.9.5)
+if(NOT DEFINED CMAKE_MINIMUM_REQUIRED_VERSION)
+  cmake_minimum_required(VERSION 2.8.7)
+endif()
 
 if(NOT JPEG_NAMESPACE)
   set(JPEG_NAMESPACE "JPEG")
@@ -15,9 +17,14 @@ string(TOLOWER ${JPEG_NAMESPACE} JPEG_LIBRARY_NAME)
 
 project(${JPEG_NAMESPACE} C)
 
-if(POLICY CMP0063)
-  cmake_policy(SET CMP0063 NEW)
-endif()
+foreach(p
+    CMP0042
+    CMP0063
+    )
+  if(POLICY ${p})
+    cmake_policy(SET ${p} NEW)
+  endif()
+endforeach()
 
 # Do full dependency headers.
 include_regular_expression("^.*$")
@@ -170,7 +177,9 @@ endforeach()
 # I could not get the depencencies in CMake to work properly so instead
 # have multiple directory for each target that will ensure proper recompilation
 # of the objects files
-subdirs(8 12 16)
+add_subdirectory(8)
+add_subdirectory(12)
+add_subdirectory(16)
 
 if(NOT JPEG_INSTALL_NO_DEVELOPMENT)
   file(GLOB header_files "*.h")

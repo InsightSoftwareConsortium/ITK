@@ -42,20 +42,20 @@ class GDCM_EXPORT JPEGCodec : public ImageCodec
 friend class ImageRegionReader;
 public:
   JPEGCodec();
-  ~JPEGCodec();
-  bool CanDecode(TransferSyntax const &ts) const;
-  bool CanCode(TransferSyntax const &ts) const;
-  bool Decode(DataElement const &is, DataElement &os);
-  void SetPixelFormat(PixelFormat const &pf);
+  ~JPEGCodec() override;
+  bool CanDecode(TransferSyntax const &ts) const override;
+  bool CanCode(TransferSyntax const &ts) const override;
+  bool Decode(DataElement const &is, DataElement &os) override;
+  void SetPixelFormat(PixelFormat const &pf) override;
 
   /// Compute the offset table:
   void ComputeOffsetTable(bool b);
 
   /// Compress into JPEG
-  bool Code(DataElement const &in, DataElement &out);
+  bool Code(DataElement const &in, DataElement &out) override;
 
-  virtual bool GetHeaderInfo(std::istream &is, TransferSyntax &ts);
-  virtual ImageCodec * Clone() const;
+  bool GetHeaderInfo(std::istream &is, TransferSyntax &ts) override;
+  ImageCodec * Clone() const override;
 
   //void SetReversible(bool res);
 
@@ -77,15 +77,15 @@ protected:
     std::istream & is
   );
 
-  bool DecodeByStreams(std::istream &is, std::ostream &os);
-  bool IsValid(PhotometricInterpretation const &pi);
+  bool DecodeByStreams(std::istream &is, std::ostream &os) override;
+  bool IsValid(PhotometricInterpretation const &pi) override;
 
-  bool StartEncode( std::ostream & );
-  bool IsRowEncoder();
-  bool IsFrameEncoder();
-  bool AppendRowEncode( std::ostream & out, const char * data, size_t datalen );
-  bool AppendFrameEncode( std::ostream & out, const char * data, size_t datalen );
-  bool StopEncode( std::ostream & );
+  bool StartEncode( std::ostream & ) override;
+  bool IsRowEncoder() override;
+  bool IsFrameEncoder() override;
+  bool AppendRowEncode( std::ostream & out, const char * data, size_t datalen ) override;
+  bool AppendFrameEncode( std::ostream & out, const char * data, size_t datalen ) override;
+  bool StopEncode( std::ostream & ) override;
 
 protected:
   // Internal method called by SetPixelFormat

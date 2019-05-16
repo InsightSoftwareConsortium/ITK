@@ -28,17 +28,17 @@ class GDCM_EXPORT ImageWriter : public PixmapWriter
 {
 public:
   ImageWriter();
-  ~ImageWriter();
+  ~ImageWriter() override;
 
   /// Set/Get Image to be written
   /// It will overwrite anything Image infos found in DataSet
   /// (see parent class to see how to pass dataset)
-  const Image& GetImage() const { return dynamic_cast<const Image&>(*PixelData); }
-  Image& GetImage() { return dynamic_cast<Image&>(*PixelData); } // FIXME
+  const Image& GetImage() const override { return dynamic_cast<const Image&>(*PixelData); }
+  Image& GetImage() override { return dynamic_cast<Image&>(*PixelData); } // FIXME
   //void SetImage(Image const &img);
 
   /// Write
-  bool Write(); // Execute()
+  bool Write() override; // Execute()
 
   /// internal function used to compute a target MediaStorage the most appropriate
   /// User may want to call this function ahead of time (before Write)

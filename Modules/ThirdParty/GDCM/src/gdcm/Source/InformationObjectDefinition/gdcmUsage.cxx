@@ -21,7 +21,7 @@ static const char *UsageStrings[] = {
   "Mandatory", // (see A.1.3.1) , abbreviated M
   "Conditional", // (see A.1.3.2) , abbreviated C
   "UserOption", // (see A.1.3.3) , abbreviated U
-  NULL
+  nullptr
 };
 
 const char *Usage::GetUsageString(UsageType type)
@@ -32,7 +32,7 @@ const char *Usage::GetUsageString(UsageType type)
 Usage::UsageType Usage::GetUsageType(const char *type)
 {
   int i = 0;
-  while(UsageStrings[i] != 0)
+  while(UsageStrings[i] != nullptr)
     {
     if( strcmp(type, UsageStrings[i]) == 0 )
       return (UsageType)i;

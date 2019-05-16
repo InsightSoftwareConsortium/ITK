@@ -32,7 +32,7 @@ public:
   ModuleEntry(const char *name = "", const char *type = "3", const char *description = ""):Name(name)/*,Type(type)*/,DescriptionField(description) {
     DataElementType = Type::GetTypeType(type);
   }
-  virtual ~ModuleEntry() {} // important
+  virtual ~ModuleEntry() = default; // important
   friend std::ostream& operator<<(std::ostream& _os, const ModuleEntry &_val);
 
   void SetName(const char *name) { Name = name; }

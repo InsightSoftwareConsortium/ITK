@@ -80,7 +80,7 @@ protected:
   std::string mHelpDescription; //used when generating the help output
 
 public:
-  virtual ~BaseRootQuery();
+  ~BaseRootQuery() override;
 
   ///this function will return all tags at a given query level, so that
   ///they maybe selected for searching.  The boolean forFind is true
@@ -105,7 +105,7 @@ public:
   ///So, if 'inStrict' is false, then tags from the current level and all higher levels
   ///are now considered valid.  So, if you're doing a non-strict series-level query,
   ///tags from the patient and study level can be passed along as well.
-  virtual bool ValidateQuery( bool inStrict = true ) const = 0;
+  bool ValidateQuery( bool inStrict = true ) const override = 0;
 
   static const char *GetQueryLevelString( EQueryLevel ql );
   static int GetQueryLevelFromString( const char * str );

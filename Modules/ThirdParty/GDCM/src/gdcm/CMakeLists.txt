@@ -1,30 +1,39 @@
-cmake_minimum_required(VERSION 3.9.5)
-if(POLICY CMP0022)
-  cmake_policy(SET CMP0022 NEW)
+cmake_minimum_required(VERSION 3.9.2 FATAL_ERROR)
+
+set(GDCM_MAX_VALIDATED_CMAKE_VERSION "3.13.1")
+if("${CMAKE_VERSION}" VERSION_LESS_EQUAL "${GDCM_MAX_VALIDATED_CMAKE_VERSION}")
+  # As of 2018-12-04 GDCM has been validated to build with cmake version 3.13.1 new policies.
+  # Set and use the newest cmake policies that are validated to work
+  set(GDCM_CMAKE_POLICY_VERSION "${CMAKE_VERSION}")
+else()
+  set(GDCM_CMAKE_POLICY_VERSION "${GDCM_MAX_VALIDATED_CMAKE_VERSION}")
 endif()
-if(POLICY CMP0025)
-  cmake_policy(SET CMP0025 NEW)
+cmake_policy(VERSION ${GDCM_CMAKE_POLICY_VERSION}) 
+
+# GDCM version 3.0.0 will only support C++11 and greater
+if(CMAKE_CXX_STANDARD EQUAL "98" )
+   message(FATAL_ERROR "CMAKE_CXX_STANDARD:STRING=98 is not supported in GDCM version 3.0.0 and greater.")
 endif()
-if(POLICY CMP0026)
-  cmake_policy(SET CMP0026 NEW)
-endif()
-if(POLICY CMP0042)
-  cmake_policy(SET CMP0042 NEW)
-endif()
-if( POLICY CMP0063 )
-  cmake_policy(SET CMP0063 NEW)
-endif()
-if( POLICY CMP0074 )
-  cmake_policy(SET CMP0074 NEW)
-endif()
-project(GDCM)
-set(CMAKE_CXX_STANDARD 98)
-set(CMAKE_CXX_EXTENSIONS OFF)
+#----------------------------------------------------------------------------
+
+project(GDCM
+  VERSION 3.0.0
+  LANGUAGES CXX C
+)
+## NOTE: the "DESCRIPTION" feature of project() was introduced in cmake 3.10.0
+set(PROJECT_DESCRIPTION "GDCM - Grassroots DICOM. GDCM is yet another DICOM library.")
+
+## Set aliases for backwards compatibility.  GDCM_VERSION_XXX are configured by the project() command 
+set(GDCM_MAJOR_VERSION ${GDCM_VERSION_MAJOR})
+set(GDCM_MINOR_VERSION ${GDCM_VERSION_MINOR})
+set(GDCM_BUILD_VERSION ${GDCM_VERSION_PATCH})
+set(GDCM_VERSION "${GDCM_VERSION_MAJOR}.${GDCM_VERSION_MINOR}.${GDCM_VERSION_PATCH}") # ${GDCM_VERSION_TWEAK}
+
 mark_as_advanced(CMAKE_BACKWARDS_COMPATIBILITY CMAKE_BUILD_TYPE CMAKE_INSTALL_PREFIX)
 set(GDCM_CMAKE_DIR "${GDCM_SOURCE_DIR}/CMake" CACHE INTERNAL "")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${GDCM_CMAKE_DIR}")
 
-set(GDCM_PACKAGE_DESCRIPTION_SUMMARY "GDCM - Grassroots DICOM. GDCM is yet another DICOM library.")
+set(GDCM_PACKAGE_DESCRIPTION_SUMMARY ${PROJECT_DESCRIPTION})
 set(GDCM_PACKAGE_CONTACT "GDCM Developers <gdcm-developers@lists.sourceforge.net>")
 
 # TODO
@@ -40,22 +49,16 @@ set(GDCM_PACKAGE_CONTACT "GDCM Developers <gdcm-developers@lists.sourceforge.net
 # See the CVS version of files in VTK/GUISupport/MFC for details. Or grep the
 # VTK source tree for "DELAYLOAD"
 
-#----------------------------------------------------------------------------
-set(GDCM_MAJOR_VERSION 2)
-set(GDCM_MINOR_VERSION 8)
-set(GDCM_BUILD_VERSION 8)
-set(GDCM_VERSION
-  "${GDCM_MAJOR_VERSION}.${GDCM_MINOR_VERSION}.${GDCM_BUILD_VERSION}")
 # let advanced user the option to define GDCM_API_VERSION:
 if(NOT DEFINED GDCM_API_VERSION)
-  set(GDCM_API_VERSION "${GDCM_MAJOR_VERSION}.${GDCM_MINOR_VERSION}")
+  set(GDCM_API_VERSION "${GDCM_VERSION_MAJOR}.${GDCM_VERSION_MINOR}")
 endif()
 set(GDCM_LIBRARY_PROPERTIES ${GDCM_LIBRARY_PROPERTIES}
   VERSION "${GDCM_VERSION}"
   SOVERSION "${GDCM_API_VERSION}"
 )
 #set(GDCM_EXECUTABLE_PROPERTIES ${GDCM_EXECUTABLE_PROPERTIES}
-#  VERSION "${GDCM_MAJOR_VERSION}.${GDCM_MINOR_VERSION}"
+#  VERSION "${GDCM_VERSION_MAJOR}.${GDCM_VERSION_MINOR}"
 #)
 set(GDCM_EXECUTABLE_PROPERTIES)
 if(GDCM_NO_EXECUTABLE_PROPERTIES)
@@ -84,7 +87,7 @@ APPEND_COPYRIGHT(${CMAKE_CURRENT_SOURCE_DIR}/Copyright.txt)
 APPEND_COPYRIGHT(${CMAKE_CURRENT_SOURCE_DIR}/CMake/COPYING-CMAKE-SCRIPTS)
 
 #-----------------------------------------------------------------------------
-if(GDCM_MINOR_VERSION MATCHES "[02468]$")
+if(GDCM_VERSION_MINOR MATCHES "[02468]$")
   # Are we building a release branch / tag (read: even number)?
   # By default dashboard are expected to run with Design by Contract on
   # to trigger any of the assert, but on the other hand no user really
@@ -119,13 +122,8 @@ else()
 endif()
 
 if(BUILD_SHARED_LIBS)
-if(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER 2.6)
   set(NAMELINK_ONLY NAMELINK_ONLY)
   set(NAMELINK_SKIP NAMELINK_SKIP)
-else()
-  set(NAMELINK_ONLY)
-  set(NAMELINK_SKIP)
-endif()
 endif()
 
 
@@ -205,7 +203,7 @@ if(NOT GDCM_HAVE_STDINT_H)
       "${GDCM_SOURCE_DIR}/Utilities/C99"
       )
     # Process the install rules from C99
-    subdirs(Utilities/C99)
+    add_subdirectory(Utilities/C99)
   endif()
 endif()
 
@@ -236,7 +234,7 @@ endif()
 # Install directories
 
 string(TOLOWER ${PROJECT_NAME} projectname)
-set(subdir "${projectname}-${GDCM_MAJOR_VERSION}.${GDCM_MINOR_VERSION}")
+set(subdir "${projectname}-${GDCM_VERSION_MAJOR}.${GDCM_VERSION_MINOR}")
 
 if(NOT GDCM_INSTALL_BIN_DIR)
   set(GDCM_INSTALL_BIN_DIR "bin")
@@ -368,7 +366,7 @@ else()
 endif()
 
 if(GDCM_USE_SYSTEM_CHARLS)
-  find_package(CharLS REQUIRED)
+  find_package(CharLS 2.0.0 REQUIRED)
   set(GDCM_CHARLS_LIBRARIES ${CHARLS_LIBRARIES})
 else()
   set(GDCM_CHARLS_LIBRARIES gdcmcharls)
@@ -378,7 +376,7 @@ if(GDCM_USE_SYSTEM_OPENJPEG)
   find_package(OpenJPEG 2.0.0 REQUIRED)
   set(GDCM_OPENJPEG_LIBRARIES ${OPENJPEG_LIBRARIES})
 else()
-  set(GDCM_OPENJPEG_LIBRARIES itkgdcmopenjp2)
+  set(GDCM_OPENJPEG_LIBRARIES gdcmopenjp2)
 endif()
 
 # Very advanced user option:
@@ -595,18 +593,18 @@ if(GDCM_DOCUMENTATION)
   endif()
 endif()
 
-# Need to subdirs in Source/Common before Wrapping
+# Need to add_subdirectory in Source/Common before Wrapping
 # to have gdcmConfigure.h around
 if(GDCM_STANDALONE)
   set(BUILD_APPLICATIONS ${GDCM_BUILD_APPLICATIONS})
 else()
   set(BUILD_APPLICATIONS OFF)
 endif()
-subdirs(Utilities)
+add_subdirectory(Utilities)
 add_subdirectory(Source)
 
 if(GDCM_STANDALONE)
-  subdirs(Wrapping)
+  add_subdirectory(Wrapping)
   if(GDCM_WRAP_CSHARP)
     add_subdirectory(Wrapping/Csharp)
   endif()
@@ -615,27 +613,10 @@ endif()
 if(GDCM_STANDALONE)
   # After Wrapping please
   if(BUILD_EXAMPLES)
-    subdirs(Examples)
+    add_subdirectory(Examples)
   endif()
 endif()
 
-#-----------------------------------------------------------------------------
-# Special CMake Module required when doing Python Testing
-if(GDCM_STANDALONE)
-  if(BUILD_TESTING AND GDCM_WRAP_PYTHON)
-    include(${GDCM_SOURCE_DIR}/CMake/UsePythonTest.cmake)
-  endif()
-
-# Special CMake Module required when doing C# Testing
-  if(BUILD_TESTING AND GDCM_WRAP_CSHARP)
-    include(${GDCM_SOURCE_DIR}/CMake/UseCSharpTest.cmake)
-  endif()
-
-# Special CMake Module required when doing Java Testing
-  if(BUILD_TESTING AND GDCM_WRAP_JAVA)
-    include(${GDCM_SOURCE_DIR}/CMake/UseJavaTest.cmake)
-  endif()
-endif()
 #-----------------------------------------------------------------------------
 # Need pthread for the following class:
 CHECK_INCLUDE_FILE("pthread.h"      GDCM_HAVE_PTHREAD_H)
@@ -655,7 +636,7 @@ if(GDCM_STANDALONE)
     mark_as_advanced(DART_TESTING_TIMEOUT)
     enable_testing()
     include(CTest)
-    subdirs(Testing)
+    add_subdirectory(Testing)
     if(NOT GDCM_DATA_ROOT)
       message("If you want to build the test suite, you must set GDCM_DATA_ROOT (advanced option) "
       "to the full path name of the gdcmData directory; if you don't want, disable GDCM_BUILD_TESTING.\n"
@@ -687,7 +668,7 @@ if(GDCM_STANDALONE)
     mark_as_advanced(VTK_DIR)
     set(GDCM_VTK_DIR ${VTK_DIR})
     mark_as_advanced(GDCM_USE_PARAVIEW)
-    subdirs(Utilities/VTK)
+    add_subdirectory(Utilities/VTK)
   endif()
 endif()
 
@@ -696,7 +677,7 @@ if(GDCM_STANDALONE)
   option(GDCM_BUILD_APPLICATIONS "apps ?" OFF)
   set(BUILD_APPLICATIONS ${GDCM_BUILD_APPLICATIONS})
   if(BUILD_APPLICATIONS)
-    subdirs(Applications)
+    add_subdirectory(Applications)
   endif()
 else()
   set(BUILD_APPLICATIONS OFF)
@@ -726,9 +707,9 @@ if(GDCM_STANDALONE) # disabled for ITK distribution of gdcm
   set(CPACK_PACKAGE_VENDOR "GDCM")
   set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_BINARY_DIR}/Copyright.txt")
   set(CPACK_RESOURCE_FILE_LICENSE    "${CMAKE_CURRENT_BINARY_DIR}/Copyright.txt")
-  set(CPACK_PACKAGE_VERSION_MAJOR "${GDCM_MAJOR_VERSION}")
-  set(CPACK_PACKAGE_VERSION_MINOR "${GDCM_MINOR_VERSION}")
-  set(CPACK_PACKAGE_VERSION_PATCH "${GDCM_BUILD_VERSION}")
+  set(CPACK_PACKAGE_VERSION_MAJOR "${GDCM_VERSION_MAJOR}")
+  set(CPACK_PACKAGE_VERSION_MINOR "${GDCM_VERSION_MINOR}")
+  set(CPACK_PACKAGE_VERSION_PATCH "${GDCM_VERSION_PATCH}")
   set(CPACK_PACKAGE_INSTALL_DIRECTORY "GDCM ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}")
   set(CPACK_SOURCE_PACKAGE_FILE_NAME "gdcm-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
 
@@ -1051,5 +1032,5 @@ if(GDCM_USE_VTK)
 endif()
 set(GDCM_LIBRARY_DIRS ${LIBRARY_OUTPUT_PATH})
 if(GDCM_STANDALONE)
-subdirs(CMake/ExportConfiguration)
+add_subdirectory(CMake/ExportConfiguration)
 endif()

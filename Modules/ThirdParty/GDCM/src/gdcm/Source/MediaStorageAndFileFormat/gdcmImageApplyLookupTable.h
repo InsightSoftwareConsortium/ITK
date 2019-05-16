@@ -28,15 +28,21 @@ class DataElement;
 class GDCM_EXPORT ImageApplyLookupTable : public ImageToImageFilter
 {
 public:
-  ImageApplyLookupTable() {}
-  ~ImageApplyLookupTable() {}
+  ImageApplyLookupTable();
+  ~ImageApplyLookupTable();
 
   /// Apply
   bool Apply();
 
+  /// RGB8 ?
+  void SetRGB8(bool b);
+
 protected:
 
 private:
+  struct impl;
+  // PIMPL idiom
+  impl* pimpl;
 };
 
 } // end namespace gdcm

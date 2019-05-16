@@ -24,7 +24,7 @@ static const char * ALGOTypeStrings[] = {
   "SEMIAUTOMATIC",
   "MANUAL",
 
-  0
+  nullptr
 };
 
 const char * Segment::GetALGOTypeString(ALGOType type)
@@ -44,7 +44,7 @@ Segment::ALGOType Segment::GetALGOType(const char * type)
   std::string strClearStr = str.Trim();
   const char * strClear = strClearStr.c_str();
 
-  for(unsigned int i = 0; ALGOTypeStrings[i] != 0; ++i)
+  for(unsigned int i = 0; ALGOTypeStrings[i] != nullptr; ++i)
     {
     if( strcmp(strClear, ALGOTypeStrings[i]) == 0 )
       {
@@ -56,7 +56,7 @@ Segment::ALGOType Segment::GetALGOType(const char * type)
   // string
   CodeString codestring = strClear;
   std::string cs = codestring.GetAsString();
-  for(unsigned int i = 0; ALGOTypeStrings[i] != 0; ++i)
+  for(unsigned int i = 0; ALGOTypeStrings[i] != nullptr; ++i)
     {
     if( strcmp(cs.c_str(), ALGOTypeStrings[i]) == 0 )
       {
@@ -84,8 +84,7 @@ Segment::Segment():
 }
 
 Segment::~Segment()
-{
-}
+= default;
 
 unsigned short Segment::GetSegmentNumber() const
 {

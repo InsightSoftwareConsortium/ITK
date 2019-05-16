@@ -28,8 +28,8 @@ public:
   ModalityPerformedProcedureStepCreateQuery( const std::string & iSopInstanceUID );
 
   gdcm::DataSet GetRequiredDataSet() const;
-  bool ValidateQuery(bool inStrict = true) const;
-  UIDs::TSName GetAbstractSyntaxUID() const;
+  bool ValidateQuery(bool inStrict = true) const override;
+  UIDs::TSName GetAbstractSyntaxUID() const override;
 };
 
 } // end namespace gdcm

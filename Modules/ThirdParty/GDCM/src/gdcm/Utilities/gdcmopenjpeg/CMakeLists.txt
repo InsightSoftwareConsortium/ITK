@@ -7,16 +7,24 @@
 # For this purpose you can define a CMake var: OPENJPEG_NAMESPACE to whatever you like
 # e.g.:
 # set(OPENJPEG_NAMESPACE "GDCMOPENJPEG")
-cmake_minimum_required(VERSION 3.9.5)
+if(NOT DEFINED CMAKE_MINIMUM_REQUIRED_VERSION)
+  cmake_minimum_required(VERSION 2.8.2)
+endif()
 
 if(COMMAND CMAKE_POLICY)
   cmake_policy(SET CMP0003 NEW)
   if (NOT (${CMAKE_VERSION} VERSION_LESS 3.0))
     cmake_policy(SET CMP0042 NEW)
   endif()
-  if(POLICY CMP0063)
-    cmake_policy(SET CMP0063 NEW)
-  endif()
+
+  foreach(p
+      CMP0042
+      CMP0063
+      )
+    if(POLICY ${p})
+      cmake_policy(SET ${p} NEW)
+    endif()
+  endforeach()
 endif()
 
 if(NOT OPENJPEG_NAMESPACE)
@@ -25,7 +33,7 @@ if(NOT OPENJPEG_NAMESPACE)
 endif()
 # In all cases:
 #string(TOLOWER ${OPENJPEG_NAMESPACE} OPENJPEG_LIBRARY_NAME)
-set(OPENJPEG_LIBRARY_NAME itkgdcmopenjp2)
+set(OPENJPEG_LIBRARY_NAME gdcmopenjp2)
 
 project(${OPENJPEG_NAMESPACE} C)
 
@@ -35,8 +43,8 @@ include_regular_expression("^.*$")
 #-----------------------------------------------------------------------------
 # OPENJPEG version number, useful for packaging and doxygen doc:
 set(OPENJPEG_VERSION_MAJOR 2)
-set(OPENJPEG_VERSION_MINOR 1)
-set(OPENJPEG_VERSION_BUILD 1)
+set(OPENJPEG_VERSION_MINOR 3)
+set(OPENJPEG_VERSION_BUILD 0)
 set(OPENJPEG_VERSION
   "${OPENJPEG_VERSION_MAJOR}.${OPENJPEG_VERSION_MINOR}.${OPENJPEG_VERSION_BUILD}")
 set(PACKAGE_VERSION
@@ -56,12 +64,16 @@ set(PACKAGE_VERSION
 #   2.0.1 |  6
 #   2.1   |  7
 #   2.1.1 |  7
+#   2.1.2 |  7
+#   2.2.0 |  7
+#   2.3.0 |  7
+#   2.3.1 |  7
 # above is the recommendation by the OPJ team. If you really need to override this default,
 # you can specify your own OPENJPEG_SOVERSION at cmake configuration time:
 # cmake -DOPENJPEG_SOVERSION:STRING=42 /path/to/openjpeg
 if(NOT OPENJPEG_SOVERSION)
   set(OPENJPEG_SOVERSION 7)
-endif(NOT OPENJPEG_SOVERSION)
+endif()
 list(APPEND OPENJPEG_LIBRARY_PROPERTIES
   VERSION   "${OPENJPEG_VERSION_MAJOR}.${OPENJPEG_VERSION_MINOR}.${OPENJPEG_VERSION_BUILD}"
   SOVERSION "${OPENJPEG_SOVERSION}"

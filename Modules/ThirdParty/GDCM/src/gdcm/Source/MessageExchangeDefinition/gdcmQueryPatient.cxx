@@ -31,7 +31,7 @@ std::vector<Tag> QueryPatient::GetRequiredTags(const ERootType& inRootType) cons
     {
   case ePatientRootType:
   default:
-    theReturn.push_back(Tag(0x0010, 0x0010));
+    theReturn.emplace_back(0x0010, 0x0010);
     break;
   case eStudyRootType:
     //do nothing
@@ -47,7 +47,7 @@ std::vector<Tag> QueryPatient::GetUniqueTags(const ERootType& inRootType) const
     {
   case ePatientRootType:
   default:
-    theReturn.push_back(Tag(0x0010, 0x0020));
+    theReturn.emplace_back(0x0010, 0x0020);
     break;
   case eStudyRootType:
     //do nothing
@@ -73,18 +73,18 @@ std::vector<Tag> QueryPatient::GetOptionalTags(const ERootType& inRootType) cons
   switch (inRootType){
     case ePatientRootType:
     default:
-      theReturn.push_back(Tag(0x0010, 0x0021));
-      theReturn.push_back(Tag(0x0008, 0x1120));
-      theReturn.push_back(Tag(0x0010, 0x0030));
-      theReturn.push_back(Tag(0x0010, 0x0032));
-      theReturn.push_back(Tag(0x0010, 0x0040));
-      theReturn.push_back(Tag(0x0010, 0x1000));
-      theReturn.push_back(Tag(0x0010, 0x1001));
-      theReturn.push_back(Tag(0x0010, 0x2160));
-      theReturn.push_back(Tag(0x0010, 0x4000));
-      theReturn.push_back(Tag(0x0020, 0x1200));
-      theReturn.push_back(Tag(0x0020, 0x1202));
-      theReturn.push_back(Tag(0x0020, 0x1204));
+      theReturn.emplace_back(0x0010, 0x0021);
+      theReturn.emplace_back(0x0008, 0x1120);
+      theReturn.emplace_back(0x0010, 0x0030);
+      theReturn.emplace_back(0x0010, 0x0032);
+      theReturn.emplace_back(0x0010, 0x0040);
+      theReturn.emplace_back(0x0010, 0x1000);
+      theReturn.emplace_back(0x0010, 0x1001);
+      theReturn.emplace_back(0x0010, 0x2160);
+      theReturn.emplace_back(0x0010, 0x4000);
+      theReturn.emplace_back(0x0020, 0x1200);
+      theReturn.emplace_back(0x0020, 0x1202);
+      theReturn.emplace_back(0x0020, 0x1204);
       break;
     case eStudyRootType:
       //do nothing

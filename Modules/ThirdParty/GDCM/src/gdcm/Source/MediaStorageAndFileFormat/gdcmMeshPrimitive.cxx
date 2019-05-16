@@ -28,7 +28,7 @@ static const char * MPStrings[] = {
   "TRIANGLEFAN",
   "LINE",
   "FACET",
-  0
+  nullptr
 };
 
 const char * MeshPrimitive::GetMPTypeString(const MPType type)
@@ -47,7 +47,7 @@ MeshPrimitive::MPType MeshPrimitive::GetMPType(const char * type)
   std::string typeClearStr = str.Trim();
   const char * typeClear = typeClearStr.c_str();
 
-  for(unsigned int i = 0; MPStrings[i] != 0; ++i)
+  for(unsigned int i = 0; MPStrings[i] != nullptr; ++i)
   {
     if( strcmp(typeClear, MPStrings[i]) == 0 )
     {
@@ -59,7 +59,7 @@ MeshPrimitive::MPType MeshPrimitive::GetMPType(const char * type)
   // string
   CodeString  codestring  = typeClear;
   std::string cs          = codestring.GetAsString();
-  for(unsigned int i = 0; MPStrings[i] != 0; ++i)
+  for(unsigned int i = 0; MPStrings[i] != nullptr; ++i)
   {
     if( strcmp(cs.c_str(), MPStrings[i]) == 0 )
     {
@@ -77,8 +77,7 @@ MeshPrimitive::MeshPrimitive():
 }
 
 MeshPrimitive::~MeshPrimitive()
-{
-}
+= default;
 
 MeshPrimitive::MPType MeshPrimitive::GetPrimitiveType() const
 {

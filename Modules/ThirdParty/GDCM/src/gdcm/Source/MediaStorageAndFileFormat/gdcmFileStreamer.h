@@ -42,7 +42,7 @@ class GDCM_EXPORT FileStreamer : public Subject
 {
 public:
   FileStreamer();
-  ~FileStreamer();
+  ~FileStreamer() override;
 
   /// Set input DICOM template filename
   void SetTemplateFileName(const char *filename_native);

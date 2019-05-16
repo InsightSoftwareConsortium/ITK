@@ -3,232 +3,325 @@
 //
 
 
-// Implement correct linkage for win32 dlls
-#if defined(WIN32) && defined(CHARLS_DLL)
-#define CHARLS_IMEXPORT(returntype) __declspec(dllexport) returntype __stdcall
-#else
-#define CHARLS_IMEXPORT(returntype) returntype
-#endif
-
-#include "config.h"
+#include "charls.h"
 #include "util.h"
-#include "interface.h"
-#include "header.h"
+#include "jpegstreamreader.h"
 #include "jpegstreamwriter.h"
-#include <sstream>
+#include "jpegmarkersegment.h"
+#include <cstring>
+
+using namespace std;
+using namespace charls;
 
 
-static JLS_ERROR CheckInput(ByteStreamInfo uncompressedStream, const JlsParameters* pparams)
+static void VerifyInput(const ByteStreamInfo& uncompressedStream, const JlsParameters& parameters)
 {
-	if (pparams == NULL)
-		return InvalidJlsParameters;
+    if (!uncompressedStream.rawStream && !uncompressedStream.rawData)
+        throw CreateSystemError(ApiResult::InvalidJlsParameters, "rawStream or rawData needs to reference to something");
 
-	if (uncompressedStream.rawStream == NULL && uncompressedStream.rawData == NULL)
-		return InvalidJlsParameters;
+    if (parameters.width < 1 || parameters.width > 65535)
+        throw CreateSystemError(ApiResult::InvalidJlsParameters, "width needs to be in the range [1, 65535]");
 
-	if (pparams->width < 1 || pparams->width > 65535)
-		return ParameterValueNotSupported;
+    if (parameters.height < 1 || parameters.height > 65535)
+        throw CreateSystemError(ApiResult::InvalidJlsParameters, "height needs to be in the range [1, 65535]");
 
-	if (pparams->height < 1 || pparams->height > 65535)
-		return ParameterValueNotSupported;
+    if (parameters.bitsPerSample < 2 || parameters.bitsPerSample > 16)
+        throw CreateSystemError(ApiResult::InvalidJlsParameters, "bitspersample needs to be in the range [2, 16]");
 
-	if (uncompressedStream.rawData != NULL)
-	{
-		if (uncompressedStream.count < size_t(pparams->height * pparams->width * pparams->components * (pparams->bitspersample > 8 ? 2 : 1)))
-			return UncompressedBufferTooSmall;
-	}
-	else if (uncompressedStream.rawStream == NULL)
-		return InvalidJlsParameters;
+    if (!(parameters.interleaveMode == InterleaveMode::None || parameters.interleaveMode == InterleaveMode::Sample || parameters.interleaveMode == InterleaveMode::Line))
+        throw CreateSystemError(ApiResult::InvalidJlsParameters, "interleaveMode needs to be set to a value of {None, Sample, Line}");
 
-	return CheckParameterCoherent(pparams);
+    if (parameters.components < 1 || parameters.components > 255)
+        throw CreateSystemError(ApiResult::InvalidJlsParameters, "components needs to be in the range [1, 255]");
+
+    if (uncompressedStream.rawData)
+    {
+        if (uncompressedStream.count < size_t(parameters.height * parameters.width * parameters.components * (parameters.bitsPerSample > 8 ? 2 : 1)))
+            throw CreateSystemError(ApiResult::InvalidJlsParameters, "uncompressed size does not match with the other parameters");
+    }
+
+    switch (parameters.components)
+    {
+    case 3:
+        break;
+    case 4:
+        if (parameters.interleaveMode == InterleaveMode::Sample)
+            throw CreateSystemError(ApiResult::InvalidJlsParameters, "interleaveMode cannot be set to Sample in combination with components = 4");
+        break;
+    default:
+        if (parameters.interleaveMode != InterleaveMode::None)
+            throw CreateSystemError(ApiResult::InvalidJlsParameters, "interleaveMode can only be set to None in combination with components = 1");
+        break;
+    }
 }
 
 
-CHARLS_IMEXPORT(JLS_ERROR) JpegLsEncodeStream(ByteStreamInfo compressedStreamInfo, size_t* pcbyteWritten, ByteStreamInfo rawStreamInfo, struct JlsParameters* pparams)
+static ApiResult SystemErrorToCharLSError(const system_error& e)
 {
-	if (pcbyteWritten == NULL)
-		return InvalidJlsParameters;
-
-	JLS_ERROR parameterError = CheckInput(rawStreamInfo, pparams);
-	if (parameterError != OK)
-		return parameterError;
-
-	try
-	{
-		JlsParameters info = *pparams;
-		if (info.bytesperline == 0)
-		{
-			info.bytesperline = info.width * ((info.bitspersample + 7)/8);
-			if (info.ilv != ILV_NONE)
-			{
-				info.bytesperline *= info.components;
-			}
-		}
-
-		Size size = Size(info.width, info.height);
-
-		JpegStreamWriter writer(info.jfif, size, info.bitspersample, info.components);
-
-		if (info.colorTransform != 0)
-		{
-			writer.AddColorTransform(info.colorTransform);
-		}
-
-		if (info.ilv == ILV_NONE)
-		{
-			LONG cbyteComp = size.cx*size.cy*((info.bitspersample +7)/8);
-			for (LONG component = 0; component < info.components; ++component)
-			{
-				writer.AddScan(rawStreamInfo, &info);
-				SkipBytes(&rawStreamInfo, cbyteComp);
-			}
-		}
-		else
-		{
-			writer.AddScan(rawStreamInfo, &info);
-		}
-	
-		writer.Write(compressedStreamInfo);
-		*pcbyteWritten = writer.GetBytesWritten();
-		return OK;
-	}
-	catch (const JlsException& e)
-	{
-		return e._error;
-	}
+    return e.code().category() == CharLSCategoryInstance() ? static_cast<ApiResult>(e.code().value()) : ApiResult::UnspecifiedFailure;
 }
 
 
-CHARLS_IMEXPORT(JLS_ERROR) JpegLsDecodeStream(ByteStreamInfo rawStream, ByteStreamInfo compressedStream, JlsParameters* info)
+static void ClearErrorMessage(char* errorMessage)
 {
-	JpegMarkerReader reader(compressedStream);
-
-	if (info != NULL)
-	{
-		reader.SetInfo(info);
-	}
-
-	try
-	{
-		reader.Read(rawStream);
-		return OK;
-	}
-	catch (const JlsException& e)
-	{
-		return e._error;
-	}
+    if (errorMessage)
+    {
+        errorMessage[0] = 0;
+    }
 }
 
 
-CHARLS_IMEXPORT(JLS_ERROR) JpegLsReadHeaderStream(ByteStreamInfo rawStreamInfo, JlsParameters* pparams)
+static void CopyWhatTextToErrorMessage(const system_error& e, char* errorMessage)
 {
-	try
-	{
-		JpegMarkerReader reader(rawStreamInfo);
-		reader.ReadHeader();
-		reader.ReadStartOfScan(true);
-		JlsParameters info = reader.GetMetadata();
-		*pparams = info;
-		return OK;
-	}
-	catch (const JlsException& e)
-	{
-		return e._error;
-	}
+    if (!errorMessage)
+        return;
+
+    if (e.code().category() == CharLSCategoryInstance())
+    {
+        ASSERT(strlen(e.what()) < ErrorMessageSize);
+        strcpy(errorMessage, e.what());
+    }
+    else
+    {
+        errorMessage[0] = 0;
+    }
+}
+
+
+CHARLS_IMEXPORT(ApiResult) JpegLsEncodeStream(ByteStreamInfo compressedStreamInfo, size_t& pcbyteWritten,
+    ByteStreamInfo rawStreamInfo, const struct JlsParameters& params, char* errorMessage)
+{
+    try
+    {
+        VerifyInput(rawStreamInfo, params);
+
+        JlsParameters info = params;
+        if (info.stride == 0)
+        {
+            info.stride = info.width * ((info.bitsPerSample + 7)/8);
+            if (info.interleaveMode != InterleaveMode::None)
+            {
+                info.stride *= info.components;
+            }
+        }
+
+        JpegStreamWriter writer;
+        if (info.jfif.version)
+        {
+            writer.AddSegment(JpegMarkerSegment::CreateJpegFileInterchangeFormatSegment(info.jfif));
+        }
+
+        writer.AddSegment(JpegMarkerSegment::CreateStartOfFrameSegment(info.width, info.height, info.bitsPerSample, info.components));
+
+
+        if (info.colorTransformation != ColorTransformation::None)
+        {
+            writer.AddColorTransform(info.colorTransformation);
+        }
+
+        if (info.interleaveMode == InterleaveMode::None)
+        {
+            int32_t cbyteComp = info.width * info.height * ((info.bitsPerSample + 7) / 8);
+            for (int32_t component = 0; component < info.components; ++component)
+            {
+                writer.AddScan(rawStreamInfo, info);
+                SkipBytes(rawStreamInfo, cbyteComp);
+            }
+        }
+        else
+        {
+            writer.AddScan(rawStreamInfo, info);
+        }
+
+        writer.Write(compressedStreamInfo);
+        pcbyteWritten = writer.GetBytesWritten();
+
+        ClearErrorMessage(errorMessage);
+        return ApiResult::OK;
+    }
+    catch (const system_error& e)
+    {
+        CopyWhatTextToErrorMessage(e, errorMessage);
+        return SystemErrorToCharLSError(e);
+    }
+    catch (...)
+    {
+        ClearErrorMessage(errorMessage);
+        return ApiResult::UnexpectedFailure;
+    }
+}
+
+
+CHARLS_IMEXPORT(ApiResult) JpegLsDecodeStream(ByteStreamInfo rawStream, ByteStreamInfo compressedStream, const JlsParameters* info, char* errorMessage)
+{
+    try
+    {
+        JpegStreamReader reader(compressedStream);
+
+        if (info)
+        {
+            reader.SetInfo(*info);
+        }
+
+        reader.Read(rawStream);
+
+        ClearErrorMessage(errorMessage);
+        return ApiResult::OK;
+    }
+    catch (const system_error& e)
+    {
+        CopyWhatTextToErrorMessage(e, errorMessage);
+        return SystemErrorToCharLSError(e);
+    }
+    catch (...)
+    {
+        ClearErrorMessage(errorMessage);
+        return ApiResult::UnexpectedFailure;
+    }
+}
+
+
+CHARLS_IMEXPORT(ApiResult) JpegLsReadHeaderStream(ByteStreamInfo rawStreamInfo, JlsParameters* params, char* errorMessage)
+{
+    try
+    {
+        JpegStreamReader reader(rawStreamInfo);
+        reader.ReadHeader();
+        reader.ReadStartOfScan(true);
+        *params = reader.GetMetadata();
+
+        ClearErrorMessage(errorMessage);
+        return ApiResult::OK;
+    }
+    catch (const std::system_error& e)
+    {
+        CopyWhatTextToErrorMessage(e, errorMessage);
+        return SystemErrorToCharLSError(e);
+    }
+    catch (...)
+    {
+        ClearErrorMessage(errorMessage);
+        return ApiResult::UnexpectedFailure;
+    }
 }
 
 extern "C"
 {
-	CHARLS_IMEXPORT(JLS_ERROR) JpegLsEncode(void* compressedData, size_t compressedLength, size_t* pcbyteWritten, const void* uncompressedData, size_t uncompressedLength, struct JlsParameters* pparams)
-	{
-		ByteStreamInfo rawStreamInfo = FromByteArray(uncompressedData, uncompressedLength);
-		ByteStreamInfo compressedStreamInfo = FromByteArray(compressedData, compressedLength);
+    CHARLS_IMEXPORT(ApiResult) JpegLsEncode(void* destination, size_t destinationLength, size_t* bytesWritten, const void* source, size_t sourceLength, const struct JlsParameters* params, char* errorMessage)
+    {
+        if (!destination || !bytesWritten || !source || !params)
+            return ApiResult::InvalidJlsParameters;
 
-		return JpegLsEncodeStream(compressedStreamInfo, pcbyteWritten, rawStreamInfo, pparams);
-	}
+        ByteStreamInfo rawStreamInfo = FromByteArray(source, sourceLength);
+        ByteStreamInfo compressedStreamInfo = FromByteArray(destination, destinationLength);
 
-
-	CHARLS_IMEXPORT(JLS_ERROR) JpegLsDecode(void* uncompressedData, size_t uncompressedLength, const void* compressedData, size_t compressedLength, JlsParameters* info)
-	{
-		ByteStreamInfo compressedStream = FromByteArray(compressedData, compressedLength);
-		ByteStreamInfo rawStreamInfo = FromByteArray(uncompressedData, uncompressedLength);
-
-		return JpegLsDecodeStream(rawStreamInfo, compressedStream, info);
-	}
-
-	
-	CHARLS_IMEXPORT(JLS_ERROR) JpegLsReadHeader(const void* compressedData, size_t compressedLength, JlsParameters* pparams)
-	{
-		return JpegLsReadHeaderStream(FromByteArray(compressedData, compressedLength), pparams);
-	}
+        return JpegLsEncodeStream(compressedStreamInfo, *bytesWritten, rawStreamInfo, *params, errorMessage);
+    }
 
 
-	CHARLS_IMEXPORT(JLS_ERROR) JpegLsVerifyEncode(const void* uncompressedData, size_t uncompressedLength, const void* compressedData, size_t compressedLength)
-	{
-		JlsParameters info = JlsParameters();
-
-		JLS_ERROR error = JpegLsReadHeader(compressedData, compressedLength, &info);
-		if (error != OK)
-			return error;
-
-		ByteStreamInfo rawStreamInfo = FromByteArray(uncompressedData, uncompressedLength);
-
-		error = CheckInput(rawStreamInfo, &info);
-
-		if (error != OK)
-			return error;
-
-		Size size = Size(info.width, info.height);
-
-		JpegStreamWriter writer(info.jfif, size, info.bitspersample, info.components);
-
-		if (info.ilv == ILV_NONE)
-		{
-			LONG fieldLength = size.cx*size.cy*((info.bitspersample +7)/8);
-			for (LONG component = 0; component < info.components; ++component)
-			{
-				writer.AddScan(rawStreamInfo, &info);
-				SkipBytes(&rawStreamInfo, fieldLength);
-			}
-		}
-		else
-		{
-			writer.AddScan(rawStreamInfo, &info);
-		}
-
-		std::vector<BYTE> rgbyteCompressed(compressedLength + 16);
-
-		memcpy(&rgbyteCompressed[0], compressedData, compressedLength);
-
-		writer.EnableCompare(true);
-		writer.Write(FromByteArray(&rgbyteCompressed[0], rgbyteCompressed.size()));
-
-		return OK;
-	}
+    CHARLS_IMEXPORT(ApiResult) JpegLsReadHeader(const void* compressedData, size_t compressedLength, JlsParameters* params, char* errorMessage)
+    {
+        return JpegLsReadHeaderStream(FromByteArray(compressedData, compressedLength), params, errorMessage);
+    }
 
 
-	CHARLS_IMEXPORT(JLS_ERROR) JpegLsDecodeRect(void* uncompressedData, size_t uncompressedLength, const void* compressedData, size_t compressedLength, JlsRect roi, JlsParameters* info)
-	{
-		ByteStreamInfo compressedStream = FromByteArray(compressedData, compressedLength);
-		JpegMarkerReader reader(compressedStream);
+    CHARLS_IMEXPORT(ApiResult) JpegLsDecode(void* destination, size_t destinationLength, const void* source, size_t sourceLength, const struct JlsParameters* params, char* errorMessage)
+    {
+        ByteStreamInfo compressedStream = FromByteArray(source, sourceLength);
+        ByteStreamInfo rawStreamInfo = FromByteArray(destination, destinationLength);
 
-		ByteStreamInfo rawStreamInfo = FromByteArray(uncompressedData, uncompressedLength);
+        return JpegLsDecodeStream(rawStreamInfo, compressedStream, params, errorMessage);
+    }
 
-		if (info != NULL)
-		{
-			reader.SetInfo(info);
-		}
 
-		reader.SetRect(roi);
+    CHARLS_IMEXPORT(ApiResult) JpegLsVerifyEncode(const void* uncompressedData, size_t uncompressedLength, const void* compressedData, size_t compressedLength, char* errorMessage)
+    {
+        try
+        {
+            JlsParameters info = JlsParameters();
 
-		try
-		{
-			reader.Read(rawStreamInfo);
-			return OK;
-		}
-		catch (const JlsException& e)
-		{
-			return e._error;
-		}
-	}
+            auto error = JpegLsReadHeader(compressedData, compressedLength, &info, errorMessage);
+            if (error != ApiResult::OK)
+                return error;
+
+            ByteStreamInfo rawStreamInfo = FromByteArray(uncompressedData, uncompressedLength);
+
+            VerifyInput(rawStreamInfo, info);
+
+            JpegStreamWriter writer;
+            if (info.jfif.version)
+            {
+                writer.AddSegment(JpegMarkerSegment::CreateJpegFileInterchangeFormatSegment(info.jfif));
+            }
+
+            writer.AddSegment(JpegMarkerSegment::CreateStartOfFrameSegment(info.width, info.height, info.bitsPerSample, info.components));
+
+            if (info.interleaveMode == InterleaveMode::None)
+            {
+                int32_t fieldLength = info.width * info.height * ((info.bitsPerSample + 7) / 8);
+                for (int32_t component = 0; component < info.components; ++component)
+                {
+                    writer.AddScan(rawStreamInfo, info);
+                    SkipBytes(rawStreamInfo, fieldLength);
+                }
+            }
+            else
+            {
+                writer.AddScan(rawStreamInfo, info);
+            }
+
+            vector<uint8_t> rgbyteCompressed(compressedLength + 16);
+
+            memcpy(&rgbyteCompressed[0], compressedData, compressedLength);
+
+            writer.EnableCompare(true);
+            writer.Write(FromByteArray(&rgbyteCompressed[0], rgbyteCompressed.size()));
+            ClearErrorMessage(errorMessage);
+            return ApiResult::OK;
+        }
+        catch (const system_error& e)
+        {
+            CopyWhatTextToErrorMessage(e, errorMessage);
+            return SystemErrorToCharLSError(e);
+        }
+        catch (...)
+        {
+            ClearErrorMessage(errorMessage);
+            return ApiResult::UnexpectedFailure;
+        }
+    }
+
+
+    CHARLS_IMEXPORT(ApiResult) JpegLsDecodeRect(void* uncompressedData, size_t uncompressedLength, const void* compressedData, size_t compressedLength,
+        JlsRect roi, JlsParameters* info, char* errorMessage)
+    {
+        try
+        {
+            ByteStreamInfo compressedStream = FromByteArray(compressedData, compressedLength);
+            JpegStreamReader reader(compressedStream);
+
+            ByteStreamInfo rawStreamInfo = FromByteArray(uncompressedData, uncompressedLength);
+
+            if (info)
+            {
+                reader.SetInfo(*info);
+            }
+
+            reader.SetRect(roi);
+            reader.Read(rawStreamInfo);
+
+            ClearErrorMessage(errorMessage);
+            return ApiResult::OK;
+        }
+        catch (const system_error& e)
+        {
+            CopyWhatTextToErrorMessage(e, errorMessage);
+            return SystemErrorToCharLSError(e);
+        }
+        catch (...)
+        {
+            ClearErrorMessage(errorMessage);
+            return ApiResult::UnexpectedFailure;
+        }
+    }
 }

@@ -110,7 +110,7 @@ void sockinetaddr::setport(const char* sn, const char* pn)
         sin_port = htons(atoi(sn));
     } else {
       servent* sp = getservbyname(sn, pn);
-      if (sp == 0) throw sockerr (EADDRNOTAVAIL, "sockinetaddr::setport");
+      if (sp == nullptr) throw sockerr (EADDRNOTAVAIL, "sockinetaddr::setport");
       sin_port = sp->s_port;
     }
 }
@@ -124,7 +124,7 @@ void sockinetaddr::setaddr(const char* host_name)
 {
   if ( (sin_addr.s_addr = inet_addr(host_name)) == INADDR_NONE) {
     hostent* hp = gethostbyname(host_name);
-    if (hp == 0) throw sockerr (EADDRNOTAVAIL, "sockinetaddr::setaddr");
+    if (hp == nullptr) throw sockerr (EADDRNOTAVAIL, "sockinetaddr::setaddr");
     memcpy(&sin_addr, hp->h_addr, hp->h_length);
     sin_family = hp->h_addrtype;
   } else
@@ -142,7 +142,7 @@ const char* sockinetaddr::gethostname () const
   hostent* hp = gethostbyaddr((const char*) &sin_addr,
                   sizeof(sin_addr),
                   family());
-  if (hp == 0) return "";
+  if (hp == nullptr) return "";
   if (hp->h_name) return hp->h_name;
   return "";
 }
@@ -321,7 +321,7 @@ sockbuf::sockdesc sockinetbuf::accept (const char* host_name,
 bool sockinetbuf::tcpnodelay () const
 {
   struct protoent* proto = getprotobyname ("tcp");
-  if (proto == 0) throw sockerr (ENOPROTOOPT, "sockinetbuf::tcpnodelay");
+  if (proto == nullptr) throw sockerr (ENOPROTOOPT, "sockinetbuf::tcpnodelay");
 
   int old = 0;
   getopt (TCP_NODELAY, &old, sizeof (old), proto->p_proto);
@@ -331,7 +331,7 @@ bool sockinetbuf::tcpnodelay () const
 bool sockinetbuf::tcpnodelay (bool set) const
 {
   struct protoent* proto = getprotobyname ("tcp");
-  if (proto == 0) throw sockerr (ENOPROTOOPT, "sockinetbuf::tcpnodelay");
+  if (proto == nullptr) throw sockerr (ENOPROTOOPT, "sockinetbuf::tcpnodelay");
 
   int old = 0;
   int opt = set;
@@ -341,7 +341,7 @@ bool sockinetbuf::tcpnodelay (bool set) const
 }
 
 isockinet::isockinet (const sockbuf::sockdesc& sd)
-  : std::ios(0), isockstream(0)
+  : std::ios(nullptr), isockstream(nullptr)
 {
     sockinetbuf *t = new sockinetbuf (sd);
 
@@ -350,7 +350,7 @@ isockinet::isockinet (const sockbuf::sockdesc& sd)
 }
 
 isockinet::isockinet (sockbuf::type ty, int proto)
-  : std::ios (0), isockstream(0)
+  : std::ios (nullptr), isockstream(nullptr)
 {
     sockinetbuf *t = new sockinetbuf (ty, proto);
 
@@ -359,7 +359,7 @@ isockinet::isockinet (sockbuf::type ty, int proto)
 }
 
 isockinet::isockinet (const sockinetbuf& sb)
-  : std::ios (0), isockstream(0)
+  : std::ios (nullptr), isockstream(nullptr)
 {
     sockinetbuf *t = new sockinetbuf (sb);
 
@@ -373,7 +373,7 @@ isockinet::~isockinet ()
 }
 
 osockinet::osockinet (const sockbuf::sockdesc& sd)
-  : std::ios (0), osockstream(0)
+  : std::ios (nullptr), osockstream(nullptr)
 {
     sockinetbuf *t = new sockinetbuf (sd);
 
@@ -382,7 +382,7 @@ osockinet::osockinet (const sockbuf::sockdesc& sd)
 }
 
 osockinet::osockinet (sockbuf::type ty, int proto)
-  : std::ios (0), osockstream(0)
+  : std::ios (nullptr), osockstream(nullptr)
 {
     sockinetbuf *t = new sockinetbuf (ty, proto);
 
@@ -391,7 +391,7 @@ osockinet::osockinet (sockbuf::type ty, int proto)
 }
 
 osockinet::osockinet (const sockinetbuf& sb)
-  : std::ios (0), osockstream(0)
+  : std::ios (nullptr), osockstream(nullptr)
 {
     sockinetbuf *t = new sockinetbuf (sb);
 
@@ -405,7 +405,7 @@ osockinet::~osockinet ()
 }
 
 iosockinet::iosockinet (const sockbuf::sockdesc& sd)
-  : std::ios (0), iosockstream(0)
+  : std::ios (nullptr), iosockstream(nullptr)
 {
     sockinetbuf *t = new sockinetbuf(sd);
 
@@ -414,7 +414,7 @@ iosockinet::iosockinet (const sockbuf::sockdesc& sd)
 }
 
 iosockinet::iosockinet (sockbuf::type ty, int proto)
-    : std::ios (0), iosockstream (0)
+    : std::ios (nullptr), iosockstream (nullptr)
 {
      sockinetbuf *t = new sockinetbuf (ty, proto);
 
@@ -423,7 +423,7 @@ iosockinet::iosockinet (sockbuf::type ty, int proto)
 }
 
 iosockinet::iosockinet (const sockinetbuf& sb)
-  : std::ios (0), iosockstream(0)
+  : std::ios (nullptr), iosockstream(nullptr)
 {
     sockinetbuf *t = new sockinetbuf (sb);
 

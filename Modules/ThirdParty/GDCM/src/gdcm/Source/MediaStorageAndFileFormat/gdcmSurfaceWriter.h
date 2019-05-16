@@ -31,14 +31,14 @@ class GDCM_EXPORT SurfaceWriter : public SegmentWriter
 public:
     SurfaceWriter();
 
-    virtual ~SurfaceWriter();
+    ~SurfaceWriter() override;
 
 //    const Surface & GetSurface() const { return *SurfaceData; }
 //    Surface & GetSurface() { return *SurfaceData; }
 //    void SetSurface(Surface const & segment);
 
     /// Write
-    bool Write(); // Execute()
+    bool Write() override; // Execute()
 
     unsigned long GetNumberOfSurfaces();
     void SetNumberOfSurfaces(const unsigned long nb);

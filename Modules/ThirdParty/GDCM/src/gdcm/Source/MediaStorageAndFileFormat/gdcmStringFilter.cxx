@@ -29,8 +29,7 @@ StringFilter::StringFilter():F(new File)
 }
 //-----------------------------------------------------------------------------
 StringFilter::~StringFilter()
-{
-}
+= default;
 
 void StringFilter::SetDicts(const Dicts &dicts)
 {
@@ -136,31 +135,31 @@ bool StringFilter::ExecuteQuery(std::string const & query_const,
   const char subdelim[] = "[]@='";
 
   char *str1, *str2, *token, *subtoken;
-  char *saveptr1= NULL, *saveptr2;
+  char *saveptr1= nullptr, *saveptr2;
   int j;
 
   //bool dicomnativemodel = false;//unused
-  const DataSet *curds = NULL;
-  const DataElement *curde = NULL;
+  const DataSet *curds = nullptr;
+  const DataElement *curde = nullptr;
   Tag t;
   int state = 0;
   SmartPointer<SequenceOfItems> sqi;
-  for (j = 1, str1 = query; state >= 0 ; j++, str1 = NULL)
+  for (j = 1, str1 = query; state >= 0 ; j++, str1 = nullptr)
     {
     token = System::StrTokR(str1, delim, &saveptr1);
 
-    if (token == NULL)
+    if (token == nullptr)
       break;
     //printf("%d: %s\n", j, token);
 
     std::vector< std::string > subtokens;
-    for (str2 = token; ; str2 = NULL)
+    for (str2 = token; ; str2 = nullptr)
       {
       subtoken = System::StrTokR(str2, subdelim, &saveptr2);
-      if (subtoken == NULL)
+      if (subtoken == nullptr)
         break;
       //printf(" --> %s\n", subtoken);
-      subtokens.push_back( subtoken );
+      subtokens.emplace_back(subtoken );
       }
     if( subtokens[0] == "DicomNativeModel" )
       {
@@ -356,7 +355,7 @@ std::pair<std::string, std::string> StringFilter::ToStringPairInternal(const Dat
     }
   //assert( de.GetTag().IsPublic() );
   std::string strowner;
-  const char *owner = 0;
+  const char *owner = nullptr;
   const Tag &t = de.GetTag();
   if( t.IsPrivate() && !t.IsPrivateCreator() )
     {
@@ -508,7 +507,7 @@ std::string StringFilter::FromString(const Tag&t, const char * value, size_t len
   const Global &g = GlobalInstance;
   const Dicts &dicts = g.GetDicts();
   std::string strowner;
-  const char *owner = 0;
+  const char *owner = nullptr;
   const DataSet &ds = GetFile().GetDataSet();
   if( t.IsPrivate() && !t.IsPrivateCreator() )
     {
@@ -559,7 +558,7 @@ std::string StringFilter::FromString(const Tag&t, const char * value, size_t len
   if( vm.GetLength() == 0 )
     {
     // VM1_n
-    vl = (VL::Type)( (VL::Type)count * (VL::Type)vr.GetSizeof());
+    vl = (VL)( count * vr.GetSizeof());
 #if !defined(NDEBUG)
     VM check = VM::GetVMTypeFromLength(count, 1);
     if( vm != VM::VM0 )

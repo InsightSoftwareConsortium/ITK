@@ -36,9 +36,9 @@ class AAssociateRQPDU : public BasePDU
 {
 public:
   AAssociateRQPDU();
-  std::istream &Read(std::istream &is);
-  const std::ostream &Write(std::ostream &os) const;
-  size_t Size() const;
+  std::istream &Read(std::istream &is) override;
+  const std::ostream &Write(std::ostream &os) const override;
+  size_t Size() const override;
   void AddPresentationContext( PresentationContextRQ const &pc );
 
   /// Set the Called AE Title
@@ -56,7 +56,7 @@ public:
   /// the fields in the AAssociateRQPDU structure
   //void InitFromRQ( AAssociateACPDU & acpdu );
 
-  void Print(std::ostream &os) const;
+  void Print(std::ostream &os) const override;
 
   AAssociateRQPDU(const AAssociateRQPDU &pdu):BasePDU(pdu)
     {
@@ -81,7 +81,7 @@ public:
 
   const PresentationContextRQ *GetPresentationContextByID(uint8_t i) const;
   const PresentationContextRQ *GetPresentationContextByAbstractSyntax(AbstractSyntax const & absyn ) const;
-  bool IsLastFragment() const { return true; }
+  bool IsLastFragment() const override { return true; }
 
   const UserInformation & GetUserInformation() const { return UserInfo; }
   void SetUserInformation( UserInformation const & ui );

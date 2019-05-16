@@ -52,7 +52,7 @@ public:
   /// Return value indicate if sorting could be achived. Warning this does *NOT* imply
   /// that spacing is consistent, it only means the file are sorted according to IPP
   /// You should check if ZSpacing is 0 or not to deduce if file are actually a 3D volume
-  virtual bool Sort(std::vector<std::string> const & filenames);
+  bool Sort(std::vector<std::string> const & filenames) override;
 
   /// Functions related to Z-Spacing computation
   /// Set to true when sort algorithm should also perform a regular

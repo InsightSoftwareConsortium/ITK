@@ -31,8 +31,8 @@ using namespace gdcm;
 class GDCM_EXPORT Value : public Object
 {
 public:
-  Value() {}
-  ~Value() {}
+  Value() = default;
+  ~Value() override = default;
 
   virtual VL GetLength() const = 0;
   virtual void SetLength(VL l) = 0;

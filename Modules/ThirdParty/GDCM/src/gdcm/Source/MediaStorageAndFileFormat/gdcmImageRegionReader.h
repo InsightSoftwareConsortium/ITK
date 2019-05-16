@@ -35,7 +35,7 @@ class GDCM_EXPORT ImageRegionReader : public ImageReader
 {
 public:
   ImageRegionReader();
-  ~ImageRegionReader();
+  ~ImageRegionReader() override;
 
   /// Set/Get Region to be read
   void SetRegion(Region const & region);
@@ -56,7 +56,7 @@ public:
 
 protected:
   /// To prevent user from calling super class Read() function
-  bool Read();
+  bool Read() override;
 
 private:
   BoxRegion ComputeBoundingBox();

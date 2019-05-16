@@ -68,8 +68,8 @@ private:
   SOPClassExtendedNegociationSubItems *SOPCENSI;
   ImplementationVersionNameSub IVNS;
 
-  UserInformation(const UserInformation&); // Not implemented
 public:
+  UserInformation(const UserInformation&) = delete;
   UserInformation &operator=(const UserInformation&);
 };
 

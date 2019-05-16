@@ -577,7 +577,7 @@ int TableReader::Read()
   std::ifstream is( Filename.c_str(), std::ios::binary );
 
   char buf[BUFSIZ];
-  XML_Parser parser = XML_ParserCreate(NULL);
+  XML_Parser parser = XML_ParserCreate(nullptr);
   int done;
   //int depth = 0;
   XML_SetUserData(parser, this);

@@ -29,7 +29,7 @@ class GDCM_EXPORT ImageChangePlanarConfiguration : public ImageToImageFilter
 {
 public:
   ImageChangePlanarConfiguration():PlanarConfiguration(0) {}
-  ~ImageChangePlanarConfiguration() {}
+  ~ImageChangePlanarConfiguration() = default;
 
   /// Set/Get requested PlanarConfigation
   void SetPlanarConfiguration(unsigned int pc) { PlanarConfiguration = pc; }

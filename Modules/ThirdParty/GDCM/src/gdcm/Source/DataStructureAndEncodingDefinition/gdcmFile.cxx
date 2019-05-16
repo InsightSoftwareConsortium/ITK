@@ -17,8 +17,8 @@ namespace gdcm_ns
 {
 
 // Keep cstor and dstor here to keep API minimal (see dllexport issue with gdcmstrict::)
-File::File() {}
-File::~File() {}
+File::File() = default;
+File::~File() = default;
 
 std::istream &File::Read(std::istream &is)
 {

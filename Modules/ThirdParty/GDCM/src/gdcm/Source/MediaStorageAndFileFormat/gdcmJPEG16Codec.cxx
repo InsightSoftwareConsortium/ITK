@@ -18,4 +18,8 @@
 #include <setjmp.h>
 
 #define JPEGBITSCodec JPEG16Codec
-#include "gdcmJPEGBITSCodec.cxx"
+#define my_error_mgr my_error_mgr_16BIT
+#define JPEGInternals JPEGInternals_16BIT
+#define my_source_mgr my_source_mgr_16BIT
+#define my_destination_mgr my_destination_mgr_16BIT
+#include "gdcmJPEGBITSCodec.hxx"

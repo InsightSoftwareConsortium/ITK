@@ -55,7 +55,7 @@ public:
   Spacing.resize( 3 /*NumberOfDimensions*/, 1 ); // fill with 1
 
   }
-  ~Image() {}
+  ~Image() override = default;
 
   /// Return a 3-tuples specifying the spacing
   /// NOTE: 3rd value can be an aribtrary 1 value when the spacing was not specified (ex. 2D image).
@@ -82,7 +82,7 @@ public:
   void SetDirectionCosines(unsigned int idx, double dircos);
 
   /// print
-  void Print(std::ostream &os) const;
+  void Print(std::ostream &os) const override;
 
   /// intercept
   void SetIntercept(double intercept) { Intercept = intercept; }

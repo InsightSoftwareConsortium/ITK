@@ -40,11 +40,11 @@ namespace gdcm
     std::vector<DataSet> mDataSets;
     std::vector<DataSet> mResponses;
   public:
-    ULBasicCallback() {};
-    virtual ~ULBasicCallback() {} //empty, for later inheritance
+    ULBasicCallback() = default;
+    ~ULBasicCallback() override = default; //empty, for later inheritance
 
-    virtual void HandleDataSet(const DataSet& inDataSet);
-    virtual void HandleResponse(const DataSet& inDataSet);
+    void HandleDataSet(const DataSet& inDataSet) override;
+    void HandleResponse(const DataSet& inDataSet) override;
 
     std::vector<DataSet> const & GetDataSets() const;
     std::vector<DataSet> const & GetResponses() const;

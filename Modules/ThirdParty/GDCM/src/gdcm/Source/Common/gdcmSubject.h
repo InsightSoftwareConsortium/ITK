@@ -29,7 +29,7 @@ class GDCM_EXPORT Subject : public Object
 {
 public:
   Subject();
-  ~Subject();
+  ~Subject() override;
 
   /** Allow people to add/remove/invoke observers (callbacks) to any GDCM
    * object. This is an implementation of the subject/observer design

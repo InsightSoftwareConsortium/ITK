@@ -4,104 +4,91 @@
 
 
 #include "jpegstreamwriter.h"
+#include "util.h"
 #include "jpegmarkersegment.h"
 #include "jpegimagedatasegment.h"
-#include "header.h"
-#include "util.h"
+#include "jpegmarkercode.h"
+#include "jpegstreamreader.h"
 #include <vector>
+
+using namespace std;
+using namespace charls;
 
 
 namespace
 {
-	bool IsDefault(const JlsCustomParameters* pcustom)
-	{
-		if (pcustom->MAXVAL != 0)
-			return false;
+    bool IsDefault(const JlsCustomParameters& custom)
+    {
+        if (custom.MAXVAL != 0)
+            return false;
 
-		if (pcustom->T1 != 0)
-			return false;
+        if (custom.T1 != 0)
+            return false;
 
-		if (pcustom->T2 != 0)
-			return false;
+        if (custom.T2 != 0)
+            return false;
 
-		if (pcustom->T3 != 0)
-			return false;
+        if (custom.T3 != 0)
+            return false;
 
-		if (pcustom->RESET != 0)
-			return false;
+        if (custom.RESET != 0)
+            return false;
 
-		return true;
-	}
+        return true;
+    }
 }
 
 
-JpegStreamWriter::JpegStreamWriter(const JfifParameters& jfifParameters, Size size, LONG bitsPerSample, LONG ccomp) :
-_bCompare(false),
-_data(),
-_byteOffset(0),
-_lastCompenentIndex(0)
+JpegStreamWriter::JpegStreamWriter() :
+    _bCompare(false),
+    _data(),
+    _byteOffset(0),
+    _lastCompenentIndex(0)
 {
-	if (jfifParameters.Ver)
-	{
-		AddSegment(JpegMarkerSegment::CreateJpegFileInterchangeFormatMarker(jfifParameters));
-	}
-
-	AddSegment(JpegMarkerSegment::CreateStartOfFrameMarker(size, bitsPerSample, ccomp));
 }
 
 
-JpegStreamWriter::~JpegStreamWriter()
+void JpegStreamWriter::AddColorTransform(ColorTransformation transformation)
 {
-	for (size_t i = 0; i < _segments.size(); ++i)
-	{
-		delete _segments[i];
-	}
+    AddSegment(JpegMarkerSegment::CreateColorTransformSegment(transformation));
 }
 
 
-void JpegStreamWriter::AddColorTransform(int i)
+size_t JpegStreamWriter::Write(const ByteStreamInfo& info)
 {
-	AddSegment(JpegMarkerSegment::CreateColorTransformMarker(i));
+    _data = info;
+
+    WriteMarker(JpegMarkerCode::StartOfImage);
+
+    for (size_t i = 0; i < _segments.size(); ++i)
+    {
+        _segments[i]->Serialize(*this);
+    }
+
+    //_bCompare = false;
+
+    WriteMarker(JpegMarkerCode::EndOfImage);
+
+    return _byteOffset;
 }
 
 
-size_t JpegStreamWriter::Write(ByteStreamInfo info)
+void JpegStreamWriter::AddScan(const ByteStreamInfo& info, const JlsParameters& params)
 {
-	_data = info;
+    if (!IsDefault(params.custom))
+    {
+        AddSegment(JpegMarkerSegment::CreateJpegLSExtendedParametersSegment(params.custom));
+    }
+    else if (params.bitsPerSample > 12)
+    {
+        JlsCustomParameters preset = ComputeDefault((1 << params.bitsPerSample) - 1, params.allowedLossyError);
+        AddSegment(JpegMarkerSegment::CreateJpegLSExtendedParametersSegment(preset));
+    }
 
-	WriteByte(0xFF);
-	WriteByte(JPEG_SOI);
+    // Note: it is a common practice to start to count components by index 1.
+    _lastCompenentIndex += 1;
+    int componentCount = params.interleaveMode == InterleaveMode::None ? 1 : params.components;
+    AddSegment(JpegMarkerSegment::CreateStartOfScanSegment(_lastCompenentIndex, componentCount, params.allowedLossyError, params.interleaveMode));
 
-	for (size_t i = 0; i < _segments.size(); ++i)
-	{
-		_segments[i]->Serialize(*this);
-	}
-
-	//_bCompare = false;
-
-	WriteByte(0xFF);
-	WriteByte(JPEG_EOI);
-
-	return _byteOffset;
-}
-
-
-void JpegStreamWriter::AddScan(ByteStreamInfo info, const JlsParameters* pparams)
-{
-	if (!IsDefault(&pparams->custom))
-	{
-		AddSegment(JpegMarkerSegment::CreateJpegLSExtendedParametersMarker(pparams->custom));
-	}
-	else if (pparams->bitspersample > 12)
-	{
-		JlsCustomParameters preset = ComputeDefault((1 << pparams->bitspersample) - 1, pparams->allowedlossyerror);
-		AddSegment(JpegMarkerSegment::CreateJpegLSExtendedParametersMarker(preset));
-	}
-
-	_lastCompenentIndex += 1;
-	AddSegment(JpegMarkerSegment::CreateStartOfScanMarker(pparams, pparams->ilv == ILV_NONE ? _lastCompenentIndex : -1));
-
-	int ccomp = pparams->ilv == ILV_NONE ? 1 : pparams->components;
-
-	AddSegment(new JpegImageDataSegment(info, *pparams, ccomp));
+    AddSegment(make_unique<JpegImageDataSegment>(info, params, componentCount));
 }

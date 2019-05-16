@@ -6,64 +6,68 @@
 #ifndef CHARLS_LOOKUPTABLE
 #define CHARLS_LOOKUPTABLE
 
-// Tables for fast decoding of short Golomb Codes. 
 
+// Tables for fast decoding of short Golomb Codes.
 struct Code
 {
-	Code()
-	{
-	}
+    Code() :
+        _value(),
+        _length()
+    {
+    }
 
-	Code(LONG value, LONG length)	:
-		_value(value),
-		_length(length)
-	{
-	}
+    Code(int32_t value, int32_t length) :
+        _value(value),
+        _length(length)
+    {
+    }
 
-	LONG GetValue() const 
-		{ return _value; }
-	LONG GetLength() const 
-		{ return _length; }
+    int32_t GetValue() const
+    {
+        return _value;
+    }
 
-	LONG _value;
-	LONG _length;
+    int32_t GetLength() const
+    {
+        return _length;
+    }
+
+    int32_t _value;
+    int32_t _length;
 };
-
 
 
 class CTable
 {
 public:
 
-	enum { cbit = 8 } ;
+    enum { cbit = 8 } ;
 
-	CTable() 
-	{
-		::memset(rgtype, 0, sizeof(rgtype));
-	}
+    CTable()
+    {
+        ::memset(_rgtype, 0, sizeof(_rgtype));
+    }
 
-	void AddEntry(BYTE bvalue, Code c);
-	
-	inlinehint const Code& Get(LONG value)
-		{ return rgtype[value]; }
+    void AddEntry(uint8_t bvalue, Code c)
+    {
+        int32_t length = c.GetLength();
+        ASSERT(length <= cbit);
+
+        for (int32_t i = 0; i < int32_t(1) << (cbit - length); ++i)
+        {
+            ASSERT(_rgtype[(bvalue << (cbit - length)) + i].GetLength() == 0);
+            _rgtype[(bvalue << (cbit - length)) + i] = c;
+        }
+    }
+
+    inlinehint const Code& Get(int32_t value) const
+    {
+        return _rgtype[value];
+    }
+
 private:
-	Code rgtype[1 << cbit];
+    Code _rgtype[1 << cbit];
 };
 
-
-//
-// AddEntry
-//
-void CTable::AddEntry(BYTE bvalue, Code c)
-{
-	LONG length = c.GetLength();
-	ASSERT(length <= cbit);
-	
-	for (LONG i = 0; i < LONG(1) << (cbit - length); ++i)
-	{
-		ASSERT(rgtype[(bvalue << (cbit - length)) + i].GetLength() == 0);
-		rgtype[(bvalue << (cbit - length)) + i] = c;					
-	}
-}
 
 #endif

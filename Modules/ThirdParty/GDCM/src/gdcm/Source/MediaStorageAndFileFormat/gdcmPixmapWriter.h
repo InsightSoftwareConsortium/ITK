@@ -37,7 +37,7 @@ class GDCM_EXPORT PixmapWriter : public Writer
 {
 public:
   PixmapWriter();
-  ~PixmapWriter();
+  ~PixmapWriter() override;
 
   const Pixmap& GetPixmap() const { return *PixelData; }
   Pixmap& GetPixmap() { return *PixelData; } // FIXME
@@ -51,7 +51,7 @@ public:
   virtual void SetImage(Pixmap const &img);
 
   /// Write
-  bool Write(); // Execute()
+  bool Write() override; // Execute()
 
 protected:
   void DoIconImage(DataSet & ds, Pixmap const & image);

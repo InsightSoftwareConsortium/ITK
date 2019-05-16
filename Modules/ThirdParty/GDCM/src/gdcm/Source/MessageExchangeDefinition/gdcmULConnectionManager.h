@@ -68,7 +68,7 @@ namespace gdcm {
 
     public:
       ULConnectionManager();
-      virtual ~ULConnectionManager();
+      ~ULConnectionManager() override;
 
       // NOTE: (MM) The following two functions are difficults to use, therefore marking
       // them as internal for now.
@@ -127,7 +127,7 @@ namespace gdcm {
 
       // \internal
       // API will change...
-      std::vector<DataSet> SendStore(const File &file, std::istream * pStream = NULL, std::streampos dataSetOffset = 0  );
+      std::vector<DataSet> SendStore(const File &file, std::istream * pStream = nullptr, std::streampos dataSetOffset = 0  );
       std::vector<DataSet> SendFind(const BaseRootQuery* inRootQuery);
       std::vector<DataSet> SendMove(const BaseRootQuery* inRootQuery);
 
@@ -140,7 +140,7 @@ namespace gdcm {
       // \endinternal
 
       ///callback based API
-      void SendStore(const File & file, ULConnectionCallback* inCallback, std::istream * pStream = NULL , std::streampos dataSetOffset = 0 );
+      void SendStore(const File & file, ULConnectionCallback* inCallback, std::istream * pStream = nullptr , std::streampos dataSetOffset = 0 );
       void SendFind(const BaseRootQuery* inRootQuery, ULConnectionCallback* inCallback);
       /// return false upon error
       bool SendMove(const BaseRootQuery* inRootQuery, ULConnectionCallback* inCallback);

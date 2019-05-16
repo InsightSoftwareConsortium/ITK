@@ -32,11 +32,11 @@ class AAssociateRJPDU : public BasePDU
 {
 public:
   AAssociateRJPDU();
-  std::istream &Read(std::istream &is);
-  const std::ostream &Write(std::ostream &os) const;
-  void Print(std::ostream &os) const;
-  size_t Size() const;
-  bool IsLastFragment() const { return true; }
+  std::istream &Read(std::istream &is) override;
+  const std::ostream &Write(std::ostream &os) const override;
+  void Print(std::ostream &os) const override;
+  size_t Size() const override;
+  bool IsLastFragment() const override { return true; }
 private:
   static const uint8_t ItemType; // PDUType ?
   static const uint8_t Reserved2;

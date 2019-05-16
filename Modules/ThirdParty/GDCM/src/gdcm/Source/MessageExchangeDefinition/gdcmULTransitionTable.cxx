@@ -333,7 +333,7 @@ void ULTransitionTable::HandleEvent(Subject *s, ULEvent& inEvent, ULConnection& 
       {
       if ( mTable[eventID].transitions[stateIndex] )
         {
-        if (mTable[eventID].transitions[stateIndex]->mAction != NULL)
+        if (mTable[eventID].transitions[stateIndex]->mAction != nullptr)
           {
           gdcmDebugMacro( "Process: Event:" << (int)eventID << ", State:" << stateIndex );
           inConnection.SetState(mTable[eventID].transitions[stateIndex]->mAction->

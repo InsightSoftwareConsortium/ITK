@@ -22,7 +22,7 @@
 namespace gdcm
 {
 SplitMosaicFilter::SplitMosaicFilter():F(new File),I(new Image) {}
-SplitMosaicFilter::~SplitMosaicFilter() {}
+SplitMosaicFilter::~SplitMosaicFilter() = default;
 
 namespace details {
 /*

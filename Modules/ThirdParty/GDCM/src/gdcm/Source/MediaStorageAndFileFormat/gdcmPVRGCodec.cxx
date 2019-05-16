@@ -32,8 +32,7 @@ PVRGCodec::PVRGCodec()
 }
 
 PVRGCodec::~PVRGCodec()
-{
-}
+= default;
 
 bool PVRGCodec::CanDecode(TransferSyntax const &ts) const
 {
@@ -213,7 +212,7 @@ bool PVRGCodec::Code(DataElement const &in, DataElement &out)
 
 ImageCodec * PVRGCodec::Clone() const
 {
-  return NULL;
+  return nullptr;
 }
 
 } // end namespace gdcm

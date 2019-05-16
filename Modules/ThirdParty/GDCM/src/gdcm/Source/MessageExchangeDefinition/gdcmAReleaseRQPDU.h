@@ -32,11 +32,11 @@ class AReleaseRQPDU : public BasePDU
 {
 public:
   AReleaseRQPDU();
-  std::istream &Read(std::istream &is);
-  const std::ostream &Write(std::ostream &os) const;
-  size_t Size() const;
-  void Print(std::ostream &os) const;
-  bool IsLastFragment() const { return true; }
+  std::istream &Read(std::istream &is) override;
+  const std::ostream &Write(std::ostream &os) const override;
+  size_t Size() const override;
+  void Print(std::ostream &os) const override;
+  bool IsLastFragment() const override { return true; }
 private:
   static const uint8_t ItemType; // PDUType ?
   static const uint8_t Reserved2;

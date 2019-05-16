@@ -113,7 +113,7 @@ struct SOPClassExtendedNegociationSubItems
 
 UserInformation::UserInformation()
 {
-  AOWS = NULL;
+  AOWS = nullptr;
   RSSI = new RoleSelectionSubItems;
   SOPCENSI = new SOPClassExtendedNegociationSubItems;
 #if 0

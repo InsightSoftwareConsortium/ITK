@@ -18,12 +18,10 @@ namespace gdcm
 {
 
 AudioCodec::AudioCodec()
-{
-}
+= default;
 
 AudioCodec::~AudioCodec()
-{
-}
+= default;
 
 bool AudioCodec::Decode(DataElement const &is, DataElement &os)
 {

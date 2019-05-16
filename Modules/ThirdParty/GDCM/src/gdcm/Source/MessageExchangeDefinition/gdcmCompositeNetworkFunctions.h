@@ -54,8 +54,8 @@ public:
   /// \param call when not set will default to 'ANY-SCP'
   /// \warning This is an error to set remote to NULL or portno to 0
   /// \return true if it worked.
-  static bool CEcho( const char *remote, uint16_t portno, const char *aetitle = NULL,
-    const char *call = NULL );
+  static bool CEcho( const char *remote, uint16_t portno, const char *aetitle = nullptr,
+    const char *call = nullptr );
 
   typedef std::pair<Tag, std::string> KeyValuePairType;
   typedef std::vector< KeyValuePairType  > KeyValuePairArrayType;
@@ -89,8 +89,8 @@ public:
   /// when \param outputdir is not set default to current dir ('.')
   /// \return true if it worked.
   static bool CMove( const char *remote, uint16_t portno, const BaseRootQuery* query,
-    uint16_t portscp, const char *aetitle = NULL,
-    const char *call = NULL, const char *outputdir = NULL);
+    uint16_t portscp, const char *aetitle = nullptr,
+    const char *call = nullptr, const char *outputdir = nullptr);
 
   /// This function will use the provided query to determine what files a remote
   /// server contains that match the query strings.  The return is a vector of
@@ -104,8 +104,8 @@ public:
   static bool CFind( const char *remote, uint16_t portno, 
     const BaseRootQuery* query,
     std::vector<DataSet> &retDataSets,
-    const char *aetitle = NULL,
-    const char *call = NULL );
+    const char *aetitle = nullptr,
+    const char *call = nullptr );
 
   /// This function will place the provided files into the remote server.
   /// The function returns true if it worked for all files.
@@ -116,7 +116,7 @@ public:
   /// \return true if it worked for all files
   static bool CStore( const char *remote, uint16_t portno,
     const Directory::FilenamesType & filenames,
-    const char *aetitle = NULL, const char *call = NULL);
+    const char *aetitle = nullptr, const char *call = nullptr);
 };
 
 } // end namespace gdcm

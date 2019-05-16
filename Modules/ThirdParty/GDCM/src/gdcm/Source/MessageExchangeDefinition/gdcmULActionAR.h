@@ -36,7 +36,7 @@ namespace gdcm {
     class ULActionAR1 : public ULAction {
     public:
       EStateID PerformAction(Subject *s, ULEvent& inEvent, ULConnection& inConnection,
-        bool& outWaitingForEvent, EEventID& outRaisedEvent);
+        bool& outWaitingForEvent, EEventID& outRaisedEvent) override;
     };
 
     //Issue A-RELEASE indication primitive
@@ -44,7 +44,7 @@ namespace gdcm {
     class ULActionAR2 : public ULAction {
     public:
       EStateID PerformAction(Subject *s, ULEvent& inEvent, ULConnection& inConnection,
-        bool& outWaitingForEvent, EEventID& outRaisedEvent);
+        bool& outWaitingForEvent, EEventID& outRaisedEvent) override;
     };
 
     //Issue A-RELEASE confirmation primitive, and close transport connection
@@ -52,7 +52,7 @@ namespace gdcm {
     class ULActionAR3 : public ULAction {
     public:
       EStateID PerformAction(Subject *s, ULEvent& inEvent, ULConnection& inConnection,
-        bool& outWaitingForEvent, EEventID& outRaisedEvent);
+        bool& outWaitingForEvent, EEventID& outRaisedEvent) override;
     };
 
     //Issue A-RELEASE-RP PDU and start ARTIM timer
@@ -60,7 +60,7 @@ namespace gdcm {
     class ULActionAR4 : public ULAction {
     public:
       EStateID PerformAction(Subject *s, ULEvent& inEvent, ULConnection& inConnection,
-        bool& outWaitingForEvent, EEventID& outRaisedEvent);
+        bool& outWaitingForEvent, EEventID& outRaisedEvent) override;
     };
 
     //Stop ARTIM timer
@@ -68,7 +68,7 @@ namespace gdcm {
     class ULActionAR5 : public ULAction {
     public:
       EStateID PerformAction(Subject *s, ULEvent& inEvent, ULConnection& inConnection,
-        bool& outWaitingForEvent, EEventID& outRaisedEvent);
+        bool& outWaitingForEvent, EEventID& outRaisedEvent) override;
     };
 
     //Issue P-Data indication
@@ -76,7 +76,7 @@ namespace gdcm {
     class ULActionAR6 : public ULAction {
     public:
       EStateID PerformAction(Subject *s, ULEvent& inEvent, ULConnection& inConnection,
-        bool& outWaitingForEvent, EEventID& outRaisedEvent);
+        bool& outWaitingForEvent, EEventID& outRaisedEvent) override;
     };
 
     //Issue P-DATA-TF PDU
@@ -84,7 +84,7 @@ namespace gdcm {
     class ULActionAR7 : public ULAction {
     public:
       EStateID PerformAction(Subject *s, ULEvent& inEvent, ULConnection& inConnection,
-        bool& outWaitingForEvent, EEventID& outRaisedEvent);
+        bool& outWaitingForEvent, EEventID& outRaisedEvent) override;
     };
 
     //Issue A-RELEASE indication (release collision):
@@ -93,7 +93,7 @@ namespace gdcm {
     class ULActionAR8 : public ULAction {
     public:
       EStateID PerformAction(Subject *s, ULEvent& inEvent, ULConnection& inConnection,
-        bool& outWaitingForEvent, EEventID& outRaisedEvent);
+        bool& outWaitingForEvent, EEventID& outRaisedEvent) override;
     };
 
     //Send A-RELEASE-RP PDU
@@ -101,7 +101,7 @@ namespace gdcm {
     class ULActionAR9 : public ULAction {
     public:
       EStateID PerformAction(Subject *s, ULEvent& inEvent, ULConnection& inConnection,
-        bool& outWaitingForEvent, EEventID& outRaisedEvent);
+        bool& outWaitingForEvent, EEventID& outRaisedEvent) override;
     };
 
     //Issue A-RELEASE confirmation primitive
@@ -109,7 +109,7 @@ namespace gdcm {
     class ULActionAR10 : public ULAction {
     public:
       EStateID PerformAction(Subject *s, ULEvent& inEvent, ULConnection& inConnection,
-        bool& outWaitingForEvent, EEventID& outRaisedEvent);
+        bool& outWaitingForEvent, EEventID& outRaisedEvent) override;
     };
   }
 }

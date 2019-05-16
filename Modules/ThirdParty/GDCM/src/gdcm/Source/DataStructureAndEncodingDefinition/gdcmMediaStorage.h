@@ -136,6 +136,8 @@ public:
     LegacyConvertedEnhancedCTImageStorage,
     LegacyConvertedEnhancedMRImageStorage,
     LegacyConvertedEnhancedPETImageStorage,
+    BreastProjectionXRayImageStorageForPresentation,
+    BreastProjectionXRayImageStorageForProcessing,
     MS_END
   } MSType; // Media Storage Type
 

@@ -34,6 +34,8 @@ class GDCM_EXPORT SHA1
 public :
   SHA1();
   ~SHA1();
+  SHA1(const SHA1&) = delete;
+  void operator=(const SHA1&) = delete;
 
   static bool Compute(const char *buffer, unsigned long buf_len, char digest_str[20*2+1]);
 
@@ -41,9 +43,6 @@ public :
 
 private:
   SHA1Internals *Internals;
-private:
-  SHA1(const SHA1&);  // Not implemented.
-  void operator=(const SHA1&);  // Not implemented.
 };
 } // end namespace gdcm
 //-----------------------------------------------------------------------------

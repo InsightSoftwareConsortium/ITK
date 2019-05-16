@@ -36,8 +36,8 @@ public :
   void Print(std::ostream &os = std::cout) const;
 
 //protected:
-  Version() {};
-  ~Version() {};
+  Version() = default;
+  ~Version() = default;
 };
 //-----------------------------------------------------------------------------
 inline std::ostream& operator<<(std::ostream &os, const Version &v)

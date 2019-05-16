@@ -54,9 +54,9 @@ public:
   //SequenceOfItems(VL const &vl = 0xFFFFFFFF):SequenceLengthField(vl),NType(type) { }
 
   /// \brief Returns the SQ length, as read from disk
-  VL GetLength() const { return SequenceLengthField; }
+  VL GetLength() const override { return SequenceLengthField; }
   /// \brief Sets the actual SQ length
-  void SetLength(VL length) {
+  void SetLength(VL length) override {
     SequenceLengthField = length;
   }
   /// \brief Properly set the Sequence of Item to be undefined length
@@ -70,7 +70,7 @@ public:
   VL ComputeLength() const;
 
   /// remove all items within the sequence
-  void Clear();
+  void Clear() override;
 
   /// \brief Appends an Item to the already added ones
   void AddItem(Item const &item);
@@ -218,7 +218,7 @@ public:
     }
 
 //protected:
-  void Print(std::ostream &os) const {
+  void Print(std::ostream &os) const override {
     os << "\t(" << SequenceLengthField << ")\n";
     ItemVector::const_iterator it =
       Items.begin();
@@ -241,7 +241,7 @@ public:
   }
   bool FindDataElement(const Tag &t) const;
 
-  bool operator==(const Value &val) const
+  bool operator==(const Value &val) const override
     {
     const SequenceOfItems &sqi = dynamic_cast<const SequenceOfItems&>(val);
     return SequenceLengthField == sqi.SequenceLengthField &&

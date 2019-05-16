@@ -29,7 +29,7 @@ class DataElement;
 class GDCM_EXPORT Decoder
 {
 public:
-  virtual ~Decoder() {}
+  virtual ~Decoder() = default;
 
   /// Return whether this decoder support this transfer syntax (can decode it)
   virtual bool CanDecode(TransferSyntax const &) const = 0;

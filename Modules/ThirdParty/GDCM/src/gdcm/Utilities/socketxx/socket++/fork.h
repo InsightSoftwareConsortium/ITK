@@ -20,7 +20,7 @@ class Fork {
  public:
   class KillForks {
   public:
-    KillForks () {}
+    KillForks () = default;
     ~KillForks ();
   };
 
@@ -51,11 +51,10 @@ class Fork {
 
   ForkProcess* process;
 
-  Fork (Fork&);             // no copy constructor definition provided
-  Fork& operator = (Fork&); // no assignment operator definition provided
-
  public:
-  Fork (bool kill = 0, bool reason = 0)
+  Fork (Fork&) = delete;
+  Fork& operator = (Fork&) = delete;
+  Fork (bool kill = false, bool reason = false)
     : process (new ForkProcess (kill, reason)) {}
   ~Fork ();
 

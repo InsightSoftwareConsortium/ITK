@@ -40,14 +40,14 @@ namespace gdcm
 		NormalizedNetworkFunctions::ConstructQuery(	const std::string & sopInstanceUID, 
 		const DataSet& queryds, ENQueryType queryType /*= eMMPS*/ )
 	{
-		BaseQuery* outQuery = NULL ;
+		BaseQuery* outQuery = nullptr ;
 		if( queryType == eCreateMMPS || queryType == eSetMMPS )
 			outQuery = QueryFactory::ProduceQuery( sopInstanceUID, queryType );
 
 		if (!outQuery)
 		{
 			gdcmErrorMacro( "Specify the query" );
-			return NULL;
+			return nullptr;
 		}
 
 		outQuery->AddQueryDataSet(queryds);

@@ -36,7 +36,7 @@ class CMoveRQ : public BaseCompositeMessage {
     public:
       std::vector<PresentationDataValue> ConstructPDV(
         const ULConnection &inConnection,
-        const BaseRootQuery* inRootQuery);
+        const BaseRootQuery* inRootQuery) override;
     };
 
 /**

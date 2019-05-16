@@ -1,4 +1,6 @@
-cmake_minimum_required(VERSION 3.9.5)
+if(NOT DEFINED CMAKE_MINIMUM_REQUIRED_VERSION)
+  cmake_minimum_required(VERSION 2.8.7)
+endif()
 
 if(NOT UUID_NAMESPACE)
   set(UUID_NAMESPACE "UUID")
@@ -9,9 +11,14 @@ string(TOLOWER ${UUID_NAMESPACE} UUID_LIBRARY_NAME)
 
 project(${UUID_NAMESPACE} C)
 
-if(POLICY CMP0063)
-  cmake_policy(SET CMP0063 NEW)
-endif()
+foreach(p
+    CMP0042
+    CMP0063
+    )
+  if(POLICY ${p})
+    cmake_policy(SET ${p} NEW)
+  endif()
+endforeach()
 
 # Do full dependency headers.
 include_regular_expression("^.*$")
