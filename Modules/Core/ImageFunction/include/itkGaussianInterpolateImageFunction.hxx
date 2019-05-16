@@ -222,6 +222,30 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
     }
 }
 
+
+template<typename TImageType, typename TCoordRep>
+typename GaussianInterpolateImageFunction<TImageType, TCoordRep>::SizeType
+GaussianInterpolateImageFunction<TImageType, TCoordRep>
+::GetRadius() const
+{
+  SizeType radius;
+
+  if( !this->GetInputImage() )
+    {
+    itkExceptionMacro("Input image required!");
+    }
+
+  const InputImageType * input = this->GetInputImage();
+  const typename InputImageType::SpacingType spacing = input->GetSpacing();
+
+  for( unsigned int dim = 0; dim < ImageDimension; ++dim )
+    {
+    radius[dim] = static_cast< SizeValueType >( Math::ceil( m_CutOffDistance[dim] / spacing[dim] ) );
+    }
+  return radius;
+}
+
+
 template<typename TImageType, typename TCoordRep>
 void
 GaussianInterpolateImageFunction<TImageType, TCoordRep>

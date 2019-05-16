@@ -291,6 +291,9 @@ public:
   using IndexType = typename Superclass::IndexType;
   using IndexValueType = typename Superclass::IndexValueType;
 
+  /** Size type alias support */
+  using SizeType = typename Superclass::SizeType;
+
   /** Image type definition */
   using ImageType = TInputImage;
 
@@ -307,6 +310,13 @@ public:
    */
   OutputType EvaluateAtContinuousIndex(
     const ContinuousIndexType & index) const override;
+
+  SizeType GetRadius() const override
+    {
+    SizeType radius;
+    radius.Fill( VRadius );
+    return radius;
+    }
 
 protected:
   WindowedSincInterpolateImageFunction();

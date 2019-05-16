@@ -84,6 +84,9 @@ public:
   /** Index type alias support */
   using IndexType = typename Superclass::IndexType;
 
+  /** Size type alias support */
+  using SizeType = typename Superclass::SizeType;
+
   /** ContinuousIndex type alias support */
   using ContinuousIndexType = typename Superclass::ContinuousIndexType;
 
@@ -143,6 +146,8 @@ public:
     {
     return this->EvaluateAtContinuousIndex( cindex, nullptr );
     }
+
+  SizeType GetRadius() const override;
 
 protected:
   GaussianInterpolateImageFunction();
