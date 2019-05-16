@@ -1,6 +1,6 @@
-#include <stdio.h>
 #include <iostream>
-#include <ctype.h>
+#include <cstdlib>
+
 #include <metaTube.h>
 #include <metaScene.h>
 #include <metaEllipse.h>
@@ -24,7 +24,9 @@ int main(int, char * [])
   for(i=0;i<10;i++)
   {
     pnt = new TubePnt(3);
-    pnt->m_X[0]=i;pnt->m_X[1]=i;pnt->m_X[2]=i;
+    pnt->m_X[0]=i;
+    pnt->m_X[1]=i;
+    pnt->m_X[2]=i;
     pnt->m_R=i;
     tube1->GetPoints().push_back(pnt);
   }
@@ -35,7 +37,9 @@ int main(int, char * [])
   for(i=0;i<5;i++)
   {
     pnt = new TubePnt(3);
-    pnt->m_X[0]=i;pnt->m_X[1]=i;pnt->m_X[2]=i;
+    pnt->m_X[0]=i;
+    pnt->m_X[1]=i;
+    pnt->m_X[2]=i;
     pnt->m_R=i;
     tube2->GetPoints().push_back(pnt);
   }
@@ -65,7 +69,7 @@ int main(int, char * [])
   myScene2.Read("test.scn");
   std::cout << "  ... read scene " << std::endl;
 
-  typedef  MetaScene::ObjectListType ListType;
+  using ListType = MetaScene::ObjectListType;
   ListType * list = myScene2.GetObjectList();
   ListType::iterator it = list->begin();
 
