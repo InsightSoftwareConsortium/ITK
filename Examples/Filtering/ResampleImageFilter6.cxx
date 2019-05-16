@@ -16,15 +16,6 @@
  *
  *=========================================================================*/
 
-//  Software Guide : BeginLatex
-//
-//  Resampling can also be performed in multi-component images.
-//
-//  \index{itk::VectorResampleImageFilter!Image internal transform}
-//
-//  Software Guide : EndLatex
-
-
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
