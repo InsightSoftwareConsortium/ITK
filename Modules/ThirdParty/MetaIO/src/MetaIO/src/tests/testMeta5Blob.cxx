@@ -1,9 +1,13 @@
-#include <stdio.h>
-#include <ctype.h>
+#include <iostream>
+#include <cstdlib>
+
 #include <metaBlob.h>
 
 int main(int, char * [])
 {
+
+  std::cout << "Testing default constructor ..." <<  std::endl;
+  MetaBlob blob1;
 
   std::cout << "Creating test file ..." << std::endl;
   MetaBlob blob(3);
@@ -15,7 +19,9 @@ int main(int, char * [])
   for(i=0;i<10;i++)
   {
     pnt = new BlobPnt(3);
-    pnt->m_X[0]=(float)0.2;pnt->m_X[1]=i;pnt->m_X[2]=i;
+    pnt->m_X[0]=(float)0.2;
+    pnt->m_X[1]=i;
+    pnt->m_X[2]=i;
     blob.GetPoints().push_back(pnt);
   }
 
@@ -28,7 +34,13 @@ int main(int, char * [])
   std::cout << "  done" << std::endl;
 
   std::cout << "Reading test file ..." << std::endl;
+  MetaBlob blobRead("myCNC.meta"); // coverage
   blob.Read("myCNC.meta");
+  MetaBlob blobCopy(&blob);
+
+  std::cout << "NPoints = " << blobCopy.NPoints() << std::endl;
+  std::cout << "PointDim = " << blobCopy.PointDim() << std::endl;
+  std::cout << "ElementType = " << blobCopy.ElementType() << std::endl;
 
   std::cout << "  done" << std::endl;
 

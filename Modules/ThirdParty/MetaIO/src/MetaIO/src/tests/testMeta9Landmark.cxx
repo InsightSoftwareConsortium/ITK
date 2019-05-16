@@ -1,5 +1,6 @@
-#include <stdio.h>
-#include <ctype.h>
+#include <iostream>
+#include <cstdlib>
+
 #include <metaLandmark.h>
 
 int main(int , char * [])
@@ -14,7 +15,9 @@ int main(int , char * [])
   for(i=0;i<10;i++)
   {
     pnt = new LandmarkPnt(3);
-    pnt->m_X[0]=(float)0.2;pnt->m_X[1]=i;pnt->m_X[2]=i;
+    pnt->m_X[0]=(float)0.2;
+    pnt->m_X[1]=i;
+    pnt->m_X[2]=i;
     Landmark.GetPoints().push_back(pnt);
   }
 
@@ -28,6 +31,12 @@ int main(int , char * [])
 
   std::cout << "Reading test file ..." << std::endl;
   Landmark.Read("Landmarks.meta");
+  MetaLandmark landmarkRead("Landmarks.meta");
+  MetaLandmark landmarkCopy(&landmarkRead);
+
+  std::cout << "PointDim = " << landmarkCopy.PointDim() << std::endl;
+  std::cout << "NPoints = "  << landmarkCopy.NPoints() << std::endl;
+  std::cout << "ElementType = " << landmarkCopy.ElementType() << std::endl;
 
   std::cout << "  done" << std::endl;
 

@@ -1,7 +1,5 @@
-#include <stdio.h>
-#include <fstream>
-#include <ctype.h>
-
+#include <iostream>
+#include <cstdlib>
 
 #include <metaUtils.h>
 
@@ -113,6 +111,12 @@ int main(int, char * [])
   else
     std::cout << "PASSED" << std::endl;
 
+  for (int i = 0; i < n; i++)
+    {
+    delete[] wordArray[i];
+    }
+  delete[] wordArray;
+
   std::string fName= "this/is/a/test.com";
   std::string tmpString;
   std::cout << "MET_GetFilePathTest: ";
@@ -216,7 +220,7 @@ int main(int, char * [])
   fout.flush();
 
   std::vector<MET_FieldRecordType *>::iterator fieldIter;
-  for(fieldIter=mFields.begin(); fieldIter!=mFields.end(); ++fieldIter)
+  for(fieldIter=mFields.begin(); fieldIter != mFields.end(); ++fieldIter)
     delete *fieldIter;
   mFields.clear();
 
@@ -260,7 +264,6 @@ int main(int, char * [])
       std::cout << "nDims not equal to 2" << std::endl;
       exitCode = EXIT_FAILURE;
       }
-      
     else
       std::cout << "nDims: Passed" << std::endl;
     }
@@ -270,7 +273,7 @@ int main(int, char * [])
     exitCode = EXIT_FAILURE;
     }
 
-  float eSize[2];
+  double eSize[2];
   ++fieldIter;
   if((*fieldIter)->defined)
     {
@@ -290,8 +293,8 @@ int main(int, char * [])
     exitCode = EXIT_FAILURE;
     }
 
-  int nNames;
-  char **names;
+  int nNames=0;
+  char **names=nullptr;
   ++fieldIter;
   if((*fieldIter)->defined)
     {
@@ -311,6 +314,17 @@ int main(int, char * [])
     {
     std::cout << "DirNames not defined" << std::endl;
     exitCode = EXIT_FAILURE;
+    }
+
+  for(int i=0;i<nNames;i++)
+    {
+      delete[] names[i];
+    }
+  delete[] names;
+
+  for(fieldIter=mFields.begin(); fieldIter != mFields.end(); ++fieldIter)
+    {
+    delete *fieldIter;
     }
 
   return exitCode;

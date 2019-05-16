@@ -1,5 +1,6 @@
-#include <stdio.h>
-#include <ctype.h>
+#include <iostream>
+#include <cstdlib>
+
 #include <metaImage.h>
 
 int main(int, char * [])
