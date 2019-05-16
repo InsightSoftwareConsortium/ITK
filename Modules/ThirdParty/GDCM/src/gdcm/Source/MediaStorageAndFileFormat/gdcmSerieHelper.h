@@ -90,6 +90,7 @@ protected:
   bool AddFile(FileWithName &header);
   void AddRestriction(const Tag& tag);
   bool ImagePositionPatientOrdering(FileList *fileSet);
+  bool ImageNumberOrdering( FileList *fileList );
   bool FileNameOrdering( FileList *fileList );
 
   typedef struct {

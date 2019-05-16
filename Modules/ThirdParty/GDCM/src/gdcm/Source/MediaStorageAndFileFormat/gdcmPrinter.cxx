@@ -75,7 +75,7 @@ static const char * GDCM_TERMINAL_VT100_BACKGROUND_WHITE     = "";
 namespace gdcm
 {
 //-----------------------------------------------------------------------------
-Printer::Printer():PrintStyle(Printer::VERBOSE_STYLE),F(0)
+Printer::Printer():PrintStyle(Printer::VERBOSE_STYLE),F(nullptr)
 {
   MaxPrintLength = 0x100; // Need to be %2
 
@@ -83,8 +83,7 @@ Printer::Printer():PrintStyle(Printer::VERBOSE_STYLE),F(0)
 
 //-----------------------------------------------------------------------------
 Printer::~Printer()
-{
-}
+= default;
 
 void Printer::SetColor(bool c)
 {
@@ -458,11 +457,11 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
   const DataElement &de, std::ostream &out, std::string const & indent )
 {
   const ByteValue *bv = de.GetByteValue();
-  const SequenceOfItems *sqi = 0; //de.GetSequenceOfItems();
+  const SequenceOfItems *sqi = nullptr; //de.GetSequenceOfItems();
   const SequenceOfFragments *sqf = de.GetSequenceOfFragments();
 
   std::string strowner;
-  const char *owner = 0;
+  const char *owner = nullptr;
   const Tag& t = de.GetTag();
   if( t.IsPrivate() && !t.IsPrivateCreator() )
     {
@@ -610,10 +609,15 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
       //StringFilterCase(UN);
       StringFilterCase(US);
       //StringFilterCase(UT);
+      StringFilterCase(SV);
+      StringFilterCase(UV);
     case VR::OB:
     case VR::OW:
+    case VR::OL:
+    case VR::OV:
     case VR::OB_OW:
     case VR::UN:
+    case VR::US_OW: // TODO: check with ModalityLUT.dcm
     case VR::US_SS_OW: // TODO: check with ModalityLUT.dcm
       /*
       VR::US_SS_OW:
@@ -706,7 +710,33 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
           }
         }
       break;
-    default:
+    /* ASCII are treated elsewhere but we do not want to use default: here to get warnings */
+    /* hopefully compiler is smart and remove dead switch/case */
+    case VR::AE:
+    case VR::AS:
+    case VR::CS:
+    case VR::DA:
+    case VR::DS:
+    case VR::DT:
+    case VR::IS:
+    case VR::LO:
+    case VR::LT:
+    case VR::PN:
+    case VR::SH:
+    case VR::ST:
+    case VR::TM:
+    case VR::UC:
+    case VR::UI:
+    case VR::UR:
+    case VR::UT:
+    /* others */
+    case VR::VL16:
+    case VR::VL32:
+    case VR::VRASCII:
+    case VR::VRBINARY:
+    case VR::VR_VM1:
+    case VR::VRALL:
+    case VR::VR_END:
       assert(0);
       break;
       }
@@ -758,7 +788,7 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
     if( bv )
       {
       size_t count = VM::GetNumberOfElementsFromArray(bv->GetPointer(), bv->GetLength());
-      guessvm = VM::GetVMTypeFromLength((unsigned int)count, 1); // hackish...
+      guessvm = VM::GetVMTypeFromLength(count, 1); // hackish...
       }
     }
   else if( refvr & VR::VRBINARY )
@@ -804,7 +834,7 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
   if( name && *name )
     {
     // No owner case !
-    if( t.IsPrivate() && (owner == 0 || *owner == 0 ) && !t.IsPrivateCreator() )
+    if( t.IsPrivate() && (owner == nullptr || *owner == 0 ) && !t.IsPrivateCreator() )
       {
       os << GDCM_TERMINAL_VT100_FOREGROUND_RED;
       os << " " << name;

@@ -93,7 +93,7 @@ protected:
   ~SpatialObjectFactoryBase() override;
 
 private:
-  static ITKSpatialObjectExport SpatialObjectFactoryBase *m_Factory;
+  static SpatialObjectFactoryBase *m_Factory;
 };
 } // end namespace itk
 #endif

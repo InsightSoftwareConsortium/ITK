@@ -4,8 +4,7 @@
 
 int main(int, char * [])
 {
-
-  METAIO_STREAM::cout << "Creating test file ...";
+  std::cout << "Creating test file ...";
   MetaLine* Line = new MetaLine(3);
   Line->ID(0);
   LinePnt* pnt;
@@ -20,14 +19,14 @@ int main(int, char * [])
     Line->GetPoints().push_back(pnt);
   }
 
-  METAIO_STREAM::cout << "Writing test file ...";
+  std::cout << "Writing test file ...";
 
   Line->BinaryData(true);
 
   Line->Write("myLine.meta");
 
-  METAIO_STREAM::cout << "done" << METAIO_STREAM::endl;
-  METAIO_STREAM::cout << "Reading test file ...";
+  std::cout << "done" << std::endl;
+  std::cout << "Reading test file ...";
 
   Line->Clear();
   Line->Read("myLine.meta");
@@ -40,29 +39,29 @@ int main(int, char * [])
   i=0;
   while(it != list.end())
   {
-    METAIO_STREAM::cout << "Point #" << i++ << ":" << METAIO_STREAM::endl;
-    METAIO_STREAM::cout << "position = ";
+    std::cout << "Point #" << i++ << ":" << std::endl;
+    std::cout << "position = ";
     unsigned int d=0;
     for(d = 0; d < 3; d++)
     {
-      METAIO_STREAM::cout << (*it)->m_X[d] << " ";
+      std::cout << (*it)->m_X[d] << " ";
     }
-    METAIO_STREAM::cout << METAIO_STREAM::endl;
-    METAIO_STREAM::cout << "First normal = ";
+    std::cout << std::endl;
+    std::cout << "First normal = ";
     for(d = 0; d < 3; d++)
     {
-      METAIO_STREAM::cout << (*it)->m_V[0][d] << " ";
+      std::cout << (*it)->m_V[0][d] << " ";
     }
-    METAIO_STREAM::cout << METAIO_STREAM::endl;
-    METAIO_STREAM::cout << "Second normal = ";
+    std::cout << std::endl;
+    std::cout << "Second normal = ";
     for(d = 0; d < 3; d++)
     {
-      METAIO_STREAM::cout << (*it)->m_V[1][d] << " ";
+      std::cout << (*it)->m_V[1][d] << " ";
     }
-    METAIO_STREAM::cout << METAIO_STREAM::endl;
+    std::cout << std::endl;
     ++it;
   }
 
-  METAIO_STREAM::cout << "done" << METAIO_STREAM::endl;
-  return 1;
+  std::cout << "done" << std::endl;
+  return EXIT_SUCCESS;
 }

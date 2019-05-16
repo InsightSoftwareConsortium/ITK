@@ -111,6 +111,9 @@ public:
   /** Index type alias support */
   using IndexType = typename Superclass::IndexType;
 
+  /** Size type alias support */
+  using SizeType = typename Superclass::SizeType;
+
   /** ContinuousIndex type alias support */
   using ContinuousIndexType = typename Superclass::ContinuousIndexType;
 
@@ -311,6 +314,11 @@ public:
   itkSetMacro(UseImageDirection, bool);
   itkGetConstMacro(UseImageDirection, bool);
   itkBooleanMacro(UseImageDirection);
+
+  SizeType GetRadius() const override
+    {
+    return SizeType::Filled(m_SplineOrder + 1);
+    }
 
 protected:
 

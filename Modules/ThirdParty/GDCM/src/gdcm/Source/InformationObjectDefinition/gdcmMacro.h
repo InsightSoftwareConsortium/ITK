@@ -46,7 +46,7 @@ public:
   //ConstIterator End() const { return ModuleInternal.end(); }
   //Iterator End() { return ModuleInternal.end(); }
 
-  Macro() {}
+  Macro() = default;
   friend std::ostream& operator<<(std::ostream& _os, const Macro&_val);
 
   void Clear() { ModuleInternal.clear(); }

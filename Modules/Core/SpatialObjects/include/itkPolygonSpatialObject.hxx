@@ -215,98 +215,88 @@ PolygonSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 PolygonSpatialObject< TDimension >
-::IsInsideInObjectSpace(const PointType & point, unsigned int depth,
-  const std::string & name) const
+::IsInsideInObjectSpace(const PointType & point) const
 {
-  if( this->GetTypeName().find( name ) != std::string::npos )
+  if( this->GetIsClosed()
+    && this->GetMyBoundingBoxInObjectSpace()->IsInside( point ) )
     {
-    if( this->GetIsClosed()
-      && this->GetMyBoundingBoxInObjectSpace()->IsInside( point ) )
+    int    numpoints = this->GetNumberOfPoints();
+    int    X = -1;
+    int    Y = -1;
+
+    if ( numpoints >= 3 )
       {
-      int    numpoints = this->GetNumberOfPoints();
-      int    X = -1;
-      int    Y = -1;
-
-      if ( numpoints >= 3 )
+      for( unsigned int i=0; i<TDimension; ++i )
         {
-        for( unsigned int i=0; i<TDimension; ++i )
+        if( this->GetOrientationInObjectSpace() != static_cast<int>(i) )
           {
-          if( this->GetOrientationInObjectSpace() != static_cast<int>(i) )
+          if( X == -1 )
             {
-            if( X == -1 )
+            X = i;
+            }
+          else
+            {
+            Y = i;
+            break;
+            }
+          }
+        }
+
+      const PolygonPointListType & points = this->GetPoints();
+      auto it = points.begin();
+      auto itend = points.end();
+
+      bool oddNodes = false;
+
+      PointType node1 = it->GetPositionInObjectSpace();
+      PointType node2;
+      ++it;
+      const double x = point[X];
+      const double y = point[Y];
+      while( it != itend )
+        {
+        node2 = it->GetPositionInObjectSpace();
+
+        if( node1 != node2 )
+          {
+          if ( ( node1[Y] <= y && node2[Y] > y )
+               || ( node2[Y] < y && node1[Y] >= y ) )
+            {
+            if ( node1[X] + ( ( y - node1[Y] ) / ( node2[Y] - node1[Y] ) )
+              * ( node2[X] - node1[X] ) < x )
               {
-              X = i;
+              oddNodes = !oddNodes;
               }
-            else
+            }
+          node1 = node2;
+          }
+        it++;
+        }
+      if( m_IsClosed )
+        {
+        node1 = points.back().GetPositionInObjectSpace();
+        node2 = points.begin()->GetPositionInObjectSpace();
+        // closed PolygonGroup may have the first and last points the same
+        if( node1 != node2 )
+          {
+          if ( ( node1[Y] <= y && node2[Y] > y )
+               || ( node2[Y] < y && node1[Y] >= y ) )
+            {
+            if ( node1[X] + ( ( y - node1[Y] ) / ( node2[Y] - node1[Y] ) )
+              * ( node2[X] - node1[X] ) < x )
               {
-              Y = i;
-              break;
+              oddNodes = !oddNodes;
               }
             }
           }
+        }
 
-        const PolygonPointListType & points = this->GetPoints();
-        auto it = points.begin();
-        auto itend = points.end();
-
-        bool oddNodes = false;
-
-        PointType node1 = it->GetPositionInObjectSpace();
-        PointType node2;
-        ++it;
-        const double x = point[X];
-        const double y = point[Y];
-        while( it != itend )
-          {
-          node2 = it->GetPositionInObjectSpace();
-
-          if( node1 != node2 )
-            {
-            if ( ( node1[Y] <= y && node2[Y] > y )
-                 || ( node2[Y] < y && node1[Y] >= y ) )
-              {
-              if ( node1[X] + ( ( y - node1[Y] ) / ( node2[Y] - node1[Y] ) )
-                * ( node2[X] - node1[X] ) < x )
-                {
-                oddNodes = !oddNodes;
-                }
-              }
-            node1 = node2;
-            }
-          it++;
-          }
-        if( m_IsClosed )
-          {
-          node1 = points.back().GetPositionInObjectSpace();
-          node2 = points.begin()->GetPositionInObjectSpace();
-          // closed PolygonGroup may have the first and last points the same
-          if( node1 != node2 )
-            {
-            if ( ( node1[Y] <= y && node2[Y] > y )
-                 || ( node2[Y] < y && node1[Y] >= y ) )
-              {
-              if ( node1[X] + ( ( y - node1[Y] ) / ( node2[Y] - node1[Y] ) )
-                * ( node2[X] - node1[X] ) < x )
-                {
-                oddNodes = !oddNodes;
-                }
-              }
-            }
-          }
-
-        if( oddNodes )
-          {
-          return true;
-          }
+      if( oddNodes )
+        {
+        return true;
         }
       }
     }
-
-  if( depth > 0 )
-    {
-    return Superclass::IsInsideChildrenInObjectSpace( point, depth-1, name );
-    }
-
   return false;
 }
 

@@ -26,7 +26,7 @@
 //    ResampleImageFilter9 Examples/Data/VisibleWomanEyeSlice.png
 //        SliceNearestNeighbor.png SliceLinear.png
 //
-//  \index{itk::VectorResampleImageFilter!Image internal transform}
+//  \index{itk::ResampleImageFilter!Image internal transform}
 //
 //  Software Guide : EndLatex
 
@@ -34,9 +34,9 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkVectorResampleImageFilter.h"
+#include "itkResampleImageFilter.h"
 #include "itkIdentityTransform.h"
-#include "itkVectorNearestNeighborInterpolateImageFunction.h"
+#include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkRGBPixel.h"
 
@@ -70,18 +70,18 @@ int main( int argc, char * argv[] )
   writerNearest->SetFileName( argv[2] );
   writerLinear->SetFileName( argv[3] );
 
-  using FilterType = itk::VectorResampleImageFilter<
+  using FilterType = itk::ResampleImageFilter<
                             ImageType, ImageType >;
 
   FilterType::Pointer nearestFilter = FilterType::New();
   FilterType::Pointer linearFilter = FilterType::New();
 
   //Interpolators
-  using NearestInterpolatorType = itk::VectorNearestNeighborInterpolateImageFunction<
+  using NearestInterpolatorType = itk::NearestNeighborInterpolateImageFunction<
                        ImageType, double >;
   NearestInterpolatorType::Pointer interpolatorNearest = NearestInterpolatorType::New();
 
-  using LinearInterpolatorType = itk::VectorLinearInterpolateImageFunction<
+  using LinearInterpolatorType = itk::LinearInterpolateImageFunction<
                        ImageType, double >;
   LinearInterpolatorType::Pointer interpolatorLinear = LinearInterpolatorType::New();
 

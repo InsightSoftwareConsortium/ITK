@@ -17,12 +17,10 @@ namespace gdcm
 {
 
 Command::Command()
-{
-}
+= default;
 
 Command::~Command()
-{
-}
+= default;
 
 
 } // end namespace gdcm

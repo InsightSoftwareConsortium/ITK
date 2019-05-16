@@ -20,6 +20,7 @@
 
 #include "itkInterpolateImageFunction.h"
 #include "itkTransform.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
@@ -163,6 +164,16 @@ public:
   {
     return true;
   }
+
+  SizeType GetRadius() const override
+    {
+    const InputImageType* input = this->GetInputImage();
+    if ( !input )
+      {
+      itkExceptionMacro( "Input image required!" );
+      }
+    return input->GetLargestPossibleRegion().GetSize();
+    }
 
 protected:
   RayCastInterpolateImageFunction();

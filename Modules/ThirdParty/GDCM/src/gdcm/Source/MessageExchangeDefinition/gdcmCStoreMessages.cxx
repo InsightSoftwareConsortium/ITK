@@ -122,7 +122,7 @@ const DataSet* inDataSet = &file.GetDataSet();
   // ADV: technically we could use an explicit VR encoded dataset and send it over
   // an implicit TS accecpted Transfer syntax. However thing do not interchange well
   // so we really need a filter to check whether conversion is ok or not.
-  if( acpc == 0 )
+  if( acpc == nullptr )
     {
     // Technically we should fallback to something else. Anyway lets' give up
     // and hope the user will convert the encapsulated stream to something else...

@@ -23,6 +23,8 @@
 #include "itkImageIOBase.h"
 #include <fstream>
 
+struct NrrdEncoding_t;
+
 namespace itk
 {
 /** \class NrrdImageIO
@@ -30,6 +32,10 @@ namespace itk
  * \brief Read and write the "Nearly Raw Raster Data" (Nrrd) image format.
  * The Nrrd format was developed as part of the Teem package
  * (teem.sourceforge.net).
+ *
+ * The compressor supported may include "gzip" (default) and
+ * "bzip2".  Only the "gzip" compressor support the compression level
+ * in the range 0-9.
  *
  *  \ingroup IOFilters
  * \ingroup ITKIONRRD
@@ -83,11 +89,15 @@ protected:
   ~NrrdImageIO() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
+  void InternalSetCompressor(const std::string &_compressor) override;
+
   /** Utility functions for converting between enumerated data type
       representations */
   int ITKToNrrdComponentType(const ImageIOBase::IOComponentType) const;
 
   ImageIOBase::IOComponentType NrrdToITKComponentType(const int) const;
+
+  const  NrrdEncoding_t * m_NrrdCompressionEncoding{nullptr};
 };
 } // end namespace itk
 

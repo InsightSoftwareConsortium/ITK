@@ -20,7 +20,7 @@
 
 #include "itkVectorExpandImageFilter.h"
 #include "itkVectorNearestNeighborInterpolateImageFunction.h"
-#include "itkVectorCastImageFilter.h"
+#include "itkCastImageFilter.h"
 #include "itkStreamingImageFilter.h"
 #include "itkMath.h"
 
@@ -218,7 +218,7 @@ int itkVectorExpandImageFilterTest(int, char* [] )
   std::cout << "Run ExpandImageFilter with streamer";
   std::cout << std::endl;
 
-  using CasterType = itk::VectorCastImageFilter<ImageType,ImageType>;
+  using CasterType = itk::CastImageFilter<ImageType,ImageType>;
   CasterType::Pointer caster = CasterType::New();
 
   caster->SetInput( expander->GetInput() );

@@ -70,42 +70,32 @@ LineSpatialObject< TDimension >
 template< unsigned int TDimension >
 bool
 LineSpatialObject< TDimension >
-::IsInsideInObjectSpace(const PointType & point, unsigned int depth,
-  const std::string & name) const
+::IsInsideInObjectSpace(const PointType & point) const
 {
-  if( this->GetTypeName().find( name ) != std::string::npos )
-    {
-    auto it = this->m_Points.begin();
-    auto itEnd = this->m_Points.end();
+  auto it = this->m_Points.begin();
+  auto itEnd = this->m_Points.end();
 
-    if ( this->GetMyBoundingBoxInObjectSpace()->IsInside(point) )
+  if ( this->GetMyBoundingBoxInObjectSpace()->IsInside(point) )
+    {
+    while ( it != itEnd )
       {
-      while ( it != itEnd )
+      bool match = true;
+      for( unsigned int i=0; i<TDimension; ++i )
         {
-        bool match = true;
-        for( unsigned int i=0; i<TDimension; ++i )
+        if ( ! Math::AlmostEquals( ( *it ).GetPositionInObjectSpace()[i],
+                 point[i] ) )
           {
-          if ( ! Math::AlmostEquals( ( *it ).GetPositionInObjectSpace()[i],
-                   point[i] ) )
-            {
-            match = false;
-            break;
-            }
+          match = false;
+          break;
           }
-        if( match )
-          {
-          return true;
-          }
-        it++;
         }
+      if( match )
+        {
+        return true;
+        }
+      it++;
       }
     }
-
-  if( depth > 0 )
-    {
-    return Superclass::IsInsideChildrenInObjectSpace( point, depth-1, name );
-    }
-
 
   return false;
 }

@@ -28,224 +28,47 @@ namespace itk
 template< typename TInputImage >
 StatisticsImageFilter< TInputImage >
 ::StatisticsImageFilter()
-  :m_ThreadSum(1),
-   m_SumOfSquares(1),
-   m_ThreadMin(1),
-   m_ThreadMax(1)
 {
-  // first output is a copy of the image, DataObject created by superclass
-  //
-  // allocate the data objects for the outputs which are
-  // just decorators around pixel types
-  for ( int i = 1; i < 3; ++i )
-    {
-    typename PixelObjectType::Pointer output =
-      static_cast< PixelObjectType * >( this->MakeOutput(i).GetPointer() );
-    this->ProcessObject::SetNthOutput( i, output.GetPointer() );
-    }
-  // allocate the data objects for the outputs which are
-  // just decorators around real types
-  for ( int i = 3; i < 8; ++i )
-    {
-    typename RealObjectType::Pointer output =
-      static_cast< RealObjectType * >( this->MakeOutput(i).GetPointer() );
-    this->ProcessObject::SetNthOutput( i, output.GetPointer() );
-    }
+  this->SetNumberOfRequiredInputs(1);
 
-  this->GetMinimumOutput()->Set( NumericTraits< PixelType >::max() );
-  this->GetMaximumOutput()->Set( NumericTraits< PixelType >::NonpositiveMin() );
-  this->GetMeanOutput()->Set( NumericTraits< RealType >::max() );
-  this->GetSigmaOutput()->Set( NumericTraits< RealType >::max() );
-  this->GetVarianceOutput()->Set( NumericTraits< RealType >::max() );
-  this->GetSumOutput()->Set(NumericTraits< RealType >::ZeroValue());
-  this->GetSumOfSquaresOutput()->Set(NumericTraits< RealType >::ZeroValue());
+  Self::SetMinimum( NumericTraits< PixelType >::max() );
+  Self::SetMaximum( NumericTraits< PixelType >::NonpositiveMin() );
+  Self::SetMean( NumericTraits< RealType >::max() );
+  Self::SetSigma( NumericTraits< RealType >::max() );
+  Self::SetVariance( NumericTraits< RealType >::max() );
+  Self::SetSum( NumericTraits< RealType >::ZeroValue() );
+  Self::SetSumOfSquares(  NumericTraits< RealType >::ZeroValue() );
+  Self::SetPrimaryOutputName("Minimum");
 }
 
 template< typename TInputImage >
 DataObject::Pointer
 StatisticsImageFilter< TInputImage >
-::MakeOutput(DataObjectPointerArraySizeType output)
+::MakeOutput( const DataObjectIdentifierType & name)
 {
-  switch ( output )
+  if (name == "Minimum" ||
+      name == "Maximum" )
     {
-    case 0:
-      return TInputImage::New().GetPointer();
-      break;
-    case 1:
-      return PixelObjectType::New().GetPointer();
-      break;
-    case 2:
-      return PixelObjectType::New().GetPointer();
-      break;
-    case 3:
-    case 4:
-    case 5:
-    case 6:
-    case 7:
-      return RealObjectType::New().GetPointer();
-      break;
-    default:
-      // might as well make an image
-      return TInputImage::New().GetPointer();
-      break;
+    return PixelObjectType::New();
     }
-}
-
-template< typename TInputImage >
-typename StatisticsImageFilter< TInputImage >::PixelObjectType *
-StatisticsImageFilter< TInputImage >
-::GetMinimumOutput()
-{
-  return static_cast< PixelObjectType * >( this->ProcessObject::GetOutput(1) );
-}
-
-template< typename TInputImage >
-const typename StatisticsImageFilter< TInputImage >::PixelObjectType *
-StatisticsImageFilter< TInputImage >
-::GetMinimumOutput() const
-{
-  return static_cast< const PixelObjectType * >( this->ProcessObject::GetOutput(1) );
-}
-
-template< typename TInputImage >
-typename StatisticsImageFilter< TInputImage >::PixelObjectType *
-StatisticsImageFilter< TInputImage >
-::GetMaximumOutput()
-{
-  return static_cast< PixelObjectType * >( this->ProcessObject::GetOutput(2) );
-}
-
-template< typename TInputImage >
-const typename StatisticsImageFilter< TInputImage >::PixelObjectType *
-StatisticsImageFilter< TInputImage >
-::GetMaximumOutput() const
-{
-  return static_cast< const PixelObjectType * >( this->ProcessObject::GetOutput(2) );
-}
-
-template< typename TInputImage >
-typename StatisticsImageFilter< TInputImage >::RealObjectType *
-StatisticsImageFilter< TInputImage >
-::GetMeanOutput()
-{
-  return static_cast< RealObjectType * >( this->ProcessObject::GetOutput(3) );
-}
-
-template< typename TInputImage >
-const typename StatisticsImageFilter< TInputImage >::RealObjectType *
-StatisticsImageFilter< TInputImage >
-::GetMeanOutput() const
-{
-  return static_cast< const RealObjectType * >( this->ProcessObject::GetOutput(3) );
-}
-
-template< typename TInputImage >
-typename StatisticsImageFilter< TInputImage >::RealObjectType *
-StatisticsImageFilter< TInputImage >
-::GetSigmaOutput()
-{
-  return static_cast< RealObjectType * >( this->ProcessObject::GetOutput(4) );
-}
-
-template< typename TInputImage >
-const typename StatisticsImageFilter< TInputImage >::RealObjectType *
-StatisticsImageFilter< TInputImage >
-::GetSigmaOutput() const
-{
-  return static_cast< const RealObjectType * >( this->ProcessObject::GetOutput(4) );
-}
-
-template< typename TInputImage >
-typename StatisticsImageFilter< TInputImage >::RealObjectType *
-StatisticsImageFilter< TInputImage >
-::GetVarianceOutput()
-{
-  return static_cast< RealObjectType * >( this->ProcessObject::GetOutput(5) );
-}
-
-template< typename TInputImage >
-const typename StatisticsImageFilter< TInputImage >::RealObjectType *
-StatisticsImageFilter< TInputImage >
-::GetVarianceOutput() const
-{
-  return static_cast< const RealObjectType * >( this->ProcessObject::GetOutput(5) );
-}
-
-template< typename TInputImage >
-typename StatisticsImageFilter< TInputImage >::RealObjectType *
-StatisticsImageFilter< TInputImage >
-::GetSumOutput()
-{
-  return static_cast< RealObjectType * >( this->ProcessObject::GetOutput(6) );
-}
-
-template< typename TInputImage >
-const typename StatisticsImageFilter< TInputImage >::RealObjectType *
-StatisticsImageFilter< TInputImage >
-::GetSumOutput() const
-{
-  return static_cast< const RealObjectType * >( this->ProcessObject::GetOutput(6) );
-}
-
-
-template< typename TInputImage >
-typename StatisticsImageFilter< TInputImage >::RealObjectType *
-StatisticsImageFilter< TInputImage >
-::GetSumOfSquaresOutput()
-{
-  return static_cast< RealObjectType * >( this->ProcessObject::GetOutput(7) );
-}
-
-template< typename TInputImage >
-const typename StatisticsImageFilter< TInputImage >::RealObjectType *
-StatisticsImageFilter< TInputImage >
-::GetSumOfSquaresOutput() const
-{
-  return static_cast< const RealObjectType * >( this->ProcessObject::GetOutput(7) );
-}
-
-template< typename TInputImage >
-void
-StatisticsImageFilter< TInputImage >
-::GenerateInputRequestedRegion()
-{
-  Superclass::GenerateInputRequestedRegion();
-  if ( this->GetInput() )
+  if ( name == "Mean" ||
+       name == "Sigma" ||
+       name == "Variance" ||
+       name == "Sum" ||
+       name == "SumOfSquares" )
     {
-    InputImagePointer image =
-      const_cast< typename Superclass::InputImageType * >( this->GetInput() );
-    image->SetRequestedRegionToLargestPossibleRegion();
+    return RealObjectType::New();
     }
+  return Superclass::MakeOutput(name);
 }
 
 template< typename TInputImage >
 void
 StatisticsImageFilter< TInputImage >
-::EnlargeOutputRequestedRegion(DataObject *data)
+::BeforeStreamedGenerateData()
 {
-  Superclass::EnlargeOutputRequestedRegion(data);
-  data->SetRequestedRegionToLargestPossibleRegion();
-}
+  Superclass::BeforeStreamedGenerateData();
 
-template< typename TInputImage >
-void
-StatisticsImageFilter< TInputImage >
-::AllocateOutputs()
-{
-  // Pass the input through as the output
-  InputImagePointer image =
-    const_cast< TInputImage * >( this->GetInput() );
-
-  this->GraftOutput(image);
-
-  // Nothing that needs to be allocated for the remaining outputs
-}
-
-template< typename TInputImage >
-void
-StatisticsImageFilter< TInputImage >
-::BeforeThreadedGenerateData()
-{
   // Resize the thread temporaries
   m_Count = NumericTraits< SizeValueType >::ZeroValue();
   m_SumOfSquares = NumericTraits< RealType >::ZeroValue();
@@ -258,8 +81,10 @@ StatisticsImageFilter< TInputImage >
 template< typename TInputImage >
 void
 StatisticsImageFilter< TInputImage >
-::AfterThreadedGenerateData()
+::AfterStreamedGenerateData()
 {
+  Superclass::AfterStreamedGenerateData();
+
   const SizeValueType count = m_Count;
   const RealType      sumOfSquares(m_SumOfSquares);
   const PixelType     minimum = m_ThreadMin;
@@ -272,19 +97,19 @@ StatisticsImageFilter< TInputImage >
   const RealType  sigma = std::sqrt(variance);
 
   // Set the outputs
-  this->GetMinimumOutput()->Set(minimum);
-  this->GetMaximumOutput()->Set(maximum);
-  this->GetMeanOutput()->Set(mean);
-  this->GetSigmaOutput()->Set(sigma);
-  this->GetVarianceOutput()->Set(variance);
-  this->GetSumOutput()->Set(sum);
-  this->GetSumOfSquaresOutput()->Set(sumOfSquares);
+  this->SetMinimum(minimum);
+  this->SetMaximum(maximum);
+  this->SetMean(mean);
+  this->SetSigma(sigma);
+  this->SetVariance(variance);
+  this->SetSum(sum);
+  this->SetSumOfSquares(sumOfSquares);
 }
 
 template< typename TInputImage >
 void
 StatisticsImageFilter< TInputImage >
-::DynamicThreadedGenerateData(const RegionType & regionForThread)
+::ThreadedStreamedGenerateData(const RegionType & regionForThread)
 {
 
   CompensatedSummation<RealType> sum = NumericTraits< RealType >::ZeroValue();

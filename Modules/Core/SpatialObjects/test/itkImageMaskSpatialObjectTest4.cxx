@@ -124,7 +124,8 @@ int Test3dImageMask()
   maskSpatialObject->SetImage(imageFilter->GetOutput());
   maskSpatialObject->Update();
 
-  const ImageMaskSpatialObjectType::BoundingBoxType::BoundsArrayType maskBounds
+  using MaskBoundsArrayType = ImageMaskSpatialObjectType::BoundingBoxType::BoundsArrayType;
+  const MaskBoundsArrayType maskBounds
     = maskSpatialObject->GetMyBoundingBoxInWorldSpace()->GetBounds();
 
   //Test a few points...
@@ -162,18 +163,21 @@ int Test3dImageMask()
   std::cout << "   " << point << " isInside?  : "
     << maskSpatialObject->IsInsideInWorldSpace(point) << std::endl;
 
-  if(    itk::Math::NotAlmostEquals(maskBounds[0], 7.0)
-      || itk::Math::NotAlmostEquals(maskBounds[1], 8.0)
-      || itk::Math::NotAlmostEquals(maskBounds[2], 7.0)
-      || itk::Math::NotAlmostEquals(maskBounds[3], 8.0)
-      || itk::Math::NotAlmostEquals(maskBounds[4], 7.0)
-      || itk::Math::NotAlmostEquals(maskBounds[5], 8.0) )
+  constexpr std::array<double, MaskBoundsArrayType::Length> expectedBounds
+  {
+    { 6.75, 8.25, 6.75, 8.25, 6.75, 8.25 }
+  };
+
+  for (unsigned i = 0; i < MaskBoundsArrayType::Length; ++i)
+  {
+    if (itk::Math::NotAlmostEquals(maskBounds[i], expectedBounds[i]))
     {
-    std::cout << "[FAILED] " << std::endl;
-    std::cout << "Test returned : " << maskSpatialObject->GetMyBoundingBoxInWorldSpace()->GetBounds() << std::endl;
-    std::cout << "Instead of    : [7, 8, 7, 8, 7, 8]" << std::endl;
-    return EXIT_FAILURE;
+      std::cout << "[FAILED] " << std::endl;
+      std::cout << "Test returned : " << maskSpatialObject->GetMyBoundingBoxInWorldSpace()->GetBounds() << std::endl;
+      std::cout << "Instead of    : " << MaskBoundsArrayType{ expectedBounds }<< std::endl;
+      return EXIT_FAILURE;
     }
+  }
   std::cout << "[Passed] -- 3D test" << std::endl;
   return EXIT_SUCCESS;
 }
@@ -259,7 +263,8 @@ int Test2dImageMask()
 
   maskSpatialObject->Update();
 
-  const ImageMaskSpatialObjectType::BoundingBoxType::BoundsArrayType maskBounds
+  using MaskBoundsArrayType = ImageMaskSpatialObjectType::BoundingBoxType::BoundsArrayType;
+  const MaskBoundsArrayType maskBounds
     = maskSpatialObject->GetMyBoundingBoxInWorldSpace()->GetBounds();
 
   //Test a few points...
@@ -291,18 +296,23 @@ int Test2dImageMask()
   std::cout << "   " << point << " isInside?  : "
     << maskSpatialObject->IsInsideInWorldSpace(point) << std::endl;
 
-  if(    itk::Math::NotAlmostEquals(maskBounds[0], 7.1)
-      || itk::Math::NotAlmostEquals(maskBounds[1], 7.8)
-      || itk::Math::NotAlmostEquals(maskBounds[2], 7.1)
-      || itk::Math::NotAlmostEquals(maskBounds[3], 7.8))
+  constexpr std::array<double, MaskBoundsArrayType::Length> expectedBounds
+  {
+    { 6.75, 8.15, 6.75, 8.15 }
+  };
+
+  for (unsigned i = 0; i < MaskBoundsArrayType::Length; ++i)
+  {
+    if (itk::Math::NotAlmostEquals(maskBounds[i], expectedBounds[i]))
     {
-    std::cout << "[FAILED] " << std::endl;
-    std::cout << "Test returned : "
-      << maskSpatialObject->GetMyBoundingBoxInWorldSpace()->GetBounds()
-      << std::endl;
-    std::cout << "Instead of    : [7.1, 7.8, 7.1, 7.8]" << std::endl;
-    return EXIT_FAILURE;
+      std::cout << "[FAILED] " << std::endl;
+      std::cout << "Test returned : "
+        << maskSpatialObject->GetMyBoundingBoxInWorldSpace()->GetBounds()
+        << std::endl;
+      std::cout << "Instead of    : " << MaskBoundsArrayType{ expectedBounds } << std::endl;
+      return EXIT_FAILURE;
     }
+  }
 
   std::cout << "[Passed] -- 2D test" << std::endl;
   return EXIT_SUCCESS;

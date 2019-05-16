@@ -28,6 +28,9 @@ namespace itk
  *
  * \brief ImageIO object for reading and writing PNG images
  *
+ * Compression is support with only the default compressor. The
+ * compression level option is supported in the range 0-9.
+ *
  * \ingroup IOFilters
  *
  * \ingroup ITKIOPNG
@@ -50,11 +53,6 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(PNGImageIO, ImageIOBase);
-
-  /** Set/Get the level of compression for the output images.
-   *  0-9; 0 = none, 9 = maximum. */
-  itkSetMacro(CompressionLevel, int);
-  itkGetConstMacro(CompressionLevel, int);
 
   /** Get a const ref to the palette of the image. In the case of non palette
     * image or ExpandRGBPalette set to true, a vector of size
@@ -97,9 +95,6 @@ protected:
 
   void WriteSlice(const std::string & fileName, const void *buffer);
 
-  /** Determines the level of compression for written files.
-   *  Range 0-9; 0 = none, 9 = maximum , default = 4 */
-  int m_CompressionLevel{ 4 };
 
   PaletteType m_ColorPalette;
 };

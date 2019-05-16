@@ -50,7 +50,7 @@ void IconImageFilter::ExtractIconImages()
     const DataElement &iconimagesq = rootds.GetDataElement( ticonimage );
     SmartPointer<SequenceOfItems> sq = iconimagesq.GetValueAsSQ();
     // Is SQ empty ?
-    if( sq )
+    if( sq && sq->GetNumberOfItems() == 1 )
       {
       gdcmAssertAlwaysMacro( sq->GetNumberOfItems() == 1 );
 
@@ -197,7 +197,7 @@ void IconImageFilter::ExtractIconImages()
 
       // Pass TransferSyntax:
       pixeldata.SetTransferSyntax( ts );
-      Internals->icons.push_back( pixeldata );
+      Internals->icons.emplace_back(pixeldata );
       }
     }
 
@@ -336,7 +336,7 @@ void IconImageFilter::ExtractIconImages()
 #endif
       pixeldata.SetDataElement( de );
       }
-    Internals->icons.push_back( pixeldata );
+    Internals->icons.emplace_back(pixeldata );
     }
 
   // AFAIK this icon SQ is undocumented , but I found it in:
@@ -455,7 +455,7 @@ void IconImageFilter::ExtractIconImages()
       TransferSyntax tstype = TransferSyntax::GetTSType( at.GetValue() );
       pixeldata.SetTransferSyntax( tstype );
       }
-    Internals->icons.push_back( pixeldata );
+    Internals->icons.emplace_back(pixeldata );
     }
 }
 
@@ -487,7 +487,7 @@ void IconImageFilter::ExtractVeproIconImages()
   const PrivateTag ticon1(0x55,0x0030,"VEPRO VIF 3.0 DATA");
   const PrivateTag ticon2(0x55,0x0030,"VEPRO VIM 5.0 DATA");
 
-  const ByteValue * bv = NULL;
+  const ByteValue * bv = nullptr;
   // Prefer VIF over VIM ?
   if( rootds.FindDataElement( ticon1 ) )
     {
@@ -535,7 +535,7 @@ void IconImageFilter::ExtractVeproIconImages()
     pixeldata.SetPixelFormat( pf );
     pixeldata.SetPhotometricInterpretation( PhotometricInterpretation::MONOCHROME2 );
 
-    Internals->icons.push_back( pixeldata );
+    Internals->icons.emplace_back(pixeldata );
     }
 }
 

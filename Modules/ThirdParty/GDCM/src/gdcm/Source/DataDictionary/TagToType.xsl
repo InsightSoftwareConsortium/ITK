@@ -47,14 +47,14 @@ namespace gdcm {
 // default template: the compiler should only pick it up when the element is private:
 template &lt;uint16_t group,uint16_t element&gt; struct TagToType {
 //GDCM_STATIC_ASSERT( group % 2 );
-enum { VRType = VR::VRALL };
+enum : long long { VRType = VR::VRALL };
 enum { VMType = VM::VM1_n };
 };
 // template for group length:
 template &lt;uint16_t group&gt; struct TagToType&lt;group,0x0000&gt; {
 static const char* GetVRString() { return "UL"; }
 typedef VRToType&lt;VR::UL&gt;::Type Type;
-enum { VRType = VR::UL };
+enum : long long { VRType = VR::UL };
 enum { VMType = VM::VM1 };
 static const char* GetVMString() { return "1"; }
 };
@@ -64,7 +64,7 @@ static const char* GetVMString() { return "1"; }
       <xsl:sort select="@element" data-type="text" order="ascending"/>
       <xsl:variable name="group" select="translate(@group,'x','0')"/>
       <xsl:variable name="element" select="translate(@element,'x','0')"/>
-      <xsl:if test="contains(@element,'x') = true and contains(@element,'xx') = false and @vr != '' and @vr != 'US_SS' and @vr != 'US_SS_OW' and @vr != 'OB_OW'">
+      <xsl:if test="contains(@element,'x') = true and contains(@element,'xx') = false and @vr != '' and @vr != 'US_OW' and @vr != 'US_SS' and @vr != 'US_SS_OW' and @vr != 'OB_OW'">
 <xsl:variable name="classname">
         <xsl:text>TagToType&lt;0x</xsl:text>
         <xsl:value-of select="$group"/>
@@ -85,7 +85,7 @@ static const char* GetVMString() { return "1"; }
         <xsl:text>&gt;::Type Type;</xsl:text>
         <xsl:text>
 </xsl:text>
-        <xsl:text>enum { VRType = VR::</xsl:text>
+        <xsl:text>enum : long long { VRType = VR::</xsl:text>
         <xsl:value-of select="@vr"/>
         <xsl:text> };</xsl:text>
         <xsl:text>

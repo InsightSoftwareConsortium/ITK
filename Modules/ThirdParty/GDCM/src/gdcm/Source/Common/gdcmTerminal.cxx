@@ -17,7 +17,7 @@
 #include <iostream>
 #include <fstream>
 
-#ifdef WIN32
+#ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h> /* SetConsoleTextAttribute */
 #endif
@@ -40,7 +40,7 @@ class ConsoleImp
 {
 private:
 // console implementation details:
-#ifdef WIN32
+#ifdef _WIN32
   HANDLE hConsoleHandle;
   CONSOLE_SCREEN_BUFFER_INFO ConsoleInfo;
   WORD wNormalAttributes;
@@ -52,7 +52,7 @@ private:
 public:
   ConsoleImp()
   {
-#ifdef WIN32
+#ifdef _WIN32
     hConsoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
     GetConsoleScreenBufferInfo(hConsoleHandle, &ConsoleInfo);
     wNormalAttributes = ConsoleInfo.wAttributes;
@@ -61,7 +61,7 @@ public:
   }
   ~ConsoleImp()
   {
-#ifdef WIN32
+#ifdef _WIN32
     SetConsoleTextAttribute(hConsoleHandle, wNormalAttributes);
   }
   WORD get_attributes() {
@@ -85,7 +85,7 @@ public:
     return command;
   }
   void set_attributes(int color) {
-#ifdef WIN32
+#ifdef _WIN32
   static const int colors[8] = { 0, 4, 2, 6, 1, 5, 3, 7 };
   WORD wAttributes;
 
@@ -154,7 +154,7 @@ public:
   SetConsoleTextAttribute(hConsoleHandle, wAttributes);
 #else
   (void)color;
-#endif //WIN32
+#endif //_WIN32
 }
 
 };

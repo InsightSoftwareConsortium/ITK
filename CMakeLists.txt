@@ -277,8 +277,8 @@ mark_as_advanced(ITK_LEGACY_SILENT ITK_LEGACY_REMOVE ITK_FUTURE_LEGACY_REMOVE IT
 if(ITKV4_COMPATIBILITY AND ITK_LEGACY_REMOVE)
   message(FATAL_ERROR "Invalid configuration: ITKV4_COMPATIBILITY AND ITK_LEGACY_REMOVE can not both be ON")
 endif()
-if (NOT ITK_LEGACY_SILENT AND ITKV3_COMPATIBILITY)
-  message(WARNING "ITKV3_COMPATIBILITY is removed starting in ITK version 5.0.")
+if (ITKV3_COMPATIBILITY)
+  message(FATAL_ERROR "ITKV3_COMPATIBILITY is removed starting in ITK version 5.0, this option is no longer valid.")
 endif()
 
 #-----------------------------------------------------------------------------

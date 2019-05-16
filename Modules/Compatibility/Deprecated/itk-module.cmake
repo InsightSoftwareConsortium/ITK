@@ -9,6 +9,8 @@ endif()
 itk_module(ITKDeprecated
   DEPENDS
     ITKCommon
+    ITKTransform
+    ITKImageFunction
   TEST_DEPENDS
     ITKTestKernel
   ${ITKDeprecatedOnByDefault}

@@ -274,7 +274,7 @@ public:
   using MovingImageMaskConstPointer = typename MovingImageMaskType::ConstPointer;
 
   /** Type of the point set used for sparse sampling. */
-  using FixedSampledPointSetType =
+    using FixedSampledPointSetType =
       PointSet<typename FixedImageType::PixelType, Self::FixedImageDimension>;
   using FixedSampledPointSetPointer = typename FixedSampledPointSetType::Pointer;
   using FixedSampledPointSetConstPointer = typename FixedSampledPointSetType::ConstPointer;

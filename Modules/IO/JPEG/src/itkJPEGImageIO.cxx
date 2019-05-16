@@ -249,7 +249,7 @@ JPEGImageIO::JPEGImageIO()
   m_ComponentType = UINT;
 #endif
   m_UseCompression = false;
-  m_Quality = 95;
+  this->Self::SetQuality(95);
   m_Progressive = true;
   m_Spacing[0] = 1.0;
   m_Spacing[1] = 1.0;
@@ -274,7 +274,7 @@ JPEGImageIO::~JPEGImageIO() = default;
 void JPEGImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Quality : " << m_Quality << "\n";
+  os << indent << "Quality : " << this->GetQuality() << "\n";
   os << indent << "Progressive : " << m_Progressive << "\n";
 }
 
@@ -484,7 +484,7 @@ void JPEGImageIO::WriteSlice(std::string & fileName, const void *buffer)
 
   // set the compression parameters
   jpeg_set_defaults(&cinfo);         // start with reasonable defaults
-  jpeg_set_quality(&cinfo, m_Quality, TRUE);
+  jpeg_set_quality(&cinfo, this->GetQuality(), TRUE);
   if ( m_Progressive )
     {
     jpeg_simple_progression(&cinfo);

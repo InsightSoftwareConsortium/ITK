@@ -161,7 +161,7 @@ EStateID ULActionAE6::PerformAction(Subject *, ULEvent& inEvent, ULConnection& i
   AAssociateRQPDU* rqpdu;
   if (acceptable){
     rqpdu = dynamic_cast<AAssociateRQPDU*>(inEvent.GetPDUs()[0]);
-    if (rqpdu == NULL){
+    if (rqpdu == nullptr){
       acceptable = false;
     }
   }

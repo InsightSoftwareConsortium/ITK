@@ -47,7 +47,7 @@ public:
   //ConstIterator End() const { return ModuleInternal.end(); }
   //Iterator End() { return ModuleInternal.end(); }
 
-  Module() {}
+  Module() = default;
   friend std::ostream& operator<<(std::ostream& _os, const Module &_val);
 
   void Clear() { ModuleInternal.clear(); }

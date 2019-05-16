@@ -39,7 +39,7 @@ SpatialObjectDuplicator< TInputSpatialObject >
 {
   using SOType = itk::SpatialObject< TInputSpatialObject::ObjectDimension >;
 
-  SOType * newSO = source->Clone();
+  typename SOType::Pointer newSO = source->Clone();
   destination->AddChild(newSO);
   destination->Update();
 

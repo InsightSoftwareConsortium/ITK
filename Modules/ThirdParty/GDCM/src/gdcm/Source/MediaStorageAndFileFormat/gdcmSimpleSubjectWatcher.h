@@ -33,6 +33,8 @@ class GDCM_EXPORT SimpleSubjectWatcher
 public:
   SimpleSubjectWatcher(Subject * s, const char *comment = "");
   virtual ~SimpleSubjectWatcher();
+  SimpleSubjectWatcher(const SimpleSubjectWatcher&) = delete;
+  void operator=(const SimpleSubjectWatcher&) = delete;
 
 protected:
   virtual void StartFilter();
@@ -79,8 +81,6 @@ private:
 
   bool m_TestAbort;
 
-  SimpleSubjectWatcher(const SimpleSubjectWatcher&);  // Not implemented.
-  void operator=(const SimpleSubjectWatcher&);  // Not implemented.
 };
 } // end namespace gdcm
 //-----------------------------------------------------------------------------

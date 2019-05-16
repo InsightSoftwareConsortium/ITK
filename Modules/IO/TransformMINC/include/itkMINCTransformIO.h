@@ -122,19 +122,13 @@ using MINCTransformIO = MINCTransformIOTemplate<double>;
 namespace itk
 {
 
-#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
-  ITK_GCC_PRAGMA_DIAG_PUSH()
-#endif
+ITK_GCC_PRAGMA_DIAG_PUSH()
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 
   extern template class ITKIOTransformMINC_EXPORT_EXPLICIT MINCTransformIOTemplate< double >;
 extern template class ITKIOTransformMINC_EXPORT_EXPLICIT MINCTransformIOTemplate< float >;
 
-#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
-  ITK_GCC_PRAGMA_DIAG_POP()
-#else
-  ITK_GCC_PRAGMA_DIAG(warning "-Wattributes")
-#endif
+ITK_GCC_PRAGMA_DIAG_POP()
 
 } // end namespace itk
 #  undef ITKIOTransformMINC_EXPORT_EXPLICIT

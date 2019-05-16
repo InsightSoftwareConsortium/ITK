@@ -29,7 +29,7 @@ namespace gdcm
 class GDCM_EXPORT PDBElement
 {
 public:
-  PDBElement() {}
+  PDBElement() = default;
 
   friend std::ostream& operator<<(std::ostream &os, const PDBElement &val);
 

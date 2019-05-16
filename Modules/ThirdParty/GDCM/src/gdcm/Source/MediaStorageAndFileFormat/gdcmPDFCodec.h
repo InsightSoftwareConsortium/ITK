@@ -26,10 +26,10 @@ class GDCM_EXPORT PDFCodec : public Codec
 {
 public:
   PDFCodec();
-  ~PDFCodec();
-  bool CanCode(TransferSyntax const &) const { return false; }
-  bool CanDecode(TransferSyntax const &) const { return false; }
-  bool Decode(DataElement const &is, DataElement &os);
+  ~PDFCodec() override;
+  bool CanCode(TransferSyntax const &) const override { return false; }
+  bool CanDecode(TransferSyntax const &) const override { return false; }
+  bool Decode(DataElement const &is, DataElement &os) override;
 };
 
 } // end namespace gdcm

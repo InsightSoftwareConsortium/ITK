@@ -33,9 +33,8 @@
  * \ingroup ITKCommon
  */
 #   define itkStaticAssert(expr, str) static_assert(expr, str)
-#elif defined(__GNUC__) && ((__GNUC__ * 100) + __GNUC_MINOR__ ) >= 403 && !defined(__clang__) && !defined( __INTEL_COMPILER )
-//  GCC 4.3 is enough for this trick
-//  But it restricts the static assertion to non global contexts (-> functions)
+#elif defined(__GNUC__) && !defined( __INTEL_COMPILER )
+//  This trick restricts the static assertion to non global contexts (-> functions)
 #   define itkStaticAssert(expr,str)                                  \
       ({extern int __attribute__((error(str))) StaticAssertFailure(); \
        ((void)((expr) ? 0: StaticAssertFailure()), 0);                \

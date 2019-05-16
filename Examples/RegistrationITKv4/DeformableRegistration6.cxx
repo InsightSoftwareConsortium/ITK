@@ -291,8 +291,8 @@ int main( int argc, char *argv[] )
   for( unsigned int i=0; i< SpaceDimension; i++ )
     {
     fixedPhysicalDimensions[i] = fixedImage->GetSpacing()[i] *
-    static_cast<double>(
-      fixedImage->GetLargestPossibleRegion().GetSize()[i] - 1 );
+      static_cast<double>(
+        fixedImage->GetLargestPossibleRegion().GetSize()[i] - 1 );
     }
 
   // Create the transform adaptors specific to B-splines

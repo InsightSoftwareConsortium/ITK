@@ -72,7 +72,7 @@ StreamingImageFilter< TInputImage, TOutputImage >
 
   /**
    * Give the subclass a chance to indicate that it will provide
-   * more data then required for the output. This can happen, for
+   * more data than required for the output. This can happen, for
    * example, when a source can only produce the whole output.
    * Although this is being called for a specific output, the source
    * may need to enlarge all outputs.
@@ -103,7 +103,6 @@ void
 StreamingImageFilter< TInputImage, TOutputImage >
 ::UpdateOutputData( DataObject *itkNotUsed(output) )
 {
-  unsigned int idx;
 
   /**
    * prevent chasing our tail
@@ -212,11 +211,11 @@ StreamingImageFilter< TInputImage, TOutputImage >
   /**
    * Now we have to mark the data as up to data.
    */
-  for ( idx = 0; idx < this->GetNumberOfOutputs(); ++idx )
+  for (auto &outputName : this->GetOutputNames() )
     {
-    if ( this->GetOutput(idx) )
+    if (this->ProcessObject::GetOutput(outputName))
       {
-      this->GetOutput(idx)->DataHasBeenGenerated();
+      this->ProcessObject::GetOutput(outputName)->DataHasBeenGenerated();
       }
     }
 

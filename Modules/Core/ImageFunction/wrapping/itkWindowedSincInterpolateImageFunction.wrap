@@ -11,7 +11,7 @@ foreach(function ${window_functions})
   itk_end_wrap_class()
 endforeach()
 
-itk_wrap_class("itk::WindowedSincInterpolateImageFunction" POINTER)
+itk_wrap_class("itk::WindowedSincInterpolateImageFunction")
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
     foreach(t ${WRAP_ITK_SCALAR})
       foreach(r ${radii}) # radius

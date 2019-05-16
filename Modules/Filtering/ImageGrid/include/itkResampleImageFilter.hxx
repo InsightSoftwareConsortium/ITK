@@ -122,12 +122,6 @@ void
 ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType >
 ::BeforeThreadedGenerateData()
 {
-
-  if ( !m_Interpolator )
-    {
-    itkExceptionMacro(<< "Interpolator not set");
-    }
-
   // Connect input image to interpolator
   m_Interpolator->SetInputImage( this->GetInput() );
 
@@ -507,6 +501,11 @@ void
 ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType >
 ::GenerateInputRequestedRegion()
 {
+  if ( !m_Interpolator )
+    {
+    itkExceptionMacro(<< "Interpolator not set");
+    }
+
   // Get pointers to the input and output
   InputImageType * input  = const_cast< InputImageType * >( this->GetInput() );
 
@@ -540,6 +539,8 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
       // Input requested region is partially outside the largest possible region.
       //   or
       // Input requested region is completely inside the largest possible region.
+      inputRequestedRegion.PadByRadius( m_Interpolator->GetRadius() );
+      inputRequestedRegion.Crop( inputLargestRegion );
       input->SetRequestedRegion( inputRequestedRegion );
       }
     else if( inputRequestedRegion.IsInside( inputLargestRegion ) )

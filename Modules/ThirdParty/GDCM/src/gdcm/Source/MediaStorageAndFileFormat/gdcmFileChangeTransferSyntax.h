@@ -40,7 +40,7 @@ class GDCM_EXPORT FileChangeTransferSyntax : public Subject
 {
 public:
   FileChangeTransferSyntax();
-  ~FileChangeTransferSyntax();
+  ~FileChangeTransferSyntax() override;
 
   /// Set input filename (raw DICOM)
   void SetInputFileName(const char *filename_native);

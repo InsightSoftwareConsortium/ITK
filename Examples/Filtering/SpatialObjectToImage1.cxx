@@ -188,14 +188,16 @@ int main( int argc, char *argv[] )
   typename TubeType::PointType point;
   typename TubeType::TubePointType tubePoint;
   typename TubeType::TubePointListType tubePointList;
-  point[0] =  size[0] * 0.2 * spacing[0];
-  point[1] =  size[1] * 0.2 * spacing[1];
+  point[0] = size[0] * 0.2 * spacing[0];
+  point[1] = size[1] * 0.2 * spacing[1];
+  point[2] = size[2] * 0.2 * spacing[2];
   tubePoint.SetPositionInObjectSpace( point );
   tubePoint.SetRadiusInObjectSpace( size[0] * 0.05 * spacing[0] );
   tubePointList.push_back( tubePoint );
 
   point[0] =  size[0] * 0.8 * spacing[0];
   point[1] =  size[1] * 0.2 * spacing[1];
+  point[2] =  size[2] * 0.2 * spacing[2];
   tubePoint.SetPositionInObjectSpace( point );
   tubePoint.SetRadiusInObjectSpace( size[0] * 0.05 * spacing[0] );
   tubePointList.push_back( tubePoint );
@@ -204,12 +206,14 @@ int main( int argc, char *argv[] )
   tubePointList.clear();
   point[0] =  size[0] * 0.2 * spacing[0];
   point[1] =  size[1] * 0.8 * spacing[1];
+  point[2] =  size[2] * 0.2 * spacing[2];
   tubePoint.SetPositionInObjectSpace( point );
   tubePoint.SetRadiusInObjectSpace( size[0] * 0.05 * spacing[0] );
   tubePointList.push_back( tubePoint );
 
   point[0] =  size[0] * 0.8 * spacing[0];
   point[1] =  size[1] * 0.8 * spacing[1];
+  point[2] =  size[2] * 0.8 * spacing[1];
   tubePoint.SetPositionInObjectSpace( point );
   tubePoint.SetRadiusInObjectSpace( size[0] * 0.05 * spacing[0] );
   tubePointList.push_back( tubePoint );
@@ -284,6 +288,7 @@ int main( int argc, char *argv[] )
   group->AddChild( tube2 );
 
   ellipse->Update();
+
   tube1->Update();
   tube2->Update();
 

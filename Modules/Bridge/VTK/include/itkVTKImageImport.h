@@ -87,6 +87,7 @@ public:
   using WholeExtentCallbackType = int * ( * )(void *);
   using SpacingCallbackType = double * ( * )(void *);
   using OriginCallbackType = double * ( * )(void *);
+  using DirectionCallbackType = double * ( * )(void *);
   using ScalarTypeCallbackType = const char * ( * )(void *);
   using NumberOfComponentsCallbackType = int ( * )(void *);
   using PropagateUpdateExtentCallbackType = void ( * )(void *, int *);
@@ -125,6 +126,10 @@ public:
   itkGetConstMacro(FloatOriginCallback, FloatOriginCallbackType);
   void SetOriginCallback(FloatOriginCallbackType f)
   { this->SetFloatOriginCallback(f); }
+
+  /** What to do when receiving SetDirection(). */
+  itkSetMacro(DirectionCallback, DirectionCallbackType);
+  itkGetConstMacro(DirectionCallback, DirectionCallbackType);
 
   /** What to do when receiving UpdateInformation(). */
   itkSetMacro(ScalarTypeCallback, ScalarTypeCallbackType);
@@ -176,6 +181,7 @@ private:
   FloatSpacingCallbackType          m_FloatSpacingCallback;
   OriginCallbackType                m_OriginCallback;
   FloatOriginCallbackType           m_FloatOriginCallback;
+  DirectionCallbackType             m_DirectionCallback;
   ScalarTypeCallbackType            m_ScalarTypeCallback;
   NumberOfComponentsCallbackType    m_NumberOfComponentsCallback;
   PropagateUpdateExtentCallbackType m_PropagateUpdateExtentCallback;

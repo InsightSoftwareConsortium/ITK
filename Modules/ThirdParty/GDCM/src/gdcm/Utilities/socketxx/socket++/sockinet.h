@@ -25,7 +25,7 @@ class sockinetaddr: public sockAddr, public sockaddr_in
         void setaddr (const char* hn);
 
     public:
-        ~sockinetaddr () {}
+        ~sockinetaddr () override = default;
         sockinetaddr ();
         sockinetaddr (unsigned long addr, int port_no=0);
         sockinetaddr (const char* host_name, int port_no=0);
@@ -37,12 +37,12 @@ class sockinetaddr: public sockAddr, public sockaddr_in
                       const char* protocol_name="tcp");
         sockinetaddr (const sockinetaddr& sina);
 
-        operator void* () const { return addr_in (); }
+        operator void* () const override { return addr_in (); }
 
         sockaddr_in*        addr_in () const { return (sockaddr_in*) this; }
-        int                 size  () const { return sizeof (sockaddr_in); }
-        int                 family() const { return sin_family; }
-        sockaddr*           addr  () const { return (sockaddr*) addr_in (); }
+        int                 size  () const override { return sizeof (sockaddr_in); }
+        int                 family() const override { return sin_family; }
+        sockaddr*           addr  () const override { return (sockaddr*) addr_in (); }
 
         int                 getport    () const;
         const char*         gethostname() const;
@@ -54,10 +54,10 @@ class MY_API sockinetbuf: public sockbuf
         enum domain { af_inet = AF_INET };
 
         sockinetbuf (const sockbuf::sockdesc& sd);
-        sockinetbuf (const sockinetbuf& si): sockbuf (si) {}
+        sockinetbuf (const sockinetbuf& si) = default;
         sockinetbuf (sockbuf::type ty, int proto=0);
         //sockinetbuf& operator=(const sockinetbuf& si);
-        ~sockinetbuf () {}
+        ~sockinetbuf () override = default;
 
         sockinetaddr        localaddr() const;
         int                 localport() const;
@@ -69,7 +69,7 @@ class MY_API sockinetbuf: public sockbuf
 
         void                bind_until_success (int portno);
 
-        virtual void        bind (sockAddr& sa);
+        void        bind (sockAddr& sa) override;
         void                bind (int port_no=0); // addr is assumed to be INADDR_ANY
                                                   // and thus defaults to local host
 
@@ -82,7 +82,7 @@ class MY_API sockinetbuf: public sockbuf
                                   const char* service_name,
                                   const char* protocol_name="tcp");
 
-        virtual void        connect (sockAddr& sa);
+        void        connect (sockAddr& sa) override;
         void                connect (unsigned long addr, int port_no);
         void                connect (const char* host_name, int port_no);
         void                connect (unsigned long addr,
@@ -92,8 +92,8 @@ class MY_API sockinetbuf: public sockbuf
                                      const char* service_name,
                                      const char* protocol_name="tcp");
 
-        virtual sockdesc    accept ();
-        virtual sockdesc    accept (sockAddr& sa);
+        sockdesc    accept () override;
+        sockdesc    accept (sockAddr& sa) override;
         sockdesc            accept (unsigned long addr, int port_no);
         sockdesc            accept (const char* host_name, int port_no);
 
@@ -107,7 +107,7 @@ class MY_API isockinet: public isockstream
         isockinet (const sockbuf::sockdesc& sd);
         isockinet (const sockinetbuf& sb);
         isockinet (sockbuf::type ty=sockbuf::sock_stream, int proto=0);
-        ~isockinet ();
+        ~isockinet () override;
 
         sockinetbuf* rdbuf () { return (sockinetbuf*)std::ios::rdbuf (); }
         sockinetbuf* operator -> () { return rdbuf (); }
@@ -119,7 +119,7 @@ class osockinet: public osockstream
         osockinet (const sockbuf::sockdesc& sd);
         osockinet (const sockinetbuf& sb);
         osockinet (sockbuf::type ty=sockbuf::sock_stream, int proto=0);
-        ~osockinet ();
+        ~osockinet () override;
 
         sockinetbuf* rdbuf () { return (sockinetbuf*)std::ios::rdbuf (); }
 };
@@ -130,7 +130,7 @@ class MY_API iosockinet: public iosockstream
         iosockinet (const sockbuf::sockdesc& sd);
         iosockinet (const sockinetbuf& sb);
         iosockinet (sockbuf::type ty=sockbuf::sock_stream, int proto=0);
-        ~iosockinet ();
+        ~iosockinet () override;
 
         sockinetbuf* rdbuf () { return (sockinetbuf*)std::ios::rdbuf (); }
 };

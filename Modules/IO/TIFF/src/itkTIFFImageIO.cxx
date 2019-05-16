@@ -212,6 +212,8 @@ TIFFImageIO::TIFFImageIO() :
 
 {
   this->SetNumberOfDimensions( 2 );
+  this->Self::SetJPEGQuality( 75 );
+  this->Self::SetCompressor("");
 
   m_ComponentType = UCHAR;
   m_PixelType = SCALAR;
@@ -251,7 +253,7 @@ void TIFFImageIO::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Compression: " << m_Compression << std::endl;
-  os << indent << "JPEGQuality: " << m_JPEGQuality << std::endl;
+  os << indent << "JPEGQuality: " << this->GetJPEGQuality() << std::endl;
   if( !m_ColorPalette.empty()  )
     {
     os << indent << "Image RGB palette:" << "\n";
@@ -260,6 +262,36 @@ void TIFFImageIO::PrintSelf(std::ostream & os, Indent indent) const
       os << indent << "[" << i << "]"
          << itk::NumericTraits< PaletteType::value_type >::PrintType( m_ColorPalette[i] ) << std::endl;
       }
+    }
+}
+
+
+void TIFFImageIO::InternalSetCompressor(const std::string &_compressor)
+{
+  if (_compressor == "" ||
+      _compressor == "PACKBITS" )
+    {
+    this->SetCompression(PackBits);
+    }
+  else if (_compressor == "NOCOMPRESSION")
+    {
+    this->SetCompression(NoCompression);
+    }
+  else if (_compressor == "JPEG" )
+    {
+    this->SetCompression(JPEG);
+    }
+  else if (_compressor == "DEFLATE" )
+    {
+    this->SetCompression(Deflate);
+    }
+  else if (_compressor == "LZW" )
+    {
+    this->SetCompression(LZW);
+    }
+  else
+    {
+    this->Superclass::InternalSetCompressor(_compressor);
     }
 }
 
@@ -674,7 +706,7 @@ void TIFFImageIO::InternalWrite(const void *buffer)
 
     if ( compression == COMPRESSION_JPEG )
       {
-      TIFFSetField(tif, TIFFTAG_JPEGQUALITY, m_JPEGQuality);
+      TIFFSetField(tif, TIFFTAG_JPEGQUALITY, this->GetJPEGQuality() );
       TIFFSetField(tif, TIFFTAG_JPEGCOLORMODE, JPEGCOLORMODE_RGB);
       }
     else if ( compression == COMPRESSION_DEFLATE )

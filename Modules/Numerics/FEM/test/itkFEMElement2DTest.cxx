@@ -53,10 +53,10 @@ int itkFEMElement2DTest(int argc, char *argv[])
   SpatialReader->SetFileName( argv[1] );
   SpatialReader->Update();
 
-  FEMSpatialObjectReaderType::ScenePointer myScene = SpatialReader->GetScene();
+  FEMSpatialObjectReaderType::GroupPointer myGroup = SpatialReader->GetGroup();
 
-  std::cout << "Scene Test: ";
-  if( !myScene )
+  std::cout << "Group Test: ";
+  if( !myGroup )
     {
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -72,7 +72,7 @@ int itkFEMElement2DTest(int argc, char *argv[])
   FEMObjectSpatialObjectType::ChildrenListType* children = SpatialReader->GetGroup()->GetChildren();
 
   std::cout << "FEM Spatial Object Test: ";
-  if( strcmp( (*(children->begin() ) )->GetTypeName(), "FEMObjectSpatialObject") )
+  if( children->front()->GetTypeName() != "FEMObjectSpatialObject" )
     {
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;

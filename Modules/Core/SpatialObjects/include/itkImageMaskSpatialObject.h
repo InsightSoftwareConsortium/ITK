@@ -31,6 +31,11 @@ namespace itk
  * method.  One of the common uses of this class is to serve as Mask for the
  * Image Registration Metrics.
  *
+ * \note The bounding box of an image mask is defined in such a way that
+ * any point whose nearest pixel has a non-zero value is inside the
+ * bounding box. When all the pixels of an image are zero, the bounding box
+ * of the image mask is empty, and its bounds are all zero.
+ *
  * \sa ImageSpatialObject SpatialObject CompositeSpatialObject
  * \ingroup ITKSpatialObjects
  */
@@ -67,10 +72,12 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageMaskSpatialObject, ImageSpatialObject);
 
-  /** Returns true if the point is inside, false otherwise. */
-  bool IsInsideInObjectSpace(const PointType & point, unsigned int depth=0,
-    const std::string & name="") const override;
+  /** Returns true if the point is inside, false otherwise. According to this function,
+   * a point is inside the image mask when the value of its nearest pixel is non-zero. */
+  bool IsInsideInObjectSpace(const PointType & point) const override;
 
+  /* Avoid hiding the overload that supports depth and name arguments */
+  using Superclass::IsInsideInObjectSpace;
 
   /** Computes the bounding box of the image mask, in the index space of the image.
    * The bounding box is returned as an image region. Each call to this function

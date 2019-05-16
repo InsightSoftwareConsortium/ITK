@@ -32,7 +32,7 @@ void PresentationContextGenerator::SetDefaultTransferSyntax( const TransferSynta
   DefaultTransferSyntax = ts.GetString();
 }
 
-PresentationContextGenerator::PresentationContextGenerator() {}
+PresentationContextGenerator::PresentationContextGenerator() = default;
 
 //bool PresentationContextGenerator::GenerateFromQuery(BaseRootQuery *query)
 //{

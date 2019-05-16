@@ -71,17 +71,19 @@ NormalizeImageFilter< TInputImage, TOutputImage >
 
   // Gather statistics
 
-  m_StatisticsFilter->SetInput( this->GetInput() );
-  m_StatisticsFilter->GetOutput()->SetRequestedRegion( this->GetOutput()->GetRequestedRegion() );
+  auto localInput = TInputImage::New();
+  localInput->Graft( this->GetInput() );
+
+  m_StatisticsFilter->SetInput( localInput );
   m_StatisticsFilter->Update();
 
   // Set the parameters for Shift
   m_ShiftScaleFilter->SetShift( -m_StatisticsFilter->GetMean() );
   m_ShiftScaleFilter->SetScale( NumericTraits< typename StatisticsImageFilter< TInputImage >::RealType >::OneValue()
                                 / m_StatisticsFilter->GetSigma() );
-  m_ShiftScaleFilter->SetInput( this->GetInput() );
+  m_ShiftScaleFilter->SetInput( localInput );
 
-  m_ShiftScaleFilter->GetOutput()->SetRequestedRegion( this->GetOutput()->GetRequestedRegion() );
+  m_ShiftScaleFilter->GraftOutput( this->GetOutput() );
   m_ShiftScaleFilter->Update();
 
   // Graft the mini pipeline output to this filters output

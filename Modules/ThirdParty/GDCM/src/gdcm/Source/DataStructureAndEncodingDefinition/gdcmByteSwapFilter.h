@@ -29,6 +29,8 @@ class GDCM_EXPORT ByteSwapFilter
 public:
   ByteSwapFilter(DataSet& ds):DS(ds),ByteSwapTag(false) {}
   ~ByteSwapFilter();
+  ByteSwapFilter(const ByteSwapFilter &) = delete;
+  ByteSwapFilter& operator=(const ByteSwapFilter &) = delete;
 
   bool ByteSwap();
   void SetByteSwapTag(bool b) { ByteSwapTag = b; }
@@ -37,7 +39,6 @@ private:
   DataSet &DS;
   bool ByteSwapTag;
 
-  ByteSwapFilter& operator=(const ByteSwapFilter &);
 };
 
 } // end namespace gdcm

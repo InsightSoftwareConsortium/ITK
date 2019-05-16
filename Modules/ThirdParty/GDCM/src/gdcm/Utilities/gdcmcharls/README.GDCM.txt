@@ -1,9 +1,11 @@
 This directory contains a subset of the CharLS project (https://github.com/team-charls/charls)
 
-It was retrieved on Thu Sep 15 09:35:25 CEST 2016
+It was retrieved on Sat Jan  6 20:45:36 CET 2018
 URL:
-https://github.com/team-charls/charls/archive/1.1.0.tar.gz
-This is the 1.1.0 Release
+https://github.com/team-charls/charls/archive/2.0.0.tar.gz
+$ sha1sum 2.0.0.tar.gz
+dc8a1bb602df6b810ad53f7520d2b9cb097ecfee  2.0.0.tar.gz
+This is the 2.0.0 Release
 
 Project Description
 An optimized implementation of the JPEG-LS standard for lossless and
@@ -34,3 +36,4 @@ Modifications
 
 - only include the src/ subdir
 - keep our original cmakelists.txt
+ - remove win specific compilation files

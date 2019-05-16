@@ -143,14 +143,17 @@ static const char *MSStrings[] = {
   "1.2.840.10008.5.1.4.1.1.2.2", // Legacy Converted Enhanced CT Image Storage
   "1.2.840.10008.5.1.4.1.1.4.4", // Legacy Converted Enhanced MR Image Storage
   "1.2.840.10008.5.1.4.1.1.128.1", // Legacy Converted Enhanced PET Image Storage
-  0
+  "1.2.840.10008.5.1.4.1.1.13.1.4", // Breast Projection X-Ray Image Storage - For Presentation
+  "1.2.840.10008.5.1.4.1.1.13.1.5", // Breast Projection X-Ray Image Storage - For Processing
+
+  nullptr
 };
 
 MediaStorage::MSType MediaStorage::GetMSType(const char *str)
 {
   if(!str) return MS_END;
 
-  for(unsigned int i = 0; MSStrings[i] != 0; ++i)
+  for(unsigned int i = 0; MSStrings[i] != nullptr; ++i)
     {
     if( strcmp(str, MSStrings[i]) == 0 )
       {
@@ -162,7 +165,7 @@ MediaStorage::MSType MediaStorage::GetMSType(const char *str)
   // string
   CodeString codestring = str;
   std::string cs = codestring.GetAsString();
-  for(unsigned int i = 0; MSStrings[i] != 0; ++i)
+  for(unsigned int i = 0; MSStrings[i] != nullptr; ++i)
     {
     if( strcmp(cs.c_str(), MSStrings[i]) == 0 )
       {
@@ -236,100 +239,101 @@ struct MSModalityType
 };
 
 static const MSModalityType MSModalityTypes[] = {
-  {"00", 0, 0},//MediaStorageDirectoryStorage,
-  {"CR", 2, 0},//ComputedRadiographyImageStorage,
-  {"DX", 2, 0},//DigitalXRayImageStorageForPresentation,
-  {"DX", 2, 0},//DigitalXRayImageStorageForProcessing,
-  {"  ", 2, 0},//DigitalMammographyImageStorageForPresentation,
-  {"MG", 2, 0},//DigitalMammographyImageStorageForProcessing,
-  {"  ", 2, 0},//DigitalIntraoralXrayImageStorageForPresentation,
-  {"  ", 2, 0},//DigitalIntraoralXRayImageStorageForProcessing,
-  {"CT", 2, 0},//CTImageStorage,
-  {"CT", 3, 0},//EnhancedCTImageStorage,
-  {"US", 2, 1},//UltrasoundImageStorageRetired,
-  {"US", 2, 0},//UltrasoundImageStorage,
-  {"US", 3, 1},//UltrasoundMultiFrameImageStorageRetired,
-  {"US", 3, 0},//UltrasoundMultiFrameImageStorage,
-  {"MR", 2, 0},//MRImageStorage,
-  {"MR", 3, 0},//EnhancedMRImageStorage,
-  {"MR", 2, 0},//MRSpectroscopyStorage,
-  {"  ", 2, 1},//NuclearMedicineImageStorageRetired,
-  {"OT", 2, 0},//SecondaryCaptureImageStorage,
-  {"OT", 3, 0},//MultiframeSingleBitSecondaryCaptureImageStorage,
-  {"OT", 3, 0},//MultiframeGrayscaleByteSecondaryCaptureImageStorage,
-  {"OT", 3, 0},//MultiframeGrayscaleWordSecondaryCaptureImageStorage,
-  {"OT", 3, 0},//MultiframeTrueColorSecondaryCaptureImageStorage,
-  {"  ", 2, 0},//StandaloneOverlayStorage,
-  {"  ", 2, 0},//StandaloneCurveStorage,
-  {"  ", 2, 0},//LeadECGWaveformStorage, // 12-
-  {"  ", 2, 0},//GeneralECGWaveformStorage,
-  {"  ", 2, 0},//AmbulatoryECGWaveformStorage,
-  {"  ", 2, 0},//HemodynamicWaveformStorage,
-  {"  ", 2, 0},//CardiacElectrophysiologyWaveformStorage,
-  {"  ", 2, 0},//BasicVoiceAudioWaveformStorage,
-  {"  ", 2, 0},//StandaloneModalityLUTStorage,
-  {"  ", 2, 0},//StandaloneVOILUTStorage,
-  {"  ", 2, 0},//GrayscaleSoftcopyPresentationStateStorageSOPClass,
-  {"XA", 3, 0},//XRayAngiographicImageStorage,
-  {"RF", 2, 0},//XRayRadiofluoroscopingImageStorage,
-  {"  ", 2, 0},//XRayAngiographicBiPlaneImageStorageRetired,
-  {"NM", 3, 0},//NuclearMedicineImageStorage,
-  {"  ", 2, 0},//RawDataStorage,
-  {"  ", 2, 0},//SpacialRegistrationStorage,
-  {"  ", 2, 0},//SpacialFiducialsStorage,
-  {"PT", 2, 0},//PETImageStorage,
-  {"RTIMAGE ", 2, 0},//RTImageStorage, // FIXME
-  {"RTDOSE", 3, 0},//RTDoseStorage,
-  {"  ", 2, 0},//RTStructureSetStorage,
-  {"  ", 2, 0},//RTPlanStorage,
-  {"  ", 2, 0},//CSANonImageStorage,
-  {"  ", 2, 0},//Philips3D,
-  {"  ", 2, 0},//EnhancedSR
-  {"  ", 2, 0},//BasicTextSR
-  {"  ", 2, 0},//HardcopyGrayscaleImageStorage
-  {"  ", 2, 0},//ComprehensiveSR
-  {"  ", 2, 0},//DetachedStudyManagementSOPClass
-  {"  ", 2, 0},//EncapsulatedPDFStorage
-  {"  ", 2, 0},//EncapsulatedCDAStorage
-  {"  ", 2, 0},//StudyComponentManagementSOPClass
-  {"  ", 2, 0},//DetachedVisitManagementSOPClass
-  {"  ", 2, 0},//DetachedPatientManagementSOPClass
-  {"ES", 3, 0},//VideoEndoscopicImageStorage
-  {"  ", 2, 0},//GeneralElectricMagneticResonanceImageStorage
-  {"  ", 2, 0},//GEPrivate3DModelStorage
-  {"  ", 2, 0},//ToshibaPrivateDataStorage
-  {"  ", 2, 0},//MammographyCADSR
-  {"  ", 2, 0},//KeyObjectSelectionDocument
-  {"  ", 2, 0},//HangingProtocolStorage
-  {"  ", 2, 0},//ModalityPerformedProcedureStepSOPClass
-  {"  ", 2, 0},//PhilipsPrivateMRSyntheticImageStorage
-  {"XC", 2, 0},//VLPhotographicImageStorage
-  {"SEG ", 3, 0},// Segmentation Storage
-  {"  ", 2, 0},// RT Ion Plan Storage
-  {"XA", 3, 0},// XRay3DAngiographicImageStorage,
-  {"XA", 3, 0},// Enhanced XA Image Storage
-  {"  ", 2, 0},// RTIonBeamsTreatmentRecordStorage
-  {"SEG", 3, 0},// Surface Segmentation Storage
-  {"SM", 3, 0},// VLWholeSlideMicroscopyImageStorage
-  {"RTRECORD", 2, 0},//RTTreatmentSummaryRecordStorage
-  {"US", 3, 0},// EnhancedUSVolumeStorage
-  {"  ", 2, 0},// XRayRadiationDoseSR
-  {"ES", 2, 0},// VLEndoscopicImageStorage
-  {"MG", 3, 0},// BreastTomosynthesisImageStorage
-  {"CR", 2, 0},// FujiPrivateCRImageStorage
-  {"OP", 2, 0},// OphthalmicPhotography8BitImageStorage
-  {"OPT", 3, 0},// OphthalmicTomographyImageStorage
-  {"GM", 3, 0},// VLMicroscopicImageStorage
-  {"PT", 3, 0},//EnhancedPETImageStorage,
-  {"XC", 3, 0},// VideoPhotographicImageStorage
-  {"DX", 3, 0},// XRay3DCraniofacialImageStorage
-  {"IVOCT", 3, 0},// IVOCTForPresentation,
-  {"IVOCT", 3, 0},// IVCOTForProcessing,
-  {"CT", 3, 0},//LegacyConvertedEnhancedCTImageStorage,
-  {"MR", 3, 0},//LegacyConvertedEnhancedMRImageStorage,
-  {"PT", 3, 0},//LegacyConvertedEnhancedPETImageStorage,
-
-  {NULL, 0, 0} //MS_END
+  {"00", 0, false},//MediaStorageDirectoryStorage,
+  {"CR", 2, false},//ComputedRadiographyImageStorage,
+  {"DX", 2, false},//DigitalXRayImageStorageForPresentation,
+  {"DX", 2, false},//DigitalXRayImageStorageForProcessing,
+  {"  ", 2, false},//DigitalMammographyImageStorageForPresentation,
+  {"MG", 2, false},//DigitalMammographyImageStorageForProcessing,
+  {"  ", 2, false},//DigitalIntraoralXrayImageStorageForPresentation,
+  {"  ", 2, false},//DigitalIntraoralXRayImageStorageForProcessing,
+  {"CT", 2, false},//CTImageStorage,
+  {"CT", 3, false},//EnhancedCTImageStorage,
+  {"US", 2, true},//UltrasoundImageStorageRetired,
+  {"US", 2, false},//UltrasoundImageStorage,
+  {"US", 3, true},//UltrasoundMultiFrameImageStorageRetired,
+  {"US", 3, false},//UltrasoundMultiFrameImageStorage,
+  {"MR", 2, false},//MRImageStorage,
+  {"MR", 3, false},//EnhancedMRImageStorage,
+  {"MR", 2, false},//MRSpectroscopyStorage,
+  {"  ", 2, true},//NuclearMedicineImageStorageRetired,
+  {"OT", 2, false},//SecondaryCaptureImageStorage,
+  {"OT", 3, false},//MultiframeSingleBitSecondaryCaptureImageStorage,
+  {"OT", 3, false},//MultiframeGrayscaleByteSecondaryCaptureImageStorage,
+  {"OT", 3, false},//MultiframeGrayscaleWordSecondaryCaptureImageStorage,
+  {"OT", 3, false},//MultiframeTrueColorSecondaryCaptureImageStorage,
+  {"  ", 2, false},//StandaloneOverlayStorage,
+  {"  ", 2, false},//StandaloneCurveStorage,
+  {"  ", 2, false},//LeadECGWaveformStorage, // 12-
+  {"  ", 2, false},//GeneralECGWaveformStorage,
+  {"  ", 2, false},//AmbulatoryECGWaveformStorage,
+  {"  ", 2, false},//HemodynamicWaveformStorage,
+  {"  ", 2, false},//CardiacElectrophysiologyWaveformStorage,
+  {"  ", 2, false},//BasicVoiceAudioWaveformStorage,
+  {"  ", 2, false},//StandaloneModalityLUTStorage,
+  {"  ", 2, false},//StandaloneVOILUTStorage,
+  {"  ", 2, false},//GrayscaleSoftcopyPresentationStateStorageSOPClass,
+  {"XA", 3, false},//XRayAngiographicImageStorage,
+  {"RF", 2, false},//XRayRadiofluoroscopingImageStorage,
+  {"  ", 2, false},//XRayAngiographicBiPlaneImageStorageRetired,
+  {"NM", 3, false},//NuclearMedicineImageStorage,
+  {"  ", 2, false},//RawDataStorage,
+  {"  ", 2, false},//SpacialRegistrationStorage,
+  {"  ", 2, false},//SpacialFiducialsStorage,
+  {"PT", 2, false},//PETImageStorage,
+  {"RTIMAGE ", 2, false},//RTImageStorage, // FIXME
+  {"RTDOSE", 3, false},//RTDoseStorage,
+  {"  ", 2, false},//RTStructureSetStorage,
+  {"  ", 2, false},//RTPlanStorage,
+  {"  ", 2, false},//CSANonImageStorage,
+  {"  ", 2, false},//Philips3D,
+  {"  ", 2, false},//EnhancedSR
+  {"  ", 2, false},//BasicTextSR
+  {"  ", 2, false},//HardcopyGrayscaleImageStorage
+  {"  ", 2, false},//ComprehensiveSR
+  {"  ", 2, false},//DetachedStudyManagementSOPClass
+  {"  ", 2, false},//EncapsulatedPDFStorage
+  {"  ", 2, false},//EncapsulatedCDAStorage
+  {"  ", 2, false},//StudyComponentManagementSOPClass
+  {"  ", 2, false},//DetachedVisitManagementSOPClass
+  {"  ", 2, false},//DetachedPatientManagementSOPClass
+  {"ES", 3, false},//VideoEndoscopicImageStorage
+  {"  ", 2, false},//GeneralElectricMagneticResonanceImageStorage
+  {"  ", 2, false},//GEPrivate3DModelStorage
+  {"  ", 2, false},//ToshibaPrivateDataStorage
+  {"  ", 2, false},//MammographyCADSR
+  {"  ", 2, false},//KeyObjectSelectionDocument
+  {"  ", 2, false},//HangingProtocolStorage
+  {"  ", 2, false},//ModalityPerformedProcedureStepSOPClass
+  {"  ", 2, false},//PhilipsPrivateMRSyntheticImageStorage
+  {"XC", 2, false},//VLPhotographicImageStorage
+  {"SEG ", 3, false},// Segmentation Storage
+  {"  ", 2, false},// RT Ion Plan Storage
+  {"XA", 3, false},// XRay3DAngiographicImageStorage,
+  {"XA", 3, false},// Enhanced XA Image Storage
+  {"  ", 2, false},// RTIonBeamsTreatmentRecordStorage
+  {"SEG", 3, false},// Surface Segmentation Storage
+  {"SM", 3, false},// VLWholeSlideMicroscopyImageStorage
+  {"RTRECORD", 2, false},//RTTreatmentSummaryRecordStorage
+  {"US", 3, false},// EnhancedUSVolumeStorage
+  {"  ", 2, false},// XRayRadiationDoseSR
+  {"ES", 2, false},// VLEndoscopicImageStorage
+  {"MG", 3, false},// BreastTomosynthesisImageStorage
+  {"CR", 2, false},// FujiPrivateCRImageStorage
+  {"OP", 2, false},// OphthalmicPhotography8BitImageStorage
+  {"OPT", 3, false},// OphthalmicTomographyImageStorage
+  {"GM", 3, false},// VLMicroscopicImageStorage
+  {"PT", 3, false},//EnhancedPETImageStorage,
+  {"XC", 3, false},// VideoPhotographicImageStorage
+  {"DX", 3, false},// XRay3DCraniofacialImageStorage
+  {"IVOCT", 3, false},// IVOCTForPresentation,
+  {"IVOCT", 3, false},// IVCOTForProcessing,
+  {"CT", 3, false},//LegacyConvertedEnhancedCTImageStorage,
+  {"MR", 3, false},//LegacyConvertedEnhancedMRImageStorage,
+  {"PT", 3, false},//LegacyConvertedEnhancedPETImageStorage,
+  {"MG", 3, false},//BreastProjectionXRayImageStorageForPresentation
+  {"MG", 3, false},//BreastProjectionXRayImageStorageForProcessing
+  {nullptr, 0, false} //MS_END
 };
 
 unsigned int MediaStorage::GetNumberOfMSType()
@@ -356,7 +360,7 @@ unsigned int MediaStorage::GetNumberOfModality()
 const char *MediaStorage::GetModality() const
 {
   if (!MSModalityTypes[MSField].Modality)
-    return NULL;
+    return nullptr;
   assert( MSModalityTypes[MSField].Modality[0] != ' ' ); // FIXME
   return MSModalityTypes[MSField].Modality;
 }
@@ -397,7 +401,7 @@ const char* MediaStorage::GetFromDataSetOrHeader(DataSet const &ds, const Tag & 
     const ByteValue *sopclassuid = ds.GetDataElement( tag ).GetByteValue();
     // Empty SOP Class UID:
     // lifetechmed/A0038329.DCM
-    if( !sopclassuid || !sopclassuid->GetPointer() ) return 0;
+    if( !sopclassuid || !sopclassuid->GetPointer() ) return nullptr;
     std::string sopclassuid_str(
       sopclassuid->GetPointer(),
       sopclassuid->GetLength() );
@@ -410,7 +414,7 @@ const char* MediaStorage::GetFromDataSetOrHeader(DataSet const &ds, const Tag & 
     ret = sopclassuid_str.c_str();
     return ret.c_str();
     }
-  return 0;
+  return nullptr;
 }
 
 bool MediaStorage::SetFromDataSetOrHeader(DataSet const &ds, const Tag & tag)
@@ -545,7 +549,7 @@ bool MediaStorage::SetFromFile(File const &file)
   const FileMetaInformation &header = file.GetHeader();
   const char* header_ms_ptr = GetFromHeader(header);
   std::string copy1;
-  const char *header_ms_str = 0;
+  const char *header_ms_str = nullptr;
   if( header_ms_ptr )
     {
     copy1 = header_ms_ptr;
@@ -554,7 +558,7 @@ bool MediaStorage::SetFromFile(File const &file)
   const DataSet &ds = file.GetDataSet();
   const char* ds_ms_ptr = GetFromDataSet(ds);
   std::string copy2;
-  const char *ds_ms_str = 0;
+  const char *ds_ms_str = nullptr;
   if( ds_ms_ptr )
     {
     copy2 = ds_ms_ptr;

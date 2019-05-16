@@ -117,20 +117,14 @@ private:
 /** This helps to meet backward compatibility */
 using TransformFileWriter = itk::TransformFileWriterTemplate<double>;
 
-#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
-  ITK_GCC_PRAGMA_DIAG_PUSH()
-#endif
+ITK_GCC_PRAGMA_DIAG_PUSH()
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 
 /** Declare specializations */
 template<> void ITKIOTransformBase_TEMPLATE_EXPORT TransformFileWriterTemplate< double >::PushBackTransformList(const Object *transObj);
 template<> void ITKIOTransformBase_TEMPLATE_EXPORT TransformFileWriterTemplate< float >::PushBackTransformList(const Object *transObj);
 
-#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
-  ITK_GCC_PRAGMA_DIAG_POP()
-#else
-  ITK_GCC_PRAGMA_DIAG(warning "-Wattributes")
-#endif
+ITK_GCC_PRAGMA_DIAG_POP()
 
 } // namespace itk
 
@@ -162,19 +156,13 @@ template<> void ITKIOTransformBase_TEMPLATE_EXPORT TransformFileWriterTemplate< 
 namespace itk
 {
 
-#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
-  ITK_GCC_PRAGMA_DIAG_PUSH()
-#endif
+ITK_GCC_PRAGMA_DIAG_PUSH()
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 
 extern template class ITKIOTransformBase_EXPORT_EXPLICIT TransformFileWriterTemplate< double >;
 extern template class ITKIOTransformBase_EXPORT_EXPLICIT TransformFileWriterTemplate< float >;
 
-#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
-  ITK_GCC_PRAGMA_DIAG_POP()
-#else
-  ITK_GCC_PRAGMA_DIAG(warning "-Wattributes")
-#endif
+ITK_GCC_PRAGMA_DIAG_POP()
 
 } // end namespace itk
 #  undef ITKIOTransformBase_EXPORT_EXPLICIT

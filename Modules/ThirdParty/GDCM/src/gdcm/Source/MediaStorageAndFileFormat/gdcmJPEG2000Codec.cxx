@@ -359,19 +359,19 @@ OPJ_BOOL opj_seek_from_memory (OPJ_OFF_T p_nb_bytes, myfile * p_file)
 
 opj_stream_t* OPJ_CALLCONV opj_stream_create_memory_stream (myfile* p_mem,OPJ_SIZE_T p_size,bool p_is_read_stream)
 {
-  opj_stream_t* l_stream = 00;
+  opj_stream_t* l_stream = nullptr;
   if
     (! p_mem)
   {
-    return 00;
+    return nullptr;
   }
   l_stream = opj_stream_create(p_size,p_is_read_stream);
   if
     (! l_stream)
   {
-    return 00;
+    return nullptr;
   }
-  opj_stream_set_user_data(l_stream,p_mem,NULL);
+  opj_stream_set_user_data(l_stream,p_mem,nullptr);
   opj_stream_set_read_function(l_stream,(opj_stream_read_fn) opj_read_from_memory);
   opj_stream_set_write_function(l_stream, (opj_stream_write_fn) opj_write_from_memory);
   opj_stream_set_skip_function(l_stream, (opj_stream_skip_fn) opj_skip_from_memory);
@@ -394,12 +394,14 @@ class JPEG2000Internals
 {
 public:
   JPEG2000Internals()
+  : nNumberOfThreadsForDecompression( -1 )
     {
     memset(&coder_param, 0, sizeof(coder_param));
     opj_set_default_encoder_parameters(&coder_param);
     }
 
   opj_cparameters coder_param;
+  int nNumberOfThreadsForDecompression;
 };
 
 void JPEG2000Codec::SetRate(unsigned int idx, double rate)
@@ -444,6 +446,24 @@ void JPEG2000Codec::SetNumberOfResolutions(unsigned int nres)
   Internals->coder_param.numresolution = nres;
 }
 
+void JPEG2000Codec::SetNumberOfThreadsForDecompression( int nThreads)
+{
+#if ((OPJ_VERSION_MAJOR == 2 && OPJ_VERSION_MINOR >= 3) || (OPJ_VERSION_MAJOR > 2))
+  if( nThreads < 0 )
+  {
+    const int x = opj_get_num_cpus();
+    Internals->nNumberOfThreadsForDecompression = x == 1 ? 0 : x;
+  }
+  else
+  {
+    Internals->nNumberOfThreadsForDecompression = nThreads;
+  }
+#else
+  (void)nThreads;
+  Internals->nNumberOfThreadsForDecompression = 0;
+#endif
+}
+
 void JPEG2000Codec::SetReversible(bool res)
 {
   LossyFlag = !res;
@@ -453,6 +473,7 @@ void JPEG2000Codec::SetReversible(bool res)
 JPEG2000Codec::JPEG2000Codec()
 {
   Internals = new JPEG2000Internals;
+  SetNumberOfThreadsForDecompression( -1 );
 }
 
 JPEG2000Codec::~JPEG2000Codec()
@@ -599,9 +620,9 @@ static inline bool check_comp_valid(opj_image_t *image)
 std::pair<char *, size_t> JPEG2000Codec::DecodeByStreamsCommon(char *dummy_buffer, size_t buf_size)
 {
   opj_dparameters_t parameters;  /* decompression parameters */
-  opj_codec_t* dinfo = NULL;  /* handle to a decompressor */
-  opj_stream_t *cio = NULL;
-  opj_image_t *image = NULL;
+  opj_codec_t* dinfo = nullptr;  /* handle to a decompressor */
+  opj_stream_t *cio = nullptr;
+  opj_image_t *image = nullptr;
 
   unsigned char *src = (unsigned char*)dummy_buffer;
   uint32_t file_length = (uint32_t)buf_size; // 32bits truncation should be ok since DICOM cannot have larger than 2Gb image
@@ -654,6 +675,9 @@ std::pair<char *, size_t> JPEG2000Codec::DecodeByStreamsCommon(char *dummy_buffe
     gdcmErrorMacro( "Impossible happen" );
     return std::make_pair<char*,size_t>(0,0);
     }
+#if ((OPJ_VERSION_MAJOR == 2 && OPJ_VERSION_MINOR >= 3) || (OPJ_VERSION_MAJOR > 2))
+  opj_codec_set_threads(dinfo, Internals->nNumberOfThreadsForDecompression);
+#endif
 
   int reversible;
   myfile mysrc;
@@ -667,7 +691,7 @@ std::pair<char *, size_t> JPEG2000Codec::DecodeByStreamsCommon(char *dummy_buffe
   // to deal with zero length Psot
   OPJ_UINT32 fl = file_length - 100;
   s[0] = &fl;
-  s[1] = 0;
+  s[1] = nullptr;
   opj_set_error_handler(dinfo, gdcm_error_callback, s);
 
   cio = opj_stream_create_memory_stream(fsrc,OPJ_J2K_STREAM_CHUNK_SIZE, true);
@@ -711,7 +735,7 @@ std::pair<char *, size_t> JPEG2000Codec::DecodeByStreamsCommon(char *dummy_buffe
     gdcmErrorMacro( "opj_decode failed" );
     return std::make_pair<char*,size_t>(0,0);
     }
-  bResult = bResult && (image != 00);
+  bResult = bResult && (image != nullptr);
   bResult = bResult && opj_end_decompress(dinfo,cio);
   if (!image || !check_comp_valid(image) )
     {
@@ -1011,7 +1035,7 @@ opj_image_t* rawtoimage(const char *inputbuffer, opj_cparameters_t *parameters,
   int numcomps;
   OPJ_COLOR_SPACE color_space;
   opj_image_cmptparm_t cmptparm[3]; /* maximum of 3 components */
-  opj_image_t * image = NULL;
+  opj_image_t * image = nullptr;
 
   assert( sample_pixel == 1 || sample_pixel == 3 );
   if( sample_pixel == 1 )
@@ -1028,7 +1052,7 @@ opj_image_t* rawtoimage(const char *inputbuffer, opj_cparameters_t *parameters,
   if( bitsallocated % 8 != 0 )
     {
     gdcmDebugMacro( "BitsAllocated is not % 8" );
-    return 0;
+    return nullptr;
     }
   assert( bitsallocated % 8 == 0 );
   // eg. fragment_size == 63532 and 181 * 117 * 3 * 8 == 63531 ...
@@ -1057,7 +1081,7 @@ opj_image_t* rawtoimage(const char *inputbuffer, opj_cparameters_t *parameters,
   /* create the image */
   image = opj_image_create(numcomps, &cmptparm[0], color_space);
   if(!image) {
-    return NULL;
+    return nullptr;
   }
   /* set image offset and reference grid */
   image->x0 = parameters->image_offset_x0;
@@ -1118,7 +1142,7 @@ opj_image_t* rawtoimage(const char *inputbuffer, opj_cparameters_t *parameters,
   else // dead branch ?
     {
     opj_image_destroy(image);
-    return NULL;
+    return nullptr;
     }
 
   return image;
@@ -1152,7 +1176,7 @@ bool JPEG2000Codec::CodeFrameIntoBuffer(char * outdata, size_t outlen, size_t & 
   bool bSuccess;
   //bool delete_comment = true;
   opj_cparameters_t parameters;  /* compression parameters */
-  opj_image_t *image = NULL;
+  opj_image_t *image = nullptr;
   //quality = 100;
 
   /* set encoding parameters to default values */
@@ -1176,7 +1200,7 @@ bool JPEG2000Codec::CodeFrameIntoBuffer(char * outdata, size_t outlen, size_t & 
     parameters.cp_disto_alloc = 1;
     }
 
-  if(parameters.cp_comment == NULL) {
+  if(parameters.cp_comment == nullptr) {
     const char comment[] = "Created by GDCM/OpenJPEG version %s";
     const char * vers = opj_version();
     parameters.cp_comment = (char*)malloc(strlen(comment) + 10);
@@ -1224,11 +1248,12 @@ bool JPEG2000Codec::CodeFrameIntoBuffer(char * outdata, size_t outlen, size_t & 
   /* ---------------------------- */
   parameters.cod_format = J2K_CFMT; /* J2K format output */
   size_t codestream_length;
-  opj_codec_t* cinfo = 00;
-  opj_stream_t *cio = 00;
+  opj_codec_t* cinfo = nullptr;
+  opj_stream_t *cio = nullptr;
 
   /* get a J2K compressor handle */
   cinfo = opj_create_compress(CODEC_J2K);
+
 
   /* setup the encoder parameters using the current image and using user parameters */
   opj_setup_encoder(cinfo, &parameters, image);
@@ -1363,9 +1388,9 @@ bool JPEG2000Codec::GetHeaderInfo(std::istream &is, TransferSyntax &ts)
 bool JPEG2000Codec::GetHeaderInfo(const char * dummy_buffer, size_t buf_size, TransferSyntax &ts)
 {
   opj_dparameters_t parameters;  /* decompression parameters */
-  opj_codec_t* dinfo = NULL;  /* handle to a decompressor */
-  opj_stream_t *cio = NULL;
-  opj_image_t *image = NULL;
+  opj_codec_t* dinfo = nullptr;  /* handle to a decompressor */
+  opj_stream_t *cio = nullptr;
+  opj_image_t *image = nullptr;
   const unsigned char *src = (const unsigned char*)dummy_buffer;
   size_t file_length = buf_size;
 
@@ -1404,13 +1429,17 @@ bool JPEG2000Codec::GetHeaderInfo(const char * dummy_buffer, size_t buf_size, Tr
     return false;
     }
 
+#if ((OPJ_VERSION_MAJOR == 2 && OPJ_VERSION_MINOR >= 3) || (OPJ_VERSION_MAJOR > 2)) 
+  opj_codec_set_threads(dinfo, Internals->nNumberOfThreadsForDecompression);
+#endif
+
   myfile mysrc;
   myfile *fsrc = &mysrc;
   fsrc->mem = fsrc->cur = (char*)src;
   fsrc->len = file_length;
 
   // the hack is not used when reading meta-info of a j2k stream:
-  opj_set_error_handler(dinfo, gdcm_error_callback, NULL);
+  opj_set_error_handler(dinfo, gdcm_error_callback, nullptr);
 
   cio = opj_stream_create_memory_stream(fsrc,OPJ_J2K_STREAM_CHUNK_SIZE, true);
 
@@ -1639,7 +1668,7 @@ bool JPEG2000Codec::DecodeExtent(
 
   if( NumberOfDimensions == 2 )
     {
-    char *dummy_buffer = NULL;
+    char *dummy_buffer = nullptr;
     std::vector<char> vdummybuffer;
     size_t buf_size = 0;
 

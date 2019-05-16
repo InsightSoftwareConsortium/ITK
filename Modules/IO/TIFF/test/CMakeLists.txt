@@ -181,7 +181,7 @@ set_tests_properties( itkTIFFImageIOInfoTest3
 ######################
 # Test Compression
 
-set (Compression "NoCompression;LZW;JPEG;PackBits")
+set (Compression "NoCompression;LZW;JPEG;PackBits;Deflate")
 set (CompressionFiles "cthead1;RGBTestImageJPEG")
 foreach(f ${CompressionFiles})
   foreach(c ${Compression})

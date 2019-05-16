@@ -354,6 +354,7 @@ As implied above, the changes to SpatialObject are extensive.   They include the
 * Derived classes typically only need to implement `IsInsideInObjectSpace()` and `ComputeMyBoundingBoxInObjectSpace()` member functions. Logic for `ValueAtInObjectSpace()`, `IsInsideInWorldSpace()` and such is improved.
 * PointBasedSpatialObjects had a PointListType type declaration.  This was confusing because it refered to a list of SpatialObjectPoints and not ITK::Points.  So, to avoid such confusion, now TubeSpatialObjects define TubePointListType, BlobSpatialObjects define BlobPointListType, and so forth.
 * `ImageMaskSpatialObject::GetAxisAlignedBoundingBoxRegion()` was removed. `ImageMaskSpatialObject::ComputeMyBoundingBoxInIndexSpace()` should be used instead.
+* `SpatialObjectReader::GetScene` was renamed to `GetGroup` along with changing the type from `ScenePointer` to `GroupPointer`.
 
 Class changes
 -------------
@@ -391,6 +392,10 @@ The nested `GaussianDerivativeImageFunction` types `GaussianDerivativeFunctionTy
 `GaussianDerivativeFunctionPointer` are renamed to `GaussianDerivativeSpatialFunctionType` and
 `GaussianDerivativeSpatialFunctionPointer`, respectively.
 
+All descendents of `itk::InterpolateImageFunction` must implement
+`SizeType GetRadius() const` to indicate support radius of the interpolator.
+This is used in `itk::ResampleImageFilter` to support streaming.
+
 With ITK 5.0, `itk::ProcessObject::VerifyPreconditions()`  and
 `itk::ProcessObject::VerifyInputInformation` are now declared `const`,
 so if you have overridden these virtual member function, make sure that you
@@ -399,7 +404,20 @@ you should use macro `ITKv5_CONST` instead of `const` keyword.
 This macro is present in ITKv4 since commit
 b40f74e07d74614c75be4aceac63b87e80e589d1 on 2018-11-14.
 
-`itk::Barrier` has been moved to `ITKDeprecated` module.
+`itk::Barrier`, `itk::VectorResampleImageFilter` and  `itk::VectorCastImageFilter` have been moved to `ITKDeprecated` module.
+
+
+`FixedArray` member functions `rBegin()` and `rEnd()` are replaced by `rbegin()` and `rend()`,
+which return a `reverse_iterator`, compatible with the Standard C++ Library.
+
+`itk::ImageTransformer` has been moved to `ITKDeprecated` module. The new `itk::ImageSink` filter can be used in its place.
+
+`itk::StatisticsImageFilter`, `itk::LabelStatisticsImageFilter` and
+`itk::MinimumMaximumImageFilter` no longer produce an image as their
+primary output, as it was a shallow copy of the primary
+input. Additionally, minor API changes have occoured related to the
+decorated output methods to conform to ITK conventions.
+
 
 Python changes
 --------------

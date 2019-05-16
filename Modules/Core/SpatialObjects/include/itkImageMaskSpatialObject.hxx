@@ -23,6 +23,8 @@
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 
+#include <cstdint> // For uintmax_t.
+
 namespace itk
 {
 /** Constructor */
@@ -39,108 +41,97 @@ ImageMaskSpatialObject< TDimension, TPixel >
 template< unsigned int TDimension, typename TPixel >
 bool
 ImageMaskSpatialObject< TDimension, TPixel >
-::IsInsideInObjectSpace(const PointType & point, unsigned int depth,
-  const std::string & name ) const
+::IsInsideInObjectSpace(const PointType & point) const
 {
-  if( this->GetTypeName().find( name ) != std::string::npos )
+  typename Superclass::InterpolatorType::ContinuousIndexType index;
+  if( this->GetImage()->TransformPhysicalPointToContinuousIndex( point,
+      index ) )
     {
-    if( this->GetMyBoundingBoxInObjectSpace()->IsInside(point) )
+    using InterpolatorOutputType = typename InterpolatorType::OutputType;
+    bool insideMask = (
+      Math::NotExactlyEquals(
+        DefaultConvertPixelTraits<InterpolatorOutputType>::GetScalarValue(
+          this->GetInterpolator()->EvaluateAtContinuousIndex(index)),
+        NumericTraits<PixelType>::ZeroValue() ) );
+    if( insideMask )
       {
-      typename Superclass::InterpolatorType::ContinuousIndexType index;
-      if( this->GetImage()->TransformPhysicalPointToContinuousIndex( point,
-          index ) )
-        {
-        using InterpolatorOutputType = typename InterpolatorType::OutputType;
-        bool insideMask = (
-          Math::NotExactlyEquals(
-            DefaultConvertPixelTraits<InterpolatorOutputType>::GetScalarValue(
-              this->GetInterpolator()->EvaluateAtContinuousIndex(index)),
-            NumericTraits<PixelType>::ZeroValue() ) );
-        if( insideMask )
-          {
-          return true;
-          }
-        }
+      return true;
       }
-    }
-  if( depth > 0 )
-    {
-    return Superclass::IsInsideChildrenInObjectSpace( point, depth, name );
     }
 
   return false;
 }
+
 
 template< unsigned int TDimension, typename TPixel >
 void
 ImageMaskSpatialObject< TDimension, TPixel >
 ::ComputeMyBoundingBox()
 {
-  using IteratorType = ImageRegionConstIteratorWithIndex< ImageType >;
-  IteratorType it( this->GetImage(),
-    this->GetImage()->GetLargestPossibleRegion() );
-  IteratorType prevIt( this->GetImage(),
-    this->GetImage()->GetLargestPossibleRegion() );
-  it.GoToBegin();
-  prevIt = it;
+  const ImageType* const image = this->GetImage();
+  itkAssertOrThrowMacro(image != nullptr, "Ensure that SetImage has been called!");
 
-  bool first = true;
-  PixelType outsideValue = NumericTraits< PixelType >::ZeroValue();
-  PixelType value = outsideValue;
-  PixelType prevValue = outsideValue;
-  IndexType tmpIndex;
-  PointType tmpPoint;
-  int count = 0;
-  int rowSize
-    = this->GetImage()->GetLargestPossibleRegion().GetSize()[0];
-  while ( !it.IsAtEnd() )
+  const RegionType boundingBoxInIndexSpace{ this->ComputeMyBoundingBoxInIndexSpace() };
+
+  BoundingBoxType* const boundingBoxInObjectSpace = this->GetModifiableMyBoundingBoxInObjectSpace();
+
+  // Assert should never fail as SpatialObject takes care of creating the BoundingBox.
+  assert(boundingBoxInObjectSpace != nullptr);
+
+  if (boundingBoxInIndexSpace.GetNumberOfPixels() == 0)
+  {
+    boundingBoxInObjectSpace->SetMinimum(PointType());
+    boundingBoxInObjectSpace->SetMaximum(PointType());
+  }
+  else
+  {
+    using ContinuousIndexType = typename Superclass::ContinuousIndexType;
+    using VectorType = typename SpatialObject<TDimension>::VectorType;
+
+    const IndexType minIndex = boundingBoxInIndexSpace.GetIndex();
+
+    ContinuousIndexType minContinuousIndex{ minIndex };
+    ContinuousIndexType maxContinuousIndex{ minIndex + boundingBoxInIndexSpace.GetSize() };
+
+    // Allow a margin of half a pixel in each direction.
+    minContinuousIndex -= VectorType{ 0.5 };
+    maxContinuousIndex -= VectorType{ 0.5 };
+
+    // Initially set the corner point corresponding to the minimum index as
+    // both the minimum and maximum of the bounding box (in object space).
+    // Afterwards, all other corners are considered.
+    PointType firstPoint;
+    image->TransformContinuousIndexToPhysicalPoint(minContinuousIndex, firstPoint);
+    boundingBoxInObjectSpace->SetMinimum(firstPoint);
+    boundingBoxInObjectSpace->SetMaximum(firstPoint);
+
+    // The total number of corner points of the bounding box.
+    constexpr auto numberOfCorners = std::uintmax_t{ 1 } << TDimension;
+
+    for (std::uintmax_t cornerNumber{1}; cornerNumber < numberOfCorners; ++cornerNumber)
     {
-    value = it.Get();
-    if ( value != prevValue || ( count == rowSize-1 && value != outsideValue ) )
+      // For each corner, estimate the n-dimensional index.
+
+      auto continuousIndex = minContinuousIndex;
+
+      for (unsigned dim{}; dim < TDimension; ++dim)
       {
-      prevValue = value;
-      if( value == outsideValue )
+        const std::uintmax_t bitMask{ std::uintmax_t{ 1 } << dim };
+
+        if ((cornerNumber & bitMask) != 0)
         {
-        tmpIndex = prevIt.GetIndex();
-        }
-      else
-        {
-        tmpIndex = it.GetIndex();
-        }
-      this->GetImage()->TransformIndexToPhysicalPoint( tmpIndex, tmpPoint );
-      if( first )
-        {
-        first = false;
-        this->GetModifiableMyBoundingBoxInObjectSpace()->SetMinimum( tmpPoint );
-        this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum( tmpPoint );
-        }
-      else
-        {
-        this->GetModifiableMyBoundingBoxInObjectSpace()->ConsiderPoint( tmpPoint );
+          continuousIndex[dim] = maxContinuousIndex[dim];
         }
       }
-    prevIt = it;
-    ++it;
-    ++count;
-    if( count == rowSize )
-      {
-      count = 0;
-      prevValue = outsideValue;
-      }
+
+      // Consider the corner point that corresponds to this n-dimensional index.
+      PointType cornerPoint;
+      image->TransformContinuousIndexToPhysicalPoint(continuousIndex, cornerPoint);
+      boundingBoxInObjectSpace->ConsiderPoint(cornerPoint);
     }
-
-  if( first )
-    {
-    tmpPoint.Fill(
-      NumericTraits< typename BoundingBoxType::PointType::ValueType >::ZeroValue() );
-
-    this->GetModifiableMyBoundingBoxInObjectSpace()->SetMinimum( tmpPoint );
-    this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum( tmpPoint );
-
-    // NOT AN EXCEPTION!!!, used to return false, but never checked
-    // itkExceptionMacro(<< "ImageMask bounding box computation failed.")
-    }
+  }
 }
+
 
 /** InternalClone */
 template< unsigned int TDimension, typename TPixel >

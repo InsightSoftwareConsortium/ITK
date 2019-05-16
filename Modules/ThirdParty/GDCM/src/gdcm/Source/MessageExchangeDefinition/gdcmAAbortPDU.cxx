@@ -139,7 +139,7 @@ static const char *PrintReasonAsString( uint8_t reason )
     return "invalid-PDU-parameter value";
     }
   assert( 0 );
-  return NULL;
+  return nullptr;
 }
 }
 

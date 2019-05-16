@@ -57,6 +57,66 @@ def normalizeName(name):
     return name
 
 
+class TemplateTypeError(TypeError):
+    def __init__(self, template_type, input_type):
+        def tuple_to_string_type(t):
+            if type(t) == tuple:
+                return ", ".join(itk.python_type(x) for x in t)
+            else:
+                itk.python_type(t)
+
+        import itk
+        # Special case for ITK image readers: Add extra information.
+        extra_eg = ""
+        if template_type in [itk.ImageFileReader, itk.ImageSeriesReader]:
+            extra_eg="""
+
+or
+
+    e.g.: image = itk.imread(my_input_filename, itk.F)
+"""
+
+        python_template_type = itk.python_type(template_type)
+        python_input_type = tuple_to_string_type(input_type)
+        type_list = "\n".join([itk.python_type(x[0]) for x in template_type.keys()])
+        eg_type = ", ".join([itk.python_type(x) for x in list(template_type.keys())[0]])
+        msg = """{template_type} is not wrapped for input type `{input_type}`.
+
+To limit the size of the package, only a limited number of
+types are available in ITK Python. To print the supported
+types, run the following command in your python environment:
+
+    {template_type}.GetTypes()
+
+Possible solutions:
+* If you are an application user:
+** Convert your input image into a supported format (see below).
+** Contact developer to report the issue.
+* If you are an application developer, force input images to be
+loaded in a supported pixel type.
+
+    e.g.: instance = {template_type}[{eg_type}].New(my_input){extra_eg}
+
+* (Advanced) If you are an application developer, build ITK Python yourself and
+turned to `ON` the corresponding CMake option to wrap the pixel type or image
+dimension you need. When configuring ITK with CMake, you can set
+`ITK_WRAP_${{type}}` (replace ${{type}} with appropriate pixel type such as
+`double`). If you need to support images with 4 or 5 dimensions, you can add
+these dimensions to the list of dimensions in the CMake variable
+`ITK_WRAP_IMAGE_DIMS`.
+
+Supported input types:
+
+{type_list}
+""".format(template_type=python_template_type,
+           input_type=python_input_type,
+           type_list=type_list,
+           eg_type=eg_type,
+           extra_eg=extra_eg
+           )
+        TypeError.__init__(self, msg)
+
+
 class itkTemplate(object):
 
     """This class manages access to available template arguments of a C++ class.
@@ -277,9 +337,7 @@ class itkTemplate(object):
             try:
                 return(self.__template__[tuple(cleanParameters)])
             except:
-                raise KeyError(
-                    'itkTemplate : No template %s for the %s class' %
-                    (str(parameters), self.__name__))
+                raise TemplateTypeError(self, tuple(cleanParameters))
 
     def __repr__(self):
         return '<itkTemplate %s>' % self.__name__
@@ -445,7 +503,12 @@ class itkTemplate(object):
             keys = [k for k in keys if k[0] == input_type]
 
         if len(keys) == 0:
-            raise RuntimeError("No suitable template parameter can be found.")
+            if not input_type:
+                raise RuntimeError("""No suitable template parameter can be found.
+Please specify an input via the first argument or via one of the following
+keyword arguments: %s""" % ", ".join(primary_input_methods))
+            else:
+                raise TemplateTypeError(self, input_type)
         return self[list(keys)[0]].New(*args, **kwargs)
 
     def _NewImageReader(self, TemplateReaderType, increase_dimension, primaryInputMethod, *args, **kwargs):
@@ -468,7 +531,11 @@ class itkTemplate(object):
         else:
             imageIO = itk.ImageIOFactory.CreateImageIO( inputFileName, itk.ImageIOFactory.ReadMode )
         if not imageIO:
-            raise RuntimeError("No ImageIO is registered to handle the given file.")
+            msg = ""
+            if not os.path.isfile(inputFileName):
+                msg += ("\nThe file doesn't exist. \n" +
+                       "Filename = %s" % inputFileName)
+            raise RuntimeError("Could not create IO object for reading file %s" % inputFileName + msg)
         componentTypeDic= {"float": itk.F, "double": itk.D,
         "unsigned_char": itk.UC, "unsigned_short": itk.US, "unsigned_int": itk.UI,
         "unsigned_long": itk.UL, "unsigned_long_long": itk.ULL, "char": itk.SC, "short": itk.SS,

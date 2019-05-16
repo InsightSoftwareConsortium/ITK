@@ -66,6 +66,9 @@ public:
   /** Index type alias support */
   using IndexType = typename Superclass::IndexType;
 
+  /** Size type alias support */
+  using SizeType = typename Superclass::SizeType;
+
   /** ContinuousIndex type alias support */
   using ContinuousIndexType = typename Superclass::ContinuousIndexType;
 
@@ -85,6 +88,11 @@ public:
     this->ConvertContinuousIndexToNearestIndex(index, nindex);
     return static_cast< OutputType >( this->GetInputImage()->GetPixel(nindex) );
   }
+
+  SizeType GetRadius() const override
+    {
+    return SizeType(); // zeroes by default
+    }
 
 protected:
   NearestNeighborInterpolateImageFunction()= default;

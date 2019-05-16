@@ -26,13 +26,12 @@ namespace gdcm
 
 Sorter::Sorter()
 {
-  SortFunc = NULL;
+  SortFunc = nullptr;
   TagsToRead = std::set<Tag>();
 }
 
 Sorter::~Sorter()
-{
-}
+= default;
 
 void Sorter::SetTagsToRead( std::set<Tag> const & tags )
 {
@@ -56,7 +55,7 @@ public:
   Sorter::SortFunction SortFunc;
   SortFunctor()
     {
-    SortFunc = 0;
+    SortFunc = nullptr;
     }
   SortFunctor(SortFunctor const &sf)
     {

@@ -80,10 +80,10 @@ public:
   {
   }
 
-  virtual ~Exception() throw() {}
+  ~Exception() throw() override {}
 
   /// what implementation
-  const char* what() const throw()
+  const char* what() const throw() override
     {
     return What.what();
     }

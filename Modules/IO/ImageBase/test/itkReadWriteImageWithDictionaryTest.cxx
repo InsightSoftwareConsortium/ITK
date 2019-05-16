@@ -160,11 +160,7 @@ int itkReadWriteImageWithDictionaryTest(int argc, char* argv[])
   std::cout<<std::endl<<"Number of missing metadata = "<<numMissingMetaData<<std::endl;
   std::cout<<"Number of wrong metadata = "<<numWrongMetaData<<std::endl<<std::endl;
 
-  /** the visual studio 6 compiler cannot dereference iterator outside
-   * of the dll */
-#if defined(_MSC_VER) && (_MSC_VER <= 1300) && !defined(ITKSTATIC)
-  return EXIT_SUCCESS;
-#else
+
   // Perform a weaker but more exhaustive test
   int numMissingMetaData2 = 0;
   int numWrongMetaData2 = 0;
@@ -213,5 +209,4 @@ int itkReadWriteImageWithDictionaryTest(int argc, char* argv[])
     }
 
   return EXIT_SUCCESS;
-#endif
 }

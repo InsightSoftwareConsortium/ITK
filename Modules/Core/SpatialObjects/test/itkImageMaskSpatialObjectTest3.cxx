@@ -88,12 +88,12 @@ int itkImageMaskSpatialObjectTest3(int, char* [])
   for( unsigned int i=0; i<NDimensions; ++i )
     {
     regionIndex[i] = bndMinI[i];
-    regionSize[i] = bndMaxI[i] - bndMinI[i] + 1;
+    regionSize[i] = bndMaxI[i] - bndMinI[i];
     }
 
   for(unsigned int i = 0; i < 3; i++)
     {
-    if(regionSize[i] != 1)
+    if(regionSize[i] != 0)
       {
       std::cout << "Invalid Region Size " << regionSize << std::endl;
       return EXIT_FAILURE;

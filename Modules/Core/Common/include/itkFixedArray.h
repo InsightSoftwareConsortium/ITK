@@ -26,7 +26,7 @@ namespace itk
 {
 
 /** \class FixedArray
- *  \brief Simulate a standard C array with copy semnatics.
+ *  \brief Simulate a standard C array with copy semantics.
  *
  * Simulates a standard C array, except that copy semantics are used instead
  * of reference semantics.  Also, arrays of different sizes cannot be
@@ -80,10 +80,10 @@ public:
   {
   public:
     explicit ReverseIterator(Iterator i):m_Iterator(i) {}
-    Iterator operator++()        { return --m_Iterator; }
-    Iterator operator++(int)     { return m_Iterator--; }
-    Iterator operator--()        { return ++m_Iterator; }
-    Iterator operator--(int)     { return m_Iterator++; }
+    ReverseIterator operator++()        { return ReverseIterator( --m_Iterator ); }
+    ReverseIterator operator++(int)     { return ReverseIterator( m_Iterator-- ); }
+    ReverseIterator operator--()        { return ReverseIterator( ++m_Iterator ); }
+    ReverseIterator operator--(int)     { return ReverseIterator( m_Iterator++ ); }
     Iterator operator->() const { return ( m_Iterator - 1 ); }
     ValueType & operator*() const { return *( m_Iterator - 1 ); }
     bool operator!=(const ReverseIterator & rit) const { return m_Iterator != rit.m_Iterator; }
@@ -103,10 +103,10 @@ public:
   public:
     explicit ConstReverseIterator(ConstIterator i):m_Iterator(i) {}
     ConstReverseIterator(const ReverseIterator & rit) { m_Iterator = rit.m_Iterator; }
-    ConstIterator operator++()         { return --m_Iterator; }
-    ConstIterator operator++(int)      { return m_Iterator--; }
-    ConstIterator operator--()         { return ++m_Iterator; }
-    ConstIterator operator--(int)      { return m_Iterator++; }
+    ConstReverseIterator operator++()         { return ConstReverseIterator( --m_Iterator ); }
+    ConstReverseIterator operator++(int)      { return ConstReverseIterator( m_Iterator-- ); }
+    ConstReverseIterator operator--()         { return ConstReverseIterator( ++m_Iterator ); }
+    ConstReverseIterator operator--(int)      { return ConstReverseIterator( m_Iterator++ ); }
     ConstIterator operator->() const { return ( m_Iterator - 1 ); }
     const ValueType & operator*() const { return *( m_Iterator - 1 ); }
     bool operator!=(const ConstReverseIterator & rit) const { return m_Iterator != rit.m_Iterator; }
@@ -163,33 +163,30 @@ public:
   template< typename TFixedArrayValueType >
   FixedArray(const FixedArray< TFixedArrayValueType, VLength > & r)
   {
-    typename FixedArray< TFixedArrayValueType, VLength >::ConstIterator input = r.Begin();
-    Iterator i = this->Begin();
-    while ( i != this->End() )
-      {
-      *i++ = static_cast< TValue >( *input++ );
-      }
+    auto input = r.cbegin();
+
+    for (auto& element : m_InternalArray)
+    {
+      element = static_cast< TValue >( *input++ );
+    }
   }
 
   template< typename TScalarValue >
   FixedArray(const TScalarValue *r)
-    {
-      std::copy(r, r + this->Size(), this->GetDataPointer());
-    }
+  {
+    std::copy_n(r, VLength, m_InternalArray);
+  }
 
   /** Operator= defined for a variety of types. */
   template< typename TFixedArrayValueType >
   FixedArray & operator=(const FixedArray< TFixedArrayValueType, VLength > & r)
   {
-    if ( (const void *)r.Begin() != (const void *)m_InternalArray )
-      {
-      typename FixedArray< TFixedArrayValueType, VLength >::ConstIterator input = r.Begin();
-      Iterator i = this->Begin();
-      while ( i != this->End() )
-        {
-        *i++ = static_cast< TValue >( *input++ );
-        }
-      }
+    auto input = r.cbegin();
+
+    for (auto& element : m_InternalArray)
+    {
+      element = static_cast< TValue >( *input++ );
+    }
     return *this;
   }
 
@@ -236,19 +233,19 @@ public:
   const_reference operator[](unsigned long long index) const { return m_InternalArray[index]; }
 
   /** Set/Get element methods are more convenient in wrapping languages */
-  void SetElement(unsigned short index, const_reference value)
+  void SetElement(unsigned int index, const_reference value)
   { m_InternalArray[index] = value; }
-  const_reference GetElement(unsigned short index) const { return m_InternalArray[index]; }
+  const_reference GetElement(unsigned int index) const { return m_InternalArray[index]; }
 
   /** Return a pointer to the data. */
   ValueType * GetDataPointer()
   {
-    return m_InternalArray; \
+    return m_InternalArray;
   }
 
   const ValueType * GetDataPointer() const
   {
-    return m_InternalArray; \
+    return m_InternalArray;
   }
 
   /** Get various iterators to the array. */
@@ -260,13 +257,13 @@ public:
 
   ConstIterator End() const;
 
-  ReverseIterator      rBegin();
+  itkLegacyMacro(ReverseIterator      rBegin());
 
-  ConstReverseIterator rBegin() const;
+  itkLegacyMacro(ConstReverseIterator rBegin() const);
 
-  ReverseIterator      rEnd();
+  itkLegacyMacro(ReverseIterator      rEnd());
 
-  ConstReverseIterator rEnd() const;
+  itkLegacyMacro(ConstReverseIterator rEnd() const);
 
   const_iterator cbegin() const noexcept
   {
@@ -334,7 +331,7 @@ public:
 
   void swap(FixedArray &other)
     {
-      std::swap_ranges(this->Begin(), this->End(), other.Begin());
+      std::swap(m_InternalArray, other.m_InternalArray);
     }
 
 private:

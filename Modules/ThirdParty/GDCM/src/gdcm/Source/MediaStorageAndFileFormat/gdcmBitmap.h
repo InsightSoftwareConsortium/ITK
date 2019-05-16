@@ -39,8 +39,8 @@ class GDCM_EXPORT Bitmap : public Object
 {
 public:
   Bitmap();
-  ~Bitmap();
-  void Print(std::ostream &) const;
+  ~Bitmap() override;
+  void Print(std::ostream &) const override;
 
   virtual bool AreOverlaysInPixelData() const { return false; }
   virtual bool UnusedBitsPresentInPixelData() const { return false; }
@@ -121,7 +121,7 @@ public:
   const PhotometricInterpretation &GetPhotometricInterpretation() const;
   void SetPhotometricInterpretation(PhotometricInterpretation const &pi);
 
-  bool IsEmpty() const { return Dimensions.size() == 0; }
+  bool IsEmpty() const { return Dimensions.empty(); }
   void Clear();
 
   /// Return the length of the image after decompression

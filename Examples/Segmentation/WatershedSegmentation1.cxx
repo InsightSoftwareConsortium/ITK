@@ -60,8 +60,9 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkVectorCastImageFilter.h"
+#include "itkCastImageFilter.h"
 #include "itkScalarToRGBPixelFunctor.h"
+#include "itkRGBToVectorImageAdaptor.h"
 
 int main( int argc, char *argv[] )
 {
@@ -80,7 +81,7 @@ int main( int argc, char *argv[] )
   // work properly.  The preprocessing stages are applied directly to the
   // vector-valued data and the segmentation uses floating point
   // scalar data.  Images are converted from RGB pixel type to
-  // numerical vector type using \doxygen{VectorCastImageFilter}.
+  // numerical vector type using \doxygen{CastImageFilter}.
   //
   // Software Guide : EndLatex
 
@@ -102,8 +103,9 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   using FileReaderType = itk::ImageFileReader< RGBImageType >;
+  using AdaptorType = itk::RGBToVectorImageAdaptor< RGBImageType >;
   using CastFilterType =
-      itk::VectorCastImageFilter< RGBImageType, VectorImageType >;
+      itk::CastImageFilter< AdaptorType, VectorImageType >;
   using DiffusionFilterType =
     itk::VectorGradientAnisotropicDiffusionImageFilter<
                         VectorImageType, VectorImageType >;
@@ -117,6 +119,7 @@ int main( int argc, char *argv[] )
   FileReaderType::Pointer reader = FileReaderType::New();
   reader->SetFileName(argv[1]);
 
+  AdaptorType::Pointer adaptor = AdaptorType::New();
   CastFilterType::Pointer caster = CastFilterType::New();
 
   // Software Guide : BeginLatex
@@ -207,7 +210,8 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  caster->SetInput(reader->GetOutput());
+  adaptor->SetImage(reader->GetOutput());
+  caster->SetInput(adaptor);
   diffusion->SetInput(caster->GetOutput());
   gradient->SetInput(diffusion->GetOutput());
   watershed->SetInput(gradient->GetOutput());

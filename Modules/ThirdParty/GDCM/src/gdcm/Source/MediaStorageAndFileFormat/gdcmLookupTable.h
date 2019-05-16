@@ -38,8 +38,8 @@ public:
   } LookupTableType;
 
   LookupTable();
-  ~LookupTable();
-  void Print(std::ostream &) const;
+  ~LookupTable() override;
+  void Print(std::ostream &) const override;
 
   /// Allocate the LUT
   void Allocate( unsigned short bitsample = 8 );

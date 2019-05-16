@@ -26,6 +26,7 @@
 #include "itkImageFileWriter.h"
 
 #include "itkCurvatureRegistrationFilter.h"
+#include "itkDisplacementFieldTransform.h"
 #include "itkFastSymmetricForcesDemonsRegistrationFunction.h"
 #include "itkMultiResolutionPDEDeformableRegistration.h"
 
@@ -159,13 +160,12 @@ int main( int argc, char *argv[] )
   multires->SetNumberOfIterations( nIterations );
   multires->Update();
 
-  using WarperType = itk::WarpImageFilter<
-                          MovingImageType,
-                          MovingImageType,
-                          DisplacementFieldType  >;
-  using InterpolatorType = itk::LinearInterpolateImageFunction<
-                                   MovingImageType,
-                                   double          >;
+  using DisplacementFieldTransformType = itk::DisplacementFieldTransform< InternalPixelType, Dimension >;
+  auto displacementTransform = DisplacementFieldTransformType::New();
+  displacementTransform->SetDisplacementField( multires->GetOutput() );
+
+  using WarperType = itk::ResampleImageFilter< MovingImageType, MovingImageType, InternalPixelType, InternalPixelType >;
+  using InterpolatorType = itk::LinearInterpolateImageFunction< MovingImageType, InternalPixelType >;
   WarperType::Pointer warper = WarperType::New();
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
@@ -175,7 +175,7 @@ int main( int argc, char *argv[] )
   warper->SetOutputSpacing( fixedImage->GetSpacing() );
   warper->SetOutputOrigin( fixedImage->GetOrigin() );
   warper->SetOutputDirection( fixedImage->GetDirection() );
-  warper->SetDisplacementField( multires->GetOutput() );
+  warper->SetTransform( displacementTransform );
 
   // Write warped image out to file
   using OutputPixelType = unsigned short;

@@ -56,7 +56,7 @@ class image_info
 public:
   /// initializer, will throw an exception if input parameters are incorrects
   image_info(int width = 0, int height = 0, pixel_info const & pi = pixel_info(),
-    bool planarconfiguration = 0, bool littleendian = true );
+    bool planarconfiguration = false, bool littleendian = true );
 
   /// return width
   int get_width() const { return width; }

@@ -29,11 +29,11 @@ int itkLabelStatisticsImageFilterTest(int argc, char* argv [] )
 {
   std::cout << "itkLabelStatisticsImageFilterTest Start" << std::endl;
 
-  if( argc < 2 )
+  if( argc < 3 )
   {
     std::cerr << "Missing Arguments" << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImage labeledImage " << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImage labeledImage [numberOfStreamDivision]" << std::endl;
     return EXIT_FAILURE;
   }
   using ImageType = itk::Image<unsigned char,2>;
@@ -46,6 +46,14 @@ int itkLabelStatisticsImageFilterTest(int argc, char* argv [] )
   reader1->SetFileName( argv[1] );
   reader2->SetFileName( argv[2] );
 
+
+  unsigned int numberOfStreamDivisions = 1;
+
+  if (argc > 3)
+    {
+    numberOfStreamDivisions = std::max( std::stoi( argv[3] ), 1 );
+    }
+
   using FilterType = itk::LabelStatisticsImageFilter< ImageType, ImageType >;
 
   FilterType::Pointer filter = FilterType::New();
@@ -55,6 +63,7 @@ int itkLabelStatisticsImageFilterTest(int argc, char* argv [] )
   filter->SetInput (      reader1->GetOutput() );
   filter->SetLabelInput ( reader2->GetOutput() );
   filter->UseHistogramsOn();
+  filter->SetNumberOfStreamDivisions( numberOfStreamDivisions );
   try
     {
     filter->Update();

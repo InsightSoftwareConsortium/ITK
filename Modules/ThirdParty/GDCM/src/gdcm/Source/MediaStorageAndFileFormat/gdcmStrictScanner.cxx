@@ -28,8 +28,7 @@ namespace gdcm
 
 
 StrictScanner::~StrictScanner()
-{
-}
+= default;
 
 void StrictScanner::ClearTags()
 {
@@ -266,12 +265,12 @@ const char* StrictScanner::GetValue(const char *filename, Tag const &t) const
     {
     return ftv.find(t)->second;
     }
-  return NULL;
+  return nullptr;
 }
 
 const char *StrictScanner::GetFilenameFromTagToValue(Tag const &t, const char *valueref) const
 {
-  const char *filenameref = 0;
+  const char *filenameref = nullptr;
   if( valueref )
     {
     Directory::FilenamesType::const_iterator file = Filenames.begin();

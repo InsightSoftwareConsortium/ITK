@@ -66,7 +66,7 @@ public:
 
 
 class METAIO_EXPORT MetaVesselTube : public MetaObject
-  {
+{
 
   /////
   //
@@ -75,7 +75,7 @@ class METAIO_EXPORT MetaVesselTube : public MetaObject
   ////
   public:
 
-   typedef METAIO_STL::list<VesselTubePnt*> PointListType;
+   typedef std::list<VesselTubePnt*> PointListType;
     ////
     //
     // Constructors & Destructor
@@ -165,7 +165,7 @@ class METAIO_EXPORT MetaVesselTube : public MetaObject
 
     PointListType m_PointList;
     MET_ValueEnumType m_ElementType;
-  };
+};
 
 #if (METAIO_USE_NAMESPACE)
 };

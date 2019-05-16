@@ -33,7 +33,7 @@ namespace gdcm
 
 BaseQuery* QueryFactory::ProduceQuery( const std::string & sopInstanceUID, ENQueryType inQueryType )
 {
-  BaseQuery* theReturn = NULL;
+  BaseQuery* theReturn = nullptr;
     switch (inQueryType)
     {
 	case eCreateMMPS :
@@ -49,7 +49,7 @@ BaseQuery* QueryFactory::ProduceQuery( const std::string & sopInstanceUID, ENQue
 BaseRootQuery* QueryFactory::ProduceQuery(ERootType inRootType, EQueryType inQueryType,
  EQueryLevel inQueryLevel)
 {
-  BaseRootQuery* theReturn = NULL;
+  BaseRootQuery* theReturn = nullptr;
   switch (inQueryType)
     {
   case eFind:

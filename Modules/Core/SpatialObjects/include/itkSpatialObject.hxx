@@ -27,48 +27,6 @@
 
 namespace itk
 {
-/** Constructor */
-template< unsigned int TDimension >
-SpatialObject< TDimension >
-::SpatialObject()
-{
-  m_TypeName = "SpatialObject";
-
-  typename BoundingBoxType::PointType pnt;
-  pnt.Fill( NumericTraits< typename BoundingBoxType::PointType::ValueType >::
-    ZeroValue() );
-  m_FamilyBoundingBoxInObjectSpace = BoundingBoxType::New();
-  m_FamilyBoundingBoxInObjectSpace->SetMinimum(pnt);
-  m_FamilyBoundingBoxInObjectSpace->SetMaximum(pnt);
-  m_FamilyBoundingBoxInWorldSpace = BoundingBoxType::New();
-  m_FamilyBoundingBoxInWorldSpace->SetMinimum(pnt);
-  m_FamilyBoundingBoxInWorldSpace->SetMaximum(pnt);
-
-  m_MyBoundingBoxInObjectSpace = BoundingBoxType::New();
-  m_MyBoundingBoxInObjectSpace->SetMinimum(pnt);
-  m_MyBoundingBoxInObjectSpace->SetMaximum(pnt);
-  m_MyBoundingBoxInWorldSpace = BoundingBoxType::New();
-  m_MyBoundingBoxInWorldSpace->SetMinimum(pnt);
-  m_MyBoundingBoxInWorldSpace->SetMaximum(pnt);
-
-  m_ObjectToWorldTransform = TransformType::New();
-  m_ObjectToWorldTransform->SetIdentity();
-  m_ObjectToWorldTransformInverse = TransformType::New();
-  m_ObjectToWorldTransformInverse->SetIdentity();
-
-  m_ObjectToParentTransform = TransformType::New();
-  m_ObjectToParentTransform->SetIdentity();
-  m_ObjectToParentTransformInverse = TransformType::New();
-  m_ObjectToParentTransformInverse->SetIdentity();
-
-  m_Id = -1;
-  m_Parent = nullptr;
-  m_ParentId = -1;
-  m_DefaultInsideValue = 1.0;
-  m_DefaultOutsideValue  = 0.0;
-
-  m_ChildrenList.clear();
-}
 
 /** Destructor */
 template< unsigned int TDimension >
@@ -204,14 +162,31 @@ SpatialObject< TDimension >
 ::IsInsideInObjectSpace(const PointType & point, unsigned int depth,
   const std::string & name) const
 {
-  if( depth > 0 )
+  if (name.empty() || (this->GetTypeName().find(name) != std::string::npos))
     {
-    return IsInsideChildrenInObjectSpace( point, depth-1, name );
+    if (this->IsInsideInObjectSpace(point))
+      {
+      return true;
+      }
+    }
+
+  if (depth > 0)
+    {
+    return Self::IsInsideChildrenInObjectSpace(point, depth-1, name);
     }
   else
     {
     return false;
     }
+}
+
+template< unsigned int TDimension >
+bool
+SpatialObject< TDimension >
+::IsInsideInObjectSpace(const PointType & itkNotUsed(point)) const
+{
+  // This overload is virtual, and should be overridden.
+  return false;
 }
 
 /** Return if a point is inside the object or its children */
@@ -390,7 +365,6 @@ SpatialObject< TDimension >
   // Default implementation just copies the parameters from
   // this to new transform.
   typename LightObject::Pointer loPtr = CreateAnother();
-  loPtr->Register();
 
   typename Self::Pointer rval =
     dynamic_cast<Self *>(loPtr.GetPointer());

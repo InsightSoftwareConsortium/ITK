@@ -153,13 +153,13 @@ TEST(ImageMaskSpatialObject, AxisAlignedBoundingBoxIsEmptyWhenAllPixelsAreZero)
 {
   // Test 2D images:
   Expect_AxisAlignedBoundingBoxRegion_is_empty_when_all_pixel_values_are_zero<double>(
-    itk::ImageRegion<2>{ itk::Index<2>{}, itk::Size<2>::Filled(1) });
+    itk::ImageRegion<2>{ itk::Index<2>(), itk::Size<2>::Filled(1) });
   Expect_AxisAlignedBoundingBoxRegion_is_empty_when_all_pixel_values_are_zero<double>(
     itk::ImageRegion<2>{ itk::Index<2>{{-1, -2}}, itk::Size<2>{{3, 4}} });
 
   // Test 3D images:
   Expect_AxisAlignedBoundingBoxRegion_is_empty_when_all_pixel_values_are_zero<unsigned char>(
-    itk::ImageRegion<3>{ itk::Index<3>{}, itk::Size<3>::Filled(1) });
+    itk::ImageRegion<3>{ itk::Index<3>(), itk::Size<3>::Filled(1) });
   Expect_AxisAlignedBoundingBoxRegion_is_empty_when_all_pixel_values_are_zero<unsigned char>(
     itk::ImageRegion<3>{ itk::Index<3>{{-1, -2, -3}}, itk::Size<3>{{3, 4, 5}} });
 }
@@ -170,13 +170,13 @@ TEST(ImageMaskSpatialObject, AxisAlignedBoundingBoxRegionIsImageRegionWhenAllPix
 {
   // Test 2D images:
   Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_all_pixel_values_are_non_zero<double>(
-    itk::ImageRegion<2>{ itk::Index<2>{}, itk::Size<2>::Filled(1) });
+    itk::ImageRegion<2>{ itk::Index<2>(), itk::Size<2>::Filled(1) });
   Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_all_pixel_values_are_non_zero<double>(
     itk::ImageRegion<2>{ itk::Index<2>{{-1, -2}}, itk::Size<2>{{3, 4}} });
 
   // Test 3D images:
   Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_all_pixel_values_are_non_zero<unsigned char>(
-    itk::ImageRegion<3>{ itk::Index<3>{}, itk::Size<3>::Filled(1) });
+    itk::ImageRegion<3>{ itk::Index<3>(), itk::Size<3>::Filled(1) });
   Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_all_pixel_values_are_non_zero<unsigned char>(
     itk::ImageRegion<3>{ itk::Index<3>{{-1, -2, -3}}, itk::Size<3>{{3, 4, 5}} });
 }
@@ -187,13 +187,13 @@ TEST(ImageMaskSpatialObject, AxisAlignedBoundingBoxRegionIsRegionOfSinglePixelWh
 {
   // Test 2D images:
   Expect_AxisAlignedBoundingBoxRegion_equals_region_of_single_pixel_when_it_is_the_only_non_zero_pixel<double>(
-    itk::ImageRegion<2>{ itk::Index<2>{}, itk::Size<2>::Filled(1) });
+    itk::ImageRegion<2>{ itk::Index<2>(), itk::Size<2>::Filled(1) });
   Expect_AxisAlignedBoundingBoxRegion_equals_region_of_single_pixel_when_it_is_the_only_non_zero_pixel<double>(
     itk::ImageRegion<2>{ itk::Index<2>{{-1, -2}}, itk::Size<2>{{3, 4}} });
 
   // Test 3D images:
   Expect_AxisAlignedBoundingBoxRegion_equals_region_of_single_pixel_when_it_is_the_only_non_zero_pixel<unsigned char>(
-    itk::ImageRegion<3>{ itk::Index<3>{}, itk::Size<3>::Filled(1) });
+    itk::ImageRegion<3>{ itk::Index<3>(), itk::Size<3>::Filled(1) });
   Expect_AxisAlignedBoundingBoxRegion_equals_region_of_single_pixel_when_it_is_the_only_non_zero_pixel<unsigned char>(
     itk::ImageRegion<3>{ itk::Index<3>{{-1, -2, -3}}, itk::Size<3>{{3, 4, 5}} });
 }
@@ -205,15 +205,109 @@ TEST(ImageMaskSpatialObject, AxisAlignedBoundingBoxRegionIsImageRegionWhenOnlyOn
 {
   // Test 2D images:
   Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_only_a_single_pixel_has_value_zero<double>(
-    itk::ImageRegion<2>{ itk::Index<2>{}, itk::Size<2>::Filled(2) });
+    itk::ImageRegion<2>{ itk::Index<2>(), itk::Size<2>::Filled(2) });
   Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_only_a_single_pixel_has_value_zero<double>(
     itk::ImageRegion<2>{ itk::Index<2>{{-1, -2}}, itk::Size<2>{{3, 4}} });
 
   // Test 3D images:
   Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_only_a_single_pixel_has_value_zero<unsigned char>(
-    itk::ImageRegion<3>{ itk::Index<3>{}, itk::Size<3>::Filled(2) });
+    itk::ImageRegion<3>{ itk::Index<3>(), itk::Size<3>::Filled(2) });
   Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_only_a_single_pixel_has_value_zero<unsigned char>(
     itk::ImageRegion<3>{ itk::Index<3>{{-1, -2, -3}}, itk::Size<3>{{3, 4, 5}} });
 }
+
+
+// Tests IsInside for a single zero-valued pixel (non-zero as background).
+TEST(ImageMaskSpatialObject, IsInsideSingleZeroPixel)
+{
+  using ImageType = itk::Image<unsigned char>;
+  constexpr auto ImageDimension = ImageType::ImageDimension;
+  using SizeType = ImageType::SizeType;
+  using PointType = ImageType::PointType;
+
+  // Create an image filled with non-zero valued pixels.
+  const auto image = ImageType::New();
+  image->SetRegions(SizeType::Filled(8));
+  image->Allocate();
+  image->FillBuffer(1);
+
+  constexpr itk::IndexValueType indexValue{ 4 };
+  image->SetPixel({{ indexValue, indexValue }}, 0);
+
+  const auto spatialObject = itk::ImageMaskSpatialObject<ImageDimension>::New();
+  spatialObject->SetImage(image);
+  spatialObject->Update();
+
+  EXPECT_FALSE(spatialObject->IsInside(PointType{ indexValue }));
+  EXPECT_FALSE(spatialObject->IsInside(PointType{ indexValue - 0.4999 }));
+  EXPECT_FALSE(spatialObject->IsInside(PointType{ indexValue + 0.4999 }));
+}
+
+
+// Tests IsInside for a single non-zero-valued pixel (zero as background).
+TEST(ImageMaskSpatialObject, IsInsideSingleNonZeroPixel)
+{
+  using ImageType = itk::Image<unsigned char>;
+  constexpr auto ImageDimension = ImageType::ImageDimension;
+  using SizeType = ImageType::SizeType;
+  using PointType = ImageType::PointType;
+
+  // Create an image filled with zero valued pixels.
+  const auto image = ImageType::New();
+  image->SetRegions(SizeType::Filled(8));
+  image->Allocate(true);
+
+  constexpr itk::IndexValueType indexValue{ 4 };
+  image->SetPixel({{ indexValue, indexValue }}, 1);
+
+  const auto spatialObject = itk::ImageMaskSpatialObject<ImageDimension>::New();
+  spatialObject->SetImage(image);
+  spatialObject->Update();
+
+  EXPECT_TRUE(spatialObject->IsInside(PointType{ indexValue }));
+  EXPECT_TRUE(spatialObject->IsInside(PointType{ indexValue - 0.4999 }));
+  EXPECT_TRUE(spatialObject->IsInside(PointType{ indexValue + 0.4999 }));
+}
+
+
+// Tests that the result of IsInside(point) is independent of a distant pixel value.
+TEST(ImageMaskSpatialObject, IsInsideIndependentOfDistantPixels)
+{
+  using ImageType = itk::Image<unsigned char>;
+  constexpr auto ImageDimension = ImageType::ImageDimension;
+  using SizeType = ImageType::SizeType;
+  using IndexType = ImageType::IndexType;
+  using PointType = ImageType::PointType;
+
+  // Create an image filled with zero valued pixels.
+  const auto image = ImageType::New();
+  image->SetRegions(SizeType::Filled(10));
+  image->Allocate(true);
+
+  // Set the value of a pixel to non-zero.
+  constexpr itk::IndexValueType indexValue{ 8 };
+  image->SetPixel({{ indexValue, indexValue }}, 1);
+
+  const auto spatialObject = itk::ImageMaskSpatialObject<ImageDimension>::New();
+  spatialObject->SetImage(image);
+  spatialObject->Update();
+
+  // Point of interest: a point close to the non-zero pixel.
+  const PointType pointOfInterest{ indexValue - 0.25 };
+
+  const bool isInsideBefore = spatialObject->IsInside(pointOfInterest);
+
+  // Now also set the value of a pixel at (0, 0) to non-zero. This is the pixel
+  // farthest away from the point of interest.
+  image->SetPixel(IndexType(), 1);
+  spatialObject->Update();
+
+  const bool isInsideAfter = spatialObject->IsInside(pointOfInterest);
+
+  // Expect the same return value of IsInside(point), before and after setting
+  // the value of a distant pixel.
+  EXPECT_EQ(isInsideBefore, isInsideAfter);
+}
+
 
 #endif

@@ -31,7 +31,7 @@
 #include "itkVector.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageToRectilinearFEMObjectFilter.h"
-#include "itkVectorCastImageFilter.h"
+#include "itkCastImageFilter.h"
 #include "itkVectorIndexSelectionCastImageFilter.h"
 #include "itkWarpImageFilter.h"
 #include "itkImageToImageMetric.h"

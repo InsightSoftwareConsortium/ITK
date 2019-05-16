@@ -48,7 +48,7 @@ class GDCM_EXPORT FileAnonymizer : public Subject
 {
 public:
   FileAnonymizer();
-  ~FileAnonymizer();
+  ~FileAnonymizer() override;
 
   /// Make Tag t empty
   /// Warning: does not handle SQ element

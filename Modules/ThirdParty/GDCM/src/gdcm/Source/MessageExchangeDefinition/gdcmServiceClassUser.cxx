@@ -46,7 +46,7 @@ public:
   std::string calledaetitle;
   double timeout;
 
-  ServiceClassUserInternals():mConnection(NULL),mSecondaryConnection(NULL){}
+  ServiceClassUserInternals():mConnection(nullptr),mSecondaryConnection(nullptr){}
   ~ServiceClassUserInternals(){
     delete mConnection;
     delete mSecondaryConnection;
@@ -142,8 +142,8 @@ bool ServiceClassUser::StartAssociation()
     return false;
     }
 
-  ULEvent theEvent(eAASSOCIATERequestLocalUser, NULL);
-  network::EStateID theState = RunEventLoop(theEvent, Internals->mConnection, NULL, false);
+  ULEvent theEvent(eAASSOCIATERequestLocalUser, nullptr);
+  network::EStateID theState = RunEventLoop(theEvent, Internals->mConnection, nullptr, false);
   if(theState != eSta6TransferReady)
     {
     std::vector<BasePDU*> const & thePDUs = theEvent.GetPDUs();
@@ -151,7 +151,7 @@ bool ServiceClassUser::StartAssociation()
       = thePDUs.begin(); itor != thePDUs.end(); itor++)
       {
       assert(*itor);
-      if (*itor == NULL) continue; //can have a nulled pdu, apparently
+      if (*itor == nullptr) continue; //can have a nulled pdu, apparently
       (*itor)->Print(Trace::GetErrorStream());
       }
     }
@@ -165,7 +165,7 @@ bool ServiceClassUser::StopAssociation()
 
   BasePDU* thePDU = PDUFactory::ConstructReleasePDU();
   ULEvent theEvent(eARELEASERequest, thePDU);
-  EStateID theState = RunEventLoop(theEvent, mConnection, NULL, false);
+  EStateID theState = RunEventLoop(theEvent, mConnection, nullptr, false);
 
   return theState == eSta1Idle;
 }
@@ -224,7 +224,7 @@ bool ServiceClassUser::SendEcho()
   std::vector<BasePDU*> theDataPDU = PDUFactory::CreateCEchoPDU(*mConnection);
   ULEvent theEvent(ePDATArequest, theDataPDU);
 
-  EStateID theState = RunEventLoop(theEvent, mConnection, NULL, false);
+  EStateID theState = RunEventLoop(theEvent, mConnection, nullptr, false);
 
   return theState == eSta6TransferReady;
 }
@@ -505,7 +505,7 @@ EStateID ServiceClassUser::RunEventLoop(network::ULEvent& currentEvent,
     std::istream &is = *inWhichConnection->GetProtocol();
     //std::ostream &os = *inWhichConnection->GetProtocol();
 
-    BasePDU* theFirstPDU = NULL;// the first pdu read in during this event loop,
+    BasePDU* theFirstPDU = nullptr;// the first pdu read in during this event loop,
     //used to make sure the presentation context ID is correct
 
     //read the connection, as that's an event as well.
@@ -524,7 +524,7 @@ EStateID ServiceClassUser::RunEventLoop(network::ULEvent& currentEvent,
           is.read( (char*)&itemtype, 1 );
           //what happens if nothing's read?
           theFirstPDU = PDUFactory::ConstructPDU(itemtype);
-          if (theFirstPDU != NULL){
+          if (theFirstPDU != nullptr){
             incomingPDUs.push_back(theFirstPDU);
             theFirstPDU->Read(is);
             gdcmDebugMacro("PDU code: " << static_cast<int>(itemtype) << std::endl);
@@ -603,7 +603,7 @@ EStateID ServiceClassUser::RunEventLoop(network::ULEvent& currentEvent,
               if (theVal != pendingDE1 && theVal != pendingDE2 && theVal != success)
                 {
                 //check for other error fields
-                const ByteValue *err1 = NULL, *err2 = NULL;
+                const ByteValue *err1 = nullptr, *err2 = nullptr;
                 gdcmErrorMacro( "Transfer failed with code " << theVal << std::endl);
                 switch (theVal){
                   case 0xA701:
@@ -677,7 +677,7 @@ EStateID ServiceClassUser::RunEventLoop(network::ULEvent& currentEvent,
                   is.read( (char*)&itemtype, 1 );
                   //what happens if nothing's read?
                   thePDU = PDUFactory::ConstructPDU(itemtype);
-                  if (itemtype != 0x4 && thePDU != NULL){ //ie, not a pdatapdu
+                  if (itemtype != 0x4 && thePDU != nullptr){ //ie, not a pdatapdu
                     std::vector<BasePDU*> interruptingPDUs;
                     interruptingPDUs.push_back(thePDU);
                     currentEvent.SetEvent(PDUFactory::DetermineEventByPDU(interruptingPDUs[0]));
@@ -685,7 +685,7 @@ EStateID ServiceClassUser::RunEventLoop(network::ULEvent& currentEvent,
                     interrupted= true;
                     break;
                   }
-                  if (thePDU != NULL){
+                  if (thePDU != nullptr){
                     // FIXME: How do I find out how many PData we are receiving ?
                     // This is needed for proper progress report
                     thePDU->Read(is);
@@ -795,7 +795,7 @@ EStateID ServiceClassUser::RunMoveEventLoop(ULEvent& currentEvent, ULConnectionC
     //in our case we use another port to receive it.
     EStateID theCStoreStateID = eSta6TransferReady;
     bool secondConnectionEstablished = false;
-    if (Internals->mSecondaryConnection->GetProtocol() == NULL){
+    if (Internals->mSecondaryConnection->GetProtocol() == nullptr){
       //establish the connection
       //can fail if is_readready doesn't return true, ie, the connection
       //wasn't opened on the other side because the other side isn't sending data yet
@@ -817,7 +817,7 @@ EStateID ServiceClassUser::RunMoveEventLoop(ULEvent& currentEvent, ULConnectionC
     if (secondConnectionEstablished &&
       (Internals->mSecondaryConnection->GetState()== eSta1Idle ||
       Internals->mSecondaryConnection->GetState() == eSta2Open)){
-      ULEvent theCStoreEvent(eEventDoesNotExist, NULL);//have to fill this in, we're in passive mode now
+      ULEvent theCStoreEvent(eEventDoesNotExist, nullptr);//have to fill this in, we're in passive mode now
       theCStoreStateID = RunEventLoop(theCStoreEvent, Internals->mSecondaryConnection, inCallback, true);
     }
 
@@ -834,7 +834,7 @@ EStateID ServiceClassUser::RunMoveEventLoop(ULEvent& currentEvent, ULConnectionC
         is.read( (char*)&itemtype, 1 );
 
         BasePDU* thePDU = PDUFactory::ConstructPDU(itemtype);
-        if (thePDU != NULL)
+        if (thePDU != nullptr)
           {
           incomingPDUs.push_back(thePDU);
           thePDU->Read(is);
@@ -908,7 +908,7 @@ EStateID ServiceClassUser::RunMoveEventLoop(ULEvent& currentEvent, ULConnectionC
           }
           if (theVal != pendingDE1 && theVal != pendingDE2 && theVal != success){
             //check for other error fields
-            const ByteValue *err1 = NULL, *err2 = NULL;
+            const ByteValue *err1 = nullptr, *err2 = nullptr;
             gdcmErrorMacro( "Transfer failed with code " << theVal << std::endl);
             switch (theVal){
               case 0xA701:
@@ -974,7 +974,7 @@ EStateID ServiceClassUser::RunMoveEventLoop(ULEvent& currentEvent, ULConnectionC
             if (theCommandCode == 0x8021){//cmove response, so prep the retrieval loop on the back connection
 
               bool dataSetCountIncremented = true;//false once the number of incoming datasets doesn't change.
-              if (Internals->mSecondaryConnection->GetProtocol() == NULL){
+              if (Internals->mSecondaryConnection->GetProtocol() == nullptr){
                 //establish the connection
                 //can fail if is_readready doesn't return true, ie, the connection
                 //wasn't opened on the other side because the other side isn't sending data yet
@@ -984,7 +984,7 @@ EStateID ServiceClassUser::RunMoveEventLoop(ULEvent& currentEvent, ULConnectionC
                 if (secondConnectionEstablished &&
                   (Internals->mSecondaryConnection->GetState()== eSta1Idle ||
                   Internals->mSecondaryConnection->GetState() == eSta2Open)){
-                  ULEvent theCStoreEvent(eEventDoesNotExist, NULL);//have to fill this in, we're in passive mode now
+                  ULEvent theCStoreEvent(eEventDoesNotExist, nullptr);//have to fill this in, we're in passive mode now
                   theCStoreStateID = RunEventLoop(theCStoreEvent, Internals->mSecondaryConnection, inCallback, true);
                 } else {//something broke, can't establish secondary move connection here
                   gdcmErrorMacro( "Unable to establish secondary connection with server, aborting." << std::endl);
@@ -993,7 +993,7 @@ EStateID ServiceClassUser::RunMoveEventLoop(ULEvent& currentEvent, ULConnectionC
               }
               if (secondConnectionEstablished){
                 while (theCStoreStateID == eSta6TransferReady && dataSetCountIncremented){
-                  ULEvent theCStoreEvent(eEventDoesNotExist, NULL);//have to fill this in, we're in passive mode now
+                  ULEvent theCStoreEvent(eEventDoesNotExist, nullptr);//have to fill this in, we're in passive mode now
                   //now, get data from across the network
                   theCStoreStateID = RunEventLoop(theCStoreEvent, Internals->mSecondaryConnection, inCallback, true);
                   if (inCallback){
@@ -1023,14 +1023,14 @@ EStateID ServiceClassUser::RunMoveEventLoop(ULEvent& currentEvent, ULConnectionC
                 is.read( (char*)&itemtype, 1 );
                 //what happens if nothing's read?
                 thePDU = PDUFactory::ConstructPDU(itemtype);
-                if (itemtype != 0x4 && thePDU != NULL){ //ie, not a pdatapdu
+                if (itemtype != 0x4 && thePDU != nullptr){ //ie, not a pdatapdu
                   std::vector<BasePDU*> interruptingPDUs;
                   currentEvent.SetEvent(PDUFactory::DetermineEventByPDU(interruptingPDUs[0]));
                   currentEvent.SetPDU(interruptingPDUs);
                   interrupted= true;
                   break;
                 }
-                if (thePDU != NULL){
+                if (thePDU != nullptr){
                   thePDU->Read(is);
                   theData.push_back(thePDU);
                 } else{

@@ -74,7 +74,7 @@ static const char *PrintResultAsString( uint8_t result )
     return "rejected-transient";
     }
   assert( 0 );
-  return NULL;
+  return nullptr;
 }
 
 static const char *PrintSourceAsString( uint8_t source )
@@ -89,7 +89,7 @@ static const char *PrintSourceAsString( uint8_t source )
     return "DICOM UL service-provider (Presentation related function)";
     }
   assert( 0 );
-  return NULL;
+  return nullptr;
 }
 
 static const char *PrintReasonAsString( uint8_t source, uint8_t reason )
@@ -142,7 +142,7 @@ static const char *PrintReasonAsString( uint8_t source, uint8_t reason )
       }
     }
   assert( 0 );
-  return NULL;
+  return nullptr;
 }
 
 }

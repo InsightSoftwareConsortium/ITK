@@ -29,7 +29,7 @@ class GDCM_EXPORT ImageChangePhotometricInterpretation : public ImageToImageFilt
 {
 public:
   ImageChangePhotometricInterpretation():PI() {}
-  ~ImageChangePhotometricInterpretation() {}
+  ~ImageChangePhotometricInterpretation() = default;
 
   /// Set/Get requested PhotometricInterpretation
   void SetPhotometricInterpretation(PhotometricInterpretation const &pi) { PI = pi; }

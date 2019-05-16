@@ -503,7 +503,7 @@ bool FileAnonymizer::Write()
           if( ts.GetNegociatedType() == TransferSyntax::Implicit )
             {
             gdcmErrorMacro( "Cant write Virtual Big Endian" );
-            return 1;
+            return true;
             }
           else
             {
@@ -543,7 +543,7 @@ bool FileAnonymizer::Write()
         if( ts.GetNegociatedType() == TransferSyntax::Implicit )
           {
           gdcmErrorMacro( "Cant write Virtual Big Endian" );
-          return 1;
+          return true;
           }
         else
           {

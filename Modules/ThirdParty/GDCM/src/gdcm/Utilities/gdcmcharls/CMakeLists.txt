@@ -1,4 +1,6 @@
-cmake_minimum_required(VERSION 3.9.5)
+if(NOT DEFINED CMAKE_MINIMUM_REQUIRED_VERSION)
+  cmake_minimum_required(VERSION 2.8.7)
+endif()
 
 if(NOT CHARLS_NAMESPACE)
   set(CHARLS_NAMESPACE "CHARLS")
@@ -9,14 +11,19 @@ string(TOLOWER ${CHARLS_NAMESPACE} CHARLS_LIBRARY_NAME)
 
 project(${CHARLS_NAMESPACE} CXX)
 
-if(POLICY CMP0063)
-  cmake_policy(SET CMP0063 NEW)
-endif()
+foreach(p
+    CMP0042
+    CMP0063
+    )
+  if(POLICY ${p})
+    cmake_policy(SET ${p} NEW)
+  endif()
+endforeach()
 
 #-----------------------------------------------------------------------------
 # CHARLS version number
-set(CHARLS_MAJOR_VERSION 1)
-set(CHARLS_MINOR_VERSION 1)
+set(CHARLS_MAJOR_VERSION 2)
+set(CHARLS_MINOR_VERSION 0)
 set(CHARLS_BUILD_VERSION 0)
 set(CHARLS_VERSION
       "${CHARLS_MAJOR_VERSION}.${CHARLS_MINOR_VERSION}.${CHARLS_BUILD_VERSION}")
@@ -56,15 +63,18 @@ endif()
 
 if(WIN32)
   if(BUILD_SHARED_LIBS)
-    add_definitions(-DCHARLS_DLL)
+    add_definitions(-DCHARLS_DLL_BUILD)
   else()
     add_definitions(-DCHARLS_STATIC)
   endif()
 endif()
 
-add_library(${CHARLS_LIBRARY_NAME} header.cpp  interface.cpp  jpegls.cpp
-  jpegmarkersegment.cpp  jpegstreamwriter.cpp
+add_library(${CHARLS_LIBRARY_NAME}
+  interface.cpp  jpegls.cpp  jpegmarkersegment.cpp  jpegstreamreader.cpp  jpegstreamwriter.cpp
   )
+target_compile_features(${CHARLS_LIBRARY_NAME}
+# PUBLIC cxx_strong_enums
+ PRIVATE cxx_nullptr)
 set_target_properties( ${CHARLS_LIBRARY_NAME} PROPERTIES
                               VERSION ${CHARLS_MAJOR_VERSION}.${CHARLS_MINOR_VERSION}
                               SOVERSION ${CHARLS_MAJOR_VERSION}

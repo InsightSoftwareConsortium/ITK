@@ -39,7 +39,7 @@ class GDCM_EXPORT FileExplicitFilter
 {
 public:
   FileExplicitFilter():F(new File),ChangePrivateTags(false),UseVRUN(true),RecomputeItemLength(false),RecomputeSequenceLength(false) {}
-  ~FileExplicitFilter() {}
+  ~FileExplicitFilter() = default;
 
   /// Decide whether or not to VR'ify private tags
   void SetChangePrivateTags(bool b) { ChangePrivateTags = b;}

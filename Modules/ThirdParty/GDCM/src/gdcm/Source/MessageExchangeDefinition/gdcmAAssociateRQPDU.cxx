@@ -287,7 +287,7 @@ const PresentationContextRQ *AAssociateRQPDU::GetPresentationContextByID(uint8_t
       return &*it;
       }
     }
-  return NULL;
+  return nullptr;
 }
 
 const PresentationContextRQ *AAssociateRQPDU::GetPresentationContextByAbstractSyntax(AbstractSyntax const & as ) const
@@ -300,7 +300,7 @@ const PresentationContextRQ *AAssociateRQPDU::GetPresentationContextByAbstractSy
       return &*it;
       }
     }
-  return NULL;
+  return nullptr;
 }
 
 void AAssociateRQPDU::SetUserInformation( UserInformation const & ui )

@@ -123,9 +123,7 @@ int itkMeasurementVectorTraitsTest(int, char* [] )
   itk::NumericTraits< MeasurementVectorType4b >::SetLength( measure4b, length2 );
 
   // against each other
-#if !(defined(_MSC_VER) && (_MSC_VER <= 1200))
   itkAssertSameLengthTest( measure1b, measure1b );
-#endif
   itkAssertSameLengthTest( measure2b, measure2b );
   itkAssertSameLengthTest( measure3b, measure3b );
   itkAssertSameLengthTest( measure4b, measure4b );
@@ -143,9 +141,7 @@ int itkMeasurementVectorTraitsTest(int, char* [] )
 
 
   // against each other
-#if !(defined(_MSC_VER) && (_MSC_VER <= 1200))
   itkAssertLengthExceptionMacro( measure1b, measure1bb );
-#endif
   itkAssertLengthExceptionMacro( measure2b, measure2bb );
   itkAssertLengthExceptionMacro( measure3b, measure3bb );
   itkAssertLengthExceptionMacro( measure4b, measure4bb );

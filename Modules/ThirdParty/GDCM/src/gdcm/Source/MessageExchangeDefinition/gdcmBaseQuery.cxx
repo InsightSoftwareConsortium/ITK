@@ -70,7 +70,11 @@ namespace gdcm
       {
         de.SetVR( VR::US );
       }
-      else if( vr == VR::US_SS_OW )
+      else if( vr == VR::US_OW )
+      {
+        de.SetVR( VR::OW );
+      }
+       else if( vr == VR::US_SS_OW )
       {
         de.SetVR( VR::OW );
       }
@@ -241,7 +245,7 @@ namespace gdcm
 		if ( dataSetToValid.FindDataElement( itor->GetTag() ) )
 		  {
 		  SmartPointer<SequenceOfItems> pSqi = dataSetToValid.GetDataElement( itor->GetTag() ).GetValueAsSQ();
-		  SmartPointer<SequenceOfItems> pSqiRef = pSqi ? itor->GetValueAsSQ() : NULL ;
+		  SmartPointer<SequenceOfItems> pSqiRef = pSqi ? itor->GetValueAsSQ() : nullptr ;
 		  if ( pSqi && pSqiRef )
 			{
 			if( pSqi->GetNumberOfItems() < pSqiRef->GetNumberOfItems() )

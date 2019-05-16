@@ -56,7 +56,7 @@ namespace gdcm_ns
     {
     if( IsEmpty() /*|| GetByteValue()*/ || GetSequenceOfFragments() )
       {
-      return 0;
+      return nullptr;
       }
     SequenceOfItems *sq = dynamic_cast<SequenceOfItems*>(ValueField.GetPointer());
     if( sq ) // all set !
@@ -104,7 +104,7 @@ namespace gdcm_ns
             else
               {
               delete sqi;
-              sqi = NULL;
+              sqi = nullptr;
               }
             }
           return sqi;
@@ -153,7 +153,7 @@ namespace gdcm_ns
                 gdcmErrorMacro( "Could not read SQ. Giving up" );
                 gdcmErrorMacro(ex2.what()); (void)ex2;
                 delete sqi;
-                return NULL;
+                return nullptr;
                 }
               }
             }
@@ -163,7 +163,7 @@ namespace gdcm_ns
           {
           assert( GetVR().IsVRFile() );
           assert( GetByteValue() );
-          return 0;
+          return nullptr;
           }
         }
       }

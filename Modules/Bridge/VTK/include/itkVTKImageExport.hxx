@@ -267,6 +267,41 @@ float *VTKImageExport< TInputImage >::FloatOriginCallback()
 }
 
 /**
+ * Implements the DirectionCallback.  This returns a pointer to an array
+ * of nine floating point values describing the direction of the image.
+ */
+template< typename TInputImage >
+double *VTKImageExport< TInputImage >::DirectionCallback()
+{
+  InputImagePointer input = this->GetInput();
+
+  if ( !input )
+    {
+    itkExceptionMacro(<< "Need to set an input");
+    }
+
+  const typename TInputImage::DirectionType & direction = input->GetDirection();
+
+  // Fill in the direction.
+  for (unsigned int i = 0; i < 3; ++i )
+    {
+    for (unsigned int j = 0; j < 3; ++j )
+      {
+      if (i >= InputImageDimension || j >= InputImageDimension)
+        {
+        // Fill up with defaults up to three dimensions.
+        m_DataDirection[i*3+j] = (i == j) ? 1.0 : 0.0;
+        }
+      else
+        {
+        m_DataDirection[i*3+j] = static_cast< double >( direction[i][j] );
+        }
+      }
+    }
+  return m_DataDirection;
+}
+
+/**
  * Implements the ScalarTypeCallback.  This returns the name of the
  * scalar value type of the image.
  */

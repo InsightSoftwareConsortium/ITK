@@ -89,8 +89,10 @@ public:
   ScalarType SquaredZScoreInWorldSpace(const PointType & point) const;
 
   /** Test whether a point is inside or outside the object */
-  bool IsInsideInObjectSpace(const PointType & point, unsigned int depth = 0,
-    const std::string & name = "") const override;
+  bool IsInsideInObjectSpace(const PointType & point) const override;
+
+  /* Avoid hiding the overload that supports depth and name arguments */
+  using Superclass::IsInsideInObjectSpace;
 
   /** Returns the value of the Gaussian at the given point.  */
   bool ValueAtInObjectSpace(const PointType & point, double & value,

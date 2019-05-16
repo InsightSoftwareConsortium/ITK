@@ -62,7 +62,7 @@ unsigned int Testing::GetNumberOfFileNames()
 const char * Testing::GetFileName(unsigned int file)
 {
   if( file < Testing::GetNumberOfFileNames() ) return gdcmDataFileNames[file];
-  return NULL;
+  return nullptr;
 }
 
 Testing::MediaStorageDataFilesType Testing::GetMediaStorageDataFiles()
@@ -89,7 +89,7 @@ const char * Testing::GetMediaStorageFromFile(const char *filepath)
   const char *p = mediastorages[i][0];
   Filename comp(filepath);
   const char *filename = comp.GetName();
-  while( p != 0 )
+  while( p != nullptr )
     {
     if( strcmp( filename, p ) == 0 )
       {
@@ -125,13 +125,13 @@ const char * const * Testing::GetMD5DataImage(unsigned int file)
 
 const char * Testing::GetMD5FromFile(const char *filepath)
 {
-  if(!filepath) return NULL;
+  if(!filepath) return nullptr;
   unsigned int i = 0;
   MD5DataImagesType md5s = GetMD5DataImages();
   const char *p = md5s[i][1];
   Filename comp(filepath);
   const char *filename = comp.GetName();
-  while( p != 0 )
+  while( p != nullptr )
     {
     if( strcmp( filename, p ) == 0 )
       {
@@ -152,7 +152,7 @@ const char * Testing::GetMD5FromBrokenFile(const char *filepath)
   const char *p = md5s[i][1];
   Filename comp(filepath);
   const char *filename = comp.GetName();
-  while( p != 0 )
+  while( p != nullptr )
     {
     if( strcmp( filename, p ) == 0 )
       {
@@ -172,7 +172,7 @@ std::streamoff Testing::GetStreamOffsetFromFile(const char *filepath)
   const char *p = so[i].filename;
   Filename comp(filepath);
   const char *filename = comp.GetName();
-  while( p != 0 )
+  while( p != nullptr )
     {
     if( strcmp( filename, p ) == 0 )
       {
@@ -192,7 +192,7 @@ std::streamoff Testing::GetSelectedPrivateGroupOffsetFromFile(const char *filepa
   const char *p = so[i].filename;
   Filename comp(filepath);
   const char *filename = comp.GetName();
-  while( p != 0 )
+  while( p != nullptr )
     {
     if( strcmp( filename, p ) == 0 )
       {
@@ -212,7 +212,7 @@ std::streamoff Testing::GetSelectedTagsOffsetFromFile(const char *filepath)
   const char *p = so[i].filename;
   Filename comp(filepath);
   const char *filename = comp.GetName();
-  while( p != 0 )
+  while( p != nullptr )
     {
     if( strcmp( filename, p ) == 0 )
       {
@@ -442,7 +442,10 @@ static const LossyFile gdcmLossyFilenames[] = {
 { 0,"RLEDebianBug816607Orig.dcm" },
 { 0,"IllegalGroup2ImplicitTS.dcm" },
 { 0,"GE_MR_0025xx1bProtocolDataBlockXML.dcm" },
-{ 0, NULL }
+{ 0,"EmptyIcon_Bug417.dcm" },
+{ 0,"EnhancedWithIPPPerFrameIOPShared.dcm" },
+{ 0,"FUJI-ffff-MONO1-J2K.dcm" },
+{ 0, nullptr }
 };
 
 
@@ -513,7 +516,7 @@ const wchar_t *Testing::GetTempDirectoryW(const wchar_t * subdir)
 
 const char * Testing::GetTempFilename(const char *filename, const char * subdir)
 {
-  if( !filename ) return 0;
+  if( !filename ) return nullptr;
 
   static std::string buffer;
   std::string outfilename = GetTempDirectory(subdir);
@@ -548,7 +551,7 @@ const wchar_t* Testing::GetTempFilenameW(const wchar_t *filename, const wchar_t*
 {
   // mbsrtowcs
   // mbstowcs
-  if( !filename ) return 0;
+  if( !filename ) return nullptr;
 
   static std::wstring buffer;
   std::wstring outfilename = GetTempDirectoryW(subdir);

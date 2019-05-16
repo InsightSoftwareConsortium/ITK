@@ -38,7 +38,8 @@ namespace Statistics
  */
 
 template< typename TImage, typename TMaskImage >
-class ITK_TEMPLATE_EXPORT MaskedImageToHistogramFilter:public ImageToHistogramFilter<TImage>
+class ITK_TEMPLATE_EXPORT MaskedImageToHistogramFilter
+  : public ImageToHistogramFilter<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(MaskedImageToHistogramFilter);
@@ -84,7 +85,7 @@ protected:
   MaskedImageToHistogramFilter();
   ~MaskedImageToHistogramFilter() override = default;
 
-  void ThreadedComputeHistogram( const RegionType & inputRegionForThread ) override;
+  void ThreadedStreamedGenerateData( const RegionType & inputRegionForThread ) override;
   void ThreadedComputeMinimumAndMaximum( const RegionType & inputRegionForThread) override;
 };
 } // end of namespace Statistics

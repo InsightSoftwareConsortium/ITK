@@ -37,7 +37,7 @@ namespace itk
  *   1. Extract Image Orientation & Image Position from DICOM images, and then
  *      calculate the ordering based on the 3D coordinate of the slice.
  *   2. If for some reason this information is not found or failed, another
- *      strategy is used: the ordering is based on 'Image Number'.
+ *      strategy is used: the ordering is based on 'Instance Number'.
  *   3. If this strategy also failed, then the filenames are ordered by
  *      lexicographical order.
  *

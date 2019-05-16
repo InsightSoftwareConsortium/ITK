@@ -18,6 +18,7 @@
 
 #include <iostream>
 
+#include "itkTestingMacros.h"
 #include "itkImage.h"
 #include "itkVectorImage.h"
 #include "itkLinearInterpolateImageFunction.h"
@@ -169,6 +170,13 @@ int RunLinearInterpolateTest()
  typename VariableVectorInterpolatorType::Pointer
   variablevectorinterpolator = VariableVectorInterpolatorType::New();
  variablevectorinterpolator->SetInputImage( variablevectorimage );
+
+ typename ImageType::SizeType radius;
+ radius.Fill( 1 );
+ for( unsigned int d = 0; d < Dimensions; ++d )
+   {
+   TEST_SET_GET_VALUE( radius[d], interpolator->GetRadius()[d] );
+   }
 
  constexpr AccumulatorType incr  = 0.2;
 

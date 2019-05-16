@@ -16,6 +16,9 @@
  *
  *=========================================================================*/
 
+// Enable testing legacy member functions rBegin() and rEnd().
+#define ITK_LEGACY_TEST
+
  // First include the header file to be tested:
 #include "itkFixedArray.h"
 #include <gtest/gtest.h>
@@ -91,6 +94,7 @@ namespace
   }
 
 
+#if ! defined (ITK_LEGACY_REMOVE)
   template< typename TValue, unsigned int VLength >
   void Check_new_reverse_iterator_behaves_like_old_ReverseIterator()
   {
@@ -115,7 +119,7 @@ namespace
     EXPECT_EQ(newIterator, newEnd);
     EXPECT_EQ(oldIterator, oldEnd);
   }
-
+#endif
 
   template< typename TValue, unsigned int VLength >
   void Check_const_and_non_const_reverse_iterators_retrieve_same_values()
@@ -160,6 +164,56 @@ namespace
     EXPECT_EQ(fixedArray, FixedArrayType::Filled(1));
   }
 
+
+  template< typename TValue, unsigned int VLength >
+  void Check_iterators_increment_return_value()
+  {
+    using FixedArrayType = itk::FixedArray<TValue, VLength>;
+    FixedArrayType fixedArray{};
+
+    std::iota(fixedArray.begin(), fixedArray.end(), 1);
+
+    typename FixedArrayType::iterator newIterator = fixedArray.begin();
+    typename FixedArrayType::Iterator oldIterator = fixedArray.Begin();
+    typename FixedArrayType::reverse_iterator newReverseIterator = fixedArray.rbegin();
+#if ! defined (ITK_LEGACY_REMOVE)
+    typename FixedArrayType::ReverseIterator oldReverseIterator = fixedArray.rBegin();
+#endif
+
+    unsigned int index = 0;
+    unsigned int reverseIndex = VLength - 1;
+    for (unsigned int i = 0; i < VLength; ++i){
+      EXPECT_EQ(*newIterator++, fixedArray[index]);
+      EXPECT_EQ(*newReverseIterator++, fixedArray[reverseIndex]);
+      EXPECT_EQ(*oldIterator++, fixedArray[index]);
+#if ! defined (ITK_LEGACY_REMOVE)
+      EXPECT_EQ(*oldReverseIterator++, fixedArray[reverseIndex]);
+#endif
+      index++;
+      reverseIndex--;
+    }
+
+    newIterator = fixedArray.begin();
+    oldIterator = fixedArray.Begin();
+    newReverseIterator = fixedArray.rbegin();
+#if ! defined (ITK_LEGACY_REMOVE)
+    oldReverseIterator = fixedArray.rBegin();
+#endif
+
+    index = 0;
+    reverseIndex = VLength - 1;
+    for (unsigned int i = 0; i < VLength - 1; ++i){
+      index++;
+      reverseIndex--;
+      EXPECT_EQ(*++newIterator, fixedArray[index]);
+      EXPECT_EQ(*++newReverseIterator, fixedArray[reverseIndex]);
+      EXPECT_EQ(*++oldIterator, fixedArray[index]);
+#if ! defined (ITK_LEGACY_REMOVE)
+      EXPECT_EQ(*++oldReverseIterator, fixedArray[reverseIndex]);
+#endif
+    }
+  }
+
 } // End of namespace
 
 
@@ -180,6 +234,7 @@ TEST(FixedArray, SupportsModifyingElementsByRangeBasedForLoop)
 }
 
 
+#if ! defined (ITK_LEGACY_REMOVE)
 // Tests that the new reverse iterators (`rbegin()` and `rend()`, introduced with ITK 5.0)
 // behave just like the old ones (`rBegin()` and `rEnd()`, originally from 2002).
 TEST(FixedArray, NewReverseIteratorBehavesLikeOldReverseIterator)
@@ -187,7 +242,7 @@ TEST(FixedArray, NewReverseIteratorBehavesLikeOldReverseIterator)
   Check_new_reverse_iterator_behaves_like_old_ReverseIterator<double, 2>();
   Check_new_reverse_iterator_behaves_like_old_ReverseIterator<int, 3>();
 }
-
+#endif
 
 // Tests that const and non-const reverse iterators retrieve exactly the same values.
 TEST(FixedArray, ConstAndNonConstReverseIteratorRetrieveSameValues)
@@ -202,4 +257,12 @@ TEST(FixedArray, CanBeFilledUsingReverseIterators)
 {
   Check_reverse_iterators_allow_filling_a_FixedArray<double, 2>();
   Check_reverse_iterators_allow_filling_a_FixedArray<int, 3>();
+}
+
+
+// Tests that increment operators return a valid iterator
+TEST(FixedArray, IteratorIncrementReturnValue)
+{
+  Check_iterators_increment_return_value<double, 2>();
+  Check_iterators_increment_return_value<int, 3>();
 }

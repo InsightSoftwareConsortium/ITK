@@ -21,7 +21,7 @@
 #include <mutex>
 
 #include "itkHistogram.h"
-#include "itkImageTransformer.h"
+#include "itkImageSink.h"
 #include "itkSimpleDataObjectDecorator.h"
 #include "itkProgressReporter.h"
 
@@ -41,19 +41,20 @@ namespace Statistics
  */
 
 template< typename TImage >
-class ITK_TEMPLATE_EXPORT ImageToHistogramFilter:public ImageTransformer<TImage>
+class ITK_TEMPLATE_EXPORT ImageToHistogramFilter
+  : public ImageSink<TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageToHistogramFilter);
 
   /** Standard type alias */
   using Self = ImageToHistogramFilter;
-  using Superclass = ImageTransformer<TImage>;
+  using Superclass = ImageSink<TImage>;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageToHistogramFilter, ImageTransformer);
+  itkTypeMacro(ImageToHistogramFilter, ImageSink);
 
   /** standard New() method support */
   itkNewMacro(Self);
@@ -117,21 +118,29 @@ public:
    * pipeline of another filter. */
   virtual void GraftOutput(DataObject *output);
 
+
+  // Change the acces from protected to public to expose streaming option
+  using Superclass::SetNumberOfStreamDivisions;
+  using Superclass::GetNumberOfStreamDivisions;
+
 protected:
   ImageToHistogramFilter();
   ~ImageToHistogramFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
-  void BeforeThreadedGenerateData() override;
-  void AfterThreadedGenerateData() override;
+  void BeforeStreamedGenerateData() override;
+  void AfterStreamedGenerateData() override;
 
   /** Method that construct the outputs */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObject::Pointer  MakeOutput(DataObjectPointerArraySizeType) override;
 
-  virtual void ThreadedComputeHistogram(const RegionType &);
+  /* Override method to disable streaming when the minimum and
+   * maximum need to be computed. */
+  unsigned int GetNumberOfInputRequestedRegions () override;
+
+  virtual void ThreadedStreamedGenerateData(const RegionType &) override;
   virtual void ThreadedComputeMinimumAndMaximum( const RegionType & inputRegionForThread );
 
 

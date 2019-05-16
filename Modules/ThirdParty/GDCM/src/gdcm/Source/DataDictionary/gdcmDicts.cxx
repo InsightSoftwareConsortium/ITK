@@ -23,8 +23,7 @@ Dicts::Dicts():PublicDict(),ShadowDict()
 }
 
 Dicts::~Dicts()
-{
-}
+= default;
 
 //void Dicts::AddPublicDict(const Dict& dict)
 //{

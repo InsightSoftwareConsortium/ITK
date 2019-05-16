@@ -14,6 +14,7 @@ itk_python_add_test(NAME PythonGetNameOfClass COMMAND getNameOfClass.py)
 itk_python_add_test(NAME PythonTiming COMMAND timing.py)
 itk_python_add_test(NAME PythonVerifyGetOutputAPIConsistency COMMAND verifyGetOutputAPIConsistency.py)
 itk_python_add_test(NAME PythonVerifyTTypeAPIConsistency COMMAND verifyTTypeAPIConsistency.py)
+itk_python_add_test(NAME PythonTypeTest COMMAND PythonTypeTest.py)
 itk_python_add_test(NAME PythonComplex COMMAND complex.py)
 itk_python_add_test(NAME PythonHelperFunctions COMMAND helpers.py)
 

@@ -31,119 +31,30 @@ template< typename TInputImage >
 MinimumMaximumImageFilter< TInputImage >
 ::MinimumMaximumImageFilter()
 {
-  this->SetNumberOfRequiredOutputs(3);
-  // first output is a copy of the image, DataObject created by
-  // superclass
-  //
-  // allocate the data objects for the remaining outputs which are
-  // just decorators around floating point types
-  for ( int i = 1; i < 3; ++i )
-    {
-    typename PixelObjectType::Pointer output =
-      static_cast< PixelObjectType * >( this->MakeOutput(i).GetPointer() );
-    this->ProcessObject::SetNthOutput( i, output.GetPointer() );
-    }
-
-  this->GetMinimumOutput()->Set( NumericTraits< PixelType >::max() );
-  this->GetMaximumOutput()->Set( NumericTraits< PixelType >::NonpositiveMin() );
-
+  Self::SetMinimum( NumericTraits< PixelType >::max() );
+  Self::SetMaximum( NumericTraits< PixelType >::NonpositiveMin() );
+  Self::SetPrimaryOutputName("Minimum");
 }
 
 template< typename TInputImage >
 DataObject::Pointer
 MinimumMaximumImageFilter< TInputImage >
-::MakeOutput(DataObjectPointerArraySizeType output)
+::MakeOutput(const DataObjectIdentifierType & name)
 {
-  switch ( output )
+  if ( name == "Minimum" || name == "Maximum" )
     {
-    case 0:
-      return TInputImage::New().GetPointer();
-      break;
-    case 1:
-    case 2:
-      return PixelObjectType::New().GetPointer();
-      break;
-    default:
-      // might as well make an image
-      return TInputImage::New().GetPointer();
-      break;
+     return PixelObjectType::New();
     }
-}
-
-template< typename TInputImage >
-typename MinimumMaximumImageFilter< TInputImage >::PixelObjectType *
-MinimumMaximumImageFilter< TInputImage >
-::GetMinimumOutput()
-{
-  return static_cast< PixelObjectType * >( this->ProcessObject::GetOutput(1) );
-}
-
-template< typename TInputImage >
-const typename MinimumMaximumImageFilter< TInputImage >::PixelObjectType *
-MinimumMaximumImageFilter< TInputImage >
-::GetMinimumOutput() const
-{
-  return static_cast< const PixelObjectType * >( this->ProcessObject::GetOutput(1) );
-}
-
-template< typename TInputImage >
-typename MinimumMaximumImageFilter< TInputImage >::PixelObjectType *
-MinimumMaximumImageFilter< TInputImage >
-::GetMaximumOutput()
-{
-  return static_cast< PixelObjectType * >( this->ProcessObject::GetOutput(2) );
-}
-
-template< typename TInputImage >
-const typename MinimumMaximumImageFilter< TInputImage >::PixelObjectType *
-MinimumMaximumImageFilter< TInputImage >
-::GetMaximumOutput() const
-{
-  return static_cast< const PixelObjectType * >( this->ProcessObject::GetOutput(2) );
+  return Superclass::MakeOutput(name);
 }
 
 template< typename TInputImage >
 void
 MinimumMaximumImageFilter< TInputImage >
-::GenerateInputRequestedRegion()
+::BeforeStreamedGenerateData()
 {
-  Superclass::GenerateInputRequestedRegion();
-  if ( this->GetInput() )
-    {
-    InputImagePointer image =
-      const_cast< typename Superclass::InputImageType * >( this->GetInput() );
-    image->SetRequestedRegionToLargestPossibleRegion();
-    }
-}
+  Superclass::BeforeStreamedGenerateData();
 
-template< typename TInputImage >
-void
-MinimumMaximumImageFilter< TInputImage >
-::EnlargeOutputRequestedRegion(DataObject *data)
-{
-  Superclass::EnlargeOutputRequestedRegion(data);
-  data->SetRequestedRegionToLargestPossibleRegion();
-}
-
-template< typename TInputImage >
-void
-MinimumMaximumImageFilter< TInputImage >
-::AllocateOutputs()
-{
-  // Pass the input through as the output
-  InputImagePointer image =
-    const_cast< TInputImage * >( this->GetInput() );
-
-  this->GraftOutput(image);
-
-  // Nothing that needs to be allocated for the remaining outputs
-}
-
-template< typename TInputImage >
-void
-MinimumMaximumImageFilter< TInputImage >
-::BeforeThreadedGenerateData()
-{
   m_ThreadMin = NumericTraits< PixelType >::max();
   m_ThreadMax = NumericTraits< PixelType >::NonpositiveMin();
 }
@@ -151,16 +62,18 @@ MinimumMaximumImageFilter< TInputImage >
 template< typename TInputImage >
 void
 MinimumMaximumImageFilter< TInputImage >
-::AfterThreadedGenerateData()
+::AfterStreamedGenerateData()
 {
-  this->GetMinimumOutput()->Set(m_ThreadMin);
-  this->GetMaximumOutput()->Set(m_ThreadMax);
+  Superclass::AfterStreamedGenerateData();
+
+  this->SetMinimum(m_ThreadMin);
+  this->SetMaximum(m_ThreadMax);
 }
 
 template< typename TInputImage >
 void
 MinimumMaximumImageFilter< TInputImage >
-::DynamicThreadedGenerateData(const RegionType & regionForThread)
+::ThreadedStreamedGenerateData(const RegionType & regionForThread)
 {
   if ( regionForThread.GetNumberOfPixels() == 0 )
     {

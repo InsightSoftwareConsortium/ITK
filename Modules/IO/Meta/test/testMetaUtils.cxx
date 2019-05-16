@@ -113,12 +113,12 @@ int testMetaUtils(int argc, char * argv[])
     }
   delete[] wordArray;
 
-  char fName[80];
-  sprintf(fName, "this/is/a/test.com");
+  std::string fName = "this/is/a/test.com";
 
   std::cout << "MET_GetFilePathTest: ";
-  MET_GetFilePath(fName, tmpString);
-  if(strcmp(tmpString, "this/is/a/"))
+  std::string tempString;
+  MET_GetFilePath(fName, tempString);
+  if(tempString != "this/is/a/")
     std::cout << "FAILED" << std::endl;
   else
     std::cout << "PASSED" << std::endl;
@@ -136,7 +136,7 @@ int testMetaUtils(int argc, char * argv[])
 
   std::cout << "MET_SetFileSuffix: ";
   MET_SetFileSuffix(fName, ".net");
-  if(strcmp(fName, "this/is/a/test.net"))
+  if(fName != "this/is/a/test.net")
     std::cout << "FAILED" << std::endl;
   else
     std::cout << "PASSED" << std::endl;

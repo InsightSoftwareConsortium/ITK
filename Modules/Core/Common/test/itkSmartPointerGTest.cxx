@@ -143,11 +143,6 @@ TEST(SmartPointer, EmptyAndNull)
 //  EXPECT_TRUE( 0 == ptr );
 
 }
-#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
-  ITK_GCC_PRAGMA_DIAG_POP()
-#else
-  ITK_GCC_PRAGMA_DIAG(warning "-Wconversion-null")
-#endif
 
 
 TEST(SmartPointer,Converting)

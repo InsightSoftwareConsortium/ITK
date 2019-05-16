@@ -197,8 +197,8 @@ int main( int argc, char *argv[] )
     {
     fixedOrigin[i] = fixedImage->GetOrigin()[i];
     fixedPhysicalDimensions[i] = fixedImage->GetSpacing()[i] *
-    static_cast<double>(
-      fixedImage->GetLargestPossibleRegion().GetSize()[i] - 1 );
+      static_cast<double>(
+        fixedImage->GetLargestPossibleRegion().GetSize()[i] - 1 );
     }
   meshSize.Fill( numberOfGridNodesInOneDimension - SplineOrder );
 
@@ -212,7 +212,7 @@ int main( int argc, char *argv[] )
 
   using ParametersType = TransformType::ParametersType;
 
-  const unsigned int numberOfParameters =  transform->GetNumberOfParameters();
+  const unsigned int numberOfParameters = transform->GetNumberOfParameters();
 
   ParametersType parameters( numberOfParameters );
 

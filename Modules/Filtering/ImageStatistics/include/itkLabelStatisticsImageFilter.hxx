@@ -29,36 +29,14 @@ template< typename TInputImage, typename TLabelImage >
 LabelStatisticsImageFilter< TInputImage, TLabelImage >
 ::LabelStatisticsImageFilter()
 {
-  this->SetNumberOfRequiredInputs(2);
+  Self::AddRequiredInputName("LabelInput");
+
   m_UseHistograms = false;
   m_NumBins.SetSize(1);
   m_NumBins[0] = 256;
   m_LowerBound = static_cast< RealType >( NumericTraits< PixelType >::NonpositiveMin() );
   m_UpperBound = static_cast< RealType >( NumericTraits< PixelType >::max() );
   m_ValidLabelValues.clear();
-}
-
-template< typename TInputImage, typename TLabelImage >
-void
-LabelStatisticsImageFilter< TInputImage, TLabelImage >
-::EnlargeOutputRequestedRegion(DataObject *data)
-{
-  Superclass::EnlargeOutputRequestedRegion(data);
-  data->SetRequestedRegionToLargestPossibleRegion();
-}
-
-template< typename TInputImage, typename TLabelImage >
-void
-LabelStatisticsImageFilter< TInputImage, TLabelImage >
-::AllocateOutputs()
-{
-  // Pass the input through as the output
-  InputImagePointer image =
-    const_cast< TInputImage * >( this->GetInput() );
-
-  this->GraftOutput(image);
-
-  // Nothing that needs to be allocated for the remaining outputs
 }
 
 template< typename TInputImage, typename TLabelImage >
@@ -140,8 +118,10 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
 template< typename TInputImage, typename TLabelImage >
 void
 LabelStatisticsImageFilter< TInputImage, TLabelImage >
-::AfterThreadedGenerateData()
+::AfterStreamedGenerateData()
 {
+  Superclass::AfterStreamedGenerateData();
+
   // compute the remainder of the statistics
   for ( auto &mapValue : m_LabelStatistics )
     {
@@ -186,7 +166,7 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
 template< typename TInputImage, typename TLabelImage >
 void
 LabelStatisticsImageFilter< TInputImage, TLabelImage >
-::DynamicThreadedGenerateData(const RegionType & outputRegionForThread)
+::ThreadedStreamedGenerateData(const RegionType & outputRegionForThread)
 {
 
   MapType localStatistics;

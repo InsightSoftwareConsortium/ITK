@@ -1850,7 +1850,7 @@ Manual changes:
         <entry group="0028" element="4000" keyword="ImagePresentationComments" vr="LT" vm="1" retired="true" name="Image Presentation Comments"/>
         <entry group="0028" element="5000" keyword="BiPlaneAcquisitionSequence" vr="SQ" vm="1" retired="true" name="Bi-Plane Acquisition Sequence"/>
         <entry group="0028" element="6010" keyword="RepresentativeFrameNumber" vr="US" vm="1" name="Representative Frame Number"/>
-        <entry group="0028" element="6020" keyword="FrameNumbersOfInterest" vr="US" vm="1-n" name="Frame Numbers of Interest (FOI)"/>
+        <entry group="0028" element="6020" keyword="FrameNumbersOfInterestFOI" vr="US" vm="1-n" name="Frame Numbers of Interest (FOI)"/>
         <entry group="0028" element="6022" keyword="FrameOfInterestDescription" vr="LO" vm="1-n" name="Frame of Interest Description"/>
         <entry group="0028" element="6023" keyword="FrameOfInterestType" vr="CS" vm="1-n" name="Frame of Interest Type"/>
         <entry group="0028" element="6030" keyword="MaskPointers" vr="US" vm="1-n" retired="true" name="Mask Pointer(s)"/>

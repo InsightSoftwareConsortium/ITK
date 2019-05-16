@@ -43,10 +43,10 @@ int itkFEMElement2DC0LinearTriangleStressTest(int argc, char *argv[])
   SpatialReader->SetFileName( argv[1] );
   SpatialReader->Update();
 
-  FEMSpatialObjectReaderType::ScenePointer myScene = SpatialReader->GetScene();
-  if( !myScene )
+  FEMSpatialObjectReaderType::GroupPointer myGroup = SpatialReader->GetGroup();
+  if( !myGroup )
     {
-    std::cout << "No Scene : [FAILED]" << std::endl;
+    std::cout << "No Group : [FAILED]" << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << " [PASSED]" << std::endl;
@@ -56,7 +56,7 @@ int itkFEMElement2DC0LinearTriangleStressTest(int argc, char *argv[])
 
   FEMObjectSpatialObjectType::ChildrenListType* children = SpatialReader->GetGroup()->GetChildren();
 
-  if( strcmp( (*(children->begin() ) )->GetTypeName(), "FEMObjectSpatialObject") )
+  if( children->front()->GetTypeName() != "FEMObjectSpatialObject" )
     {
     std::cout << " [FAILED]" << std::endl;
     return EXIT_FAILURE;

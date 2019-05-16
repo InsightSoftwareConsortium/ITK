@@ -203,18 +203,12 @@ void TransformFileReaderTemplate<TParametersValueType>
   os << indent << "FileName: " << m_FileName << std::endl;
 }
 
-#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
-  ITK_GCC_PRAGMA_DIAG_PUSH()
-#endif
+ITK_GCC_PRAGMA_DIAG_PUSH()
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 
 template class ITKIOTransformBase_EXPORT TransformFileReaderTemplate< double >;
 template class ITKIOTransformBase_EXPORT TransformFileReaderTemplate< float >;
 
-#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
-  ITK_GCC_PRAGMA_DIAG_POP()
-#else
-  ITK_GCC_PRAGMA_DIAG(warning "-Wattributes")
-#endif
+ITK_GCC_PRAGMA_DIAG_POP()
 
 }  // end namespace itk

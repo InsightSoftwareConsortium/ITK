@@ -21,6 +21,7 @@ itkVectorImage\.h Template Disable
 itkSparseImageTest\.cxx InternalVariables Disable
 itkSmartPointer\.h IfNDefDefine Disable
 itkImageToImageFilter.\h InternalVariables Disable
+itkImageSink.\h InternalVariables Disable
 itkTimeStamp\.cxx Namespace Disable
 itkObjectFactoryBase\.cxx Namespace Disable
 itkNeighborhood\.hxx SemicolonSpace Disable

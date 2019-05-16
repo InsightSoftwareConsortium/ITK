@@ -39,9 +39,9 @@ class GDCM_EXPORT Overlay : public Object
 {
 public:
   Overlay();
-  ~Overlay();
+  ~Overlay() override;
   /// Print
-  void Print(std::ostream &) const;
+  void Print(std::ostream &) const override;
 
   /// Update overlay from data element de:
   void Update(const DataElement & de);

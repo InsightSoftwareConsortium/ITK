@@ -70,7 +70,7 @@ bool FileExplicitFilter::ProcessDataSet(DataSet &ds, Dicts const & dicts)
     {
     DataElement de = *it;
     std::string strowner;
-    const char *owner = 0;
+    const char *owner = nullptr;
     const Tag& t = de.GetTag();
     if( t.IsPrivate() && !ChangePrivateTags
     // As a special exception we convert to proper VR :
@@ -97,7 +97,7 @@ bool FileExplicitFilter::ProcessDataSet(DataSet &ds, Dicts const & dicts)
     VR oldvr = de.GetVR();
     //SequenceOfItems *sqi = de.GetSequenceOfItems();
     //SequenceOfItems *sqi = dynamic_cast<SequenceOfItems*>(&de.GetValue());
-    SmartPointer<SequenceOfItems> sqi = 0;
+    SmartPointer<SequenceOfItems> sqi = nullptr;
     if( vr == VR::SQ )
       {
       sqi = de.GetValueAsSQ();

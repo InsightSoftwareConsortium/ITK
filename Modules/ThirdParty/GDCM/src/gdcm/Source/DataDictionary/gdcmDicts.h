@@ -31,13 +31,15 @@ class GDCM_EXPORT Dicts
 public:
   Dicts();
   ~Dicts();
+  Dicts &operator=(const Dicts &_val) = delete;
+  Dicts(const Dicts &_val) = delete;
 
   /// works for both public and private dicts:
   /// owner is null for public dict
   /// \warning owner need to be set to appropriate owner for call to work. see
   // DataSet::GetPrivateCreator
   /// NOT THREAD SAFE
-  const DictEntry &GetDictEntry(const Tag& tag, const char *owner = NULL) const;
+  const DictEntry &GetDictEntry(const Tag& tag, const char *owner = nullptr) const;
 
   const DictEntry &GetDictEntry(const PrivateTag& tag) const;
 
@@ -75,8 +77,6 @@ private:
   PrivateDict ShadowDict;
 
   CSAHeaderDict CSADict;
-  Dicts &operator=(const Dicts &_val); // purposely not implemented
-  Dicts(const Dicts &_val); // purposely not implemented
 };
 //-----------------------------------------------------------------------------
 inline std::ostream& operator<<(std::ostream &os, const Dicts &d)

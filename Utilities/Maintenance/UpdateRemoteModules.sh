@@ -19,6 +19,49 @@
 #==========================================================================*/
 
 
+# This script updates the git commit hashes of all successful remote modules.
+#
+# The script updates the git commit hashes in ITK's Modules/Remote
+# '*.remote.cmake' files for the remote modules whose CI build status is
+# successful.
+
+
+# Utility functions
+usage() {
+cat << EOF
+Usage: $0
+
+Use this script to update the git commit hashes of all successful remote
+modules.
+
+The script updates the git commit hashes in ITK's Modules/Remote
+'*.remote.cmake' files for the remote modules whose CI build status is
+successful.
+EOF
+}
+
+die() {
+  echo "$@" 1>&2; exit 1
+}
+
+while test $# -gt 0;
+do
+  opt="$1";
+  case "$opt" in
+    "-h"|"--help")
+      shift;
+      help=true
+      break;;
+    *)
+      break;;
+  esac
+done
+
+if test $help; then
+  usage
+  exit 1
+fi
+
 # Make sure we are inside the repository
 cd "${BASH_SOURCE%/*}" &&
 

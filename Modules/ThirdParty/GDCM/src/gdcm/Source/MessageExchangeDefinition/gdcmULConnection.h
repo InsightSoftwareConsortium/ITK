@@ -129,10 +129,9 @@ class GDCM_EXPORT ULConnection
 
       /// used to establish scp connections
       bool InitializeIncomingConnection();
-private:
-  ULConnection(const ULConnection&);  // Not implemented.
-  void operator=(const ULConnection&);  // Not implemented.
 
+      ULConnection(const ULConnection&) = delete;
+      void operator=(const ULConnection&) = delete;
     };
   }
 }

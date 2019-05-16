@@ -41,6 +41,10 @@ NrrdImageIO::NrrdImageIO()
     this->AddSupportedWriteExtension(ext);
     this->AddSupportedReadExtension(ext);
     }
+
+  this->Self::SetCompressor("");
+  this->Self::SetMaximumCompressionLevel(9);
+  this->Self::SetCompressionLevel(2);
 }
 
 NrrdImageIO::~NrrdImageIO() = default;
@@ -60,6 +64,43 @@ bool NrrdImageIO::SupportsDimension(unsigned long dim)
 void NrrdImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+}
+
+void NrrdImageIO::InternalSetCompressor(const std::string &_compressor )
+{
+  this->m_NrrdCompressionEncoding = nullptr;
+
+  // set default to gzip
+  if (_compressor == "")
+    {
+    if (nrrdEncodingGzip->available())
+      {
+      this->m_NrrdCompressionEncoding = nrrdEncodingGzip;
+      }
+    return;
+    }
+
+  const NrrdEncoding *nrrdCompressionEncodings[] = { nrrdEncodingGzip,
+                                                     nrrdEncodingBzip2 };
+
+  for (auto &nrrdEncoding: nrrdCompressionEncodings)
+    {
+    if (!nrrdEncoding->available())
+      {
+      continue;
+      }
+
+    std::string name = nrrdEncoding->name;
+    std::transform(name.begin(), name.end(), name.begin(), ::toupper);
+
+    if( _compressor == name )
+      {
+      this->m_NrrdCompressionEncoding = nrrdEncoding;
+      return;
+      }
+
+    }
+  this->Superclass::InternalSetCompressor(_compressor);
 }
 
 ImageIOBase::IOComponentType
@@ -1059,10 +1100,12 @@ void NrrdImageIO::Write(const void *buffer)
 
   // set encoding for data: compressed (raw), (uncompressed) raw, or ascii
   if ( this->GetUseCompression() == true
-       && nrrdEncodingGzip->available() )
+       && this->m_NrrdCompressionEncoding != nullptr
+       && this->m_NrrdCompressionEncoding->available() )
     {
-    // this is necessarily gzip-compressed *raw* data
-    nio->encoding = nrrdEncodingGzip;
+    nio->encoding = this->m_NrrdCompressionEncoding;
+    nio->zlibLevel = this->GetCompressionLevel();
+    //nio->zlibStrategy = default
     }
   else
     {

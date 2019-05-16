@@ -28,10 +28,8 @@
 
 
 // Better name demanging for gcc
-#if __GNUC__ > 3 || ( __GNUC__ == 3 && __GNUC_MINOR__ > 0 )
-#ifndef __EMSCRIPTEN__
+#if defined( __GNUC__ ) && !defined( __EMSCRIPTEN__ )
 #define GCC_USEDEMANGLE
-#endif
 #endif
 
 #ifdef GCC_USEDEMANGLE
@@ -180,7 +178,7 @@ bool TestCastFromTo()
     /** Warning:
      * expectedValue == static_cast< TOutputPixelType( inValue ) is
      * false on some systems and compilers with some values of inValue. */
-#if defined(__MINGW32__)  // NOTE:  This may be thee same problem identified above related to 'undefined' behavior
+#if defined(__MINGW32__)  // NOTE:  This may be the same problem identified above related to 'undefined' behavior
     if ( itk::Math::NotAlmostEquals(outValue, expectedValue) )
 #else
     if ( itk::Math::NotExactlyEquals(outValue, expectedValue) )

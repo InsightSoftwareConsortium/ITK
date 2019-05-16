@@ -6,8 +6,7 @@
 
 int main(int, char * [])
 {
-
-  METAIO_STREAM::cout << "Creating test scene ..." << METAIO_STREAM::endl;
+  std::cout << "Creating test scene ..." << std::endl;
   MetaScene * s = new MetaScene(3);
 
   MetaEllipse * e1 = new MetaEllipse(3);
@@ -28,58 +27,58 @@ int main(int, char * [])
   s->AddObject(e1);
   s->AddObject(e2);
 
-  METAIO_STREAM::cout << "...[ok]" << METAIO_STREAM::endl;
+  std::cout << "...[ok]" << std::endl;
 
-  METAIO_STREAM::cout << "Writing test file ..." << METAIO_STREAM::endl;
+  std::cout << "Writing test file ..." << std::endl;
 
   s->Write("scene.scn");
 
-  METAIO_STREAM::cout << "...[ok]" << METAIO_STREAM::endl;
+  std::cout << "...[ok]" << std::endl;
 
-  METAIO_STREAM::cout << "Clearing the scene..." << METAIO_STREAM::endl;
+  std::cout << "Clearing the scene..." << std::endl;
   s->Clear();
-  METAIO_STREAM::cout << "...[ok]" << METAIO_STREAM::endl;
+  std::cout << "...[ok]" << std::endl;
 
-  METAIO_STREAM::cout << "Reading test file ..." << METAIO_STREAM::endl;
+  std::cout << "Reading test file ..." << std::endl;
 
   s->Read("scene.scn");
 
   if(s->NObjects() != 3)
     {
-    METAIO_STREAM::cout << "Number of obejcts: " << s->NObjects()
-              << " != 3...[FAILED]" << METAIO_STREAM::endl;
-    return 0;
+    std::cout << "Number of obejcts: " << s->NObjects()
+              << " != 3...[FAILED]" << std::endl;
+    return EXIT_FAILURE;
     }
 
-  METAIO_STREAM::cout << "...[ok]" << METAIO_STREAM::endl;
+  std::cout << "...[ok]" << std::endl;
 
   s->Clear();
 
-  METAIO_STREAM::cout << "Writing single object..." << METAIO_STREAM::endl;
+  std::cout << "Writing single object..." << std::endl;
 
   e1 = new MetaEllipse(3);
   e1->ID(0);
   e1->Radius(3);
   e1->Write("ellipse.elp");
 
-  METAIO_STREAM::cout << "[OK]" << METAIO_STREAM::endl;
+  std::cout << "[OK]" << std::endl;
 
   s->Clear();
 
-  METAIO_STREAM::cout << "Reading test file ..." << METAIO_STREAM::endl;
+  std::cout << "Reading test file ..." << std::endl;
 
   s->Read("ellipse.elp");
 
   if(s->NObjects() != 1)
     {
-    METAIO_STREAM::cout << "Number of obejcts: " << s->NObjects()
-              << " != 1...[FAILED]" << METAIO_STREAM::endl;
-    return 0;
+    std::cout << "Number of obejcts: " << s->NObjects()
+              << " != 1...[FAILED]" << std::endl;
+    return EXIT_FAILURE;
     }
 
-  METAIO_STREAM::cout << "[OK]" << METAIO_STREAM::endl;
+  std::cout << "[OK]" << std::endl;
 
   // (*(s->GetObjectList()->begin()))->PrintInfo();
 
-  return 1;
+  return EXIT_SUCCESS;
 }

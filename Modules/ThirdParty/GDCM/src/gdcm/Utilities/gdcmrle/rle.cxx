@@ -49,7 +49,7 @@ struct rle_encoder::internal
   std::vector<char> outvalues;
 };
 
-rle_encoder::rle_encoder(source & s, image_info const & ii):internals(NULL)
+rle_encoder::rle_encoder(source & s, image_info const & ii):internals(nullptr)
 {
   if( !ii.is_little_endian() )
     throw std::runtime_error( "big endian is not supported" );
@@ -353,7 +353,7 @@ struct rle_decoder::internal
   int nstorage[16]; // number of stored bytes from previous run
 };
 
-rle_decoder::rle_decoder(source & s, image_info const & ii ):internals(NULL)
+rle_decoder::rle_decoder(source & s, image_info const & ii ):internals(nullptr)
 {
   internals = new internal;
   memset((char*)&internals->rh, 0, sizeof(header) );
@@ -362,7 +362,7 @@ rle_decoder::rle_decoder(source & s, image_info const & ii ):internals(NULL)
   internals->sources = new source*[ ns ];
   internals->sources[0] = s.clone(); // only one for now (minimum for read_header)
   for(int i = 1; i < ns; ++i )
-    internals->sources[i] = 0;
+    internals->sources[i] = nullptr;
   internals->nsources = ns;
 
   for(int i = 0; i < 16; ++i )

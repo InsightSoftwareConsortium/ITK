@@ -40,7 +40,8 @@
 #include "itkDemonsRegistrationFilter.h"
 #include "itkHistogramMatchingImageFilter.h"
 #include "itkCastImageFilter.h"
-#include "itkWarpImageFilter.h"
+#include "itkResampleImageFilter.h"
+#include "itkDisplacementFieldTransform.h"
 // Software Guide : EndCodeSnippet
 
 
@@ -295,71 +296,62 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginLatex
   //
-  // The \doxygen{WarpImageFilter} can be used to warp the moving image with
-  // the output deformation field. Like the \doxygen{ResampleImageFilter},
-  // the \code{WarpImageFilter} requires the specification of the input image to be
-  // resampled, an input image interpolator, and the output image spacing and
-  // origin.
+  // The \doxygen{ResampleImageFilter} can be used to warp the moving image with
+  // the output deformation field. The default interpolator of the \doxygen{ResampleImageFilter},
+  // is used but specification of the output image spacing and origin
+  // are required.
   //
-  // \index{itk::WarpImageFilter}
-  // \index{itk::WarpImageFilter!SetInput()}
-  // \index{itk::WarpImageFilter!SetInterpolator()}
-  // \index{itk::WarpImageFilter!SetOutputSpacing()}
-  // \index{itk::WarpImageFilter!SetOutputOrigin()}
+  // \index{itk::ResampleImageFilter}
+  // \index{itk::ResampleImageFilter!SetInput()}
+  // \index{itk::ResampleImageFilter!SetInterpolator()}
+  // \index{itk::ResampleImageFilter!SetOutputSpacing()}
+  // \index{itk::ResampleImageFilter!SetOutputOrigin()}
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using WarperType = itk::WarpImageFilter<
-                          MovingImageType,
-                          MovingImageType,
-                          DisplacementFieldType  >;
-  using InterpolatorType = itk::LinearInterpolateImageFunction<
-                                   MovingImageType,
-                                   double          >;
+  using OutputPixelType = unsigned char;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+
+  using InterpolatorPrecisionType = double;
+  using WarperType = itk::ResampleImageFilter< MovingImageType, OutputImageType,
+                                               InterpolatorPrecisionType, float >;
   WarperType::Pointer warper = WarperType::New();
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
-  FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   warper->SetInput( movingImageReader->GetOutput() );
-  warper->SetInterpolator( interpolator );
-  warper->SetOutputSpacing( fixedImage->GetSpacing() );
-  warper->SetOutputOrigin( fixedImage->GetOrigin() );
-  warper->SetOutputDirection( fixedImage->GetDirection() );
+  warper->UseReferenceImageOn();
+  warper->SetReferenceImage( fixedImageReader->GetOutput() );
+
   // Software Guide : EndCodeSnippet
 
 
   // Software Guide : BeginLatex
   //
-  // Unlike \code{ResampleImageFilter}, \code{WarpImageFilter}
-  // warps or transforms the input image with respect to the deformation field
-  // represented by an image of vectors.  The resulting warped or resampled
-  // image is written to file as per previous examples.
-  //
-  // \index{itk::WarpImageFilter!SetDisplacementField()}
+  // The \code{ResampleImageFilter} requires a transform, so a
+  // \doxygen{DisplacementFieldTransform} must be constructed then set
+  // as the transform of the \code{ResampleImageFilter}. The resulting
+  // warped or resampled image is written to file as per previous
+  // examples.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  warper->SetDisplacementField( filter->GetOutput() );
+
+  using DisplacementFieldTransformType = itk::DisplacementFieldTransform<InternalPixelType, Dimension>;
+  auto displacementTransform = DisplacementFieldTransformType::New();
+  displacementTransform->SetDisplacementField( filter->GetOutput() );
+
+  warper->SetTransform( displacementTransform );
   // Software Guide : EndCodeSnippet
 
 
   // Write warped image out to file
-  using OutputPixelType = unsigned char;
-  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
-  using CastFilterType = itk::CastImageFilter<
-                        MovingImageType,
-                        OutputImageType >;
   using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   WriterType::Pointer      writer =  WriterType::New();
-  CastFilterType::Pointer  caster =  CastFilterType::New();
 
   writer->SetFileName( argv[3] );
-
-  caster->SetInput( warper->GetOutput() );
-  writer->SetInput( caster->GetOutput()   );
+  writer->SetInput( warper->GetOutput() );
   writer->Update();
 
 

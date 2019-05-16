@@ -52,6 +52,9 @@ public:
   Dict():DictInternal() {
     assert( DictInternal.empty() );
   }
+  Dict &operator=(const Dict &_val) = delete;
+  Dict(const Dict &_val) = delete;
+
 
   friend std::ostream& operator<<(std::ostream& _os, const Dict &_val);
 
@@ -106,7 +109,7 @@ public:
       DictInternal.find(tag);
     if (it == DictInternal.end())
       {
-      return NULL;
+      return nullptr;
       }
     assert( DictInternal.count(tag) == 1 );
     return it->second.GetKeyword();
@@ -184,9 +187,6 @@ protected:
   void LoadDefault();
 
 private:
-  Dict &operator=(const Dict &_val); // purposely not implemented
-  Dict(const Dict &_val); // purposely not implemented
-
   MapDictEntry DictInternal;
 };
 //-----------------------------------------------------------------------------
@@ -218,8 +218,8 @@ class GDCM_EXPORT PrivateDict
   typedef std::map<PrivateTag, DictEntry> MapDictEntry;
   friend std::ostream& operator<<(std::ostream& os, const PrivateDict &val);
 public:
-  PrivateDict() {}
-  ~PrivateDict() {}
+  PrivateDict() = default;
+  ~PrivateDict() = default;
   void AddDictEntry(const PrivateTag &tag, const DictEntry &de)
     {
 #ifndef NDEBUG
@@ -320,8 +320,8 @@ protected:
   void LoadDefault();
 
 private:
-  PrivateDict &operator=(const PrivateDict &_val); // purposely not implemented
-  PrivateDict(const PrivateDict &_val); // purposely not implemented
+  PrivateDict &operator=(const PrivateDict &_val) = delete;
+  PrivateDict(const PrivateDict &_val) = delete;
 
   MapDictEntry DictInternal;
 };

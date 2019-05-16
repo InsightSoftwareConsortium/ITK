@@ -58,7 +58,7 @@ public:
 
 
 class METAIO_EXPORT MetaTube : public MetaObject
-  {
+{
 
   /////
   //
@@ -67,7 +67,7 @@ class METAIO_EXPORT MetaTube : public MetaObject
   ////
   public:
 
-   typedef METAIO_STL::list<TubePnt*> PointListType;
+   typedef std::list<TubePnt*> PointListType;
     ////
     //
     // Constructors & Destructor
@@ -149,7 +149,7 @@ class METAIO_EXPORT MetaTube : public MetaObject
 
     PointListType m_PointList;
     MET_ValueEnumType m_ElementType;
-  };
+};
 
 #if (METAIO_USE_NAMESPACE)
 };

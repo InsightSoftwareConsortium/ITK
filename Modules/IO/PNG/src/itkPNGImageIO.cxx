@@ -266,7 +266,7 @@ void PNGImageIO::Read(void *buffer)
 
   auto rowbytes = static_cast<SizeValueType>( png_get_rowbytes(png_ptr, info_ptr) );
   auto * tempImage = static_cast< unsigned char * >( buffer );
-  auto * row_pointers = new png_bytep[height];
+  const std::unique_ptr<png_bytep[]> row_pointers (new png_bytep [height]);
   for ( unsigned int ui = 0; ui < height; ++ui )
     {
     row_pointers[ui] = tempImage + rowbytes * ui;
@@ -276,12 +276,12 @@ void PNGImageIO::Read(void *buffer)
                    itkPNGWriteErrorFunction, itkPNGWriteWarningFunction);
   if( setjmp( png_jmpbuf( png_ptr ) ) )
     {
+    png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
     itkExceptionMacro( "Error while reading file: "
                        << this->GetFileName()
                        << std::endl );
     }
-  png_read_image(png_ptr, row_pointers);
-  delete[] row_pointers;
+  png_read_image(png_ptr, row_pointers.get());
   // close the file
   png_read_end(png_ptr, nullptr);
   png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
@@ -294,7 +294,14 @@ PNGImageIO::PNGImageIO() :
 
   m_ComponentType = UCHAR;
   m_PixelType = SCALAR;
-  m_UseCompression = false;
+
+  this->Self::UseCompressionOff();
+
+  // Determines the level of compression for written files.
+  // Range 0-9; 0 = none, 9 = maximum , default = 4 */
+  this->Self::SetMaximumCompressionLevel(9);
+  this->Self::SetCompressionLevel( 4 );
+
 
   m_Spacing[0] = 1.0;
   m_Spacing[1] = 1.0;
@@ -321,7 +328,7 @@ void PNGImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "CompressionLevel: " << m_CompressionLevel << std::endl;
+  os << indent << "CompressionLevel: " << this->GetCompressionLevel() << std::endl;
   if( !m_ColorPalette.empty()  )
     {
     os << indent << "ColorPalette:" << std::endl;
@@ -593,7 +600,6 @@ void PNGImageIO::WriteSlice(const std::string & fileName, const void *buffer)
                    itkPNGWriteErrorFunction, itkPNGWriteWarningFunction);
   if ( wrapSetjmp( png_ptr) )
     {
-    fclose(fp);
     itkExceptionMacro( "Error while writing Slice to file: "
                        << this->GetFileName()
                        << std::endl
@@ -646,7 +652,7 @@ void PNGImageIO::WriteSlice(const std::string & fileName, const void *buffer)
   if ( m_UseCompression )
     {
     // Set the image compression level.
-    png_set_compression_level(png_ptr, m_CompressionLevel);
+    png_set_compression_level(png_ptr, this->GetCompressionLevel());
     }
 
   // write out the spacing information:
@@ -666,7 +672,7 @@ void PNGImageIO::WriteSlice(const std::string & fileName, const void *buffer)
     png_set_swap(png_ptr);
 #endif
     }
-  auto * *row_pointers = new png_byte *[height];
+  const std::unique_ptr<png_bytep[]> row_pointers(new png_bytep[height]);
 
     {
     const int        rowInc = width * numComp * bitDepth / 8;
@@ -677,10 +683,9 @@ void PNGImageIO::WriteSlice(const std::string & fileName, const void *buffer)
       outPtr = const_cast< unsigned char * >( outPtr ) + rowInc;
       }
     }
-  png_write_image(png_ptr, row_pointers);
+  png_write_image(png_ptr, row_pointers.get());
   png_write_end(png_ptr, info_ptr);
 
-  delete[] row_pointers;
   png_destroy_write_struct(&png_ptr, &info_ptr);
 }
 } // end namespace itk
