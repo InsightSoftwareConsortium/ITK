@@ -162,8 +162,8 @@ namespace itk
   #error "The SGI compiler is not supported under ITKv4 and above"
 #endif
 #if defined(__APPLE__)
-  #if defined( __clang__ ) && (( __clang_major__ < 8 ) || (( __clang_major__ == 8 ) && ( __clang_minor__ < 1 )))
-    #error "Apple LLVM < 8.1 is not supported under ITKv5"
+  #if defined( __clang__ ) && ( __cplusplus < 201103L )
+    #error "Apple LLVM < 5.0 (clang < 3.3) is not supported under ITKv5"
   #endif
 #elif defined( __clang__ ) && (( __clang_major__ < 3 ) || (( __clang_major__ == 3 ) && ( __clang_minor__ < 3 )))
   #error "Clang < 3.3 is not supported under ITKv5"
