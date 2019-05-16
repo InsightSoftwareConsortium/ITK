@@ -53,6 +53,10 @@ MetaImageIO::MetaImageIO()
   this->AddSupportedReadExtension(".mhd");
   // set behavior of MetaImageIO independently of the default value in MetaImage
   this->SetDoublePrecision(GetDefaultDoublePrecision());
+
+  this->Self::SetCompressor("");
+  this->Self::SetMaximumCompressionLevel(9);
+  this->Self::SetCompressionLevel(2);
 }
 
 MetaImageIO::~MetaImageIO() = default;
@@ -1074,6 +1078,7 @@ MetaImageIO
     }
 
   m_MetaImage.CompressedData(m_UseCompression);
+  m_MetaImage.CompressionLevel( this->GetCompressionLevel() );
 
   // this is a check to see if we are actually streaming
   // we initialize with m_IORegion to match dimensions

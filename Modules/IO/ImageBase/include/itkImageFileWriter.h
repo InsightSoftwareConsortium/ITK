@@ -184,6 +184,11 @@ public:
   itkGetConstReferenceMacro(UseCompression, bool);
   itkBooleanMacro(UseCompression);
 
+  /** Set the compression level. \sa ImageIOBase for details.
+   * Set to a negative number to use ImageIO's default compression level. */
+  itkSetMacro( CompressionLevel, int );
+  itkGetConstReferenceMacro( CompressionLevel, int );
+
   /** By default the MetaDataDictionary is taken from the input image and
    *  passed to the ImageIO. In some cases, however, a user may prefer to
    *  introduce her/his own MetaDataDictionary. This is often the case of
@@ -195,7 +200,7 @@ public:
   itkBooleanMacro(UseInputMetaDataDictionary);
 
 protected:
-  ImageFileWriter();
+  ImageFileWriter() = default;
   ~ImageFileWriter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -206,19 +211,16 @@ private:
   std::string m_FileName;
 
   ImageIOBase::Pointer m_ImageIO;
-  bool                 m_UserSpecifiedImageIO; // track whether the ImageIO
-                                               // is user specified
+  bool                 m_UserSpecifiedImageIO{ false };
 
-  ImageIORegion m_PasteIORegion;
-  unsigned int  m_NumberOfStreamDivisions;
-  bool          m_UserSpecifiedIORegion;    // track whether the region
-                                            // is user specified
-  bool m_FactorySpecifiedImageIO;           //track whether the factory
-                                            //  mechanism set the ImageIO
-  bool m_UseCompression;
-  bool m_UseInputMetaDataDictionary;        // whether to use the
-                                            // MetaDataDictionary from the
-                                            // input or not.
+  ImageIORegion m_PasteIORegion{ TInputImage::ImageDimension };
+  unsigned int  m_NumberOfStreamDivisions{ 1 };
+  bool          m_UserSpecifiedIORegion{ false };
+
+  bool m_FactorySpecifiedImageIO{ false }; // did factory mechanism set the ImageIO?
+  bool m_UseCompression{ false };
+  int  m_CompressionLevel{ -1 };
+  bool m_UseInputMetaDataDictionary{ true };
 };
 } // end namespace itk
 
