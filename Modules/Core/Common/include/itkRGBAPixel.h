@@ -24,7 +24,7 @@
 #endif
 
 #include "itkIndent.h"
-#include "itkVector.h"
+#include "itkFixedArray.h"
 #include "itkMath.h"
 
 namespace itk
