@@ -72,7 +72,7 @@ StreamingImageFilter< TInputImage, TOutputImage >
 
   /**
    * Give the subclass a chance to indicate that it will provide
-   * more data then required for the output. This can happen, for
+   * more data than required for the output. This can happen, for
    * example, when a source can only produce the whole output.
    * Although this is being called for a specific output, the source
    * may need to enlarge all outputs.

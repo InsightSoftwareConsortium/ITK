@@ -24,13 +24,26 @@
 #include "itkRandomImageSource.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
-int itkStatisticsImageFilterTest(int, char* [] )
+
+int itkStatisticsImageFilterTest(int argc, char *argv[])
 {
-  std::cout << "itkStatisticsImageFilterTest Start" << std::endl;
+  std::cout << "itkStatisticsImageFilterTest  [numberOfStreamDivisions]" << std::endl;
 
   int status = 0;
+
+
+  unsigned int numberOfStreamDivisions = 1;
+
+  if (argc > 1)
+    {
+    numberOfStreamDivisions = std::max( std::stoi( argv[1] ), 1 );
+    }
+
   using FloatImage = itk::Image<int,3>;
+
+  itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed( 987 );
 
   FloatImage::Pointer    image  = FloatImage::New();
   FloatImage::RegionType region;
@@ -55,7 +68,9 @@ int itkStatisticsImageFilterTest(int, char* [] )
   itk::SimpleFilterWatcher filterWatch(filter);
 
   filter->SetInput (image);
-  filter->UpdateLargestPossibleRegion();
+  filter->SetNumberOfStreamDivisions( numberOfStreamDivisions );
+
+  TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   if ( itk::Math::NotAlmostEquals( filter->GetMinimum(), fillValue) )
     {
@@ -95,7 +110,7 @@ int itkStatisticsImageFilterTest(int, char* [] )
   using SourceType = itk::RandomImageSource<FloatImage>;
   SourceType::Pointer source = SourceType::New();
 
-  FloatImage::SizeValueType randomSize[3] = {17, 8, 20};
+  FloatImage::SizeValueType randomSize[3] = {17, 8, 241};
 
   source->SetSize(randomSize);
   float minValue = -100.0;
@@ -105,7 +120,8 @@ int itkStatisticsImageFilterTest(int, char* [] )
   source->SetMax( static_cast< FloatImage::PixelType >( maxValue ) );
 
   filter->SetInput(source->GetOutput());
-  filter->UpdateLargestPossibleRegion();
+  filter->SetNumberOfStreamDivisions( numberOfStreamDivisions);
+  TRY_EXPECT_NO_EXCEPTION(filter->UpdateLargestPossibleRegion());
 
   double expectedSigma = std::sqrt((maxValue-minValue)*(maxValue-minValue)/12.0);
   double epsilon = (maxValue - minValue) * .001;
@@ -141,7 +157,8 @@ int itkStatisticsImageFilterTest(int, char* [] )
   using DFilterType = itk::StatisticsImageFilter<DoubleImage>;
   DFilterType::Pointer dfilter = DFilterType::New();
   dfilter->SetInput(dImage);
-  dfilter->UpdateLargestPossibleRegion();
+  dfilter->SetNumberOfStreamDivisions( numberOfStreamDivisions );
+  TRY_EXPECT_NO_EXCEPTION(dfilter->UpdateLargestPossibleRegion());
   double testMean = dfilter->GetMean();
   double testVariance = dfilter->GetVariance();
   double diff = itk::Math::abs(testMean - knownMean);

@@ -204,13 +204,14 @@ BilateralImageFilter< TInputImage, TOutputImage >
 
   // Build a lookup table for the range gaussian
 
+  auto localInput = TInputImage::New();
+  localInput->Graft( this->GetInput() );
+
   // First, determine the min and max intensity range
   typename StatisticsImageFilter< TInputImage >::Pointer statistics =
     StatisticsImageFilter< TInputImage >::New();
 
-  statistics->SetInput(inputImage);
-  statistics->GetOutput()
-  ->SetRequestedRegion( this->GetOutput()->GetRequestedRegion() );
+  statistics->SetInput(localInput);
   statistics->Update();
 
   // Now create the lookup table whose domain runs from 0.0 to

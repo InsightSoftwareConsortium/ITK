@@ -36,11 +36,26 @@ itkLabelOverlapMeasuresImageFilterTest.cxx
 
 CreateTestDriver(ITKImageStatistics  "${ITKImageStatistics-Test_LIBRARIES}" "${ITKImageStatisticsTests}")
 
-itk_add_test(NAME itkStatisticsImageFilterTest
+itk_add_test(NAME itkStatisticsImageFilterTest_1
       COMMAND ITKImageStatisticsTestDriver itkStatisticsImageFilterTest)
-itk_add_test(NAME itkLabelStatisticsImageFilterTest
+itk_add_test(NAME itkStatisticsImageFilterTest_2
+      COMMAND ITKImageStatisticsTestDriver itkStatisticsImageFilterTest 1)
+itk_add_test(NAME itkStatisticsImageFilterTest_3
+      COMMAND ITKImageStatisticsTestDriver itkStatisticsImageFilterTest 63)
+itk_add_test(NAME itkLabelStatisticsImageFilterTest_1
       COMMAND ITKImageStatisticsTestDriver itkLabelStatisticsImageFilterTest
-              DATA{${ITK_DATA_ROOT}/Input/peppers.png} DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/OtsuMultipleThresholdsImageFilterTest.png})
+              DATA{${ITK_DATA_ROOT}/Input/peppers.png}
+              DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/OtsuMultipleThresholdsImageFilterTest.png})
+itk_add_test(NAME itkLabelStatisticsImageFilterTest_2
+      COMMAND ITKImageStatisticsTestDriver itkLabelStatisticsImageFilterTest
+              DATA{${ITK_DATA_ROOT}/Input/peppers.png}
+              DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/OtsuMultipleThresholdsImageFilterTest.png}
+      10 )
+itk_add_test(NAME itkLabelStatisticsImageFilterTest_3
+      COMMAND ITKImageStatisticsTestDriver itkLabelStatisticsImageFilterTest
+              DATA{${ITK_DATA_ROOT}/Input/peppers.png}
+              DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/OtsuMultipleThresholdsImageFilterTest.png}
+      20 )
 itk_add_test(NAME itkSumProjectionImageFilterTest
       COMMAND ITKImageStatisticsTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/HeadMRVolumeSumProjection.tif}

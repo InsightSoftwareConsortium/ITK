@@ -36,21 +36,18 @@ ImageToHistogramFilter< TImage >
 
   // same default values as in the HistogramGenerator
 
-  typename SimpleDataObjectDecorator<HistogramMeasurementType>::Pointer marginalScale =
-    SimpleDataObjectDecorator<HistogramMeasurementType>::New();
-  marginalScale->Set(100);
-  this->ProcessObject::SetInput( "MarginalScale", marginalScale );
+  this->Self::SetMarginalScale(100);
 
-  SimpleDataObjectDecorator<bool>::Pointer autoMinMax = SimpleDataObjectDecorator<bool>::New();
-  if( typeid(ValueType) == typeid(signed char) || typeid(ValueType) == typeid(unsigned char) )
+  if( typeid(ValueType) == typeid(signed char) ||
+      typeid(ValueType) == typeid(unsigned char) )
     {
-    autoMinMax->Set(false);
+    this->Self::SetAutoMinimumMaximum(false);
     }
   else
     {
-    autoMinMax->Set(true);
+    this->Self::SetAutoMinimumMaximum(true);
     }
-   this->ProcessObject::SetInput( "AutoMinimumMaximum", autoMinMax );
+
 }
 
 template< typename TImage >
@@ -66,8 +63,8 @@ const typename ImageToHistogramFilter< TImage >::HistogramType *
 ImageToHistogramFilter< TImage >
 ::GetOutput() const
 {
-  const HistogramType *output =
-    itkDynamicCastInDebugMode< const HistogramType * >( this->ProcessObject::GetOutput(0) );
+  auto *output =
+    itkDynamicCastInDebugMode< const HistogramType * >( this->ProcessObject::GetPrimaryOutput() );
 
   return output;
 }
@@ -77,10 +74,13 @@ typename ImageToHistogramFilter< TImage >::HistogramType *
 ImageToHistogramFilter< TImage >
 ::GetOutput()
 {
-  auto * output = static_cast< HistogramType * >( this->ProcessObject::GetOutput(0) );
+
+ auto *output =
+    itkDynamicCastInDebugMode< HistogramType * >( this->ProcessObject::GetPrimaryOutput() );
 
   return output;
 }
+
 
 template< typename TImage >
 void
@@ -94,20 +94,42 @@ ImageToHistogramFilter< TImage >
   output->Graft(graft);
 }
 
+
+template< typename TImage >
+unsigned int
+ImageToHistogramFilter< TImage >
+::GetNumberOfInputRequestedRegions ()
+{
+  // If we need to compute the minimum and maximum we don't stream
+  if (this->GetAutoMinimumMaximumInput() && this->GetAutoMinimumMaximum())
+    {
+    return 1;
+    }
+
+  return Superclass::GetNumberOfInputRequestedRegions();
+}
+
+
 template< typename TImage >
 void
 ImageToHistogramFilter< TImage >
-::GenerateData()
+::BeforeStreamedGenerateData()
 {
-  this->UpdateProgress(0.0f);
-  this->AllocateOutputs();
-  this->BeforeThreadedGenerateData();
+  Superclass::BeforeStreamedGenerateData();
 
-  HistogramType *outputHistogram = this->GetOutput();
+  const unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
+  m_Minimum = HistogramMeasurementVectorType( nbOfComponents );
+  m_Maximum = HistogramMeasurementVectorType( nbOfComponents );
+
+  m_Minimum.Fill( NumericTraits<ValueType>::max() );
+  m_Maximum.Fill( NumericTraits<ValueType>::NonpositiveMin() );
+
+  m_MergeHistogram = nullptr;
+
+    HistogramType *outputHistogram = this->GetOutput();
   outputHistogram->SetClipBinsAtEnds(true);
 
   // the parameter needed to initialize the histogram
-  const unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
   HistogramSizeType size(nbOfComponents);
   if( this->GetHistogramSizeInput() )
     {
@@ -120,10 +142,10 @@ ImageToHistogramFilter< TImage >
     size.Fill(256);
     }
 
-  this->UpdateProgress(0.01f);
-
   if( this->GetAutoMinimumMaximumInput() && this->GetAutoMinimumMaximum() )
     {
+    itkAssertInDebugAndIgnoreInReleaseMacro( (this->GetInput()->GetRequestedRegion() == this->GetInput()->GetLargestPossibleRegion()) );
+
     // we have to compute the minimum and maximum values
     this->GetMultiThreader()-> template ParallelizeImageRegion<ImageType::ImageDimension>(
       this->GetInput()->GetRequestedRegion(),
@@ -131,7 +153,6 @@ ImageToHistogramFilter< TImage >
       {this->ThreadedComputeMinimumAndMaximum(inputRegionForThread);},
       this);
 
-    this->UpdateProgress(0.3f);
 
     this->ApplyMarginalScale( m_Minimum, m_Maximum, size );
 
@@ -160,37 +181,16 @@ ImageToHistogramFilter< TImage >
   outputHistogram->SetMeasurementVectorSize(nbOfComponents);
   outputHistogram->Initialize(size, m_Minimum, m_Maximum);
 
-    this->GetMultiThreader()-> template ParallelizeImageRegion<ImageType::ImageDimension>(
-      this->GetInput()->GetRequestedRegion(),
-      [this](const RegionType & inputRegionForThread)
-      {this->ThreadedComputeHistogram(inputRegionForThread);},
-      this);
-  this->UpdateProgress(0.8f);
-
-  this->AfterThreadedGenerateData();
-  this->UpdateProgress(1.0f);
 }
+
 
 template< typename TImage >
 void
 ImageToHistogramFilter< TImage >
-::BeforeThreadedGenerateData()
+::AfterStreamedGenerateData()
 {
-  const unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
-  m_Minimum = HistogramMeasurementVectorType( nbOfComponents );
-  m_Maximum = HistogramMeasurementVectorType( nbOfComponents );
+  Superclass::AfterStreamedGenerateData();
 
-  m_Minimum.Fill( NumericTraits<ValueType>::max() );
-  m_Maximum.Fill( NumericTraits<ValueType>::NonpositiveMin() );
-
-  m_MergeHistogram = nullptr;
-}
-
-template< typename TImage >
-void
-ImageToHistogramFilter< TImage >
-::AfterThreadedGenerateData()
-{
   HistogramType *outputHistogram = this->GetOutput();
   outputHistogram->Graft(m_MergeHistogram);
   m_MergeHistogram = nullptr;
@@ -235,7 +235,7 @@ ImageToHistogramFilter< TImage >
 template< typename TImage >
 void
 ImageToHistogramFilter< TImage >
-::ThreadedComputeHistogram(const RegionType & inputRegionForThread)
+::ThreadedStreamedGenerateData(const RegionType & inputRegionForThread)
 {
   const unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
   const HistogramType *outputHistogram = this->GetOutput();
@@ -382,15 +382,15 @@ ImageToHistogramFilter< TImage >
 {
   Superclass::PrintSelf(os, indent);
   // m_HistogramBinMinimum
-  os << indent << "HistogramBinMinimum: " << this->GetHistogramBinMinimumInput() << std::endl;
+  os << indent << "HistogramBinMinimum: " << this->GetHistogramBinMinimum() << std::endl;
   // m_HistogramBinMaximum
-  os << indent << "HistogramBinMaximum: " << this->GetHistogramBinMaximumInput() << std::endl;
+  os << indent << "HistogramBinMaximum: " << this->GetHistogramBinMaximum() << std::endl;
   // m_MarginalScale
-  os << indent << "MarginalScale: " << this->GetMarginalScaleInput() << std::endl;
+  os << indent << "MarginalScale: " << this->GetMarginalScale() << std::endl;
   // m_AutoMinimumMaximum
-  os << indent << "AutoMinimumMaximum: " << this->GetAutoMinimumMaximumInput() << std::endl;
+  os << indent << "AutoMinimumMaximum: " << this->GetAutoMinimumMaximum() << std::endl;
   // m_HistogramSize
-  os << indent << "HistogramSize: " << this->GetHistogramSizeInput() << std::endl;
+  os << indent << "HistogramSize: " << this->GetHistogramSize() << std::endl;
 }
 } // end of namespace Statistics
 } // end of namespace itk
