@@ -141,7 +141,7 @@ void StreamingProcessObject::UpdateOutputData(DataObject *itkNotUsed(output))
     }
 
   this->SetAbortGenerateData( false );
-  this->SetProgress(0.0);
+  this->UpdateProgress(0.0);
   this->m_Updating = true;
 
   /*
