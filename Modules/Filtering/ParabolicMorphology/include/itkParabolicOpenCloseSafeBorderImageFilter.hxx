@@ -38,13 +38,16 @@ ParabolicOpenCloseSafeBorderImageFilter<TInputImage, doOpen, TOutputImage>::Gene
   typename PadFilterType::SizeType BoundsSize;
   if (this->m_SafeBorder)
   {
+    auto localInput = TInputImage::New();
+    localInput->Graft(this->GetInput());
+
     // need to compute some image statistics and determine the padding
     // extent. This will almost certainly be an over estimate
-    m_StatsFilt->SetInput(this->GetInput());
+    m_StatsFilt->SetInput(localInput);
     m_StatsFilt->Update();
     InputPixelType                       range = m_StatsFilt->GetMaximum() - m_StatsFilt->GetMinimum();
     typename MorphFilterType::RadiusType Sigma = m_MorphFilt->GetScale();
-    typename TInputImage::SpacingType    spcing = m_StatsFilt->GetOutput()->GetSpacing();
+    typename TInputImage::SpacingType    spcing = localInput->GetSpacing();
     for (unsigned s = 0; s < ImageDimension; s++)
     {
       if (m_MorphFilt->GetUseImageSpacing())
@@ -73,13 +76,16 @@ ParabolicOpenCloseSafeBorderImageFilter<TInputImage, doOpen, TOutputImage>::Gene
       // m_PadFilt->SetConstant(NumericTraits<InputPixelType>::NonpositiveMin());
       m_PadFilt->SetConstant(m_StatsFilt->GetMinimum());
     }
-    m_PadFilt->SetInput(m_StatsFilt->GetOutput());
+    m_PadFilt->SetInput(localInput);
     progress->RegisterInternalFilter(m_PadFilt, 0.1f);
     inputImage = m_PadFilt->GetOutput();
   }
   else
   {
-    inputImage = this->GetInput();
+    auto localInput = TInputImage::New();
+    localInput->Graft(this->GetInput());
+
+    inputImage = localInput;
   }
 
   m_MorphFilt->SetInput(inputImage);
