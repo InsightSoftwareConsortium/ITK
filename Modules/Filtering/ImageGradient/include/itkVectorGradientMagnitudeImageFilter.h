@@ -58,10 +58,10 @@ namespace itk
  * \par Template Parameters (Input and Output)
  * This filter has one required template parameter which defines the input
  * image type.  The pixel type of the input image is assumed to be a vector
- * (e.g., itk::Vector, itk::RGBPixel, itk::FixedArray).  The scalar type of the
+ * (e.g., itk::Vector, itk::FixedArray).  The scalar type of the
  * vector components must be castable to floating point.  Instantiating with an
- * image of RGBPixel<unsigned short>, for example, is allowed, but the filter
- * will convert it to an image of Vector<float,3> for processing.
+ * image of RGBPixel is not allowed but the image can be converted/adapted
+ * to Vector for processing.
  *
  * The second template parameter, TRealType, can be optionally specified to define the
  * scalar numerical type used in calculations.  This is the component type of
@@ -284,7 +284,7 @@ protected:
   using ImageBaseType = typename InputImageType::Superclass;
 
   /** Get access to the input image casted as real pixel values */
-  itkGetConstObjectMacro(RealValuedInputImage, ImageBaseType);
+  itkGetConstObjectMacro(RealValuedInputImage, RealVectorImageType);
 
   TRealType NonPCEvaluateAtNeighborhood(const ConstNeighborhoodIteratorType & it) const
   {
@@ -472,7 +472,7 @@ private:
 
   ThreadIdType m_RequestedNumberOfThreads;
 
-  typename ImageBaseType::ConstPointer m_RealValuedInputImage;
+  typename RealVectorImageType::ConstPointer m_RealValuedInputImage;
 
 };
 } // end namespace itk

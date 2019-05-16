@@ -102,7 +102,6 @@ public:
   Self & operator=(const ComponentType r[3]);
 
   /** Aritmetic operations between pixels. Return a new RGBPixel. */
-  /** Aritmetic operations between pixels. Return a new RGBAPixel. */
   Self operator+(const Self & vec) const;
   Self operator-(const Self & vec) const;
   Self operator *(const ComponentType & f) const;

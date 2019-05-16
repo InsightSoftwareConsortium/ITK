@@ -33,7 +33,7 @@ if (NOT ITK_LEGACY_REMOVE)
 endif()
 
 itk_add_test(NAME itkVectorResampleImageFilterTest
-      COMMAND ITKImageGridTestDriver
+      COMMAND ITKDeprecatedTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorResampleImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/VectorResampleImageFilterTest.png
     itkVectorResampleImageFilterTest ${ITK_TEST_OUTPUT_DIR}/VectorResampleImageFilterTest.png)

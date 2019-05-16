@@ -69,7 +69,7 @@ void GeodesicActiveContourShapePriorLevelSetFunction< TImageType, TFeatureImageT
     derivative->Update();
 
     using DerivativeOutputImageType = typename DerivativeFilterType::OutputImageType;
-    using GradientCasterType = VectorCastImageFilter< DerivativeOutputImageType, VectorImageType >;
+    using GradientCasterType = CastImageFilter< DerivativeOutputImageType, VectorImageType >;
 
     typename GradientCasterType::Pointer caster = GradientCasterType::New();
     caster->SetInput( derivative->GetOutput() );

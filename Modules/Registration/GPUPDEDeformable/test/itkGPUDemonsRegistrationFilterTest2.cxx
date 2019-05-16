@@ -22,7 +22,7 @@
 #include "itkWarpImageFilter.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkCommand.h"
-#include "itkVectorCastImageFilter.h"
+#include "itkCastImageFilter.h"
 #include "itkImageFileWriter.h"
 
 
@@ -169,7 +169,7 @@ int itkGPUDemonsRegistrationFilterTest2(int argc, char* argv[] )
   zeroVec.Fill( 0.0 );
   initField->FillBuffer( zeroVec );
 
-  using CasterType = itk::VectorCastImageFilter<FieldType,FieldType>;
+  using CasterType = itk::CastImageFilter<FieldType,FieldType>;
   CasterType::Pointer caster = CasterType::New();
   caster->SetInput( initField );
   caster->InPlaceOff();

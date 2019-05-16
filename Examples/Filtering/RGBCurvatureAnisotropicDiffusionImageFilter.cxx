@@ -74,7 +74,7 @@
 // Software Guide : BeginCodeSnippet
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkVectorCastImageFilter.h"
+#include "itkCastImageFilter.h"
 // Software Guide : EndCodeSnippet
 
 
@@ -164,18 +164,18 @@ int main( int argc, char * argv[] )
   //  Software Guide : BeginLatex
   //
   //  The filter output is now cast to \code{unsigned char} RGB components by
-  //  using the \doxygen{VectorCastImageFilter}.
+  //  using the \doxygen{CastImageFilter}.
   //
-  //  \index{itk::VectorCastImageFilter!instantiation}
-  //  \index{itk::VectorCastImageFilter!New()}
-  //  \index{itk::VectorCastImageFilter!Pointer}
+  //  \index{itk::CastImageFilter!instantiation}
+  //  \index{itk::CastImageFilter!New()}
+  //  \index{itk::CastImageFilter!Pointer}
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   using WritePixelType = itk::RGBPixel< unsigned char >;
   using WriteImageType = itk::Image< WritePixelType, 2 >;
-  using CasterType = itk::VectorCastImageFilter<
+  using CasterType = itk::CastImageFilter<
                 InputImageType, WriteImageType >;
   CasterType::Pointer caster = CasterType::New();
   // Software Guide : EndCodeSnippet

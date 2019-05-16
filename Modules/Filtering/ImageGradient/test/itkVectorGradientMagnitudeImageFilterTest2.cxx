@@ -21,6 +21,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
+#include "itkRGBToVectorImageAdaptor.h"
 
 
 int itkVectorGradientMagnitudeImageFilterTest2(int ac, char* av[] )
@@ -29,7 +30,8 @@ int itkVectorGradientMagnitudeImageFilterTest2(int ac, char* av[] )
   using RGBImageType = itk::Image<RGBPixelType, 3>;
   using CharImage3Type = itk::Image<unsigned char, 3>;
   using CharImage2Type = itk::Image<unsigned char, 2>;
-  using FilterType = itk::VectorGradientMagnitudeImageFilter<RGBImageType>;
+  using AdaptorType = itk::RGBToVectorImageAdaptor<RGBImageType>;
+  using FilterType = itk::VectorGradientMagnitudeImageFilter<AdaptorType>;
   using ReaderType = itk::ImageFileReader<RGBImageType>;
   using RescaleFilterType =
       itk::RescaleIntensityImageFilter<FilterType::OutputImageType, CharImage3Type>;
@@ -45,8 +47,10 @@ int itkVectorGradientMagnitudeImageFilterTest2(int ac, char* av[] )
   // Create a reader and filter
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(av[1]);
+  AdaptorType::Pointer adaptor = AdaptorType::New();
+  adaptor->SetImage(reader->GetOutput());
   FilterType::Pointer filter = FilterType::New();
-  filter->SetInput(reader->GetOutput());
+  filter->SetInput(adaptor);
 
   const int mode = ::std::stoi( av[3] );
 
