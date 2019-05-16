@@ -69,7 +69,7 @@ bool DICOMDIRGenerator::ComputeDirectoryRecordsOffset(const SequenceOfItems *sqi
 
 static const char *GetLowerLevelDirectoryRecord(const char *input)
 {
-  if( !input ) return NULL;
+  if( !input ) return nullptr;
 
   if( strcmp( input, "PATIENT " ) == 0 )
     {
@@ -85,11 +85,11 @@ static const char *GetLowerLevelDirectoryRecord(const char *input)
     }
   else if( strcmp( input, "IMAGE " ) == 0 )
     {
-    return NULL;
+    return nullptr;
     }
   assert( 0 );
   //std::cerr << "COULD NOT FIND:" << input << std::endl;
-  return NULL;
+  return nullptr;
 }
 
 
@@ -236,12 +236,12 @@ bool DICOMDIRGenerator::ImageBelongToSameSeries(const char *sopuid1, const char 
     return true;
     }
   bool b = false;
-  const char *seriesuid1 = NULL;
+  const char *seriesuid1 = nullptr;
   if( ttv1.find( tseriesuid ) != ttv1.end() )
     {
     seriesuid1 = ttv1.find(tseriesuid)->second;
     }
-  const char *seriesuid2 = NULL;
+  const char *seriesuid2 = nullptr;
   if( ttv2.find( tseriesuid ) != ttv2.end() )
     {
     seriesuid2 = ttv2.find(tseriesuid)->second;
@@ -959,7 +959,7 @@ the File-set.
   const char *mediastoragesopinstanceuid = uid.Generate();
   if( !UIDGenerator::IsValid( mediastoragesopinstanceuid ) )
     {
-    return 1;
+    return true;
     }
   at2.SetValue( mediastoragesopinstanceuid );
   h.Insert( at2.GetAsDataElement() );
@@ -1047,7 +1047,7 @@ SequenceOfItems *DICOMDIRGenerator::GetDirectoryRecordSequence()
 const char *DICOMDIRGenerator::ComputeFileID(const char *input)
 {
   assert( 0 ); (void)input;
-  return NULL;
+  return nullptr;
 }
 
 void DICOMDIRGenerator::SetDescriptor( const char *d )

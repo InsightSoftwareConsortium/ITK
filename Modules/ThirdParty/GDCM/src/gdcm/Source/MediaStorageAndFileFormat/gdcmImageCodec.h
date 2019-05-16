@@ -32,10 +32,10 @@ class GDCM_EXPORT ImageCodec : public Codec
   friend class ImageChangePhotometricInterpretation;
 public:
   ImageCodec();
-  ~ImageCodec();
-  bool CanCode(TransferSyntax const &) const { return false; }
-  bool CanDecode(TransferSyntax const &) const { return false; }
-  bool Decode(DataElement const &is_, DataElement &os);
+  ~ImageCodec() override;
+  bool CanCode(TransferSyntax const &) const override { return false; }
+  bool CanDecode(TransferSyntax const &) const override { return false; }
+  bool Decode(DataElement const &is_, DataElement &os) override;
   bool IsLossy() const;
   void SetLossyFlag(bool l);
   bool GetLossyFlag() const;
@@ -45,7 +45,7 @@ public:
   virtual ImageCodec * Clone() const = 0;
 
 protected:
-  bool DecodeByStreams(std::istream &is_, std::ostream &os);
+  bool DecodeByStreams(std::istream &is_, std::ostream &os) override;
   virtual bool IsValid(PhotometricInterpretation const &pi);
 public:
 

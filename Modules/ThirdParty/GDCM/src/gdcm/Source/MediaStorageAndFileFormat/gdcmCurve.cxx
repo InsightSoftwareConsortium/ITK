@@ -291,7 +291,7 @@ static const char * const TypeOfDataDescription[][2] = {
 { "FLOW" , "flow data" },
 { "PHYSIO" , "physio data" },
 { "RESP" , "Respiration trace" },
-{ 0 , 0 }
+{ nullptr , nullptr }
 };
 const char *Curve::GetTypeOfDataDescription() const
 {

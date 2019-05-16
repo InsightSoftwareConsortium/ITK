@@ -156,6 +156,7 @@ generating group length for arbitrary even group number seems to get my xsltproc
           <xsl:with-param name="vm" select="'1'"/>
           <!--xsl:with-param name="owner" select="@owner"/-->
           <xsl:with-param name="retired" select="'true'"/>
+          <xsl:with-param name="comment" select="'true'"/>
           <xsl:with-param name="name" select="concat('Group Length ',@group)"/>
         </xsl:call-template>
       </xsl:if>
@@ -174,6 +175,7 @@ void Dict::LoadDefault()
    {
       Tag t(n.group, n.element);
       DictEntry e( n.name, n.keyword, n.vr, n.vm, n.ret );
+      assert( DictEntry::CheckKeywordAgainstName(n.name, n.keyword) );
       AddDictEntry( t, e );
       n = DICOMV3DataDict[++i];
    }
@@ -223,7 +225,11 @@ void PrivateDict::LoadDefault()
     <xsl:param name="retired"/>
     <xsl:param name="name"/>
     <xsl:param name="keyword"/>
+    <xsl:param name="comment"/>
     <xsl:if test="$count &lt; 256">
+      <xsl:if test="$comment">
+        <xsl:text>//</xsl:text>
+      </xsl:if>
       <xsl:text>  {0x</xsl:text>
       <xsl:value-of select="$group"/>
       <xsl:text>,0x</xsl:text>

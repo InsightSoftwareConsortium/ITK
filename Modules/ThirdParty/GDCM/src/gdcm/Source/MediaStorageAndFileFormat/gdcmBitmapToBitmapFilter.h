@@ -27,7 +27,7 @@ class GDCM_EXPORT BitmapToBitmapFilter
 {
 public:
   BitmapToBitmapFilter();
-  ~BitmapToBitmapFilter() {}
+  ~BitmapToBitmapFilter() = default;
 
   /// Set input image
   void SetInput(const Bitmap& image);

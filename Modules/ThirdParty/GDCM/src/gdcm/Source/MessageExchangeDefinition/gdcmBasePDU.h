@@ -50,7 +50,7 @@ namespace network
 class BasePDU
 {
 public:
-  virtual ~BasePDU() {}
+  virtual ~BasePDU() = default;
 
   virtual std::istream &Read(std::istream &is) = 0;
   virtual const std::ostream &Write(std::ostream &os) const = 0;

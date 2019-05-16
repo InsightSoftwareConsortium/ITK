@@ -13,7 +13,7 @@
 =========================================================================*/
 #include "gdcmCryptoFactory.h"
 
-#ifdef WIN32
+#ifdef _WIN32
 #include "gdcmCAPICryptoFactory.h"
 #endif
 
@@ -29,7 +29,7 @@ namespace gdcm
 
 CryptoFactory* CryptoFactory::GetFactoryInstance(CryptoLib id)
 {
-#ifdef WIN32
+#ifdef _WIN32
   static CAPICryptoFactory capi(CryptoFactory::CAPI);
 #endif
 #ifdef GDCM_USE_SYSTEM_OPENSSL
@@ -50,16 +50,16 @@ CryptoFactory* CryptoFactory::GetFactoryInstance(CryptoLib id)
 #endif // GDCM_HAVE_CMS_RECIPIENT_PASSWORD
 #endif // GDCM_USE_SYSTEM_OPENSSL
 // We always prefer native API (by default):
-#ifdef WIN32
+#ifdef _WIN32
     id = CryptoFactory::CAPI;
-#endif // WIN32
+#endif // _WIN32
     }
 
   std::map<CryptoLib, CryptoFactory*>::iterator it = getInstanceMap().find(id);
   if (it == getInstanceMap().end())
     {
     gdcmErrorMacro( "No crypto factory registered with id " << (int)id );
-    return NULL;
+    return nullptr;
     }
   assert(it->second);
   return it->second;

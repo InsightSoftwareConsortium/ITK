@@ -64,7 +64,7 @@ zran.c
 
 #include <gdcm_zlib.h>
 
-#ifdef WIN32 /* Window 95 & Windows NT */
+#ifdef _WIN32 /* Window 95 & Windows NT */
 #  define OS_CODE  0x0b
 #endif
 #if defined(MACOS) || defined(TARGET_OS_MAC)
@@ -129,10 +129,10 @@ public:
                             int memory_level,
                             size_t buffer_size);
 
-    ~basic_zip_streambuf(void);
+    ~basic_zip_streambuf(void) override;
 
-    int               sync        (void);
-    int_type          overflow    (int_type c);
+    int               sync        (void) override;
+    int_type          overflow    (int_type c) override;
     std::streamsize   flush       (void);
     inline
     ostream_reference get_ostream (void) const;
@@ -189,9 +189,9 @@ public:
                           size_t read_buffer_size,
                           size_t input_buffer_size);
 
-    ~basic_unzip_streambuf(void);
+    ~basic_unzip_streambuf(void) override;
 
-    int_type underflow(void);
+    int_type underflow(void) override;
 
     /// returns the compressed input istream
     inline
@@ -250,7 +250,7 @@ public:
                                int memory_level = 8,
                                size_t buffer_size = zstream_default_buffer_size);
 
-    ~basic_zip_ostream(void);
+    ~basic_zip_ostream(void) override;
 
     inline
     bool                              is_gzip   (void) const;

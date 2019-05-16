@@ -28,7 +28,7 @@ class ULConnection;
 class NDeleteRQ : public BaseNormalizedMessage {
     public:
       std::vector<PresentationDataValue> ConstructPDV(const ULConnection &inConnection,
-        const BaseQuery* inQuery);
+        const BaseQuery* inQuery) override;
     };
 
 /**

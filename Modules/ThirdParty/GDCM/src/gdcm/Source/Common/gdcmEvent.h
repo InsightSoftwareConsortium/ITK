@@ -27,8 +27,9 @@ class GDCM_EXPORT Event
 {
 public :
   Event();
-  Event(const Event&);
   virtual ~Event();
+  Event(const Event&);
+  void operator=(const Event&) = delete;
 
   /**  Create an Event of this type This method work as a Factory for
    *  creating events of each particular type. */
@@ -45,9 +46,6 @@ public :
   /** Check if given event matches or derives from this event. */
   virtual bool CheckEvent(const Event*) const = 0;
 
-protected:
-private:
-  void operator=(const Event&);  // Not implemented.
 };
 
 /// Generic inserter operator for Event and its subclasses.

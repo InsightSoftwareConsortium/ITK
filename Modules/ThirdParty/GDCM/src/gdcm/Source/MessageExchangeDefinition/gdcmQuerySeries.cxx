@@ -30,15 +30,15 @@ namespace gdcm
 std::vector<Tag> QuerySeries::GetRequiredTags(const ERootType& ) const
 {
   std::vector<Tag> theReturn;//see 3.4 C.6.1.1.4
-  theReturn.push_back(Tag(0x0008, 0x0060));
-  theReturn.push_back(Tag(0x0020, 0x0011));
+  theReturn.emplace_back(0x0008, 0x0060);
+  theReturn.emplace_back(0x0020, 0x0011);
   return theReturn;
 }
 
 std::vector<Tag> QuerySeries::GetUniqueTags(const ERootType& ) const
 {
   std::vector<Tag> theReturn;//see 3.4 C.6.1.1.4
-  theReturn.push_back(Tag(0x0020, 0x000E));
+  theReturn.emplace_back(0x0020, 0x000E);
 
   return theReturn;
 }
@@ -46,7 +46,7 @@ std::vector<Tag> QuerySeries::GetUniqueTags(const ERootType& ) const
 std::vector<Tag> QuerySeries::GetOptionalTags(const ERootType& ) const
 {
   std::vector<Tag> theReturn;//see 3.4 C.6.1.1.4
-  theReturn.push_back(Tag(0x0020, 0x1209));
+  theReturn.emplace_back(0x0020, 0x1209);
   return theReturn;
 }
 

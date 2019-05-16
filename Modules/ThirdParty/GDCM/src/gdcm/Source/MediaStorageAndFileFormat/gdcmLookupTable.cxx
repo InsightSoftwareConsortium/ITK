@@ -615,7 +615,7 @@ const unsigned char *LookupTable::GetPointer() const
     {
     return &Internal->RGB[0];
     }
-  return 0;
+  return nullptr;
 }
 
 bool LookupTable::GetBufferAsRGBA(unsigned char *rgba) const

@@ -124,7 +124,7 @@ bool MovePatientRootQuery::ValidateQuery(bool inStrict) const
   if (inStrict)
     {
     QueryBase* qb = BaseRootQuery::Construct( ePatientRootType, (EQueryLevel)ilevel );
-    if (qb == NULL)
+    if (qb == nullptr)
       {
       gdcmWarningMacro( "Invalid Query" );
       return false;
@@ -140,7 +140,7 @@ bool MovePatientRootQuery::ValidateQuery(bool inStrict) const
     }
   else //include all previous levels (ie, series gets study and patient, image gets series, study, and patient)
     {
-    QueryBase* qb = NULL;
+    QueryBase* qb = nullptr;
     if (strcmp(theVal.c_str(), "PATIENT ") == 0)
       {
       //make sure remaining tags are somewhere in the list of required, unique, or optional tags

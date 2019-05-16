@@ -141,10 +141,10 @@ const char * MrProtocol::GetMrProtocolByName(const char *name) const
   {
     MyMapType &mymap = Pimpl->mymap;
     MyMapType::const_iterator it = mymap.find ( name );
-    if( it == mymap.end() ) return NULL;
+    if( it == mymap.end() ) return nullptr;
     return it->second.c_str();
   }
-  return NULL;
+  return nullptr;
 }
 
 bool MrProtocol::FindMrProtocolByName(const char *name) const
@@ -168,7 +168,7 @@ bool MrProtocol::GetSliceArray( MrProtocol::SliceArray & sa ) const
   sa.Slices.clear();
   static const char saSize[] = "sSliceArray.lSize";
   const char * sizestr = GetMrProtocolByName(saSize);
-  if( sizestr == NULL ) return false;
+  if( sizestr == nullptr ) return false;
   const int size = atoi( sizestr );
   sa.Slices.resize( size );
 

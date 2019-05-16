@@ -63,7 +63,7 @@ std::istream &CP246ExplicitDataElement::ReadPreValue(std::istream &is)
         "Item Delimitation Item has a length different from 0" );
       }
     // Set pointer to NULL to avoid user error
-    ValueField = 0;
+    ValueField = nullptr;
     return is;
     }
 
@@ -122,7 +122,7 @@ std::istream &CP246ExplicitDataElement::ReadValue(std::istream &is, bool readval
   if( ValueLengthField == 0 )
     {
     // Simple fast path
-    ValueField = 0;
+    ValueField = nullptr;
     return is;
     }
 

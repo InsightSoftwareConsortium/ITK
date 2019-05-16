@@ -148,7 +148,7 @@ const char *Filename::GetExtension()
     return GetName() + dot_pos;
     }
 
-  return 0;
+  return nullptr;
 }
 
 

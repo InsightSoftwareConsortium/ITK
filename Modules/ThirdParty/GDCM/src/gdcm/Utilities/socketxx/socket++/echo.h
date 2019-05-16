@@ -21,21 +21,21 @@ public:
     echobuf (sockinetbuf& si): protocol::protocolbuf (si) {}
     echobuf (protocol::p_name pname) : protocol::protocolbuf (pname) {}
 
-    virtual void        serve_clients (int portno = -1);
-    virtual const char* rfc_name () const { return "echo"; }
-    virtual const char* rfc_doc  () const { return "rfc862"; }
+    void        serve_clients (int portno = -1) override;
+    const char* rfc_name () const override { return "echo"; }
+    const char* rfc_doc  () const override { return "rfc862"; }
   };
 
 protected:
-  echo (): std::ios(0) {}
+  echo (): std::ios(nullptr) {}
 
 public:
   echo (protocol::p_name pname)
-    : std::ios (0)
+    : std::ios (nullptr)
       {
 	      std::ios::init (new echobuf (pname));
       }
-  ~echo () { delete std::ios::rdbuf (); std::ios::init (0); }
+  ~echo () override { delete std::ios::rdbuf (); std::ios::init (nullptr); }
 
   echobuf* rdbuf () { return (echobuf*) protocol::rdbuf (); }
   echobuf* operator -> () { return rdbuf (); }

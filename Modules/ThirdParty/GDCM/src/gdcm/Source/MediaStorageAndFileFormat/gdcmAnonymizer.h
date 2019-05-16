@@ -77,8 +77,8 @@ class CryptographicMessageSyntax;
 class GDCM_EXPORT Anonymizer : public Subject
 {
 public:
-  Anonymizer():F(new File),CMS(NULL) {}
-  ~Anonymizer();
+  Anonymizer():F(new File),CMS(nullptr) {}
+  ~Anonymizer() override;
 
   /// Make Tag t empty (if not found tag will be created)
   /// Warning: does not handle SQ element

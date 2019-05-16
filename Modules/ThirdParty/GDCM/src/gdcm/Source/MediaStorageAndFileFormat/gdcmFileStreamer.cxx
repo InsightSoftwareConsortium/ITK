@@ -199,10 +199,10 @@ public:
   CheckTemplateFileName(false),
   InitializeCopy(false),
   CheckPixelDataElement(false),
-  pFile(NULL),
+  pFile(nullptr),
   ReservedDataLength(0),
   ReservedGroupDataElement(0),
-  Self(NULL)
+  Self(nullptr)
     {
     PrivateCreator.SetByteValue("",0);
     }
@@ -414,7 +414,7 @@ public:
       }
     assert( ReservedDataLength == 0);
     fclose(pFile);
-    pFile = NULL;
+    pFile = nullptr;
     // Do some extra work:
     if( CheckPixelDataElement )
       {
@@ -546,7 +546,7 @@ public:
           }
         else
           {
-          return 1;
+          return true;
           }
         }
       else

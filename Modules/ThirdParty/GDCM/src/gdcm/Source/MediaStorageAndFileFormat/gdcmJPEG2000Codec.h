@@ -33,16 +33,16 @@ friend class ImageRegionReader;
   friend class Bitmap;
 public:
   JPEG2000Codec();
-  ~JPEG2000Codec();
+  ~JPEG2000Codec() override;
 
-  bool CanDecode(TransferSyntax const &ts) const;
-  bool CanCode(TransferSyntax const &ts) const;
+  bool CanDecode(TransferSyntax const &ts) const override;
+  bool CanCode(TransferSyntax const &ts) const override;
 
-  bool Decode(DataElement const &is, DataElement &os);
-  bool Code(DataElement const &in, DataElement &out);
+  bool Decode(DataElement const &is, DataElement &os) override;
+  bool Code(DataElement const &in, DataElement &out) override;
 
-  virtual bool GetHeaderInfo(std::istream &is, TransferSyntax &ts);
-  virtual ImageCodec * Clone() const;
+  bool GetHeaderInfo(std::istream &is, TransferSyntax &ts) override;
+  ImageCodec * Clone() const override;
 
   // JPEG-2000 / OpenJPEG specific way of encoding lossy-ness
   // ref: http://www.openjpeg.org/index.php?menu=doc#encoder
@@ -56,6 +56,10 @@ public:
 
   void SetNumberOfResolutions(unsigned int nres);
 
+  /// Set Number of threads
+  /// @param nThreads : number of threads for decompression codec, if 0 or 1 decompression is done in current thread, if negative value is set determine how many virtual threads are available
+  void SetNumberOfThreadsForDecompression(int nThreads);
+
   void SetReversible(bool res);
 
 protected:
@@ -67,14 +71,14 @@ protected:
     std::istream & is
   );
 
-  bool DecodeByStreams(std::istream &is, std::ostream &os);
+  bool DecodeByStreams(std::istream &is, std::ostream &os) override;
 
-  bool StartEncode( std::ostream & );
-  bool IsRowEncoder();
-  bool IsFrameEncoder();
-  bool AppendRowEncode( std::ostream & out, const char * data, size_t datalen );
-  bool AppendFrameEncode( std::ostream & out, const char * data, size_t datalen );
-  bool StopEncode( std::ostream & );
+  bool StartEncode( std::ostream & ) override;
+  bool IsRowEncoder() override;
+  bool IsFrameEncoder() override;
+  bool AppendRowEncode( std::ostream & out, const char * data, size_t datalen ) override;
+  bool AppendFrameEncode( std::ostream & out, const char * data, size_t datalen ) override;
+  bool StopEncode( std::ostream & ) override;
 
 private:
   std::pair<char *, size_t> DecodeByStreamsCommon(char *dummy_buffer, size_t buf_size);

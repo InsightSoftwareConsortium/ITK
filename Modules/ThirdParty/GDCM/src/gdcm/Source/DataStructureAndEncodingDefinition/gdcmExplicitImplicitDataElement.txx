@@ -72,7 +72,7 @@ std::istream &ExplicitImplicitDataElement::ReadPreValue(std::istream &is)
         "Item Delimitation Item has a length different from 0 and is: " << ValueLengthField );
       }
     // Set pointer to NULL to avoid user error
-    ValueField = 0;
+    ValueField = nullptr;
     VRField = VR::INVALID;
     return is;
     }
@@ -157,7 +157,7 @@ std::istream &ExplicitImplicitDataElement::ReadPreValue(std::istream &is)
   if( ValueLengthField == 0 )
     {
     // Simple fast path
-    ValueField = 0;
+    ValueField = nullptr;
     return is;
     }
   else if( ValueLengthField.IsUndefined() )
@@ -344,7 +344,7 @@ std::istream &ExplicitImplicitDataElement::ReadValue(std::istream &is, bool read
   if( ValueLengthField == 0 )
     {
     // Simple fast path
-    ValueField = 0;
+    ValueField = nullptr;
     return is;
     }
 

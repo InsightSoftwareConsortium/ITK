@@ -189,6 +189,9 @@ set(Common_SRCS ${Common_SRCS}
 endif()
 
 add_library(gdcmCommon ${Common_SRCS})
+target_compile_features(gdcmCommon PUBLIC cxx_nullptr)
+# Prefer -std=c++11 over -std=gnu++11
+set_target_properties(gdcmCommon PROPERTIES CXX_EXTENSIONS OFF)
 
 #target_link_libraries(gdcmCommon ${GDCM_ZLIB_LIBRARIES}) # ${GDCM_POLARSSL_LIBRARIES})
 if(GDCM_BUILD_TESTING)

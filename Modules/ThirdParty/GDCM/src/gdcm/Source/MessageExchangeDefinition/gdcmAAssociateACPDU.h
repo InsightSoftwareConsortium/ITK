@@ -38,8 +38,8 @@ class AAssociateACPDU : public BasePDU
 {
 public:
   AAssociateACPDU();
-  std::istream &Read(std::istream &is);
-  const std::ostream &Write(std::ostream &os) const;
+  std::istream &Read(std::istream &is) override;
+  const std::ostream &Write(std::ostream &os) const override;
 
   void AddPresentationContextAC( PresentationContextAC const &pcac );
 
@@ -53,10 +53,10 @@ public:
   }
   const UserInformation &GetUserInformation() const { return UserInfo; }
 
-  SizeType Size() const;
+  SizeType Size() const override;
 
-  void Print(std::ostream &os) const;
-  bool IsLastFragment() const { return true; }
+  void Print(std::ostream &os) const override;
+  bool IsLastFragment() const override { return true; }
 
   void InitFromRQ( AAssociateRQPDU const & rqpdu );
 protected:

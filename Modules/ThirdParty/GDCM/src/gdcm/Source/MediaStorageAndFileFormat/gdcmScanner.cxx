@@ -28,8 +28,7 @@ namespace gdcm
 
 
 Scanner::~Scanner()
-{
-}
+= default;
 
 void Scanner::ClearTags()
 {
@@ -257,12 +256,12 @@ const char* Scanner::GetValue(const char *filename, Tag const &t) const
     {
     return ftv.find(t)->second;
     }
-  return NULL;
+  return nullptr;
 }
 
 const char *Scanner::GetFilenameFromTagToValue(Tag const &t, const char *valueref) const
 {
-  const char *filenameref = 0;
+  const char *filenameref = nullptr;
   if( valueref )
     {
     Directory::FilenamesType::const_iterator file = Filenames.begin();

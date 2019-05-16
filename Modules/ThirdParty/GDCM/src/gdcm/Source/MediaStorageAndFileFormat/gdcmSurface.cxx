@@ -25,7 +25,7 @@ static const char * STATESStrings[] = {
   "YES",
   "UNKNOWN",
 
-  0
+  nullptr
 };
 
 const char * Surface::GetSTATESString(STATES state)
@@ -44,7 +44,7 @@ Surface::STATES Surface::GetSTATES(const char * state)
   std::string stateClearStr = str.Trim();
   const char * stateClear = stateClearStr.c_str();
 
-  for(unsigned int i = 0; STATESStrings[i] != 0; ++i)
+  for(unsigned int i = 0; STATESStrings[i] != nullptr; ++i)
   {
     if( strcmp(stateClear, STATESStrings[i]) == 0 )
     {
@@ -56,7 +56,7 @@ Surface::STATES Surface::GetSTATES(const char * state)
   // string
   CodeString  codestring  = stateClear;
   std::string cs          = codestring.GetAsString();
-  for(unsigned int i = 0; STATESStrings[i] != 0; ++i)
+  for(unsigned int i = 0; STATESStrings[i] != nullptr; ++i)
   {
     if( strcmp(cs.c_str(), STATESStrings[i]) == 0 )
     {
@@ -72,7 +72,7 @@ static const char * VIEWStrings[] = {
   "WIREFRAME",
   "POINTS",
 
-  0
+  nullptr
 };
 
 const char * Surface::GetVIEWTypeString(VIEWType type)
@@ -91,7 +91,7 @@ Surface::VIEWType Surface::GetVIEWType(const char * type)
   std::string typeClearStr = str.Trim();
   const char * typeClear = typeClearStr.c_str();
 
-  for(unsigned int i = 0; VIEWStrings[i] != 0; ++i)
+  for(unsigned int i = 0; VIEWStrings[i] != nullptr; ++i)
   {
     if( strcmp(typeClear, VIEWStrings[i]) == 0 )
     {
@@ -103,7 +103,7 @@ Surface::VIEWType Surface::GetVIEWType(const char * type)
   // string
   CodeString  codestring  = typeClear;
   std::string cs          = codestring.GetAsString();
-  for(unsigned int i = 0; VIEWStrings[i] != 0; ++i)
+  for(unsigned int i = 0; VIEWStrings[i] != nullptr; ++i)
   {
     if( strcmp(cs.c_str(), VIEWStrings[i]) == 0 )
     {
@@ -131,15 +131,15 @@ Surface::Surface():
   AlgorithmName(""),
   NumberOfSurfacePoints(0),
   PointCoordinatesData(),
-  PointPositionAccuracy(0),
+  PointPositionAccuracy(nullptr),
   MeanPointDistance(0),
   MaximumPointDistance(0),
-  PointsBoundingBoxCoordinates(0),
-  AxisOfRotation(0),
-  CenterOfRotation(0),
+  PointsBoundingBoxCoordinates(nullptr),
+  AxisOfRotation(nullptr),
+  CenterOfRotation(nullptr),
   NumberOfVectors(0),
   VectorDimensionality(0),
-  VectorAccuracy(0),
+  VectorAccuracy(nullptr),
   VectorCoordinateData(),
   Primitive(new MeshPrimitive)
 {
@@ -150,12 +150,12 @@ Surface::Surface():
 
 Surface::~Surface()
 {
-  if (PointPositionAccuracy != 0)         delete PointPositionAccuracy;
-  if (PointsBoundingBoxCoordinates != 0)  delete PointsBoundingBoxCoordinates;
-  if (AxisOfRotation != 0)                delete AxisOfRotation;
-  if (CenterOfRotation != 0)              delete CenterOfRotation;
+  if (PointPositionAccuracy != nullptr)         delete PointPositionAccuracy;
+  if (PointsBoundingBoxCoordinates != nullptr)  delete PointsBoundingBoxCoordinates;
+  if (AxisOfRotation != nullptr)                delete AxisOfRotation;
+  if (CenterOfRotation != nullptr)              delete CenterOfRotation;
 
-  if (VectorAccuracy != 0)                delete VectorAccuracy;
+  if (VectorAccuracy != nullptr)                delete VectorAccuracy;
 }
 
 unsigned short Surface::GetRecommendedDisplayGrayscaleValue() const
@@ -389,7 +389,7 @@ void Surface::SetPointPositionAccuracy(const float * accuracies)
 {
   assert(accuracies);
 
-  if (PointPositionAccuracy == 0) PointPositionAccuracy = new float[3];
+  if (PointPositionAccuracy == nullptr) PointPositionAccuracy = new float[3];
 
   PointPositionAccuracy[0] = accuracies[0];
   PointPositionAccuracy[1] = accuracies[1];
@@ -425,7 +425,7 @@ void Surface::SetPointsBoundingBoxCoordinates(const float * coordinates)
 {
   assert(coordinates);
 
-  if (PointsBoundingBoxCoordinates == 0) PointsBoundingBoxCoordinates = new float[6];
+  if (PointsBoundingBoxCoordinates == nullptr) PointsBoundingBoxCoordinates = new float[6];
 
   PointsBoundingBoxCoordinates[0] = coordinates[0];
   PointsBoundingBoxCoordinates[1] = coordinates[1];
@@ -444,7 +444,7 @@ void Surface::SetAxisOfRotation(const float * axis)
 {
   assert(axis);
 
-  if (AxisOfRotation == 0) AxisOfRotation = new float[3];
+  if (AxisOfRotation == nullptr) AxisOfRotation = new float[3];
 
   AxisOfRotation[0] = axis[0];
   AxisOfRotation[1] = axis[1];
@@ -460,7 +460,7 @@ void Surface::SetCenterOfRotation(const float * center)
 {
   assert(center);
 
-  if (CenterOfRotation == 0) CenterOfRotation = new float[3];
+  if (CenterOfRotation == nullptr) CenterOfRotation = new float[3];
 
   CenterOfRotation[0] = center[0];
   CenterOfRotation[1] = center[1];
@@ -496,7 +496,7 @@ void Surface::SetVectorAccuracy(const float * accuracy)
 {
   assert(accuracy);
 
-  if (VectorAccuracy == 0) VectorAccuracy = new float[ VectorDimensionality ];
+  if (VectorAccuracy == nullptr) VectorAccuracy = new float[ VectorDimensionality ];
 
   for (unsigned int i = 0; i < VectorDimensionality; ++i)
     VectorAccuracy[i] = accuracy[i];

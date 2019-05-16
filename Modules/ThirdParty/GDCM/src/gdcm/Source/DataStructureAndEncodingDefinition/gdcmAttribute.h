@@ -79,7 +79,7 @@ public:
  * Attribute<0x0018,0x1182, VR::UL, VM::VM2> fd3 = {0,1}; // UL is not valid VR
  */
 template<uint16_t Group, uint16_t Element,
-   int TVR = TagToType<Group, Element>::VRType, // can the user override this value ?
+   long long TVR = TagToType<Group, Element>::VRType, // can the user override this value ?
    int TVM = TagToType<Group, Element>::VMType // can the user override this value ?
    /*typename SQAttribute = void_*/ > // if only I had variadic template...
 class Attribute
@@ -314,7 +314,7 @@ protected:
 
 };
 
-template<uint16_t Group, uint16_t Element, int TVR >
+template<uint16_t Group, uint16_t Element, long long TVR >
 class Attribute<Group,Element,TVR,VM::VM1>
 {
 public:
@@ -551,7 +551,7 @@ protected:
 
 // No need to repeat default template arg, since primary template
 // will be used to generate the default arguments
-template<uint16_t Group, uint16_t Element, int TVR >
+template<uint16_t Group, uint16_t Element, long long TVR >
 class Attribute<Group,Element,TVR,VM::VM1_n>
 {
 public:
@@ -571,19 +571,19 @@ public:
   static VM  GetDictVM() { return GetVM(); }
 
   // This the way to prevent default initialization
-  explicit Attribute() { Internal=0; Length=0; Own = true; }
+  explicit Attribute() { Internal=nullptr; Length=0; Own = true; }
   ~Attribute() {
     if( Own ) {
       delete[] Internal;
     }
-    Internal = 0; // paranoid
+    Internal = nullptr; // paranoid
   }
 
   unsigned int GetNumberOfValues() const { return Length; }
 
   void SetNumberOfValues(unsigned int numel)
     {
-    SetValues(NULL, numel, true);
+    SetValues(nullptr, numel, true);
     }
 
   const ArrayType* GetValues() const {
@@ -624,7 +624,7 @@ public:
       {
       // yes !
       if( Own ) delete[] Internal;
-      Internal = 0;
+      Internal = nullptr;
       }
     Own = own;
     Length = numel;
@@ -719,42 +719,42 @@ private:
   bool Own : 1;
 };
 
-template<uint16_t Group, uint16_t Element, int TVR>
+template<uint16_t Group, uint16_t Element, long long TVR>
 class Attribute<Group,Element,TVR,VM::VM1_3> : public Attribute<Group,Element,TVR,VM::VM1_n>
 {
 public:
   VM  GetVM() const { return VM::VM1_3; }
 };
 
-template<uint16_t Group, uint16_t Element, int TVR>
+template<uint16_t Group, uint16_t Element, long long TVR>
 class Attribute<Group,Element,TVR,VM::VM1_8> : public Attribute<Group,Element,TVR,VM::VM1_n>
 {
 public:
   VM  GetVM() const { return VM::VM1_8; }
 };
 
-template<uint16_t Group, uint16_t Element, int TVR>
+template<uint16_t Group, uint16_t Element, long long TVR>
 class Attribute<Group,Element,TVR,VM::VM2_n> : public Attribute<Group,Element,TVR,VM::VM1_n>
 {
 public:
   VM  GetVM() const { return VM::VM2_n; }
 };
 
-template<uint16_t Group, uint16_t Element, int TVR>
+template<uint16_t Group, uint16_t Element, long long TVR>
 class Attribute<Group,Element,TVR,VM::VM2_2n> : public Attribute<Group,Element,TVR,VM::VM2_n>
 {
 public:
   static VM  GetVM() { return VM::VM2_2n; }
 };
 
-template<uint16_t Group, uint16_t Element, int TVR>
+template<uint16_t Group, uint16_t Element, long long TVR>
 class Attribute<Group,Element,TVR,VM::VM3_n> : public Attribute<Group,Element,TVR,VM::VM1_n>
 {
 public:
   static VM  GetVM() { return VM::VM3_n; }
 };
 
-template<uint16_t Group, uint16_t Element, int TVR>
+template<uint16_t Group, uint16_t Element, long long TVR>
 class Attribute<Group,Element,TVR,VM::VM3_3n> : public Attribute<Group,Element,TVR,VM::VM3_n>
 {
 public:

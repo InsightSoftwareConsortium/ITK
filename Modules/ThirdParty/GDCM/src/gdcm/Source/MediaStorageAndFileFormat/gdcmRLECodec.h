@@ -38,16 +38,16 @@ class GDCM_EXPORT RLECodec : public ImageCodec
 friend class ImageRegionReader;
 public:
   RLECodec();
-  ~RLECodec();
-  bool CanCode(TransferSyntax const &ts) const;
-  bool CanDecode(TransferSyntax const &ts) const;
-  bool Decode(DataElement const &is, DataElement &os);
+  ~RLECodec() override;
+  bool CanCode(TransferSyntax const &ts) const override;
+  bool CanDecode(TransferSyntax const &ts) const override;
+  bool Decode(DataElement const &is, DataElement &os) override;
   unsigned long GetBufferLength() const { return BufferLength; }
   void SetBufferLength(unsigned long l) { BufferLength = l; }
 
-  bool Code(DataElement const &in, DataElement &out);
-  bool GetHeaderInfo(std::istream &is, TransferSyntax &ts);
-  virtual ImageCodec * Clone() const;
+  bool Code(DataElement const &in, DataElement &out) override;
+  bool GetHeaderInfo(std::istream &is, TransferSyntax &ts) override;
+  ImageCodec * Clone() const override;
 
 protected:
   bool DecodeExtent(
@@ -58,7 +58,7 @@ protected:
     std::istream & is
   );
 
-  bool DecodeByStreams(std::istream &is, std::ostream &os);
+  bool DecodeByStreams(std::istream &is, std::ostream &os) override;
 public:
 
   void SetLength(unsigned long l)
@@ -67,12 +67,12 @@ public:
     }
 
 protected:
-  bool StartEncode( std::ostream & );
-  bool IsRowEncoder();
-  bool IsFrameEncoder();
-  bool AppendRowEncode( std::ostream & out, const char * data, size_t datalen );
-  bool AppendFrameEncode( std::ostream & out, const char * data, size_t datalen );
-  bool StopEncode( std::ostream & );
+  bool StartEncode( std::ostream & ) override;
+  bool IsRowEncoder() override;
+  bool IsFrameEncoder() override;
+  bool AppendRowEncode( std::ostream & out, const char * data, size_t datalen ) override;
+  bool AppendFrameEncode( std::ostream & out, const char * data, size_t datalen ) override;
+  bool StopEncode( std::ostream & ) override;
 
 private:
   bool DecodeByStreamsCommon(std::istream &is, std::ostream &os);

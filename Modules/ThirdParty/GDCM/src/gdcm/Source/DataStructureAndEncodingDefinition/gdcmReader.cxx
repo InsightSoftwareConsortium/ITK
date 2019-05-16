@@ -37,8 +37,8 @@ namespace gdcm_ns
 
 Reader::Reader():F(new File)
 {
-  Stream = NULL;
-  Ifstream = NULL;
+  Stream = nullptr;
+  Ifstream = nullptr;
 }
 
 Reader::~Reader()
@@ -47,8 +47,8 @@ Reader::~Reader()
     {
     Ifstream->close();
     delete Ifstream;
-    Ifstream = NULL;
-    Stream = NULL;
+    Ifstream = nullptr;
+    Stream = nullptr;
     }
 }
 
@@ -836,8 +836,8 @@ void Reader::SetFileName(const char *filename)
   else
     {
     delete Ifstream;
-    Ifstream = NULL;
-    Stream = NULL;
+    Ifstream = nullptr;
+    Stream = nullptr;
     }
 }
 

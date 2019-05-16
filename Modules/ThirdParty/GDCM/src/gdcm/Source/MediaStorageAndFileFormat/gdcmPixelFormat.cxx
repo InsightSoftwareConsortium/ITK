@@ -35,7 +35,7 @@ static const char *ScalarTypeStrings[] = {
   "FLOAT64",
   "SINGLEBIT",
   "UNKNOWN",
-  NULL,
+  nullptr,
 };
 
 PixelFormat::PixelFormat(ScalarType st)

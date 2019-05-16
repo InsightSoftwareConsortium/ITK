@@ -25,8 +25,8 @@ public:
   private:
     p_name pn;
 
-    void bind (sockAddr& sa) { sockbuf::bind (sa); }
-    void connect (sockAddr& sa) { sockbuf::connect (sa); }
+    void bind (sockAddr& sa) override { sockbuf::bind (sa); }
+    void connect (sockAddr& sa) override { sockbuf::connect (sa); }
 
   public:
     protocolbuf (sockinetbuf& si): sockinetbuf (si), pn (protocol::nil) {}
@@ -47,7 +47,7 @@ public:
     virtual const char* rfc_doc  () const = 0;
   };
 
-  protocol (): std::ios (0), iosockstream(NULL) {}  // NULL seems like a very bad idea
+  protocol (): std::ios (nullptr), iosockstream(nullptr) {}  // NULL seems like a very bad idea
 };
 
 #endif // PROTOCOL_H

@@ -55,7 +55,7 @@ public:
 
     MeshPrimitive();
 
-    virtual ~MeshPrimitive();
+    ~MeshPrimitive() override;
 
     MPType GetPrimitiveType() const;
     void SetPrimitiveType(const MPType type);

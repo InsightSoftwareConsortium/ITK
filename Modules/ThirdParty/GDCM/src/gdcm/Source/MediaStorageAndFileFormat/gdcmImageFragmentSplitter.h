@@ -28,7 +28,7 @@ class GDCM_EXPORT ImageFragmentSplitter : public ImageToImageFilter
 {
 public:
   ImageFragmentSplitter():FragmentSizeMax(0),Force(false) {}
-  ~ImageFragmentSplitter() {}
+  ~ImageFragmentSplitter() = default;
 
   /// Split
   bool Split();

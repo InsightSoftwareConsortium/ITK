@@ -29,7 +29,7 @@ static std::ostream * WarningStream = &std::cerr;
 static std::ostream * ErrorStream   = &std::cerr;
 // File based API:
 static bool UseStreamToFile       = false;
-static std::ofstream * FileStream = NULL;
+static std::ofstream * FileStream = nullptr;
 
 void Trace::SetStreamToFile( const char *filename )
 {
@@ -38,7 +38,7 @@ void Trace::SetStreamToFile( const char *filename )
     {
     assert( FileStream );
     FileStream->close();
-    FileStream = NULL;
+    FileStream = nullptr;
     UseStreamToFile = false;
     }
   std::ofstream * out = new std::ofstream;
@@ -60,7 +60,7 @@ void Trace::SetStream(std::ostream &os)
     {
     assert( FileStream );
     FileStream->close();
-    FileStream = NULL;
+    FileStream = nullptr;
     UseStreamToFile = false;
     }
   DebugStream   = &os;
@@ -116,7 +116,7 @@ Trace::~Trace()
     {
     assert( FileStream );
     FileStream->close();
-    FileStream = NULL;
+    FileStream = nullptr;
     }
 }
 

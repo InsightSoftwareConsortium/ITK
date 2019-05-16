@@ -44,8 +44,7 @@ namespace network
 {
 
 ULConnectionInfo::ULConnectionInfo()
-{
-}
+= default;
 
       //it is possible to misinitialize this object, so
       //have it return false if something breaks (ie, given AEs are bigger than 16 characters,

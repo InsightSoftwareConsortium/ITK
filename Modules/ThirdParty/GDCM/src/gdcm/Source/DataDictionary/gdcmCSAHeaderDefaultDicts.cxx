@@ -336,14 +336,14 @@ docstrings, so ping me if you need clarification.
 */
   {"sSliceArray.ucMode","1",VR::US,VM::VM1,"slice ordering 0x1,0x2,0x4 resp. asc,desc,inter"},
 
-  {0,0,VR::INVALID,VM::VM0,0 } // Gard
+  {nullptr,nullptr,VR::INVALID,VM::VM0,nullptr } // Gard
 };
 
 void CSAHeaderDict::LoadDefault()
 {
    unsigned int i = 0;
    CSA_DICT_ENTRY n = CSAHeaderDataDict[i];
-   while( n.name != 0 )
+   while( n.name != nullptr )
    {
      CSAHeaderDictEntry e( n.name, n.vr, n.vm, n.description );
      AddCSAHeaderDictEntry( e );

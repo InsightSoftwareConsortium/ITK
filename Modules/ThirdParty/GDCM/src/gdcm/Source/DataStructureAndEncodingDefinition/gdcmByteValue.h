@@ -35,7 +35,7 @@ using namespace gdcm;
 class GDCM_EXPORT ByteValue : public Value
 {
 public:
-  ByteValue(const char* array = 0, VL const &vl = 0):
+  ByteValue(const char* array = nullptr, VL const &vl = 0):
     Internal(array, array+vl),Length(vl) {
       if( vl.IsOdd() )
         {
@@ -51,7 +51,7 @@ public:
   //  (void)os;
   //   assert(0); // TODO
   //}
-  ~ByteValue() {
+  ~ByteValue() override {
     Internal.clear();
   }
 
@@ -75,11 +75,11 @@ public:
   return Length == 0;
 #endif
   }
-  VL GetLength() const { return Length; }
+  VL GetLength() const override { return Length; }
 
   VL ComputeLength() const { return Length + Length % 2; }
   // Does a reallocation
-  void SetLength(VL vl);
+  void SetLength(VL vl) override;
 
   operator const std::vector<char>& () const { return Internal; }
 
@@ -96,7 +96,7 @@ public:
       return true;
     return false;
     }
-  bool operator==(const Value &val) const
+  bool operator==(const Value &val) const override
     {
     const ByteValue &bv = dynamic_cast<const ByteValue&>(val);
     return Length == bv.Length && Internal == bv.Internal;
@@ -104,13 +104,13 @@ public:
 
   void Append(ByteValue const & bv);
 
-  void Clear() {
+  void Clear() override {
     Internal.clear();
   }
   // Use that only if you understand what you are doing
   const char *GetPointer() const {
     if(!Internal.empty()) return &Internal[0];
-    return 0;
+    return nullptr;
   }
   void Fill(char c) {
     //if( Internal.empty() ) return;
@@ -197,7 +197,7 @@ public:
   void PrintASCIIXML(std::ostream &os) const;
   void PrintHexXML(std::ostream &os) const;
 protected:
-  void Print(std::ostream &os) const {
+  void Print(std::ostream &os) const override {
   // This is perfectly valid to have a Length = 0 , so we cannot check
   // the length for printing
   if( !Internal.empty() )
@@ -224,7 +224,7 @@ protected:
 friend std::ostream& operator<<(std::ostream &os,const char c);
 */
 
-  void SetLengthOnly(VL vl) {
+  void SetLengthOnly(VL vl) override {
     Length = vl;
   }
 

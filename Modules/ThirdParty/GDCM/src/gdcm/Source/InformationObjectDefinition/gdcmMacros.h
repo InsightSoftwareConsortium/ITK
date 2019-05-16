@@ -31,7 +31,7 @@ class GDCM_EXPORT Macros
 public:
   typedef std::map<std::string, Macro> ModuleMapType;
 
-  Macros() {}
+  Macros() = default;
   friend std::ostream& operator<<(std::ostream& _os, const Macros&_val);
 
   void Clear() { ModulesInternal.clear(); }

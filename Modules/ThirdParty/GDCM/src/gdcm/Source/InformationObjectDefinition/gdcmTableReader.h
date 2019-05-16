@@ -42,7 +42,7 @@ public:
   ParsingIOD(false),
   ParsingIODEntry(false),
   Description() {}
-  virtual ~TableReader() {}
+  virtual ~TableReader() = default;
 
   // Set/Get filename
   void SetFilename(const char *filename) { Filename = filename; }

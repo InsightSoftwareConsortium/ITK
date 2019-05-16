@@ -76,7 +76,7 @@ std::istream &ImplicitDataElement::ReadValue(std::istream &is, bool readvalues)
       {
       gdcmWarningMacro( "VL should be set to 0" );
       }
-    ValueField = 0;
+    ValueField = nullptr;
     return is;
     }
   //std::cerr << "imp cur tag=" << TagField <<  " VL=" << ValueLengthField << std::endl;
@@ -88,7 +88,7 @@ std::istream &ImplicitDataElement::ReadValue(std::istream &is, bool readvalues)
   if( ValueLengthField == 0 )
     {
     // Simple fast path
-    ValueField = 0;
+    ValueField = nullptr;
     return is;
     }
   else if( ValueLengthField.IsUndefined() )
@@ -313,7 +313,7 @@ std::istream &ImplicitDataElement::ReadValueWithLength(std::istream& is, VL & le
       {
       gdcmWarningMacro( "VL should be set to 0" );
       }
-    ValueField = 0;
+    ValueField = nullptr;
     return is;
     }
   //std::cerr << "imp cur tag=" << TagField <<  " VL=" << ValueLengthField << std::endl;
@@ -325,7 +325,7 @@ std::istream &ImplicitDataElement::ReadValueWithLength(std::istream& is, VL & le
   if( ValueLengthField == 0 )
     {
     // Simple fast path
-    ValueField = 0;
+    ValueField = nullptr;
     return is;
     }
   else if( ValueLengthField.IsUndefined() )

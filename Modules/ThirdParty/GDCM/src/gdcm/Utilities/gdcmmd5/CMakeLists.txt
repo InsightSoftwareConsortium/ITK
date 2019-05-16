@@ -1,4 +1,6 @@
-cmake_minimum_required(VERSION 3.9.5)
+if(NOT DEFINED CMAKE_MINIMUM_REQUIRED_VERSION)
+  cmake_minimum_required(VERSION 2.8.7)
+endif()
 
 if(NOT MD5_NAMESPACE)
   set(MD5_NAMESPACE "MD5")

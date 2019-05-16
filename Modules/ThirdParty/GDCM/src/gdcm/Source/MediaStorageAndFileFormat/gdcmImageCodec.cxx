@@ -47,8 +47,7 @@ ImageCodec::ImageCodec()
 }
 
 ImageCodec::~ImageCodec()
-{
-}
+= default;
 
 bool ImageCodec::GetHeaderInfo(std::istream &, TransferSyntax &)
 {

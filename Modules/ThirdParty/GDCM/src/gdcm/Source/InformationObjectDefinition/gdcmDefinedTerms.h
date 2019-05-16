@@ -27,8 +27,7 @@ Note: Interpretation Type ID (4008,0210) is an example of a Data Element having 
 class GDCM_EXPORT DefinedTerms
 {
 public:
-  DefinedTerms() {
-  }
+  DefinedTerms() = default;
 private:
 };
 

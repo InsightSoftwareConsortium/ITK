@@ -28,12 +28,12 @@ class GDCM_EXPORT FindPatientRootQuery : public BaseRootQuery
 public:
   FindPatientRootQuery();
 
-  void InitializeDataSet(const EQueryLevel& inQueryLevel);
+  void InitializeDataSet(const EQueryLevel& inQueryLevel) override;
 
-  std::vector<Tag> GetTagListByLevel(const EQueryLevel& inQueryLevel);
-  bool ValidateQuery(bool inStrict = true) const;
+  std::vector<Tag> GetTagListByLevel(const EQueryLevel& inQueryLevel) override;
+  bool ValidateQuery(bool inStrict = true) const override;
 
-  UIDs::TSName GetAbstractSyntaxUID() const;
+  UIDs::TSName GetAbstractSyntaxUID() const override;
 };
 
 } // end namespace gdcm

@@ -32,7 +32,7 @@ public:
   typedef std::string IODName;
   typedef std::map<IODName, IOD> IODMapType;
 
-  IODs() {}
+  IODs() = default;
   friend std::ostream& operator<<(std::ostream& _os, const IODs &_val);
 
   void Clear() { IODsInternal.clear(); }
