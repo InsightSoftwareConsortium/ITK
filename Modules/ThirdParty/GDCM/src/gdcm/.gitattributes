@@ -2,3 +2,4 @@
 
 /Source/DataDictionary/gdcmDefaultDicts.cxx hooks.MaxObjectKiB=2048
 /Source/InformationObjectDefinition/Part3.xml hooks.MaxObjectKiB=4096
+/Source/DataDictionary/gdcmTagToType.h hooks.MaxObjectKiB=2048
