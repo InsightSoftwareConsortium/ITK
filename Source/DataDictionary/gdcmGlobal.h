@@ -52,6 +52,8 @@ class GDCM_EXPORT Global // why expose the symbol I think I only need to expose 
 public:
   Global();
   ~Global();
+  Global &operator=(const Global &_val) = delete;
+  Global(const Global &_val) = delete;
 
   /// retrieve the default/internal dicts (Part 6)
   /// This dict is filled up at load time
@@ -83,8 +85,6 @@ protected:
   const char *Locate(const char *resfile) const;
 
 private:
-  Global &operator=(const Global &_val); // purposely not implemented
-  Global(const Global &_val); // purposely not implemented
   // PIMPL:
   // but we could have also directly exposed a Dicts *Internals;
   static GlobalInternal *Internals;

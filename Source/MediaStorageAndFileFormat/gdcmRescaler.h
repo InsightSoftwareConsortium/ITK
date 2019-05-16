@@ -69,7 +69,7 @@ class GDCM_EXPORT Rescaler
 {
 public:
   Rescaler():Intercept(0),Slope(1),PF(PixelFormat::UNKNOWN),TargetScalarType(PixelFormat::UNKNOWN), ScalarRangeMin(0), ScalarRangeMax(0), UseTargetPixelType(false) {}
-  ~Rescaler() {}
+  ~Rescaler() = default;
 
   /// Direct transform
   bool Rescale(char *out, const char *in, size_t n);

@@ -46,8 +46,7 @@ StreamImageReader::StreamImageReader()
 }
 
 StreamImageReader::~StreamImageReader()
-{
-}
+= default;
 
 /// One of either SetFileName or SetStream must be called prior
 /// to any other functions.

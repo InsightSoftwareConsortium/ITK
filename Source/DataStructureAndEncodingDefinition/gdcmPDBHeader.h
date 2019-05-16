@@ -52,8 +52,8 @@ class GDCM_EXPORT PDBHeader
 {
   friend std::ostream& operator<<(std::ostream &_os, const PDBHeader &d);
 public :
-  PDBHeader() {}
-  ~PDBHeader() {}
+  PDBHeader() = default;
+  ~PDBHeader() = default;
 
   /// Load the PDB Header from a DataElement of a DataSet
   bool LoadFromDataElement(DataElement const &de);

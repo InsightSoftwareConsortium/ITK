@@ -31,7 +31,7 @@ class GDCM_EXPORT Modules
 public:
   typedef std::map<std::string, Module> ModuleMapType;
 
-  Modules() {}
+  Modules() = default;
   friend std::ostream& operator<<(std::ostream& _os, const Modules &_val);
 
   void Clear() { ModulesInternal.clear(); }

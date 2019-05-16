@@ -38,7 +38,7 @@ namespace gdcm_ns
  *
  * \note TODO
  */
-template<int T> class EncodingImplementation;
+template<long long T> class EncodingImplementation;
 
 
 /**
@@ -48,7 +48,7 @@ template<int T> class EncodingImplementation;
  * Invalid combinations have specialized declarations with no
  * definition.
  */
-template <int TVR, int TVM>
+template <long long TVR, int TVM>
 class ElementDisableCombinations {};
 template <>
 class  ElementDisableCombinations<VR::OB, VM::VM1_n> {};
@@ -65,7 +65,7 @@ class ElementDisableCombinations<VR::OW, TVM>;
  *
  * \note TODO
  */
-template<int TVR, int TVM>
+template<long long TVR, int TVM>
 class Element
 {
   enum { ElementDisableCombinationsCheck = sizeof ( ElementDisableCombinations<TVR, TVM> ) };
@@ -263,7 +263,7 @@ public:
     }
 };
 
-#define VRDS16ILLEGAL
+//#define VRDS16ILLEGAL
 
 #ifdef VRDS16ILLEGAL
 template < typename Float >
@@ -282,66 +282,139 @@ std::string to_string ( Float data ) {
 }
 #else
 // http://stackoverflow.com/questions/32631178/writing-ieee-754-1985-double-as-ascii-on-a-limited-16-bytes-string
-static size_t shrink(char *fp_buffer) {
-  int lead, expo;
-  long long mant;
-  int n0, n1;
-  int n = sscanf(fp_buffer, "%d.%n%lld%ne%d", &lead, &n0, &mant, &n1, &expo);
-  assert(n == 3);
-  return sprintf(fp_buffer, "%d%0*llde%d", lead, n1 - n0, mant,
-          expo - (n1 - n0));
+
+static inline void clean(char *mant) {
+  char *ix = mant + strlen(mant) - 1;
+  while(('0' == *ix) && (ix > mant)) {
+    *ix-- = '\0';
+  }
+  if ('.' == *ix) {
+    *ix = '\0';
+  }
+}
+
+static int add1(char *buf, int n) {
+  if (n < 0) return 1;
+  if (buf[n] == '9') {
+    buf[n] = '0';
+    return add1(buf, n-1);
+  }
+  else {
+    buf[n] = (char)(buf[n] + 1);
+  }
+  return 0;
+}
+
+static int doround(char *buf, unsigned int n) {
+  char c;
+  if (n >= strlen(buf)) return 0;
+  c = buf[n];
+  buf[n] = 0;
+  if ((c >= '5') && (c <= '9')) return add1(buf, n-1);
+  return 0;
+}
+
+static int roundat(char *buf, unsigned int i, int iexp) {
+  if (doround(buf, i) != 0) {
+    iexp += 1;
+    switch(iexp) {
+    case -2:
+      strcpy(buf, ".01");
+      break;
+    case -1:
+      strcpy(buf, ".1");
+      break;
+    case 0:
+      strcpy(buf, "1.");
+      break;
+    case 1:
+      strcpy(buf, "10");
+      break;
+    case 2:
+      strcpy(buf, "100");
+      break;
+    default:
+      sprintf(buf, "1e%d", iexp);
+    }
+    return 1;
+  }
+  return 0;
 }
 
 template < typename Float >
-static int x16printf(char *dest, size_t width, Float value) {
-  if (!std::isfinite(value)) return 1;
+static void x16printf(char *buf, int size, Float f) {
+  char line[40];
+  char *mant = line + 1;
+  int iexp, lexp, i;
+  char exp[6];
 
-  if (width < 5) return 2;
-  if (std::signbit(value)) {
-    value = -value;
-    strcpy(dest++, "-");
-    width--;
+  if (f < 0) {
+    f = -f;
+    size -= 1;
+    *buf++ = '-';
   }
-  int precision = width - 2;
-  while (precision > 0) {
-    char buffer[width + 10];
-    // %.*e prints 1 digit, '.' and then `precision - 1` digits
-    snprintf(buffer, sizeof buffer, "%.*e", precision - 1, value);
-    size_t n = shrink(buffer);
-    if (n <= width) {
-      strcpy(dest, buffer);
-      return 0;
+  sprintf(line, "%1.16e", f);
+  if (line[0] == '-') {
+    f = -f;
+    size -= 1;
+    *buf++ = '-';
+    sprintf(line, "%1.16e", f);
+  }
+  *mant = line[0];
+  i = (int)strcspn(mant, "eE");
+  mant[i] = '\0';
+  iexp = (int)strtol(mant + i + 1, nullptr, 10);
+  lexp = sprintf(exp, "e%d", iexp);
+  if ((iexp >= size) || (iexp < -3)) {
+    i = roundat(mant, size - 1 -lexp, iexp);
+    if(i == 1) {
+      strcpy(buf, mant);
+      return;
     }
-    if (n > width + 1) precision -= n - width - 1;
-    else precision--;
+    buf[0] = mant[0];
+    buf[1] = '.';
+    strncpy(buf + i + 2, mant + 1, size - 2 - lexp);
+    buf[size-lexp] = 0;
+    clean(buf);
+    strcat(buf, exp);
   }
-  return 3;
+  else if (iexp >= size - 2) {
+    roundat(mant, iexp + 1, iexp);
+    strcpy(buf, mant);
+  }
+  else if (iexp >= 0) {
+    i = roundat(mant, size - 1, iexp);
+    if (i == 1) {
+      strcpy(buf, mant);
+      return;
+    }
+    strncpy(buf, mant, iexp + 1);
+    buf[iexp + 1] = '.';
+    strncpy(buf + iexp + 2, mant + iexp + 1, size - iexp - 1);
+    buf[size] = 0;
+    clean(buf);
+  }
+  else {
+    int j;
+    i = roundat(mant, size + 1 + iexp, iexp);
+    if (i == 1) {
+      strcpy(buf, mant);
+      return;
+    }
+    buf[0] = '.';
+    for(j=0; j< -1 - iexp; j++) {
+      buf[j+1] = '0';
+    }
+    if ((i == 1) && (iexp != -1)) {
+      buf[-iexp] = '1';
+      buf++;
+    }
+    strncpy(buf - iexp, mant, size + 1 + iexp);
+    buf[size] = 0;
+    clean(buf);
+  }
 }
 #endif
-
-/* Writing VR::DS is not that easy after all */
-// http://groups.google.com/group/comp.lang.c++/browse_thread/thread/69ccd26f000a0802
-template<> inline void EncodingImplementation<VR::VRASCII>::Write(const float * data, unsigned long length, std::ostream &_os)  {
-    assert( data );
-    assert( length );
-    assert( _os );
-#ifdef VRDS16ILLEGAL
-    _os << to_string(data[0]);
-#else
-    char buf[16+1];
-    x16printf(buf, sizeof buf, data[0]);
-    _os << buf;
-#endif
-    for(unsigned long i=1; i<length; ++i) {
-      assert( _os );
-#ifdef VRDS16ILLEGAL
-      _os << "\\" << to_string(data[i]);
-#else
-      x16printf(buf, sizeof buf, data[i]);
-      _os << "\\" << buf;
-#endif
-      }
-    }
 
 template<> inline void EncodingImplementation<VR::VRASCII>::Write(const double* data, unsigned long length, std::ostream &_os)  {
     assert( data );
@@ -351,7 +424,7 @@ template<> inline void EncodingImplementation<VR::VRASCII>::Write(const double* 
     _os << to_string(data[0]);
 #else
     char buf[16+1];
-    x16printf(buf, sizeof buf, data[0]);
+    x16printf(buf, 16, data[0]);
     _os << buf;
 #endif
     for(unsigned long i=1; i<length; ++i) {
@@ -359,7 +432,7 @@ template<> inline void EncodingImplementation<VR::VRASCII>::Write(const double* 
 #ifdef VRDS16ILLEGAL
       _os << "\\" << to_string(data[i]);
 #else
-      x16printf(buf, sizeof buf, data[i]);
+      x16printf(buf, 16, data[i]);
       _os << "\\" << buf;
 #endif
       }
@@ -496,18 +569,18 @@ class Element<VR::PN, TVM> : public StringElement<TVM>
 #endif
 
 // Implementation for the undefined length (dynamically allocated array)
-template<int TVR>
+template<long long TVR>
 class Element<TVR, VM::VM1_n>
 {
   enum { ElementDisableCombinationsCheck = sizeof ( ElementDisableCombinations<TVR, VM::VM1_n> ) };
 public:
   // This the way to prevent default initialization
-  explicit Element() { Internal=0; Length=0; Save = false; }
+  explicit Element() { Internal=nullptr; Length=0; Save = false; }
   ~Element() {
     if( Save ) {
       delete[] Internal;
     }
-    Internal = 0;
+    Internal = nullptr;
   }
 
   static VR  GetVR()  { return (VR::VRType)TVR; }
@@ -557,7 +630,7 @@ public:
       //assert( (len / sizeof(Type)) * sizeof(Type) == len );
       // MR00010001.dcm is a tough kid: 0019,105a is supposed to be VR::FL, VM::VM3 but
       // length is 14 bytes instead of 12 bytes. Simply consider value is total garbage.
-      if( (len / sizeof(Type)) * sizeof(Type) != len ) { Internal = 0; Length = 0; }
+      if( (len / sizeof(Type)) * sizeof(Type) != len ) { Internal = nullptr; Length = 0; }
       else Internal = const_cast<Type*>(array);
       }
       Save = save;
@@ -713,7 +786,7 @@ private:
 //class Element<VR::OB, TVM > : public Element<VR::OB, VM::VM1_n> {};
 
 // Partial specialization for derivatives of 1-n : 2-n, 3-n ...
-template<int TVR>
+template<long long TVR>
 class Element<TVR, VM::VM1_2> : public Element<TVR, VM::VM1_n>
 {
 public:
@@ -723,7 +796,7 @@ public:
     Parent::SetLength(len);
   }
 };
-template<int TVR>
+template<long long TVR>
 class Element<TVR, VM::VM2_n> : public Element<TVR, VM::VM1_n>
 {
   enum { ElementDisableCombinationsCheck = sizeof ( ElementDisableCombinations<TVR, VM::VM2_n> ) };
@@ -734,7 +807,7 @@ public:
     Parent::SetLength(len);
   }
 };
-template<int TVR>
+template<long long TVR>
 class Element<TVR, VM::VM2_2n> : public Element<TVR, VM::VM2_n>
 {
   enum { ElementDisableCombinationsCheck = sizeof ( ElementDisableCombinations<TVR, VM::VM2_2n> ) };
@@ -745,7 +818,7 @@ public:
     Parent::SetLength(len);
   }
 };
-template<int TVR>
+template<long long TVR>
 class Element<TVR, VM::VM3_n> : public Element<TVR, VM::VM1_n>
 {
   enum { ElementDisableCombinationsCheck = sizeof ( ElementDisableCombinations<TVR, VM::VM3_n> ) };
@@ -756,7 +829,7 @@ public:
     Parent::SetLength(len);
   }
 };
-template<int TVR>
+template<long long TVR>
 class Element<TVR, VM::VM3_3n> : public Element<TVR, VM::VM3_n>
 {
   enum { ElementDisableCombinationsCheck = sizeof ( ElementDisableCombinations<TVR, VM::VM3_3n> ) };

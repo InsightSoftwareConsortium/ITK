@@ -17,16 +17,13 @@ namespace gdcm
 {
 
 Event::Event()
-{
-}
+= default;
 
 Event::Event(const Event&)
-{
-}
+= default;
 
 Event::~Event()
-{
-}
+= default;
 
 void Event::Print(std::ostream& os) const
 {

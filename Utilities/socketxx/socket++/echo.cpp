@@ -42,7 +42,7 @@ void echo::echobuf::serve_clients (int portno)
       sockbuf s = accept ();
       //!!! FIXME this is most definitely broken for windows.
 #ifndef WIN32
-        Fork f (1, 1); // kill my children when I get terminated.
+        Fork f (true, true); // kill my children when I get terminated.
 	if (f.is_child ()) {
 #else //win32 has no forking
       {//if win32, no forking, in the main process

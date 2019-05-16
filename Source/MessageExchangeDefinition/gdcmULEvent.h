@@ -50,13 +50,13 @@ class ULEvent {
       }
 
     public:
-      ULEvent(const EEventID& inEventID, std::vector<BasePDU*> inBasePDU, std::istream * iStream = NULL, std::streampos posDataSet = 0 ){
+      ULEvent(const EEventID& inEventID, std::vector<BasePDU*> inBasePDU, std::istream * iStream = nullptr, std::streampos posDataSet = 0 ){
         mEvent = inEventID;
         mBasePDU = inBasePDU;
  		m_pStream = iStream ;
  		m_posDataSet = posDataSet ; 
       }
-      ULEvent(const EEventID& inEventID, BasePDU* inBasePDU, std::istream * iStream = NULL, std::streampos posDataSet = 0 ){
+      ULEvent(const EEventID& inEventID, BasePDU* inBasePDU, std::istream * iStream = nullptr, std::streampos posDataSet = 0 ){
         mEvent = inEventID;
         mBasePDU.push_back(inBasePDU);
  		m_pStream = iStream ;

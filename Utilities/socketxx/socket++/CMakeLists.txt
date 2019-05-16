@@ -68,6 +68,7 @@ if(UNIX)
 endif()
 
 add_library(${SOCKETXX_LIBRARY_NAME} ${libsocket___la_SOURCES})
+target_compile_features(${SOCKETXX_LIBRARY_NAME} PUBLIC cxx_nullptr)
 if(WIN32)
   target_link_libraries(${SOCKETXX_LIBRARY_NAME} ws2_32.lib)
 endif()

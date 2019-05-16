@@ -37,7 +37,7 @@ namespace network {
   std::vector<PresentationDataValue> CompositeMessageFactory::ConstructCEchoRQ(const ULConnection& inConnection)
     {
     CEchoRQ theEchoRQ;
-    return theEchoRQ.ConstructPDV(inConnection,NULL);
+    return theEchoRQ.ConstructPDV(inConnection,nullptr);
     }
 
   std::vector<PresentationDataValue> CompositeMessageFactory::ConstructCStoreRQ(const ULConnection& inConnection, const File &file, bool writeDataSet /*= true*/ )

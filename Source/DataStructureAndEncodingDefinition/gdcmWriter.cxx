@@ -32,7 +32,7 @@
 namespace gdcm
 {
 
-Writer::Writer():Stream(NULL),Ofstream(NULL),F(new File),CheckFileMetaInformation(true),WriteDataSetOnly(false)
+Writer::Writer():Stream(nullptr),Ofstream(nullptr),F(new File),CheckFileMetaInformation(true),WriteDataSetOnly(false)
 {
 }
 
@@ -41,8 +41,8 @@ Writer::~Writer()
   if (Ofstream)
     {
     delete Ofstream;
-    Ofstream = NULL;
-    Stream = NULL;
+    Ofstream = nullptr;
+    Stream = nullptr;
     }
 }
 
@@ -108,7 +108,7 @@ bool Writer::Write()
 		  return false;
 	  }
 
-    return true;//os;
+    return !os.fail();
     }
 
   try
@@ -159,7 +159,7 @@ bool Writer::Write()
     Ofstream->close();
     }
 
-  return true;
+  return !os.fail();
 }
 
 void Writer::SetFileName(const char *filename)

@@ -24,7 +24,7 @@ namespace gdcm
 class GDCM_EXPORT EncapsulatedDocument
 {
 public:
-  EncapsulatedDocument() {}
+  EncapsulatedDocument() = default;
 
 private:
 };

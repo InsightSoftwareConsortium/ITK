@@ -11,24 +11,41 @@
      PURPOSE.  See the above copyright notice for more information.
 
 =========================================================================*/
-#ifndef GDCMCSAHEADER_TXX
-#define GDCMCSAHEADER_TXX
+#ifndef GDCMEQUIPMENTMANUFACTURER_H
+#define GDCMEQUIPMENTMANUFACTURER_H
 
-#include "gdcmByteValue.h"
+#include "gdcmTypes.h"
 
 namespace gdcm
 {
 
-  template <typename TDE, typename TSwap>
-  std::istream &CSAHeader::Read(std::istream &is) {
-    return is;
-  }
+class DataSet;
+/**
+ * \brief 
+ * \details  
+ *
+ */
+class GDCM_EXPORT EquipmentManufacturer
+{
+public:
 
+  typedef enum {
+    UNKNOWN = 0,
+    FUJI,
+    GEMS,
+    HITACHI,
+    KODAK,
+    MARCONI,
+    PMS,
+    SIEMENS,
+    TOSHIBA
+  } Type;
 
-  template <typename TDE, typename TSwap>
-  std::ostream const &CSAHeader::Write(std::ostream &os) const {
-    return os;
-  }
+  static Type Compute( DataSet const & ds );
+
+private:
+};
+
 } // end namespace gdcm
 
-#endif // GDCMCSAHEADER_TXX
+#endif // GDCMEQUIPMENTMANUFACTURER_H

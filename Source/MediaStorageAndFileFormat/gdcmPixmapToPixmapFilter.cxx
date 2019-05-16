@@ -18,8 +18,7 @@ namespace gdcm
 {
 
 PixmapToPixmapFilter::PixmapToPixmapFilter()
-{
-}
+= default;
 
 Pixmap &PixmapToPixmapFilter::GetInput()
 {

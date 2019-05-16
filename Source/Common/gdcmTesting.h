@@ -31,8 +31,8 @@ namespace gdcm
 class GDCM_EXPORT Testing
 {
 public :
-  Testing() {};
-  ~Testing() {};
+  Testing() = default;;
+  ~Testing() = default;;
 
   /// MD5 stuff
   /// digest_str needs to be at least : strlen = [2*16+1];
@@ -101,16 +101,16 @@ public :
 
   /// NOT THREAD SAFE
   /// Returns the temp directory as used in testing needing to output data:
-  static const char * GetTempDirectory(const char * subdir = 0);
+  static const char * GetTempDirectory(const char * subdir = nullptr);
 
   /// NOT THREAD SAFE
-  static const wchar_t *GetTempDirectoryW(const wchar_t * subdir = 0);
+  static const wchar_t *GetTempDirectoryW(const wchar_t * subdir = nullptr);
 
   /// NOT THREAD SAFE
-  static const char * GetTempFilename(const char *filename, const char * subdir = 0);
+  static const char * GetTempFilename(const char *filename, const char * subdir = nullptr);
 
   /// NOT THREAD SAFE
-  static const wchar_t* GetTempFilenameW(const wchar_t *filename, const wchar_t* subdir = 0);
+  static const wchar_t* GetTempFilenameW(const wchar_t *filename, const wchar_t* subdir = nullptr);
 
   static const char *GetSourceDirectory();
 };

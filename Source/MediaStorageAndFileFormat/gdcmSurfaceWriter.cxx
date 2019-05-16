@@ -24,8 +24,7 @@ SurfaceWriter::SurfaceWriter():
 }
 
 SurfaceWriter::~SurfaceWriter()
-{
-}
+= default;
 
 void SurfaceWriter::ComputeNumberOfSurfaces()
 {
@@ -265,7 +264,7 @@ bool SurfaceWriter::PrepareWrite()
       // Presentation Type
       Attribute<0x0066, 0x000D> presentationType;
       const char * reconmmendedPresentationType = Surface::GetVIEWTypeString( surface->GetRecommendedPresentationType() );
-      if (reconmmendedPresentationType != 0)
+      if (reconmmendedPresentationType != nullptr)
         presentationType.SetValue( reconmmendedPresentationType );
       else
         presentationType.SetValue( Surface::GetVIEWTypeString(Surface::SURFACE) );  // Is it the right thing to do?
@@ -350,7 +349,7 @@ bool SurfaceWriter::PrepareWrite()
         // Vector Accuracy (Type 3)
         Attribute<0x0066, 0x0020> vectorAccuracyAt;
         const float * vectorAccuracy = surface->GetVectorAccuracy();
-        if (vectorAccuracy != 0)
+        if (vectorAccuracy != nullptr)
         {
           vectorAccuracyAt.SetValues( vectorAccuracy, vectorDimensionality );
           surfacePointsNormalsDS.Replace( vectorAccuracyAt.GetAsDataElement() );
@@ -902,7 +901,7 @@ bool SurfaceWriter::PrepareWritePointMacro(SmartPointer< Surface > surface,
     // Point Position Accuracy (Type 3)
     Attribute<0x0066, 0x0017> pointPositionAccuracyAt;
     const float * pointPositionAccuracy = surface->GetPointPositionAccuracy();
-    if (pointPositionAccuracy != 0)
+    if (pointPositionAccuracy != nullptr)
     {
       pointPositionAccuracyAt.SetValues( pointPositionAccuracy );
       surfacePointsDs.Replace( pointPositionAccuracyAt.GetAsDataElement() );
@@ -929,7 +928,7 @@ bool SurfaceWriter::PrepareWritePointMacro(SmartPointer< Surface > surface,
     // Point Bounding Box Coordinates (Type 3)
     Attribute<0x0066, 0x001a> pointsBoundingBoxCoordinatesAt;
     const float * pointsBoundingBoxCoordinates = surface->GetPointsBoundingBoxCoordinates();
-    if (pointsBoundingBoxCoordinates != 0)
+    if (pointsBoundingBoxCoordinates != nullptr)
     {
       pointsBoundingBoxCoordinatesAt.SetValues( pointsBoundingBoxCoordinates );
       surfacePointsDs.Replace( pointsBoundingBoxCoordinatesAt.GetAsDataElement() );
@@ -938,7 +937,7 @@ bool SurfaceWriter::PrepareWritePointMacro(SmartPointer< Surface > surface,
     // Axis of Rotation (Type 3)
     Attribute<0x0066, 0x001b> axisOfRotationAt;
     const float * axisOfRotation = surface->GetAxisOfRotation();
-    if (axisOfRotation != 0)
+    if (axisOfRotation != nullptr)
     {
       axisOfRotationAt.SetValues( axisOfRotation );
       surfacePointsDs.Replace( axisOfRotationAt.GetAsDataElement() );
@@ -947,7 +946,7 @@ bool SurfaceWriter::PrepareWritePointMacro(SmartPointer< Surface > surface,
     // Center of Rotation (Type 3)
     Attribute<0x0066, 0x001c> centerOfRotationAt;
     const float * centerOfRotation = surface->GetCenterOfRotation();
-    if (centerOfRotation != 0)
+    if (centerOfRotation != nullptr)
     {
       centerOfRotationAt.SetValues( centerOfRotation );
       surfacePointsDs.Replace( centerOfRotationAt.GetAsDataElement() );

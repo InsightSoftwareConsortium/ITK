@@ -35,7 +35,7 @@ const char* DummyValueGenerator::Generate(const char *input)
 
   if( b )
     return digest;
-  return 0;
+  return nullptr;
 }
 
 

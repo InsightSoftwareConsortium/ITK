@@ -209,7 +209,7 @@ static int get_node_id(unsigned char *byMAC)
        that's not localhost */
     dwSize = 0;
     GetIpAddrTable(NULL, &dwSize, TRUE);
-    pAddr = (PMIB_IPADDRTABLE)malloc(sizeof(BYTE) * dwSize);
+    pAddr = (PMIB_IPADDRTABLE)malloc(sizeof(unsigned char) * dwSize);
     if (!GetIpAddrTable(pAddr, &dwSize, TRUE))
     {
         for (i = 0; i < pAddr->dwNumEntries; ++i)

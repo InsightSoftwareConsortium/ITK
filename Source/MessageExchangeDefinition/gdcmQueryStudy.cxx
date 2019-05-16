@@ -31,18 +31,18 @@ std::vector<Tag> QueryStudy::GetRequiredTags(const ERootType& inRootType) const
   switch (inRootType){
     case ePatientRootType:
     default:
-      theReturn.push_back(Tag(0x0008, 0x0020));
-      theReturn.push_back(Tag(0x0008, 0x0030));
-      theReturn.push_back(Tag(0x0008, 0x0050));
-      theReturn.push_back(Tag(0x0020, 0x0010));
+      theReturn.emplace_back(0x0008, 0x0020);
+      theReturn.emplace_back(0x0008, 0x0030);
+      theReturn.emplace_back(0x0008, 0x0050);
+      theReturn.emplace_back(0x0020, 0x0010);
       break;
     case eStudyRootType:
-      theReturn.push_back(Tag(0x0008, 0x0020));
-      theReturn.push_back(Tag(0x0008, 0x0030));
-      theReturn.push_back(Tag(0x0008, 0x0050));
-      theReturn.push_back(Tag(0x0010, 0x0010));
-      theReturn.push_back(Tag(0x0010, 0x0020));
-      theReturn.push_back(Tag(0x0020, 0x0010));
+      theReturn.emplace_back(0x0008, 0x0020);
+      theReturn.emplace_back(0x0008, 0x0030);
+      theReturn.emplace_back(0x0008, 0x0050);
+      theReturn.emplace_back(0x0010, 0x0010);
+      theReturn.emplace_back(0x0010, 0x0020);
+      theReturn.emplace_back(0x0020, 0x0010);
       break;
   }
   return theReturn;
@@ -51,7 +51,7 @@ std::vector<Tag> QueryStudy::GetRequiredTags(const ERootType& inRootType) const
 std::vector<Tag> QueryStudy::GetUniqueTags(const ERootType& ) const
 {
   std::vector<Tag> theReturn;//see 3.4 C.6.2.1.2
-  theReturn.push_back(Tag(0x0020, 0x000d));
+  theReturn.emplace_back(0x0020, 0x000d);
   return theReturn;
 }
 
@@ -62,53 +62,53 @@ std::vector<Tag> QueryStudy::GetOptionalTags(const ERootType& inRootType) const
     {
   case ePatientRootType:
   default:
-    theReturn.push_back(Tag(0x0008, 0x0061));
-    theReturn.push_back(Tag(0x0008, 0x0062));
-    theReturn.push_back(Tag(0x0008, 0x0090));
-    theReturn.push_back(Tag(0x0008, 0x1030));
-    theReturn.push_back(Tag(0x0008, 0x1032));
-    theReturn.push_back(Tag(0x0008, 0x1060));
-    theReturn.push_back(Tag(0x0008, 0x1080));
-    theReturn.push_back(Tag(0x0008, 0x1110));
-    theReturn.push_back(Tag(0x0010, 0x1010));
-    theReturn.push_back(Tag(0x0010, 0x1020));
-    theReturn.push_back(Tag(0x0010, 0x1030));
-    theReturn.push_back(Tag(0x0010, 0x2180));
-    theReturn.push_back(Tag(0x0010, 0x21B0));
-    theReturn.push_back(Tag(0x0020, 0x1070));
-    theReturn.push_back(Tag(0x0020, 0x1206));
-    theReturn.push_back(Tag(0x0020, 0x1208));
+    theReturn.emplace_back(0x0008, 0x0061);
+    theReturn.emplace_back(0x0008, 0x0062);
+    theReturn.emplace_back(0x0008, 0x0090);
+    theReturn.emplace_back(0x0008, 0x1030);
+    theReturn.emplace_back(0x0008, 0x1032);
+    theReturn.emplace_back(0x0008, 0x1060);
+    theReturn.emplace_back(0x0008, 0x1080);
+    theReturn.emplace_back(0x0008, 0x1110);
+    theReturn.emplace_back(0x0010, 0x1010);
+    theReturn.emplace_back(0x0010, 0x1020);
+    theReturn.emplace_back(0x0010, 0x1030);
+    theReturn.emplace_back(0x0010, 0x2180);
+    theReturn.emplace_back(0x0010, 0x21B0);
+    theReturn.emplace_back(0x0020, 0x1070);
+    theReturn.emplace_back(0x0020, 0x1206);
+    theReturn.emplace_back(0x0020, 0x1208);
     break;
   case eStudyRootType:
-    theReturn.push_back(Tag(0x0008, 0x0061));
-    theReturn.push_back(Tag(0x0008, 0x0062));
-    theReturn.push_back(Tag(0x0008, 0x0090));
-    theReturn.push_back(Tag(0x0008, 0x1030));
-    theReturn.push_back(Tag(0x0008, 0x1032));
-    theReturn.push_back(Tag(0x0008, 0x1060));
-    theReturn.push_back(Tag(0x0008, 0x1080));
-    theReturn.push_back(Tag(0x0008, 0x1110));
-    theReturn.push_back(Tag(0x0008, 0x1120));
-    theReturn.push_back(Tag(0x0010, 0x0021));
-    theReturn.push_back(Tag(0x0010, 0x0030));
-    theReturn.push_back(Tag(0x0010, 0x0032));
-    theReturn.push_back(Tag(0x0010, 0x0040));
-    theReturn.push_back(Tag(0x0010, 0x1000));
-    theReturn.push_back(Tag(0x0010, 0x1001));
-    theReturn.push_back(Tag(0x0010, 0x1010));
-    theReturn.push_back(Tag(0x0010, 0x1020));
-    theReturn.push_back(Tag(0x0010, 0x1030));
-    theReturn.push_back(Tag(0x0010, 0x2160));
-    theReturn.push_back(Tag(0x0010, 0x2180));
-    theReturn.push_back(Tag(0x0010, 0x21B0));
-    theReturn.push_back(Tag(0x0010, 0x4000));
+    theReturn.emplace_back(0x0008, 0x0061);
+    theReturn.emplace_back(0x0008, 0x0062);
+    theReturn.emplace_back(0x0008, 0x0090);
+    theReturn.emplace_back(0x0008, 0x1030);
+    theReturn.emplace_back(0x0008, 0x1032);
+    theReturn.emplace_back(0x0008, 0x1060);
+    theReturn.emplace_back(0x0008, 0x1080);
+    theReturn.emplace_back(0x0008, 0x1110);
+    theReturn.emplace_back(0x0008, 0x1120);
+    theReturn.emplace_back(0x0010, 0x0021);
+    theReturn.emplace_back(0x0010, 0x0030);
+    theReturn.emplace_back(0x0010, 0x0032);
+    theReturn.emplace_back(0x0010, 0x0040);
+    theReturn.emplace_back(0x0010, 0x1000);
+    theReturn.emplace_back(0x0010, 0x1001);
+    theReturn.emplace_back(0x0010, 0x1010);
+    theReturn.emplace_back(0x0010, 0x1020);
+    theReturn.emplace_back(0x0010, 0x1030);
+    theReturn.emplace_back(0x0010, 0x2160);
+    theReturn.emplace_back(0x0010, 0x2180);
+    theReturn.emplace_back(0x0010, 0x21B0);
+    theReturn.emplace_back(0x0010, 0x4000);
 
-    theReturn.push_back(Tag(0x0020, 0x1070));
-    theReturn.push_back(Tag(0x0020, 0x1200));
-    theReturn.push_back(Tag(0x0020, 0x1202));
-    theReturn.push_back(Tag(0x0020, 0x1204));
-    theReturn.push_back(Tag(0x0020, 0x1206));
-    theReturn.push_back(Tag(0x0020, 0x1208));
+    theReturn.emplace_back(0x0020, 0x1070);
+    theReturn.emplace_back(0x0020, 0x1200);
+    theReturn.emplace_back(0x0020, 0x1202);
+    theReturn.emplace_back(0x0020, 0x1204);
+    theReturn.emplace_back(0x0020, 0x1206);
+    theReturn.emplace_back(0x0020, 0x1208);
     break;
     }
   return theReturn;

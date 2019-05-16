@@ -53,8 +53,8 @@ private:
   bool Initialize();
   static ALG_ID GetAlgIdByObjId(const char * pszObjId);
   const char *GetCipherObjId() const;
-  static void ReverseBytes(BYTE* data, DWORD len);
-  static bool LoadFile(const char * filename, BYTE* & buffer, DWORD & bufLen);
+  static void ReverseBytes(unsigned char* data, DWORD len);
+  static bool LoadFile(const char * filename, unsigned char* & buffer, DWORD & bufLen);
 
 private:
   bool initialized;

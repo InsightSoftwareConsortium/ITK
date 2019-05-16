@@ -48,14 +48,13 @@ protected:
   friend class QueryFactory;
   BaseQuery();
 
-  std::string mHelpDescription; //used when generating the help output
   std::string mSopInstanceUID;
 
   void SetSearchParameter(const Tag& inTag, const DictEntry& inDictEntry, const std::string& inValue);
   
   bool ValidDataSet( const DataSet & dataSetToValid, const DataSet & dataSetReference  ) const ;
 public:
-  virtual ~BaseQuery();
+  ~BaseQuery() override;
 
   void SetSearchParameter(const Tag& inTag, const std::string& inValue);
   void SetSearchParameter(const std::string& inKeyword, const std::string& inValue);
@@ -80,7 +79,7 @@ public:
 
 
 
-  void Print(std::ostream &os) const;
+  void Print(std::ostream &os) const override;
 };
 
 } // end namespace gdcm

@@ -45,7 +45,7 @@ namespace network
 //eventually needs to be smartpointer'd
 BasePDU* PDUFactory::ConstructPDU(uint8_t itemtype)
 {
-  BasePDU* thePDU = NULL;
+  BasePDU* thePDU = nullptr;
   switch (itemtype)
     {
   case 0x01:
@@ -84,22 +84,22 @@ EEventID PDUFactory::DetermineEventByPDU(const BasePDU* inPDU)
   if(inPDU)
     {
     const AAssociateRQPDU* theAAssociateRQPDU = dynamic_cast<const AAssociateRQPDU*>(inPDU);
-    if (theAAssociateRQPDU != NULL)
+    if (theAAssociateRQPDU != nullptr)
       {
       return eAASSOCIATE_RQPDUreceived;
       }
     const AAssociateACPDU* theAAssociateACPDU = dynamic_cast<const AAssociateACPDU*>(inPDU);
-    if (theAAssociateACPDU != NULL)
+    if (theAAssociateACPDU != nullptr)
       {
       return eASSOCIATE_ACPDUreceived;
       }
     const AAssociateRJPDU* theAAssociateRJPDU = dynamic_cast<const AAssociateRJPDU*>(inPDU);
-    if (theAAssociateRJPDU != NULL)
+    if (theAAssociateRJPDU != nullptr)
       {
       return eASSOCIATE_RJPDUreceived;
       }
     const PDataTFPDU* thePDataTFPDU = dynamic_cast<const PDataTFPDU*>(inPDU);
-    if (thePDataTFPDU != NULL)
+    if (thePDataTFPDU != nullptr)
       {
       ///
       const PresentationDataValue &pdv = thePDataTFPDU->GetPresentationDataValue(0);
@@ -117,17 +117,17 @@ EEventID PDUFactory::DetermineEventByPDU(const BasePDU* inPDU)
       return ePDATATFPDU;
       }
     const AReleaseRQPDU* theAReleaseRQPDU = dynamic_cast<const AReleaseRQPDU*>(inPDU);
-    if (theAReleaseRQPDU != NULL)
+    if (theAReleaseRQPDU != nullptr)
       {
       return eARELEASE_RQPDUReceivedOpen;
       }
     const AReleaseRPPDU* theAReleaseRPPDU = dynamic_cast<const AReleaseRPPDU*>(inPDU);
-    if (theAReleaseRPPDU != NULL)
+    if (theAReleaseRPPDU != nullptr)
       {
       return eARELEASE_RPPDUReceived;
       }
     const AAbortPDU* theAAbortPDU = dynamic_cast<const AAbortPDU*>(inPDU);
-    if (theAAbortPDU != NULL)
+    if (theAAbortPDU != nullptr)
       {
       return eAABORTPDUReceivedOpen;
       }
@@ -343,7 +343,7 @@ std::vector<PresentationDataValue> PDUFactory::GetPDVs(const std::vector<BasePDU
   for (itor = inDataPDUs.begin(); itor < inDataPDUs.end(); itor++)
     {
     PDataTFPDU* thePDataTFPDU = dynamic_cast<PDataTFPDU*>(*itor);
-    if (thePDataTFPDU == NULL)
+    if (thePDataTFPDU == nullptr)
       {
       assert(0); //shouldn't really get here.
       return outPDVs; //just stop now, no longer with data pdus.

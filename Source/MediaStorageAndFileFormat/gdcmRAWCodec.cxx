@@ -212,7 +212,7 @@ bool RAWCodec::GetHeaderInfo(std::istream &, TransferSyntax &ts)
 
 ImageCodec * RAWCodec::Clone() const
 {
-  return NULL;
+  return nullptr;
 }
 
 } // end namespace gdcm

@@ -27,8 +27,7 @@ namespace gdcm
 class GDCM_EXPORT Patient
 {
 public:
-  Patient() {
-  }
+  Patient() = default;
 
 private:
   std::vector<Study> StudyList;

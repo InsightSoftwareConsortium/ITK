@@ -31,10 +31,10 @@ class GDCM_EXPORT SurfaceReader : public SegmentReader
 public:
     SurfaceReader();
 
-    virtual ~SurfaceReader();
+    ~SurfaceReader() override;
 
     /// Read
-    virtual bool Read();
+    bool Read() override;
 
     unsigned long GetNumberOfSurfaces() const;
 

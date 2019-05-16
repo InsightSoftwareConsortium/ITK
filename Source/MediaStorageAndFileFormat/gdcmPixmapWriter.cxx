@@ -32,8 +32,7 @@ PixmapWriter::PixmapWriter():PixelData(new Pixmap)
 }
 
 PixmapWriter::~PixmapWriter()
-{
-}
+= default;
 
 void PixmapWriter::SetPixmap(Pixmap const &img)
 {
@@ -494,7 +493,7 @@ bool PixmapWriter::PrepareWrite( MediaStorage const & ref_ms )
   // Pixel Data
   DataElement depixdata( Tag(0x7fe0,0x0010) );
   DataElement & pde = PixelData->GetDataElement();
-  const ByteValue *bvpixdata = NULL;
+  const ByteValue *bvpixdata = nullptr;
   // Sometime advanced user may use a gdcm::ImageRegionReader to feed an empty gdcm::Image
   if( !pde.IsEmpty() )
     {

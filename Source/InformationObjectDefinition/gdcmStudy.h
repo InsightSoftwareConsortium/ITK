@@ -27,8 +27,7 @@ namespace gdcm
 class GDCM_EXPORT Study
 {
 public:
-  Study() {
-  }
+  Study() = default;
 private:
   std::vector<Series> SeriesList;
 };

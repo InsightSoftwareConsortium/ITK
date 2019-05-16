@@ -24,7 +24,7 @@ macro(install_swig_module module_name module_type)
   set(MODDIR GDCM_INSTALL_${MODTYPE}_DIR)
   # if user sets a GDCM_INSTALL_PYTHONMODULE_DIR
   if(${MODDIR})
-    SET(MODDST "${${MODDIR}}")
+    set(MODDST "${${MODDIR}}")
   endif()
   if(NOT GDCM_INSTALL_NO_LIBRARIES)
     install(TARGETS ${SWIG_MODULE_${module_name}_REAL_NAME}

@@ -42,6 +42,8 @@ public:
   CSAHeaderDict():CSAHeaderDictInternal() {
     assert( CSAHeaderDictInternal.empty() );
   }
+  CSAHeaderDict &operator=(const CSAHeaderDict &_val) = delete;
+  CSAHeaderDict(const CSAHeaderDict &_val) = delete;
 
   friend std::ostream& operator<<(std::ostream& _os, const CSAHeaderDict &_val);
 
@@ -73,8 +75,6 @@ protected:
   void LoadDefault();
 
 private:
-  CSAHeaderDict &operator=(const CSAHeaderDict &_val); // purposely not implemented
-  CSAHeaderDict(const CSAHeaderDict &_val); // purposely not implemented
 
   MapCSAHeaderDictEntry CSAHeaderDictInternal;
 };

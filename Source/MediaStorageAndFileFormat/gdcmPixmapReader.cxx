@@ -34,8 +34,7 @@ PixmapReader::PixmapReader():PixelData(new Pixmap)
 }
 
 PixmapReader::~PixmapReader()
-{
-}
+= default;
 
 const Pixmap& PixmapReader::GetPixmap() const
 {

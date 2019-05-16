@@ -24,7 +24,7 @@ namespace gdcm
 class GDCM_EXPORT Waveform
 {
 public:
-  Waveform() {}
+  Waveform() = default;
 
 private:
 };

@@ -36,7 +36,7 @@ namespace gdcm {
     class ULActionDT1 : public ULAction {
     public:
       EStateID PerformAction(Subject *s, ULEvent& inEvent, ULConnection& inConnection,
-        bool& outWaitingForEvent, EEventID& outRaisedEvent);
+        bool& outWaitingForEvent, EEventID& outRaisedEvent) override;
     };
 
     //Send P-DATA indication primitive
@@ -44,7 +44,7 @@ namespace gdcm {
     class ULActionDT2 : public ULAction {
     public:
       EStateID PerformAction(Subject *s, ULEvent& inEvent, ULConnection& inConnection,
-        bool& outWaitingForEvent, EEventID& outRaisedEvent);
+        bool& outWaitingForEvent, EEventID& outRaisedEvent) override;
     };
   }
 }

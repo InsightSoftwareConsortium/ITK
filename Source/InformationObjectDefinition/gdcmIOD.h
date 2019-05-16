@@ -37,7 +37,7 @@ public:
   typedef std::vector<IODEntry> MapIODEntry;
   typedef MapIODEntry::size_type SizeType;
 
-  IOD() {}
+  IOD() = default;
   friend std::ostream& operator<<(std::ostream& _os, const IOD &_val);
 
   void Clear() { IODInternal.clear(); }

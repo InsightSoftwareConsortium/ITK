@@ -18,12 +18,10 @@ namespace gdcm
 {
 
 SegmentWriter::SegmentWriter()
-{
-}
+= default;
 
 SegmentWriter::~SegmentWriter()
-{
-}
+= default;
 
 unsigned int SegmentWriter::GetNumberOfSegments() const
 {
@@ -218,7 +216,7 @@ bool SegmentWriter::PrepareWrite()
 
     // Segment Algorithm Type (Type 1)
     const char * segmentAlgorithmType = Segment::GetALGOTypeString( segment->GetSegmentAlgorithmType() );
-    if ( segmentAlgorithmType == 0 )
+    if ( segmentAlgorithmType == nullptr )
     {
       gdcmWarningMacro("No segment algorithm type specified");
       Attribute<0x0062, 0x0008> segmentAlgorithmTypeAt;

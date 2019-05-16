@@ -28,7 +28,7 @@ class DataElement;
 class GDCM_EXPORT Coder
 {
 public:
-  virtual ~Coder() {}
+  virtual ~Coder() = default;
 
   /// Return whether this coder support this transfer syntax (can code it)
   virtual bool CanCode(TransferSyntax const &) const = 0;

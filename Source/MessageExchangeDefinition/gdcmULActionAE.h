@@ -36,7 +36,7 @@ namespace gdcm {
     class ULActionAE1 : public ULAction {
     public:
       EStateID PerformAction(Subject *s, ULEvent& inEvent, ULConnection& inConnection,
-        bool& outWaitingForEvent, EEventID& outRaisedEvent);
+        bool& outWaitingForEvent, EEventID& outRaisedEvent) override;
     };
 
     //Send A-ASSOCIATE-RQ-PDU
@@ -44,7 +44,7 @@ namespace gdcm {
     class ULActionAE2 : public ULAction {
     public:
       EStateID PerformAction(Subject *s, ULEvent& inEvent, ULConnection& inConnection,
-        bool& outWaitingForEvent, EEventID& outRaisedEvent);
+        bool& outWaitingForEvent, EEventID& outRaisedEvent) override;
     };
 
     //Issue A-ASSOCIATE confirmation (accept) primitive
@@ -52,7 +52,7 @@ namespace gdcm {
     class ULActionAE3 : public ULAction {
     public:
       EStateID PerformAction(Subject *s, ULEvent& inEvent, ULConnection& inConnection,
-        bool& outWaitingForEvent, EEventID& outRaisedEvent);
+        bool& outWaitingForEvent, EEventID& outRaisedEvent) override;
     };
 
     //Issue A-ASSOCIATE confirmation (reject) primitive and close transport connection
@@ -60,7 +60,7 @@ namespace gdcm {
     class ULActionAE4 : public ULAction {
     public:
       EStateID PerformAction(Subject *s, ULEvent& inEvent, ULConnection& inConnection,
-        bool& outWaitingForEvent, EEventID& outRaisedEvent);
+        bool& outWaitingForEvent, EEventID& outRaisedEvent) override;
     };
 
     //Issue Transport connection response primitive, start ARTIM timer
@@ -68,7 +68,7 @@ namespace gdcm {
     class ULActionAE5 : public ULAction {
     public:
       EStateID PerformAction(Subject *s, ULEvent& inEvent, ULConnection& inConnection,
-        bool& outWaitingForEvent, EEventID& outRaisedEvent);
+        bool& outWaitingForEvent, EEventID& outRaisedEvent) override;
     };
 
     //Stop ARTIM timer and if A-ASSOCIATE-RQ acceptable by service-provider:
@@ -80,7 +80,7 @@ namespace gdcm {
     class ULActionAE6 : public ULAction {
     public:
       EStateID PerformAction(Subject *s, ULEvent& inEvent, ULConnection& inConnection,
-        bool& outWaitingForEvent, EEventID& outRaisedEvent);
+        bool& outWaitingForEvent, EEventID& outRaisedEvent) override;
     };
 
     //Send A-ASSOCIATE-AC PDU
@@ -88,7 +88,7 @@ namespace gdcm {
     class ULActionAE7 : public ULAction {
     public:
       EStateID PerformAction(Subject *s, ULEvent& inEvent, ULConnection& inConnection,
-        bool& outWaitingForEvent, EEventID& outRaisedEvent);
+        bool& outWaitingForEvent, EEventID& outRaisedEvent) override;
     };
 
     //Send A-ASSOCIATE-RJ PDU and start ARTIM timer
@@ -96,7 +96,7 @@ namespace gdcm {
     class ULActionAE8 : public ULAction {
     public:
       EStateID PerformAction(Subject *s, ULEvent& inEvent, ULConnection& inConnection,
-        bool& outWaitingForEvent, EEventID& outRaisedEvent);
+        bool& outWaitingForEvent, EEventID& outRaisedEvent) override;
     };
   }
 }

@@ -83,7 +83,7 @@ VR DataSetHelper::ComputeVR(File const &file, DataSet const &ds, const Tag& tag)
   //const Dict &d = dicts.GetPublicDict();
 
   std::string strowner;
-  const char *owner = 0;
+  const char *owner = nullptr;
   const Tag& t = tag;
   if( t.IsPrivate() && !t.IsPrivateCreator() )
     {
@@ -219,7 +219,7 @@ VR DataSetHelper::ComputeVR(File const &file, DataSet const &ds, const Tag& tag)
       vr = VR::INVALID;
       }
     }
-  else if( vr == VR::US_SS_OW )
+  else if( vr == VR::US_SS_OW || vr == VR::US_OW )
     {
     vr = VR::OW;
     }

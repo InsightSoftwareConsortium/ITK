@@ -34,11 +34,11 @@ class GDCM_EXPORT PDataTFPDU : public BasePDU
 {
 public:
   PDataTFPDU();
-  std::istream &Read(std::istream &is);
-  const std::ostream &Write(std::ostream &os) const;
+  std::istream &Read(std::istream &is) override;
+  const std::ostream &Write(std::ostream &os) const override;
 
   /// \internal Compute Size
-  size_t Size() const;
+  size_t Size() const override;
 
   void AddPresentationDataValue( PresentationDataValue const &pdv ) {
     V.push_back( pdv );
@@ -55,8 +55,8 @@ public:
     return V.size();
     }
 
-  void Print(std::ostream &os) const;
-  bool IsLastFragment() const;
+  void Print(std::ostream &os) const override;
+  bool IsLastFragment() const override;
 
 protected:
   std::istream &ReadInto(std::istream &is, std::ostream &os);

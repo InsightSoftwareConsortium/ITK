@@ -56,7 +56,7 @@ Bitmap::Bitmap():
   LossyFlag(false)
 {}
 
-Bitmap::~Bitmap() {}
+Bitmap::~Bitmap() = default;
 
 /*
  * Internal implementation everything assume that NumberOfDimensions was set
@@ -285,9 +285,12 @@ unsigned long Bitmap::GetBufferLength() const
   else if( PF == PixelFormat::SINGLEBIT )
     {
     assert( PF.GetSamplesPerPixel() == 1 );
-    unsigned int save = mul;
-    save /= 8;
-    assert( save * 8 == mul );
+    const size_t bytesPerRow = Dimensions[0] / 8 + (Dimensions[0] % 8 != 0 ? 1 : 0);
+    size_t save = bytesPerRow * Dimensions[1];
+    if( NumberOfDimensions > 2 )
+      save *= Dimensions[2];
+    if(Dimensions[0] % 8 == 0 )
+      assert( save * 8 == mul );
     mul = save;
     }
   else if( PF.GetBitsAllocated() % 8 != 0 )
@@ -699,7 +702,7 @@ bool Bitmap::IsLossy() const
 bool Bitmap::ComputeLossyFlag()
 {
   bool lossyflag;
-  if( this->GetBufferInternal(0, lossyflag) )
+  if( this->GetBufferInternal(nullptr, lossyflag) )
     {
     LossyFlag = lossyflag;
     return true;
@@ -909,7 +912,7 @@ bool Bitmap::GetBufferInternal(char *buffer, bool &lossyflag) const
   //if( !success ) success = TryDeltaEncodingCodec(buffer);
   if( !success )
     {
-    buffer = 0;
+    buffer = nullptr;
     //throw Exception( "No codec found for this image");
     }
 

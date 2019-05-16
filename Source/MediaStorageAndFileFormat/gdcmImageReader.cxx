@@ -32,8 +32,7 @@ ImageReader::ImageReader()
 }
 
 ImageReader::~ImageReader()
-{
-}
+= default;
 
 const Image& ImageReader::GetImage() const
 {

@@ -31,7 +31,7 @@ class GDCM_EXPORT Dumper : public Printer
 {
 public:
   Dumper() { PrintStyle = CONDENSED_STYLE; }
-  ~Dumper() {};
+  ~Dumper() = default;
 };
 
 } // end namespace gdcm

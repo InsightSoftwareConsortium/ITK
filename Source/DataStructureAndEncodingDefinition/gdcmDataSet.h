@@ -228,10 +228,7 @@ public:
   bool IsEmpty() const { return DES.empty(); };
 
   DataSet& operator=(DataSet const &val)
-  {
-    DES = val.DES;
-    return *this;
-  }
+  = default;
 
 /*
   template <typename TOperation>

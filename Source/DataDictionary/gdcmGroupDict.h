@@ -35,7 +35,7 @@ class GDCM_EXPORT GroupDict
 public:
   typedef std::vector<std::string> GroupStringVector;
   GroupDict() { FillDefaultGroupName(); }
-  ~GroupDict() {}
+  ~GroupDict() = default;
 
   friend std::ostream& operator<<(std::ostream& _os, const GroupDict &_val);
 

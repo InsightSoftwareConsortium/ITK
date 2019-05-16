@@ -36,7 +36,7 @@ class FileChangeTransferSyntaxInternals
 {
 public:
   FileChangeTransferSyntaxInternals():
-    IC(NULL),
+    IC(nullptr),
     InitializeCopy(false)
   {}
   ~FileChangeTransferSyntaxInternals()

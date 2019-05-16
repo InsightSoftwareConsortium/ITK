@@ -29,7 +29,7 @@ class ImageRegionReaderInternals
 public:
   ImageRegionReaderInternals()
     {
-    TheRegion = NULL;
+    TheRegion = nullptr;
     Modified = false;
     FileOffset = -1;
     }

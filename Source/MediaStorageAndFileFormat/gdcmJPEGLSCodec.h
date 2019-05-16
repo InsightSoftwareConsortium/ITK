@@ -32,21 +32,21 @@ class GDCM_EXPORT JPEGLSCodec : public ImageCodec
 friend class ImageRegionReader;
 public:
   JPEGLSCodec();
-  ~JPEGLSCodec();
-  bool CanDecode(TransferSyntax const &ts) const;
-  bool CanCode(TransferSyntax const &ts) const;
+  ~JPEGLSCodec() override;
+  bool CanDecode(TransferSyntax const &ts) const override;
+  bool CanCode(TransferSyntax const &ts) const override;
 
   unsigned long GetBufferLength() const { return BufferLength; }
   void SetBufferLength(unsigned long l) { BufferLength = l; }
 
-  bool Decode(DataElement const &is, DataElement &os);
+  bool Decode(DataElement const &is, DataElement &os) override;
   bool Decode(DataElement const &in, char* outBuffer, size_t inBufferLength,
               uint32_t inXMin, uint32_t inXMax, uint32_t inYMin,
               uint32_t inYMax, uint32_t inZMin, uint32_t inZMax);
-  bool Code(DataElement const &in, DataElement &out);
+  bool Code(DataElement const &in, DataElement &out) override;
 
-  bool GetHeaderInfo(std::istream &is, TransferSyntax &ts);
-  virtual ImageCodec * Clone() const;
+  bool GetHeaderInfo(std::istream &is, TransferSyntax &ts) override;
+  ImageCodec * Clone() const override;
 
   void SetLossless(bool l);
   bool GetLossless() const;
@@ -73,12 +73,12 @@ protected:
     std::istream & is
   );
 
-  bool StartEncode( std::ostream & );
-  bool IsRowEncoder();
-  bool IsFrameEncoder();
-  bool AppendRowEncode( std::ostream & out, const char * data, size_t datalen );
-  bool AppendFrameEncode( std::ostream & out, const char * data, size_t datalen );
-  bool StopEncode( std::ostream & );
+  bool StartEncode( std::ostream & ) override;
+  bool IsRowEncoder() override;
+  bool IsFrameEncoder() override;
+  bool AppendRowEncode( std::ostream & out, const char * data, size_t datalen ) override;
+  bool AppendFrameEncode( std::ostream & out, const char * data, size_t datalen ) override;
+  bool StopEncode( std::ostream & ) override;
 
 private:
   bool DecodeByStreamsCommon(char *buffer, size_t totalLen, std::vector<unsigned char> &rgbyteOut);

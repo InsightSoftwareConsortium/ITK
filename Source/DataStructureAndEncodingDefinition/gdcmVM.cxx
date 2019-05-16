@@ -57,7 +57,7 @@ static const char *VMStrings[] = {
   "7-7n",
   "30-30n",
   "47-47n",
-  0
+  nullptr
 };
 
 unsigned int VM::GetLength() const
@@ -234,7 +234,7 @@ VM::VMType VM::GetVMType(const char *vm)
 {
   if(!vm) return VM::VM_END;
   if(!*vm) return VM::VM0; // ??
-  for (int i = 0; VMStrings[i] != NULL; i++)
+  for (int i = 0; VMStrings[i] != nullptr; i++)
     {
     //if (strncmp(VMStrings[i],vm,strlen(VMStrings[i])) == 0)
     if (strcmp(VMStrings[i],vm) == 0)
@@ -325,11 +325,11 @@ bool VM::IsValid(int vm1, VMType vm2)
 
 // This function should not be used in production code.
 // Indeed this only return a 'guess' at the VM (ie. a lower bound)
-VM::VMType VM::GetVMTypeFromLength(unsigned int length, unsigned int size)
+VM::VMType VM::GetVMTypeFromLength(size_t length, unsigned int size)
 {
   // Check first of length is a indeed a multiple of size and that length is != 0
   if ( !length || length % size ) return VM::VM0;
-  const unsigned int ratio = length / size;
+  const unsigned int ratio = (unsigned int)(length / size);
   //std::cerr << "RATIO=" << ratio << std::endl;
   switch( ratio )
     {

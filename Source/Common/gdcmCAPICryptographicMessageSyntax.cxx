@@ -52,7 +52,7 @@ bool CAPICryptographicMessageSyntax::SetPassword(const char * , size_t )
 bool CAPICryptographicMessageSyntax::ParseCertificateFile( const char *filename )
 {
   bool ret = false;
-  BYTE *certHexBuf = NULL, *certBin = NULL;
+  unsigned char *certHexBuf = NULL, *certBin = NULL;
   DWORD certHexBufLen, certBinLen;
 
   if ( !LoadFile(filename, certHexBuf, certHexBufLen) )
@@ -64,7 +64,7 @@ bool CAPICryptographicMessageSyntax::ParseCertificateFile( const char *filename 
     gdcmErrorMacro( "CryptStringToBinary failed with error 0x" << std::hex << GetLastError() );
     goto err;
     }
-  certBin = new BYTE[certBinLen];
+  certBin = new unsigned char[certBinLen];
   // Convert from PEM format to DER format - removes header and footer and decodes from base64
   if ( !CryptStringToBinaryA( (LPCSTR)certHexBuf, 0, CRYPT_STRING_BASE64_ANY, certBin, &certBinLen, NULL, NULL ) )
     {
@@ -92,7 +92,7 @@ err:
 
 bool CAPICryptographicMessageSyntax::ParseKeyFile( const char *filename ) {
   bool ret = false;
-  BYTE *keyHexBuffer = NULL, *keyBinBuffer = NULL, *keyBlob = NULL;
+  unsigned char *keyHexBuffer = NULL, *keyBinBuffer = NULL, *keyBlob = NULL;
   DWORD keyHexBufferLen, keyBinBufferLen, keyBlobLen;
   HCRYPTKEY hKey = 0;
   
@@ -104,7 +104,7 @@ bool CAPICryptographicMessageSyntax::ParseKeyFile( const char *filename ) {
     gdcmErrorMacro( "Failed to convert from BASE64. CryptStringToBinary failed with error 0x" << std::hex << GetLastError() );
     goto err;
     }
-  keyBinBuffer = new BYTE[keyBinBufferLen];
+  keyBinBuffer = new unsigned char[keyBinBufferLen];
   if ( !CryptStringToBinaryA((LPCSTR)keyHexBuffer, 0, CRYPT_STRING_BASE64_ANY, keyBinBuffer, &keyBinBufferLen, NULL, NULL) )
     {
     gdcmErrorMacro( "Failed to convert from BASE64. CryptStringToBinary failed with error 0x" << std::hex << GetLastError() );
@@ -116,7 +116,7 @@ bool CAPICryptographicMessageSyntax::ParseKeyFile( const char *filename ) {
     gdcmErrorMacro( "Failed to parse private key. CryptDecodeObjectEx failed with error 0x" << std::hex << GetLastError() );
     goto err;
     }
-  keyBlob = new BYTE[keyBlobLen];
+  keyBlob = new unsigned char[keyBlobLen];
   if (!CryptDecodeObjectEx(X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, PKCS_RSA_PRIVATE_KEY, keyBinBuffer, keyBinBufferLen, 0, NULL, keyBlob, &keyBlobLen))
     {
     gdcmErrorMacro( "Failed to parse private key. CryptDecodeObjectEx failed with error 0x" << std::hex << GetLastError() );
@@ -173,7 +173,7 @@ bool CAPICryptographicMessageSyntax::Encrypt(char *output, size_t &outlen, const
     return false;
     }
 
-  if(! CryptEncryptMessage(&EncryptParams, (DWORD)certifList.size(), (PCCERT_CONTEXT *)&certifList[0], (BYTE *)array, (DWORD)len, (BYTE *)output, (DWORD *)&outlen) )
+  if(! CryptEncryptMessage(&EncryptParams, (DWORD)certifList.size(), (PCCERT_CONTEXT *)&certifList[0], (unsigned char *)array, (DWORD)len, (unsigned char *)output, (DWORD *)&outlen) )
     {
     DWORD dwResult = GetLastError();
     gdcmErrorMacro( "Couldn't encrypt message. CryptEncryptMessage failed with error 0x" << std::hex << dwResult );
@@ -189,15 +189,19 @@ bool CAPICryptographicMessageSyntax::Encrypt(char *output, size_t &outlen, const
 bool CAPICryptographicMessageSyntax::Decrypt(char *output, size_t &outlen, const char *array, size_t len) const 
 {
   bool ret = false;
-  BYTE* cek = NULL;
+  unsigned char* cek = NULL;
   HCRYPTMSG hMsg = NULL;
   PCMSG_CMS_RECIPIENT_INFO recipientInfo = NULL;
+  DWORD dwMessageType, cbMessageTypeLen = sizeof(DWORD);
   PCRYPT_ALGORITHM_IDENTIFIER cekAlg = NULL;
-  BYTE* bareContent = NULL;
+  ALG_ID kekAlg;
+  DWORD kekAlgLen = sizeof(ALG_ID);
+  DWORD nrOfRecipeints, nrOfRecipientsLen = sizeof(DWORD);
+  unsigned char* bareContent = NULL;
   struct {
     BLOBHEADER header;
     DWORD cbKeySize;
-    BYTE rgbKeyData[32]; //the maximum is 256 bit for aes
+    unsigned char rgbKeyData[32]; //the maximum is 256 bit for aes
   } keyBlob = {{0}};
 
   if (hRsaPrivK == 0)
@@ -212,13 +216,12 @@ bool CAPICryptographicMessageSyntax::Decrypt(char *output, size_t &outlen, const
     goto err;
     }
     
-  if(! CryptMsgUpdate(hMsg, (BYTE*)array, (DWORD)len, TRUE))
+  if(! CryptMsgUpdate(hMsg, (unsigned char*)array, (DWORD)len, TRUE))
     {
     gdcmErrorMacro( "MsgUpdate failed with error 0x" << std::hex << GetLastError() );
     goto err;
     }
 
-  DWORD dwMessageType, cbMessageTypeLen = sizeof(DWORD);
   if(! CryptMsgGetParam(hMsg, CMSG_TYPE_PARAM, 0, &dwMessageType, &cbMessageTypeLen)) 
     {
     gdcmErrorMacro( "CryptMsgGetParam CMSG_TYPE_PARAM failed with error 0x" << std::hex << GetLastError() );
@@ -231,9 +234,7 @@ bool CAPICryptographicMessageSyntax::Decrypt(char *output, size_t &outlen, const
     goto err;
     }
 
-  ALG_ID kekAlg;
-  DWORD kekAlgLen = sizeof(ALG_ID);
-  if(! CryptGetKeyParam(hRsaPrivK, KP_ALGID, (BYTE*)&kekAlg, &kekAlgLen, 0)) 
+  if(! CryptGetKeyParam(hRsaPrivK, KP_ALGID, (unsigned char*)&kekAlg, &kekAlgLen, 0)) 
     {
     gdcmErrorMacro( "MsgGetParam KP_ALGID failed with error 0x" << std::hex << GetLastError() );
     goto err;
@@ -244,7 +245,6 @@ bool CAPICryptographicMessageSyntax::Decrypt(char *output, size_t &outlen, const
     goto err;
     }
 
-  DWORD nrOfRecipeints, nrOfRecipientsLen = sizeof(DWORD);
   if(! CryptMsgGetParam(hMsg, CMSG_RECIPIENT_COUNT_PARAM, 0, &nrOfRecipeints, &nrOfRecipientsLen))
     {
     gdcmErrorMacro( "Decode CMSG_RECIPIENT_COUNT_PARAM failed with error 0x" << std::hex << GetLastError() );
@@ -264,7 +264,7 @@ bool CAPICryptographicMessageSyntax::Decrypt(char *output, size_t &outlen, const
       gdcmErrorMacro( "MsgGetParam CMSG_CMS_RECIPIENT_INFO_PARAM size failed with error 0x" << std::hex << GetLastError() );
       goto err;
       }
-    recipientInfo = (PCMSG_CMS_RECIPIENT_INFO) new BYTE[cbRecipientInfoLen];
+    recipientInfo = (PCMSG_CMS_RECIPIENT_INFO) new unsigned char[cbRecipientInfoLen];
     if(! CryptMsgGetParam(hMsg, CMSG_CMS_RECIPIENT_INFO_PARAM, i, recipientInfo, &cbRecipientInfoLen))
       {
       gdcmErrorMacro( "MsgGetParam CMSG_CMS_RECIPIENT_INFO_PARAM failed with error 0x" << std::hex << GetLastError() );
@@ -300,7 +300,7 @@ bool CAPICryptographicMessageSyntax::Decrypt(char *output, size_t &outlen, const
     gdcmErrorMacro( "MsgGetParam CMSG_ENVELOPE_ALGORITHM_PARAM failed with error 0x" << std::hex << GetLastError() );
     goto err;
     }
-  cekAlg = (PCRYPT_ALGORITHM_IDENTIFIER) new BYTE[cekAlgLen];
+  cekAlg = (PCRYPT_ALGORITHM_IDENTIFIER) new unsigned char[cekAlgLen];
   if(! CryptMsgGetParam(hMsg, CMSG_ENVELOPE_ALGORITHM_PARAM, 0, cekAlg, &cekAlgLen))
     {
     gdcmErrorMacro( "MsgGetParam CMSG_ENVELOPE_ALGORITHM_PARAM failed with error 0x" << std::hex << GetLastError() );
@@ -316,13 +316,13 @@ bool CAPICryptographicMessageSyntax::Decrypt(char *output, size_t &outlen, const
   assert(cekLen <= 32);
   memcpy(keyBlob.rgbKeyData, cek, cekLen);
 
-  if (!CryptImportKey(hProv, (BYTE*)&keyBlob, sizeof(keyBlob), 0, 0, &hCEK))
+  if (!CryptImportKey(hProv, (unsigned char*)&keyBlob, sizeof(keyBlob), 0, 0, &hCEK))
     {
     gdcmErrorMacro( "CryptImportKey failed with error 0x" << std::hex << GetLastError() );
     goto err;
     }
 
-  if(! CryptSetKeyParam(hCEK, KP_IV, (BYTE *) cekAlg->Parameters.pbData+2, 0)) //+2 for ASN header ???
+  if(! CryptSetKeyParam(hCEK, KP_IV, (unsigned char *) cekAlg->Parameters.pbData+2, 0)) //+2 for ASN header ???
     {
     gdcmErrorMacro( "SetKeyParam KP_IV failed with error 0x" << std::hex << GetLastError() );
     goto err;
@@ -330,7 +330,7 @@ bool CAPICryptographicMessageSyntax::Decrypt(char *output, size_t &outlen, const
 
 {
   DWORD dwMode = CRYPT_MODE_CBC;
-  if(! CryptSetKeyParam(hCEK, KP_MODE, (BYTE*) &dwMode, 0))
+  if(! CryptSetKeyParam(hCEK, KP_MODE, (unsigned char*) &dwMode, 0))
     {
     gdcmErrorMacro( "SetKeyParam KP_MODE failed with error 0x" << std::hex << GetLastError() );
     goto err;
@@ -343,7 +343,7 @@ bool CAPICryptographicMessageSyntax::Decrypt(char *output, size_t &outlen, const
     gdcmErrorMacro( "MsgGetParam CMSG_BARE_CONTENT_PARAM size failed with error 0x" << std::hex << GetLastError() );
     goto err;
     }
-  bareContent = new BYTE[bareContentLen];
+  bareContent = new unsigned char[bareContentLen];
   if(! CryptMsgGetParam(hMsg, CMSG_CONTENT_PARAM, 0, bareContent, &bareContentLen))
     {
     gdcmErrorMacro( "MsgGetParam CMSG_BARE_CONTENT_PARAM failed with error 0x" << std::hex << GetLastError() );
@@ -467,9 +467,9 @@ bool CAPICryptographicMessageSyntax::Initialize()
   return true;
 }
 
-void CAPICryptographicMessageSyntax::ReverseBytes(BYTE* data, DWORD len)
+void CAPICryptographicMessageSyntax::ReverseBytes(unsigned char* data, DWORD len)
 {
-  BYTE temp;
+  unsigned char temp;
   for (DWORD i = 0; i < len/2; i++)
     {
     temp = data[len-i-1];
@@ -478,7 +478,7 @@ void CAPICryptographicMessageSyntax::ReverseBytes(BYTE* data, DWORD len)
     }
 }
 
-bool CAPICryptographicMessageSyntax::LoadFile(const char * filename, BYTE* & buffer, DWORD & bufLen)
+bool CAPICryptographicMessageSyntax::LoadFile(const char * filename, unsigned char* & buffer, DWORD & bufLen)
 {
   assert( !buffer );
   FILE * f = fopen(filename, "rb");
@@ -492,7 +492,7 @@ bool CAPICryptographicMessageSyntax::LoadFile(const char * filename, BYTE* & buf
   long sz = ftell(f);
   rewind(f);
 
-  buffer = new BYTE[sz];
+  buffer = new unsigned char[sz];
   if( !buffer )
   {
     fclose(f);
@@ -502,7 +502,7 @@ bool CAPICryptographicMessageSyntax::LoadFile(const char * filename, BYTE* & buf
 
   while (sz)
     {
-    size_t l = fread(buffer + bufLen - sz, sizeof(BYTE), sz, f);
+    size_t l = fread(buffer + bufLen - sz, sizeof(unsigned char), sz, f);
     sz -= (long)l;
     }
 

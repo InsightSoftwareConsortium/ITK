@@ -19,7 +19,7 @@
 namespace gdcm
 {
 
-bool IsToBeRemoved(int c)
+static bool IsToBeRemoved(int c)
 {
   if ( isspace ( c ) ) return true;
   if( c == '-' ) return true;
@@ -59,6 +59,34 @@ Problem with: 3DRenderingType vs ThreeDRenderingType
     {
     str.replace( found_mu, 2, "u", 1 );
     found_mu = str.find( "µ" );
+    }
+/*
+  std::string::size_type found_two = str.find( "2" );
+  while( found_two != std::string::npos )
+    {
+    str.replace( found_two, 2, "Two", 1 );
+    found_two = str.find( "2" );
+    }
+*/
+  std::string::size_type found_the = str.find( " the " );
+  while( found_the != std::string::npos )
+    {
+    // 'of the' is a special case
+    const std::string ofthe = str.substr( found_the < 3 ? 0 : found_the - 3, 8 );
+    const std::string forthe = str.substr( found_the < 4 ? 0 : found_the - 4, 9 );
+    if( ofthe == " of the " || ofthe == " on the "  )
+      {
+      found_the = str.find( " the ", found_the + 5 );
+      }
+    else if( forthe == " for the " )
+      {
+      found_the = str.find( " the ", found_the + 5 );
+      }
+    else
+      {
+      str.erase( found_the, 5 );
+      found_the = str.find( " the " );
+      }
     }
 
   str.erase(remove_if(str.begin(), str.end(), IsToBeRemoved), str.end());

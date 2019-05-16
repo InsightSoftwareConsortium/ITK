@@ -83,7 +83,7 @@ static const char *TSStrings[] = {
   "1.2.840.10008.1.2.4.103",
   // Unknown
   "Unknown Transfer Syntax", // Pretty sure we never use this case...
-  0 // Compilers have no obligation to finish by NULL, do it ourself
+  nullptr // Compilers have no obligation to finish by NULL, do it ourself
 };
 
 TransferSyntax::TSType TransferSyntax::GetTSType(const char *cstr)
@@ -99,7 +99,7 @@ TransferSyntax::TSType TransferSyntax::GetTSType(const char *cstr)
     }
 
   int i = 0;
-  while(TSStrings[i] != 0)
+  while(TSStrings[i] != nullptr)
   //while(TransferSyntaxStrings[i] != 0)
     {
     if( str == TSStrings[i] )

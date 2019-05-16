@@ -18,8 +18,8 @@
 namespace gdcm
 {
 
-Orientation::Orientation() {}
-Orientation::~Orientation() {}
+Orientation::Orientation() = default;
+Orientation::~Orientation() = default;
 
 void Orientation::Print(std::ostream &os) const
 {
@@ -32,7 +32,7 @@ static const char *OrientationStrings[] = {
   "CORONAL",
   "SAGITTAL",
   "OBLIQUE",
-  NULL
+  nullptr
 };
 
 // http://public.kitware.com/pipermail/insight-users/2005-March/012246.html

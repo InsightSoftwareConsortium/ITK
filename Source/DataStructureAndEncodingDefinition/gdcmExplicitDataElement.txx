@@ -70,7 +70,7 @@ std::istream &ExplicitDataElement::ReadPreValue(std::istream &is)
     // Reset ValueLengthField to avoid user error
     ValueLengthField = 0;
     // Set pointer to NULL to avoid user error
-    ValueField = 0;
+    ValueField = nullptr;
     VRField = VR::INVALID;
     return is;
     }
@@ -183,7 +183,7 @@ std::istream &ExplicitDataElement::ReadValue(std::istream &is, bool readvalues)
   if( ValueLengthField == 0 )
     {
     // Simple fast path
-    ValueField = 0;
+    ValueField = nullptr;
     return is;
     }
 

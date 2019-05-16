@@ -39,8 +39,8 @@ class ImageCodec;
 class GDCM_EXPORT ImageChangeTransferSyntax : public ImageToImageFilter
 {
 public:
-  ImageChangeTransferSyntax():TS(TransferSyntax::TS_END),Force(false),CompressIconImage(false),UserCodec(0) {}
-  ~ImageChangeTransferSyntax() {}
+  ImageChangeTransferSyntax():TS(TransferSyntax::TS_END),Force(false),CompressIconImage(false),UserCodec(nullptr) {}
+  ~ImageChangeTransferSyntax() = default;
 
   /// Set target Transfer Syntax
   void SetTransferSyntax(const TransferSyntax &ts) { TS = ts; }

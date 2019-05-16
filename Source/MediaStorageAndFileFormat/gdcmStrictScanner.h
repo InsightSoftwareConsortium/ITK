@@ -57,7 +57,7 @@ class GDCM_EXPORT StrictScanner : public Subject
   friend std::ostream& operator<<(std::ostream &_os, const StrictScanner &s);
 public:
   StrictScanner():Values(),Filenames(),Mappings() {}
-  ~StrictScanner();
+  ~StrictScanner() override;
 
   /// struct to map a filename to a value
   /// Implementation note:
@@ -87,7 +87,7 @@ public:
   Directory::FilenamesType const &GetFilenames() const { return Filenames; }
 
   /// Print result
-  void Print( std::ostream & os ) const;
+  void Print( std::ostream & os ) const override;
 
   /// Check if filename is a key in the Mapping table.
   /// returns true only of file can be found, which means

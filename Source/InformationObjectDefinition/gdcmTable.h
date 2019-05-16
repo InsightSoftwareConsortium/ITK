@@ -29,8 +29,10 @@ class Table
 {
 public:
   typedef std::map<Tag, TableEntry> MapTableEntry;
-  Table() {}
-  ~Table() {}
+  Table() = default;
+  ~Table() = default;
+  Table &operator=(const Table &_val) = delete;
+  Table(const Table&_val) = delete;
 
   friend std::ostream& operator<<(std::ostream& _os, const Table &_val);
 
@@ -55,10 +57,6 @@ public:
       }
     return it->second;
     }
-
-private:
-  Table &operator=(const Table &_val); // purposely not implemented
-  Table(const Table&_val); // purposely not implemented
 
   MapTableEntry TableInternal;
 };

@@ -28,8 +28,7 @@ DictPrinter::DictPrinter()
 
 //-----------------------------------------------------------------------------
 DictPrinter::~DictPrinter()
-{
-}
+= default;
 
 VM GuessVMType(DataElement const &de)
 {
@@ -82,7 +81,7 @@ VM GuessVMType(DataElement const &de)
           assert( bv && "not bv" );
           const char *array = bv->GetPointer();
           size_t c = VM::GetNumberOfElementsFromArray(array, vl);
-          vm = VM::GetVMTypeFromLength( (unsigned int)c, 1 );
+          vm = VM::GetVMTypeFromLength( c, 1 );
           }
         }
       break;
@@ -396,7 +395,7 @@ static const OWNER_VERSION OwnerVersionTable[] ={
 { "XXXXXXXXX_xx", "ANO" }, // FIXME
 { "        MED NM", "ANO" }, // Clearly should be SIEMENS
 
-  { NULL, NULL },
+  { nullptr, nullptr },
 };
 
 std::string GetVersion(std::string const &owner)
@@ -439,7 +438,7 @@ void DictPrinter::PrintDataElement2(std::ostream& os, const DataSet &ds, const D
   //const SequenceOfFragments *sqf = de.GetSequenceOfFragments();
 
   std::string strowner;
-  const char *owner = 0;
+  const char *owner = nullptr;
   const Tag& t = de.GetTag();
   if( t.IsPrivate() && !t.IsPrivateCreator() )
     {

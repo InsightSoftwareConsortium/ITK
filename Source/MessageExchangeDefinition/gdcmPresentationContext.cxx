@@ -40,7 +40,7 @@ PresentationContext::PresentationContext( UIDs::TSName asname, UIDs::TSName tsna
 
 void PresentationContext::AddTransferSyntax( const char *tsstr )
 {
-  TransferSyntaxes.push_back( tsstr );
+  TransferSyntaxes.emplace_back(tsstr );
 }
 
 void PresentationContext::SetPresentationContextID( uint8_t id )

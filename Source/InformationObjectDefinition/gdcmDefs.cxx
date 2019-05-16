@@ -24,12 +24,10 @@ namespace gdcm
 {
 
 Defs::Defs()
-{
-}
+= default;
 
 Defs::~Defs()
-{
-}
+= default;
 
 void Defs::LoadDefaults()
 {
@@ -238,7 +236,7 @@ const char *Defs::GetIODNameFromMediaStorage(MediaStorage const &ms)
       iodname = "VL Microscopic Image IOD Modules";
       break;
     default:
-      iodname = 0;
+      iodname = nullptr;
     }
   return iodname;
 }

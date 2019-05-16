@@ -34,14 +34,13 @@
 namespace gdcm
 {
 //-----------------------------------------------------------------------------
-XMLPrinter::XMLPrinter():PrintStyle(XMLPrinter::OnlyUUID),F(0)
+XMLPrinter::XMLPrinter():PrintStyle(XMLPrinter::OnlyUUID),F(nullptr)
 {
 }
 
 //-----------------------------------------------------------------------------
 XMLPrinter::~XMLPrinter()
-{
-}
+= default;
 
 // Carried forward from Printer Class
 // SIEMENS_GBS_III-16-ACR_NEMA_1.acr is a tough kid: 0009,1131 is supposed to be VR::UL, but
@@ -52,11 +51,11 @@ VR XMLPrinter::PrintDataElement(std::ostream &os, const Dicts &dicts, const Data
 {
 
   const ByteValue *bv = de.GetByteValue();
-  const SequenceOfItems *sqi = 0;
+  const SequenceOfItems *sqi = nullptr;
   const SequenceOfFragments *sqf = de.GetSequenceOfFragments();
 
   std::string strowner;
-  const char *owner = 0;
+  const char *owner = nullptr;
   const Tag& t = de.GetTag();
   UUIDGenerator UIDgen;
 
@@ -184,7 +183,7 @@ VR XMLPrinter::PrintDataElement(std::ostream &os, const Dicts &dicts, const Data
       os <<"keyword = \"";
 
       /*  No owner */
-      if( t.IsPrivate() && (owner == 0 || *owner == 0 ) && !t.IsPrivateCreator() )
+      if( t.IsPrivate() && (owner == nullptr || *owner == 0 ) && !t.IsPrivateCreator() )
         {
         //os << name;
         //os = PrintXML_char(os,name);
@@ -289,15 +288,21 @@ VR XMLPrinter::PrintDataElement(std::ostream &os, const Dicts &dicts, const Data
       StringFilterCase(AT);
       StringFilterCase(FL);
       StringFilterCase(FD);
+      StringFilterCase(OD);
       StringFilterCase(OF);
       StringFilterCase(SL);
       StringFilterCase(SS);
       StringFilterCase(UL);
       StringFilterCase(US);
+      StringFilterCase(SV);
+      StringFilterCase(UV);
     case VR::OB:
     case VR::OW:
+    case VR::OL:
+    case VR::OV:
     case VR::OB_OW:
     case VR::UN:
+    case VR::US_OW: 
     case VR::US_SS_OW: 
         {
         if ( bv )
@@ -373,7 +378,33 @@ VR XMLPrinter::PrintDataElement(std::ostream &os, const Dicts &dicts, const Data
         assert( de.IsEmpty() );
         }
       break;
-    default:
+    /* ASCII are treated elsewhere but we do not want to use default: here to get warnings */
+    /* hopefully compiler is smart and remove dead switch/case */
+    case VR::AE:
+    case VR::AS:
+    case VR::CS:
+    case VR::DA:
+    case VR::DS:
+    case VR::DT:
+    case VR::IS:
+    case VR::LO:
+    case VR::LT:
+    case VR::PN:
+    case VR::SH:
+    case VR::ST:
+    case VR::TM:
+    case VR::UC:
+    case VR::UI:
+    case VR::UR:
+    case VR::UT:
+    /* others */
+    case VR::VL16:
+    case VR::VL32:
+    case VR::VRASCII:
+    case VR::VRBINARY:
+    case VR::VR_VM1:
+    case VR::VRALL:
+    case VR::VR_END:
       assert(0 && "No Match! Impossible!!");
       break;
       }
