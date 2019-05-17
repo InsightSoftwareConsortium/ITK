@@ -136,8 +136,8 @@ void StreamingProcessObject::UpdateOutputData(DataObject *itkNotUsed(output))
   unsigned int ninputs = this->GetNumberOfValidRequiredInputs();
   if (ninputs < this->GetNumberOfRequiredInputs())
     {
-    itkExceptionMacro(<< "At least " << static_cast<unsigned int>( this->GetNumberOfRequiredInputs() ) << " inputs are required but only " << ninputs << " are specified.");
-    return;
+    itkExceptionMacro(<< "At least " << static_cast<unsigned int>( this->GetNumberOfRequiredInputs() )
+      << " inputs are required but only " << ninputs << " are specified.");
     }
 
   this->SetAbortGenerateData( false );
