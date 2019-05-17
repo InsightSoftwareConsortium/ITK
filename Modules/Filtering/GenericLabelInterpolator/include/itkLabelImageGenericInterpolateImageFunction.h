@@ -106,7 +106,7 @@ public:
   }
 
 protected:
-  LabelImageGenericInterpolateImageFunction();
+  LabelImageGenericInterpolateImageFunction() = default;
   ~LabelImageGenericInterpolateImageFunction() override = default;
 
   std::vector<typename InternalInterpolatorType::Pointer>  m_InternalInterpolators;
