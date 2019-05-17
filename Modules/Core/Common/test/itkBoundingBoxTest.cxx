@@ -168,11 +168,11 @@ int itkBoundingBoxTest (int, char*[])
     }
 
   // Testing the corners
-  std::cout << "Testing GetCorners() : ";
-  const CC::PointsContainer * corners = my3DBox->GetCorners();
-  auto it = corners->begin();
+  std::cout << "Testing ComputeCorners() : ";
+  const auto corners = my3DBox->ComputeCorners();
+  auto it = corners.begin();
   unsigned int j=0;
-  while(it != corners->end())
+  while(it != corners.end())
     {
     for(unsigned int i=0; i<3;i++)
       {
