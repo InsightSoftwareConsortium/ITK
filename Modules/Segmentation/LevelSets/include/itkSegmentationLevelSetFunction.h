@@ -150,10 +150,6 @@ protected:
   /** The image holding the advection field for front propation */
   typename VectorImageType::Pointer m_AdvectionImage;
 
-  /** A casting functor to convert between vector types.  */
-  Functor::Cast< typename VectorInterpolatorType::OutputType,
-                       VectorType > m_VectorCast;
-
   /** Returns the propagation speed from the precalculated speed image.*/
   ScalarValueType PropagationSpeed(const NeighborhoodType &,
                                            const FloatOffsetType &, GlobalDataStruct *gd) const override;

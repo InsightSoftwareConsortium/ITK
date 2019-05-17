@@ -113,7 +113,7 @@ SegmentationLevelSetFunction< TImageType, TFeatureImageType >
     }
   if ( m_VectorInterpolator->IsInsideBuffer(cdx) )
     {
-    return ( m_VectorCast( m_VectorInterpolator->EvaluateAtContinuousIndex(cdx) ) );
+    return ( static_cast<VectorType>( m_VectorInterpolator->EvaluateAtContinuousIndex(cdx) ) );
     }
   //Just return the default else
   return ( m_AdvectionImage->GetPixel(idx) );

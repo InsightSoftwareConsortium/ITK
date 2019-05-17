@@ -24,6 +24,7 @@
 
 namespace itk
 {
+#if !defined( ITK_LEGACY_REMOVE )
 namespace Functor
 {
 /** \class Cast
@@ -54,6 +55,7 @@ public:
   }
 };
 }
+#endif
 
 
 /** \class CastImageFilter
