@@ -390,6 +390,7 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
   // Connect the same points container into the clone
   clone->SetPoints(this->m_PointsContainer);
 
+#if !defined( ITK_LEGACY_REMOVE )
   // Copy the corners into the clone.
   clone->m_CornersContainer->clear();
 
@@ -404,6 +405,7 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
     dest.Value() = itr.Value();
     ++itr;
     }
+#endif
 
   // Copy the bounds into the clone
   for ( unsigned int i = 0; i < 2 * PointDimension; i++ )
