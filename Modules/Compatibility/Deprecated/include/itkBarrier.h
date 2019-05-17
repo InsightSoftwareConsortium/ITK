@@ -20,6 +20,7 @@
 
 #include "itkLightObject.h"
 #include "itkObjectFactory.h"
+#include "ITKDeprecatedExport.h"
 #include <condition_variable>
 #include <mutex>
 
@@ -44,7 +45,7 @@ namespace itk
  *
  * \ingroup ITKDeprecated
  */
-class ITKCommon_EXPORT Barrier
+class ITKDeprecated_EXPORT Barrier
   : public LightObject
 {
 public:
