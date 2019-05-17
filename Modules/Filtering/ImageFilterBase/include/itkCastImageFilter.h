@@ -21,6 +21,7 @@
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkProgressReporter.h"
 
+#include <type_traits>
 
 namespace itk
 {
@@ -111,23 +112,18 @@ public:
 
   using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
+  using InputPixelType = typename TInputImage::PixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(CastImageFilter, InPlaceImageFilter);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
-  itkConceptMacro( InputConvertibleToOutputCheck,
-                   ( Concept::Convertible< typename TInputImage::PixelType,
-                                           typename TOutputImage::PixelType > ) );
-  // End concept checking
-#endif
-
 protected:
   CastImageFilter();
-  // virtual ~CastImageFilter() {} default OK
+  virtual ~CastImageFilter() = default;
 
   void GenerateOutputInformation() override;
 
@@ -135,6 +131,11 @@ protected:
 
   void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
+  template<typename TInputPixelType>
+    void DynamicThreadedGenerateDataDispatched(const OutputImageRegionType & outputRegionForThread, std::true_type isConvertible);
+
+  template<typename TInputPixelType>
+    void DynamicThreadedGenerateDataDispatched(const OutputImageRegionType & outputRegionForThread, std::false_type isConvertible);
 };
 } // end namespace itk
 

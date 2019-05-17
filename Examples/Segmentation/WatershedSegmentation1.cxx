@@ -62,7 +62,6 @@
 #include "itkImageFileWriter.h"
 #include "itkCastImageFilter.h"
 #include "itkScalarToRGBPixelFunctor.h"
-#include "itkRGBToVectorImageAdaptor.h"
 
 int main( int argc, char *argv[] )
 {
@@ -103,9 +102,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   using FileReaderType = itk::ImageFileReader< RGBImageType >;
-  using AdaptorType = itk::RGBToVectorImageAdaptor< RGBImageType >;
-  using CastFilterType =
-      itk::CastImageFilter< AdaptorType, VectorImageType >;
+  using CastFilterType = itk::CastImageFilter< RGBImageType, VectorImageType >;
   using DiffusionFilterType =
     itk::VectorGradientAnisotropicDiffusionImageFilter<
                         VectorImageType, VectorImageType >;
@@ -119,7 +116,6 @@ int main( int argc, char *argv[] )
   FileReaderType::Pointer reader = FileReaderType::New();
   reader->SetFileName(argv[1]);
 
-  AdaptorType::Pointer adaptor = AdaptorType::New();
   CastFilterType::Pointer caster = CastFilterType::New();
 
   // Software Guide : BeginLatex
@@ -210,8 +206,7 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  adaptor->SetImage(reader->GetOutput());
-  caster->SetInput(adaptor);
+  caster->SetInput(reader->GetOutput());
   diffusion->SetInput(caster->GetOutput());
   gradient->SetInput(diffusion->GetOutput());
   watershed->SetInput(gradient->GetOutput());
