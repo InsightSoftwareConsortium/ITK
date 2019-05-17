@@ -101,7 +101,7 @@ if(ITK_USE_BRAINWEB_DATA)
 ## A test needed to prepare for making the latex documentation.
 itk_add_test(NAME ITKv3ITKv3ConfidenceConnected3DTest COMMAND ${ITK_TEST_DRIVER}
   $<TARGET_FILE:ConfidenceConnected3D>
-        DATA{../../Data/BrainWeb/brainweb165a10f17.mha}
+        DATA{${ITK_EXAMPLE_DATA_ROOT}/BrainWeb/brainweb165a10f17.mha}
         ${TEMP}/WhiteMatterSegmentation.mhd
 )
 
@@ -109,8 +109,8 @@ itk_add_test(NAME ITKv3ImageRegistration8Test COMMAND ${ITK_TEST_DRIVER}
   --compare DATA{${BASELINE}/ImageRegistration8RegisteredSlice.png}
             ${TEMP}/ImageRegistration8v3RegisteredSlice.png
   $<TARGET_FILE:ITKv3ImageRegistration8>
-        DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
-        DATA{../../Data/BrainWeb/brainweb1e1a10f20Rot10Tx15.mha}
+        DATA{${ITK_EXAMPLE_DATA_ROOT}/BrainWeb/brainweb1e1a10f20.mha}
+        DATA{${ITK_EXAMPLE_DATA_ROOT}/BrainWeb/brainweb1e1a10f20Rot10Tx15.mha}
         ${TEMP}/ImageRegistration8v3Output.mhd
         ${TEMP}/ImageRegistration8v3DifferenceBefore.mhd
         ${TEMP}/ImageRegistration8v3DifferenceAfter.mhd
@@ -291,15 +291,16 @@ if( ITK_USE_BRAINWEB_DATA )
 
   set( NUMBER_OF_BSPLINE_GRID_NODES 5 )
 
-  if( DART_TESTING_TIMEOUT GREATER 3000 )
+  message("CTEST_TEST_TIMEOUT: ${CTEST_TEST_TIMEOUT}")
+  if( CTEST_TEST_TIMEOUT GREATER 3000 )
 
     itk_add_test(NAME  ITKv3DeformableRegistration8Test1 COMMAND ${ITK_TEST_DRIVER}
-        --compare DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
+        --compare DATA{${ITK_EXAMPLE_DATA_ROOT}/BrainWeb/brainweb1e1a10f20.mha}
                   ${TEMP}/DeformableRegistration8Test1.mhd
         --compareNumberOfPixelsTolerance 700000
         --compareIntensityTolerance 15
       $<TARGET_FILE:ITKv3DeformableRegistration8>
-            DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
+            DATA{${ITK_EXAMPLE_DATA_ROOT}/BrainWeb/brainweb1e1a10f20.mha}
             ${TEMP}/BSplineWarping2Test.mhd
             ${TEMP}/DeformableRegistration8Test1.mhd
             ${TEMP}/DeformableRegistration8Test1DifferenceAfter.mhd
@@ -314,12 +315,12 @@ if( ITK_USE_BRAINWEB_DATA )
   set_property(TEST  ITKv3DeformableRegistration8Test1 APPEND PROPERTY LABELS RUNS_LONG)
 
     itk_add_test(NAME ITKv3DeformableRegistration8Test2 COMMAND ${ITK_TEST_DRIVER}
-        --compare DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
+        --compare DATA{${ITK_EXAMPLE_DATA_ROOT}/BrainWeb/brainweb1e1a10f20.mha}
                   ${TEMP}/DeformableRegistration8Test2.mhd
         --compareNumberOfPixelsTolerance 700000
         --compareIntensityTolerance 15
       $<TARGET_FILE:ITKv3DeformableRegistration8>
-            DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
+            DATA{${ITK_EXAMPLE_DATA_ROOT}/BrainWeb/brainweb1e1a10f20.mha}
             ${TEMP}/BSplineWarping2Test.mhd
             ${TEMP}/DeformableRegistration8Test2.mhd
             ${TEMP}/DeformableRegistration8Test2DifferenceAfter.mhd
@@ -334,12 +335,12 @@ if( ITK_USE_BRAINWEB_DATA )
   set_property(TEST  ITKv3DeformableRegistration8Test2 APPEND PROPERTY LABELS RUNS_LONG)
 
     itk_add_test(NAME ITKv3DeformableRegistration8Test3 COMMAND ${ITK_TEST_DRIVER}
-        --compare DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
+        --compare DATA{${ITK_EXAMPLE_DATA_ROOT}/BrainWeb/brainweb1e1a10f20.mha}
                   ${TEMP}/DeformableRegistration8Test3.mhd
         --compareNumberOfPixelsTolerance 700000
         --compareIntensityTolerance 15
       $<TARGET_FILE:ITKv3DeformableRegistration8>
-            DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
+            DATA{${ITK_EXAMPLE_DATA_ROOT}/BrainWeb/brainweb1e1a10f20.mha}
             ${TEMP}/BSplineWarping2Test.mhd
             ${TEMP}/DeformableRegistration8Test3.mhd
             ${TEMP}/DeformableRegistration8Test3DifferenceAfter.mhd
@@ -354,12 +355,12 @@ if( ITK_USE_BRAINWEB_DATA )
   set_property(TEST  ITKv3DeformableRegistration8Test3 APPEND PROPERTY LABELS RUNS_LONG)
 
     itk_add_test(NAME ITKv3DeformableRegistration8Test4 COMMAND ${ITK_TEST_DRIVER}
-        --compare DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
+        --compare DATA{${ITK_EXAMPLE_DATA_ROOT}/BrainWeb/brainweb1e1a10f20.mha}
                   ${TEMP}/DeformableRegistration8Test4.mhd
         --compareNumberOfPixelsTolerance 700000
         --compareIntensityTolerance 15
       $<TARGET_FILE:ITKv3DeformableRegistration8>
-            DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
+            DATA{${ITK_EXAMPLE_DATA_ROOT}/BrainWeb/brainweb1e1a10f20.mha}
             ${TEMP}/BSplineWarping2Test.mhd
             ${TEMP}/DeformableRegistration8Test4.mhd
             ${TEMP}/DeformableRegistration8Test4DifferenceAfter.mhd
@@ -373,14 +374,14 @@ if( ITK_USE_BRAINWEB_DATA )
   set_property(TEST  ITKv3DeformableRegistration8Test4 PROPERTY DEPENDS BSplineWarping2Test)
   set_property(TEST  ITKv3DeformableRegistration8Test4 APPEND PROPERTY LABELS RUNS_LONG)
 
-  endif() # DART_TESTING_TIMEOUT GREATER 3000
+  endif() # CTEST_TEST_TIMEOUT GREATER 3000
 
   if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 6 )
 
     set(NUMBER_OF_BSPLINE_GRID_NODES 32)
     itk_add_test(NAME ITKv3DeformableRegistration8Test5 COMMAND ${ITK_TEST_DRIVER}
       $<TARGET_FILE:ITKv3DeformableRegistration8>
-            DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
+            DATA{${ITK_EXAMPLE_DATA_ROOT}/BrainWeb/brainweb1e1a10f20.mha}
             ${TEMP}/BSplineWarping2Test.mhd
             ${TEMP}/DeformableRegistration8Test5.mhd
             ${TEMP}/DeformableRegistration8Test5DifferenceAfter.mhd
@@ -395,7 +396,7 @@ if( ITK_USE_BRAINWEB_DATA )
 
     itk_add_test(NAME ITKv3DeformableRegistration8Test6 COMMAND ${ITK_TEST_DRIVER}
       $<TARGET_FILE:ITKv3DeformableRegistration8>
-            DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
+            DATA{${ITK_EXAMPLE_DATA_ROOT}/BrainWeb/brainweb1e1a10f20.mha}
             ${TEMP}/BSplineWarping2Test.mhd
             ${TEMP}/DeformableRegistration8Test6.mhd
             ${TEMP}/DeformableRegistration8Test6DifferenceAfter.mhd
@@ -410,7 +411,7 @@ if( ITK_USE_BRAINWEB_DATA )
 
     itk_add_test(NAME ITKv3DeformableRegistration8Test7 COMMAND ${ITK_TEST_DRIVER}
       $<TARGET_FILE:ITKv3DeformableRegistration8>
-            DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
+            DATA{${ITK_EXAMPLE_DATA_ROOT}/BrainWeb/brainweb1e1a10f20.mha}
             ${TEMP}/BSplineWarping2Test.mhd
             ${TEMP}/DeformableRegistration8Test7.mhd
             ${TEMP}/DeformableRegistration8Test7DifferenceAfter.mhd
@@ -425,7 +426,7 @@ if( ITK_USE_BRAINWEB_DATA )
 
     itk_add_test(NAME ITKv3DeformableRegistration8Test8 COMMAND ${ITK_TEST_DRIVER}
       $<TARGET_FILE:ITKv3DeformableRegistration8>
-            DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
+            DATA{${ITK_EXAMPLE_DATA_ROOT}/BrainWeb/brainweb1e1a10f20.mha}
             ${TEMP}/BSplineWarping2Test.mhd
             ${TEMP}/DeformableRegistration8Test8.mhd
             ${TEMP}/DeformableRegistration8Test8DifferenceAfter.mhd
@@ -441,7 +442,7 @@ if( ITK_USE_BRAINWEB_DATA )
     set(NUMBER_OF_BSPLINE_GRID_NODES 100)
     itk_add_test(NAME ITKv3DeformableRegistration8Test9 COMMAND ${ITK_TEST_DRIVER}
       $<TARGET_FILE:ITKv3DeformableRegistration8>
-            DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
+            DATA{${ITK_EXAMPLE_DATA_ROOT}/BrainWeb/brainweb1e1a10f20.mha}
             ${TEMP}/BSplineWarping2Test.mhd
             ${TEMP}/DeformableRegistration8Test9.mhd
             ${TEMP}/DeformableRegistration8Test9DifferenceAfter.mhd
@@ -456,7 +457,7 @@ if( ITK_USE_BRAINWEB_DATA )
 
     itk_add_test(NAME ITKv3DeformableRegistration8Test10 COMMAND ${ITK_TEST_DRIVER}
       $<TARGET_FILE:ITKv3DeformableRegistration8>
-            DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
+            DATA{${ITK_EXAMPLE_DATA_ROOT}/BrainWeb/brainweb1e1a10f20.mha}
             ${TEMP}/BSplineWarping2Test.mhd
             ${TEMP}/DeformableRegistration8Test10.mhd
             ${TEMP}/DeformableRegistration8Test10DifferenceAfter.mhd
@@ -485,7 +486,7 @@ if( ITK_USE_BRAINWEB_DATA )
 
       itk_add_test(NAME ITKv3DeformableRegistration8Test11 COMMAND ${ITK_TEST_DRIVER}
         $<TARGET_FILE:ITKv3DeformableRegistration8>
-              DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
+              DATA{${ITK_EXAMPLE_DATA_ROOT}/BrainWeb/brainweb1e1a10f20.mha}
               ${TEMP}/BSplineWarping2Test.mhd
               ${TEMP}/DeformableRegistration8Test11.mhd
               ${TEMP}/DeformableRegistration8Test11DifferenceAfter.mhd
@@ -500,7 +501,7 @@ if( ITK_USE_BRAINWEB_DATA )
 
       itk_add_test(NAME ITKv3DeformableRegistration8Test12 COMMAND ${ITK_TEST_DRIVER}
         $<TARGET_FILE:ITKv3DeformableRegistration8>
-              DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
+              DATA{${ITK_EXAMPLE_DATA_ROOT}/BrainWeb/brainweb1e1a10f20.mha}
               ${TEMP}/BSplineWarping2Test.mhd
               ${TEMP}/DeformableRegistration8Test12.mhd
               ${TEMP}/DeformableRegistration8Test12DifferenceAfter.mhd
