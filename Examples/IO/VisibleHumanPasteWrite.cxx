@@ -62,12 +62,9 @@ int main(int argc, char *argv[])
 // which works on vector images to produce a scalar output. Then a
 // color image is recreated by compositing the output as red, green,
 // and blue channels.
-  using ToVectorImageAdaptorType = itk::RGBToVectorImageAdaptor< RGB2DImageType >;
-  using GradientMagnitudeImageFilter = itk::VectorGradientMagnitudeImageFilter< ToVectorImageAdaptorType >;
-  ToVectorImageAdaptorType::Pointer adaptor = ToVectorImageAdaptorType::New();
-  adaptor->SetImage( reader->GetOutput() );
+  using GradientMagnitudeImageFilter = itk::VectorGradientMagnitudeImageFilter< RGB2DImageType >;
   GradientMagnitudeImageFilter::Pointer grad = GradientMagnitudeImageFilter::New();
-  grad->SetInput( adaptor );
+  grad->SetInput( reader->GetOutput() );
 
   grad->SetUseImageSpacingOn();
 
@@ -102,15 +99,16 @@ int main(int argc, char *argv[])
 // enable pasting, a call to SetIORegion is made with a valid
 // region. Finally, the pipeline is updated, causing the streaming of
 // regions
-  ToVectorImageAdaptorType::Pointer adaptor2 = ToVectorImageAdaptorType::New();
-  adaptor2->SetImage( composeRGB->GetOutput() );
+  using ToVectorImageAdaptorType = itk::RGBToVectorImageAdaptor< RGB2DImageType >;
+  ToVectorImageAdaptorType::Pointer adaptor = ToVectorImageAdaptorType::New();
+  adaptor->SetImage( composeRGB->GetOutput() );
 
   using ImageWriterType = itk::ImageFileWriter< ToVectorImageAdaptorType >;
   ImageWriterType::Pointer writer = ImageWriterType::New();
   writer->SetFileName( outputImageFile );
   writer->SetNumberOfStreamDivisions( 10 );
   writer->SetIORegion( halfIO );
-  writer->SetInput( adaptor2 );
+  writer->SetInput( adaptor );
 
   itk::SimpleFilterWatcher watcher1(writer, "stream pasting writing");
 
