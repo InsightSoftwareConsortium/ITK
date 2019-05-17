@@ -410,6 +410,9 @@ b40f74e07d74614c75be4aceac63b87e80e589d1 on 2018-11-14.
 `FixedArray` member functions `rBegin()` and `rEnd()` are replaced by `rbegin()` and `rend()`,
 which return a `reverse_iterator`, compatible with the Standard C++ Library.
 
+`BoundingBox` member function `GetCorners()` is replaced by `ComputeCorners()`, which return an
+`std::array<PointType, NumberOfCorners>`, instead of a pointer to a `PointsContainer`.
+
 `itk::ImageTransformer` has been moved to `ITKDeprecated` module. The new `itk::ImageSink` filter can be used in its place.
 
 `itk::StatisticsImageFilter`, `itk::LabelStatisticsImageFilter` and

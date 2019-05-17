@@ -127,7 +127,7 @@ public:
   std::array<PointType, NumberOfCorners> ComputeCorners() const;
 
   /** Compute and return the corners of the bounding box */
-  const PointsContainer * GetCorners();
+  itkLegacyMacro( const PointsContainer * GetCorners() );
 
   /** Method that actually computes bounding box. */
   bool ComputeBoundingBox() const;
@@ -191,7 +191,9 @@ protected:
 
 private:
   PointsContainerConstPointer m_PointsContainer;
-  PointsContainerPointer      m_CornersContainer;
+#if !defined(ITK_LEGACY_REMOVE)
+  PointsContainerPointer      m_CornersContainer{ PointsContainer::New() };
+#endif
   mutable BoundsArrayType     m_Bounds;
   mutable TimeStamp           m_BoundsMTime; // The last time the bounds
                                              // were computed.

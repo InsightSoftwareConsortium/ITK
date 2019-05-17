@@ -112,6 +112,7 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
   return result;
 }
 
+#if !defined(ITK_LEGACY_REMOVE)
 /** Compute and get the corners of the bounding box */
 template< typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer >
@@ -131,6 +132,7 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
 
   return m_CornersContainer.GetPointer();
 }
+#endif
 
 /** */
 template< typename TPointIdentifier, int VPointDimension,
@@ -139,7 +141,6 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
 ::BoundingBox():m_PointsContainer(nullptr)
 {
   m_Bounds.Fill(NumericTraits< CoordRepType >::ZeroValue());
-  m_CornersContainer = PointsContainer::New();
 }
 
 template< typename TPointIdentifier, int VPointDimension,
