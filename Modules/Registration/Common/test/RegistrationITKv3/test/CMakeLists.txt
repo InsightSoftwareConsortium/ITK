@@ -1,3 +1,5 @@
+
+
 set(ITK_TEST_DRIVER itkTestDriver)
 
 set(BASELINE ${ITK_DATA_ROOT}/Baseline/Registration)
@@ -291,7 +293,6 @@ if( ITK_USE_BRAINWEB_DATA )
 
   set( NUMBER_OF_BSPLINE_GRID_NODES 5 )
 
-  message("CTEST_TEST_TIMEOUT: ${CTEST_TEST_TIMEOUT}")
   if( CTEST_TEST_TIMEOUT GREATER 3000 )
 
     itk_add_test(NAME  ITKv3DeformableRegistration8Test1 COMMAND ${ITK_TEST_DRIVER}

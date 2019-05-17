@@ -511,7 +511,7 @@ if( ITK_USE_BRAINWEB_DATA )
 
   set( NUMBER_OF_BSPLINE_GRID_NODES 5 )
 
-  if( DART_TESTING_TIMEOUT GREATER 3000 )
+  if( CTEST_TEST_TIMEOUT GREATER 3000 )
 
     itk_add_test(NAME DeformableRegistration8Test1 COMMAND ${ITK_TEST_DRIVER}
         --compare DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
@@ -616,7 +616,7 @@ if( ITK_USE_BRAINWEB_DATA )
     set_property(TEST DeformableRegistration14Test4 PROPERTY DEPENDS BSplineWarping2Test)
     set_property(TEST DeformableRegistration14Test4 APPEND PROPERTY LABELS RUNS_LONG)
 
-  endif() # DART_TESTING_TIMEOUT GREATER 3000
+  endif() # CTEST_TEST_TIMEOUT GREATER 3000
 
   itk_add_test(NAME ChangeInformationTest1 COMMAND ${ITK_TEST_DRIVER}
           $<TARGET_FILE:ChangeInformationImageFilter>
@@ -627,7 +627,7 @@ if( ITK_USE_BRAINWEB_DATA )
           10.0
   )
 
-  if( DART_TESTING_TIMEOUT GREATER 10000 )
+  if( CTEST_TEST_TIMEOUT GREATER 10000 )
     itk_add_test(NAME DeformableRegistration15Test1 COMMAND ${ITK_TEST_DRIVER}
         --compare DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
                   ${TEMP}/DeformableRegistration15Test1.mhd
@@ -696,7 +696,7 @@ endif() # ITK_USE_BRAINWEB_DATA
 
 if(ITK_MRI_UNC_DATABASE_DATA_ROOT)
 
-if( DART_TESTING_TIMEOUT GREATER 10000 )
+if( CTEST_TEST_TIMEOUT GREATER 10000 )
   itk_add_test(NAME DeformableRegistration15Test2 COMMAND ${ITK_TEST_DRIVER}
           $<TARGET_FILE:DeformableRegistration15>
           ${ITK_MRI_UNC_DATABASE_DATA_ROOT}/b/I.hdr
