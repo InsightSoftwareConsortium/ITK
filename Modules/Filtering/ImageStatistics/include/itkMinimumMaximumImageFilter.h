@@ -92,6 +92,11 @@ public:
   using Superclass::MakeOutput;
   DataObjectPointer MakeOutput( const DataObjectIdentifierType & name ) override;
 
+
+  // Change the acces from protected to public to expose streaming option
+  using Superclass::SetNumberOfStreamDivisions;
+  using Superclass::GetNumberOfStreamDivisions;
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro( LessThanComparableCheck,
