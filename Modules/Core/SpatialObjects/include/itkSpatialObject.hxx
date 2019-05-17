@@ -431,17 +431,17 @@ SpatialObject< TDimension >
 {
     // Next Transform the corners of the bounding box
   using PointsContainer = typename BoundingBoxType::PointsContainer;
-  const PointsContainer *corners
-    = m_FamilyBoundingBoxInObjectSpace->GetCorners();
+  const auto corners
+    = m_FamilyBoundingBoxInObjectSpace->ComputeCorners();
   typename PointsContainer::Pointer transformedCorners =
     PointsContainer::New();
   transformedCorners->Reserve(
     static_cast<typename PointsContainer::ElementIdentifier>(
-      corners->size() ) );
+      corners.size() ) );
 
-  auto it = corners->begin();
+  auto it = corners.begin();
   auto itTrans = transformedCorners->begin();
-  while ( it != corners->end() )
+  while ( it != corners.end() )
     {
     PointType pnt = this->GetObjectToWorldTransform()->TransformPoint(*it);
     *itTrans = pnt;
@@ -723,17 +723,17 @@ SpatialObject< TDimension >
 {
     // Next Transform the corners of the bounding box
   using PointsContainer = typename BoundingBoxType::PointsContainer;
-  const PointsContainer *corners
-    = m_MyBoundingBoxInObjectSpace->GetCorners();
+  const auto corners
+    = m_MyBoundingBoxInObjectSpace->ComputeCorners();
   typename PointsContainer::Pointer transformedCorners =
     PointsContainer::New();
   transformedCorners->Reserve(
     static_cast<typename PointsContainer::ElementIdentifier>(
-      corners->size() ) );
+      corners.size() ) );
 
-  auto it = corners->begin();
+  auto it = corners.begin();
   auto itTrans = transformedCorners->begin();
-  while ( it != corners->end() )
+  while ( it != corners.end() )
     {
     PointType pnt = this->GetObjectToWorldTransform()->TransformPoint(*it);
     *itTrans = pnt;

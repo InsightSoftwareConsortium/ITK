@@ -83,12 +83,11 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
 /** Compute and get the corners of the bounding box */
 template< typename TPointIdentifier, int VPointDimension,
           typename TCoordRep, typename TPointsContainer >
-const typename BoundingBox< TPointIdentifier, VPointDimension, TCoordRep,
-                            TPointsContainer >::PointsContainer *
+auto
 BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
-::GetCorners()
+::ComputeCorners() const -> std::array<PointType, NumberOfCorners>
 {
-  m_CornersContainer->clear();
+  std::array<PointType, NumberOfCorners> result;
 
   PointType center = this->GetCenter();
   PointType radius;
@@ -98,7 +97,7 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
     radius[i] = m_Bounds[2 * i + 1] - center[i];
     }
 
-  for ( unsigned int j = 0; j < std::pow(2.0, (double)VPointDimension); j++ )
+  for ( unsigned int j = 0; j < NumberOfCorners; j++ )
     {
     PointType pnt;
     for ( unsigned int i = 0; i < VPointDimension; i++ )
@@ -107,6 +106,25 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
                * radius[i];
       }
 
+    result[j] = pnt;
+    }
+
+  return result;
+}
+
+/** Compute and get the corners of the bounding box */
+template< typename TPointIdentifier, int VPointDimension,
+          typename TCoordRep, typename TPointsContainer >
+const typename BoundingBox< TPointIdentifier, VPointDimension, TCoordRep,
+                            TPointsContainer >::PointsContainer *
+BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
+::GetCorners()
+{
+  m_CornersContainer->clear();
+  m_CornersContainer->reserve(NumberOfCorners);
+
+  for (const PointType& pnt: this->ComputeCorners())
+    {
     // Push back is not defined so we insert at the end of the list
     m_CornersContainer->InsertElement(m_CornersContainer->Size(), pnt);
     }

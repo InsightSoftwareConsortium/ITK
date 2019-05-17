@@ -32,6 +32,8 @@
 #include "itkVectorContainer.h"
 #include "itkIntTypes.h"
 
+#include <array>
+
 namespace itk
 {
 /** \class BoundingBox
@@ -91,6 +93,9 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+  /* Number of corners of this bounding box. Equals `pow(2, VPointDimension)` */
+  static constexpr SizeValueType NumberOfCorners = SizeValueType{ 1 } << VPointDimension;
+
   /** Hold on to the type information specified by the template parameters. */
   using PointIdentifier = TPointIdentifier;
   using CoordRepType = TCoordRep;
@@ -114,6 +119,12 @@ public:
   void SetPoints(const PointsContainer *);
 
   const PointsContainer * GetPoints() const;
+
+  /** Compute and return the corners of the bounding box.
+   *\note This function returns the same points as `GetCorners()`, but it is
+   * `const`, and it avoids dynamic memory allocation by using `std::array`.
+  */
+  std::array<PointType, NumberOfCorners> ComputeCorners() const;
 
   /** Compute and return the corners of the bounding box */
   const PointsContainer * GetCorners();
