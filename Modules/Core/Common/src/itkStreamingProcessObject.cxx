@@ -98,6 +98,7 @@ void StreamingProcessObject::GenerateData( void )
       }
     }
 
+  m_CurrentRequestNumber = -1;
 
   this->AfterStreamedGenerateData();
 }
