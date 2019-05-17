@@ -83,12 +83,12 @@ void StreamingProcessObject::GenerateData( void )
       this->StreamedGenerateData( piece );
       this->UpdateProgress( float( piece+1 ) / numberOfInputRequestRegion);
       }
-    catch( ProcessAborted & excp )
+    catch( ProcessAborted & )
       {
       this->InvokeEvent( AbortEvent() );
       this->ResetPipeline();
       this->RestoreInputReleaseDataFlags();
-      throw excp;
+      throw;
       }
     catch( ... )
       {
