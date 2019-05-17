@@ -190,3 +190,8 @@ itk_add_test( NAME itkLabelOverlapMeasuresImageFilterTest
       itkLabelOverlapMeasuresImageFilterTest 2
           DATA{Input/sourceImage.nii.gz}
           DATA{Input/targetImage.nii.gz} )
+
+set(ITKImageStatisticsGTests
+  itkMinimumMaximumImageFilterGTest.cxx)
+
+CreateGoogleTestDriver(ITKImageStatistics "${ITKImageStatistics-Test_LIBRARIES}" "${ITKImageStatisticsGTests}")
