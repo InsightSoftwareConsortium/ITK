@@ -27,12 +27,9 @@ hereafter). The Committee is currently composed by:
   * [Bradley Lowekamp](mailto:brad@lowekamp.net), the ISC Vice President
   * [Nick Tustison](mailto:ntustison@virginia.edu), the ISC Secretary
 
-The ISC Officers will approve the members of this three person committee. The
-members will be drawn from our entire community, and we intend that it not be
-only ISC members: anyone who is actively engaged with ITK can propose to join
-this committee (we will explicitly solicit volunteers when short of three
-members). One member will be designated chair of the group by the ISC Officers
-and will be responsible for all reports back to the ISC Officers.
+The ISC Officers will approve the members of this three person committee. One
+member will be designated chair of the group by the ISC Officers and will be
+responsible for all reports back to the ISC Officers.
 
 When reviewing enforcement measures, the Code of Conduct Committee will keep
 the following values and guidelines in mind:
@@ -217,7 +214,7 @@ believe that the situation has ended and that everyone is physically safe.
 
 Committee members (or designated delegates) present at these incidents must
 report these incidents to the Committee for review within 24 hours (see
-#[event-incident-report]).
+[Event Incident Report](Reporting.md#event-incident-report)).
 
 Once the Committee has a complete account of the events in the light of the
 report review, they will make a decision as to how to response. Responses may
@@ -237,15 +234,17 @@ include:
   email, cc'ing the Committee.
   * A public reprimand. In this case, the Committee Chair will deliver that
   reprimand in the same venue that the violation occurred, within the limits of
-  practicality. E.g., the original ITK discussion forum for an email/posting
-  violation, but for a chat room discussion where the person/context may be
-  gone, they can be reached by other means. The Committee may choose to publish
-  this message elsewhere for documentation purposes.
+  practicality (e.g. the original ITK discussion forum for an email/posting
+  violation; for a chat room discussion where the person/context may be gone,
+  other means of reaching the message to the community will be required). The
+  Committee may choose to publish this message elsewhere for documentation
+  purposes.
   * A request for a public or private apology, assuming the reporter agrees to
   this idea: they may at their discretion refuse further contact with the
   originator. The Chair will deliver this request. The Committee may, if it
   chooses, attach "strings" to this request: for example, the Committee may ask
-  a originator to apologize in order to retain one's membership on a mailing list.
+  a originator to apologize in order to retain one's membership in the
+  community.
   * A "mutually agreed upon hiatus" where the Committee asks the individual to
   temporarily refrain from community participation. If the individual chooses
   not to take a temporary break voluntarily, the Committee may issue a
@@ -254,7 +253,7 @@ include:
   forums, code repositories, etc.). The Committee will maintain records of all
   such bans so that they may be reviewed in the future or otherwise maintained.
   * Ask to leave the ITK event (if the event is ongoing, e.g. training,
-  hackacthon) where the code violation has taken place with no refund (if
+  hackathon) where the code violation has taken place with no refund (if
   applicable), depending on the circumstances.
 
 Participants asked to stop unacceptable behavior are expected to comply
@@ -264,7 +263,7 @@ appropriate, up to and including a permanent ban from the ITK community
 without warning.
 
 The Committee reserves the right to exclude any participant found to be
-enagaging in harassing behavior from participating in any future ITK events,
+engaging in harassing behavior from participating in any future ITK events,
 trainings, hackathons or other inperson activities and ancillary events and
 forums.
 
