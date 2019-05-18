@@ -23,7 +23,7 @@
 namespace itk
 {
 // contact point algorithm
-template <class LineBufferType, class RealType, bool doDilate>
+template <typename LineBufferType, typename RealType, bool doDilate>
 void
 DoLineCP(LineBufferType & LineBuf, LineBufferType & tmpLineBuf, const RealType magnitude, const RealType m_Extreme)
 {
@@ -74,7 +74,7 @@ DoLineCP(LineBufferType & LineBuf, LineBufferType & tmpLineBuf, const RealType m
 // This algorithm has been described a couple of times. First by van
 // den Boomgaard and more recently by Felzenszwalb and Huttenlocher,
 // in the context of generalized distance transform
-template <class LineBufferType, class IndexBufferType, class EnvBufferType, class RealType, bool doDilate>
+template <typename LineBufferType, typename IndexBufferType, typename EnvBufferType, typename RealType, bool doDilate>
 void
 DoLineIntAlg(LineBufferType &  LineBuf,
              EnvBufferType &   F,
@@ -175,7 +175,7 @@ DoLineIntAlg(LineBufferType &  LineBuf,
   }
 }
 
-template <class TInIter, class TOutIter, class RealType, class OutputPixelType, bool doDilate>
+template <typename TInIter, typename TOutIter, typename RealType, typename OutputPixelType, bool doDilate>
 void
 doOneDimension(TInIter &      inputIterator,
                TOutIter &     outputIterator,
