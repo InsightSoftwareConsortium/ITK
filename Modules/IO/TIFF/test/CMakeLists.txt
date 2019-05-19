@@ -235,8 +235,11 @@ if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5 )
                        RESOURCE_LOCK MEMORY_SIZE
                       )
   set_property(TEST itkLargeTIFFImageWriteReadTest1 APPEND PROPERTY LABELS RUNS_LONG)
+  set_property(TEST itkLargeTIFFImageWriteReadTest1 APPEND PROPERTY RUN_SERIAL True)
   set_property(TEST itkLargeTIFFImageWriteReadTest2 APPEND PROPERTY LABELS RUNS_LONG)
+  set_property(TEST itkLargeTIFFImageWriteReadTest2 APPEND PROPERTY RUN_SERIAL True)
   set_property(TEST itkLargeTIFFImageWriteReadTest3 APPEND PROPERTY LABELS RUNS_LONG)
+  set_property(TEST itkLargeTIFFImageWriteReadTest3 APPEND PROPERTY RUN_SERIAL True)
 endif()
 
 
