@@ -302,7 +302,7 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
     indices.resize( this->m_Offsets.size() );
     }
 
-  double confidenceFactor = 1.0 / this->m_Confidences[0];
+  // double confidenceFactor = 1.0 / this->m_Confidences[0];
 
   for ( unsigned m = 0; m < this->m_Confidences.size(); m++ )
     {
