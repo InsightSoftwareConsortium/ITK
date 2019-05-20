@@ -7,19 +7,9 @@ option(ITK_USE_SYSTEM_DOUBLECONVERSION
 mark_as_advanced(ITK_USE_SYSTEM_DOUBLECONVERSION)
 
 if(ITK_USE_SYSTEM_DOUBLECONVERSION)
-  find_library(double-conversion_LIBRARIES double-conversion)
-  find_path(double-conversion_INCLUDE_DIRS double-conversion.h
-    PATH_SUFFIXES double-conversion
-    )
-
-  if (double-conversion_LIBRARIES AND double-conversion_INCLUDE_DIRS)
-    set(ITKDoubleConversion_SYSTEM_INCLUDE_DIRS
-      ${double-conversion_INCLUDE_DIRS}/..)
-    set(ITKDoubleConversion_LIBRARIES
-      "${double-conversion_LIBRARIES}")
-  else()
-    message(ERROR "double-conversion system library not found")
-  endif()
+  find_package(double-conversion REQUIRED)
+  get_target_property(ITKDoubleConversion_INCLUDE_DIRS double-conversion::double-conversion INTERFACE_INCLUDE_DIRECTORIES)
+  get_target_property(ITKDoubleConversion_LIBRARIES double-conversion::double-conversion LOCATION)
 else()
   set(ITKDoubleConversion_INCLUDE_DIRS
     ${ITKDoubleConversion_SOURCE_DIR}/src
