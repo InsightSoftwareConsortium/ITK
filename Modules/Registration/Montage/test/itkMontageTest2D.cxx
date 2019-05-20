@@ -26,7 +26,7 @@ int itkMontageTest2D(int argc, char* argv[])
   if ( argc < 4 )
     {
     std::cerr << "Usage: " << argv[0] << " <directoryWtihInputData> <montageTSV> <mockTSV>";
-    std::cerr << " [ varyPaddingMethods peakMethod loadIntoMemory streamSubdivisions doPairs]" << std::endl;
+    std::cerr << " [ varyPaddingMethods peakMethod loadIntoMemory streamSubdivisions doPairs writeTransforms]" << std::endl;
     return EXIT_FAILURE;
     }
 
