@@ -121,8 +121,9 @@ public:
   const PointsContainer * GetPoints() const;
 
   /** Compute and return the corners of the bounding box.
-   *\note This function returns the same points as `GetCorners()`, but it is
-   * `const`, and it avoids dynamic memory allocation by using `std::array`.
+   *\note This function returns the same points as the legacy member function
+   * `GetCorners()`, but it is `const`, and it avoids dynamic memory allocation
+   * by using `std::array`.
   */
   std::array<PointType, NumberOfCorners> ComputeCorners() const;
 
@@ -139,12 +140,12 @@ public:
  * Therefore it is safe to invoke GetBounds() after any of those methods. */
   itkGetConstReferenceMacro(Bounds, BoundsArrayType);
 
-  /** Get the center of the bounding box. Returns nullptr if bounding box
-   * cannot be computed. */
+  /** Get the center of the bounding box. Returns a point at the origin
+   *  when the bounding box object is just default-initialized. */
   PointType GetCenter() const;
 
-  /** Get the minimum point of the bounding box. Returns nullptr if bounding box
-   * cannot be computed. */
+  /** Get the minimum point of the bounding box. Returns a point at the origin
+   *  when the bounding box object is just default-initialized. */
   PointType GetMinimum() const;
 
   /** Set the minimum point of the bounding box. May not be valid for the given
@@ -152,8 +153,8 @@ public:
    * set's) modified time changes. */
   void      SetMinimum(const PointType &);
 
-  /** Get the maximum point of the bounding box. Returns nullptr if bounding box
-   * cannot be computed. */
+  /** Get the maximum point of the bounding box. Returns a point at the origin
+   *  when the bounding box object is just default-initialized. */
   PointType GetMaximum() const;
 
   /** Set the maximum point of the bounding box. May not be valid for the given
