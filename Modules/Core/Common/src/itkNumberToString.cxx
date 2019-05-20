@@ -17,7 +17,7 @@
  *=========================================================================*/
 #include "itkNumberToString.h"
 #include "itkNumericTraits.h"
-#include "double-conversion.h"
+#include "double-conversion/double-conversion.h"
 
 #include <sstream>
 
