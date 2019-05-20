@@ -121,8 +121,8 @@ const typename BoundingBox< TPointIdentifier, VPointDimension, TCoordRep,
 BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
 ::GetCorners()
 {
-  m_CornersContainer->clear();
-  m_CornersContainer->reserve(NumberOfCorners);
+  m_CornersContainer->Initialize();
+  m_CornersContainer->Reserve(NumberOfCorners);
 
   for (const PointType& pnt: this->ComputeCorners())
     {
