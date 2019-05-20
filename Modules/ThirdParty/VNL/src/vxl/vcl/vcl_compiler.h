@@ -97,6 +97,17 @@
 #  else
 #   define VCL_GCC_80
 #  endif
+# elif (__GNUC__==9)
+#  define VCL_GCC_9
+#  if (__GNUC_MINOR__ > 2 )
+#   define VCL_GCC_93
+#  elif (__GNUC_MINOR__ > 1 )
+#   define VCL_GCC_92
+#  elif (__GNUC_MINOR__ > 0 )
+#   define VCL_GCC_91
+#  else
+#   define VCL_GCC_90
+#  endif
 # else
 #  error "Dunno about this gcc"
 # endif
