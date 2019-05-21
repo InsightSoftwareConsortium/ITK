@@ -124,10 +124,10 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
   m_CornersContainer->clear();
   m_CornersContainer->Reserve(NumberOfCorners);
 
+  SizeValueType index = 0;
   for (const PointType& pnt: this->ComputeCorners())
     {
-    // Push back is not defined so we insert at the end of the list
-    m_CornersContainer->InsertElement(m_CornersContainer->Size(), pnt);
+    m_CornersContainer->SetElement(index++, pnt);
     }
 
   return m_CornersContainer.GetPointer();
