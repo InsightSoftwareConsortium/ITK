@@ -96,8 +96,9 @@ public:
 
   virtual const InputImageType *GetInput(const DataObjectIdentifierType & key) const;
 
-  void Update( ) override;
+  void Update() override;
 
+  void UpdateLargestPossibleRegion() override;
 
   /** get/set the Coordinate tolerance
    *  This tolerance is used when comparing the space defined

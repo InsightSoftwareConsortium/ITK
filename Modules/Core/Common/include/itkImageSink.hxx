@@ -94,12 +94,21 @@ ImageSink<TInputImage>
 template <typename TInputImage>
 void
 ImageSink<TInputImage>
-::Update( )
+::UpdateLargestPossibleRegion()
+{
+  this->Update();
+}
+
+
+template <typename TInputImage>
+void
+ImageSink<TInputImage>
+::Update()
 {
   this->UpdateOutputInformation();
   // if output 1, the just call it
-  // this->PropagateRequestedRegion( NULL );
-  this->UpdateOutputData( NULL );
+  // this->PropagateRequestedRegion( nullptr );
+  this->UpdateOutputData( nullptr );
 }
 
 
