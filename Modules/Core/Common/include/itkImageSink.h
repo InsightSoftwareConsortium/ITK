@@ -96,7 +96,7 @@ public:
 
   virtual const InputImageType *GetInput(const DataObjectIdentifierType & key) const;
 
-  virtual void Update( ) override;
+  void Update( ) override;
 
 
   /** get/set the Coordinate tolerance
@@ -138,19 +138,22 @@ protected:
   ImageSink();
   ~ImageSink() = default;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual unsigned int GetNumberOfInputRequestedRegions () override;
+  unsigned int GetNumberOfInputRequestedRegions () override;
 
-  virtual void  GenerateNthInputRequestedRegion (unsigned int inputRequestedRegionNumber) override;
+  void GenerateNthInputRequestedRegion (unsigned int inputRequestedRegionNumber) override;
 
   virtual void AllocateOutputs( ) {}
 
   void VerifyInputInformation() ITKv5_CONST override;
 
-  void BeforeStreamedGenerateData( ) override {this->AllocateOutputs();}
+  void BeforeStreamedGenerateData( ) override
+    {
+    this->AllocateOutputs();
+    }
 
-  virtual void StreamedGenerateData( unsigned int  inputRequestedRegionNumber) override;
+  void StreamedGenerateData( unsigned int inputRequestedRegionNumber) override;
 
   virtual void ThreadedStreamedGenerateData( const InputImageRegionType &inputRegionForChunk ) = 0;
 

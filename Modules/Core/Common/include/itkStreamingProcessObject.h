@@ -55,25 +55,25 @@ public:
    *  Since inside UpdateOutputData we iterate over streaming pieces
    *  we don't need to proapage up the pipeline
    */
-  virtual void PropagateRequestedRegion(DataObject *output) override;
+  void PropagateRequestedRegion(DataObject *output) override;
 
-  virtual void GenerateData( void ) override;
+  void GenerateData( void ) override;
 
   /** Override UpdateOutputData() from ProcessObject to divide upstream
    * updates into pieces. */
-  virtual void UpdateOutputData(DataObject *output) override;
+  void UpdateOutputData(DataObject *output) override;
 
   /** The current requested region number during execution.  The value
    * -1, is used when the pipeline is not currently being updated.  */
   virtual int GetCurrentRequestNumber( ) const;
 
-  virtual void ResetPipeline()  override;
+  void ResetPipeline()  override;
 
 protected:
   StreamingProcessObject( );
   ~StreamingProcessObject( ) override;
 
-  void PrintSelf(std::ostream& os, Indent indent) const  override;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** \brief Return the actual number of regions to request upstream.
    *
