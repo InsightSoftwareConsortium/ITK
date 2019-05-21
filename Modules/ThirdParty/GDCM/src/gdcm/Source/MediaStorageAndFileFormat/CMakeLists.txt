@@ -17,7 +17,6 @@ set(MSFF_SRCS
   gdcmImageFragmentSplitter.cxx
   gdcmTagPath.cxx
   gdcmSimpleSubjectWatcher.cxx
-  gdcmAnonymizeEvent.cxx
   gdcmPixmap.cxx
   gdcmBitmap.cxx
   gdcmRescaler.cxx
@@ -35,15 +34,7 @@ set(MSFF_SRCS
   gdcmSorter.cxx
   gdcmSerieHelper.cxx
   gdcmIPPSorter.cxx
-  gdcmApplicationEntity.cxx
-  gdcmDICOMDIR.cxx
-  gdcmSpectroscopy.cxx
-  gdcmEncapsulatedDocument.cxx
   gdcmSplitMosaicFilter.cxx
-  gdcmFiducials.cxx
-  gdcmWaveform.cxx
-  gdcmPersonName.cxx
-  gdcmIconImage.cxx
   gdcmUIDGenerator.cxx
   gdcmUUIDGenerator.cxx
   gdcmPrinter.cxx
@@ -58,7 +49,6 @@ set(MSFF_SRCS
   gdcmStringFilter.cxx
   gdcmImageHelper.cxx
   gdcmValidate.cxx
-  gdcmDumper.cxx
   gdcmImage.cxx
   gdcmImageConverter.cxx
   gdcmImageCodec.cxx

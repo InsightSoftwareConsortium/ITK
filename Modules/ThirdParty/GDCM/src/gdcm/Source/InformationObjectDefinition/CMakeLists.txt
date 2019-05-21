@@ -3,18 +3,9 @@
 set(IOD_SRCS
   gdcmModule.cxx
   gdcmMacro.cxx
-  gdcmModules.cxx
-  gdcmMacros.cxx
-  gdcmNestedModuleEntries.cxx
   gdcmIODEntry.cxx
   gdcmTableReader.cxx
-  gdcmTable.cxx
-  gdcmSeries.cxx
   gdcmDefs.cxx
-  gdcmDefinedTerms.cxx
-  gdcmEnumeratedValues.cxx
-  gdcmStudy.cxx
-  gdcmPatient.cxx
   gdcmType.cxx
   gdcmUsage.cxx
   gdcmIOD.cxx

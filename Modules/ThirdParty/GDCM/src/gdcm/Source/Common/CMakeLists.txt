@@ -131,33 +131,21 @@ set(Common_SRCS
   gdcmRegion.cxx
   gdcmBoxRegion.cxx
   gdcmEvent.cxx
-  gdcmDataEvent.cxx
-  gdcmProgressEvent.cxx
-  gdcmFileNameEvent.cxx
   gdcmCommand.cxx
   gdcmMD5.cxx
   gdcmBase64.cxx
   gdcmSHA1.cxx
   gdcmDummyValueGenerator.cxx
-  #gdcmCryptographicMessageSyntax.cxx
-
-  gdcmCryptographicMessageSyntax.cxx
   gdcmCryptoFactory.cxx
-
   gdcmASN1.cxx
-  gdcmObject.cxx
   gdcmSubject.cxx
   gdcmDirectory.cxx
   gdcmTerminal.cxx
-  gdcmString.cxx
   gdcmFilename.cxx
   gdcmFilenameGenerator.cxx
   gdcmSwapCode.cxx
   gdcmSystem.cxx
   gdcmTrace.cxx
-  gdcmException.cxx
-  gdcmDeflateStream.cxx
-  gdcmByteSwap.cxx
   gdcmUnpacker12Bits.cxx
   )
 

@@ -12,7 +12,6 @@ set(DSED2_SRCS
   gdcmFileMetaInformation.cxx # subclass of DataSet
   gdcmFragment.cxx
   gdcmImplicitDataElement.cxx
-  gdcmItem.cxx
   gdcmMediaStorage.cxx # SetFromModality takes a DataSet
   gdcmPrivateTag.cxx
   gdcmReader.cxx
@@ -58,7 +57,6 @@ set(DSED_SRCS
   gdcmVM.cxx
   gdcmVR.cxx
   gdcmPreamble.cxx
-  gdcmParseException.cxx
   gdcmUNExplicitDataElement.cxx
   gdcmCP246ExplicitDataElement.cxx
   gdcmExplicitImplicitDataElement.cxx
