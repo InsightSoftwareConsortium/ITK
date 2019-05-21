@@ -49,7 +49,7 @@ namespace itk
  *
  * \ingroup ITKCommon
 **/
-template <class TInputImage >
+template < typename TInputImage >
 class ImageSink
   : public StreamingProcessObject,
     private ImageToImageFilterCommon
