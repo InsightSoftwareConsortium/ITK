@@ -161,7 +161,7 @@ Clear()
     delete pnt;
 }
   m_PointList.clear();
-  strcpy(m_PointDim, "x y z v1x v1y v1z r g b");
+  strcpy(m_PointDim, "x y z v1x v1y v1z r g b a");
   m_ElementType = MET_FLOAT;
 }
 
@@ -390,7 +390,14 @@ M_Read()
 
       for(d=0; d<4; d++)
       {
+      if (d+2*m_NDims < pntDim)
+        {
         pnt->m_Color[d] = v[d+2*m_NDims];
+        }
+      else
+        {
+        pnt->m_Color[d] = 0;
+        }
       }
 
       m_PointList.push_back(pnt);
