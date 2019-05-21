@@ -90,7 +90,7 @@ public:
   /** Set/Get the image input of this process object.  */
   virtual void SetInput(const InputImageType *input);
 
-  virtual const InputImageType * GetInput(void) const;
+  virtual const InputImageType * GetInput() const;
 
   virtual const InputImageType *GetInput(unsigned int idx) const;
 

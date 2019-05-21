@@ -53,7 +53,7 @@ ImageSink<TInputImage>
 template <typename TInputImage>
 const typename ImageSink<TInputImage>::InputImageType *
 ImageSink<TInputImage>
-::GetInput(void) const
+::GetInput() const
 {
   return itkDynamicCastInDebugMode< const TInputImage * >( this->ProcessObject::GetPrimaryInput() );
 }
@@ -128,7 +128,7 @@ ImageSink<TInputImage>
 template <typename TInputImage>
 unsigned int
 ImageSink<TInputImage>
-::GetNumberOfInputRequestedRegions (void)
+::GetNumberOfInputRequestedRegions()
 {
   const InputImageType* inputPtr = const_cast< InputImageType * >( this->GetInput() );
   InputImageRegionType inputImageRegion = inputPtr->GetLargestPossibleRegion();
