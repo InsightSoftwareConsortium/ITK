@@ -38,7 +38,6 @@ StatisticsImageFilter< TInputImage >
   Self::SetVariance( NumericTraits< RealType >::max() );
   Self::SetSum( NumericTraits< RealType >::ZeroValue() );
   Self::SetSumOfSquares(  NumericTraits< RealType >::ZeroValue() );
-  Self::SetPrimaryOutputName("Minimum");
 }
 
 template< typename TInputImage >

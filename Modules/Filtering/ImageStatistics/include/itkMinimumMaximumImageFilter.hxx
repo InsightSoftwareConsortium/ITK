@@ -33,7 +33,6 @@ MinimumMaximumImageFilter< TInputImage >
 {
   Self::SetMinimum( NumericTraits< PixelType >::max() );
   Self::SetMaximum( NumericTraits< PixelType >::NonpositiveMin() );
-  Self::SetPrimaryOutputName("Minimum");
 }
 
 template< typename TInputImage >
