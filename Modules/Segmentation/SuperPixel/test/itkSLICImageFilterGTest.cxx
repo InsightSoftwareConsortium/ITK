@@ -104,10 +104,10 @@ TEST_F(SLICFixture, SetGetPrint)
 
   Utils::FilterType:: SuperGridSizeType gridSize3(3);
   EXPECT_NO_THROW(filter->SetSuperGridSize(gridSize3));
-  EXPECT_VECTOR_NEAR(gridSize3, filter->GetSuperGridSize(), 0);
+  ITK_EXPECT_VECTOR_NEAR(gridSize3, filter->GetSuperGridSize(), 0);
 
   EXPECT_NO_THROW(filter->SetSuperGridSize(4));
-  EXPECT_VECTOR_NEAR(Utils::FilterType:: SuperGridSizeType(4), filter->GetSuperGridSize(), 0);
+  ITK_EXPECT_VECTOR_NEAR(Utils::FilterType:: SuperGridSizeType(4), filter->GetSuperGridSize(), 0);
 
   EXPECT_NO_THROW(filter->SetMaximumNumberOfIterations(6));
   EXPECT_EQ(6, filter->GetMaximumNumberOfIterations());

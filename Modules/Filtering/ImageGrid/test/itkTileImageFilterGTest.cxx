@@ -104,7 +104,7 @@ TEST_F(TileImageFixture, SetGetPrint)
   Utils::FilterType::LayoutArrayType layout(99);
 
   EXPECT_NO_THROW(filter->SetLayout(layout));
-  EXPECT_VECTOR_NEAR(layout, filter->GetLayout(), 0);
+  ITK_EXPECT_VECTOR_NEAR(layout, filter->GetLayout(), 0);
 
 
   EXPECT_NO_THROW(filter->SetDefaultPixelValue(99));
@@ -148,7 +148,7 @@ TEST_F(TileImageFixture, VectorImage)
   FilterType::LayoutArrayType layout(2);
 
   EXPECT_NO_THROW(filter->SetLayout(layout));
-  EXPECT_VECTOR_NEAR(layout, filter->GetLayout(), 0);
+  ITK_EXPECT_VECTOR_NEAR(layout, filter->GetLayout(), 0);
 
   filter->SetInput(0, image);
   filter->SetInput(1, image);
@@ -162,7 +162,7 @@ TEST_F(TileImageFixture, VectorImage)
   layout[0] = 4;
   layout[1] = 1;
   EXPECT_NO_THROW(filter->SetLayout(layout));
-  EXPECT_VECTOR_NEAR(layout, filter->GetLayout(), 0);
+  ITK_EXPECT_VECTOR_NEAR(layout, filter->GetLayout(), 0);
 
   EXPECT_NO_THROW(filter->UpdateLargestPossibleRegion());
   EXPECT_EQ("2258f8cfbd7395bea0bc09ab3f69b058", MD5Hash(filter->GetOutput()));
@@ -172,7 +172,7 @@ TEST_F(TileImageFixture, VectorImage)
   layout[0] = 1;
   layout[1] = 4;
   EXPECT_NO_THROW(filter->SetLayout(layout));
-  EXPECT_VECTOR_NEAR(layout, filter->GetLayout(), 0);
+  ITK_EXPECT_VECTOR_NEAR(layout, filter->GetLayout(), 0);
 
   EXPECT_NO_THROW(filter->UpdateLargestPossibleRegion());
   EXPECT_EQ("2258f8cfbd7395bea0bc09ab3f69b058", MD5Hash(filter->GetOutput()));
@@ -182,7 +182,7 @@ TEST_F(TileImageFixture, VectorImage)
   layout[0] = 1;
   layout[1] = 10;
   EXPECT_NO_THROW(filter->SetLayout(layout));
-  EXPECT_VECTOR_NEAR(layout, filter->GetLayout(), 0);
+  ITK_EXPECT_VECTOR_NEAR(layout, filter->GetLayout(), 0);
 
   EXPECT_NO_THROW(filter->UpdateLargestPossibleRegion());
   EXPECT_EQ("dd8552dd79d605d653872af827f2d1a5", MD5Hash(filter->GetOutput()));
