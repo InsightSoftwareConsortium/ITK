@@ -45,8 +45,10 @@ namespace itk
  * of the histogram. If histograms are not enabled, the median returns
  * zero.
  *
- * The filter passes its intensity input through unmodified.  The filter is
- * threaded.
+ * This filter is automatically multi-threaded and can stream its
+ * input when NumberOfStreamDivisions is set to more than
+ * 1. Statistics are independently computed for each streamed and
+ * threaded region then merged.
  *
  * \ingroup MathematicalStatisticsImageFilters
  * \ingroup ITKImageStatistics

@@ -27,12 +27,12 @@ namespace itk
 namespace Statistics
 {
 /** \class MaskedImageToHistogramFilter
- *  \brief This class generates an histogram from an image.
+ *  \brief Generate a histogram from the masked pixels of an image.
  *
- *  The concept of Histogram in ITK is quite generic. It has been designed to
- *  manage multiple components data. This class facilitates the computation of
- *  an histogram from an image. Internally it creates a List that is feed into
- *  the SampleToHistogramFilter.
+ * This class expands the features of the ImageToHistogramFilter by
+ * adding a required MaskImage input image. Only the pixel in the
+ * input image where the MaskImage's value is the MaskValue will be
+ * added to the computed histogram.
  *
  * \ingroup ITKStatistics
  */
