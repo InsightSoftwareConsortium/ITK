@@ -30,4 +30,10 @@ if(ITK_WRAP_float AND wrap_2_index GREATER -1)
       ${ITK_TEST_OUTPUT_DIR}/PythonCannyEdgeDetectionImageFilterTest.png
       9
     )
+  itk_python_add_test(NAME PythonHoughTransform2DLinesImageFilterTest
+    COMMAND HoughTransform2DLinesImageFilterTest.py
+      DATA{Baseline/itkHoughTransform2DLinesImageFilterTest.png}
+    )
+
+
 endif()
