@@ -71,7 +71,7 @@ namespace itk
 
 template<
   typename TPointIdentifier = IdentifierType,
-  int VPointDimension = 3,
+  unsigned int VPointDimension = 3,
   typename TCoordRep = float,
   typename TPointsContainer =
     VectorContainer< TPointIdentifier, Point< TCoordRep, VPointDimension > >
