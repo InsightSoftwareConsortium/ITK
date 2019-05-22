@@ -112,6 +112,11 @@ public:
     if(!Internal.empty()) return &Internal[0];
     return nullptr;
   }
+  // Use that only if you really understand what you are doing
+  const void *GetVoidPointer() const {
+    if(!Internal.empty()) return &Internal[0];
+    return nullptr;
+  }
   void Fill(char c) {
     //if( Internal.empty() ) return;
     std::vector<char>::iterator it = Internal.begin();
