@@ -25,6 +25,8 @@
 #include "itkRandomImageSource.h"
 #include "itkVectorImage.h"
 #include "itkFloatingPointExceptions.h"
+#include "itkRGBPixel.h"
+#include "itkRGBAPixel.h"
 
 
 // Better name demanging for gcc
@@ -37,6 +39,23 @@
 #include <cxxabi.h>
 #include "itkMath.h"
 #endif
+
+
+
+// Compile time check
+template class itk::CastImageFilter<itk::Image<std::complex<float> >, itk::Image<std::complex<float> > >;
+template class itk::CastImageFilter<itk::Image<std::complex<double> >, itk::Image<std::complex<double> > >;
+template class itk::CastImageFilter<itk::Image<std::complex<float> >, itk::Image<std::complex<double> > >;
+
+
+template class itk::CastImageFilter<itk::Image<itk::RGBPixel<unsigned char> >, itk::Image<itk::RGBPixel<unsigned short> > >;
+template class itk::CastImageFilter<itk::Image<itk::RGBPixel<unsigned char> >, itk::Image<itk::Vector<float,3> > >;
+template class itk::CastImageFilter<itk::Image<itk::Vector<float,3> >, itk::Image<itk::RGBPixel<unsigned char> > >;
+template class itk::CastImageFilter<itk::Image<itk::RGBAPixel<unsigned char> >, itk::Image<itk::RGBAPixel<unsigned short> > >;
+template class itk::CastImageFilter<itk::Image<itk::RGBAPixel<unsigned char> >, itk::Image<itk::Vector<float,4> > >;
+template class itk::CastImageFilter<itk::Image<itk::Vector<float,4> >, itk::Image<itk::RGBAPixel<unsigned char> > >;
+
+template class itk::CastImageFilter<itk::VectorImage<short>, itk::VectorImage<double> >;
 
 template< typename T >
 std::string GetCastTypeName()
