@@ -138,6 +138,21 @@ protected:
 
   template<typename TInputPixelType>
     void DynamicThreadedGenerateDataDispatched(const OutputImageRegionType & outputRegionForThread, std::false_type isConvertible);
+
+private:
+
+  template <typename TFromType, typename TToType, typename TNoDeclType = TToType>
+    struct is_static_castable
+    : std::false_type
+  {};
+
+  template <typename TFromType, typename TToType>
+    struct is_static_castable<TFromType,
+                              TToType,
+                              decltype(static_cast<TToType>(std::declval<TFromType>()))>
+    : std::true_type
+  {};
+
 };
 } // end namespace itk
 
