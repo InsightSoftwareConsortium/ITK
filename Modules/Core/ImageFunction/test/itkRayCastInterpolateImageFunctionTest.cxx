@@ -130,12 +130,10 @@ itkRayCastInterpolateImageFunctionTest(
 
     std::cout << "Integral = " << integral << std::endl;
 
-#if !defined(ITKV4_COMPATIBILITY)
     for( unsigned int d = 0; d < ImageDimension; ++d )
       {
       TEST_SET_GET_VALUE( size[d], interp->GetRadius()[d] );
       }
-#endif
 
     TEST_EXPECT_TRUE( itk::Math::FloatAlmostEqual( integral, 1247. ) );
 

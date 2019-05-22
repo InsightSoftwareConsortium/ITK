@@ -223,7 +223,6 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
 }
 
 
-#if !defined(ITKV4_COMPATIBILITY)
 template<typename TImageType, typename TCoordRep>
 typename GaussianInterpolateImageFunction<TImageType, TCoordRep>::SizeType
 GaussianInterpolateImageFunction<TImageType, TCoordRep>
@@ -245,7 +244,6 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
     }
   return radius;
 }
-#endif
 
 
 template<typename TImageType, typename TCoordRep>

@@ -315,12 +315,10 @@ public:
   itkGetConstMacro(UseImageDirection, bool);
   itkBooleanMacro(UseImageDirection);
 
-#if !defined(ITKV4_COMPATIBILITY)
   SizeType GetRadius() const override
     {
     return SizeType::Filled(m_SplineOrder + 1);
     }
-#endif
 
 protected:
 
