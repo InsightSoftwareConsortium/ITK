@@ -85,7 +85,7 @@ find_package(${_Eigen3_SYSTEM_OR_INTERNAL} ${_Eigen3_min_version} REQUIRED CONFI
 ")
 set(ITKEigen3_EXPORT_CODE_BUILD "
 set(${_Eigen3_SYSTEM_OR_INTERNAL}_DIR \"${Eigen3_DIR_BUILD}\")
-if(ITK_USE_SYSTEM_EIGEN)
+if(NOT ITK_BINARY_DIR OR ITK_USE_SYSTEM_EIGEN)
   find_package(${_Eigen3_SYSTEM_OR_INTERNAL} ${_Eigen3_min_version} REQUIRED CONFIG)
 endif()
 ")
