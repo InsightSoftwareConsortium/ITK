@@ -34,7 +34,10 @@ TBBMultiThreader::TBBMultiThreader()
 #if defined( ITKV4_COMPATIBILITY )
   m_NumberOfWorkUnits = defaultThreads;
 #else
-  m_NumberOfWorkUnits = 16 * defaultThreads;
+  if ( defaultThreads > 1 ) // one work unit for only one thread
+    {
+    m_NumberOfWorkUnits = 16 * defaultThreads;
+    }
 #endif
 }
 
