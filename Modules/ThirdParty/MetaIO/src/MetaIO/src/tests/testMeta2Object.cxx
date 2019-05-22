@@ -1,6 +1,5 @@
-#include <stdio.h>
-#include <fstream>
-#include <ctype.h>
+#include <iostream>
+#include <cstdlib>
 
 #include <metaObject.h>
 
@@ -65,16 +64,20 @@ int main(int, char * [])
     return EXIT_FAILURE;
   }
 
-  int* array = static_cast<int*>(tObj.GetUserField("MyArray"));
+  delete[] name;
 
+  int* array = static_cast<int*>(tObj.GetUserField("MyArray"));
   for(i=0;i<3;i++)
   {
     if(array[i] != i+1)
     {
       std::cout << "MyArray: FAIL" << std::endl;
+      delete[] array;
       return EXIT_FAILURE;
     }
   }
+
+  delete[] array;
 
   float* matrix = static_cast<float*>(tObj.GetUserField("MyMatrix"));
   for(i=0; i<4; i++)
@@ -82,9 +85,12 @@ int main(int, char * [])
     if(matrix[i] != i)
     {
       std::cout << "MyMatrix: FAIL" << std::endl;
+      delete[] matrix;
       return EXIT_FAILURE;
     }
   }
+
+  delete[] matrix;
 
   std::cout << "PASSED!" << std::endl;
 
@@ -132,5 +138,39 @@ int main(int, char * [])
     std::cout << "ElementSpacing: PASS" << std::endl;
     }
 
+  auto * inDataChar = new char[1];
+  inDataChar[0]=1;
+  auto * outDataChar = new char[1];
+  if(!MET_ValueToValue(MET_CHAR_ARRAY,inDataChar,0,MET_CHAR_ARRAY,outDataChar))
+    {
+    std::cout << "MET_ValueToValue: FAIL" << std::endl;
+    return EXIT_FAILURE;
+    }
+  else
+    {
+    std::cout << "outDataChar = " << static_cast<int>(outDataChar[0]) << std::endl;
+    }
+
+  delete[] inDataChar;
+  delete[] outDataChar;
+
+  auto * inDataUChar = new unsigned char[1];
+  inDataUChar[0]=1;
+  auto * outDataUChar = new unsigned char[1];
+  if(!MET_ValueToValue(MET_UCHAR_ARRAY,inDataUChar,0,MET_UCHAR_ARRAY,outDataUChar))
+    {
+    std::cout << "MET_ValueToValue: FAIL" << std::endl;
+    return EXIT_FAILURE;
+    }
+  else
+    {
+    std::cout << "outDataUChar = " << static_cast<int>(outDataUChar[0]) << std::endl;
+    }
+
+  delete[] inDataUChar;
+  delete[] outDataUChar;
+
+
+  std::cout << "[DONE]" << std::endl;
   return EXIT_SUCCESS;
   }

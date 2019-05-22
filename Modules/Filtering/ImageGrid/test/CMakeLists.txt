@@ -262,22 +262,24 @@ itk_add_test(NAME itkResampleImageTest2UseRefImageOn
                           ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2cUseRefImageOn.png
                           ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2dUseRefImageOn.png
                           1)
-itk_add_test(NAME itkResampleImageTest2Streaming
-      COMMAND ITKImageGridTestDriver
-    #--compare DATA{Baseline/ResampleImageTest2.mha}
-              #${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2aStreaming.mha
-    #--compare DATA{Baseline/ResampleImageTest2.mha}
-              #${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2bStreaming.mha
-    #--compare DATA{Baseline/ResampleImageTest2NearestExtrapolate.mha}
-              #${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2cStreaming.mha
-    #--compare DATA{Baseline/ResampleImageTest2NearestExtrapolate.mha}
-              #${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2dStreaming.mha
-    itkResampleImageTest2Streaming DATA{Input/cthead1.mha}
-                          DATA{Input/circle.png}
-                          ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2aStreaming.mha
-                          ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2bStreaming.mha
-                          ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2cStreaming.mha
-                          ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2dStreaming.mha)
+if(NOT ITKV4_COMPATIBILITY)
+  itk_add_test(NAME itkResampleImageTest2Streaming
+        COMMAND ITKImageGridTestDriver
+      --compare DATA{Baseline/ResampleImageTest2.mha}
+                ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2aStreaming.mha
+      --compare DATA{Baseline/ResampleImageTest2.mha}
+                ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2bStreaming.mha
+      --compare DATA{Baseline/ResampleImageTest2NearestExtrapolate.mha}
+                ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2cStreaming.mha
+      --compare DATA{Baseline/ResampleImageTest2NearestExtrapolate.mha}
+                ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2dStreaming.mha
+      itkResampleImageTest2Streaming DATA{Input/cthead1.mha}
+                            DATA{Input/circle.png}
+                            ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2aStreaming.mha
+                            ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2bStreaming.mha
+                            ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2cStreaming.mha
+                            ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest2dStreaming.mha)
+endif()
 itk_add_test(NAME itkResampleImageTest3
       COMMAND ITKImageGridTestDriver
     --compare DATA{Baseline/ResampleImageTest3.png}
@@ -296,8 +298,10 @@ itk_add_test(NAME itkResampleImageTest6
     --compare DATA{Baseline/ResampleImageTest6.png}
               ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest6.png
     itkResampleImageTest6 10 ${ITK_TEST_OUTPUT_DIR}/ResampleImageTest6.png)
-itk_add_test(NAME itkResampleImageTest7
-      COMMAND ITKImageGridTestDriver itkResampleImageTest7)
+if(NOT ITKV4_COMPATIBILITY)
+  itk_add_test(NAME itkResampleImageTest7
+        COMMAND ITKImageGridTestDriver itkResampleImageTest7)
+endif()
 itk_add_test(NAME itkResamplePhasedArray3DSpecialCoordinatesImageTest
       COMMAND ITKImageGridTestDriver itkResamplePhasedArray3DSpecialCoordinatesImageTest)
 itk_add_test(NAME itkPushPopTileImageFilterTest

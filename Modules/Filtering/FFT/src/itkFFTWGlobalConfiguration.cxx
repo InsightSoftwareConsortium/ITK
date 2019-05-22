@@ -674,7 +674,7 @@ FFTWGlobalConfiguration
     {
     if ( (f = _fdopen(fd, "r")) != nullptr )
       {// strange but seems ok under VC++ not so friendly with checking the return values of affectations
-      ret = fftwf_import_wisdom_from_file( f );
+      ret = ( fftwf_import_wisdom_from_file( f ) != 0 );
       }
     _close(fd);
     }
@@ -683,7 +683,7 @@ FFTWGlobalConfiguration
   if( f )
     {
     flock( fileno(f), LOCK_SH );
-    ret = fftwf_import_wisdom_from_file( f );
+    ret = ( fftwf_import_wisdom_from_file( f ) != 0 );
     flock( fileno(f), LOCK_UN );
     fclose( f );
     }
@@ -709,7 +709,7 @@ FFTWGlobalConfiguration
     {
     if ( (f = _fdopen(fd, "r")) != nullptr )
       {// strange but seems ok under VC++
-      ret = fftw_import_wisdom_from_file( f );
+      ret = ( fftw_import_wisdom_from_file( f ) != 0 );
       }
     _close(fd);
     }
@@ -718,7 +718,7 @@ FFTWGlobalConfiguration
   if( f )
     {
     flock( fileno(f), LOCK_SH );
-    ret = fftw_import_wisdom_from_file( f );
+    ret = ( fftw_import_wisdom_from_file( f ) != 0 );
     flock( fileno(f), LOCK_UN );
     fclose( f );
     }
@@ -751,7 +751,7 @@ FFTWGlobalConfiguration
     FILE *f;
     if ( (f = _fdopen(fd, "r")) != nullptr )
       {// strange but seems ok under VC++
-      ret = fftwf_import_wisdom_from_file( f );
+      ret = ( fftwf_import_wisdom_from_file( f ) != 0 );
       }
     _close(fd);
     }
@@ -763,7 +763,7 @@ FFTWGlobalConfiguration
     flock( fileno(f), LOCK_EX );
     fftwf_export_wisdom_to_file( f );
     flock( fileno(f), LOCK_UN );
-    ret = fclose( f );
+    ret = ( fclose( f ) != 0 );
     }
 #endif
 #endif
@@ -787,7 +787,7 @@ FFTWGlobalConfiguration
     {
     if ( (f = _fdopen(fd, "r")) != nullptr )
       {// strange but seems ok under VC++
-      ret = fftw_import_wisdom_from_file( f );
+      ret = ( fftw_import_wisdom_from_file( f ) != 0 );
       }
     _close(fd);
     }
@@ -799,7 +799,7 @@ FFTWGlobalConfiguration
     flock( fileno(f), LOCK_EX );
     fftw_export_wisdom_to_file( f );
     flock( fileno(f), LOCK_UN );
-    ret = fclose( f );
+    ret = ( fclose( f ) != 0 );
     }
 #endif
 #endif

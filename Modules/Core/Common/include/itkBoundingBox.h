@@ -32,6 +32,8 @@
 #include "itkVectorContainer.h"
 #include "itkIntTypes.h"
 
+#include <array>
+
 namespace itk
 {
 /** \class BoundingBox
@@ -69,7 +71,7 @@ namespace itk
 
 template<
   typename TPointIdentifier = IdentifierType,
-  int VPointDimension = 3,
+  unsigned int VPointDimension = 3,
   typename TCoordRep = float,
   typename TPointsContainer =
     VectorContainer< TPointIdentifier, Point< TCoordRep, VPointDimension > >
@@ -90,6 +92,9 @@ public:
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
+
+  /* Number of corners of this bounding box. Equals `pow(2, VPointDimension)` */
+  static constexpr SizeValueType NumberOfCorners = SizeValueType{ 1 } << VPointDimension;
 
   /** Hold on to the type information specified by the template parameters. */
   using PointIdentifier = TPointIdentifier;
@@ -115,8 +120,15 @@ public:
 
   const PointsContainer * GetPoints() const;
 
+  /** Compute and return the corners of the bounding box.
+   *\note This function returns the same points as the legacy member function
+   * `GetCorners()`, but it is `const`, and it avoids dynamic memory allocation
+   * by using `std::array`.
+  */
+  std::array<PointType, NumberOfCorners> ComputeCorners() const;
+
   /** Compute and return the corners of the bounding box */
-  const PointsContainer * GetCorners();
+  itkLegacyMacro( const PointsContainer * GetCorners() );
 
   /** Method that actually computes bounding box. */
   bool ComputeBoundingBox() const;
@@ -128,12 +140,12 @@ public:
  * Therefore it is safe to invoke GetBounds() after any of those methods. */
   itkGetConstReferenceMacro(Bounds, BoundsArrayType);
 
-  /** Get the center of the bounding box. Returns nullptr if bounding box
-   * cannot be computed. */
+  /** Get the center of the bounding box. Returns a point at the origin
+   *  when the bounding box object is just default-initialized. */
   PointType GetCenter() const;
 
-  /** Get the minimum point of the bounding box. Returns nullptr if bounding box
-   * cannot be computed. */
+  /** Get the minimum point of the bounding box. Returns a point at the origin
+   *  when the bounding box object is just default-initialized. */
   PointType GetMinimum() const;
 
   /** Set the minimum point of the bounding box. May not be valid for the given
@@ -141,8 +153,8 @@ public:
    * set's) modified time changes. */
   void      SetMinimum(const PointType &);
 
-  /** Get the maximum point of the bounding box. Returns nullptr if bounding box
-   * cannot be computed. */
+  /** Get the maximum point of the bounding box. Returns a point at the origin
+   *  when the bounding box object is just default-initialized. */
   PointType GetMaximum() const;
 
   /** Set the maximum point of the bounding box. May not be valid for the given
@@ -180,7 +192,9 @@ protected:
 
 private:
   PointsContainerConstPointer m_PointsContainer;
-  PointsContainerPointer      m_CornersContainer;
+#if !defined(ITK_LEGACY_REMOVE)
+  PointsContainerPointer      m_CornersContainer{ PointsContainer::New() };
+#endif
   mutable BoundsArrayType     m_Bounds;
   mutable TimeStamp           m_BoundsMTime; // The last time the bounds
                                              // were computed.

@@ -1,6 +1,5 @@
-#include <stdio.h>
-#include <fstream>
-#include <ctype.h>
+#include <iostream>
+#include <cstdlib>
 
 #include <metaArray.h>
 
@@ -34,8 +33,8 @@ int main(int, char * [])
   tObj_ascii.FileName("testArray.mvh");
   tObj_binary.FileName("testArray.mva");
 
-  tObj_ascii.Read();
-  tObj_binary.Read();
+  tObj_ascii.Read(nullptr, true, nullptr, true);
+  tObj_binary.Read(nullptr, true, nullptr, true);
 
   tObj_ascii.PrintInfo();
   tObj_binary.PrintInfo();

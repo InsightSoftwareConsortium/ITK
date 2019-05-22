@@ -37,14 +37,14 @@ void bspline_eq( const itk::BSplineTransform<TParametersValueType, NDimensions, 
   // Compare Transform Domain interface
 
   EXPECT_EQ( bspline1->GetNumberOfFixedParameters(), bspline2->GetNumberOfFixedParameters() ) << description;
-  EXPECT_VECTOR_NEAR( bspline1->GetTransformDomainOrigin(), bspline2->GetTransformDomainOrigin(), tolerance  ) << description;
+  ITK_EXPECT_VECTOR_NEAR( bspline1->GetTransformDomainOrigin(), bspline2->GetTransformDomainOrigin(), tolerance  ) << description;
   EXPECT_EQ( bspline1->GetTransformDomainDirection(), bspline2->GetTransformDomainDirection()) << description;
   EXPECT_EQ( bspline1->GetTransformDomainMeshSize(), bspline2->GetTransformDomainMeshSize() ) << description;
-  EXPECT_VECTOR_NEAR( bspline1->GetTransformDomainPhysicalDimensions(), bspline2->GetTransformDomainPhysicalDimensions(), tolerance  ) << description;
+  ITK_EXPECT_VECTOR_NEAR( bspline1->GetTransformDomainPhysicalDimensions(), bspline2->GetTransformDomainPhysicalDimensions(), tolerance  ) << description;
 
   // check transform parameters interface
-  EXPECT_VECTOR_NEAR( bspline1->GetParameters(), bspline2->GetParameters(), tolerance  ) << description;
-  EXPECT_VECTOR_NEAR( bspline1->GetFixedParameters(), bspline2->GetFixedParameters(), tolerance  ) << description;
+  ITK_EXPECT_VECTOR_NEAR( bspline1->GetParameters(), bspline2->GetParameters(), tolerance  ) << description;
+  ITK_EXPECT_VECTOR_NEAR( bspline1->GetFixedParameters(), bspline2->GetFixedParameters(), tolerance  ) << description;
 
   ASSERT_EQ( bspline1->GetCoefficientImages().Size(), NDimensions ) << description;
   ASSERT_EQ( bspline2->GetCoefficientImages().Size(), NDimensions ) << description;
@@ -57,9 +57,9 @@ void bspline_eq( const itk::BSplineTransform<TParametersValueType, NDimensions, 
     typename ImageType::Pointer coeffImage1 = bspline1->GetCoefficientImages()[i];
     typename ImageType::Pointer coeffImage2 = bspline2->GetCoefficientImages()[i];
 
-    EXPECT_VECTOR_NEAR( coeffImage1->GetOrigin(), coeffImage2->GetOrigin(), tolerance ) << description;
+    ITK_EXPECT_VECTOR_NEAR( coeffImage1->GetOrigin(), coeffImage2->GetOrigin(), tolerance ) << description;
     EXPECT_EQ( coeffImage1->GetDirection(), coeffImage2->GetDirection()) << description;
-    EXPECT_VECTOR_NEAR( coeffImage1->GetSpacing(), coeffImage2->GetSpacing(), tolerance  ) << description;
+    ITK_EXPECT_VECTOR_NEAR( coeffImage1->GetSpacing(), coeffImage2->GetSpacing(), tolerance  ) << description;
     EXPECT_EQ( coeffImage1->GetLargestPossibleRegion(), coeffImage2->GetLargestPossibleRegion() ) << description;
     EXPECT_EQ( coeffImage1->GetBufferedRegion(), coeffImage2->GetBufferedRegion() ) << description;
 
@@ -151,10 +151,10 @@ TEST(ITKBSplineTransform, Copying_Clone) {
 
   bspline_eq(bspline1.GetPointer(), bspline1.GetPointer(), "Check after initialization by coefficient images.");
 
-  EXPECT_VECTOR_NEAR( bspline1->GetTransformDomainOrigin(), MakePoint(-0.3, 1.9), 1e-15 );
+  ITK_EXPECT_VECTOR_NEAR( bspline1->GetTransformDomainOrigin(), MakePoint(-0.3, 1.9), 1e-15 );
   EXPECT_EQ( bspline1->GetTransformDomainDirection(), imageDirection );
   EXPECT_EQ( bspline1->GetTransformDomainMeshSize(), MakeSize(7, 7) );
-  EXPECT_VECTOR_NEAR( bspline1->GetTransformDomainPhysicalDimensions(), MakeVector( 7.7, 8.4 ), 1e-15 );
+  ITK_EXPECT_VECTOR_NEAR( bspline1->GetTransformDomainPhysicalDimensions(), MakeVector( 7.7, 8.4 ), 1e-15 );
 
   BSplineType::Pointer bspline2 = BSplineType::New();
   bspline2->SetFixedParameters( bspline1->GetFixedParameters() );

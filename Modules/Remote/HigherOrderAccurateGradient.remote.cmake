@@ -7,5 +7,5 @@ itk_fetch_module(HigherOrderAccurateGradient
   http://www.insight-journal.org/browse/publication/775
   https://hdl.handle.net/10380/3231"
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKHigherOrderAccurateGradient.git
-  GIT_TAG 366bc50f2822622a81ded46cbee6d856f128125c
+  GIT_TAG 954b38c3cd3953fec3bee9f857eae9c0c08c0113
   )

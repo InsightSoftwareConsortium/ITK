@@ -152,27 +152,27 @@ public:
     index1.at(1)  = 6; //non-const at()
     index1.m_InternalArray[2] = 6; //Direct access
     index1.SetElement(3,6); //SetElement
-    EXPECT_VECTOR_NEAR(index1, knownAll6s, 0);
+    ITK_EXPECT_VECTOR_NEAR(index1, knownAll6s, 0);
 
     AggregateType index2 = index1; // Copy constructor
-    EXPECT_VECTOR_NEAR(index2, index1, 0);
+    ITK_EXPECT_VECTOR_NEAR(index2, index1, 0);
 
     index2.assign(4); // Use std::array like syntax
-    EXPECT_VECTOR_NEAR(index2, knownAll4s, 0);
+    ITK_EXPECT_VECTOR_NEAR(index2, knownAll4s, 0);
     index2.front() = 6;  //Non const ref
     index2.data()[1] = 6; //Test non-const data
     index2.data()[2] = 6;
     index2.back() = 6;  //Non const ref
-    EXPECT_VECTOR_NEAR(index2, knownAll6s, 0);
+    ITK_EXPECT_VECTOR_NEAR(index2, knownAll6s, 0);
     index2.Fill(7);
     EXPECT_EQ( index2.back() , 7);
     EXPECT_EQ( index2.back() , 7);
     EXPECT_EQ( index2.data()[3], 7); //Test const data access
 
     index2.swap(index1);
-    EXPECT_VECTOR_NEAR(index1, knownAll7s, 0);
+    ITK_EXPECT_VECTOR_NEAR(index1, knownAll7s, 0);
     swap(index1, index2);
-    EXPECT_VECTOR_NEAR(index1, knownAll6s, 0);
+    ITK_EXPECT_VECTOR_NEAR(index1, knownAll6s, 0);
 
     {
       auto rit = knownInitValues.rbegin(); // test const reverse_iterator
@@ -183,11 +183,11 @@ public:
         ++rit;
         ++it;
       }
-      EXPECT_VECTOR_NEAR(index2,knownInitValues,0);
+      ITK_EXPECT_VECTOR_NEAR(index2,knownInitValues,0);
     }
 
     index2.Fill(6);
-    EXPECT_VECTOR_NEAR(index2, knownAll6s, 0);
+    ITK_EXPECT_VECTOR_NEAR(index2, knownAll6s, 0);
 
     index2 = index1;
     EXPECT_EQ( index2 == index1 , true);
@@ -235,25 +235,25 @@ public:
       const SizeType knownAll4s{{4, 4, 4, 4}};
 
       index2 += knownAll1s;  //operator+= SizeType
-      EXPECT_VECTOR_NEAR(index2, knownInitValuesPlus1, 0);
+      ITK_EXPECT_VECTOR_NEAR(index2, knownInitValuesPlus1, 0);
 
       index3 = index1 + knownAll1s; //operator+ SizeType
-      EXPECT_VECTOR_NEAR(index3, knownInitValuesPlus1, 0);
+      ITK_EXPECT_VECTOR_NEAR(index3, knownInitValuesPlus1, 0);
 
       index3 = index2 - knownAll1s; //operator- SizeType
-      EXPECT_VECTOR_NEAR(index3, index1, 0);
+      ITK_EXPECT_VECTOR_NEAR(index3, index1, 0);
 
       index2 -= knownAll1s; //operator-= SizeType
-      EXPECT_VECTOR_NEAR(index2, index1, 0);
+      ITK_EXPECT_VECTOR_NEAR(index2, index1, 0);
 
       index1.Fill(2);   // Use ITK syntax
-      EXPECT_VECTOR_NEAR(index1, knownAll2s, 0);
+      ITK_EXPECT_VECTOR_NEAR(index1, knownAll2s, 0);
 
       index3 = index1 * knownAll2s;
-      EXPECT_VECTOR_NEAR(index3, knownAll4s, 0);
+      ITK_EXPECT_VECTOR_NEAR(index3, knownAll4s, 0);
 
       index3 = index1 * knownAll2s;
-      EXPECT_VECTOR_NEAR(index3, knownAll4s, 0);
+      ITK_EXPECT_VECTOR_NEAR(index3, knownAll4s, 0);
 
     }
 
@@ -263,17 +263,17 @@ public:
 
       index2 = knownInitValues;
       index2 += knownAll1sOffset;  //operator+= SizeType
-      EXPECT_VECTOR_NEAR(index2, knownInitValuesPlus1, 0);
+      ITK_EXPECT_VECTOR_NEAR(index2, knownInitValuesPlus1, 0);
 
       index1 = knownInitValues;
       index3 = index1 + knownAll1sOffset; //operator+ SizeType
-      EXPECT_VECTOR_NEAR(index3, knownInitValuesPlus1, 0);
+      ITK_EXPECT_VECTOR_NEAR(index3, knownInitValuesPlus1, 0);
 
       index3 = index2 - knownAll1sOffset; //operator- SizeType
-      EXPECT_VECTOR_NEAR(index3, index1, 0);
+      ITK_EXPECT_VECTOR_NEAR(index3, index1, 0);
 
       index2 -= knownAll1sOffset; //operator-= SizeType
-      EXPECT_VECTOR_NEAR(index2, index1, 0);
+      ITK_EXPECT_VECTOR_NEAR(index2, index1, 0);
     }
 
     //============ Test math with Aggregate Type ====================================
@@ -281,7 +281,7 @@ public:
       const AggregateType knownAll2sAgg{{2, 2, 2, 2}};
       const AggregateType knownAll4sAgg{{4, 4, 4, 4}};
       const typename AggregateType::OffsetType knownOffset = {{ -2, -2, -2, -2 }};
-      EXPECT_VECTOR_NEAR( knownAll2sAgg - knownAll4sAgg, knownOffset, 0);
+      ITK_EXPECT_VECTOR_NEAR( knownAll2sAgg - knownAll4sAgg, knownOffset, 0);
     }
 
     //============ Test Copy with Round/Cast Type ====================================
@@ -294,11 +294,11 @@ public:
       itk::Point<double, 4> p1;
       p1.Fill( 3.5 );
       threes.CopyWithRound(p1);
-      EXPECT_VECTOR_NEAR( threes, known4s, 0 );
+      ITK_EXPECT_VECTOR_NEAR( threes, known4s, 0 );
 
       threes.Fill(0);
       threes.CopyWithCast(p1);
-      EXPECT_VECTOR_NEAR( threes, known3s, 0 );
+      ITK_EXPECT_VECTOR_NEAR( threes, known3s, 0 );
 
     }
   }
@@ -336,16 +336,16 @@ TEST(Specialized, Index  )
   const IndexType oneBasis = {{ 0, 1, 0, 0 }};
   const IndexType twoBasis = {{ 0, 0, 1, 0 }};
   const IndexType threeBasis = {{ 0, 0, 0, 1 }};
-  EXPECT_VECTOR_NEAR( IndexType::GetBasisIndex( 0 ), zeroBasis, 0 );
-  EXPECT_VECTOR_NEAR( IndexType::GetBasisIndex( 1 ), oneBasis, 0 );
-  EXPECT_VECTOR_NEAR( IndexType::GetBasisIndex( 2 ), twoBasis, 0 );
-  EXPECT_VECTOR_NEAR( IndexType::GetBasisIndex( 3 ), threeBasis, 0 );
+  ITK_EXPECT_VECTOR_NEAR( IndexType::GetBasisIndex( 0 ), zeroBasis, 0 );
+  ITK_EXPECT_VECTOR_NEAR( IndexType::GetBasisIndex( 1 ), oneBasis, 0 );
+  ITK_EXPECT_VECTOR_NEAR( IndexType::GetBasisIndex( 2 ), twoBasis, 0 );
+  ITK_EXPECT_VECTOR_NEAR( IndexType::GetBasisIndex( 3 ), threeBasis, 0 );
 
   IndexType known3s{{ 3,3,3,3}};
   IndexType threes;
   IndexType::IndexValueType raw3s[4] = {3,3,3,3};
   threes.SetIndex(raw3s);
-  EXPECT_VECTOR_NEAR( threes, known3s, 0 );
+  ITK_EXPECT_VECTOR_NEAR( threes, known3s, 0 );
 }
 
 TEST(Specialized, Offset  ) {
@@ -359,16 +359,16 @@ TEST(Specialized, Offset  ) {
   const OffsetType oneBasis = {{ 0, 1, 0, 0 }};
   const OffsetType twoBasis = {{ 0, 0, 1, 0 }};
   const OffsetType threeBasis = {{ 0, 0, 0, 1 }};
-  EXPECT_VECTOR_NEAR( OffsetType::GetBasisOffset( 0 ), zeroBasis, 0 );
-  EXPECT_VECTOR_NEAR( OffsetType::GetBasisOffset( 1 ), oneBasis, 0 );
-  EXPECT_VECTOR_NEAR( OffsetType::GetBasisOffset( 2 ), twoBasis, 0 );
-  EXPECT_VECTOR_NEAR( OffsetType::GetBasisOffset( 3 ), threeBasis, 0 );
+  ITK_EXPECT_VECTOR_NEAR( OffsetType::GetBasisOffset( 0 ), zeroBasis, 0 );
+  ITK_EXPECT_VECTOR_NEAR( OffsetType::GetBasisOffset( 1 ), oneBasis, 0 );
+  ITK_EXPECT_VECTOR_NEAR( OffsetType::GetBasisOffset( 2 ), twoBasis, 0 );
+  ITK_EXPECT_VECTOR_NEAR( OffsetType::GetBasisOffset( 3 ), threeBasis, 0 );
 
   OffsetType known3s{{ 3,3,3,3}};
   OffsetType threes;
   OffsetType::OffsetValueType raw3s[4] = {3,3,3,3};
   threes.SetOffset(raw3s);
-  EXPECT_VECTOR_NEAR( threes, known3s, 0 );
+  ITK_EXPECT_VECTOR_NEAR( threes, known3s, 0 );
 }
 
 TEST(Specialized, Size  ) {
@@ -380,5 +380,5 @@ TEST(Specialized, Size  ) {
   SizeType threes;
   SizeType::SizeValueType raw3s[4] = {3,3,3,3};
   threes.SetSize(raw3s);
-  EXPECT_VECTOR_NEAR( threes, known3s, 0 );
+  ITK_EXPECT_VECTOR_NEAR( threes, known3s, 0 );
 }

@@ -81,14 +81,14 @@ void StreamingProcessObject::GenerateData( void )
     try
       {
       this->StreamedGenerateData( piece );
-      this->UpdateProgress( float( piece ) / numberOfInputRequestRegion);
+      this->UpdateProgress( float( piece+1 ) / numberOfInputRequestRegion);
       }
-    catch( ProcessAborted & excp )
+    catch( ProcessAborted & )
       {
       this->InvokeEvent( AbortEvent() );
       this->ResetPipeline();
       this->RestoreInputReleaseDataFlags();
-      throw excp;
+      throw;
       }
     catch( ... )
       {
@@ -98,6 +98,7 @@ void StreamingProcessObject::GenerateData( void )
       }
     }
 
+  m_CurrentRequestNumber = -1;
 
   this->AfterStreamedGenerateData();
 }
@@ -136,12 +137,12 @@ void StreamingProcessObject::UpdateOutputData(DataObject *itkNotUsed(output))
   unsigned int ninputs = this->GetNumberOfValidRequiredInputs();
   if (ninputs < this->GetNumberOfRequiredInputs())
     {
-    itkExceptionMacro(<< "At least " << static_cast<unsigned int>( this->GetNumberOfRequiredInputs() ) << " inputs are required but only " << ninputs << " are specified.");
-    return;
+    itkExceptionMacro(<< "At least " << static_cast<unsigned int>( this->GetNumberOfRequiredInputs() )
+      << " inputs are required but only " << ninputs << " are specified.");
     }
 
   this->SetAbortGenerateData( false );
-  this->SetProgress(0.0);
+  this->UpdateProgress(0.0);
   this->m_Updating = true;
 
   /*

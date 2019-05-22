@@ -165,6 +165,7 @@ public:
     return true;
   }
 
+#if !defined(ITKV4_COMPATIBILITY)
   SizeType GetRadius() const override
     {
     const InputImageType* input = this->GetInputImage();
@@ -174,6 +175,7 @@ public:
       }
     return input->GetLargestPossibleRegion().GetSize();
     }
+#endif
 
 protected:
   RayCastInterpolateImageFunction();

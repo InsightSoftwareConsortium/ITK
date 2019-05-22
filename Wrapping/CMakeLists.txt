@@ -80,18 +80,6 @@ set(CXX_TEST_PATH ${EXECUTABLE_OUTPUT_PATH})
 # Additional files for installation
 ###############################################################################
 
-if(NOT EXTERNAL_WRAP_ITK_PROJECT)
-  # Install CMake module(s) along with ITKCommon wrapping
-  set(_component_module "")
-  if(WRAP_ITK_INSTALL_COMPONENT_PER_MODULE)
-    set(_component_module "ITKCommon")
-  endif()
-  install(FILES "${WrapITK_BINARY_DIR}/InstallOnly/WrapITKConfig.cmake"
-    DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/"
-    COMPONENT ${_component_module}${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}Development
-    )
-endif()
-
 set(WRAP_ITK_TYPEDEFS_DIRECTORY "${ITK_DIR}/Wrapping/Typedefs")
 set(WRAP_ITK_LIB_DIRECTORY  "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
 
@@ -127,42 +115,3 @@ add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/Modules" "${CMAKE_CURRENT_BINARY_D
 ###############################################################################
 
 itk_end_wrap_modules()
-
-###############################################################################
-# Configure WrapITKConfig.cmake for external projects
-###############################################################################
-# First, configure for use directly from the build dir.
-# we must add the options for the generators for the build dir case, so the
-# external project won't find all the generators, even the usued ones.
-# In the installed case, this feature is useful to let the packagers make several
-# subpackages for wrapitk.
-set(CONFIG_WRAP_ITK_MORE_OPTIONS)
-foreach(lang ${WRAP_ITK_GENERATORS} ${WRAP_ITK_UNUSED_GENERATORS})
-  string(TOUPPER "${lang}" lang_upper)
-  set(CONFIG_WRAP_ITK_MORE_OPTIONS "${CONFIG_WRAP_ITK_MORE_OPTIONS}set(WRAP_ITK_${lang_upper} ${WRAP_ITK_${lang_upper}} CACHE BOOL \"Build swig ${lang} wrapper support.\")\n")
-endforeach()
-set(CONFIG_CONFIG_DIR "${WrapITK_SOURCE_DIR}/ConfigurationInputs")
-set(CONFIG_CMAKE_DIR "${WrapITK_SOURCE_DIR}")
-set(CONFIG_WRAP_ITK_TYPEDEFS_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/Typedefs")
-set(CONFIG_WRAP_ITK_INSTALL_LOCATION "${WRAP_ITK_INSTALL_PREFIX}")
-set(CONFIG_WRAP_ITK_MODULES "${WRAP_ITK_MODULES}")
-set(CONFIG_ITK_WRAP_PYTHON_MODULE "${WrapITK_BINARY_DIR}/Python/\\\${CTEST_CONFIGURATION_TYPE}")
-set(CONFIG_ITK_WRAP_PYTHON_LIBS "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/\\\${CTEST_CONFIGURATION_TYPE}")
-set(CONFIG_WRAP_ITK_LIB_DIR  "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
-configure_file("${WRAP_ITK_CONFIG_DIR}/WrapITKConfig.cmake.in"
-               "${WrapITK_BINARY_DIR}/WrapITKConfig.cmake"
-               @ONLY)
-
-# Second, configure for installed use. Ensure that no absolute paths
-# go into the installed config file, so that it is as portable as possible.
-set(CONFIG_WRAP_ITK_MORE_OPTIONS)
-set(CONFIG_CONFIG_DIR "\${WrapITK_DIR}/Configuration/Inputs")
-set(CONFIG_CMAKE_DIR "\${WrapITK_DIR}/Configuration")
-set(CONFIG_WRAP_ITK_TYPEDEFS_DIRECTORY "\${WrapITK_DIR}/Configuration/Typedefs")
-set(CONFIG_WRAP_ITK_INSTALL_LOCATION "\${WrapITK_DIR}")
-set(CONFIG_ITK_WRAP_PYTHON_MODULE "\${WrapITK_DIR}/Python/")
-set(CONFIG_ITK_WRAP_PYTHON_LIBS "\${WrapITK_DIR}/lib")
-set(CONFIG_WRAP_ITK_LIB_DIR  "\${WrapITK_DIR}/lib")
-configure_file("${WRAP_ITK_CONFIG_DIR}/WrapITKConfig.cmake.in"
-               "${WrapITK_BINARY_DIR}/InstallOnly/WrapITKConfig.cmake"
-               @ONLY)

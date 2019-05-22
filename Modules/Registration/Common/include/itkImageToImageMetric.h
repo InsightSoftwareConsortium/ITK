@@ -519,7 +519,7 @@ public:
   {
   public:
     MultiThreaderWorkUnitInfoImageToImageMetricWrapper(const void * workunitInfoAsVoid)
-      : m_WorkUnitInfo{ static_cast<const typename MultiThreaderType::WorkUnitInfo *>( workunitInfoAsVoid )}
+      : m_WorkUnitInfo( static_cast<const typename MultiThreaderType::WorkUnitInfo *>( workunitInfoAsVoid ))
     {  }
     ThreadIdType GetThreadId() const { return m_WorkUnitInfo->WorkUnitID; }
     const ImageToImageMetric * GetConstImageToImageMetricPointer() const

@@ -90,6 +90,16 @@ void
 CastImageFilter< TInputImage, TOutputImage >
 ::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
+  DynamicThreadedGenerateDataDispatched<InputPixelType>(outputRegionForThread,
+                                               std::is_convertible<InputPixelType, OutputPixelType>());
+}
+
+template< typename TInputImage, typename TOutputImage >
+template<typename TInputPixelType>
+void
+CastImageFilter< TInputImage, TOutputImage >
+::DynamicThreadedGenerateDataDispatched(const OutputImageRegionType & outputRegionForThread, std::true_type)
+{
   const TInputImage *inputPtr = this->GetInput();
   TOutputImage *outputPtr = this->GetOutput(0);
 
@@ -103,6 +113,61 @@ CastImageFilter< TInputImage, TOutputImage >
   ImageAlgorithm::Copy( inputPtr, outputPtr, inputRegionForThread, outputRegionForThread );
 }
 
+
+template< typename TInputImage, typename TOutputImage >
+template<typename TInputPixelType>
+void
+CastImageFilter< TInputImage, TOutputImage >
+::DynamicThreadedGenerateDataDispatched(const OutputImageRegionType & outputRegionForThread, std::false_type)
+{
+  // Implementation for non-implicit convertible pixels which are
+  // itk-array-like.
+
+  static_assert( OutputPixelType::Dimension == InputPixelType::Dimension, "Vector dimensions are required to match!" );
+  static_assert( std::is_convertible<typename InputPixelType::ValueType, typename OutputPixelType::ValueType>::value, "Component types are required to be convertible." );
+
+  const typename OutputImageRegionType::SizeType &regionSize = outputRegionForThread.GetSize();
+
+  if( regionSize[0] == 0 )
+    {
+    return;
+    }
+  const TInputImage *inputPtr = this->GetInput();
+  TOutputImage *outputPtr = this->GetOutput(0);
+
+  // Define the portion of the input to walk for this thread, using
+  // the CallCopyOutputRegionToInputRegion method allows for the input
+  // and output images to be different dimensions
+  typename TInputImage::RegionType inputRegionForThread;
+
+  this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
+
+  // Define the iterators
+  ImageScanlineConstIterator< TInputImage > inputIt(inputPtr, inputRegionForThread);
+  ImageScanlineIterator< TOutputImage > outputIt(outputPtr, outputRegionForThread);
+
+  inputIt.GoToBegin();
+  outputIt.GoToBegin();
+  while ( !inputIt.IsAtEnd() )
+    {
+    while ( !inputIt.IsAtEndOfLine() )
+      {
+      const InputPixelType &inputPixel = inputIt.Get();
+      OutputPixelType value;
+      for ( unsigned int k = 0; k < OutputPixelType::Dimension; k++ )
+        {
+        value[k] = static_cast< typename OutputPixelType::ValueType >( inputPixel[k] );
+        }
+      outputIt.Set( value );
+
+      ++inputIt;
+      ++outputIt;
+      }
+    inputIt.NextLine();
+    outputIt.NextLine();
+    }
+
+}
 
 } // end namespace itk
 

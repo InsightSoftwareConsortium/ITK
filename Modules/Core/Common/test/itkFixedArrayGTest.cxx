@@ -32,7 +32,7 @@ namespace
   template< typename TValue, unsigned int VLength >
   void Check_FixedArray_supports_retrieving_values_by_range_based_for_loop()
   {
-    std::array<TValue, VLength> stdArray{};
+    std::array<TValue, VLength> stdArray;
 
     // Assign a different value (1, 2, 3, ...) to each element.
     std::iota(stdArray.begin(), stdArray.end(), 1);

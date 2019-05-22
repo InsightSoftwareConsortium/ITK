@@ -78,8 +78,7 @@ foreach(lib
     gdcmjpeg12
     gdcmjpeg16
     gdcmjpeg8
-    gdcmopenjpeg
-    itkgdcmopenjp2
+    gdcmopenjp2
     gdcmsocketxx
     gdcmuuid
     )

@@ -30,12 +30,17 @@ namespace itk
 namespace Statistics
 {
 /** \class ImageToHistogramFilter
- *  \brief This class generates an histogram from an image.
+ *  \brief This class generates a histogram from an image.
  *
  *  The concept of Histogram in ITK is quite generic. It has been designed to
  *  manage multiple components data. This class facilitates the computation of
- *  an histogram from an image. Internally it creates a List that is feed into
- *  the SampleToHistogramFilter.
+ *  an histogram from an image.
+ *
+ * This filter is automatically multi-threaded. When
+ * AutoMinimumMaximum is off and the NumberOfStreamDivisions is set to more than
+ * one, then this filter streams its input in a series of requested
+ * regions. A histogram is computed for each streamed and threaded
+ * region then merged.
  *
  * \ingroup ITKStatistics
  */

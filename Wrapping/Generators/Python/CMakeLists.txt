@@ -478,6 +478,7 @@ ${DO_NOT_WAIT_FOR_THREADS_DECLS}
   # if this is for an external library, let the user add extra swig args
   if(EXTERNAL_WRAP_ITK_PROJECT)
     set(WRAP_ITK_SWIG_ARGS_PYTHON "" CACHE STRING "Extra user-defined swig arguments to be to the swig executable.")
+    mark_as_advanced(WRAP_ITK_SWIG_ARGS_PYTHON)
   endif()
 
   # Run swig to produce the *Python.cpp and the *Python.py file
@@ -930,6 +931,11 @@ macro(itk_wrap_simple_type_python wrap_class swig_name)
   endif()
 
   if("${cpp_name}" STREQUAL "itk::EllipseSpatialObject" AND NOT "${ext_def}" MATCHES "Pointer")
+    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(list${swig_name}_Pointer) std::list< ${swig_name}_Pointer >;\n")
+    ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "list${swig_name}_Pointer" "${cpp_name}< ${template_params} >")
+  endif()
+
+  if("${cpp_name}" STREQUAL "itk::LineSpatialObject" AND NOT "${ext_def}" MATCHES "Pointer")
     set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(list${swig_name}_Pointer) std::list< ${swig_name}_Pointer >;\n")
     ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "list${swig_name}_Pointer" "${cpp_name}< ${template_params} >")
   endif()

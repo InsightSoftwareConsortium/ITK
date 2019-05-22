@@ -66,7 +66,7 @@
 //  \code{float} representation. However for input and output purposes
 //  \code{unsigned char} RGB components are commonly used. It is necessary to
 //  cast the type of color components along the pipeline before writing them
-//  to a file. The \doxygen{VectorCastImageFilter} is used to achieve this
+//  to a file. The \doxygen{CastImageFilter} is used to achieve this
 //  goal.
 //
 //  Software Guide : EndLatex

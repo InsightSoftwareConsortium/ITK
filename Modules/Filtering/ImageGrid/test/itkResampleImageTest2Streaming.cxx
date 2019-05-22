@@ -176,10 +176,11 @@ int itkResampleImageTest2Streaming( int argc, char * argv [] )
   resample->SetTransform( nonlinearAffineTransform );
   monitor->ClearPipelineSavedInformation();
   writer2->SetInput( resample->GetOutput() );
-  writer2->SetNumberOfStreamDivisions(8); //demand splitting into 8 pieces for streaming, but faked non-linearity will disable streaming
+  writer2->SetNumberOfStreamDivisions(8);
   TRY_EXPECT_NO_EXCEPTION( writer2->Update() );
 
-  // check that streaming is not possible for non-linear case
+  std::cout << "We demanded splitting into 8 pieces for streaming, \
+but faked non-linearity should disable streaming." << std::endl;
   if ( monitor->VerifyInputFilterExecutedStreaming(8) )
     {
     std::cerr << "Streaming succeeded for non-linear transform which should not be the case!" << std::endl;

@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+#define ITK_LEGACY_TEST
 #include <iostream>
 #include "itkBoundingBox.h"
 #include "itkMath.h"
@@ -168,11 +169,11 @@ int itkBoundingBoxTest (int, char*[])
     }
 
   // Testing the corners
-  std::cout << "Testing GetCorners() : ";
-  const CC::PointsContainer * corners = my3DBox->GetCorners();
-  auto it = corners->begin();
+  std::cout << "Testing ComputeCorners() : ";
+  const auto corners = my3DBox->ComputeCorners();
+  auto it = corners.begin();
   unsigned int j=0;
-  while(it != corners->end())
+  while(it != corners.end())
     {
     for(unsigned int i=0; i<3;i++)
       {
@@ -205,6 +206,23 @@ int itkBoundingBoxTest (int, char*[])
     }
   }
 
+  #ifndef ITK_LEGACY_REMOVE
+  // Expect four corners for a two-dimensional box:
+  const auto boundingBox_2D = itk::BoundingBox<itk::IdentifierType, 2>::New();
+  if(boundingBox_2D->GetCorners()->size() != 4)
+    {
+    std::cerr << "Wrong number of corners for 2D box (expects 4):" << boundingBox_2D->GetCorners()->size() << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Expect eight corners for a three-dimensional box:
+  const auto boundingBox_3D = itk::BoundingBox<itk::IdentifierType, 3>::New();
+  if(boundingBox_3D->GetCorners()->size() != 8)
+    {
+    std::cerr << "Wrong number of corners for 3D box (expects 8):" << boundingBox_3D->GetCorners()->size() << std::endl;
+    return EXIT_FAILURE;
+    }
+  #endif
   std::cout << "BoundingBox test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
 }

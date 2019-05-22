@@ -102,6 +102,11 @@ set(ITK_USE_GPU "@ITK_USE_GPU@")
 
 # Wrapping
 set(ITK_WRAPPING "@ITK_WRAPPING@")
+# ITK_WRAP_SWIGINTERFACE and ITK_WRAP_CASTXML are set
+# to ITK_WRAPPING value.
+# ITK_WRAP_DOC and ITK_WRAP_EXPLICIT are disabled by
+# default.
+
 if( NOT DEFINED ITK_WRAP_PYTHON)
   set(ITK_WRAP_PYTHON "@ITK_WRAP_PYTHON@")
 endif()
@@ -117,5 +122,29 @@ endif()
 if(NOT DEFINED ITK_WRAP_TCL)
   set(ITK_WRAP_TCL "@ITK_WRAP_TCL@")
 endif()
+
+# Set up the rest of the variables that WrapITK was built with.
+set(ITK_WRAP_unsigned_char @ITK_WRAP_unsigned_char@)
+set(ITK_WRAP_unsigned_short @ITK_WRAP_unsigned_short@)
+set(ITK_WRAP_unsigned_long @ITK_WRAP_unsigned_long@)
+set(ITK_WRAP_unsigned_long_long @ITK_WRAP_unsigned_long_long@)
+set(ITK_WRAP_signed_char @ITK_WRAP_signed_char@)
+set(ITK_WRAP_signed_short @ITK_WRAP_signed_short@)
+set(ITK_WRAP_signed_long @ITK_WRAP_signed_long@)
+set(ITK_WRAP_signed_long_long @ITK_WRAP_signed_long@)
+set(ITK_WRAP_float @ITK_WRAP_float@)
+set(ITK_WRAP_double @ITK_WRAP_double@)
+set(ITK_WRAP_vector_float @ITK_WRAP_vector_float@)
+set(ITK_WRAP_vector_double @ITK_WRAP_vector_double@)
+set(ITK_WRAP_covariant_vector_float @ITK_WRAP_covariant_vector_float@)
+set(ITK_WRAP_covariant_vector_double @ITK_WRAP_covariant_vector_double@)
+set(ITK_WRAP_rgb_unsigned_char @ITK_WRAP_rgb_unsigned_char@)
+set(ITK_WRAP_rgb_unsigned_short @ITK_WRAP_rgb_unsigned_short@)
+set(ITK_WRAP_rgba_unsigned_char @ITK_WRAP_rgba_unsigned_char@)
+set(ITK_WRAP_rgba_unsigned_short @ITK_WRAP_rgba_unsigned_short@)
+set(ITK_WRAP_complex_float @ITK_WRAP_complex_float@)
+set(ITK_WRAP_complex_double @ITK_WRAP_complex_double@)
+set(ITK_WRAP_IMAGE_DIMS "@ITK_WRAP_IMAGE_DIMS@")
+set(ITK_WRAP_VECTOR_COMPONENTS "@ITK_WRAP_VECTOR_COMPONENTS@")
 
 set(ITK_WRAP_PYTHON_VERSION "@PYTHON_VERSION_STRING@")

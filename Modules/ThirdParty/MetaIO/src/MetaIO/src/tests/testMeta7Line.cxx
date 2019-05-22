@@ -1,5 +1,6 @@
-#include <stdio.h>
-#include <ctype.h>
+#include <iostream>
+#include <cstdlib>
+
 #include <metaLine.h>
 
 int main(int, char * [])
@@ -13,9 +14,15 @@ int main(int, char * [])
   for(i=0;i<10;i++)
   {
     pnt = new LinePnt(3);
-    pnt->m_X[0]=(float)0.2;pnt->m_X[1]=i;pnt->m_X[2]=i;
-    pnt->m_V[0][0]=(float)0.3;pnt->m_V[0][1]=i;pnt->m_V[0][2]=i;
-    pnt->m_V[1][0]=(float)0.4;pnt->m_V[1][1]=i+1;pnt->m_V[1][2]=i+1;
+    pnt->m_X[0]=(float)0.2;
+    pnt->m_X[1]=i;
+    pnt->m_X[2]=i;
+    pnt->m_V[0][0]=(float)0.3;
+    pnt->m_V[0][1]=i;
+    pnt->m_V[0][2]=i;
+    pnt->m_V[1][0]=(float)0.4;
+    pnt->m_V[1][1]=i+1;
+    pnt->m_V[1][2]=i+1;
     Line->GetPoints().push_back(pnt);
   }
 
@@ -30,6 +37,13 @@ int main(int, char * [])
 
   Line->Clear();
   Line->Read("myLine.meta");
+
+  MetaLine LineRead("myLine.meta");
+  MetaLine LineCopy(&LineRead);
+
+  std::cout << "PointDim = " << LineCopy.PointDim() << std::endl;
+  std::cout << "NPoints = " << LineCopy.NPoints() << std::endl;
+  std::cout << "ElementType = " << LineCopy.ElementType() << std::endl;
 
   Line->PrintInfo();
 
@@ -62,6 +76,7 @@ int main(int, char * [])
     ++it;
   }
 
+  delete Line;
   std::cout << "done" << std::endl;
   return EXIT_SUCCESS;
 }

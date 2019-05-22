@@ -1,5 +1,6 @@
-#include <stdio.h>
-#include <ctype.h>
+#include <iostream>
+#include <cstdlib>
+
 #include <metaScene.h>
 #include <metaGroup.h>
 #include <metaEllipse.h>
@@ -18,6 +19,7 @@ int main(int, char * [])
   e2->Radius(4);
 
   MetaGroup * g1 = new MetaGroup(3);
+  g1->FileName("MyFilename");
   g1->ID(2);
 
   e1->ParentID(2);
@@ -60,6 +62,7 @@ int main(int, char * [])
   e1->ID(0);
   e1->Radius(3);
   e1->Write("ellipse.elp");
+  delete e1;
 
   std::cout << "[OK]" << std::endl;
 
@@ -73,9 +76,11 @@ int main(int, char * [])
     {
     std::cout << "Number of obejcts: " << s->NObjects()
               << " != 1...[FAILED]" << std::endl;
+    delete s;
     return EXIT_FAILURE;
     }
 
+  delete s;
   std::cout << "[OK]" << std::endl;
 
   // (*(s->GetObjectList()->begin()))->PrintInfo();

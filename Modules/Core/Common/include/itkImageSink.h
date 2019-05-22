@@ -166,7 +166,7 @@ protected:
   /** Set/Get Helper class for dividing the input into regions for
    * streaming */
   itkSetObjectMacro(RegionSplitter, SplitterType);
-  itkGetObjectMacro(RegionSplitter, SplitterType);
+  itkGetModifiableObjectMacro(RegionSplitter, SplitterType);
 
 
 private:
