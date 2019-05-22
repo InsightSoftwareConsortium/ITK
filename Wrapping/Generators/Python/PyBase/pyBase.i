@@ -455,6 +455,19 @@ str = str
 
 %enddef
 
+%define DECL_PYTHON_OUTPUT_RETURN_BY_VALUE_CLASS(swig_name, function_name)
+    %rename(__##function_name##_orig__) swig_name::function_name;
+    %extend swig_name {
+        %pythoncode {
+            def function_name(self):
+                var = self.__##function_name##_orig__()
+                var_copy = type(var)(var)
+                return var_copy
+        }
+    }
+%enddef
+
+
 %define DECL_PYTHON_VEC_TYPEMAP(swig_name, type, dim)
 
     %typemap(in) swig_name & (swig_name itks) {
