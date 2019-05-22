@@ -153,24 +153,18 @@ ImageSink<TInputImage>
       {
       // Check whether the input is an image of the appropriate
       // dimension (use ProcessObject's version of the GetInput()
-      // method sink it returns the input as a pointer to a
+      // method since it returns the input as a pointer to a
       // DataObject as opposed to the subclass version which
       // static_casts the input to an TInputImage).
       using ImageBaseType = ImageBase< InputImageDimension >;
-      typename ImageBaseType::ConstPointer constInput =
-        dynamic_cast< ImageBaseType const * >( this->GetInput(inputName) );
+      auto * input = dynamic_cast< ImageBaseType  * >( this->ProcessObject::GetInput(inputName) );
 
-      // If not an image, skip it, and let a subclass of
-      // ImageToImageFilter handle this input.
-      if ( constInput.IsNull() )
+      // If not an image, skip it. A subclass can override this method
+      // for particular input types.
+      if ( input == nullptr )
         {
         continue;
         }
-
-      // Input is an image, cast away the constness so we can set
-      // the requested region.
-      InputImagePointer input = const_cast< TInputImage * >( this->GetInput(inputName) );
-
       // copy the requested region of the first input to the others
       InputImageRegionType inputRegion;
       input->SetRequestedRegion( m_CurrentInputRegion );
