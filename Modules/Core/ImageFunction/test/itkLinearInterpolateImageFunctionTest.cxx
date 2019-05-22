@@ -171,12 +171,14 @@ int RunLinearInterpolateTest()
   variablevectorinterpolator = VariableVectorInterpolatorType::New();
  variablevectorinterpolator->SetInputImage( variablevectorimage );
 
+#if !defined(ITKV4_COMPATIBILITY)
  typename ImageType::SizeType radius;
  radius.Fill( 1 );
  for( unsigned int d = 0; d < Dimensions; ++d )
    {
    TEST_SET_GET_VALUE( radius[d], interpolator->GetRadius()[d] );
    }
+#endif
 
  constexpr AccumulatorType incr  = 0.2;
 
