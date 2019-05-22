@@ -5,7 +5,6 @@
 
 int main(int, char * [])
 {
-
   std::cout << "Creating test file ...";
   MetaSurface* surface = new MetaSurface(3);
   surface->ID(0);
@@ -42,7 +41,6 @@ int main(int, char * [])
   unsigned int d=0;
   while(it != list.end())
   {
-
     for(d = 0; d < 3; d++)
     {
       std::cout << (*it)->m_X[d] << " ";
@@ -51,6 +49,12 @@ int main(int, char * [])
     for(d = 0; d < 3; d++)
     {
       std::cout << (*it)->m_V[d] << " ";
+    }
+    
+    std::cout << std::endl;
+    for (d = 0; d < 4; d++)
+    {
+      std::cout << (*it)->m_Color[d] << " ";
     }
     std::cout << std::endl;
     ++it;

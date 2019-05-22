@@ -72,12 +72,14 @@ int itkGaussianInterpolateImageFunctionTest( int, char*[] )
 
   interpolator->SetInputImage(image);
 
+#if !defined(ITKV4_COMPATIBILITY)
   typename ImageType::SizeType radius;
   radius.Fill( 1 );
   for ( unsigned int d = 0; d < ImageType::ImageDimension; d++ )
     {
       TEST_SET_GET_VALUE( radius[d], interpolator->GetRadius()[d] );
     }
+#endif
 
   InterpolatorType::OutputType expectedValues[5][5] =
     {{0.773964, 0.886982, 1.38698, 1.88698, 2.0},

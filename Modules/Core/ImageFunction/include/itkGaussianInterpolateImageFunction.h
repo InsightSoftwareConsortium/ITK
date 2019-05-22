@@ -147,7 +147,9 @@ public:
     return this->EvaluateAtContinuousIndex( cindex, nullptr );
     }
 
+#if !defined(ITKV4_COMPATIBILITY)
   SizeType GetRadius() const override;
+#endif
 
 protected:
   GaussianInterpolateImageFunction();

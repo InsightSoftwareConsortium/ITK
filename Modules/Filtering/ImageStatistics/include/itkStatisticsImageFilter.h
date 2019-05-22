@@ -36,9 +36,10 @@ namespace itk
  * in a pipline with other filters and the statistics will only be
  * recomputed if a downstream filter changes.
  *
- * The filter passes its input through unmodified.  The filter is
- * threaded. It computes statistics in each thread then combines them in
- * its AfterThreadedGenerate method.
+ * This filter is automatically multi-threaded and can stream its
+ * input when NumberOfStreamDivisions is set to more than
+ * one. Statistics are independently computed for each streamed and
+ * threaded region then merged.
  *
  * Internally a compensated summation algorithm is used for the
  * accumulation of intensities to improve accuracy for large images.

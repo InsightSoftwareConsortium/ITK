@@ -33,9 +33,12 @@ namespace itk
  * an image.
  *
  * It is templated over input image type only.
- * This filter just copies the input image through this output to
- * be included within the pipeline. The implementation uses the
- * StatisticsImageFilter.
+ *
+ * This filter is automatically multi-threaded and can stream its
+ * input when NumberOfStreamDivisions is set to more than
+ * 1. The extrema are independently computed for each streamed and
+ * threaded region then merged.
+ *
  *
  * \ingroup Operators
  * \sa StatisticsImageFilter

@@ -1,5 +1,9 @@
 project(ITKEigen3)
 set(ITKEigen3_THIRD_PARTY 1)
+
+option(ITK_USE_SYSTEM_EIGEN "Use an outside build of Eigen3." ${ITK_USE_SYSTEM_LIBRARIES})
+mark_as_advanced(ITK_USE_SYSTEM_EIGEN)
+
 if(ITK_USE_SYSTEM_EIGEN)
   set(_eigen_itk_target Eigen3::Eigen)
 else()
@@ -8,9 +12,6 @@ endif()
 set(ITKEigen3_LIBRARIES ${_eigen_itk_target})
 # Assume that Eigen generates a Eigen3Config.cmake
 set(_Eigen3_min_version 3.3)
-
-option(ITK_USE_SYSTEM_EIGEN "Use an outside build of Eigen3." ${ITK_USE_SYSTEM_LIBRARIES})
-mark_as_advanced(ITK_USE_SYSTEM_EIGEN)
 
 # Docs:
 # find_package(ITK REQUIRED COMPONENTS
@@ -83,8 +84,8 @@ set(${_Eigen3_SYSTEM_OR_INTERNAL}_DIR \"${Eigen3_DIR_INSTALL}\")
 find_package(${_Eigen3_SYSTEM_OR_INTERNAL} ${_Eigen3_min_version} REQUIRED CONFIG)
 ")
 set(ITKEigen3_EXPORT_CODE_BUILD "
-if(NOT ITK_BINARY_DIR)
-  set(${_Eigen3_SYSTEM_OR_INTERNAL}_DIR \"${Eigen3_DIR_BUILD}\")
+set(${_Eigen3_SYSTEM_OR_INTERNAL}_DIR \"${Eigen3_DIR_BUILD}\")
+if(ITK_USE_SYSTEM_EIGEN)
   find_package(${_Eigen3_SYSTEM_OR_INTERNAL} ${_Eigen3_min_version} REQUIRED CONFIG)
 endif()
 ")

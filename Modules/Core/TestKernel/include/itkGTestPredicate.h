@@ -30,7 +30,7 @@
  * verifies that the root mean squares error between the two array-like
  * objects doesn't exceed the given error.
  */
-#define EXPECT_VECTOR_NEAR(val1, val2, rmsError)       \
+#define ITK_EXPECT_VECTOR_NEAR(val1, val2, rmsError)       \
   EXPECT_PRED_FORMAT3(itk::GTest::Predicate::VectorDoubleRMSPredFormat, \
                       val1, val2, rmsError)
 
@@ -48,7 +48,7 @@ namespace GTest
 namespace Predicate
 {
 
-/** Implements GTest Predicate Formatter for EXPECT_VECTOR_NEAR
+/** Implements GTest Predicate Formatter for ITK_EXPECT_VECTOR_NEAR
  * macro. This macro and formatter work with any combination of ITK
  * array-like objects which are supported by itk::NumericTraits. The
  * arrays must be the same length, and the root mean squares error is

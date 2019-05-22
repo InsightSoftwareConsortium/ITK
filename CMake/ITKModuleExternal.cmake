@@ -126,8 +126,6 @@ if(ITK_WRAPPING)
                        "ITK_WRAP_EXPLICIT" OFF)
   CMAKE_DEPENDENT_OPTION(${itk-module}_WRAP_DOC "Build Doxygen support." OFF
                        "ITK_WRAP_DOC" OFF)
-  CMAKE_DEPENDENT_OPTION(${itk-module}_WRAP_DOC_MAN "Build man pages support." OFF
-                       "ITK_WRAP_DOC_MAN" OFF)
   set(${itk-module}_WRAP_CASTXML ${ITK_WRAPPING})
   set(${itk-module}_WRAP_SWIGINTERFACE ${ITK_WRAPPING})
   if( (${itk-module}_WRAP_PYTHON OR
@@ -136,8 +134,7 @@ if(ITK_WRAPPING)
        ${itk-module}_WRAP_PERL OR
        ${itk-module}_WRAP_TCL OR
        ${itk-module}_WRAP_EXPLICIT OR
-       ${itk-module}_WRAP_DOC OR
-       ${itk-module}_WRAP_DOC_MAN
+       ${itk-module}_WRAP_DOC
       )
     AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/wrapping/CMakeLists.txt"
     )
@@ -146,7 +143,6 @@ if(ITK_WRAPPING)
     include("${WRAP_ITK_CMAKE_DIR}/TypedefMacros.cmake")
     # Build tree
     if(EXISTS "${ITK_CMAKE_DIR}/../Wrapping/CMakeLists.txt")
-      include(${ITK_DIR}/Wrapping/WrapITKConfig.cmake)
       add_subdirectory("${ITK_CMAKE_DIR}/../Wrapping"
         ${CMAKE_CURRENT_BINARY_DIR}/Wrapping)
     # Install tree

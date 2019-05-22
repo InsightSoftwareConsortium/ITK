@@ -34,7 +34,7 @@ namespace itk
 /**
  * Print out the bounding box.
  */
-template< typename TPointIdentifier, int VPointDimension,
+template< typename TPointIdentifier, unsigned int VPointDimension,
           typename TCoordRep, typename TPointsContainer >
 void
 BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
@@ -53,7 +53,7 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
 /**
  * Access routine to set the points container.
  */
-template< typename TPointIdentifier, int VPointDimension,
+template< typename TPointIdentifier, unsigned int VPointDimension,
           typename TCoordRep, typename TPointsContainer >
 void
 BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
@@ -68,7 +68,7 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
 }
 
 /** Access routine to get the points container. */
-template< typename TPointIdentifier, int VPointDimension,
+template< typename TPointIdentifier, unsigned int VPointDimension,
           typename TCoordRep, typename TPointsContainer >
 const typename BoundingBox< TPointIdentifier, VPointDimension, TCoordRep,
                             TPointsContainer >::PointsContainer *
@@ -81,7 +81,7 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
 }
 
 /** Compute and get the corners of the bounding box */
-template< typename TPointIdentifier, int VPointDimension,
+template< typename TPointIdentifier, unsigned int VPointDimension,
           typename TCoordRep, typename TPointsContainer >
 auto
 BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
@@ -92,15 +92,15 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
   PointType center = this->GetCenter();
   PointType radius;
 
-  for ( unsigned int i = 0; i < VPointDimension; i++ )
+  for (unsigned int i = 0; i < PointDimension; i++ )
     {
     radius[i] = m_Bounds[2 * i + 1] - center[i];
     }
 
-  for ( unsigned int j = 0; j < NumberOfCorners; j++ )
+  for ( SizeValueType j = 0; j < NumberOfCorners; j++ )
     {
     PointType pnt;
-    for ( unsigned int i = 0; i < VPointDimension; i++ )
+    for ( unsigned int i = 0; i < PointDimension; i++ )
       {
       pnt[i] = center[i] + std::pow( -1.0, ( (double)( j / ( int( std::pow(2.0, (double)i) ) ) ) ) )
                * radius[i];
@@ -114,20 +114,20 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
 
 #if !defined(ITK_LEGACY_REMOVE)
 /** Compute and get the corners of the bounding box */
-template< typename TPointIdentifier, int VPointDimension,
+template< typename TPointIdentifier, unsigned int VPointDimension,
           typename TCoordRep, typename TPointsContainer >
 const typename BoundingBox< TPointIdentifier, VPointDimension, TCoordRep,
                             TPointsContainer >::PointsContainer *
 BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
 ::GetCorners()
 {
-  m_CornersContainer->Initialize();
+  m_CornersContainer->clear();
   m_CornersContainer->Reserve(NumberOfCorners);
 
+  SizeValueType index = 0;
   for (const PointType& pnt: this->ComputeCorners())
     {
-    // Push back is not defined so we insert at the end of the list
-    m_CornersContainer->InsertElement(m_CornersContainer->Size(), pnt);
+    m_CornersContainer->SetElement(index++, pnt);
     }
 
   return m_CornersContainer.GetPointer();
@@ -135,7 +135,7 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
 #endif
 
 /** */
-template< typename TPointIdentifier, int VPointDimension,
+template< typename TPointIdentifier, unsigned int VPointDimension,
           typename TCoordRep, typename TPointsContainer >
 BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
 ::BoundingBox():m_PointsContainer(nullptr)
@@ -143,7 +143,7 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
   m_Bounds.Fill(NumericTraits< CoordRepType >::ZeroValue());
 }
 
-template< typename TPointIdentifier, int VPointDimension,
+template< typename TPointIdentifier, unsigned int VPointDimension,
           typename TCoordRep, typename TPointsContainer >
 bool
 BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
@@ -204,7 +204,7 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
   return true;
 }
 
-template< typename TPointIdentifier, int VPointDimension,
+template< typename TPointIdentifier, unsigned int VPointDimension,
           typename TCoordRep, typename TPointsContainer >
 typename BoundingBox< TPointIdentifier, VPointDimension, TCoordRep,
                       TPointsContainer >::PointType
@@ -222,7 +222,7 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
   return center;
 }
 
-template< typename TPointIdentifier, int VPointDimension,
+template< typename TPointIdentifier, unsigned int VPointDimension,
           typename TCoordRep, typename TPointsContainer >
 typename BoundingBox< TPointIdentifier, VPointDimension, TCoordRep,
                       TPointsContainer >::PointType
@@ -240,7 +240,7 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
   return minimum;
 }
 
-template< typename TPointIdentifier, int VPointDimension,
+template< typename TPointIdentifier, unsigned int VPointDimension,
           typename TCoordRep, typename TPointsContainer >
 void
 BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
@@ -254,7 +254,7 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
   m_BoundsMTime.Modified();
 }
 
-template< typename TPointIdentifier, int VPointDimension,
+template< typename TPointIdentifier, unsigned int VPointDimension,
           typename TCoordRep, typename TPointsContainer >
 typename BoundingBox< TPointIdentifier, VPointDimension, TCoordRep,
                       TPointsContainer >::PointType
@@ -272,7 +272,7 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
   return maximum;
 }
 
-template< typename TPointIdentifier, int VPointDimension,
+template< typename TPointIdentifier, unsigned int VPointDimension,
           typename TCoordRep, typename TPointsContainer >
 void
 BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
@@ -286,7 +286,7 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
   m_BoundsMTime.Modified();
 }
 
-template< typename TPointIdentifier, int VPointDimension,
+template< typename TPointIdentifier, unsigned int VPointDimension,
           typename TCoordRep, typename TPointsContainer >
 void
 BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
@@ -314,7 +314,7 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
     }
 }
 
-template< typename TPointIdentifier, int VPointDimension,
+template< typename TPointIdentifier, unsigned int VPointDimension,
           typename TCoordRep, typename TPointsContainer >
 typename BoundingBox< TPointIdentifier, VPointDimension, TCoordRep,
                       TPointsContainer >::AccumulateType
@@ -336,7 +336,7 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
   return dist2;
 }
 
-template< typename TPointIdentifier, int VPointDimension,
+template< typename TPointIdentifier, unsigned int VPointDimension,
           typename TCoordRep, typename TPointsContainer >
 bool
 BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
@@ -360,7 +360,7 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
   return true;
 }
 
-template< typename TPointIdentifier, int VPointDimension,
+template< typename TPointIdentifier, unsigned int VPointDimension,
           typename TCoordRep, typename TPointsContainer >
 ModifiedTimeType
 BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
@@ -378,7 +378,7 @@ BoundingBox< TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer >
   return latestTime;
 }
 
-template< typename TPointIdentifier, int VPointDimension,
+template< typename TPointIdentifier, unsigned int VPointDimension,
           typename TCoordRep, typename TPointsContainer >
 typename BoundingBox< TPointIdentifier, VPointDimension, TCoordRep,
                       TPointsContainer >::Pointer
