@@ -291,7 +291,6 @@ if( ITK_USE_BRAINWEB_DATA )
 
   set( NUMBER_OF_BSPLINE_GRID_NODES 5 )
 
-  message("CTEST_TEST_TIMEOUT: ${CTEST_TEST_TIMEOUT}")
   if( CTEST_TEST_TIMEOUT GREATER 3000 )
 
     itk_add_test(NAME  ITKv3DeformableRegistration8Test1 COMMAND ${ITK_TEST_DRIVER}
@@ -472,12 +471,12 @@ if( ITK_USE_BRAINWEB_DATA )
 
     # Due to the large memory requirements this tests must be run one by one
     set_tests_properties(
-      DeformableRegistration8Test5
-      DeformableRegistration8Test6
-      DeformableRegistration8Test7
-      DeformableRegistration8Test8
-      DeformableRegistration8Test9
-      DeformableRegistration8Test10
+      ITKv3DeformableRegistration8Test5
+      ITKv3DeformableRegistration8Test6
+      ITKv3DeformableRegistration8Test7
+      ITKv3DeformableRegistration8Test8
+      ITKv3DeformableRegistration8Test9
+      ITKv3DeformableRegistration8Test10
       PROPERTIES
       RESOURCE_LOCK MEMORY_SIZE
       )
@@ -516,8 +515,8 @@ if( ITK_USE_BRAINWEB_DATA )
 
       # Due to the large memory requirements this tests lock the memory size resource
         set_tests_properties(
-          DeformableRegistration8Test11
-          DeformableRegistration8Test12
+          ITKv3DeformableRegistration8Test11
+          ITKv3DeformableRegistration8Test12
           PROPERTIES
           RESOURCE_LOCK MEMORY_SIZE
           )
