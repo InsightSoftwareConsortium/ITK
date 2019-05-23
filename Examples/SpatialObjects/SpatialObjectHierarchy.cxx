@@ -155,7 +155,7 @@ int main( int , char *[] )
 // transform is reset to Identity.  As a result, \code{Update()} should be
 // called before the object is re-used, to re-compute convenience member
 // variables and values.  To remove the children of a node, use the
-// \code{RemoveAllChildre()} function.
+// \code{RemoveAllChildren()} function.
 //
 // Software Guide : EndLatex
 
