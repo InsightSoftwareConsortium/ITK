@@ -18,7 +18,7 @@
 
 // Software Guide : BeginLatex
 //
-// \index{itk::SpatialObjectTransforms} This example describes the different
+// \index{itk::SpatialObjectTransform}s This example describes the different
 // transformations and the Object and World "spaces" associated with a spatial
 // object.
 //
@@ -61,9 +61,9 @@
 // update their cached \code{ObjectToWorldTransform}.   This function should be
 // called on the top level object (via \code{Update()}) once all children
 // object's
-// \code{ObjectToParentTransforms} have been set.   This function should
+// \code{ObjectToParentTransform}s have been set.   This function should
 // be called
-// on children objects when their \code{ObjectToParentTransforms} have been
+// on children objects when their \code{ObjectToParentTransform}s have been
 // changed.
 //
 // \item[GetObjectToWorldTransform()]: Returns the cached
