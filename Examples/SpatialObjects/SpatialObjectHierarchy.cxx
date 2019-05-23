@@ -52,7 +52,7 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // We then add the second object to the first one by using the
-// \code{AddSpatialObject()} method.  As a result \code{object2} becomes a
+// \code{AddChild()} method.  As a result \code{object2} becomes a
 // child of object1.
 //
 // Software Guide : EndLatex
@@ -62,11 +62,23 @@ int main( int , char *[] )
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
+// Whenever the parameters of an object, including its parent-child
+// relationships are changed, we must then call the \code{Update()}
+// method so that the object-to-parent
+// transforms and bounding box internally managed by each object are
+// maintained.   Calling \code{Update()} on an object automatically causes
+// the \code{Update()} function of each child to be called.
 //
-// We can query if an object has a parent by using the HasParent() method. If
-// it has one, the \code{GetParent()} method returns a constant pointer to
-// the parent.  In our case, if we ask the parent's name of the object2 we
-// should obtain: \code{First Object}.
+// Software Guide : EndLatex
+//
+// Software Guide : BeginCodeSnippet
+  object1->Update();
+// Software Guide : EndCodeSnippet
+//
+// Then, we can query if an object has a parent by using the HasParent()
+// method. If it has one, the \code{GetParent()} method returns a constant
+// pointer to the parent.  In our case, if we ask the parent's name of the
+// object2 we should obtain: \code{First Object}.
 //
 // Software Guide : EndLatex
 
@@ -112,18 +124,19 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// An object can also be removed by using the \code{RemoveSpatialObject()}
-// method.
+// An object can also be removed by using the \code{RemoveChild()}
+// method, and then calling \code{Update()} on the now-orphaned child.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   object1->RemoveChild(object2);
+  object2->Update();
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
 //
-// We can query the number of children an object has with the
+// Then, we can query the number of children an object has with the
 // \code{GetNumberOfChildren()} method.
 //
 // Software Guide : EndLatex
@@ -137,11 +150,17 @@ int main( int , char *[] )
 //
 // The \code{Clear()} method erases all the information regarding the object
 // as well as the data. This method is usually overloaded by
-// derived classes.
+// derived classes.  Note that the Parent-Child relationships of the object
+// are NOT reset when \code{Clear()} is called; however, the object-to-parent
+// transform is reset to Identity.  As a result, \code{Update()} should be
+// called before the object is re-used, to re-compute convenience member
+// variables and values.  To remove the children of a node, use the
+// \code{RemoveAllChildre()} function.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
+  object1->Clear();
   object1->RemoveAllChildren();
 // Software Guide : EndCodeSnippet
 

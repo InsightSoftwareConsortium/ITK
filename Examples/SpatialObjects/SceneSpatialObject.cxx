@@ -18,7 +18,7 @@
 
 // Software Guide : BeginLatex
 //
-// \index{itk::GroupSpatialObject}
+// \index{itk::GroupSpatialObject - Continued}
 // This example describes how to use the \doxygen{GroupSpatialObject}.
 // A GroupSpatialObject contains a collection of SpatialObjects. This
 // example begins by including the appropriate header file.

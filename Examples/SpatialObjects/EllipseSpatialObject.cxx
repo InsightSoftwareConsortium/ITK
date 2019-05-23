@@ -48,6 +48,10 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // Then we set a radius for each dimension. By default the radius is set to 1.
+// Additionally, after setting the SpatialObject's radius, we call
+// \code{Update()} to update all transforms, bounding box, and other
+// convenience variables within the class that its other member functions
+// (e.g., \code{IsInsideInWorldSpace()}) depend upon.
 //
 // Software Guide : EndLatex
 // Software Guide : BeginCodeSnippet
@@ -58,6 +62,7 @@ int main( int , char *[] )
     }
 
   myEllipse->SetRadiusInObjectSpace(radius);
+  myEllipse->Update();
 // Software Guide : EndCodeSnippet
 // Software Guide : BeginLatex
 //
@@ -66,6 +71,7 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 // Software Guide : BeginCodeSnippet
   myEllipse->SetRadiusInObjectSpace(2.0);
+  myEllipse->Update();
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
@@ -82,7 +88,7 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // Like other SpatialObjects, we can query the object if a point is inside
-// the object by using the IsInsideInWorldSpace(itk::Point) function.
+// the object by using the \code{IsInsideInWorldSpace(itk::Point)} function.
 // This function expects the point to be in world coordinates.
 //
 // Software Guide : EndLatex
@@ -123,12 +129,13 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-//  If the object is evaluable at that point, the \code{ValueAt()} function
+//  If the object is evaluable at that point, the \code{ValueAtInWorldSpace()}
+//  function
 //  returns the current value at that position.  Most of the objects returns
 //  a boolean value which is set to true when the point is inside the object
 //  and false when it is outside. However, for some objects, it is more
 //  interesting to return a value representing, for instance, the distance
-//  from the center of the object or the distance from from the boundary.
+//  from the center of the object or the distance from the boundary.
 //
 // Software Guide : EndLatex
 
