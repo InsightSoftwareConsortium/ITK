@@ -22,53 +22,65 @@
 // transformations and the Object and World "spaces" associated with a spatial
 // object.
 //
-// Object Space
-//
-// SpatialObjects have one primary coordinate space that is readily available
-// to them, their ObjectSpace. This is the space in which the object was
+// \begin{description}
+// \item[Object Space]. SpatialObjects have one primary coordinate space
+// that is readily available
+// to them, their \code{ObjectSpace}. This is the space in which the object was
 // inherently defined. No transforms are applied to the points/values that
 // get/set into this space. All children of an object are added into this space.
 //
-// ObjectToParentTransform
+// \item[ObjectToParentTransform]. SpatialObjects have only one transform
+// that they directly control, their
+// \code{ObjectToParentTransform}. This transform specifies how an object's
+// \code{ObjectSpace} is
+// transformed to fit into its parent's \code{ObjectSpace}. The
+// \code{ObjectToParentTransform} is an affine transform, and it is confirmed
+// to be invertible when assigned, or the assignment fails.
 //
-// SpatialObjects have only one transform that they directly control, their
-// ObjectToParentTransform. This transform specifies how an object's space is
-// transformed to fit into its parent's ObjectSpace. The
-// ObjectToParentTransform is an affine transform, and it is confirmed to be
-// invertible when assigned, or the assignment fails.
-//
-// WorldSpace
-//
-// WorldSpace is not directly controlled by any SpatialObject except the
+// \item[WorldSpace]. \code{WorldSpace} is not directly controlled by any
+// SpatialObject except the
 // SpatialObject at the top level of the parent-child tree hierarchy of
 // Spatial Objects. That is, any SpatialObject that does not have a parent
-// exists in a WorldSpace that is defined by applying its
-// ObjectToParentTransform to its ObjectSpace.
+// exists in a \code{WorldSpace} that is defined by applying its
+// \code{ObjectToParentTransform} to its \code{ObjectSpace}.
+//
+// \end{description}
 //
 // Several member functions and variables are available to every SpatialObject
 // so that they can readily access the WorldSpace in which they exist:
 //
-// * ProtectedComputeObjectToWorldTransform: Composes its ObjectToParentTransform
-// with its parent's cached ObjectToObjectToWorldTransform, to determine the
-// transform from the object's ObjectSpace to WorldSpace.   This transform is
-// always invertible.   This call will cause all children objects to also
-// update their cached ObjectToWorldTransform.   This function should be
-// called on the top level object once all children object's
-// ObjectToParentTransforms have been set.   This function should be called
-// on children objects when their ObjectToParentTransforms have been changed.
-// Due to the potentially high computational cost of this function, this
-// function must be manually called by users.
+// \begin{description}
 //
-// * GetObjectToWorldTransform: Returns the cached ObjectToWorldTransform.
-// It is the user's responsibility to call ProtectedComputeObjectToWorldTransform when
-// necessary, prior to calling GetObjectToWorldTransform, otherwise the
+// \item[ProtectedComputeObjectToWorldTransform()]: This function is called
+// whenever \code{Update()} is called.  It composes the object's
+// \code{ObjectToParentTransform}
+// with its parent's cached \code{ObjectToWorldTransform}, to determine the
+// transform from the object's \code{ObjectSpace} to \code{WorldSpace}.
+// This transform is
+// always invertible.   This call will cause all children objects to also
+// update their cached \code{ObjectToWorldTransform}.   This function should be
+// called on the top level object (via \code{Update()}) once all children
+// object's
+// \code{ObjectToParentTransforms} have been set.   This function should
+// be called
+// on children objects when their \code{ObjectToParentTransforms} have been
+// changed.
+//
+// \item[GetObjectToWorldTransform()]: Returns the cached
+// \code{ObjectToWorldTransform}.
+// It is the user's responsibility to call \code{Update()} (and thereby
+// \code{ProtectedComputeObjectToWorldTransform()}) when
+// necessary, prior to calling \code{GetObjectToWorldTransform()}, otherwise the
 // returned transform may be "stale."
 //
-// * SetObjectToWorldTransform: This function updates the object's
-// ObjectToParentTransform, using an inverse of the parent's cached
-// ObjectToWorldTransform, so that the composition of those transforms
+// \item[SetObjectToWorldTransform()]: This function updates the object's
+// \code{ObjectToParentTransform}, using an inverse of the parent's cached
+// \code{ObjectToWorldTransform}, so that the composition of those transforms
 // equal the transform passed to this function.   If an object has no parent,
-// its ObjectToParentTransform is equal to its ObjectToWorldTransform.
+// its \code{ObjectToParentTransform} is equal to its
+// \code{ObjectToWorldTransform}.
+//
+// \end{description}
 //
 // Software Guide : EndLatex
 
@@ -100,12 +112,12 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // First we define a scaling factor of 2 for the object2.
-// This is done by setting the Scale of the ObjectToParentTransform.
+// This is done by setting the Scale of the \code{ObjectToParentTransform}.
 //
 // Note that this scaling would also apply to the children of object2,
 // if it had children.  If you wish to scale an object, but not its children,
 // then those children aren't actually "children", but they are siblings.  So,
-// you should insert a GroupSpatialObject that holds the object and its
+// you should insert a \index{GroupSpatialObject} that holds the object and its
 // children.  Then you can manipulate the object's transform/scaling
 // independent of its siblings in that group, and if you wish to transform
 // the object and its simblings, you apply that transform to the group.
@@ -122,8 +134,9 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Next, we apply an offset on the \code{ObjectToParentTransform} to object1
-// which will also cauase a translation of its child, object2.
+// Next, we apply an offset on the \code{ObjectToParentTransform} to
+// \code{object1}
+// which will also cauase a translation of its child, \code{object2}.
 //
 // Software Guide : EndLatex
 
@@ -138,11 +151,10 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // To realize the previous operations on the transformations, we should
-// invoke the \code{ProtectedComputeObjectToWorldTransform()} that recomputes all
-// dependent transformations.
+// invoke the \code{Update()} that recomputes all dependent transformations.
 //
-// By calling this function on object1, it will also descend to its children,
-// thereby also updating the objectToWorldTransform for object2.
+// By calling this function on \code{object1}, it will also descend to its children,
+// thereby also updating the objectToWorldTransform for \code{object2}.
 //
 // Software Guide : EndLatex
 
@@ -153,7 +165,7 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// We can now display the ObjectToWorldTransform for both objects.  One
+// We can now display the \code{ObjectToWorldTransform} for both objects.  One
 // should notice that the only valid members of the Affine
 // transformation are a Matrix and an Offset. For instance, when we invoke the
 // \code{Scale()} method the internal Matrix is recomputed to
@@ -186,7 +198,7 @@ int main( int , char *[] )
 // Next, we show the two affine transformations corresponding to the two
 // objects.
 //
-// First, their ObjectToParent transforms for object2:
+// First, the \code{ObjectToParentTransform} for \code{object2}:
 //
 // Software Guide : EndLatex
 
@@ -199,9 +211,9 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Second, their ObjectToWorld transforms that are cached computations, derived
+// Second, the \code{ObjectToWorldTransform} that is cached, derived
 // from the parent-child hierarchy and the composition of the corresponding
-// objectToParent transforms, for object2
+// \code{ObjectToParentTransform}, for \code{object2}:
 //
 // Software Guide : EndLatex
 
@@ -214,11 +226,11 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// We can also update an object's ObjectToParent transform by
-// changing its ObjectToWorld transform and then calling
+// We can also update an object's \code{ObjectToParentTransform} by
+// changing its \code{ObjectToWorldTransform} and then calling
 // \code{ComputeObjectToParentTransform()},
-// which changes the ObjectToParent so as to achieve the cached
-// objectToWorld transform.
+// which changes the \code{ObjectToParentTransform} so as to achieve the cached
+// \code{ObjectToWorldTransform}.
 //
 // Software Guide : EndLatex
 
@@ -234,7 +246,7 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // Finally, we display the resulting affine transformations.   First,
-// for the ObjectToParent transforms.
+// for the \code{ObjectToParentTransform}.
 //
 // Software Guide : EndLatex
 
@@ -247,7 +259,7 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Second, for the objectToWorld transforms.
+// Second, for the \code{ObjectToWorldTransform}.
 //
 // Software Guide : EndLatex
 
@@ -261,13 +273,14 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // Also, as a child is disconnected from its parent, it should not move;
-// so its objectToParent transform should be updated to match its
-// objectToWorld transform.
+// so its \code{ObjectToParentTransform} should be updated to match its
+// ]code{ObjectToWorldTransform}.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
   object1->RemoveChild( object2 );
+  object2->Update();
 
   std::cout << "object2 ObjectToWorld Matrix: " << std::endl;
   std::cout << object2->GetObjectToWorldTransform()->GetMatrix() << std::endl;

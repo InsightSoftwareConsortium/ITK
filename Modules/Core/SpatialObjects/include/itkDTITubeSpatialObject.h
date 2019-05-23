@@ -30,7 +30,7 @@ namespace itk
  * \brief Representation of a tube based on the spatial object classes.
  *
  * The tube is basically defined by a set of points. Each tube can
- * be connected to a tube network, by using the AddSpatialObject() methods
+ * be connected to a tube network, by using the AddChild() methods
  * of a DTITubeSpatialObject Object.
  * A tube is also identified by an id number when connected to a network.
  *

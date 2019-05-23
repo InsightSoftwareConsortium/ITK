@@ -55,11 +55,10 @@ SpatialObject< TDimension >
   m_MyBoundingBoxInWorldSpace->SetMinimum(pnt);
   m_MyBoundingBoxInWorldSpace->SetMaximum(pnt);
 
-  m_ObjectToWorldTransform->SetIdentity();
-  m_ObjectToWorldTransformInverse->SetIdentity();
-
   m_ObjectToParentTransform->SetIdentity();
   m_ObjectToParentTransformInverse->SetIdentity();
+
+  ProtectedComputeObjectToWorldTransform();
 
   m_DefaultInsideValue = 1.0;
   m_DefaultOutsideValue  = 0.0;
