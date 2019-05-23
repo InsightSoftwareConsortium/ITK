@@ -233,6 +233,8 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
   itk::TestDataObject::Pointer input0 = itk::TestDataObject::New();
   itk::TestDataObject::Pointer input1 = itk::TestDataObject::New();
 
+  itk::TestDataObject::Pointer output1 = itk::TestDataObject::New();
+
   // default input values
   TEST_SET_GET_NULL_VALUE( process->GetPrimaryInput() );
   TEST_SET_GET_NULL_VALUE( process->GetInput("Primary") );
@@ -494,6 +496,16 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
   std::cout << process;
   process->SetPrimaryOutput( input0 );
   std::cout << process;
+
+ // test default state where null  is primary output
+  process = itk::TestProcessObject::New();
+  TEST_SET_GET_VALUE( 0, process->GetNumberOfOutputs() );
+  TEST_SET_GET_NULL_VALUE( process->GetPrimaryOutput() );
+  process->SetOutput( "Out", output1 );
+  process->SetPrimaryOutputName( "Out" );
+  TEST_SET_GET_VALUE( output1, process->GetPrimaryOutput() );
+  TEST_SET_GET_NULL_VALUE( process->GetOutput("Primary") );
+  process->RemoveOutput("Primary");
 
   std::cout << "Test PASSED" << std::endl;
   return (EXIT_SUCCESS);
