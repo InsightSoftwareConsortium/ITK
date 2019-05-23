@@ -163,7 +163,7 @@ public:
     {
     return GetTag() < de.GetTag();
     }
-  DataElement &operator=(const DataElement &de)
+  DataElement &operator=(const DataElement &)
     = default;
 
   bool operator==(const DataElement &de) const

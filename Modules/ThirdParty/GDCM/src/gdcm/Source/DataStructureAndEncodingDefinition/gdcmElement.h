@@ -655,7 +655,7 @@ public:
     assert( bv ); // That would be bad...
     if( (VR::VRType)(VRToEncoding<TVR>::Mode) == VR::VRBINARY )
       {
-      const Type* array = (const Type*)bv->GetPointer();
+      const Type* array = (const Type*)bv->GetVoidPointer();
       if( array ) {
         assert( array ); // That would be bad...
         assert( Internal == 0 );
