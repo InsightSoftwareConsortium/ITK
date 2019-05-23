@@ -507,6 +507,9 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
   TEST_SET_GET_NULL_VALUE( process->GetOutput("Primary") );
   process->RemoveOutput("Primary");
 
+  process = itk::TestProcessObject::New();
+  process->SetOutput("New", nullptr);
+
   std::cout << "Test PASSED" << std::endl;
   return (EXIT_SUCCESS);
 }

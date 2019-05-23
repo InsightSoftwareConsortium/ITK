@@ -33,6 +33,7 @@
 #include "itkSingletonMacro.h"
 #include "itkWeakPointer.h"
 #include "itkRealTimeStamp.h"
+#include "itkObjectFactory.h"
 
 namespace itk
 {
@@ -287,6 +288,9 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(DataObject, Object);
+
+  /** Method for creation through the object factory. */
+  itkSimpleNewMacro(DataObject);
 
   /** Separate this data object from the pipeline.  This routine disconnects
    * a data object from the upstream pipeline. Hence an Update() from

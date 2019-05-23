@@ -90,7 +90,8 @@ ProcessObject
     {
     return this->MakeOutput( this->MakeIndexFromOutputName(name) );
     }
-  return static_cast<DataObject *>(DataObject::New().GetPointer());
+
+  return itkDynamicCastInDebugMode<DataObject *>(DataObject::New().GetPointer());
 }
 
 
