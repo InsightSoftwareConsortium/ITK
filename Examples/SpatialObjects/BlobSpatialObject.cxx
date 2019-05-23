@@ -98,7 +98,9 @@ int main( int, char *[] )
 //
 // Next, we create the blob and set its name using the \code{SetName()}
 // function. We also set its Identification number with \code{SetId()} and we
-// add the list of points previously created.
+// add the list of points previously created and call \code{Update()} so that
+// the object can update its transforms, bounding boxes, and other cached
+// convenience member variables.
 //
 // Software Guide : EndLatex
 
@@ -107,6 +109,7 @@ int main( int, char *[] )
   blob->GetProperty().SetName("My Blob");
   blob->SetId(1);
   blob->SetPoints(list);
+  blob->Update();
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
