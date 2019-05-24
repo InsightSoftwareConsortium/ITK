@@ -9,7 +9,7 @@ trigger:
 pr: none
 
 variables:
-  ExternalDataVersion: 5.0rc01
+  ExternalDataVersion: 5.0.0
 jobs:
   - job: Linux
     timeoutInMinutes: 0
