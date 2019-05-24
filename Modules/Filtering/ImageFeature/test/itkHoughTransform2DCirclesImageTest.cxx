@@ -22,6 +22,13 @@
 #include "itkCastImageFilter.h"
 #include "itkMath.h"
 #include "itkTestingMacros.h"
+#include <type_traits> // For is_reference.
+
+
+// Check GetCircles() return type for a commonly used combination of template arguments.
+static_assert(! std::is_reference<decltype(
+  itk::HoughTransform2DCirclesImageFilter<unsigned short, unsigned, double>::New()->GetCircles())>::value,
+  "GetCircles() should return by-value, not by-reference!");
 
 
 // Define the dimension of the images

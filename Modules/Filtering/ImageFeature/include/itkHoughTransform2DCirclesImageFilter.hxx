@@ -188,7 +188,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
 }
 
 template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
-typename HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >::CirclesListType &
+typename HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >::CirclesListType
 HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
 ::GetCircles()
 {

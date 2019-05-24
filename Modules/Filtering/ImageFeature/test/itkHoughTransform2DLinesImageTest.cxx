@@ -21,6 +21,14 @@
 #include "itkGradientMagnitudeImageFilter.h"
 #include "itkMath.h"
 #include "itkTestingMacros.h"
+#include <type_traits> // For is_reference.
+
+
+ // Check GetLines() return type for a commonly used combination of template arguments.
+static_assert(! std::is_reference<decltype(
+  itk::HoughTransform2DLinesImageFilter<int, double>::New()->GetLines())>::value,
+  "GetLines() should return by-value, not by-reference!");
+
 
 /**
  * This program looks for straight lines whithin an image

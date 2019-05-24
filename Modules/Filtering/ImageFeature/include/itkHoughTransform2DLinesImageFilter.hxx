@@ -227,7 +227,7 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType >
 
 
 template< typename TInputPixelType, typename TOutputPixelType >
-typename HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType >::LinesListType &
+typename HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType >::LinesListType
 HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType >
 ::GetLines()
 {

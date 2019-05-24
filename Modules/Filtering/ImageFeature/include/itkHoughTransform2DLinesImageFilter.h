@@ -132,7 +132,7 @@ public:
   itkGetModifiableObjectMacro( SimplifyAccumulator, OutputImageType );
 
   /** Get the list of lines. This recomputes the lines. */
-  LinesListType & GetLines();
+  LinesListType GetLines();
 
   /** Set/Get the number of lines to extract */
   itkSetMacro( NumberOfLines, LinesListSizeType );
