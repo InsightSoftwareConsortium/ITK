@@ -314,8 +314,9 @@ int main( int argc, char *argv[] )
   using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
   using InterpolatorPrecisionType = double;
-  using WarperType = itk::ResampleImageFilter< MovingImageType, OutputImageType,
-                                               InterpolatorPrecisionType, float >;
+  using WarperType =
+    itk::ResampleImageFilter< MovingImageType, OutputImageType,
+                              InterpolatorPrecisionType, float >;
   WarperType::Pointer warper = WarperType::New();
 
   warper->SetInput( movingImageReader->GetOutput() );
@@ -337,7 +338,8 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
 
-  using DisplacementFieldTransformType = itk::DisplacementFieldTransform<InternalPixelType, Dimension>;
+  using DisplacementFieldTransformType =
+    itk::DisplacementFieldTransform<InternalPixelType, Dimension>;
   auto displacementTransform = DisplacementFieldTransformType::New();
   displacementTransform->SetDisplacementField( filter->GetOutput() );
 
