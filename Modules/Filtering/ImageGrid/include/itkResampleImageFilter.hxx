@@ -122,7 +122,6 @@ void
 ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType >
 ::BeforeThreadedGenerateData()
 {
-  // Connect input image to interpolator
   m_Interpolator->SetInputImage( this->GetInput() );
 
   // Connect input image to extrapolator
@@ -508,6 +507,9 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
 
   // Get pointers to the input and output
   InputImageType * input  = const_cast< InputImageType * >( this->GetInput() );
+
+  // Some interpolators need to look at their images in GetRadius()
+  m_Interpolator->SetInputImage( input );
 
 #if !defined(ITKV4_COMPATIBILITY)
   // Check whether the input or the output is a
