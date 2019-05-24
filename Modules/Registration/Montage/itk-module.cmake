@@ -18,6 +18,7 @@ itk_module(Montage
     ITKTransform
     ITKIOImageBase
     ITKImageFrequency
+  PRIVATE_DEPENDS
     ITKDoubleConversion
   TEST_DEPENDS
     ITKIOTransformInsightLegacy
