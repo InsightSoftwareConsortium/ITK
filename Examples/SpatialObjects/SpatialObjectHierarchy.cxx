@@ -62,6 +62,7 @@ int main( int , char *[] )
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
+//
 // Whenever the parameters of an object, including its parent-child
 // relationships are changed, we must then call the \code{Update()}
 // method so that the object-to-parent
