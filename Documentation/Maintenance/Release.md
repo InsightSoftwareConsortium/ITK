@@ -551,6 +551,10 @@ Create a PR to update
 the new version. This conda recipe downloads the wheel binary packages and
 re-packages them as conda packages.
 
+Note: A `post1` wheel corresponds to bumping the *build.number* field in
+*recipe/meta.yml*. `POST` variables in *bld.bat* and *build.sh* are available
+to specify an optional wheel post version.
+
 Generate Doxygen Documentation
 ------------------------------
 
