@@ -2195,6 +2195,7 @@ PREDEFINED             = "itkNotUsed(x)=" \
                          "ITK_USE_CONCEPT_CHECKING" \
                          "itkMacro_h" \
                          "ITK_LEGACY_REMOVE" \
+                         "ITK_FUTURE_LEGACY_REMOVE" \
                          "ITKCommon_EXPORT_EXPLICIT" \
                          "ITK_OVERRIDE= override " \
                          "ITK_NULLPTR=  nullptr " \
