@@ -113,13 +113,12 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
   using PCMType = itk::PhaseCorrelationImageRegistrationMethod< ScalarImageType, ScalarImageType >;
   using PadMethodUnderlying = typename std::underlying_type< typename PCMType::PaddingMethod >::type;
   typename ScalarImageType::SpacingType sp;
-  sp.Fill( 1.0 ); // OMC test assumes unit spacing, tiles test has explicit unit spacing
   itk::ObjectFactoryBase::RegisterFactory( itk::TxtTransformIOFactory::New() );
   const size_t yMontageSize = stageTiles.size();
   const size_t xMontageSize = stageTiles[0].size();
   const unsigned origin1x = xMontageSize > 1 ? 1 : 0; // support 1xN montages
   const unsigned origin1y = yMontageSize > 1 ? 1 : 0; // support Nx1 montages
-  const PointType originAdjustment = stageTiles[origin1y][origin1x].Position;
+  PointType originAdjustment = stageTiles[origin1y][origin1x].Position;
 
   using PeakInterpolationType = typename itk::MaxPhaseCorrelationOptimizer< PCMType >::PeakInterpolationMethod;
   using PeakFinderUnderlying = typename std::underlying_type< PeakInterpolationType >::type;
@@ -139,13 +138,33 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
         {
         std::string filename = inputPath + stageTiles[y][x].FileName;
         typename OriginalImageType::Pointer image = ReadImage< OriginalImageType >( filename.c_str() );
-        image->SetOrigin( stageTiles[y][x].Position );
+        PointType origin = stageTiles[y][x].Position;
+        sp = image->GetSpacing();
+        for ( unsigned d = 0; d < Dimension; d++ )
+          {
+          origin[d] *= sp[d];
+          }        
+        image->SetOrigin( origin );
         oImages[y][x] = image;
         assignRGBtoScalar< OriginalImageType, ScalarImageType >( image, sImages[y][x] );
         std::cout << '.' << std::flush;
         }
       std::cout << '|' << std::flush;
       }
+    }
+  else
+    {
+    // load the first tile and take spacing from it
+    std::string filename = inputPath + stageTiles[0][0].FileName;
+    using ReaderType = itk::ImageFileReader< OriginalImageType >;
+    typename ReaderType::Pointer reader = ReaderType::New();
+    reader->SetFileName( filename );
+    reader->UpdateOutputInformation();
+    sp = reader->GetOutput()->GetSpacing();
+    for ( unsigned d = 0; d < Dimension; d++ )
+      {
+      originAdjustment[d] *= sp[d];
+      }    
     }
   std::cout << std::endl;
 
@@ -178,8 +197,8 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
     if ( !loadIntoMemory )
       {
       montage->SetOriginAdjustment( originAdjustment );
+      montage->SetForcedSpacing( sp );
       }
-    montage->SetForcedSpacing( sp );
 
     for ( unsigned y = 0; y < yMontageSize; y++ )
       {
@@ -232,6 +251,10 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
 
           // calculate error
           VectorType tr = regTr->GetOffset(); // translation measured by registration
+          for ( unsigned d = 0; d < Dimension; d++ )
+            {
+            tr[d] /= sp[d];
+            }
           VectorType ta = stageTiles[y][x].Position - actualTiles[y][x].Position; // translation (actual)
           PointType  p0;
           p0.Fill( 0 );
@@ -269,8 +292,8 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
       if ( !loadIntoMemory )
         {
         resampleF->SetOriginAdjustment( originAdjustment );
+        resampleF->SetForcedSpacing( sp );
         }
-      resampleF->SetForcedSpacing( sp );
       for ( unsigned y = 0; y < yMontageSize; y++ )
         {
         ind[1] = y;
