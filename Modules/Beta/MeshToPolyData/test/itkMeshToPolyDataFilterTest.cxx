@@ -88,5 +88,9 @@ int itkMeshToPolyDataFilterTest( int argc, char * argv[] )
 
   FilterType::PolyDataType::ConstPointer polyData = filter->GetOutput();
 
+  TEST_EXPECT_EQUAL( polyData->GetNumberOfPoints(), 2903 );
+
+  polyData->GetPoints()->Print(std::cout);
+
   return EXIT_SUCCESS;
 }
