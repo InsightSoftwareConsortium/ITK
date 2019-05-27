@@ -55,10 +55,10 @@ itk_add_test(NAME itkMontagePCMTestFiles14
     DATA{Input/OMC/FlatField/14/100.tif}
     DATA{Input/OMC/FlatField/14/101.tif}
     ${TESTING_OUTPUT_PATH}/itkMontagePCMTestFiles14.nrrd
-    1136.0
+    400.755808
     0.0
-    12.0651
-    4.6711893
+    4.256301848
+    1.647892819
   )
 
 itk_add_test(NAME itkMontagePCMTestFiles15same
@@ -79,10 +79,10 @@ itk_add_test(NAME itkMontagePCMTestFiles16
     DATA{Input/OMC/FlatField/16/107.tif}
     DATA{Input/OMC/FlatField/16/108.tif}
     ${TESTING_OUTPUT_PATH}/itkMontagePCMTestFiles16.nrrd
-    1136.0
+    400.755808
     0.0
-    12.3862
-    5.3629
+    4.369578864
+    1.891913136
   )
 
 itk_add_test(NAME itkMontagePCMTestFilesMNML0304crop
@@ -295,9 +295,9 @@ itk_add_test(NAME itkMontagePCMTestFilesMNML0304
     DATA{Input/MNML_3_200x_701/MNML-3_200x_701-Raw_p04.png}
     ${TESTING_OUTPUT_PATH}/itkMontagePCMTestFilesMNML0304.nrrd
     0.0
-    919.0
-    1.0413443838811
-    2.550816245965091
+    155.6277085
+    0.176346072
+    0.431967015
   )
 
 itk_add_test(NAME itkMontagePCMTestFilesDzZ_T1_identity
@@ -307,10 +307,10 @@ itk_add_test(NAME itkMontagePCMTestFilesDzZ_T1_identity
     DATA{Input/DzZ_T1/DzZ_T1_inf.nrrd}
     ${TESTING_OUTPUT_PATH}/DzZ_T1_identity.nrrd
     0.0
-    100.0
     0.0
     0.0
-    40.904
+    0.0
+    0.0
     0.0
   )
 
@@ -342,10 +342,10 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/FlatFielded/36/1000.tif)
       ${rawPrefix}088.tif
       ${rawPrefix}089.tif
       ${TESTING_OUTPUT_PATH}/itkMontagePCMTestFiles36raw088_089.nrrd
-      480.0
+      81.28
       0.0
-      1.0798103830525
-      -1.4601269970894
+      0.182847892
+      -0.247248172
     )
 
   itk_add_test(NAME itkMontageTestTi7Slice36flat

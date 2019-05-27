@@ -81,7 +81,7 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
   const typename ImageType::SizeType size = wholeImage.GetSize();
   const typename ImageType::IndexType oIndex = wholeImage.GetIndex();
 
-  const typename ImageType::SpacingType spacing = input->GetSpacing();
+  const typename ImageType::SpacingType spacing = fixed->GetSpacing();
   const typename ImageType::PointType fixedOrigin = fixed->GetOrigin();
   const typename ImageType::PointType movingOrigin = moving->GetOrigin();
 
