@@ -33,16 +33,19 @@ getNextNonCommentLine( std::istream& in )
   std::string temp;
   while ( std::getline( in, temp ) )
     {
-    // this is neither an empty line nor a comment
-    if ( !temp.empty() && temp[0] != '#' )
+    if ( temp.empty() || temp[0] == '#' )
       {
-      break;
+      continue; // this is either an empty line or a comment
       }
-    }
-
-  if ( !temp.empty() && temp[temp.size() - 1] == '\r' )
-    {
-    temp.erase(temp.size() - 1, 1);
+    if ( temp.size() == 1 && temp[0] == '\r' )
+      {
+      continue; // empty line ending in CRLF
+      }
+    if ( temp[temp.size() - 1] == '\r' )
+      {
+      temp.erase(temp.size() - 1, 1);
+      }
+    break; // temp has interesting content
     }
   return temp;
 }
