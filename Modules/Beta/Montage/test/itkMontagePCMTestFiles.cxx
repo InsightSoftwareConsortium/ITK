@@ -54,6 +54,7 @@ int PhaseCorrelationRegistrationFiles( int argc, char* argv[] )
   movingImage->Update();
   movingImage->DisconnectPipeline();
 
+  typename MovingImageType::SpacingType spacing = movingImage->GetSpacing();
   typename MovingImageType::PointType origin = movingImage->GetOrigin();
   for ( unsigned d = 0; d < VDimension; d++ )
     {
@@ -115,8 +116,8 @@ int PhaseCorrelationRegistrationFiles( int argc, char* argv[] )
                 << actualParameters[ii] << " == "
                 << transformParameters[ii] << std::endl;
 
-      if ( ( itk::Math::abs( finalParameters[ii] - actualParameters[ii] ) > tolerance ) ||
-           ( itk::Math::abs( transformParameters[ii] - actualParameters[ii] ) > tolerance ) )
+      if ( ( itk::Math::abs( finalParameters[ii] - actualParameters[ii] ) > tolerance * spacing[ii] ) ||
+           ( itk::Math::abs( transformParameters[ii] - actualParameters[ii] ) > tolerance * spacing[ii] ) )
         {
         std::cerr << "Tolerance exceeded at component " << ii << std::endl;
         pass = false;

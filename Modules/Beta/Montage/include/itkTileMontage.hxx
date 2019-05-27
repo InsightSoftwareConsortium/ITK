@@ -218,16 +218,9 @@ typename TileMontage< TImageType, TCoordinate >::TransformPointer
 TileMontage< TImageType, TCoordinate >
 ::OffsetToTransform( const typename PCMOptimizerType::OffsetType& translation, typename ImageType::Pointer tileInformation )
 {
-  PointType p0, p;
-  ContinuousIndexType ci;
-  ci.Fill( 0.0 );
-  tileInformation->TransformContinuousIndexToPhysicalPoint( ci, p0 );
-  for ( unsigned d = 0; d < ImageDimension; d++ )
-    {
-    ci[d] = translation[d];
-    }
-  tileInformation->TransformContinuousIndexToPhysicalPoint( ci, p );
-  typename TransformType::OutputVectorType tr = p - p0;
+  PointType p0;
+  p0.Fill( 0.0 );
+  typename TransformType::OutputVectorType tr = translation - p0;
 
   TransformPointer t = TransformType::New();
   t->SetOffset( tr );

@@ -56,8 +56,20 @@ calculateError( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& ac
   movingImage->DisconnectPipeline();
 
   // adjust origins (assume 0 origins in files)
-  fixedImage->SetOrigin( stageTiles[yF][xF].Position );
-  movingImage->SetOrigin( stageTiles[yM][xM].Position );
+  typename ImageType::SpacingType sp = fixedImage->GetSpacing();
+  typename ImageType::PointType origin = stageTiles[yF][xF].Position;
+  for ( unsigned d = 0; d < Dimension; d++ )
+    {
+    origin[d] *= sp[d];
+    }
+  fixedImage->SetOrigin( origin );
+  sp = movingImage->GetSpacing();
+  origin = stageTiles[yM][xM].Position;
+  for ( unsigned d = 0; d < Dimension; d++ )
+    {
+    origin[d] *= sp[d];
+    }
+  movingImage->SetOrigin( origin );
 
   // execute registration
   using PhaseCorrelationMethodType = itk::PhaseCorrelationImageRegistrationMethod< ImageType, ImageType >;
@@ -113,6 +125,10 @@ calculateError( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& ac
     // calculate error
     using VectorType = itk::Vector< double, Dimension >;
     VectorType tr = regTr->GetOffset(); // translation measured by registration
+    for ( unsigned d = 0; d < Dimension; d++ )
+      {
+      tr[d] /= sp[d];
+      }
     VectorType ta = ( actualTiles[yF][xF].Position - stageTiles[yF][xF].Position ) -
                     ( actualTiles[yM][xM].Position - stageTiles[yM][xM].Position ); // translation (actual)
     for ( unsigned d = 0; d < Dimension; d++ )
