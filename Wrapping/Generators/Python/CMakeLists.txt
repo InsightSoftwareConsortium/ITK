@@ -807,6 +807,9 @@ macro(itk_wrap_simple_type_python wrap_class swig_name)
   if("${cpp_name}" STREQUAL "itk::ImageBase" AND NOT "${swig_name}" MATCHES "Pointer$")
     # add the templated method non seen by gccxml, in a more python-friendly way
     # than the c++ version
+    ADD_PYTHON_OUTPUT_RETURN_BY_VALUE_CLASS("${swig_name}" "GetBufferedRegion")
+    ADD_PYTHON_OUTPUT_RETURN_BY_VALUE_CLASS("${swig_name}" "GetLargestPossibleRegion")
+    ADD_PYTHON_OUTPUT_RETURN_BY_VALUE_CLASS("${swig_name}" "GetRequestedRegion")
     set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}DECL_PYTHON_IMAGEBASE_CLASS(${swig_name}, ${template_params})\n")
     set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%inline %{\n")
     set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}#include \"itkContinuousIndexSwigInterface.h\"\n")
@@ -830,6 +833,10 @@ macro(itk_wrap_simple_type_python wrap_class swig_name)
   endif()
 
   if("${cpp_name}" STREQUAL "itk::ImageRegion")
+    ADD_PYTHON_OUTPUT_RETURN_BY_VALUE_CLASS("${swig_name}" "GetIndex")
+    ADD_PYTHON_OUTPUT_RETURN_BY_VALUE_CLASS("${swig_name}" "GetModifiableIndex")
+    ADD_PYTHON_OUTPUT_RETURN_BY_VALUE_CLASS("${swig_name}" "GetSize")
+    ADD_PYTHON_OUTPUT_RETURN_BY_VALUE_CLASS("${swig_name}" "GetModifiableSize")
     set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}DECL_PYTHON_IMAGEREGION_CLASS(${swig_name})%template(vector${swig_name}) std::vector< ${swig_name} >;\n")
     ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vector${swig_name}" "${cpp_name}< ${template_params} >")
   endif()
@@ -939,6 +946,11 @@ macro(itk_wrap_simple_type_python wrap_class swig_name)
     set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(list${swig_name}_Pointer) std::list< ${swig_name}_Pointer >;\n")
     ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "list${swig_name}_Pointer" "${cpp_name}< ${template_params} >")
   endif()
+endmacro()
+
+
+macro(ADD_PYTHON_OUTPUT_RETURN_BY_VALUE_CLASS type function)
+  set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}DECL_PYTHON_OUTPUT_RETURN_BY_VALUE_CLASS(${type}, ${function})\n")
 endmacro()
 
 
