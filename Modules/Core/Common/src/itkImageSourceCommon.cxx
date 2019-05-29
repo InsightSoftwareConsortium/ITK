@@ -19,7 +19,6 @@
 #include "itkImageRegionSplitterSlowDimension.h"
 #include "itkImageSourceCommon.h"
 #include <mutex>
-#include <mutex>
 
 namespace itk
 {

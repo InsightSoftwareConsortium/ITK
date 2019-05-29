@@ -23,8 +23,10 @@
 #include "itkRandomVariateGeneratorBase.h"
 #include "itkIntTypes.h"
 #include "itkMath.h"
-#include <mutex>
 #include "itkSingletonMacro.h"
+
+#include <atomic>
+#include <mutex>
 #include <climits>
 #include <ctime>
 
@@ -277,7 +279,7 @@ protected:
   int          m_Left;
 
   // Seed value
-  IntegerType  m_Seed;
+  std::atomic<IntegerType>  m_Seed;
 
 private:
 
@@ -372,9 +374,7 @@ MersenneTwisterRandomVariateGenerator::SetSeed()
 inline MersenneTwisterRandomVariateGenerator::IntegerType
 MersenneTwisterRandomVariateGenerator::GetSeed()
 {
-  std::lock_guard<std::mutex> mutexHolder(m_InstanceLock);
-  volatile IntegerType seed = this->m_Seed;
-  return seed;
+  return this->m_Seed;
 }
 
 /** Get an integer variate in [0, 2^32-1] */
