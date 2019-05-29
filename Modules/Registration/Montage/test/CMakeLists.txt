@@ -196,6 +196,15 @@ AddInMemoryMontageTest(5 FALSE)
 AddInMemoryMontageTest(6 FALSE)
 AddInMemoryMontageTest(7 FALSE)
 
+itk_add_test(NAME itkMontageTestMediumCarbonSteel
+  COMMAND MontageTestDriver
+  itkMontageTest2D
+    DATA{Input/MediumCarbonSteel/,REGEX:.*}
+    ${TESTING_OUTPUT_PATH}/itkMontageTestMediumCarbonSteel
+    ${TESTING_OUTPUT_PATH}/itkMockMontageTestMediumCarbonSteel
+    1 -1 1 4 1 0
+  )
+
 option(ITKMontage_EnableFailingTests "Should we enable tests which are failing due to not-yet-resolved issues?" OFF)
 
 if (ITKMontage_EnableFailingTests)
