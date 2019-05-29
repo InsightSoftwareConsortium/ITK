@@ -332,14 +332,20 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
         y2 = iAdjusted->GetPixel( tempIndex );
         tempIndex[i] = maxIndex[i];
 
-        OffsetScalarType omega, theta;
+        OffsetScalarType omega, theta, ratio;
         switch ( m_PeakInterpolationMethod )
           {
           case PeakInterpolationMethod::Parabolic:
             maxIndex[i] += ( y0 - y2 ) / ( 2 * ( y0 - 2 * y1 + y2 ) );
             break;
           case PeakInterpolationMethod::Cosine:
-            omega = std::acos( ( y0 + y2 ) / ( 2 * y1 ) );
+            ratio = ( y0 + y2 ) / ( 2 * y1 );
+            if ( m_MergePeaks ) // clip to -0.999... to 0.999... range
+              {
+              ratio = std::min( ratio, 1.0 - std::numeric_limits< OffsetScalarType >::epsilon() );
+              ratio = std::max( ratio, -1.0 + std::numeric_limits< OffsetScalarType >::epsilon() );
+              }
+            omega = std::acos( ratio );
             theta = std::atan( ( y0 - y2 ) / ( 2 * y1 * std::sin( omega ) ) );
             maxIndex[i] -= ::itk::Math::one_over_pi * theta / omega;
             break;
