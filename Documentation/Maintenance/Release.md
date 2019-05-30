@@ -824,7 +824,6 @@ excellent packaging.
 [ITK issue tracking]: http://issues.itk.org/
 [ITK Sofware Guide]: https://itk.org/ItkSoftwareGuide.pdf
 [ITK wiki]: https://itk.org/Wiki/ITK
-[ITK wiki examples]: https://itk.org/Wiki/ITK/Examples
 [ITK Sphinx examples]: https://itk.org/ITKExamples/
 [releases page]: https://itk.org/Wiki/ITK/Releases
 [release schedule]: https://itk.org/Wiki/ITK/Release_Schedule
