@@ -68,12 +68,12 @@ namespace itk
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{PointSet/CreatePointSet,Create a PointSet}
- * \wikiexample{PointSet/ReadPointSet,Read a PointSet}
- * \wikiexample{PointSet/WritePointSet,Write a PointSet}
- * \wikiexample{PointSet/BoundingBox,Get the bounding box of a PointSet}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/CreateAPointSet,Create a PointSet}
+ * \sphinxexample{Core/Common/ReadAPointSet,Read a PointSet}
+ * \sphinxexample{Core/Common/WriteAPointSet,Write a PointSet}
+ * \sphinxexample{Core/Common/BoundingBoxOfAPointSet,Bounding Box Of A Point Set}
+ * \endsphinx
  */
 
 template<

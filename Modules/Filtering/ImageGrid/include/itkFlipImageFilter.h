@@ -45,9 +45,9 @@ namespace itk
  * \ingroup Streamed
  * \ingroup ITKImageGrid
  *
- * \wiki
- * \wikiexample{Images/FlipImageFilter,Flip an image over specified axes}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageGrid/FlipAnImageOverSpecifiedAxes,Flip An Image Over Specified Axes}
+ * \endsphinx
  */
 template< typename TImage >
 class ITK_TEMPLATE_EXPORT FlipImageFilter:

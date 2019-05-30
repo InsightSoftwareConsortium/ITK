@@ -58,12 +58,12 @@ class ITK_TEMPLATE_EXPORT ImageBase;
  * \ingroup ImageObjects
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{Images/ImageRegion,An object which holds the index (start) and size of a region of an image}
- * \wikiexample{SimpleOperations/RegionIntersection,Determine if one region is fully inside another region}
- * \wikiexample{SimpleOperations/PixelInsideRegion,Determine if a pixel is inside of a region}
- * \wikiexample{SimpleOperations/RegionOverlap,Determine the overlap of two regions}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/CreateAnImageRegion,An object which holds the index (start) and size of a region of an image}
+ * \sphinxexample{Core/Common/ImageRegionIntersection,Determine image region intersection}
+ * \sphinxexample{Core/Common/IsPixelInsideRegion,Determine if a pixel is inside of a region}
+ * \sphinxexample{Core/Common/RegionOverlap,Determine the overlap of two regions}
+ * \endsphinx
  */
 template< unsigned int VImageDimension >
 class ITK_TEMPLATE_EXPORT ImageRegion final: public Region

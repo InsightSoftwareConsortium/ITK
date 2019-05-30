@@ -34,10 +34,10 @@ namespace itk
  * \ingroup MultiThreaded
  * \ingroup ITKImageIntensity
  *
- * \wiki
- * \wikiexample{ImageProcessing/MultiplyImageFilter,Multiply two images together}
- * \wikiexample{ImageProcessing/MultiplyByConstantImageFilter,Multiply every pixel in an image by a constant}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageIntensity/MultiplyTwoImages,Multiply Two Images}
+ * \sphinxexample{Filtering/ImageIntensity/MultiplyImageByScalar,Multiply Image By Scalar}
+ * \endsphinx
  */
 template< typename TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1 >
 class ITK_TEMPLATE_EXPORT MultiplyImageFilter:

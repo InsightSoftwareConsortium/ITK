@@ -46,9 +46,9 @@ namespace itk
  * \ingroup DataSources MultiThreaded
  * \ingroup ITKTestKernel
  *
- * \wiki
- * \wikiexample{SimpleOperations/RandomImageSource,Produce an image of noise}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/TestKernel/GenerateRandomImage,Generate Random Image}
+ * \endsphinx
  */
 template< typename TOutputImage >
 class ITK_TEMPLATE_EXPORT RandomImageSource:public ImageSource< TOutputImage >

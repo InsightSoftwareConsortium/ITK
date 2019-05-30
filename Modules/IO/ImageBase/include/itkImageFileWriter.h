@@ -76,9 +76,9 @@ public:
  * \ingroup IOFilters
  * \ingroup ITKIOImageBase
  *
- * \wiki
- * \wikiexample{IO/ImageFileWriter,Write an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{IO/ImageBase/WriteAnImage,Write An image}
+ * \endsphinx
  */
 template< typename TInputImage >
 class ITK_TEMPLATE_EXPORT ImageFileWriter:public ProcessObject

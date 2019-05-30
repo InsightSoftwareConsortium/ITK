@@ -61,9 +61,9 @@ template< typename TValue, unsigned int VLength>  class FixedArray;
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{SimpleOperations/NumericTraits,Get some basic information about a type}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/GetTypeBasicInformation,Get Type Basic Information}
+ * \endsphinx
  */
 template< typename T >
 class NumericTraits:public std::numeric_limits< T >

@@ -67,9 +67,9 @@ namespace itk
  * \ingroup ImageObjects
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{SimpleOperations/SetPixels,Set specified pixels to specified values}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/SetPixelValueInOneImage,Set Pixel Value In One Image}
+ * \endsphinx
  */
 template< typename TPixel, unsigned int VImageDimension = 2 >
 class ITK_TEMPLATE_EXPORT Image:public ImageBase< VImageDimension >
