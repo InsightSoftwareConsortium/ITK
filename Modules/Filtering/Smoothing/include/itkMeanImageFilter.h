@@ -40,9 +40,9 @@ namespace itk
  * \ingroup IntensityImageFilters
  * \ingroup ITKSmoothing
  *
- * \wiki
- * \wikiexample{Smoothing/MeanImageFilter,Mean filter an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/Smoothing/ApplyMeanFilter,Mean filter an image}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT MeanImageFilter:

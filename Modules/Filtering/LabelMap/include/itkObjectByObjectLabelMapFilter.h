@@ -70,9 +70,9 @@ namespace itk {
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  *
- * \wiki
- * \wikiexample{ImageProcessing/ObjectByObjectLabelMapFilter,Apply an operation to every label object in a label map}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/LabelMap/ApplyMorphologicalClosingOnAllLabelObjects,Apply Morphological Closing On All Label Objects}
+ * \endsphinx
  */
 template<typename TInputImage, typename TOutputImage=TInputImage,
   typename TInputFilter=ImageToImageFilter<

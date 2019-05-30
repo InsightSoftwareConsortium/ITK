@@ -57,10 +57,11 @@ namespace itk
  * \sa Matrix
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{Math/CovariantVector,Create a covariant vector}
- * \wikiexample{Math/CovariantVectorNorm,Compute the norm of a covariant vector}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/CreateACovariantVector,Create a CovariantVector}
+ * \sphinxexample{Core/Common/CovariantVectorNorm,Covariant Vector Norm}
+ * \sphinxexample{Core/Common/CovariantVectorDotProduct, Covariant Vector Dot Product}
+ * \endsphinx
  */
 
 template< typename T, unsigned int NVectorDimension = 3 >

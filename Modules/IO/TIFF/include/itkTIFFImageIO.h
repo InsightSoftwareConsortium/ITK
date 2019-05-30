@@ -40,9 +40,9 @@ class TIFFReaderInternal;
  * \ingroup IOFilters
  * \ingroup ITKIOTIFF
  *
- * \wiki
- * \wikiexample{IO/TIFFImageIO,Write a TIFF image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{IO/TIFF/WriteATIFFImage,Write A TIFF Image}
+ * \endsphinx
  */
 class ITKIOTIFF_EXPORT TIFFImageIO:public ImageIOBase
 {

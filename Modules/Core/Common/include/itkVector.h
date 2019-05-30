@@ -53,10 +53,10 @@ namespace itk
  * \sa Matrix
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{SimpleOperations/CreateVector,Create a vector}
- * \wikiexample{Math/DotProduct,Dot product (inner product) of two vectors}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/CreateAVector,Create a vector}
+ * \sphinxexample{Core/Common/VectorDotProduct,Dot product (inner product) of two vectors}
+ * \endsphinx
  */
 template< typename T, unsigned int NVectorDimension = 3 >
 class ITK_TEMPLATE_EXPORT Vector:public FixedArray< T, NVectorDimension >

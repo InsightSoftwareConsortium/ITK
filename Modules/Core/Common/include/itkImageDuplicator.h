@@ -46,9 +46,9 @@ namespace itk
  *
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{SimpleOperations/ImageDuplicator,Duplicate an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/DuplicateAnImage,Duplicate An Image}
+ * \endsphinx
  */
 template< typename TInputImage >
 class ITK_TEMPLATE_EXPORT ImageDuplicator:public Object

@@ -64,11 +64,11 @@ namespace itk
 /** \class ImageFileReader
  * \ingroup ITKIOImageBase
  *
- * \wiki
- * \wikiexample{IO/ReadVectorImage,Read an image file with an unknown number of components}
- * \wikiexample{IO/ReadUnknownImageType,Read an image file without knowing its type before hand}
- * \wikiexample{IO/ImageFileReader,Read an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/ReadWriteVectorImage,Read Write Vector Image}
+ * \sphinxexample{IO/ImageBase/ReadUnknownImageType, Read Unknown Image Type}
+ * \sphinxexample{IO/ImageBase/ReadAnImage,Read An Image}
+ * \endsphinx
  */
 template< typename TOutputImage,
           typename ConvertPixelTraits = DefaultConvertPixelTraits<

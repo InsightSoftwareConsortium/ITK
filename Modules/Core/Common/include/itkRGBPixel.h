@@ -49,9 +49,9 @@ namespace itk
  * \ingroup ImageObjects
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{SimpleOperations/RGBPixel,Create an RGB image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/CreateAnRGBImage,Create An RGB image}
+ * \endsphinx
  */
 
 template< typename TComponent = unsigned short >

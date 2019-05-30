@@ -50,9 +50,9 @@ namespace itk
  * \sa WrapPadImageFilter, ConstantPadImageFilter
  * \ingroup ITKImageGrid
  *
- * \wiki
- * \wikiexample{Images/MirrorPadImageFilter,Pad an image using mirroring over the boundaries}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageGrid/PadAnImageByMirroring,Pad An Image By Mirroring}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT MirrorPadImageFilter:
