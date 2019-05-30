@@ -160,7 +160,7 @@ TYPE FILE FILES \${FFTW_LIBS})" COMPONENT Development)
     # copy headers into install tree
     install(CODE
       "file(GLOB FFTW_INC ${ITK_BINARY_DIR}/fftw/include/*fftw3*)
-file(INSTALL DESTINATION \"\${CMAKE_INSTALL_PREFIX}/include/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Algorithms\"
+file(INSTALL DESTINATION \"\${CMAKE_INSTALL_PREFIX}/include/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}\"
 TYPE FILE FILES \${FFTW_INC})" COMPONENT Development)
 
   endif()
