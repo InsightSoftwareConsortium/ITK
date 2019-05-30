@@ -120,7 +120,7 @@ void ITKVtkGlue_EXPORT QuickView::AddImage<UnsignedCharImageType>(
 }
 
 template<typename TImage>
-void ITKVtkGlue_EXPORT QuickView::AddImage(
+void ITK_TEMPLATE_EXPORT QuickView::AddImage(
   TImage *image,
   bool FlipVertical,
   std::string Description)
