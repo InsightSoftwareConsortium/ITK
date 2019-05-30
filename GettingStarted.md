@@ -27,6 +27,5 @@ information.
 [ITK discussion]: https://discourse.itk.org/
 [ITK Software Guide]: https://itk.org/ItkSoftwareGuide.pdf
 [Sphinx examples]: https://itk.org/ITKExamples
-[Wiki examples]: https://itk.org/Wiki/ITK/Examples
 
 [CMake]: http://cmake.org
