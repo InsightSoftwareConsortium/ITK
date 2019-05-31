@@ -228,7 +228,7 @@ public:
    *
    * \note This method is thread-safe.
    */
-  IntegerType GetSeed();
+  IntegerType GetSeed() const;
 
   /** Return the next seed, derived as a sequence from the seed of the
    * singleton instance.
@@ -372,7 +372,7 @@ MersenneTwisterRandomVariateGenerator::SetSeed()
 
 
 inline MersenneTwisterRandomVariateGenerator::IntegerType
-MersenneTwisterRandomVariateGenerator::GetSeed()
+MersenneTwisterRandomVariateGenerator::GetSeed() const
 {
   return this->m_Seed;
 }
