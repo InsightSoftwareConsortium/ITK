@@ -126,11 +126,13 @@ public:
     spline order! */
   void SetInputImage(const TImageType *inputData) override;
 
+#if !defined( ITKV4_COMPATIBILITY )
   SizeType
   GetRadius() const override
   {
     return SizeType::Filled( m_SplineOrder + 1 );
   }
+#endif
 
 protected:
   ComplexBSplineInterpolateImageFunction();
