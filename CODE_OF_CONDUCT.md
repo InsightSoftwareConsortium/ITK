@@ -1,10 +1,10 @@
 ITK Community Participation Guidelines
 ======================================
 
-Version 1.0 – Updated January, 2018
+Version 1.0 – Updated May, 2018
 
 The [Insight Software Consortium](http://www.insightsoftwareconsortium.org/)
-(ISC) as the copyright holder of the National Library of Medicine Insight
+(ISC) as the copyright holder of the Insight
 Segmentation and Registration Toolkit (ITK) has adopted the following Code of
 Conduct for ITK.
 
@@ -15,7 +15,7 @@ The primary goal of the ITK community is to be inclusive of the largest number
 of contributors, with the most varied and diverse backgrounds. Please read our
 [Motivation](Documentation/CodeOfConduct/Motivation.md) statement.
 
-Our community is build upon [values](#our-values), and we welcome and encourage
+Our community is built upon [values](#our-values), and we welcome and encourage
 members to [lead by example](#lead-by-example). However, we are aware that we
 must ensure a safe, welcoming and productive environment, where all people
 should feel safe to participate, introduce new ideas and inspire others. Hence,
@@ -221,7 +221,7 @@ automatically imply an admission of guilt.
 
 ### Be concise
 
-Value the each other's time. Keep in mind that what you write once will be read
+Value each other's time. Keep in mind that what you write once will be read
 by hundreds of persons. Writing a short message means people can understand the
 conversation as efficiently as possible. Messages that are brief and to the
 point take more time to write, but are repaid many times over when other
