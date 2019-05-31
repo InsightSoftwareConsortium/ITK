@@ -19,8 +19,6 @@
 #define itkInterpolateImageFunction_h
 
 #include "itkImageFunction.h"
-#include "itkConfigure.h"
-
 
 namespace itk
 {
@@ -129,14 +127,26 @@ public:
     return ( static_cast< RealType >( this->GetInputImage()->GetPixel(index) ) );
   }
 
-#if !defined(ITKV4_COMPATIBILITY)
   /** Get the radius required for interpolation.
    *
    * This defines the number of surrounding pixels required to interpolate at
    * a given point.
    */
+  #if defined(ITKV4_COMPATIBILITY)
+  virtual SizeType GetRadius() const
+  {
+    // if ITKv4 compatibility is enabled then set the radius to the
+    // largest by default.
+    const InputImageType* input = this->GetInputImage();
+    if ( !input )
+      {
+      itkExceptionMacro( "Input image required!" );
+      }
+    return input->GetLargestPossibleRegion().GetSize();
+  }
+  #else
   virtual SizeType GetRadius() const = 0;
-#endif
+  #endif
 
 protected:
   InterpolateImageFunction()= default;

@@ -89,12 +89,10 @@ public:
     return static_cast< OutputType >( this->GetInputImage()->GetPixel(nindex) );
   }
 
-#if !defined(ITKV4_COMPATIBILITY)
   SizeType GetRadius() const override
     {
     return SizeType(); // zeroes by default
     }
-#endif
 
 protected:
   NearestNeighborInterpolateImageFunction()= default;

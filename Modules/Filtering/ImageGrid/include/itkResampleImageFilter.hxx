@@ -511,7 +511,6 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
   // Some interpolators need to look at their images in GetRadius()
   m_Interpolator->SetInputImage( input );
 
-#if !defined(ITKV4_COMPATIBILITY)
   // Check whether the input or the output is a
   // SpecialCoordinatesImage. If either are, then we cannot use the
   // fast path since index mapping will definitely not be linear.
@@ -557,7 +556,6 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
       }
     return;
     }
-#endif
 
   // Otherwise, determining the actual input region is non-trivial, especially
   // when we cannot assume anything about the transform being used.

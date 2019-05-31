@@ -104,12 +104,10 @@ public:
     return this->EvaluateOptimized(Dispatch< ImageDimension >(), index);
   }
 
-#if !defined(ITKV4_COMPATIBILITY)
   SizeType GetRadius() const override
     {
     return SizeType::Filled(1);
     }
-#endif
 
 protected:
   LinearInterpolateImageFunction() = default;
