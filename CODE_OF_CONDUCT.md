@@ -5,7 +5,7 @@ Version 1.0 – Updated May, 2018
 
 The [Insight Software Consortium](http://www.insightsoftwareconsortium.org/)
 (ISC) as the copyright holder of the Insight
-Segmentation and Registration Toolkit (ITK) has adopted the following Code of
+Toolkit (ITK) has adopted the following Code of
 Conduct for ITK.
 
 Purpose
