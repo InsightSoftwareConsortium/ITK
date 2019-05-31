@@ -125,7 +125,7 @@ public:
 
 protected:
   CastImageFilter();
-  virtual ~CastImageFilter() = default;
+  ~CastImageFilter() override = default;
 
   void GenerateOutputInformation() override;
 
