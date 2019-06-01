@@ -35,9 +35,9 @@ namespace itk
  * \ingroup ImageEnhancement
  * \ingroup ITKSmoothing
  *
- * \wiki
- * \wikiexample{Smoothing/BinomialBlurImageFilter,Blur an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/Smoothing/BlurringAnImageUsingABinomialKernel,Blurring An Image Using A Binomial Kernel}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT BinomialBlurImageFilter:

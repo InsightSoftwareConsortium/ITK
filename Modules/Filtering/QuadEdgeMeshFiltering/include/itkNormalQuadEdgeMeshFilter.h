@@ -63,6 +63,10 @@ namespace itk
  * (and of course it requires that the output have some itk::Vector for point
  * data and cell data.
  * \ingroup ITKQuadEdgeMeshFiltering
+ *
+ * \sphinx
+ * \sphinxexample{Filtering/QuadEdgeMeshFiltering/ComputeNormalsOfAMesh,Compute Normals Of A Mesh}
+ * \endsphinx
  */
 template< typename TInputMesh, typename TOutputMesh >
 class ITK_TEMPLATE_EXPORT NormalQuadEdgeMeshFilter:

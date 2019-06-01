@@ -62,9 +62,9 @@ namespace itk
  * \ingroup IntensityImageFilters MultiThreaded
  * \ingroup ITKThresholding
  *
- * \wiki
- * \wikiexample{ImageProcessing/ThresholdImageFilter,Threshold an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/Thresholding/ThresholdAnImage,Threshold An Image}
+ * \endsphinx
  */
 template< typename TImage >
 class ITK_TEMPLATE_EXPORT ThresholdImageFilter:public InPlaceImageFilter< TImage, TImage >

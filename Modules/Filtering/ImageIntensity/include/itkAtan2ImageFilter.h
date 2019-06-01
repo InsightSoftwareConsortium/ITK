@@ -77,9 +77,9 @@ public:
  * \ingroup MultiThreaded
  * \ingroup ITKImageIntensity
  *
- * \wiki
- * \wikiexample{Math/Trig/Atan2ImageFilter,Compute the arctangent of each pixel.}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageIntensity/ApplyAtanImageFilter,Apply Atan Image Filter}
+ * \endsphinx
  */
 template< typename TInputImage1, typename TInputImage2, typename TOutputImage >
 class Atan2ImageFilter:

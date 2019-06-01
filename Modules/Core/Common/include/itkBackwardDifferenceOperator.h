@@ -37,9 +37,9 @@ namespace itk
  *
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{Operators/BackwardDifferenceOperator,Create a backward difference kernel}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/CreateABackwardDifferenceOperator,Create A Backward Difference Operator}
+ * \endsphinx
  */
 template< typename TPixel, unsigned int TDimension = 2,
           typename TAllocator = NeighborhoodAllocator< TPixel > >

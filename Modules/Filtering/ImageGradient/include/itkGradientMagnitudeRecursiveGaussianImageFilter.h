@@ -38,9 +38,9 @@ namespace itk
  * \ingroup SingleThreaded
  * \ingroup ITKImageGradient
  *
- * \wiki
- * \wikiexample{EdgesAndGradients/GradientMagnitudeRecursiveGaussianImageFilter,Find the gradient magnitude of the image first smoothed with a Gaussian kernel}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageGradient/ComputeGradientMagnitude,Compute Gradient Magnitude Of Grayscale Image}
+ * \endsphinx
  */
 // NOTE that the typename macro has to be used here in lieu
 // of "typename" because VC++ doesn't like the typename keyword

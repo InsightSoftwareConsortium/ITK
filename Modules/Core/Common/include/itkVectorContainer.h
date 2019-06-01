@@ -40,9 +40,9 @@ namespace itk
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{Utilities/VectorContainer,Vector container}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/IterateOnAVectorContainer,Iterate On A Vector Container}
+ * \endsphinx
  */
 template<
   typename TElementIdentifier,

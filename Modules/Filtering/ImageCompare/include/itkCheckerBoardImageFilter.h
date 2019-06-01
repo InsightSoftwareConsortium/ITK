@@ -37,9 +37,9 @@ namespace itk
  * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITKImageCompare
  *
- * \wiki
- * \wikiexample{Inspection/CheckerBoardImageFilter,Combine two images by alternating blocks of a checkerboard pattern}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageCompare/CombineTwoImagesWithCheckerBoardPattern,Combine Two Images With Checker Board Pattern}
+ * \endsphinx
  */
 template< typename TImage >
 class ITK_TEMPLATE_EXPORT CheckerBoardImageFilter:

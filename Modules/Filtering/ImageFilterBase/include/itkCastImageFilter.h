@@ -92,9 +92,9 @@ public:
  * \sa ExtractImageFilter
  * \ingroup ITKImageFilterBase
  *
- * \wiki
- * \wikiexample{ImageProcessing/CastImageFilter,Cast an image from one type to another}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageFilterBase/CastAnImageToAnotherType,Cast An Image To Another Type}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT CastImageFilter:

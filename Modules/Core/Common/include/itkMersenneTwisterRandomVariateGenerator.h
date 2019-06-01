@@ -117,9 +117,9 @@ namespace Statistics
  * \ingroup Common
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{Utilities/MersenneTwisterRandomVariateGenerator,Random number generator}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/MersenneTwisterRandomNumberGenerator,Mersenne Twister Random Number Generator}
+ * \endsphinx
  */
 
 struct MersenneTwisterGlobals;
