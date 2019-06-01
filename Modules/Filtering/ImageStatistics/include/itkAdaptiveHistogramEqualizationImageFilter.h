@@ -63,9 +63,9 @@ namespace itk
  * \ingroup ImageEnhancement
  * \ingroup ITKImageStatistics
  *
- * \wiki
- * \wikiexample{NeedDemo/ImageProcessing/AdaptiveHistogramEqualizationImageFilter,Adaptive histogram equalization}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageStatistics/AdaptiveHistogramEqualizationImageFilter,Adaptive Histogram Equalization Image Filter}
+ * \endsphinx
  */
 template< typename TImageType , typename TKernel = Neighborhood<bool, TImageType::ImageDimension> >
 class ITK_TEMPLATE_EXPORT AdaptiveHistogramEqualizationImageFilter:

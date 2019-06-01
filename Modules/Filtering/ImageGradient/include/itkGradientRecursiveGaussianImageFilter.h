@@ -44,9 +44,9 @@ namespace itk
  * \ingroup SingleThreaded
  * \ingroup ITKImageGradient
  *
- * \wiki
- * \wikiexample{EdgesAndGradients/GradientRecursiveGaussianImageFilter,Compute the gradient of an image by convolution with the first derivative of a Gaussian}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageGradient/ApplyGradientRecursiveGaussianWithVectorInput,Apply GradientRecursiveGaussianImageFilter on Image with Vector type}
+ * \endsphimx
  */
 template< typename TInputImage,
           typename TOutputImage = Image< CovariantVector<

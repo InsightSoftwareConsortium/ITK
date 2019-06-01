@@ -43,9 +43,9 @@ namespace itk
  * \ingroup Streamed
  * \ingroup ITKImageGrid
  *
- * \wiki
- * \wikiexample{ImageProcessing/PermuteAxesImageFilter,Switch the axes of an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageGrid/PermuteAxesOfAnImage,Permute Axes Of An Image}
+ * \endsphinx
  */
 template< typename TImage >
 class ITK_TEMPLATE_EXPORT PermuteAxesImageFilter:

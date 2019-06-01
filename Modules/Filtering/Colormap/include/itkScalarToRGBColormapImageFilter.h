@@ -69,9 +69,9 @@ namespace itk
  * \ingroup   IntensityImageFilters     MultiThreaded
  * \ingroup ITKColormap
  *
- * \wiki
- * \wikiexample{SimpleOperations/ScalarToRGBColormapImageFilter,Apply a color map to an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/Colormap/ApplyAColorMapToAnImage,Apply A Color Map To An Image}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT ScalarToRGBColormapImageFilter:

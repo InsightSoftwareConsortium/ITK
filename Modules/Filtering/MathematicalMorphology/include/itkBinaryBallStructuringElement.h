@@ -53,9 +53,9 @@ namespace itk
  * \ingroup ImageIterators
  * \ingroup ITKMathematicalMorphology
  *
- * \wiki
- * \wikiexample{Morphology/BinaryBallStructuringElement,An elliptical structuring element}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/MathematicalMorphology/CreateABinaryBallStructuringElement,Create A Binary Ball Structuring Element}
+ * \endsphinx
  */
 
 template< typename TPixel, unsigned int VDimension = 2,

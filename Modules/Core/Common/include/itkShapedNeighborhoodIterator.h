@@ -142,10 +142,10 @@ namespace itk
  * \sa ImageConstIteratorWithIndex
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{Iterators/ShapedNeighborhoodIterator_Manual,Iterate over a region of an image with a shaped neighborhood}
- * \wikiexample{Iterators/ShapedNeighborhoodIterator,Iterate over a region of an image with a shaped neighborhood}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/IterateOverARegionWithAShapedNeighborhoodIterator,Iterate Over A Region With A Shaped Neighborhood Iterator Manually}
+ * \sphinxexample{Core/Common/IterateOverARegionWithAShapedNeighborhoodIterator,Iterate Over A Region With A Shaped Neighborhood Iterator}
+ * \endsphinx
  */
 template< typename TImage,
           typename TBoundaryCondition = ZeroFluxNeumannBoundaryCondition< TImage >

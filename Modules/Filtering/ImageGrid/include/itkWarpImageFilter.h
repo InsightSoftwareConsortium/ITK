@@ -76,9 +76,9 @@ namespace itk
  * \ingroup GeometricTransform MultiThreaded Streamed
  * \ingroup ITKImageGrid
  *
- * \wiki
- * \wikiexample{Registration/WarpImageFilter,Warp one image to another using manually specified landmarks}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageGrid/WarpAnImageUsingADeformationField,Warp An Image Using A Deformation Field}
+ * \endsphinx
  */
 template<
   typename TInputImage,

@@ -44,9 +44,9 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKMathematicalMorphology
  *
- * \wiki
- * \wikiexample{Morphology/GrayscaleDilateImageFilter,Dilate a grayscale image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/MathematicalMorphology/DilateAGrayscaleImage,Dilate A Grayscale Image}
+ * \endsphinx
  */
 
 template< typename TInputImage, typename TOutputImage, typename TKernel >

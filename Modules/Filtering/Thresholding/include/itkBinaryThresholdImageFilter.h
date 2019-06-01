@@ -56,9 +56,9 @@ namespace itk
  * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITKThresholding
  *
- * \wiki
- * \wikiexample{ImageProcessing/BinaryThresholdImageFilter,Threshold an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/Thresholding/ThresholdAnImageUsingBinary,Threshold An Image Using Binary Thresholding}
+ * \endsphinx
  */
 namespace Functor
 {

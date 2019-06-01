@@ -50,6 +50,10 @@ namespace itk
  * \sa ThresholdLabelerImageFilter
  * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITKThresholding
+ *
+ * \sphinx
+ * \sphinxexample{Filtering/Thresholding/ThresholdAnImageUsingOtsu,Threshold An Image Using Otsu}
+ * \endsphinx
  */
 
 template< typename TInputImage, typename TOutputImage >

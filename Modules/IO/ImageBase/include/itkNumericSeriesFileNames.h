@@ -47,9 +47,9 @@ namespace itk
  *
  * \ingroup ITKIOImageBase
  *
- * \wiki
- * \wikiexample{Utilities/NumericSeriesFileNames,Create a list of file names}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{IO/ImageBase/CreateAListOfFileNames,Create A List Of File Names}
+ * \endsphinx
  */
 class ITKIOImageBase_EXPORT NumericSeriesFileNames:public Object
 {

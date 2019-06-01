@@ -59,9 +59,9 @@ namespace itk
  * \sa ImageToImageFilter BinaryDilateImageFilter BinaryMorphologyImageFilter
  * \ingroup ITKBinaryMathematicalMorphology
  *
- * \wiki
- * \wikiexample{Morphology/BinaryErodeImageFilter,Erode a binary image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/BinaryMathematicalMorphology/ErodeABinaryImage,Erode A Binary Image}
+ * \endsphin
  */
 template< typename TInputImage, typename TOutputImage, typename TKernel >
 class ITK_TEMPLATE_EXPORT BinaryErodeImageFilter:

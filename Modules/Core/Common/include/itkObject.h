@@ -53,9 +53,9 @@ class ITK_FORWARD_EXPORT Command;
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{Utilities/CreateAnother,Copy a filter}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/CreateAnother,Copy Another}
+ * \endsphinx
  */
 class ITKCommon_EXPORT Object:public LightObject
 {

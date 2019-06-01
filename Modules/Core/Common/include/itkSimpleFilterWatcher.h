@@ -60,9 +60,9 @@ namespace itk
  *
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{Utilities/SimpleFilterWatcher,Monitor a filter}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/WatchAFilter,Watch A filter}
+ * \endsphinx
  */
 class ITKCommon_EXPORT SimpleFilterWatcher
 {

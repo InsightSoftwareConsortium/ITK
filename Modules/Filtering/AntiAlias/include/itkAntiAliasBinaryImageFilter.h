@@ -99,9 +99,9 @@ namespace itk
  *
  * \ingroup ITKAntiAlias
  *
- * \wiki
- * \wikiexample{Smoothing/AntiAliasBinaryImageFilter,Anti alias a binary image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/AntiAlias/SmoothBinaryImageBeforeSurfaceExtraction,Smooth Binary Image Before Surface Extraction}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT AntiAliasBinaryImageFilter:

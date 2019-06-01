@@ -41,9 +41,9 @@ namespace itk
  *
  * \ingroup ITKImageFeature
  *
- * \wiki
- * \wikiexample{EdgesAndGradients/SobelEdgeDetectionImageFilter,SobelEdgeDetectionImageFilter}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageFeature/SobelEdgeDetectionImageFilter,Sobel Edge Detection Image Filter}
+ * \endsphinx
  */
 
 template< typename TInputImage, typename TOutputImage >
