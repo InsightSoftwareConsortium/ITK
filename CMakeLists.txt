@@ -4,6 +4,7 @@ foreach(p
     CMP0025 # CMake 3.0
     CMP0028
     CMP0042 # CMake 3.0
+    CMP0045
     CMP0048
     CMP0054 # CMake 3.1
     CMP0056 # CMake 3.2
