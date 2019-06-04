@@ -1103,6 +1103,7 @@ public:
     m = NumericTraits< ValueType >::ZeroValue();
   }
 };
+/// \endcond
 } // end namespace itk
 
 #include "itkFixedArray.h"
