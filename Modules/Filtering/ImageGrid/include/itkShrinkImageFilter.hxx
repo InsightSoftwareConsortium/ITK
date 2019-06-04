@@ -135,7 +135,7 @@ ShrinkImageFilter< TInputImage, TOutputImage >
   // We wish to perform the following mapping of outputIndex to
   // inputIndex on all points in our region
   outputPtr->TransformIndexToPhysicalPoint(outputIndex, tempPoint);
-  inputPtr->TransformPhysicalPointToIndex(tempPoint, inputIndex);
+  inputIndex = inputPtr->TransformPhysicalPointToIndex(tempPoint);
 
   // Given that the size is scaled by a constant factor eq:
   // inputIndex = outputIndex * factorSize
@@ -217,7 +217,7 @@ ShrinkImageFilter< TInputImage, TOutputImage >
   // We wish to perform the following mapping of outputIndex to
   // inputIndex on all points in our region
   outputPtr->TransformIndexToPhysicalPoint(outputIndex, tempPoint);
-  inputPtr->TransformPhysicalPointToIndex(tempPoint, inputIndex);
+  inputIndex = inputPtr->TransformPhysicalPointToIndex(tempPoint);
 
   // Given that the size is scaled by a constant factor eq:
   // inputIndex = outputIndex * factorSize

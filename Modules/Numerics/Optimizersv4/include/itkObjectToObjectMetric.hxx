@@ -282,8 +282,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
 {
   if( ! this->m_VirtualImage.IsNull() )
     {
-    VirtualIndexType index;
-    this->m_VirtualImage->TransformPhysicalPointToIndex( point, index );
+    const auto index = m_VirtualImage->TransformPhysicalPointToIndex(point);
     return this->GetVirtualRegion().IsInside( index );
     }
 

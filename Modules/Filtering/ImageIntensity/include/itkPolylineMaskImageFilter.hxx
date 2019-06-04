@@ -501,7 +501,7 @@ void PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
     {
     outputImagePtr->TransformIndexToPhysicalPoint(outputIt.GetIndex(), inputPoint);
     outputPoint = this->TransformProjectPoint(inputPoint);
-    projectionImagePtr->TransformPhysicalPointToIndex(outputPoint, projectionImageIndex);
+    projectionImageIndex = projectionImagePtr->TransformPhysicalPointToIndex(outputPoint);
 
     if ( !projectionImagePtr->GetBufferedRegion().IsInside(projectionImageIndex) )
       {
