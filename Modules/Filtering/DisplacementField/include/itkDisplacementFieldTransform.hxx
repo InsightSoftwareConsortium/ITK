@@ -156,9 +156,7 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>
 ::ComputeJacobianWithRespectToPosition( const InputPointType & point,
                                         JacobianPositionType & jacobian ) const
 {
-  IndexType idx;
-
-  this->m_DisplacementField->TransformPhysicalPointToIndex( point, idx );
+  const auto idx = m_DisplacementField->TransformPhysicalPointToIndex(point);
   this->ComputeJacobianWithRespectToPosition( idx, jacobian );
 }
 
@@ -177,8 +175,7 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>
 ::ComputeInverseJacobianWithRespectToPosition( const InputPointType & point,
                                         InverseJacobianPositionType & jacobian ) const
 {
-  IndexType idx;
-  this->m_DisplacementField->TransformPhysicalPointToIndex(point, idx);
+  const auto idx = m_DisplacementField->TransformPhysicalPointToIndex(point);
   this->ComputeJacobianWithRespectToPositionInternal( idx, jacobian, true );
 }
 
@@ -190,9 +187,7 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>
   JacobianPositionType & jacobian,
   bool useSVD ) const
 {
-  IndexType idx;
-
-  this->m_DisplacementField->TransformPhysicalPointToIndex( point, idx );
+  const auto idx = m_DisplacementField->TransformPhysicalPointToIndex(point);
   this->GetInverseJacobianOfForwardFieldWithRespectToPosition( idx, jacobian,
                                                                useSVD );
 }

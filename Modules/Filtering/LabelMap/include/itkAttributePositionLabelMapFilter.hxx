@@ -52,7 +52,7 @@ AttributePositionLabelMapFilter<TImage, TAttributeAccessor, VPhysicalPosition>
       {
       point[i] = position[i];
       }
-    this->GetOutput()->TransformPhysicalPointToIndex( point, idx );
+    idx = this->GetOutput()->TransformPhysicalPointToIndex( point );
     }
   else
     {

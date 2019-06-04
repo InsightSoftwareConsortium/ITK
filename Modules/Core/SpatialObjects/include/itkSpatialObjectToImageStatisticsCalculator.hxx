@@ -151,7 +151,7 @@ SpatialObjectToImageStatisticsCalculator< TInputImage, TInputSpatialObject,
         maskImage->TransformIndexToPhysicalPoint( ind, pnt );
         tPnt = maskSpatialObject->GetObjectToWorldTransform()
           ->TransformPoint( pnt );
-        m_Image->TransformPhysicalPointToIndex( tPnt, ind );
+        ind = m_Image->TransformPhysicalPointToIndex(tPnt);
         mv[0] = m_Image->GetPixel(ind);
         m_Sum += static_cast< AccumulateType >( mv[0] );
         for ( unsigned int i = 1; i < Self::SampleDimension; i++ )
@@ -176,16 +176,14 @@ SpatialObjectToImageStatisticsCalculator< TInputImage, TInputSpatialObject,
 
     Point< double, Self::ObjectDimension > ptMin;
     Point< double, Self::ObjectDimension > ptMax;
-    IndexType indMin;
-    IndexType indMax;
     SizeType size;
     for ( unsigned int i = 0; i < Self::ObjectDimension; i++ )
       {
       ptMin[i] = bounds[i * 2];
       ptMax[i] = bounds[i * 2 + 1];
       }
-    m_Image->TransformPhysicalPointToIndex( ptMin, indMin );
-    m_Image->TransformPhysicalPointToIndex( ptMax, indMax );
+    auto indMin = m_Image->TransformPhysicalPointToIndex(ptMin);
+    auto indMax = m_Image->TransformPhysicalPointToIndex(ptMax);
     IndexType imageIndex = m_Image->GetLargestPossibleRegion().GetIndex();
     SizeType imageSize = m_Image->GetLargestPossibleRegion().GetSize();
     for ( unsigned int i = 0; i < Self::ObjectDimension; i++ )
