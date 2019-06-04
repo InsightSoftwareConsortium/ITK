@@ -251,17 +251,15 @@ TAB_SIZE               = 2
 # commands \{ and \} for these it is advised to use the version @{ and @} or use
 # a double escape (\\{ and \\})
 
-ALIASES                = "wikimainaddress{1}=<a href=\"\1\">All Examples</a>" \
-                         "wikiexamplemaintitle=\par Wiki Examples:\n\n" \
-                         "wikiexample{2}=\li <a href=\"https://www.itk.org/Wiki/ITK/Examples/\1\">\2</a>\n" \
-                         "wiki=\wikiexamplemaintitle \li \wikimainaddress{https://www.itk.org/Wiki/ITK/Examples}\n" \
-                         "endwiki=\n\n\n" \
-                         \
-                         "sphinxmainaddress{1}=<a href=\"\1\">All ITK Examples</a>" \
-                         "sphinxexamplemaintitle=\par ITK Sphinx Examples:\n\n" \
-                         "sphinxexample{2}=\li <a href=\"https://itk.org/ITKExamples/src/\1/Documentation.html\">\2</a>\n" \
-                         "sphinx=\sphinxexamplemaintitle \li \sphinxmainaddress{https://itk.org/ITKExamples}\n" \
-                         "endsphinx=\n\n\n"
+# Follow example from http://www.doxygen.nl/manual/custcmd.html
+# Use ^^ instead of \n in aliases https://sourceforge.net/p/doxygen/mailman/message/36215997/
+ALIASES  = starteraliasnotused="@par not used"
+ALIASES += wiki="\par Wiki Examples:<br> ^^ \li <a href=\"https://www.itk.org/Wiki/ITK/Examples\">All Media Wiki Examples</a> ^^"
+ALIASES += wikiexample{2}=" \li <a href=\"https://www.itk.org/Wiki/ITK/Examples/\1\">\2</a> ^^"
+ALIASES += endwiki="^^ ^^ ^^"
+ALIASES += sphinx="\par ITK Sphinx Examples:<br> ^^ \par \li <a href=\"https://itk.org/ITKExamples\">All ITK Sphinx Examples</a> ^^"
+ALIASES += sphinxexample{2}="\li <a href=\"https://itk.org/ITKExamples/src/\1/Documentation.html\">\2</a> ^^"
+ALIASES += endsphinx="^^ ^^ ^^"
 
 # This tag can be used to specify a number of word-keyword mappings (TCL only).
 # A mapping has the form "name=value". For example adding "class=itcl::class"
