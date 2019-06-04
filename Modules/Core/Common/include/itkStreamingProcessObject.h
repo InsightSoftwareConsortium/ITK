@@ -23,7 +23,8 @@
 namespace itk
 {
 
-/** \class Base class interface to process data on multiple requested input chunks
+/** \class StreamingProcessObject
+ * \brief Base class interface to process data on multiple requested input chunks.
  *
  * Streaming allows the data to be split into chunks and processed
  * separately. The StreamingProcessObject class extends functionally
