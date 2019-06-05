@@ -76,9 +76,9 @@ HessianToObjectnessMeasureImageFilter< TInputImage, TOutputImage >
     eigenCalculator.ComputeEigenValues(it.Get(), eigenValues);
 
     // Sort the eigenvalues by magnitude but retain their sign.
-    // The eigenvalues are to be sorted |e1|<=|e2|<=...<=|eN|
+    // The eigenvalues are to be sorted |e1|<|e2|<...<|eN|
     EigenValueArrayType sortedEigenValues = eigenValues;
-    std::sort( sortedEigenValues.Begin(), sortedEigenValues.End(), AbsLessEqualCompare() );
+    std::sort( sortedEigenValues.Begin(), sortedEigenValues.End(), AbsLessCompare() );
 
     // Check whether eigenvalues have the right sign
     bool signConstraintsSatisfied = true;

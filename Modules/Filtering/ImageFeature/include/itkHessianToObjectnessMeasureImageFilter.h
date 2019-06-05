@@ -140,10 +140,10 @@ protected:
 
 private:
   // functor used to sort the eigenvalues are to be sorted
-  // |e1|<=|e2|<=...<=|eN|
+  // |e1|<|e2|<...<|eN|
   //
-  // Returns ( abs(a) <= abs(b) )
-  struct AbsLessEqualCompare {
+  // Returns ( abs(a) < abs(b) )
+  struct AbsLessCompare {
     bool operator()(EigenValueType a, EigenValueType b)
     {
       return itk::Math::abs(a) < itk::Math::abs(b);
