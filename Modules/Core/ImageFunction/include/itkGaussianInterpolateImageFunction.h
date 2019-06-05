@@ -156,9 +156,13 @@ protected:
 
   virtual void ComputeBoundingBox();
 
-  virtual void ComputeErrorFunctionArray( unsigned int dimension, RealType cindex,
-    vnl_vector<RealType> &erfArray, vnl_vector<RealType> &gerfArray,
-    bool evaluateGradient = false ) const;
+  using RegionType = ImageRegion< ImageDimension >;
+
+  /** Compute the region which we need to loop over. */
+  RegionType ComputeInterpolationRegion( const ContinuousIndexType& ) const;
+
+  virtual void ComputeErrorFunctionArray( const RegionType& region, unsigned int dimension, RealType cindex,
+    vnl_vector<RealType> &erfArray, vnl_vector<RealType> &gerfArray, bool evaluateGradient = false ) const;
 
   /** Set/Get the bounding box starting point. */
   itkSetMacro( BoundingBoxStart, ArrayType );
