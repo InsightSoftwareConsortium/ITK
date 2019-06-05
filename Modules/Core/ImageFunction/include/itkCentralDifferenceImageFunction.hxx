@@ -240,8 +240,8 @@ CentralDifferenceImageFunction< TInputImage, TCoordRep, TOutputType >
 
     if ( this->m_UseImageDirection )
       {
-      ScalarDerivativeType componentDerivativeOut;
-      inputImage->TransformLocalVectorToPhysicalVector(componentDerivative, componentDerivativeOut);
+      const auto componentDerivativeOut =
+        inputImage->TransformLocalVectorToPhysicalVector(componentDerivative);
       for ( unsigned int dim = 0; dim < MaxDims; dim++ )
         {
         OutputConvertType::SetNthComponent( nc * MaxDims + dim, derivative, componentDerivativeOut[dim] );
@@ -337,9 +337,7 @@ CentralDifferenceImageFunction< TInputImage, TCoordRep, TOutputType >
   // direction, we need to reorient into index-space if the user desires.
   if ( ! this->m_UseImageDirection )
     {
-    OutputType derivative;
-    inputImage->TransformPhysicalVectorToLocalVector( orientedDerivative, derivative );
-    orientedDerivative = derivative;
+    orientedDerivative = inputImage->TransformPhysicalVectorToLocalVector(orientedDerivative);
     }
 }
 
@@ -568,7 +566,6 @@ CentralDifferenceImageFunction< TInputImage, TCoordRep, TOutputType >
   for ( unsigned int nc = 0; nc < numberComponents; nc++)
     {
     ScalarDerivativeType componentDerivative;
-    ScalarDerivativeType componentDerivativeOut;
 
     for ( unsigned int dim = 0; dim < MaxDims; dim++ )
       {
@@ -596,7 +593,8 @@ CentralDifferenceImageFunction< TInputImage, TCoordRep, TOutputType >
 
     if ( this->m_UseImageDirection )
       {
-      inputImage->TransformLocalVectorToPhysicalVector(componentDerivative, componentDerivativeOut);
+      const auto componentDerivativeOut =
+        inputImage->TransformLocalVectorToPhysicalVector(componentDerivative);
       for ( unsigned int dim = 0; dim < MaxDims; dim++ )
         {
         OutputConvertType::SetNthComponent( nc * MaxDims + dim, derivative, componentDerivativeOut[dim] );

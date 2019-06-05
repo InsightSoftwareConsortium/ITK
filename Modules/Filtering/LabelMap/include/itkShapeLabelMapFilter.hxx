@@ -876,8 +876,8 @@ ShapeLabelMapFilter< TImage, TLabelImage >
         }
       }
 
-    Vector<double, ImageDimension> physicalOffset;
-    output->TransformLocalVectorToPhysicalVector(spacingAxis, physicalOffset);
+    const auto physicalOffset =
+      output->TransformLocalVectorToPhysicalVector(spacingAxis);
     VNLVectorType  paOffset = principalAxesBasisMatrix*physicalOffset.GetVnlVector();
 
     for ( unsigned int i = 0; i < ImageDimension; ++i )

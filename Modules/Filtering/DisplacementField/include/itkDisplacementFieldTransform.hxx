@@ -287,21 +287,17 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>
 
       OutputVectorType tempPix;
 
-      OutputVectorType rpix;
       tempPix = m_DisplacementField->GetPixel( difIndex[row][1] );
-      m_DisplacementField->TransformLocalVectorToPhysicalVector( tempPix, rpix );
+      const auto rpix = m_DisplacementField->TransformLocalVectorToPhysicalVector(tempPix);
 
-      OutputVectorType lpix;
       tempPix = m_DisplacementField->GetPixel( difIndex[row][0] );
-      m_DisplacementField->TransformLocalVectorToPhysicalVector( tempPix, lpix );
+      const auto lpix = m_DisplacementField->TransformLocalVectorToPhysicalVector(tempPix);
 
-      OutputVectorType rrpix;
       tempPix = m_DisplacementField->GetPixel( ddrindex );
-      m_DisplacementField->TransformLocalVectorToPhysicalVector( tempPix, rrpix );
+      const auto rrpix = m_DisplacementField->TransformLocalVectorToPhysicalVector(tempPix);
 
-      OutputVectorType llpix;
       tempPix = m_DisplacementField->GetPixel( ddlindex );
-      m_DisplacementField->TransformLocalVectorToPhysicalVector( tempPix, llpix );
+      const auto llpix = m_DisplacementField->TransformLocalVectorToPhysicalVector(tempPix);
 
 
       // 4th order centered difference
