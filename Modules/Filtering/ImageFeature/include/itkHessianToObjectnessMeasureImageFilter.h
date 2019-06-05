@@ -146,7 +146,7 @@ private:
   struct AbsLessEqualCompare {
     bool operator()(EigenValueType a, EigenValueType b)
     {
-      return itk::Math::abs(a) <= itk::Math::abs(b);
+      return itk::Math::abs(a) < itk::Math::abs(b);
     }
   };
 
