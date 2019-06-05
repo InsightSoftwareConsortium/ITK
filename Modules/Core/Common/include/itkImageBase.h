@@ -605,11 +605,11 @@ public:
    * the image acquisition device. Returns the resulting gradient.
    * \sa Image
    */
-  template< typename TCoordRep >
-  FixedArray< TCoordRep, VImageDimension > TransformLocalVectorToPhysicalVector(
-    const FixedArray< TCoordRep, VImageDimension > & inputGradient) const
+  template< typename TVector >
+  TVector TransformLocalVectorToPhysicalVector(
+    const TVector & inputGradient) const
   {
-    FixedArray< TCoordRep, VImageDimension > outputGradient;
+    TVector outputGradient;
     TransformLocalVectorToPhysicalVector(inputGradient, outputGradient);
     return outputGradient;
   }
@@ -654,11 +654,11 @@ public:
    * parallel to the image grid. Returns the result.
    *
    */
-  template< typename TCoordRep >
-  FixedArray< TCoordRep, VImageDimension > TransformPhysicalVectorToLocalVector(
-    const FixedArray< TCoordRep, VImageDimension > & inputGradient) const
+  template< typename TVector >
+  TVector TransformPhysicalVectorToLocalVector(
+    const TVector & inputGradient) const
   {
-    FixedArray< TCoordRep, VImageDimension > outputGradient;
+    TVector outputGradient;
     TransformPhysicalVectorToLocalVector(inputGradient, outputGradient);
     return outputGradient;
   }
