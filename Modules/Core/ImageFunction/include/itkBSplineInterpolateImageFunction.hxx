@@ -829,9 +829,7 @@ BSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
 
   if ( this->m_UseImageDirection )
     {
-    CovariantVectorType orientedDerivative;
-    this->GetInputImage()->TransformLocalVectorToPhysicalVector(derivativeValue, orientedDerivative);
-    derivativeValue = orientedDerivative;
+    derivativeValue = this->GetInputImage()->TransformLocalVectorToPhysicalVector(derivativeValue);
     }
 
 }
@@ -894,9 +892,7 @@ BSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >
 
   if ( this->m_UseImageDirection )
     {
-    CovariantVectorType orientedDerivative;
-    inputImage->TransformLocalVectorToPhysicalVector(derivativeValue, orientedDerivative);
-    return orientedDerivative;
+    return inputImage->TransformLocalVectorToPhysicalVector(derivativeValue);
     }
 
   return ( derivativeValue );
