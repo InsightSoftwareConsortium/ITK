@@ -102,7 +102,7 @@ int itkTernaryOperatorImageFilterTest( int, char* [] )
       itk::TernaryOperatorImageFilter< MaskImageType, GrayImageType >;
   TernaryType::Pointer tern = TernaryType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( tern, TernaryOperatorImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( tern, TernaryOperatorImageFilter,
     TernaryFunctorImageFilter );
 
   tern->SetInput1( mask );

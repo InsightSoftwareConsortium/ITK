@@ -125,7 +125,7 @@ int itkLabelVotingImageFilterTest( int, char* [] )
   LabelVotingImageFilterType::Pointer labelVotingFilter =
     LabelVotingImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( labelVotingFilter, LabelVotingImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( labelVotingFilter, LabelVotingImageFilter,
     ImageToImageFilter );
 
 

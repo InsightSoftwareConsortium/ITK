@@ -52,16 +52,16 @@ int itkSpatialObjectToPointSetFilterTest( int, char* [] )
   SpatialObjectToPointSetFilterType::Pointer pointSetFilter =
     SpatialObjectToPointSetFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( pointSetFilter, SpatialObjectToPointSetFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( pointSetFilter, SpatialObjectToPointSetFilter,
     MeshSource );
 
   unsigned int childrenDepth = 0;
   pointSetFilter->SetChildrenDepth( childrenDepth );
-  TEST_SET_GET_VALUE( childrenDepth, pointSetFilter->GetChildrenDepth() );
+  ITK_TEST_SET_GET_VALUE( childrenDepth, pointSetFilter->GetChildrenDepth() );
 
   unsigned int samplingFactor = 1;
   pointSetFilter->SetSamplingFactor( samplingFactor );
-  TEST_SET_GET_VALUE( samplingFactor, pointSetFilter->GetSamplingFactor() );
+  ITK_TEST_SET_GET_VALUE( samplingFactor, pointSetFilter->GetSamplingFactor() );
 
   std::cout << " tnop = " << tube1->GetNumberOfPoints() << std::endl;
   pointSetFilter->SetInput(tube1);
@@ -152,12 +152,12 @@ int itkSpatialObjectToPointSetFilterTest( int, char* [] )
   SpatialObjectToPointSet3DFilterType::Pointer pointSetFilter3D =
     SpatialObjectToPointSet3DFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( pointSetFilter3D,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( pointSetFilter3D,
     SpatialObjectToPointSetFilter, MeshSource );
 
   childrenDepth = 999999;
   pointSetFilter3D->SetChildrenDepth( childrenDepth );
-  TEST_SET_GET_VALUE( childrenDepth, pointSetFilter3D->GetChildrenDepth() );
+  ITK_TEST_SET_GET_VALUE( childrenDepth, pointSetFilter3D->GetChildrenDepth() );
 
   pointSetFilter3D->SetInput( group3D );
 

@@ -82,12 +82,12 @@ int itkImageRegistrationMethodTest_11(int, char* [] )
   //
   // Now verify that all the sets are consistent with the Gets
   //
-  TEST_SET_GET_VALUE( metric, registration->GetMetric() );
-  TEST_SET_GET_VALUE( optimizer, registration->GetOptimizer() );
-  TEST_SET_GET_VALUE( transform, registration->GetTransform() );
-  TEST_SET_GET_VALUE( fixedImage, registration->GetFixedImage() );
-  TEST_SET_GET_VALUE( movingImage, registration->GetMovingImage() );
-  TEST_SET_GET_VALUE( interpolator, registration->GetInterpolator() );
+  ITK_TEST_SET_GET_VALUE( metric, registration->GetMetric() );
+  ITK_TEST_SET_GET_VALUE( optimizer, registration->GetOptimizer() );
+  ITK_TEST_SET_GET_VALUE( transform, registration->GetTransform() );
+  ITK_TEST_SET_GET_VALUE( fixedImage, registration->GetFixedImage() );
+  ITK_TEST_SET_GET_VALUE( movingImage, registration->GetMovingImage() );
+  ITK_TEST_SET_GET_VALUE( interpolator, registration->GetInterpolator() );
 
   //
   // Now verify that they can be changed
@@ -111,12 +111,12 @@ int itkImageRegistrationMethodTest_11(int, char* [] )
   //
   // Now verify that all the sets are consistent with the Gets
   //
-  TEST_SET_GET_VALUE( metric2, registration->GetMetric() );
-  TEST_SET_GET_VALUE( optimizer2, registration->GetOptimizer() );
-  TEST_SET_GET_VALUE( transform2, registration->GetTransform() );
-  TEST_SET_GET_VALUE( fixedImage2, registration->GetFixedImage() );
-  TEST_SET_GET_VALUE( movingImage2, registration->GetMovingImage() );
-  TEST_SET_GET_VALUE( interpolator2, registration->GetInterpolator() );
+  ITK_TEST_SET_GET_VALUE( metric2, registration->GetMetric() );
+  ITK_TEST_SET_GET_VALUE( optimizer2, registration->GetOptimizer() );
+  ITK_TEST_SET_GET_VALUE( transform2, registration->GetTransform() );
+  ITK_TEST_SET_GET_VALUE( fixedImage2, registration->GetFixedImage() );
+  ITK_TEST_SET_GET_VALUE( movingImage2, registration->GetMovingImage() );
+  ITK_TEST_SET_GET_VALUE( interpolator2, registration->GetInterpolator() );
 
 
   //
@@ -141,12 +141,12 @@ int itkImageRegistrationMethodTest_11(int, char* [] )
   //
   // Now verify that all the sets are consistent with the Gets
   //
-  TEST_SET_GET_VALUE( metric3, registration->GetMetric() );
-  TEST_SET_GET_VALUE( optimizer3, registration->GetOptimizer() );
-  TEST_SET_GET_VALUE( transform3, registration->GetTransform() );
-  TEST_SET_GET_VALUE( fixedImage3, registration->GetFixedImage() );
-  TEST_SET_GET_VALUE( movingImage3, registration->GetMovingImage() );
-  TEST_SET_GET_VALUE( interpolator3, registration->GetInterpolator() );
+  ITK_TEST_SET_GET_VALUE( metric3, registration->GetMetric() );
+  ITK_TEST_SET_GET_VALUE( optimizer3, registration->GetOptimizer() );
+  ITK_TEST_SET_GET_VALUE( transform3, registration->GetTransform() );
+  ITK_TEST_SET_GET_VALUE( fixedImage3, registration->GetFixedImage() );
+  ITK_TEST_SET_GET_VALUE( movingImage3, registration->GetMovingImage() );
+  ITK_TEST_SET_GET_VALUE( interpolator3, registration->GetInterpolator() );
 
 
   std::cout << "Test passed." << std::endl;

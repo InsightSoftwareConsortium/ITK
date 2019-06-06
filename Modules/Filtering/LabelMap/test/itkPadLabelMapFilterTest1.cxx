@@ -56,7 +56,7 @@ int itkPadLabelMapFilterTest1(int argc, char * argv[])
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
   using I2LType = itk::LabelImageToLabelMapFilter< ImageType, LabelMapType>;
   I2LType::Pointer i2l = I2LType::New();
@@ -65,15 +65,15 @@ int itkPadLabelMapFilterTest1(int argc, char * argv[])
   using PadLabelMapFilterType = itk::PadLabelMapFilter< LabelMapType >;
   PadLabelMapFilterType::Pointer padLabelMapFilter = PadLabelMapFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( padLabelMapFilter, PadLabelMapFilter, ChangeRegionLabelMapFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( padLabelMapFilter, PadLabelMapFilter, ChangeRegionLabelMapFilter );
 
   PadLabelMapFilterType::SizeType upperBoundaryPadSize = {{0}};
   padLabelMapFilter->SetPadSize( upperBoundaryPadSize );
-  TEST_SET_GET_VALUE( upperBoundaryPadSize, padLabelMapFilter->GetUpperBoundaryPadSize() );
+  ITK_TEST_SET_GET_VALUE( upperBoundaryPadSize, padLabelMapFilter->GetUpperBoundaryPadSize() );
 
   PadLabelMapFilterType::SizeType lowerBoundaryPadSize = {{0}};
   padLabelMapFilter->SetPadSize( lowerBoundaryPadSize );
-  TEST_SET_GET_VALUE( upperBoundaryPadSize, padLabelMapFilter->GetLowerBoundaryPadSize() );
+  ITK_TEST_SET_GET_VALUE( upperBoundaryPadSize, padLabelMapFilter->GetLowerBoundaryPadSize() );
 
   padLabelMapFilter->SetInput( i2l->GetOutput() );
   PadLabelMapFilterType::SizeType size;
@@ -81,12 +81,12 @@ int itkPadLabelMapFilterTest1(int argc, char * argv[])
   size[1] = std::stoi( argv[4] );
 
   padLabelMapFilter->SetPadSize( size );
-  TEST_SET_GET_VALUE( size, padLabelMapFilter->GetLowerBoundaryPadSize() );
-  TEST_SET_GET_VALUE( size, padLabelMapFilter->GetUpperBoundaryPadSize() );
+  ITK_TEST_SET_GET_VALUE( size, padLabelMapFilter->GetLowerBoundaryPadSize() );
+  ITK_TEST_SET_GET_VALUE( size, padLabelMapFilter->GetUpperBoundaryPadSize() );
 
   itk::SimpleFilterWatcher watcher( padLabelMapFilter, "filter" );
 
-  TRY_EXPECT_NO_EXCEPTION( padLabelMapFilter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( padLabelMapFilter->Update() );
 
   using L2IType = itk::LabelMapToLabelImageFilter< LabelMapType, ImageType>;
   L2IType::Pointer l2i = L2IType::New();
@@ -99,10 +99,10 @@ int itkPadLabelMapFilterTest1(int argc, char * argv[])
   writer->SetFileName( argv[2] );
   writer->UseCompressionOn();
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   l2i->SetInput( nullptr );
-  TRY_EXPECT_EXCEPTION( l2i->Update() );
+  ITK_TRY_EXPECT_EXCEPTION( l2i->Update() );
 
   return EXIT_SUCCESS;
 }

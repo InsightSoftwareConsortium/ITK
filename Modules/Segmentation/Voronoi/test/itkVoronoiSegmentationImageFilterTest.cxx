@@ -34,7 +34,7 @@ int itkVoronoiSegmentationImageFilterTest( int, char* [] )
   VoronoiSegmentationImageFilterType::Pointer voronoiSegmenter =
     VoronoiSegmentationImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( voronoiSegmenter, VoronoiSegmentationImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( voronoiSegmenter, VoronoiSegmentationImageFilter,
     VoronoiSegmentationImageFilterBase );
 
   UShortImage::Pointer inputImage = UShortImage::New();
@@ -102,12 +102,12 @@ int itkVoronoiSegmentationImageFilterTest( int, char* [] )
   voronoiSegmenter->SetNumberOfSeeds( numberOfSeeds );
   voronoiSegmenter->SetSteps( steps );
 
-  TEST_SET_GET_VALUE( mean, voronoiSegmenter->GetMean() );
-  TEST_SET_GET_VALUE( std, voronoiSegmenter->GetSTD() );
-  TEST_SET_GET_VALUE( meanTolerance, voronoiSegmenter->GetMeanTolerance() );
-  TEST_SET_GET_VALUE( stdTolerance, voronoiSegmenter->GetSTDTolerance() );
-  TEST_SET_GET_VALUE( numberOfSeeds, voronoiSegmenter->GetNumberOfSeeds() );
-  TEST_SET_GET_VALUE( steps, voronoiSegmenter->GetSteps() );
+  ITK_TEST_SET_GET_VALUE( mean, voronoiSegmenter->GetMean() );
+  ITK_TEST_SET_GET_VALUE( std, voronoiSegmenter->GetSTD() );
+  ITK_TEST_SET_GET_VALUE( meanTolerance, voronoiSegmenter->GetMeanTolerance() );
+  ITK_TEST_SET_GET_VALUE( stdTolerance, voronoiSegmenter->GetSTDTolerance() );
+  ITK_TEST_SET_GET_VALUE( numberOfSeeds, voronoiSegmenter->GetNumberOfSeeds() );
+  ITK_TEST_SET_GET_VALUE( steps, voronoiSegmenter->GetSteps() );
 
   std::cout << "Running algorithm" << std::endl;
   voronoiSegmenter->Update();

@@ -88,7 +88,7 @@ int itkNiftiImageIOTest12(int ac, char* av[])
     std::string readHash = hasher->GetHash();
     std::cout << "Read hash: " << readHash << std::endl;
 
-    TEST_EXPECT_EQUAL( originalHash, readHash );
+    ITK_TEST_EXPECT_EQUAL( originalHash, readHash );
 
     }
   catch (itk::ExceptionObject &)

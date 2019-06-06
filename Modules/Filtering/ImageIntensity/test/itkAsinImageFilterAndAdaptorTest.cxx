@@ -92,7 +92,7 @@ int itkAsinImageFilterAndAdaptorTest( int, char* [] )
   // Create the Filter
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, AsinImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, AsinImageFilter,
     UnaryGeneratorImageFilter );
 
   // Set the input image
@@ -140,7 +140,7 @@ int itkAsinImageFilterAndAdaptorTest( int, char* [] )
 
   AdaptorType::Pointer asinAdaptor = AdaptorType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( asinAdaptor, AsinImageAdaptor,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( asinAdaptor, AsinImageAdaptor,
     ImageAdaptor );
 
   asinAdaptor->SetImage( inputImage );

@@ -93,7 +93,7 @@ int itkAbsImageFilterAndAdaptorTest(int, char* [] )
   // Create an Abs Filter
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, AbsImageFilter, UnaryGeneratorImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, AbsImageFilter, UnaryGeneratorImageFilter );
 
   // Connect the input images
   filter->SetInput( inputImage );
@@ -142,7 +142,7 @@ int itkAbsImageFilterAndAdaptorTest(int, char* [] )
 
   AdaptorType::Pointer absAdaptor = AdaptorType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( absAdaptor, AbsImageAdaptor, ImageAdaptor );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( absAdaptor, AbsImageAdaptor, ImageAdaptor );
 
   absAdaptor->SetImage( inputImage );
 

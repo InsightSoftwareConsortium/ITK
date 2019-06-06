@@ -106,7 +106,7 @@ int itkMaximumImageFilterTest( int, char*[] )
   // Create the filter
   MaximumImageFilterType::Pointer maximumImageFilter = MaximumImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( maximumImageFilter, MaximumImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( maximumImageFilter, MaximumImageFilter,
     BinaryGeneratorImageFilter);
 
   // Connect the input images
@@ -126,8 +126,8 @@ int itkMaximumImageFilterTest( int, char*[] )
 
   ImageType::IndexType pixelIndex = {{0, 1, 1}};
 
-  TEST_EXPECT_EQUAL( outputImage->GetPixel( start ), largePixelValue );
-  TEST_EXPECT_EQUAL( outputImage->GetPixel( pixelIndex ), largePixelValue );
+  ITK_TEST_EXPECT_EQUAL( outputImage->GetPixel( start ), largePixelValue );
+  ITK_TEST_EXPECT_EQUAL( outputImage->GetPixel( pixelIndex ), largePixelValue );
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;

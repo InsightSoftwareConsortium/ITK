@@ -386,7 +386,7 @@ itkHDF5ImageIOTest(int ac, char * av [] )
   itk::ObjectFactoryBase::RegisterFactory(itk::HDF5ImageIOFactory::New() );
 
   itk::HDF5ImageIO::Pointer imageio = itk::HDF5ImageIO::New();
-  EXERCISE_BASIC_OBJECT_METHODS( imageio, HDF5ImageIO, StreamingImageIOBase );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( imageio, HDF5ImageIO, StreamingImageIOBase );
 
   int result(0);
 

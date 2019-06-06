@@ -51,37 +51,37 @@ int itkGaborImageSourceTestHelper( char* outputFilename, bool calculcateImaginar
     sigma[2] = 10.0;
     }
   gaborImage->SetSigma( sigma );
-  TEST_SET_GET_VALUE( sigma, gaborImage->GetSigma() );
+  ITK_TEST_SET_GET_VALUE( sigma, gaborImage->GetSigma() );
 
   typename GaborSourceType::ArrayType mean = 0.1;
   gaborImage->SetMean( mean );
-  TEST_SET_GET_VALUE( mean, gaborImage->GetMean() );
+  ITK_TEST_SET_GET_VALUE( mean, gaborImage->GetMean() );
 
   double frequency = 0.1;
   gaborImage->SetFrequency( frequency );
-  TEST_SET_GET_VALUE( frequency, gaborImage->GetFrequency() );
+  ITK_TEST_SET_GET_VALUE( frequency, gaborImage->GetFrequency() );
 
   gaborImage->SetCalculateImaginaryPart( calculcateImaginaryPart );
-  TEST_SET_GET_VALUE( calculcateImaginaryPart, gaborImage->GetCalculateImaginaryPart() );
+  ITK_TEST_SET_GET_VALUE( calculcateImaginaryPart, gaborImage->GetCalculateImaginaryPart() );
   if( calculcateImaginaryPart )
     {
     gaborImage->CalculateImaginaryPartOn();
-    TEST_SET_GET_VALUE( true, gaborImage->GetCalculateImaginaryPart() );
+    ITK_TEST_SET_GET_VALUE( true, gaborImage->GetCalculateImaginaryPart() );
     }
   else
     {
     gaborImage->CalculateImaginaryPartOff();
-    TEST_SET_GET_VALUE( false, gaborImage->GetCalculateImaginaryPart() );
+    ITK_TEST_SET_GET_VALUE( false, gaborImage->GetCalculateImaginaryPart() );
     }
 
-  TRY_EXPECT_NO_EXCEPTION( gaborImage->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( gaborImage->Update() );
 
   using WriterType = itk::ImageFileWriter< ImageType >;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( outputFilename );
   writer->SetInput( gaborImage->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }
@@ -107,7 +107,7 @@ int itkGaborImageSourceTest( int argc, char *argv[] )
   // Exercise basic object methods
   // Done outside the helper function in the test because GCC is limited
   // when calling overloaded base class functions.
-  EXERCISE_BASIC_OBJECT_METHODS( gaborImage, GaborImageSource, GenerateImageSource );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( gaborImage, GaborImageSource, GenerateImageSource );
 
 
   int testStatus = EXIT_SUCCESS;

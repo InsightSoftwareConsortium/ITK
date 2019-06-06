@@ -110,7 +110,7 @@ int PerformBSplineSyNImageRegistration( int itkNotUsed( argc ), char *argv[] )
   // Set the number of iterations
   using GradientDescentOptimizerv4Type = itk::GradientDescentOptimizerv4;
   auto * optimizer = dynamic_cast<GradientDescentOptimizerv4Type *>( affineSimple->GetModifiableOptimizer() );
-  TEST_EXPECT_TRUE( optimizer != nullptr );
+  ITK_TEST_EXPECT_TRUE( optimizer != nullptr );
 #ifdef NDEBUG
   optimizer->SetNumberOfIterations( 100 );
 #else

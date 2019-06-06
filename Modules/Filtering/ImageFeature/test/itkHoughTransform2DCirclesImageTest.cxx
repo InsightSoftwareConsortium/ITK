@@ -374,58 +374,58 @@ int itkHoughTransform2DCirclesImageTest( int, char* [] )
 
   HoughTransformFilterType::Pointer houghFilter = HoughTransformFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( houghFilter, HoughTransform2DCirclesImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( houghFilter, HoughTransform2DCirclesImageFilter,
     ImageToImageFilter );
 
 
   double threshold = 2.3;
   houghFilter->SetThreshold( threshold );
-  TEST_SET_GET_VALUE( threshold, houghFilter->GetThreshold() );
+  ITK_TEST_SET_GET_VALUE( threshold, houghFilter->GetThreshold() );
 
   double minMaxRadius = 16.2;
   houghFilter->SetRadius( minMaxRadius );
-  TEST_SET_GET_VALUE( minMaxRadius, houghFilter->GetMinimumRadius() );
-  TEST_SET_GET_VALUE( minMaxRadius, houghFilter->GetMaximumRadius() );
+  ITK_TEST_SET_GET_VALUE( minMaxRadius, houghFilter->GetMinimumRadius() );
+  ITK_TEST_SET_GET_VALUE( minMaxRadius, houghFilter->GetMaximumRadius() );
 
   double minimumRadius = 2.1;
   houghFilter->SetMinimumRadius( minimumRadius );
-  TEST_SET_GET_VALUE( minimumRadius, houghFilter->GetMinimumRadius() );
+  ITK_TEST_SET_GET_VALUE( minimumRadius, houghFilter->GetMinimumRadius() );
 
   double maximumRadius = 20.4;
   houghFilter->SetMaximumRadius( maximumRadius );
-  TEST_SET_GET_VALUE( maximumRadius, houghFilter->GetMaximumRadius() );
+  ITK_TEST_SET_GET_VALUE( maximumRadius, houghFilter->GetMaximumRadius() );
 
   const double gradientNormThreshold = 1.1;
   houghFilter->SetGradientNormThreshold(gradientNormThreshold);
-  TEST_SET_GET_VALUE(gradientNormThreshold, houghFilter->GetGradientNormThreshold());
+  ITK_TEST_SET_GET_VALUE(gradientNormThreshold, houghFilter->GetGradientNormThreshold());
 
   double sigmaGradient = 1.2;
   houghFilter->SetSigmaGradient( sigmaGradient );
-  TEST_SET_GET_VALUE( sigmaGradient, houghFilter->GetSigmaGradient() );
+  ITK_TEST_SET_GET_VALUE( sigmaGradient, houghFilter->GetSigmaGradient() );
 
   float discRadiusRatio = 1.1;
   houghFilter->SetDiscRadiusRatio( discRadiusRatio );
-  TEST_SET_GET_VALUE( discRadiusRatio, houghFilter->GetDiscRadiusRatio() );
+  ITK_TEST_SET_GET_VALUE( discRadiusRatio, houghFilter->GetDiscRadiusRatio() );
 
   float variance = 10;
   houghFilter->SetVariance( variance );
-  TEST_SET_GET_VALUE( variance, houghFilter->GetVariance() );
+  ITK_TEST_SET_GET_VALUE( variance, houghFilter->GetVariance() );
 
   float sweepAngle = 0.2;
   houghFilter->SetSweepAngle( sweepAngle );
-  TEST_SET_GET_VALUE( sweepAngle, houghFilter->GetSweepAngle() );
+  ITK_TEST_SET_GET_VALUE( sweepAngle, houghFilter->GetSweepAngle() );
 
   auto numberOfCircles = static_cast< HoughTransformFilterType::CirclesListSizeType >( circles );
   houghFilter->SetNumberOfCircles( numberOfCircles );
-  TEST_SET_GET_VALUE( numberOfCircles, houghFilter->GetNumberOfCircles() );
+  ITK_TEST_SET_GET_VALUE( numberOfCircles, houghFilter->GetNumberOfCircles() );
 
   bool useImageSpacing = false;
   houghFilter->SetUseImageSpacing( useImageSpacing );
-  TEST_SET_GET_VALUE( useImageSpacing, houghFilter->GetUseImageSpacing() );
+  ITK_TEST_SET_GET_VALUE( useImageSpacing, houghFilter->GetUseImageSpacing() );
 
   houghFilter->SetInput( caster->GetOutput() );
 
-  TRY_EXPECT_EXCEPTION( houghFilter->GetCircles() );
+  ITK_TRY_EXPECT_EXCEPTION( houghFilter->GetCircles() );
 
   houghFilter->Update();
 

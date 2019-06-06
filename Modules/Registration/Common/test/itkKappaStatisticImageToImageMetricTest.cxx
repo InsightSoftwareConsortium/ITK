@@ -101,19 +101,19 @@ int itkKappaStatisticImageToImageMetricTest(int, char* [] )
 
   MetricType::Pointer metric = MetricType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( metric, KappaStatisticImageToImageMetric,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( metric, KappaStatisticImageToImageMetric,
     ImageToImageMetric );
 
   MetricType::RealType foregroundValue = 255;
   metric->SetForegroundValue( foregroundValue );
-  TEST_SET_GET_VALUE( foregroundValue, metric->GetForegroundValue() );
+  ITK_TEST_SET_GET_VALUE( foregroundValue, metric->GetForegroundValue() );
 
   bool useComplement = false;
   metric->SetComplement( useComplement );
-  TEST_SET_GET_VALUE( useComplement, metric->GetComplement() );
+  ITK_TEST_SET_GET_VALUE( useComplement, metric->GetComplement() );
 
   metric->ComplementOff();
-  TEST_SET_GET_VALUE( false, metric->GetComplement() );
+  ITK_TEST_SET_GET_VALUE( false, metric->GetComplement() );
 
   transform->SetIdentity();
   metric->SetTransform( transform );
@@ -122,23 +122,23 @@ int itkKappaStatisticImageToImageMetricTest(int, char* [] )
 
   // Test error conditions
   //
-  TRY_EXPECT_EXCEPTION( metric->GetValue( parameters ) );
+  ITK_TRY_EXPECT_EXCEPTION( metric->GetValue( parameters ) );
 
   metric->SetFixedImage( fixedImage );
 
-  TRY_EXPECT_EXCEPTION( metric->GetValue( parameters ) );
+  ITK_TRY_EXPECT_EXCEPTION( metric->GetValue( parameters ) );
 
   metric->SetMovingImage( movingImage );
   metric->SetInterpolator( interpolator );
   metric->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
 
   MetricType::DerivativeType derivative;
-  TRY_EXPECT_EXCEPTION( metric->GetDerivative( parameters, derivative ) );
+  ITK_TRY_EXPECT_EXCEPTION( metric->GetDerivative( parameters, derivative ) );
 
-  TRY_EXPECT_NO_EXCEPTION( metric->Initialize() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( metric->Initialize() );
 
   metric->SetFixedImage( nullptr );
-  TRY_EXPECT_EXCEPTION( metric->GetDerivative( parameters, derivative ) );
+  ITK_TRY_EXPECT_EXCEPTION( metric->GetDerivative( parameters, derivative ) );
 
   metric->SetFixedImage( fixedImage );
 
@@ -281,10 +281,10 @@ int itkKappaStatisticImageToImageMetricTest(int, char* [] )
   //
   useComplement = true;
   metric->SetComplement( useComplement );
-  TEST_SET_GET_VALUE( useComplement, metric->GetComplement() );
+  ITK_TEST_SET_GET_VALUE( useComplement, metric->GetComplement() );
 
   metric->ComplementOn();
-  TEST_SET_GET_VALUE( true, metric->GetComplement() );
+  ITK_TEST_SET_GET_VALUE( true, metric->GetComplement() );
 
   // The value 0.379247 was computed by hand
   expectedMatchMeasure = 0.379247;

@@ -148,7 +148,7 @@ int RunTest( InputImageType* fixedImage, InputImageType* movingImage,
 
   ImageMetricLoadType::Pointer load = ImageMetricLoadType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( load, FiniteDifferenceFunctionLoad,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( load, FiniteDifferenceFunctionLoad,
     LoadElement );
 
   itk::PDEDeformableRegistrationFunction<
@@ -199,24 +199,24 @@ int RunTest( InputImageType* fixedImage, InputImageType* movingImage,
     }
 
   // SetMetric() must to be called after SetDisplacementField()!!
-  TRY_EXPECT_EXCEPTION( load->SetMetric( metric ) );
+  ITK_TRY_EXPECT_EXCEPTION( load->SetMetric( metric ) );
 
-  TRY_EXPECT_EXCEPTION( load->InitializeMetric() );
+  ITK_TRY_EXPECT_EXCEPTION( load->InitializeMetric() );
 
 
   load->SetMovingImage( movingImage );
-  TEST_SET_GET_VALUE( movingImage, load->GetMovingImage() );
+  ITK_TEST_SET_GET_VALUE( movingImage, load->GetMovingImage() );
 
   load->SetFixedImage( fixedImage );
-  TEST_SET_GET_VALUE( fixedImage, load->GetFixedImage() );
+  ITK_TEST_SET_GET_VALUE( fixedImage, load->GetFixedImage() );
 
   load->SetDisplacementField( initField );
-  TEST_SET_GET_VALUE( initField, load->GetDisplacementField() );
+  ITK_TEST_SET_GET_VALUE( initField, load->GetDisplacementField() );
 
 
-  TRY_EXPECT_NO_EXCEPTION( load->SetMetric( metric ) );
+  ITK_TRY_EXPECT_NO_EXCEPTION( load->SetMetric( metric ) );
 
-  TRY_EXPECT_NO_EXCEPTION( load->InitializeMetric() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( load->InitializeMetric() );
 
 
   ImageMetricLoadType::RadiusType radius;
@@ -225,15 +225,15 @@ int RunTest( InputImageType* fixedImage, InputImageType* movingImage,
     radius[i] = 2;
     }
   load->SetMetricRadius( radius );
-  TEST_SET_GET_VALUE( radius, load->GetMetricRadius() );
+  ITK_TEST_SET_GET_VALUE( radius, load->GetMetricRadius() );
 
   ImageMetricLoadType::Float gamma = 1.;
   load->SetGamma( gamma );
-  //TEST_SET_GET_VALUE( gamma, load->GetGamma() );
+  //ITK_TEST_SET_GET_VALUE( gamma, load->GetGamma() );
 
   unsigned int numberOfIntegrationPoints = 1;
   load->SetNumberOfIntegrationPoints( numberOfIntegrationPoints );
-  TEST_SET_GET_VALUE( numberOfIntegrationPoints,
+  ITK_TEST_SET_GET_VALUE( numberOfIntegrationPoints,
     load->GetNumberOfIntegrationPoints() );
 
   load->PrintCurrentEnergy();
@@ -292,7 +292,7 @@ int RunTest( InputImageType* fixedImage, InputImageType* movingImage,
   itk::fem::LinearSystemWrapper::Pointer femSolution =
     solver->GetLinearSystemWrapper();
   load->SetSolution( femSolution );
-  TEST_SET_GET_VALUE( femSolution, load->GetSolution() );
+  ITK_TEST_SET_GET_VALUE( femSolution, load->GetSolution() );
 
 
   Element2DType::VectorType force;

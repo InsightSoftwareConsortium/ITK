@@ -58,7 +58,7 @@ int itkCropImageFilterTest( int, char* [] )
   itk::CropImageFilter< ImageType, ImageType >::Pointer cropFilter =
     itk::CropImageFilter< ImageType, ImageType >::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( cropFilter, CropImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( cropFilter, CropImageFilter,
     ExtractImageFilter );
 
   itk::SimpleFilterWatcher watcher( cropFilter );
@@ -74,10 +74,10 @@ int itkCropImageFilterTest( int, char* [] )
   cropFilter->SetBoundaryCropSize( extractSize );
 
   cropFilter->SetUpperBoundaryCropSize( extractSize );
-  TEST_SET_GET_VALUE( extractSize, cropFilter->GetUpperBoundaryCropSize() );
+  ITK_TEST_SET_GET_VALUE( extractSize, cropFilter->GetUpperBoundaryCropSize() );
 
   cropFilter->SetLowerBoundaryCropSize( extractSize );
-  TEST_SET_GET_VALUE( extractSize, cropFilter->GetLowerBoundaryCropSize() );
+  ITK_TEST_SET_GET_VALUE( extractSize, cropFilter->GetLowerBoundaryCropSize() );
 
   cropFilter->UpdateLargestPossibleRegion();
 

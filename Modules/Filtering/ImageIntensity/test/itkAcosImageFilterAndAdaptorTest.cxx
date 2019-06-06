@@ -92,7 +92,7 @@ int itkAcosImageFilterAndAdaptorTest( int, char* [] )
   // Create the Filter
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, AcosImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, AcosImageFilter,
     UnaryGeneratorImageFilter );
 
   itk::SimpleFilterWatcher watch(filter);
@@ -142,7 +142,7 @@ int itkAcosImageFilterAndAdaptorTest( int, char* [] )
 
   AdaptorType::Pointer acosAdaptor = AdaptorType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( acosAdaptor, AcosImageAdaptor,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( acosAdaptor, AcosImageAdaptor,
     ImageAdaptor );
 
   acosAdaptor->SetImage( inputImage );

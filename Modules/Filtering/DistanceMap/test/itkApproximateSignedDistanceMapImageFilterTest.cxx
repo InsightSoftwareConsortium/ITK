@@ -99,18 +99,18 @@ int itkApproximateSignedDistanceMapImageFilterTest( int argc, char* argv[] )
   DistanceMapFilterType::Pointer signedDistanceMapFilter =
     DistanceMapFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( signedDistanceMapFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( signedDistanceMapFilter,
     ApproximateSignedDistanceMapImageFilter, ImageToImageFilter );
 
   signedDistanceMapFilter->SetInput( image );
 
   signedDistanceMapFilter->SetInsideValue( insideValue );
-  TEST_SET_GET_VALUE( insideValue, signedDistanceMapFilter->GetInsideValue() );
+  ITK_TEST_SET_GET_VALUE( insideValue, signedDistanceMapFilter->GetInsideValue() );
 
   signedDistanceMapFilter->SetOutsideValue( outsideValue );
-  TEST_SET_GET_VALUE( outsideValue, signedDistanceMapFilter->GetOutsideValue() );
+  ITK_TEST_SET_GET_VALUE( outsideValue, signedDistanceMapFilter->GetOutsideValue() );
 
-  TRY_EXPECT_NO_EXCEPTION( signedDistanceMapFilter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( signedDistanceMapFilter->Update() );
 
 
   // Write the output image
@@ -121,7 +121,7 @@ int itkApproximateSignedDistanceMapImageFilterTest( int argc, char* argv[] )
   rescaler->SetInput( signedDistanceMapFilter->GetOutput() );
   rescaler->SetScale( 1000 );
 
-  TRY_EXPECT_NO_EXCEPTION( rescaler->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( rescaler->Update() );
 
 
   if( rescaler->GetUnderflowCount() + rescaler->GetOverflowCount() > 0 )
@@ -139,7 +139,7 @@ int itkApproximateSignedDistanceMapImageFilterTest( int argc, char* argv[] )
   writer->SetFileName( argv[2] );
 
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
 
   OutputPixelType maxDistance = 0;

@@ -82,7 +82,7 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[] )
 
   SphereFunctionType::Pointer sphere     = SphereFunctionType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, GeodesicActiveContourShapePriorLevelSetImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, GeodesicActiveContourShapePriorLevelSetImageFilter,
     ShapePriorSegmentationLevelSetImageFilter );
 
   ImageType::SizeType imageSize;

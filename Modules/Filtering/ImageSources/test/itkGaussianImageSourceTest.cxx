@@ -59,23 +59,23 @@ int itkGaussianImageSourceTest( int argc, char* argv[] )
   gaussianImage->SetSize( size );
   for( unsigned int i = 0; i < Dimension; ++i)
     {
-    TEST_SET_GET_VALUE( size[i], gaussianImage->GetSize()[i] );
+    ITK_TEST_SET_GET_VALUE( size[i], gaussianImage->GetSize()[i] );
     }
 
   gaussianImage->SetOrigin( origin );
   for( unsigned int i = 0; i < Dimension; ++i)
     {
-    TEST_SET_GET_VALUE( origin[i], gaussianImage->GetOrigin()[i] );
+    ITK_TEST_SET_GET_VALUE( origin[i], gaussianImage->GetOrigin()[i] );
     }
 
   gaussianImage->SetSpacing( spacing );
   for( unsigned int i = 0; i < Dimension; ++i)
     {
-    TEST_SET_GET_VALUE( spacing[i], gaussianImage->GetSpacing()[i] );
+    ITK_TEST_SET_GET_VALUE( spacing[i], gaussianImage->GetSpacing()[i] );
     }
 
   gaussianImage->SetDirection( direction );
-  TEST_SET_GET_VALUE( direction, gaussianImage->GetDirection() );
+  ITK_TEST_SET_GET_VALUE( direction, gaussianImage->GetDirection() );
 
   // Test SetReferenceImage from GenerateImageSource base class.
   ImageType::Pointer referenceImage = ImageType::New();
@@ -93,20 +93,20 @@ int itkGaussianImageSourceTest( int argc, char* argv[] )
   referenceImage->SetDirection( direction );
   gaussianImage->SetReferenceImage( referenceImage );
   bool useReferenceImage = true;
-  TEST_SET_GET_BOOLEAN( gaussianImage, UseReferenceImage, useReferenceImage );
+  ITK_TEST_SET_GET_BOOLEAN( gaussianImage, UseReferenceImage, useReferenceImage );
   gaussianImage->SetReferenceImage( referenceImage );
-  TEST_SET_GET_VALUE( referenceImage, gaussianImage->GetReferenceImage() );
+  ITK_TEST_SET_GET_VALUE( referenceImage, gaussianImage->GetReferenceImage() );
 
   gaussianImage->SetOutputParametersFromImage( referenceImage );
 
   bool normalized = std::stoi( argv[2] ) != 0;
-  TEST_SET_GET_BOOLEAN( gaussianImage, Normalized, normalized );
+  ITK_TEST_SET_GET_BOOLEAN( gaussianImage, Normalized, normalized );
 
   gaussianImage->SetMean( mean );
-  TEST_SET_GET_VALUE( mean, gaussianImage->GetMean() );
+  ITK_TEST_SET_GET_VALUE( mean, gaussianImage->GetMean() );
 
   gaussianImage->SetSigma( sigma );
-  TEST_SET_GET_VALUE( sigma, gaussianImage->GetSigma() );
+  ITK_TEST_SET_GET_VALUE( sigma, gaussianImage->GetSigma() );
 
 
   // Check the parameters
@@ -183,7 +183,7 @@ int itkGaussianImageSourceTest( int argc, char* argv[] )
   itk::SimpleFilterWatcher watcher( gaussianImage, "GaussianImageSource" );
 
   // Run the pipeline
-  TRY_EXPECT_NO_EXCEPTION( gaussianImage->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( gaussianImage->Update() );
 
 
   // Get the output of the image source
@@ -198,7 +198,7 @@ int itkGaussianImageSourceTest( int argc, char* argv[] )
 
   writer->SetInput( outputImage );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;

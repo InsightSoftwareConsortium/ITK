@@ -252,9 +252,9 @@ int itkRigid2DTransformTest(int ,char * [] )
 
     rotation->SetMatrix( mrotation );
 
-    TRY_EXPECT_NO_EXCEPTION( rotation->SetMatrix( mrotation, 1e-8 ) );
+    ITK_TRY_EXPECT_NO_EXCEPTION( rotation->SetMatrix( mrotation, 1e-8 ) );
     mrotation[0][0] += 1e-7;
-    TRY_EXPECT_EXCEPTION( rotation->SetMatrix( mrotation, 1e-8 ) );
+    ITK_TRY_EXPECT_EXCEPTION( rotation->SetMatrix( mrotation, 1e-8 ) );
     mrotation[0][0] -= 1e-7;
 
     TransformType::OffsetType ioffset;

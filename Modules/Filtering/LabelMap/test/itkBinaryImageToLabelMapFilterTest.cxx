@@ -54,7 +54,7 @@ int itkBinaryImageToLabelMapFilterTest( int argc, char * argv [] )
   using ImageToLabelType = itk::BinaryImageToLabelMapFilter< ImageType, LabelMapType >;
   ImageToLabelType::Pointer imageToLabel = ImageToLabelType::New();
   // test the behavior without input
-  TRY_EXPECT_EXCEPTION( imageToLabel->Update() );
+  ITK_TRY_EXPECT_EXCEPTION( imageToLabel->Update() );
   imageToLabel->ResetPipeline();
 
   imageToLabel->SetFullyConnected( std::stoi(argv[3]) );
@@ -81,11 +81,11 @@ int itkBinaryImageToLabelMapFilterTest( int argc, char * argv [] )
 
   if( expectfailure )
     {
-    TRY_EXPECT_EXCEPTION( writer->Update() );
+    ITK_TRY_EXPECT_EXCEPTION( writer->Update() );
     }
   else
     {
-    TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+    ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
     }
 
   imageToLabel->GetOutput()->PrintLabelObjects();

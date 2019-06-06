@@ -47,7 +47,7 @@ int itkBMPImageIOTest3( int argc, char* argv[] )
 
   itk::BMPImageIO::Pointer lowerLeftImageIO = itk::BMPImageIO::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( lowerLeftImageIO, BMPImageIO, ImageIOBase );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( lowerLeftImageIO, BMPImageIO, ImageIOBase );
 
   lowerLeftImageReader->SetImageIO( lowerLeftImageIO );
   lowerLeftImageReader->SetFileName( argv[1] );
@@ -56,14 +56,14 @@ int itkBMPImageIOTest3( int argc, char* argv[] )
 
   itk::BMPImageIO::Pointer upperLeftImageIO = itk::BMPImageIO::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( lowerLeftImageIO, BMPImageIO, ImageIOBase );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( lowerLeftImageIO, BMPImageIO, ImageIOBase );
 
   upperLeftImageReader->SetImageIO( upperLeftImageIO );
   upperLeftImageReader->SetFileName( argv[2] );
 
-  TRY_EXPECT_NO_EXCEPTION( lowerLeftImageReader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( lowerLeftImageReader->Update() );
 
-  TRY_EXPECT_NO_EXCEPTION( upperLeftImageReader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( upperLeftImageReader->Update() );
 
 
   if( !lowerLeftImageIO->GetFileLowerLeft() )

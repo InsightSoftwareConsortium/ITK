@@ -200,7 +200,7 @@ int PerformCompositeImageRegistration( int itkNotUsed( argc ), char *argv[] )
 
   using GradientDescentOptimizerv4Type = itk::GradientDescentOptimizerv4;
   auto * rigidOptimizer = dynamic_cast<GradientDescentOptimizerv4Type *>( rigidRegistration->GetModifiableOptimizer() );
-  TEST_EXPECT_TRUE( rigidOptimizer != nullptr );
+  ITK_TEST_EXPECT_TRUE( rigidOptimizer != nullptr );
   rigidOptimizer->SetLearningRate( 0.1 );
 #ifdef NDEBUG
   rigidOptimizer->SetNumberOfIterations( 100 );
@@ -254,7 +254,7 @@ int PerformCompositeImageRegistration( int itkNotUsed( argc ), char *argv[] )
 
   using GradientDescentOptimizerv4Type = itk::GradientDescentOptimizerv4;
   auto * affineOptimizer = dynamic_cast<GradientDescentOptimizerv4Type *>( affineRegistration->GetModifiableOptimizer() );
-  TEST_EXPECT_TRUE( affineOptimizer != nullptr );
+  ITK_TEST_EXPECT_TRUE( affineOptimizer != nullptr );
   affineOptimizer->SetLearningRate( 0.1 );
 #ifdef NDEBUG
   affineOptimizer->SetNumberOfIterations( 100 );

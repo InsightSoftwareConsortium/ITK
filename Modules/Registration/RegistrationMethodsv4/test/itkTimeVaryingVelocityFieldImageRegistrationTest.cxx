@@ -137,7 +137,7 @@ int PerformTimeVaryingVelocityFieldImageRegistration( int argc, char *argv[] )
   // Set the number of iterations
   using GradientDescentOptimizerv4Type = itk::GradientDescentOptimizerv4;
   auto * optimizer = dynamic_cast<GradientDescentOptimizerv4Type *>( affineSimple->GetModifiableOptimizer() );
-  TEST_EXPECT_TRUE( optimizer != nullptr );
+  ITK_TEST_EXPECT_TRUE( optimizer != nullptr );
   optimizer->SetNumberOfIterations( numberOfAffineIterations );
   std::cout << "number of affine iterations: " << numberOfAffineIterations << std::endl;
 

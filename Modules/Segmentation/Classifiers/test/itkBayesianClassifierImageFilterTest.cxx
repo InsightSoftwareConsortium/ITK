@@ -47,7 +47,7 @@ int TestBayesianClassifierImageFilterWithNoPriors( typename TInputImage::Pointer
   bayesianClassifier->SetInput( bayesianInitializer->GetOutput() );
 
   bayesianClassifier->SetNumberOfSmoothingIterations( numberOfSmoothingIterations );
-  TEST_SET_GET_VALUE( numberOfSmoothingIterations, bayesianClassifier->GetNumberOfSmoothingIterations() );
+  ITK_TEST_SET_GET_VALUE( numberOfSmoothingIterations, bayesianClassifier->GetNumberOfSmoothingIterations() );
 
   using ExtractedComponentImageType = typename BayesianClassifierFilterType::ExtractedComponentImageType;
   using SmoothingFilterType = itk::GradientAnisotropicDiffusionImageFilter<
@@ -58,7 +58,7 @@ int TestBayesianClassifierImageFilterWithNoPriors( typename TInputImage::Pointer
   smoother->SetConductanceParameter( 3 );
 
   bayesianClassifier->SetSmoothingFilter( smoother );
-  TEST_SET_GET_VALUE( smoother, bayesianClassifier->GetSmoothingFilter().GetPointer() );
+  ITK_TEST_SET_GET_VALUE( smoother, bayesianClassifier->GetSmoothingFilter().GetPointer() );
 
 
   using MonitorFilterType = itk::PipelineMonitorImageFilter< TInputImage >;
@@ -82,7 +82,7 @@ int TestBayesianClassifierImageFilterWithNoPriors( typename TInputImage::Pointer
 
   writer->SetInput( rescaler->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   if (!monitor->VerifyAllInputCanNotStream())
     {
@@ -115,7 +115,7 @@ int TestBayesianClassifierImageFilterWithPriors( typename TInputImage::Pointer i
   bayesianClassifier->SetPriors( priorsImage );
 
   bayesianClassifier->SetNumberOfSmoothingIterations( numberOfSmoothingIterations );
-  TEST_SET_GET_VALUE( numberOfSmoothingIterations, bayesianClassifier->GetNumberOfSmoothingIterations() );
+  ITK_TEST_SET_GET_VALUE( numberOfSmoothingIterations, bayesianClassifier->GetNumberOfSmoothingIterations() );
 
   using ExtractedComponentImageType = typename BayesianClassifierFilterType::ExtractedComponentImageType;
   using SmoothingFilterType = itk::GradientAnisotropicDiffusionImageFilter<
@@ -126,7 +126,7 @@ int TestBayesianClassifierImageFilterWithPriors( typename TInputImage::Pointer i
   smoother->SetConductanceParameter( 3 );
 
   bayesianClassifier->SetSmoothingFilter( smoother );
-  TEST_SET_GET_VALUE( smoother, bayesianClassifier->GetSmoothingFilter().GetPointer() );
+  ITK_TEST_SET_GET_VALUE( smoother, bayesianClassifier->GetSmoothingFilter().GetPointer() );
 
 
   using MonitorFilterType = itk::PipelineMonitorImageFilter< TInputImage >;
@@ -150,7 +150,7 @@ int TestBayesianClassifierImageFilterWithPriors( typename TInputImage::Pointer i
 
   writer->SetInput( rescaler->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   if (!monitor->VerifyAllInputCanNotStream())
     {
@@ -183,14 +183,14 @@ int itkBayesianClassifierImageFilterTest( int argc, char* argv[] )
 
   BayesianInitializerType::Pointer bayesianInitializer = BayesianInitializerType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( bayesianInitializer,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( bayesianInitializer,
     BayesianClassifierInitializationImageFilter, ImageToImageFilter );
 
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
   ReaderType::OutputImageType::Pointer inputImage = reader->GetOutput();
 
@@ -211,7 +211,7 @@ int itkBayesianClassifierImageFilterTest( int argc, char* argv[] )
 
   BayesianClassifierFilterType::Pointer bayesianClassifier = BayesianClassifierFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( bayesianClassifier,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( bayesianClassifier,
     BayesianClassifierImageFilter, ImageToImageFilter );
 
   bool testStatus = EXIT_SUCCESS;
@@ -265,7 +265,7 @@ int itkBayesianClassifierImageFilterTest( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, BayesianClassifierImageFilter, ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, BayesianClassifierImageFilter, ImageToImageFilter );
   }
 
   {
@@ -284,7 +284,7 @@ int itkBayesianClassifierImageFilterTest( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, BayesianClassifierImageFilter, ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, BayesianClassifierImageFilter, ImageToImageFilter );
   }
 
   {
@@ -303,7 +303,7 @@ int itkBayesianClassifierImageFilterTest( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, BayesianClassifierImageFilter, ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, BayesianClassifierImageFilter, ImageToImageFilter );
   }
 
   std::cout << "Test passed." << std::endl;

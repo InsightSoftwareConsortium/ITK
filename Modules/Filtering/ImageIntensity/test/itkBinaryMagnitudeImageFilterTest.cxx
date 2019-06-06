@@ -116,7 +116,7 @@ int itkBinaryMagnitudeImageFilterTest( int, char* [] )
   // Create the BinaryMagnitudeImageFilter
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, BinaryMagnitudeImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, BinaryMagnitudeImageFilter,
     BinaryGeneratorImageFilter );
 
   // Set the input images

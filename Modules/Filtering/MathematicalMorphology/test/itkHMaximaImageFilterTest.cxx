@@ -53,7 +53,7 @@ int itkHMaximaImageFilterTest( int argc, char * argv[] )
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
 
   // Define the itk::HMaximaImageFilter filter type
@@ -64,7 +64,7 @@ int itkHMaximaImageFilterTest( int argc, char * argv[] )
   // Create the filter
   HMaximaFilterType::Pointer hMaximaFilter = HMaximaFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( hMaximaFilter, HMaximaImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( hMaximaFilter, HMaximaImageFilter,
     ImageToImageFilter );
 
   itk::SimpleFilterWatcher watchHMaxima( hMaximaFilter, "HMaximaImageFilter" );
@@ -73,16 +73,16 @@ int itkHMaximaImageFilterTest( int argc, char * argv[] )
   auto height = static_cast< HMaximaFilterType::InputImagePixelType >( std::stod( argv[3] ) );
 
   hMaximaFilter->SetHeight( height );
-  TEST_SET_GET_VALUE( height, hMaximaFilter->GetHeight() );
+  ITK_TEST_SET_GET_VALUE( height, hMaximaFilter->GetHeight() );
 
   auto fullyConnected = static_cast< bool >( std::stod( argv[4] ) );
-  TEST_SET_GET_BOOLEAN( hMaximaFilter, FullyConnected, fullyConnected );
+  ITK_TEST_SET_GET_BOOLEAN( hMaximaFilter, FullyConnected, fullyConnected );
 
 
   hMaximaFilter->SetInput( reader->GetOutput() );
 
   // Run the filter
-  TRY_EXPECT_NO_EXCEPTION( hMaximaFilter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( hMaximaFilter->Update() );
 
 
   // Write the output
@@ -91,7 +91,7 @@ int itkHMaximaImageFilterTest( int argc, char * argv[] )
   writer->SetFileName( argv[2] );
   writer->SetInput( hMaximaFilter->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
 
   std::cout << "Test finished." << std::endl;

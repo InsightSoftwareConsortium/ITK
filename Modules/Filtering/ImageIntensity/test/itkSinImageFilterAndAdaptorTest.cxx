@@ -91,7 +91,7 @@ int itkSinImageFilterAndAdaptorTest( int, char* [] )
   // Create the Filter
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, SinImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, SinImageFilter,
     UnaryGeneratorImageFilter );
 
   // Set the input image
@@ -139,7 +139,7 @@ int itkSinImageFilterAndAdaptorTest( int, char* [] )
 
   AdaptorType::Pointer sinAdaptor = AdaptorType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( sinAdaptor, SinImageAdaptor,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( sinAdaptor, SinImageAdaptor,
     ImageAdaptor );
 
   sinAdaptor->SetImage( inputImage );

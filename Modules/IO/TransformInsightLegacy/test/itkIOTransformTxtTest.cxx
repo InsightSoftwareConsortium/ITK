@@ -245,7 +245,7 @@ templatelessTest( const std::string & outputDirectory )
   itk::TransformFileWriter::Pointer writer = itk::TransformFileWriter::New();
   writer->SetInput( transform );
   writer->SetFileName( outputFile );
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

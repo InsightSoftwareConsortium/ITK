@@ -50,7 +50,7 @@ int itkPNGImageIOTest( int argc, char * argv[] )
   // Read in the image
   itk::PNGImageIO::Pointer io = itk::PNGImageIO::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( io, PNGImageIO, ImageIOBase );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( io, PNGImageIO, ImageIOBase );
 
 
   // Exercise exception cases
@@ -58,18 +58,18 @@ int itkPNGImageIOTest( int argc, char * argv[] )
     ( io->GetComponentSize() * io->GetNumberOfComponents() );
   auto * loadBuffer = new char[sizeOfActualIORegion];
 
-  TRY_EXPECT_EXCEPTION( io->Read( loadBuffer ) );
+  ITK_TRY_EXPECT_EXCEPTION( io->Read( loadBuffer ) );
 
 
   auto useCompression = static_cast< bool >( std::stoi( argv[3] ) );
-  TEST_SET_GET_BOOLEAN( io, UseCompression, useCompression );
+  ITK_TEST_SET_GET_BOOLEAN( io, UseCompression, useCompression );
 
   int compressionLevel = std::stoi( argv[4] );
   io->SetCompressionLevel( compressionLevel );
-  TEST_SET_GET_VALUE( compressionLevel, io->GetCompressionLevel() );
+  ITK_TEST_SET_GET_VALUE( compressionLevel, io->GetCompressionLevel() );
 
   auto expandRGBPalette = static_cast< bool >( argv[5] );
-  TEST_SET_GET_BOOLEAN( io, ExpandRGBPalette, expandRGBPalette );
+  ITK_TEST_SET_GET_BOOLEAN( io, ExpandRGBPalette, expandRGBPalette );
 
   if( io->CanReadFile( "" ) )
     {
@@ -108,7 +108,7 @@ int itkPNGImageIOTest( int argc, char * argv[] )
     itk::ImageFileReader< RGBImageType >::New();
   reader->SetFileName( argv[1] );
   reader->SetImageIO( io );
-  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
   if( io->GetExpandRGBPalette() )
     {
@@ -141,7 +141,7 @@ int itkPNGImageIOTest( int argc, char * argv[] )
   writer->SetFileName( argv[2] );
   writer->SetImageIO( io );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Write() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Write() );
 
 
   // Release memory
@@ -194,7 +194,7 @@ int itkPNGImageIOTest( int argc, char * argv[] )
 
   writer3D->SetInput( volume );
 
-  TRY_EXPECT_NO_EXCEPTION( writer3D->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer3D->Update() );
 
 
   //
@@ -213,7 +213,7 @@ int itkPNGImageIOTest( int argc, char * argv[] )
   writer3D->SetImageIO( io );
   writer3D->SetInput( degenerateVolume );
 
-  TRY_EXPECT_NO_EXCEPTION( writer3D->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer3D->Update() );
 
 
   //
@@ -240,7 +240,7 @@ int itkPNGImageIOTest( int argc, char * argv[] )
   writer2D->SetImageIO(io);
   writer2D->SetInput( image );
 
-  TRY_EXPECT_NO_EXCEPTION( writer2D->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer2D->Update() );
 
 
   //
@@ -259,7 +259,7 @@ int itkPNGImageIOTest( int argc, char * argv[] )
   writer2D->SetImageIO( io );
   writer2D->SetInput( degenerateImage );
 
-  TRY_EXPECT_NO_EXCEPTION( writer2D->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer2D->Update() );
 
   //
   // 1D image
@@ -284,7 +284,7 @@ int itkPNGImageIOTest( int argc, char * argv[] )
   writer1D->SetImageIO( io );
   writer1D->SetInput( line );
 
-  TRY_EXPECT_NO_EXCEPTION( writer1D->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer1D->Update() );
 
 
   std::cout << "Test finished" << std::endl;

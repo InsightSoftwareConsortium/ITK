@@ -79,7 +79,7 @@ int TestUnknowMetaDataBug( const std::string &fname )
     std::string readHash = hasher->GetHash();
     std::cout << "\tRead hash: " << readHash << std::endl;
 
-    TEST_EXPECT_EQUAL( originalHash, readHash );
+    ITK_TEST_EXPECT_EQUAL( originalHash, readHash );
     }
   catch ( std::exception &e )
     {

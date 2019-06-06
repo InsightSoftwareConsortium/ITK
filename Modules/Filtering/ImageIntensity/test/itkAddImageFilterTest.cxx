@@ -99,7 +99,7 @@ int itkAddImageFilterTest( int, char* [] )
   // Create the filter
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, AddImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, AddImageFilter,
     BinaryGeneratorImageFilter );
 
   // Connect the input images
@@ -108,7 +108,7 @@ int itkAddImageFilterTest( int, char* [] )
 
 
   // Execute the filter
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
 
   // Get the filter output
@@ -145,7 +145,7 @@ int itkAddImageFilterTest( int, char* [] )
   using FilterType2 = itk::AddImageFilter< ImageType2, ImageType2, ImageType2 >;
   FilterType2::Pointer filter2 = FilterType2::New();
 
-  TEST_EXPECT_TRUE( !filter2.IsNull() );
+  ITK_TEST_EXPECT_TRUE( !filter2.IsNull() );
   }
 
   {
@@ -161,7 +161,7 @@ int itkAddImageFilterTest( int, char* [] )
 
   FilterType3::Pointer filter3 = FilterType3::New();
 
-  TEST_EXPECT_TRUE( !filter3.IsNull() );
+  ITK_TEST_EXPECT_TRUE( !filter3.IsNull() );
   }
 
 

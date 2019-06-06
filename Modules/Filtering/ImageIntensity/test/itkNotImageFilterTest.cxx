@@ -88,15 +88,15 @@ int itkNotImageFilterTest( int, char* [] )
   // Create the filter
   NotImageFilterType::Pointer filter = NotImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, NotImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, NotImageFilter,
     UnaryFunctorImageFilter );
 
   filter->SetForegroundValue(2);
-  TEST_SET_GET_VALUE( 2, filter->GetForegroundValue() );
+  ITK_TEST_SET_GET_VALUE( 2, filter->GetForegroundValue() );
   filter->SetForegroundValue(1);
 
   filter->SetBackgroundValue(10);
-  TEST_SET_GET_VALUE( 10, filter->GetBackgroundValue() );
+  ITK_TEST_SET_GET_VALUE( 10, filter->GetBackgroundValue() );
   filter->SetBackgroundValue(0);
 
   // Set the input images
@@ -121,7 +121,7 @@ int itkNotImageFilterTest( int, char* [] )
     {
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
-    TEST_EXPECT_EQUAL( input, !output );
+    ITK_TEST_EXPECT_EQUAL( input, !output );
     ++ot;
     ++it;
     }

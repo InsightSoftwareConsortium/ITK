@@ -73,13 +73,13 @@ int itkGrayscaleFillholeImageFilterTest( int argc, char * argv[] )
   // Create the filter
   FillholeFilterType::Pointer  fillhole = FillholeFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( fillhole, GrayscaleFillholeImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( fillhole, GrayscaleFillholeImageFilter,
     ImageToImageFilter );
 
   itk::SimpleFilterWatcher watcher(fillhole, "fillhole"); watcher.QuietOn();
 
   auto fullyConnected = static_cast< bool >( atoi( argv[3] ) );
-  TEST_SET_GET_BOOLEAN( fillhole, FullyConnected, fullyConnected );
+  ITK_TEST_SET_GET_BOOLEAN( fillhole, FullyConnected, fullyConnected );
 
   // Setup the input and output files
   reader->SetFileName( argv[1] );

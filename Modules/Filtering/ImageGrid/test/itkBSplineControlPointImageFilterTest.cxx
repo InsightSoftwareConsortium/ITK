@@ -61,20 +61,20 @@ int BSpline( int argc, char *argv[] )
 
   typename BSplinerType::ArrayType splineOrder = 3;
   bspliner->SetSplineOrder( 3 );
-  TEST_SET_GET_VALUE( splineOrder, bspliner->GetSplineOrder() );
+  ITK_TEST_SET_GET_VALUE( splineOrder, bspliner->GetSplineOrder() );
 
   bspliner->SetSize( size );
-  TEST_SET_GET_VALUE( size, bspliner->GetSize() );
+  ITK_TEST_SET_GET_VALUE( size, bspliner->GetSize() );
 
   bspliner->SetOrigin( origin );
-  TEST_SET_GET_VALUE( origin, bspliner->GetOrigin() );
+  ITK_TEST_SET_GET_VALUE( origin, bspliner->GetOrigin() );
 
   bspliner->SetSpacing( spacing );
-  TEST_SET_GET_VALUE( spacing, bspliner->GetSpacing() );
+  ITK_TEST_SET_GET_VALUE( spacing, bspliner->GetSpacing() );
 
   typename BSplinerType::DirectionType direction = reader->GetOutput()->GetDirection();
   bspliner->SetDirection( direction );
-  TEST_SET_GET_VALUE( direction, bspliner->GetDirection() );
+  ITK_TEST_SET_GET_VALUE( direction, bspliner->GetDirection() );
 
   try
     {
@@ -152,7 +152,7 @@ int itkBSplineControlPointImageFilterTest( int argc, char *argv[] )
     ScalarFieldType >;
   BSplinerType::Pointer bspliner = BSplinerType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( bspliner, BSplineControlPointImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( bspliner, BSplineControlPointImageFilter,
     ImageToImageFilter );
 
   int successOrFailure = EXIT_FAILURE;

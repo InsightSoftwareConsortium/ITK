@@ -71,7 +71,7 @@ int itkTIFFImageIOTestHelper( int, char * argv[] )
   reader->SetFileName( argv[1] );
   reader->SetImageIO( io );
 
-  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
   // Test 2 reads with only one ReadImageInformation
   TestMultipleReads< ImageType >( argv[1], nullptr );
@@ -89,7 +89,7 @@ int itkTIFFImageIOTestHelper( int, char * argv[] )
   writer->SetFileName(argv[2]);
   writer->SetImageIO(io);
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

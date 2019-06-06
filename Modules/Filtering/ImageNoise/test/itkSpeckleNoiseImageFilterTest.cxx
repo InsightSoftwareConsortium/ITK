@@ -45,7 +45,7 @@ int itkSpeckleNoiseImageFilterTest(int argc, char * argv[])
       itk::SpeckleNoiseImageFilter< ImageType, ImageType >;
   SpeckleNoiseImageFilterType::Pointer speckleNoiseImageFilter = SpeckleNoiseImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( speckleNoiseImageFilter, SpeckleNoiseImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( speckleNoiseImageFilter, SpeckleNoiseImageFilter,
     NoiseBaseImageFilter );
 
   double stdDev = 1.0;
@@ -54,7 +54,7 @@ int itkSpeckleNoiseImageFilterTest(int argc, char * argv[])
     stdDev = std::stod( argv[3] );
     }
   speckleNoiseImageFilter->SetStandardDeviation( stdDev );
-  TEST_SET_GET_VALUE( stdDev, speckleNoiseImageFilter->GetStandardDeviation() );
+  ITK_TEST_SET_GET_VALUE( stdDev, speckleNoiseImageFilter->GetStandardDeviation() );
 
   speckleNoiseImageFilter->SetInput( reader->GetOutput() );
 
@@ -65,7 +65,7 @@ int itkSpeckleNoiseImageFilterTest(int argc, char * argv[])
   writer->SetInput( speckleNoiseImageFilter->GetOutput() );
   writer->SetFileName( argv[2] );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

@@ -63,7 +63,7 @@ int itkScalarToRGBColormapImageFilterTest( int argc, char *argv[] )
   using RGBFilterType = itk::ScalarToRGBColormapImageFilter<ImageType, RGBImageType>;
   RGBFilterType::Pointer rgbfilter = RGBFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( rgbfilter, ScalarToRGBColormapImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( rgbfilter, ScalarToRGBColormapImageFilter,
     ImageToImageFilter );
 
   rgbfilter->SetInput( reader->GetOutput() );

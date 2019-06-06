@@ -133,7 +133,7 @@ int itkTernaryMagnitudeSquaredImageFilterTest( int, char* [] )
   // Create the filter
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, TernaryMagnitudeSquaredImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, TernaryMagnitudeSquaredImageFilter,
     TernaryFunctorImageFilter );
 
   // Set the input images

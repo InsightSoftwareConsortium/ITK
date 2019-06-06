@@ -144,7 +144,7 @@ int itkPolylineMaskImageFilterTest( int argc, char * argv[] )
   PolylineMaskImageFilterType::Pointer polylineMaskFilter =
     PolylineMaskImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( polylineMaskFilter, PolylineMaskImageFilter, ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( polylineMaskFilter, PolylineMaskImageFilter, ImageToImageFilter );
 
   // Set the input image
   polylineMaskFilter->SetInput1( imageGenerationFilter->GetOutput() );
@@ -155,12 +155,12 @@ int itkPolylineMaskImageFilterTest( int argc, char * argv[] )
   // Set the viewing direction vector
   polylineMaskFilter->SetViewVector( inputViewVector );
 
-  TEST_SET_GET_VALUE( inputViewVector, polylineMaskFilter->GetViewVector() );
+  ITK_TEST_SET_GET_VALUE( inputViewVector, polylineMaskFilter->GetViewVector() );
 
   // Set the up direction vector
   polylineMaskFilter->SetUpVector( inputUpVector );
 
-  TEST_SET_GET_VALUE( inputUpVector, polylineMaskFilter->GetUpVector() );
+  ITK_TEST_SET_GET_VALUE( inputUpVector, polylineMaskFilter->GetUpVector() );
 
   // Camera center point
   PointType cameraCenterPoint;
@@ -171,13 +171,13 @@ int itkPolylineMaskImageFilterTest( int argc, char * argv[] )
 
   polylineMaskFilter->SetCameraCenterPoint( cameraCenterPoint );
 
-  TEST_SET_GET_VALUE( cameraCenterPoint, polylineMaskFilter->GetCameraCenterPoint() );
+  ITK_TEST_SET_GET_VALUE( cameraCenterPoint, polylineMaskFilter->GetCameraCenterPoint() );
 
   // Set the camera focal distance
   double focalDistance = 30.0;
   polylineMaskFilter->SetFocalDistance( focalDistance );
 
-  TEST_SET_GET_VALUE( focalDistance, polylineMaskFilter->GetFocalDistance() );
+  ITK_TEST_SET_GET_VALUE( focalDistance, polylineMaskFilter->GetFocalDistance() );
 
   // Set the camera focal point in the projection plane
   ProjPlanePointType focalpoint;
@@ -185,7 +185,7 @@ int itkPolylineMaskImageFilterTest( int argc, char * argv[] )
   focalpoint[1] = 20.0;
   polylineMaskFilter->SetFocalPoint( focalpoint );
 
-  TEST_SET_GET_VALUE( focalpoint, polylineMaskFilter->GetFocalPoint() );
+  ITK_TEST_SET_GET_VALUE( focalpoint, polylineMaskFilter->GetFocalPoint() );
 
   polylineMaskFilter->Update();
 

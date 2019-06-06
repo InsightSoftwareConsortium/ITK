@@ -184,7 +184,7 @@ int itkVideoToVideoFilterTest( int, char* [] )
   DummyVideoToVideoFilter< InputVideoType, OutputVideoType >;
   VideoFilterType::Pointer filter = VideoFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, DummyVideoToVideoFilter, VideoToVideoFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, DummyVideoToVideoFilter, VideoToVideoFilter );
 
   // Set up an input video stream
   InputVideoType::Pointer inputVideo = InputVideoType::New();

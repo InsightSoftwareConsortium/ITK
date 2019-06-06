@@ -78,29 +78,29 @@ int itkWatershedImageFilterTest( int, char* [] )
   eq->SetInputImage( longimage2D );
 
   eq->SetEquivalencyTable( table );
-  TEST_SET_GET_VALUE( table, eq->GetEquivalencyTable() );
+  ITK_TEST_SET_GET_VALUE( table, eq->GetEquivalencyTable() );
 
 
-  TRY_EXPECT_NO_EXCEPTION( eq->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( eq->Update() );
 
   // Test WatershedMiniPipelineProgressCommand
   // Forcing the execution of the const Execute method which is not normally called.
   itk::WatershedMiniPipelineProgressCommand::Pointer wmppc =
     itk::WatershedMiniPipelineProgressCommand::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( wmppc, WatershedMiniPipelineProgressCommand,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( wmppc, WatershedMiniPipelineProgressCommand,
     Command );
 
   double count = 2.0;
   wmppc->SetCount( count );
-  TEST_SET_GET_VALUE( count, wmppc->GetCount() );
+  ITK_TEST_SET_GET_VALUE( count, wmppc->GetCount() );
 
   unsigned int numberOfFilters = 2;
   wmppc->SetNumberOfFilters( numberOfFilters );
-  TEST_SET_GET_VALUE( numberOfFilters, wmppc->GetNumberOfFilters() );
+  ITK_TEST_SET_GET_VALUE( numberOfFilters, wmppc->GetNumberOfFilters() );
 
   wmppc->SetFilter( eq );
-  TEST_SET_GET_VALUE( eq, wmppc->GetFilter() );
+  ITK_TEST_SET_GET_VALUE( eq, wmppc->GetFilter() );
 
   const itk::ProcessObject *constp = eq.GetPointer();
   wmppc->Execute( constp, itk::ProgressEvent() );
@@ -136,22 +136,22 @@ int itkWatershedImageFilterTest( int, char* [] )
   itk::WatershedImageFilter< ImageType2D >::Pointer watershedFilter =
     itk::WatershedImageFilter< ImageType2D >::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( watershedFilter, WatershedImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( watershedFilter, WatershedImageFilter,
     ImageToImageFilter );
 
   itk::SimpleFilterWatcher watchIt( watershedFilter, "WatershedImageFilter" );
 
   double threshold = .05;
   watershedFilter->SetThreshold( threshold );
-  TEST_SET_GET_VALUE( threshold, watershedFilter->GetThreshold() );
+  ITK_TEST_SET_GET_VALUE( threshold, watershedFilter->GetThreshold() );
 
   double level = 1.0;
   watershedFilter->SetLevel( level );
-  TEST_SET_GET_VALUE( level, watershedFilter->GetLevel() );
+  ITK_TEST_SET_GET_VALUE( level, watershedFilter->GetLevel() );
 
   watershedFilter->SetInput( image2D );
 
-  TRY_EXPECT_NO_EXCEPTION( watershedFilter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( watershedFilter->Update() );
 
 
   std::cout << "Test finished." << std::endl;

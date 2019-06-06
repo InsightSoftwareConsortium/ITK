@@ -66,7 +66,7 @@ int itkMagnitudeAndPhaseToComplexImageFilterTest( int argc, char * argv[] )
   MagnitudeAndPhaseToComplexFilterType::Pointer magnitudeAndPhaseToComplexFilter =
     MagnitudeAndPhaseToComplexFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( magnitudeAndPhaseToComplexFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( magnitudeAndPhaseToComplexFilter,
     MagnitudeAndPhaseToComplexImageFilter, BinaryGeneratorImageFilter );
 
   magnitudeAndPhaseToComplexFilter->SetInput1( magnitudeReader->GetOutput() );
@@ -77,7 +77,7 @@ int itkMagnitudeAndPhaseToComplexImageFilterTest( int argc, char * argv[] )
   writer->SetFileName( complexImageFileName );
   writer->SetInput( magnitudeAndPhaseToComplexFilter->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   // Check that the default template parameters work
   using DefaultParametersFilterType = itk::MagnitudeAndPhaseToComplexImageFilter< InputImageType >;

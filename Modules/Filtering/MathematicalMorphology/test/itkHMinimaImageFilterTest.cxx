@@ -53,7 +53,7 @@ int itkHMinimaImageFilterTest( int argc, char * argv[] )
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
 
   // Define the itk::HMinimaImageFilter filter type
@@ -64,7 +64,7 @@ int itkHMinimaImageFilterTest( int argc, char * argv[] )
   // Create the filter
   HMinimaFilterType::Pointer hMinimaFilter = HMinimaFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( hMinimaFilter, HMinimaImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( hMinimaFilter, HMinimaImageFilter,
     ImageToImageFilter );
 
   itk::SimpleFilterWatcher watchHMinima( hMinimaFilter, "HMinimaImageFilter" );
@@ -73,16 +73,16 @@ int itkHMinimaImageFilterTest( int argc, char * argv[] )
   auto height = static_cast< HMinimaFilterType::InputImagePixelType >( std::stod( argv[3] ) );
 
   hMinimaFilter->SetHeight( height );
-  TEST_SET_GET_VALUE( height, hMinimaFilter->GetHeight() );
+  ITK_TEST_SET_GET_VALUE( height, hMinimaFilter->GetHeight() );
 
   auto fullyConnected = static_cast< bool >( std::stod( argv[4] ) );
-  TEST_SET_GET_BOOLEAN( hMinimaFilter, FullyConnected, fullyConnected );
+  ITK_TEST_SET_GET_BOOLEAN( hMinimaFilter, FullyConnected, fullyConnected );
 
 
   hMinimaFilter->SetInput( reader->GetOutput() );
 
   // Run the filter
-  TRY_EXPECT_NO_EXCEPTION( hMinimaFilter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( hMinimaFilter->Update() );
 
 
   // Write the output
@@ -91,7 +91,7 @@ int itkHMinimaImageFilterTest( int argc, char * argv[] )
   writer->SetFileName( argv[2] );
   writer->SetInput( hMinimaFilter->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
 
   std::cout << "Test finished." << std::endl;

@@ -81,18 +81,18 @@ int itkMinimumMaximumImageCalculatorTest( int, char *[] )
   // Create and initialize the calculator
   MinMaxCalculatorType::Pointer calculator = MinMaxCalculatorType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( calculator, MinimumMaximumImageCalculator, Object );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( calculator, MinimumMaximumImageCalculator, Object );
 
   calculator->SetImage( image );
   calculator->Compute();
 
   // Test minimum of intensity
-  TEST_SET_GET_VALUE( minimum, calculator->GetMinimum() );
-  TEST_SET_GET_VALUE( minIntensityValueIndex, calculator->GetIndexOfMinimum() );
+  ITK_TEST_SET_GET_VALUE( minimum, calculator->GetMinimum() );
+  ITK_TEST_SET_GET_VALUE( minIntensityValueIndex, calculator->GetIndexOfMinimum() );
 
   // Test maximum of intensity
-  TEST_SET_GET_VALUE( maximum, calculator->GetMaximum() );
-  TEST_SET_GET_VALUE( maxIntensityValueIndex, calculator->GetIndexOfMaximum() );
+  ITK_TEST_SET_GET_VALUE( maximum, calculator->GetMaximum() );
+  ITK_TEST_SET_GET_VALUE( maxIntensityValueIndex, calculator->GetIndexOfMaximum() );
 
   // Set the region over which perform the computations
   itk::Size<3>  regionSize = {{4, 4, 4}};
@@ -119,14 +119,14 @@ int itkMinimumMaximumImageCalculatorTest( int, char *[] )
   calculator->ComputeMinimum();
 
   // Test minimum of intensity
-  TEST_SET_GET_VALUE( minimum, calculator->GetMinimum() );
-  TEST_SET_GET_VALUE( minIntensityValueIndex, calculator->GetIndexOfMinimum() );
+  ITK_TEST_SET_GET_VALUE( minimum, calculator->GetMinimum() );
+  ITK_TEST_SET_GET_VALUE( minIntensityValueIndex, calculator->GetIndexOfMinimum() );
 
   calculator->ComputeMaximum();
 
   // Test maximum of intensity
-  TEST_SET_GET_VALUE( maximum, calculator->GetMaximum() );
-  TEST_SET_GET_VALUE( maxIntensityValueIndex, calculator->GetIndexOfMaximum() );
+  ITK_TEST_SET_GET_VALUE( maximum, calculator->GetMaximum() );
+  ITK_TEST_SET_GET_VALUE( maxIntensityValueIndex, calculator->GetIndexOfMaximum() );
 
 
   return EXIT_SUCCESS;

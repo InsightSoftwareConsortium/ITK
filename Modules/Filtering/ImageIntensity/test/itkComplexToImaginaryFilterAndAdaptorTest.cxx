@@ -90,7 +90,7 @@ int itkComplexToImaginaryFilterAndAdaptorTest( int, char* [] )
   // Create the filter
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, ComplexToImaginaryImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, ComplexToImaginaryImageFilter,
     UnaryGeneratorImageFilter );
 
   // Set the input image
@@ -136,7 +136,7 @@ int itkComplexToImaginaryFilterAndAdaptorTest( int, char* [] )
 
   AdaptorType::Pointer imaginaryAdaptor = AdaptorType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( imaginaryAdaptor, ComplexToImaginaryImageAdaptor,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( imaginaryAdaptor, ComplexToImaginaryImageAdaptor,
     ImageAdaptor );
 
   imaginaryAdaptor->SetImage( inputImage );

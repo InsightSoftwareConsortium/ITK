@@ -626,7 +626,7 @@ int itkImageToImageMetricv4Test(int, char ** const)
   field->SetSpacing( fixedImage->GetSpacing() * -1.0 );
   std::cout << "Testing with displacement field in different space than "
             << "fixed image:" << std::endl;
-  TRY_EXPECT_EXCEPTION( metric->Initialize() );
+  ITK_TRY_EXPECT_EXCEPTION( metric->Initialize() );
 
   //
   // Test with sampled point-set

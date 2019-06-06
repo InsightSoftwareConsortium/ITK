@@ -188,7 +188,7 @@ int itkColorTableTest( int argc, char* argv[] )
   using ColorTableType = itk::ColorTable< unsigned char >;
   ColorTableType::Pointer colors = ColorTableType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( colors, ColorTable, Object );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( colors, ColorTable, Object );
 
   auto numberOfColors = static_cast< unsigned int >( std::stoi( argv[1] ) );
 

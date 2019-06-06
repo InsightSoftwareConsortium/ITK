@@ -45,7 +45,7 @@ int itkBrukerImageTest( int argc, char *argv[] )
   itk::Bruker2dseqImageIO::Pointer brukerImageIO =
     itk::Bruker2dseqImageIO::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( brukerImageIO, Bruker2dseqImageIO,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( brukerImageIO, Bruker2dseqImageIO,
     ImageIOBase );
 
   const char* inputFilename = argv[1];
@@ -57,12 +57,12 @@ int itkBrukerImageTest( int argc, char *argv[] )
     ReaderType::Pointer reader = ReaderType::New();
     WriterType::Pointer writer = WriterType::New();
     reader->SetFileName( argv[1] );
-    TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+    ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
     // Bruker has a lot of extraneous meta-data, get rid of it
     reader->GetOutput()->GetMetaDataDictionary().Clear();
     writer->SetFileName( argv[2] );
     writer->SetInput( reader->GetOutput() );
-    TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+    ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
     }
   else
     {

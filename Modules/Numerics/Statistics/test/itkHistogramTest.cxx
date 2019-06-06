@@ -35,7 +35,7 @@ int itkHistogramTest( int, char* [] )
           itk::Statistics::DenseFrequencyContainer2 >;
   HistogramType::Pointer histogram = HistogramType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( histogram, Histogram, Sample );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( histogram, Histogram, Sample );
 
   using MeasurementVectorType = HistogramType::MeasurementVectorType;
   using InstanceIdentifier = HistogramType::InstanceIdentifier;

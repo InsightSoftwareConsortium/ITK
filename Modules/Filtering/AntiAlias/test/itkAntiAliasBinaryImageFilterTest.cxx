@@ -120,7 +120,7 @@ int itkAntiAliasBinaryImageFilterTest(int argc, char * argv [] )
   // loops if the MaximumRMSError has been set too low.
   antialiaser->SetNumberOfIterations(100);
 
-  TRY_EXPECT_NO_EXCEPTION( antialiaser->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( antialiaser->Update() );
 
   std::cout << "Maximum RMS change value threshold was: 0.02 " << std::endl;
   std::cout << "Last RMS change value was: " << antialiaser->GetRMSChange() << std::endl;
@@ -141,7 +141,7 @@ int itkAntiAliasBinaryImageFilterTest(int argc, char * argv [] )
     WriterType::Pointer writer = WriterType::New();
     writer->SetInput( antialiaser->GetOutput() );
     writer->SetFileName( outputImage );
-    TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+    ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
     // Repeat just to make sure we reinitialize properly.
     antialiaser->SetNumberOfIterations(200);

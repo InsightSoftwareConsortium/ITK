@@ -53,7 +53,7 @@ int itkCropImageFilter3DTest( int, char* [] )
   itk::CropImageFilter< ImageType, ImageType> ::Pointer cropFilter =
     itk::CropImageFilter< ImageType, ImageType >::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( cropFilter, CropImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( cropFilter, CropImageFilter,
     ExtractImageFilter );
 
   cropFilter->SetInput( image );
@@ -64,12 +64,12 @@ int itkCropImageFilter3DTest( int, char* [] )
   cropFilter->SetBoundaryCropSize( extractSize );
 
   cropFilter->SetUpperBoundaryCropSize( extractSize );
-  TEST_SET_GET_VALUE( extractSize, cropFilter->GetUpperBoundaryCropSize() );
+  ITK_TEST_SET_GET_VALUE( extractSize, cropFilter->GetUpperBoundaryCropSize() );
 
   cropFilter->SetLowerBoundaryCropSize( extractSize );
-  TEST_SET_GET_VALUE( extractSize, cropFilter->GetLowerBoundaryCropSize() );
+  ITK_TEST_SET_GET_VALUE( extractSize, cropFilter->GetLowerBoundaryCropSize() );
 
-  TRY_EXPECT_NO_EXCEPTION( cropFilter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( cropFilter->Update() );
 
   ImageType::Pointer croppedImage = cropFilter->GetOutput();
 

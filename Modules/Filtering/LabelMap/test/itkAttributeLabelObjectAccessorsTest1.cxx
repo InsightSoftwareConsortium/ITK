@@ -95,10 +95,10 @@ int itkAttributeLabelObjectAccessorsTest1(int argc, char * argv[])
 
     labelObject->SetAttribute( mean );
     // make sure that we get the same value
-    TEST_SET_GET_VALUE( mean, labelObject->GetAttribute() );
+    ITK_TEST_SET_GET_VALUE( mean, labelObject->GetAttribute() );
     // make sure that the accessor provide the same values than the GetAttribute() method
     itk::Functor::AttributeLabelObjectAccessor<LabelObjectType> accessor;
-    TEST_SET_GET_VALUE( accessor(labelObject), labelObject->GetAttribute() );
+    ITK_TEST_SET_GET_VALUE( accessor(labelObject), labelObject->GetAttribute() );
     // exercise the print self method
     labelObject->Print( std::cout );
 

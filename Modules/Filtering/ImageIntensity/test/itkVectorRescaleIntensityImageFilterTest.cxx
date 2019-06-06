@@ -61,18 +61,18 @@ int itkVectorRescaleIntensityImageFilterTest( int, char* [] )
 
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, VectorRescaleIntensityImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, VectorRescaleIntensityImageFilter,
     UnaryFunctorImageFilter );
 
   filter->SetInput( inputImage );
 
   constexpr double desiredMaximum = 2.0;
   filter->SetOutputMaximumMagnitude( desiredMaximum );
-  TEST_SET_GET_VALUE( desiredMaximum, filter->GetOutputMaximumMagnitude() );
+  ITK_TEST_SET_GET_VALUE( desiredMaximum, filter->GetOutputMaximumMagnitude() );
 
   filter->SetFunctor( filter->GetFunctor() );
 
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   FilterType::InputRealType scale = filter->GetScale();
   std::cout << "Input scale value: " <<

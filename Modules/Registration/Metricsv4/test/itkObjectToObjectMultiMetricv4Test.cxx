@@ -348,7 +348,7 @@ int itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform )
   std::cout << "*** Test with mismatched transforms *** " << std::endl;
   TranslationTransformType::Pointer transform2 = TranslationTransformType::New();
   m4->SetMovingTransform( transform2 );
-  TRY_EXPECT_EXCEPTION( multiVariateMetric->Initialize() );
+  ITK_TRY_EXPECT_EXCEPTION( multiVariateMetric->Initialize() );
   m4->SetMovingTransform( transform );
 
   std::cout << "*** Test with proper CompositeTransform ***" << std::endl;
@@ -366,12 +366,12 @@ int itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform )
 
   std::cout << "*** Test with CompositeTransform - too many active transforms ***" << std::endl;
   compositeTransform->SetAllTransformsToOptimizeOn();
-  TRY_EXPECT_EXCEPTION( multiVariateMetric->Initialize() );
+  ITK_TRY_EXPECT_EXCEPTION( multiVariateMetric->Initialize() );
 
   std::cout << "*** Test with CompositeTransform - one active transform, but wrong one ***" << std::endl;
   compositeTransform->SetAllTransformsToOptimizeOff();
   compositeTransform->SetNthTransformToOptimizeOn( 0 );
-  TRY_EXPECT_EXCEPTION( multiVariateMetric->Initialize() );
+  ITK_TRY_EXPECT_EXCEPTION( multiVariateMetric->Initialize() );
 
   // Reset transform
   m4->SetMovingTransform( transform );

@@ -50,12 +50,12 @@ int itkNormalizeToConstantImageFilterTest( int, char* [] )
       itk::NormalizeToConstantImageFilter< IntImage, DoubleImage >;
   NormalizeType::Pointer normalize = NormalizeType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( normalize, NormalizeToConstantImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( normalize, NormalizeToConstantImageFilter,
     ImageToImageFilter );
 
   DoubleImage::PixelType constant = 1.0;
   normalize->SetConstant( constant );
-  TEST_SET_GET_VALUE( constant, normalize->GetConstant() );
+  ITK_TEST_SET_GET_VALUE( constant, normalize->GetConstant() );
 
   itk::SimpleFilterWatcher watch( normalize, "NormalizeToConstant" );
 
@@ -83,7 +83,7 @@ int itkNormalizeToConstantImageFilterTest( int, char* [] )
 
   constant = 134.2;
   normalize->SetConstant( constant );
-  TEST_SET_GET_VALUE( constant, normalize->GetConstant() );
+  ITK_TEST_SET_GET_VALUE( constant, normalize->GetConstant() );
 
   normalize->Update();
 

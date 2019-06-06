@@ -61,7 +61,7 @@ int itkFastMarchingImageFilterRealTest2( int itkNotUsed( argc ), char* itkNotUse
 
   FastMarchingType::Pointer marcher = FastMarchingType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( marcher, FastMarchingImageFilterBase,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( marcher, FastMarchingImageFilterBase,
     FastMarchingBase );
 
 
@@ -176,7 +176,7 @@ int itkFastMarchingImageFilterRealTest2( int itkNotUsed( argc ), char* itkNotUse
   marcher->DebugOn();
 
   // Update the Fast Marching filter
-  TRY_EXPECT_NO_EXCEPTION( marcher->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( marcher->Update() );
 
 
   // Check the results

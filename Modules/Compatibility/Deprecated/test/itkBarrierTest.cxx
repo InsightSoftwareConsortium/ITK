@@ -124,7 +124,7 @@ ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION BarrierSpecialTest( void *ptr )
 int itkBarrierTest(int argc, char *argv[])
 {
   itk::Barrier::Pointer barrier = itk::Barrier::New();
-  EXERCISE_BASIC_OBJECT_METHODS( barrier, Barrier, LightObject );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( barrier, Barrier, LightObject );
 
   itk::ThreadIdType number_of_threads = 4;
   if (argc > 1)

@@ -90,7 +90,7 @@ int itkSigmoidImageFilterTest( int, char* [] )
   // Create the filter
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, SigmoidImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, SigmoidImageFilter,
     UnaryFunctorImageFilter );
 
   // Set the input image
@@ -101,19 +101,19 @@ int itkSigmoidImageFilterTest( int, char* [] )
   constexpr double beta = 3.0;
 
   filter->SetAlpha( alpha );
-  TEST_SET_GET_VALUE( alpha, filter->GetAlpha() );
+  ITK_TEST_SET_GET_VALUE( alpha, filter->GetAlpha() );
 
   filter->SetBeta( beta );
-  TEST_SET_GET_VALUE( beta, filter->GetBeta() );
+  ITK_TEST_SET_GET_VALUE( beta, filter->GetBeta() );
 
   constexpr OutputPixelType maximum  = 1.0;
   const OutputPixelType minimum = -1.0;
 
   filter->SetOutputMinimum( minimum );
-  TEST_SET_GET_VALUE( minimum, filter->GetOutputMinimum() );
+  ITK_TEST_SET_GET_VALUE( minimum, filter->GetOutputMinimum() );
 
   filter->SetOutputMaximum( maximum );
-  TEST_SET_GET_VALUE( maximum, filter->GetOutputMaximum() );
+  ITK_TEST_SET_GET_VALUE( maximum, filter->GetOutputMaximum() );
 
   filter->SetFunctor( filter->GetFunctor() );
 

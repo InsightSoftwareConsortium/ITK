@@ -71,9 +71,9 @@ int itkOtsuMultipleThresholdsCalculatorTest(int, char*[])
   OtsuMultipleThresholdCalculatorType::Pointer otsuThresholdCalculator = OtsuMultipleThresholdCalculatorType::New();
 
 #if defined(ITKV4_COMPATIBILITY)
-  TEST_EXPECT_TRUE( otsuThresholdCalculator->GetReturnBinMidpoint());
+  ITK_TEST_EXPECT_TRUE( otsuThresholdCalculator->GetReturnBinMidpoint());
 #else
-  TEST_EXPECT_TRUE( !otsuThresholdCalculator->GetReturnBinMidpoint());
+  ITK_TEST_EXPECT_TRUE( !otsuThresholdCalculator->GetReturnBinMidpoint());
 #endif
 
   otsuThresholdCalculator->SetInputHistogram(histogram);

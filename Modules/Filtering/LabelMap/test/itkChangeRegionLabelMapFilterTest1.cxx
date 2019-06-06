@@ -74,10 +74,10 @@ int itkChangeRegionLabelMapFilterTest1(int argc, char * argv[])
   writer->SetFileName( argv[2] );
   writer->UseCompressionOn();
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   change->SetInput( nullptr );
-  TRY_EXPECT_EXCEPTION( change->Update() );
+  ITK_TRY_EXPECT_EXCEPTION( change->Update() );
 
   return EXIT_SUCCESS;
 }

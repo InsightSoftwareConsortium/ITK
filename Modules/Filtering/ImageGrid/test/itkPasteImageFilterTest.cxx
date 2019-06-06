@@ -47,14 +47,14 @@ int itkPasteImageFilterTest( int argc, char* argv[] )
 
   src->SetFileName( argv[2] );
 
-  TRY_EXPECT_NO_EXCEPTION( src->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( src->Update() );
 
   // Create the filter
   using FilterType = itk::PasteImageFilter< ImageType >;
 
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, PasteImageFilter, InPlaceImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, PasteImageFilter, InPlaceImageFilter );
 
   filter->SetDestinationImage( dest->GetOutput() );
   filter->SetSourceImage( src->GetOutput() );
@@ -63,7 +63,7 @@ int itkPasteImageFilterTest( int argc, char* argv[] )
   destIndex[0] = 100;
   destIndex[1] = 70;
   filter->SetDestinationIndex( destIndex );
-  TEST_SET_GET_VALUE( destIndex, filter->GetDestinationIndex() );
+  ITK_TEST_SET_GET_VALUE( destIndex, filter->GetDestinationIndex() );
 
   FilterType::InputImageIndexType srcIndex;
   FilterType::InputImageSizeType srcSize;
@@ -79,9 +79,9 @@ int itkPasteImageFilterTest( int argc, char* argv[] )
   srcRegion.SetSize( srcSize );
 
   filter->SetSourceRegion( srcRegion );
-  TEST_SET_GET_VALUE( srcRegion, filter->GetSourceRegion() );
+  ITK_TEST_SET_GET_VALUE( srcRegion, filter->GetSourceRegion() );
 
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   // We'll tie this to a streamer to really exercise the paste code
   using SplitterType = itk::ImageRegionSplitterMultidimensional;
@@ -114,7 +114,7 @@ int itkPasteImageFilterTest( int argc, char* argv[] )
   writer->SetInput( streamer->GetOutput() );
   writer->SetFileName( argv[3] );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

@@ -53,9 +53,9 @@ int itkOtsuThresholdImageFilterTest(int argc, char* argv[] )
   itk::SimpleFilterWatcher watcher(filter);
 
 #if defined(ITKV4_COMPATIBILITY)
-  TEST_EXPECT_TRUE( filter->GetReturnBinMidpoint() );
+  ITK_TEST_EXPECT_TRUE( filter->GetReturnBinMidpoint() );
 #else
-  TEST_EXPECT_TRUE( !filter->GetReturnBinMidpoint() );
+  ITK_TEST_EXPECT_TRUE( !filter->GetReturnBinMidpoint() );
 #endif
 
   reader->SetFileName( argv[1] );
@@ -79,7 +79,7 @@ int itkOtsuThresholdImageFilterTest(int argc, char* argv[] )
   if( argc > 5 )
     {
     bool returnBinMidpoint =  static_cast< bool >( std::stoi( argv[5] ) );
-    TEST_SET_GET_BOOLEAN( filter, ReturnBinMidpoint, returnBinMidpoint );
+    ITK_TEST_SET_GET_BOOLEAN( filter, ReturnBinMidpoint, returnBinMidpoint );
     }
   filter->Update();
 

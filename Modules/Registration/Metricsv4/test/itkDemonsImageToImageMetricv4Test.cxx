@@ -258,7 +258,7 @@ int itkDemonsImageToImageMetricv4Test(int, char ** const)
 
   /* Test expected exceptions when transform is not right type */
   metric->SetMovingTransform( translationTransform );
-  TRY_EXPECT_EXCEPTION( metric->Initialize() );
+  ITK_TRY_EXPECT_EXCEPTION( metric->Initialize() );
 
   /* Exercise accessor method */
   const auto testValue = static_cast<MetricType::InternalComputationValueType>(0.5);

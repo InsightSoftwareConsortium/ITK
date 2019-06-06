@@ -50,46 +50,46 @@ int itkBinaryShapeOpeningImageFilterTest1(int argc, char * argv[])
   //testing get/set ForegroundValue macro
   int ForegroundValue = ( std::stoi(argv[3]) );
   opening->SetForegroundValue( ForegroundValue );
-  TEST_SET_GET_VALUE( ForegroundValue, opening->GetForegroundValue() );
+  ITK_TEST_SET_GET_VALUE( ForegroundValue, opening->GetForegroundValue() );
 
   //testing get/set BackgroundValue macro
   int BackgroundValue = ( std::stoi(argv[4]) );
   opening->SetBackgroundValue( BackgroundValue );
-  TEST_SET_GET_VALUE( BackgroundValue, opening->GetBackgroundValue() );
+  ITK_TEST_SET_GET_VALUE( BackgroundValue, opening->GetBackgroundValue() );
 
   //testing get and set macros for Lambda
   double lambda = std::stod( argv[5] );
   opening->SetLambda( lambda );
-  TEST_SET_GET_VALUE( lambda , opening->GetLambda() );
+  ITK_TEST_SET_GET_VALUE( lambda , opening->GetLambda() );
 
   //testing boolean macro for ReverseOrdering
   opening->ReverseOrderingOn();
-  TEST_SET_GET_VALUE( true, opening->GetReverseOrdering() );
+  ITK_TEST_SET_GET_VALUE( true, opening->GetReverseOrdering() );
 
   opening->ReverseOrderingOff();
-  TEST_SET_GET_VALUE( false, opening->GetReverseOrdering() );
+  ITK_TEST_SET_GET_VALUE( false, opening->GetReverseOrdering() );
 
   //testing get and set macros or ReverseOrdering
   bool reverseOrdering = std::stoi( argv[6] );
   opening->SetReverseOrdering( reverseOrdering );
-  TEST_SET_GET_VALUE( reverseOrdering , opening->GetReverseOrdering() );
+  ITK_TEST_SET_GET_VALUE( reverseOrdering , opening->GetReverseOrdering() );
 
   //testing boolean macro for FullyConnected
   opening->FullyConnectedOn();
-  TEST_SET_GET_VALUE( true, opening->GetFullyConnected() );
+  ITK_TEST_SET_GET_VALUE( true, opening->GetFullyConnected() );
 
   opening->FullyConnectedOff();
-  TEST_SET_GET_VALUE( false, opening->GetFullyConnected() );
+  ITK_TEST_SET_GET_VALUE( false, opening->GetFullyConnected() );
 
   //testing get and set macros or FullyConnected
   bool fullyConnected = std::stoi( argv[7] );
   opening->SetFullyConnected( fullyConnected );
-  TEST_SET_GET_VALUE( fullyConnected , opening->GetFullyConnected() );
+  ITK_TEST_SET_GET_VALUE( fullyConnected , opening->GetFullyConnected() );
 
   //testing get and set macros for Attribute
   BinaryOpeningType::AttributeType attribute = std::stoi( argv[8] );
   opening->SetAttribute( attribute );
-  TEST_SET_GET_VALUE( attribute, opening->GetAttribute() );
+  ITK_TEST_SET_GET_VALUE( attribute, opening->GetAttribute() );
 
   itk::SimpleFilterWatcher watcher(opening, "filter");
 
@@ -99,7 +99,7 @@ int itkBinaryShapeOpeningImageFilterTest1(int argc, char * argv[])
   writer->SetFileName( argv[2] );
   writer->UseCompressionOn();
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   std::cout << "Test Complete!" << std::endl;
 

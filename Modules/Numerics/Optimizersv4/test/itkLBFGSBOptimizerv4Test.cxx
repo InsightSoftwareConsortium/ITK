@@ -398,7 +398,7 @@ int itkLBFGSBOptimizerv4Test(int, char *[])
   //
   std::cout << "-------------------------------" << std::endl;
   metric->SetHasLocalSupport( true );
-  TRY_EXPECT_EXCEPTION( itkOptimizer->StartOptimization() );
+  ITK_TRY_EXPECT_EXCEPTION( itkOptimizer->StartOptimization() );
 
   //
   //  Test in unbounded mode

@@ -101,7 +101,7 @@ int itkDivideImageFilterTest2( int, char* [] )
   // Create the filter
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, DivideImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, DivideImageFilter,
     BinaryGeneratorImageFilter );
 
   // Set the input images
@@ -110,7 +110,7 @@ int itkDivideImageFilterTest2( int, char* [] )
 
 
   // Execute the filter
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
 
   // Get the filter output
@@ -146,7 +146,7 @@ int itkDivideImageFilterTest2( int, char* [] )
 
   // Check for exception if constant is 0
   filter->SetInput2( 0.0 );
-  TRY_EXPECT_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_EXCEPTION( filter->Update() );
 
 
   // All objects should be automatically destroyed at this point

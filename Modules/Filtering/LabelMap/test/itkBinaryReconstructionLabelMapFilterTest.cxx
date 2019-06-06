@@ -64,7 +64,7 @@ int itkBinaryReconstructionLabelMapFilterTest(int argc, char * argv[])
   //testing get and set macros for Lambda
   int fg = std::stoi( argv[4] );
   reconstruction->SetForegroundValue( fg );
-  TEST_SET_GET_VALUE( fg , reconstruction->GetForegroundValue() );
+  ITK_TEST_SET_GET_VALUE( fg , reconstruction->GetForegroundValue() );
 
   reconstruction->SetInput( i2l->GetOutput() );
   reconstruction->SetMarkerImage( reader2->GetOutput() );
@@ -89,7 +89,7 @@ int itkBinaryReconstructionLabelMapFilterTest(int argc, char * argv[])
   writer->SetFileName( argv[3] );
   writer->UseCompressionOn();
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

@@ -28,7 +28,7 @@ int itkVersionTest( int, char* [] )
 
   itk::Version::Pointer version = itk::Version::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( version, Version, Object );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( version, Version, Object );
 
   const char * itkVersion = itk::Version::GetITKVersion();
   std::cout << "itk version: " << itkVersion << std::endl;

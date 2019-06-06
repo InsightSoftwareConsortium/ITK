@@ -47,7 +47,7 @@ int itkIntensityWindowingImageFilterTest( int, char* [] )
   using FilterType = itk::IntensityWindowingImageFilter< TestInputImage, TestOutputImage >;
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, IntensityWindowingImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, IntensityWindowingImageFilter,
     UnaryFunctorImageFilter );
 
   // Generate a real image
@@ -73,16 +73,16 @@ int itkIntensityWindowingImageFilterTest( int, char* [] )
   const float  windowMaximum =  50.0f;
 
   filter->SetOutputMinimum( desiredMinimum );
-  TEST_SET_GET_VALUE( desiredMinimum, filter->GetOutputMinimum() );
+  ITK_TEST_SET_GET_VALUE( desiredMinimum, filter->GetOutputMinimum() );
 
   filter->SetOutputMaximum( desiredMaximum );
-  TEST_SET_GET_VALUE( desiredMaximum, filter->GetOutputMaximum() );
+  ITK_TEST_SET_GET_VALUE( desiredMaximum, filter->GetOutputMaximum() );
 
   filter->SetWindowMinimum( windowMinimum );
-  TEST_SET_GET_VALUE( windowMinimum, filter->GetWindowMinimum() );
+  ITK_TEST_SET_GET_VALUE( windowMinimum, filter->GetWindowMinimum() );
 
   filter->SetWindowMaximum( windowMaximum );
-  TEST_SET_GET_VALUE( windowMaximum, filter->GetWindowMaximum() );
+  ITK_TEST_SET_GET_VALUE( windowMaximum, filter->GetWindowMaximum() );
 
   std::cout << "Window minimum:maximum = "
     << windowMinimum << ":" << windowMaximum
@@ -102,9 +102,9 @@ int itkIntensityWindowingImageFilterTest( int, char* [] )
     FilterType::RealType >::PrintType >( filter->GetShift() )
     << std::endl;
 
-  TRY_EXPECT_NO_EXCEPTION( filter->UpdateLargestPossibleRegion() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->UpdateLargestPossibleRegion() );
 
-  TRY_EXPECT_NO_EXCEPTION( filter->SetFunctor( filter->GetFunctor() ) );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->SetFunctor( filter->GetFunctor() ) );
 
   using CalculatorType = itk::MinimumMaximumImageCalculator< TestOutputImage >;
   CalculatorType::Pointer calculator = CalculatorType::New();
@@ -155,7 +155,7 @@ int itkIntensityWindowingImageFilterTest( int, char* [] )
             FilterType::InputPixelType >::PrintType >( filter->GetWindowMaximum() )
             << std::endl;
 
-  TRY_EXPECT_NO_EXCEPTION( filter->UpdateLargestPossibleRegion() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->UpdateLargestPossibleRegion() );
 
   calculator->Compute();
 

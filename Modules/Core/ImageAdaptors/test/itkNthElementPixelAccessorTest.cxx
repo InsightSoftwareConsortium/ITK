@@ -127,7 +127,7 @@ int itkNthElementPixelAccessorTest(int, char* []) {
     std::cout << it1.Get()[1] << "  ";
     std::cout << it1.Get()[2] << std::endl;
 
-    TEST_EXPECT_EQUAL( it1.Get()[0], MY_VALUE);
+    ITK_TEST_EXPECT_EQUAL( it1.Get()[0], MY_VALUE);
 
     ++it1;
     }

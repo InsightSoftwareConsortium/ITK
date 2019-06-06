@@ -50,9 +50,9 @@ int itkMeanImageFilterTest( int, char* [] )
   itk::MeanImageFilter< FloatImage2DType, FloatImage2DType >::Pointer mean =
     itk::MeanImageFilter< FloatImage2DType, FloatImage2DType >::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( mean, MeanImageFilter, BoxImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( mean, MeanImageFilter, BoxImageFilter );
 
-  TRY_EXPECT_NO_EXCEPTION( random->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( random->Update() );
 
   mean->SetInput( random->GetOutput() );
 
@@ -61,9 +61,9 @@ int itkMeanImageFilterTest( int, char* [] )
   neighRadius[0] = 1;
   neighRadius[1] = 1;
   mean->SetRadius( neighRadius );
-  TEST_SET_GET_VALUE( neighRadius, mean->GetRadius() );
+  ITK_TEST_SET_GET_VALUE( neighRadius, mean->GetRadius() );
 
-  TRY_EXPECT_NO_EXCEPTION( mean->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( mean->Update() );
 
   itk::ImageRegionIterator< FloatImage2DType > it;
   it = itk::ImageRegionIterator< FloatImage2DType >( random->GetOutput(),

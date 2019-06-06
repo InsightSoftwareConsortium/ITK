@@ -33,12 +33,12 @@ int HilbertPathTestHelper( unsigned int maxHilbertPathOder )
   for( unsigned int order = 1; order < maxHilbertPathOder; ++order )
     {
     path->SetHilbertOrder( order );
-    TEST_SET_GET_VALUE( order, path->GetHilbertOrder() );
+    ITK_TEST_SET_GET_VALUE( order, path->GetHilbertOrder() );
 
     path->Initialize();
 
     typename PathType::InputType input = 0;
-    TRY_EXPECT_EXCEPTION( path->IncrementInput( input ) );
+    ITK_TRY_EXPECT_EXCEPTION( path->IncrementInput( input ) );
 
     typename PathType::InputType endOfInput = path->EndOfInput();
     std::cout << "End of input: "
@@ -94,7 +94,7 @@ int itkHilbertPathTest( int, char*[] )
   // Exercise basic object methods
   // Done outside the helper function in the test because GCC is limited
   // when calling overloaded base class functions.
-  EXERCISE_BASIC_OBJECT_METHODS( path2D, HilbertPath, Path );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( path2D, HilbertPath, Path );
 
   testStatus = HilbertPathTestHelper< HilbertPathType2D >( maxHilbertPathOder );
 
@@ -105,7 +105,7 @@ int itkHilbertPathTest( int, char*[] )
   // Exercise basic object methods
   // Done outside the helper function in the test because GCC is limited
   // when calling overloaded base class functions.
-  EXERCISE_BASIC_OBJECT_METHODS( path3D, HilbertPath, Path );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( path3D, HilbertPath, Path );
 
   testStatus = HilbertPathTestHelper< HilbertPathType3D >( maxHilbertPathOder );
 
@@ -116,7 +116,7 @@ int itkHilbertPathTest( int, char*[] )
   // Exercise basic object methods
   // Done outside the helper function in the test because GCC is limited
   // when calling overloaded base class functions.
-  EXERCISE_BASIC_OBJECT_METHODS( path4D, HilbertPath, Path );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( path4D, HilbertPath, Path );
 
   testStatus = HilbertPathTestHelper< HilbertPathType4D >( maxHilbertPathOder );
 

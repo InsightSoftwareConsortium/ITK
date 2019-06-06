@@ -85,18 +85,18 @@ int itkStdStreamStateSaveTest(int, char* [] )
   // is still in effect.
   int inputInt;
   stream >> inputInt;
-  TEST_EXPECT_EQUAL(originalInt, inputInt);
+  ITK_TEST_EXPECT_EQUAL(originalInt, inputInt);
 
   // Verify that the default is reset for std::cout
-  TEST_EXPECT_EQUAL(std::cout.precision(), defaultPrecision);
-  TEST_EXPECT_EQUAL(std::cout.width(), defaultWidth);
-  TEST_EXPECT_EQUAL(std::cout.fill(), defaultFill);
-  TEST_EXPECT_EQUAL(std::cout.flags(), defaultFlags);
+  ITK_TEST_EXPECT_EQUAL(std::cout.precision(), defaultPrecision);
+  ITK_TEST_EXPECT_EQUAL(std::cout.width(), defaultWidth);
+  ITK_TEST_EXPECT_EQUAL(std::cout.fill(), defaultFill);
+  ITK_TEST_EXPECT_EQUAL(std::cout.flags(), defaultFlags);
 
-  TEST_EXPECT_EQUAL(stream.precision(), defaultPrecision);
-  TEST_EXPECT_EQUAL(stream.width(), defaultWidth);
-  TEST_EXPECT_EQUAL(stream.fill(), defaultFill);
-  TEST_EXPECT_EQUAL(stream.flags(), defaultFlags);
+  ITK_TEST_EXPECT_EQUAL(stream.precision(), defaultPrecision);
+  ITK_TEST_EXPECT_EQUAL(stream.width(), defaultWidth);
+  ITK_TEST_EXPECT_EQUAL(stream.fill(), defaultFill);
+  ITK_TEST_EXPECT_EQUAL(stream.flags(), defaultFlags);
 
   return EXIT_SUCCESS;
 }

@@ -68,8 +68,8 @@ int itkMemoryProbesCollecterBaseTest(int, char *[])
   delete[] buf;
 
 
-  TRY_EXPECT_EXCEPTION(mcollecter.GetProbe("IDoNotExist"));
-  TRY_EXPECT_NO_EXCEPTION(mcollecter.GetProbe("Update"));
+  ITK_TRY_EXPECT_EXCEPTION(mcollecter.GetProbe("IDoNotExist"));
+  ITK_TRY_EXPECT_NO_EXCEPTION(mcollecter.GetProbe("Update"));
 
   return EXIT_SUCCESS;
 }

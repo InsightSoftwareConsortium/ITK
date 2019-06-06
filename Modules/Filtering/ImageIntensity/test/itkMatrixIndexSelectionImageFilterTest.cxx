@@ -112,7 +112,7 @@ int itkMatrixIndexSelectionImageFilterTest( int argc, char* argv[] )
 
   SelectionFilterType::Pointer filter = SelectionFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, MatrixIndexSelectionImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, MatrixIndexSelectionImageFilter,
     UnaryFunctorImageFilter );
 
   filter->SetInput( image );
@@ -144,7 +144,7 @@ int itkMatrixIndexSelectionImageFilterTest( int argc, char* argv[] )
   writer->SetFileName( argv[1] );
   writer->SetInput( filter->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

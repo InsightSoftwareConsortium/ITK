@@ -60,7 +60,7 @@ int itkBinaryImageToLabelMapFilterTest2( int argc, char * argv [] )
 
   std::cout << "There are " << imageToLabel->GetOutput()->GetNumberOfLabelObjects() << " objects." << std::endl;
 
-  TEST_EXPECT_EQUAL( imageToLabel->GetOutput()->GetNumberOfLabelObjects(), imageToLabel->GetNumberOfObjects() );
+  ITK_TEST_EXPECT_EQUAL( imageToLabel->GetOutput()->GetNumberOfLabelObjects(), imageToLabel->GetNumberOfObjects() );
 
   using LabelToImageType = itk::LabelMapToLabelImageFilter< LabelMapType, ImageType>;
   LabelToImageType::Pointer labelToImage = LabelToImageType::New();

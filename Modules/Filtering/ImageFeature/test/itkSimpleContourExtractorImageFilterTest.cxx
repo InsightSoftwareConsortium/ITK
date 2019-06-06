@@ -61,7 +61,7 @@ int itkSimpleContourExtractorImageFilterTest( int argc, char* argv [] )
   // Create the filter
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, SimpleContourExtractorImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, SimpleContourExtractorImageFilter,
     BoxImageFilter );
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
@@ -79,19 +79,19 @@ int itkSimpleContourExtractorImageFilterTest( int argc, char* argv [] )
 
   filter->SetInputForegroundValue( inputForegroundValue );
 
-  TEST_SET_GET_VALUE( inputForegroundValue, filter->GetInputForegroundValue() );
+  ITK_TEST_SET_GET_VALUE( inputForegroundValue, filter->GetInputForegroundValue() );
 
   filter->SetInputBackgroundValue( inputBackgroundValue );
 
-  TEST_SET_GET_VALUE( inputBackgroundValue, filter->GetInputBackgroundValue() );
+  ITK_TEST_SET_GET_VALUE( inputBackgroundValue, filter->GetInputBackgroundValue() );
 
   filter->SetOutputForegroundValue( outputForegroundValue );
 
-  TEST_SET_GET_VALUE( outputForegroundValue, filter->GetOutputForegroundValue() );
+  ITK_TEST_SET_GET_VALUE( outputForegroundValue, filter->GetOutputForegroundValue() );
 
   filter->SetOutputBackgroundValue( outputBackgroundValue );
 
-  TEST_SET_GET_VALUE( outputBackgroundValue, filter->GetOutputBackgroundValue() );
+  ITK_TEST_SET_GET_VALUE( outputBackgroundValue, filter->GetOutputBackgroundValue() );
 
 
   FilterType::InputSizeType radius;

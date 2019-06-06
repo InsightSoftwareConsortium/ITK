@@ -59,12 +59,12 @@ int itkTobogganImageFilterTest( int argc, char* argv[] )
 
   reader->SetFileName( argv[1] );
 
-  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
 
   FilterType::Pointer toboggan = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( toboggan, TobogganImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( toboggan, TobogganImageFilter,
     ImageToImageFilter );
 
   InputCastFilterType::Pointer inputCaster = InputCastFilterType::New();
@@ -77,14 +77,14 @@ int itkTobogganImageFilterTest( int argc, char* argv[] )
   toboggan->SetInput( gmgaussian->GetOutput() );
 
 
-  TRY_EXPECT_NO_EXCEPTION( toboggan->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( toboggan->Update() );
 
 
   // Cast the output of the Toboggan filter
   OutputCastFilterType::Pointer outputCaster = OutputCastFilterType::New();
   outputCaster->SetInput( toboggan->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( outputCaster->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( outputCaster->Update() );
 
   // Write the output
   using WriterType = itk::ImageFileWriter< OutputImageType >;
@@ -92,7 +92,7 @@ int itkTobogganImageFilterTest( int argc, char* argv[] )
   writer->SetInput( outputCaster->GetOutput() );
   writer->SetFileName( argv[2] );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
 
   std::cout << "Test finished." << std::endl;

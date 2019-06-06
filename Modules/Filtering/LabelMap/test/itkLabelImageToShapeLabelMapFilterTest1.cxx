@@ -51,15 +51,15 @@ int itkLabelImageToShapeLabelMapFilterTest1(int argc, char * argv[])
 
   const PixelType backgroundValue = std::stoi(argv[3]);
   l2s->SetBackgroundValue( backgroundValue );
-  TEST_SET_GET_VALUE( backgroundValue, l2s->GetBackgroundValue() );
+  ITK_TEST_SET_GET_VALUE( backgroundValue, l2s->GetBackgroundValue() );
 
   const bool computeFeretDiameter = std::stoi( argv[4]);
   l2s->SetComputeFeretDiameter( computeFeretDiameter );
-  TEST_SET_GET_VALUE( computeFeretDiameter, l2s->GetComputeFeretDiameter() );
+  ITK_TEST_SET_GET_VALUE( computeFeretDiameter, l2s->GetComputeFeretDiameter() );
 
   const bool computePerimeter = std::stoi( argv[5]);
   l2s->SetComputePerimeter( computePerimeter );
-  TEST_SET_GET_VALUE( computePerimeter, l2s->GetComputeFeretDiameter() );
+  ITK_TEST_SET_GET_VALUE( computePerimeter, l2s->GetComputeFeretDiameter() );
 
 
   using L2IType = itk::LabelMapToLabelImageFilter< LabelMapType, ImageType>;
@@ -72,7 +72,7 @@ int itkLabelImageToShapeLabelMapFilterTest1(int argc, char * argv[])
   writer->SetFileName( argv[2] );
   writer->UseCompressionOn();
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

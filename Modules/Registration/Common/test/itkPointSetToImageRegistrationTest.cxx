@@ -137,7 +137,7 @@ int itkPointSetToImageRegistrationTest( int, char* [] )
 
   RegistrationType::Pointer registration = RegistrationType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( registration, PointSetToImageRegistrationMethod,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( registration, PointSetToImageRegistrationMethod,
     ProcessObject );
 
   using CommandIterationType = itk::CommandIterationUpdate< OptimizerType >;
@@ -164,22 +164,22 @@ int itkPointSetToImageRegistrationTest( int, char* [] )
 
   // Connect all the components required for the registration
   registration->SetMetric( metric );
-  TEST_SET_GET_VALUE( metric, registration->GetMetric() );
+  ITK_TEST_SET_GET_VALUE( metric, registration->GetMetric() );
 
   registration->SetOptimizer( optimizer );
-  TEST_SET_GET_VALUE( optimizer, registration->GetOptimizer() );
+  ITK_TEST_SET_GET_VALUE( optimizer, registration->GetOptimizer() );
 
   registration->SetTransform( transform );
-  TEST_SET_GET_VALUE( transform, registration->GetTransform() );
+  ITK_TEST_SET_GET_VALUE( transform, registration->GetTransform() );
 
   registration->SetFixedPointSet( fixedPointSet );
-  TEST_SET_GET_VALUE( fixedPointSet, registration->GetFixedPointSet() );
+  ITK_TEST_SET_GET_VALUE( fixedPointSet, registration->GetFixedPointSet() );
 
   registration->SetMovingImage( movingImage );
-  TEST_SET_GET_VALUE( movingImage, registration->GetMovingImage() );
+  ITK_TEST_SET_GET_VALUE( movingImage, registration->GetMovingImage() );
 
   registration->SetInterpolator( interpolator );
-  TEST_SET_GET_VALUE( interpolator, registration->GetInterpolator() );
+  ITK_TEST_SET_GET_VALUE( interpolator, registration->GetInterpolator() );
 
   // Set up transform parameters
   ParametersType parameters( transform->GetNumberOfParameters() );
@@ -191,11 +191,11 @@ int itkPointSetToImageRegistrationTest( int, char* [] )
     }
   transform->SetParameters( parameters );
   registration->SetInitialTransformParameters( transform->GetParameters() );
-  TEST_SET_GET_VALUE( transform->GetParameters(),
+  ITK_TEST_SET_GET_VALUE( transform->GetParameters(),
     registration->GetInitialTransformParameters() );
 
 
-  TRY_EXPECT_NO_EXCEPTION( registration->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( registration->Update() );
 
 
   // Print the last transform parameters to improve coverage

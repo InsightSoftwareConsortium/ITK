@@ -78,34 +78,34 @@ int itkResampleImageTest7( int , char *[] )
   itk::ResampleImageFilter< ImageType, ImageType >::Pointer resample =
     itk::ResampleImageFilter< ImageType, ImageType >::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( resample, ResampleImageFilter, ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( resample, ResampleImageFilter, ImageToImageFilter );
   resample->SetInterpolator(interp);
 
   resample->SetInput( image );
-  TEST_SET_GET_VALUE( image.GetPointer(), resample->GetInput() );
+  ITK_TEST_SET_GET_VALUE( image.GetPointer(), resample->GetInput() );
 
   resample->SetSize( size );
-  TEST_SET_GET_VALUE( size, resample->GetSize() );
+  ITK_TEST_SET_GET_VALUE( size, resample->GetSize() );
 
   resample->SetTransform(aff);
-  TEST_SET_GET_VALUE( aff, resample->GetTransform() );
+  ITK_TEST_SET_GET_VALUE( aff, resample->GetTransform() );
 
   resample->SetInterpolator(interp);
-  TEST_SET_GET_VALUE( interp, resample->GetInterpolator() );
+  ITK_TEST_SET_GET_VALUE( interp, resample->GetInterpolator() );
 
   index.Fill( 0 );
   resample->SetOutputStartIndex( index );
-  TEST_SET_GET_VALUE( index, resample->GetOutputStartIndex() );
+  ITK_TEST_SET_GET_VALUE( index, resample->GetOutputStartIndex() );
 
   ImageType::PointType origin;
   origin.Fill( 0.0 );
   resample->SetOutputOrigin( origin );
-  TEST_SET_GET_VALUE( origin, resample->GetOutputOrigin() );
+  ITK_TEST_SET_GET_VALUE( origin, resample->GetOutputOrigin() );
 
   ImageType::SpacingType spacing;
   spacing.Fill( 1.0 );
   resample->SetOutputSpacing( spacing );
-  TEST_SET_GET_VALUE( spacing, resample->GetOutputSpacing() );
+  ITK_TEST_SET_GET_VALUE( spacing, resample->GetOutputSpacing() );
 
   using StreamerType = itk::StreamingImageFilter<ImageType,ImageType>;
   StreamerType::Pointer streamer = StreamerType::New();
@@ -118,7 +118,7 @@ int itkResampleImageTest7( int , char *[] )
   // Run the resampling filter without streaming, i.e. 1 StreamDivisions
   numStreamDiv= 1; // do not split, i.e. do not stream
   streamer->SetNumberOfStreamDivisions(numStreamDiv);
-  TRY_EXPECT_NO_EXCEPTION( streamer->UpdateLargestPossibleRegion() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( streamer->UpdateLargestPossibleRegion() );
 
   ImagePointerType outputNoSDI = streamer->GetOutput(); // save output for later comparison
   outputNoSDI->DisconnectPipeline(); // disconnect to create new output
@@ -127,14 +127,14 @@ int itkResampleImageTest7( int , char *[] )
   image->Modified();
   numStreamDiv= 8; // split into numStream pieces for streaming.
   streamer->SetNumberOfStreamDivisions(numStreamDiv);
-  TRY_EXPECT_NO_EXCEPTION( streamer->UpdateLargestPossibleRegion() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( streamer->UpdateLargestPossibleRegion() );
 
   // Verify that we only requested a smaller chunk when streaming
   const ImageRegionType finalRequestedRegion( image->GetRequestedRegion() );
-  TEST_SET_GET_VALUE( 0, finalRequestedRegion.GetIndex(0) );
-  TEST_SET_GET_VALUE( 48, finalRequestedRegion.GetIndex(1) );
-  TEST_SET_GET_VALUE( 60, finalRequestedRegion.GetSize(0) );
-  TEST_SET_GET_VALUE( 12, finalRequestedRegion.GetSize(1) );
+  ITK_TEST_SET_GET_VALUE( 0, finalRequestedRegion.GetIndex(0) );
+  ITK_TEST_SET_GET_VALUE( 48, finalRequestedRegion.GetIndex(1) );
+  ITK_TEST_SET_GET_VALUE( 60, finalRequestedRegion.GetSize(0) );
+  ITK_TEST_SET_GET_VALUE( 12, finalRequestedRegion.GetSize(1) );
 
   ImagePointerType outputSDI = streamer->GetOutput();
   outputSDI->DisconnectPipeline();

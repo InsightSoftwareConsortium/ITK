@@ -59,7 +59,7 @@ int itkMeshFileWriteReadTensorTest( int argc, char* argv[] )
 
   MeshWriter2dType::Pointer mesh2dWriter = MeshWriter2dType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( mesh2dWriter, MeshFileWriter, ProcessObject );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( mesh2dWriter, MeshFileWriter, ProcessObject );
 
   mesh2dWriter->SetMeshIO( itk::VTKPolyDataMeshIO::New() );
   mesh2dWriter->SetInput( mesh2d );
@@ -91,7 +91,7 @@ int itkMeshFileWriteReadTensorTest( int argc, char* argv[] )
 
   MeshWriter3dType::Pointer mesh3dWriter = MeshWriter3dType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( mesh3dWriter, MeshFileWriter, ProcessObject );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( mesh3dWriter, MeshFileWriter, ProcessObject );
 
   mesh3dWriter->SetMeshIO( itk::VTKPolyDataMeshIO::New() );
   mesh3dWriter->SetInput( mesh3d );

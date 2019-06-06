@@ -61,14 +61,14 @@ int itkCovarianceImageFunctionTest( int, char* [] )
   image->FillBuffer( initialValue );
 
   FunctionType::Pointer function = FunctionType::New();
-  EXERCISE_BASIC_OBJECT_METHODS( function, CovarianceImageFunction,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( function, CovarianceImageFunction,
     ImageFunction );
 
   function->SetInputImage( image );
 
   unsigned int neighborhoodRadius = 5;
   function->SetNeighborhoodRadius( neighborhoodRadius );
-  TEST_SET_GET_VALUE( neighborhoodRadius, function->GetNeighborhoodRadius() );
+  ITK_TEST_SET_GET_VALUE( neighborhoodRadius, function->GetNeighborhoodRadius() );
 
   ImageType::IndexType index;
 

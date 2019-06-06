@@ -107,7 +107,7 @@ int itkTreeContainerTest(int, char* [])
   while(!childIt.IsAtEnd())
     {
     std::cout << childIt.Get() << std::endl;
-    TEST_EXPECT_EQUAL( childIt.Get(), expectedChild[expectedIndex] );
+    ITK_TEST_EXPECT_EQUAL( childIt.Get(), expectedChild[expectedIndex] );
     ++expectedIndex;
     ++childIt;
     }
@@ -160,7 +160,7 @@ int itkTreeContainerTest(int, char* [])
   while(!leafIt.IsAtEnd())
     {
     std::cout << leafIt.Get() << std::endl;
-    TEST_EXPECT_EQUAL( leafIt.Get(), expectedLeaf[expectedIndex] );
+    ITK_TEST_EXPECT_EQUAL( leafIt.Get(), expectedLeaf[expectedIndex] );
     ++expectedIndex;
     ++leafIt;
     }
@@ -178,7 +178,7 @@ int itkTreeContainerTest(int, char* [])
   while(!InOrderIt.IsAtEnd())
     {
     std::cout << InOrderIt.Get() << std::endl;
-    TEST_EXPECT_EQUAL( InOrderIt.Get(), expectedInOrder[expectedIndex] );
+    ITK_TEST_EXPECT_EQUAL( InOrderIt.Get(), expectedInOrder[expectedIndex] );
     ++expectedIndex;
     ++InOrderIt;
     }
@@ -195,7 +195,7 @@ int itkTreeContainerTest(int, char* [])
   while(!PostOrderIt.IsAtEnd())
     {
     std::cout << PostOrderIt.Get() << std::endl;
-    TEST_EXPECT_EQUAL( PostOrderIt.Get(), expectedPostOrder[expectedIndex] );
+    ITK_TEST_EXPECT_EQUAL( PostOrderIt.Get(), expectedPostOrder[expectedIndex] );
     ++expectedIndex;
     ++PostOrderIt;
     }
@@ -211,7 +211,7 @@ int itkTreeContainerTest(int, char* [])
   while(!RootIt.IsAtEnd())
     {
     std::cout << RootIt.Get() << std::endl;
-    TEST_EXPECT_EQUAL( RootIt.Get(), expectedRootTree[expectedIndex] );
+    ITK_TEST_EXPECT_EQUAL( RootIt.Get(), expectedRootTree[expectedIndex] );
     ++expectedIndex;
     ++RootIt;
     }
@@ -228,7 +228,7 @@ int itkTreeContainerTest(int, char* [])
   while(!PreOrderIt.IsAtEnd())
     {
     std::cout << PreOrderIt.Get() << std::endl;
-    TEST_EXPECT_EQUAL( PreOrderIt.Get(), expectedPreOrder[expectedIndex] );
+    ITK_TEST_EXPECT_EQUAL( PreOrderIt.Get(), expectedPreOrder[expectedIndex] );
     ++expectedIndex;
     ++PreOrderIt;
     }

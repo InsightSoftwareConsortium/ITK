@@ -35,7 +35,7 @@ int itkChainCodePathTest( int, char*[] )
 
   PathType::Pointer path = PathType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( path, ChainCodePath, Path );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( path, ChainCodePath, Path );
 
   index[0] = 3;
   index[1] = 5;

@@ -53,7 +53,7 @@ int itkHConvexImageFilterTest( int argc, char * argv[] )
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
 
   // Define the itk::HConvexImageFilter filter type
@@ -64,7 +64,7 @@ int itkHConvexImageFilterTest( int argc, char * argv[] )
   // Create the filter
   HConvexFilterType::Pointer hConvexFilter = HConvexFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( hConvexFilter, HConvexImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( hConvexFilter, HConvexImageFilter,
     ImageToImageFilter );
 
   itk::SimpleFilterWatcher watchConvex( hConvexFilter, "HConvexImageFilter" );
@@ -73,16 +73,16 @@ int itkHConvexImageFilterTest( int argc, char * argv[] )
   auto height = static_cast< HConvexFilterType::InputImagePixelType >( std::stod( argv[3] ) );
 
   hConvexFilter->SetHeight( height );
-  TEST_SET_GET_VALUE( height, hConvexFilter->GetHeight() );
+  ITK_TEST_SET_GET_VALUE( height, hConvexFilter->GetHeight() );
 
   auto fullyConnected = static_cast< bool >( std::stod( argv[4] ) );
-  TEST_SET_GET_BOOLEAN( hConvexFilter, FullyConnected, fullyConnected );
+  ITK_TEST_SET_GET_BOOLEAN( hConvexFilter, FullyConnected, fullyConnected );
 
 
   hConvexFilter->SetInput( reader->GetOutput() );
 
   // Run the filter
-  TRY_EXPECT_NO_EXCEPTION( hConvexFilter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( hConvexFilter->Update() );
 
 
   // Write the output
@@ -91,7 +91,7 @@ int itkHConvexImageFilterTest( int argc, char * argv[] )
   writer->SetFileName( argv[2] );
   writer->SetInput( hConvexFilter->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
 
   std::cout << "Test finished." << std::endl;

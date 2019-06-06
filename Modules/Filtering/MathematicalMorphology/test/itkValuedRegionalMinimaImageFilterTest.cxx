@@ -56,19 +56,19 @@ int itkValuedRegionalMinimaImageFilterTest( int argc, char * argv[] )
       itk::ValuedRegionalMinimaImageFilter< ImageType, ImageType >;
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter,
     ValuedRegionalMinimaImageFilter,
     ValuedRegionalExtremaImageFilter );
 
   bool fullyConnected = std::stoi( argv[4] );
-  TEST_SET_GET_BOOLEAN( filter, FullyConnected, fullyConnected );
+  ITK_TEST_SET_GET_BOOLEAN( filter, FullyConnected, fullyConnected );
 
 
   itk::SimpleFilterWatcher watcher( filter, "ValuedRegionalMinimaImageFilter" );
 
   filter->SetInput( reader->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
@@ -76,7 +76,7 @@ int itkValuedRegionalMinimaImageFilterTest( int argc, char * argv[] )
   writer->SetFileName( argv[2] );
 
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   // Produce the same output with other filters
   using ConcaveFilterType = itk::HConcaveImageFilter< ImageType, ImageType >;

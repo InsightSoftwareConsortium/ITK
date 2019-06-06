@@ -59,9 +59,9 @@ int itkLabelContourImageFilterTest(int argc, char * argv[])
     }
 
   // Tests for raising code coverage
-  EXERCISE_BASIC_OBJECT_METHODS(filter, LabelContourImageFilter, InPlaceImageFilter);
-  TRY_EXPECT_EXCEPTION(filter->Update());
-  TEST_SET_GET_BOOLEAN(filter, FullyConnected, std::stoi(argv[3]));
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, LabelContourImageFilter, InPlaceImageFilter);
+  ITK_TRY_EXPECT_EXCEPTION(filter->Update());
+  ITK_TEST_SET_GET_BOOLEAN(filter, FullyConnected, std::stoi(argv[3]));
 
   filter->SetInput( reader->GetOutput() );
 
@@ -79,7 +79,7 @@ int itkLabelContourImageFilterTest(int argc, char * argv[])
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[2] );
 
-  TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   return EXIT_SUCCESS;
 }

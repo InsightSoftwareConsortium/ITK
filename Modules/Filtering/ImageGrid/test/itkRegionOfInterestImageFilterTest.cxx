@@ -43,7 +43,7 @@ int itkRegionOfInterestImageFilterTest( int, char* [] )
 
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, RegionOfInterestImageFilter, ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, RegionOfInterestImageFilter, ImageToImageFilter );
 
   ImageType::Pointer image = ImageType::New();
 
@@ -101,7 +101,7 @@ int itkRegionOfInterestImageFilterTest( int, char* [] )
   itk::SimpleFilterWatcher watcher(filter);
 
   filter->SetRegionOfInterest( regionOfInterest );
-  TEST_SET_GET_VALUE( regionOfInterest, filter->GetRegionOfInterest() );
+  ITK_TEST_SET_GET_VALUE( regionOfInterest, filter->GetRegionOfInterest() );
 
   filter->Update();
 

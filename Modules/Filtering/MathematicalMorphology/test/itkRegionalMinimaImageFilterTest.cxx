@@ -43,19 +43,19 @@ int RegionalMinimaImageFilterTestHelper( std::string inputImageFile,
 
   filter->SetInput( reader->GetOutput() );
 
-  TEST_SET_GET_BOOLEAN( filter, FullyConnected, fullyConnected );
+  ITK_TEST_SET_GET_BOOLEAN( filter, FullyConnected, fullyConnected );
 
-  TEST_SET_GET_BOOLEAN( filter, FlatIsMinima, flatIsMinima );
+  ITK_TEST_SET_GET_BOOLEAN( filter, FlatIsMinima, flatIsMinima );
 
   typename FilterType::OutputImagePixelType foregroundValue =
     itk::NumericTraits< typename FilterType::OutputImagePixelType >::max();
   filter->SetForegroundValue( foregroundValue );
-  TEST_SET_GET_VALUE( foregroundValue, filter->GetForegroundValue() );
+  ITK_TEST_SET_GET_VALUE( foregroundValue, filter->GetForegroundValue() );
 
   typename FilterType::OutputImagePixelType backgroundValue =
     itk::NumericTraits< typename FilterType::OutputImagePixelType >::NonpositiveMin();
   filter->SetBackgroundValue( backgroundValue );
-  TEST_SET_GET_VALUE( backgroundValue, filter->GetBackgroundValue() );
+  ITK_TEST_SET_GET_VALUE( backgroundValue, filter->GetBackgroundValue() );
 
   itk::SimpleFilterWatcher watcher( filter, "RegionalMinimaImageFilter" );
 
@@ -129,7 +129,7 @@ int itkRegionalMinimaImageFilterTest( int argc, char * argv[] )
   using FilterType = itk::RegionalMinimaImageFilter< ImageType, ImageType >;
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, RegionalMinimaImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, RegionalMinimaImageFilter,
     ImageToImageFilter );
 
   if( dimension == 2 )

@@ -70,7 +70,7 @@ int itkStatisticsImageFilterTest(int argc, char *argv[])
   filter->SetInput (image);
   filter->SetNumberOfStreamDivisions( numberOfStreamDivisions );
 
-  TRY_EXPECT_NO_EXCEPTION(filter->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   if ( itk::Math::NotAlmostEquals( filter->GetMinimum(), fillValue) )
     {
@@ -121,7 +121,7 @@ int itkStatisticsImageFilterTest(int argc, char *argv[])
 
   filter->SetInput(source->GetOutput());
   filter->SetNumberOfStreamDivisions( numberOfStreamDivisions);
-  TRY_EXPECT_NO_EXCEPTION(filter->UpdateLargestPossibleRegion());
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->UpdateLargestPossibleRegion());
 
   double expectedSigma = std::sqrt((maxValue-minValue)*(maxValue-minValue)/12.0);
   double epsilon = (maxValue - minValue) * .001;
@@ -158,7 +158,7 @@ int itkStatisticsImageFilterTest(int argc, char *argv[])
   DFilterType::Pointer dfilter = DFilterType::New();
   dfilter->SetInput(dImage);
   dfilter->SetNumberOfStreamDivisions( numberOfStreamDivisions );
-  TRY_EXPECT_NO_EXCEPTION(dfilter->UpdateLargestPossibleRegion());
+  ITK_TRY_EXPECT_NO_EXCEPTION(dfilter->UpdateLargestPossibleRegion());
   double testMean = dfilter->GetMean();
   double testVariance = dfilter->GetVariance();
   double diff = itk::Math::abs(testMean - knownMean);

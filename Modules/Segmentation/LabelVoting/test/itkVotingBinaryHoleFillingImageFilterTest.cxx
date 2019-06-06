@@ -49,7 +49,7 @@ int itkVotingBinaryHoleFillingImageFilterTest( int argc, char* argv[] )
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
   InputImageType::PixelType foreground = 97; // Prime numbers are good testers
   InputImageType::PixelType background = 29;
@@ -70,7 +70,7 @@ int itkVotingBinaryHoleFillingImageFilterTest( int argc, char* argv[] )
   VotingBinaryHoleFillingImageFilterType::Pointer voting =
     VotingBinaryHoleFillingImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( voting, VotingBinaryHoleFillingImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( voting, VotingBinaryHoleFillingImageFilter,
     VotingBinaryImageFilter );
 
   // Define the neighborhood size used for the voting filter (3x3)
@@ -83,7 +83,7 @@ int itkVotingBinaryHoleFillingImageFilterTest( int argc, char* argv[] )
   // switching a pixel
   unsigned int majorityThreshold = 1;
   voting->SetMajorityThreshold( majorityThreshold );
-  TEST_SET_GET_VALUE( majorityThreshold, voting->GetMajorityThreshold() );
+  ITK_TEST_SET_GET_VALUE( majorityThreshold, voting->GetMajorityThreshold() );
 
   voting->SetForegroundValue( foreground );
   voting->SetBackgroundValue( background );
@@ -91,7 +91,7 @@ int itkVotingBinaryHoleFillingImageFilterTest( int argc, char* argv[] )
   voting->SetInput( thresholder->GetOutput());
 
   // Execute the filter
-  TRY_EXPECT_NO_EXCEPTION( voting->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( voting->Update() );
 
 
   std::cout << "Number of pixels changed: "
@@ -101,7 +101,7 @@ int itkVotingBinaryHoleFillingImageFilterTest( int argc, char* argv[] )
   writer->SetInput( voting->GetOutput() );
   writer->SetFileName( argv[2] );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
 
   std::cout << "Test finished" << std::endl;

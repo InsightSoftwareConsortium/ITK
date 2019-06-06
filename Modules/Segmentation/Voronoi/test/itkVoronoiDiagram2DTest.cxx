@@ -47,7 +47,7 @@ int itkVoronoiDiagram2DTest( int argc, char* argv[] )
 
   VoronoiDiagramGenerator::Pointer voronoiDiagramGenerator =
     VoronoiDiagramGenerator::New();
-  EXERCISE_BASIC_OBJECT_METHODS ( voronoiDiagramGenerator, VoronoiDiagram2DGenerator,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS ( voronoiDiagramGenerator, VoronoiDiagram2DGenerator,
     MeshSource );
 
   PointType insize;
@@ -56,7 +56,7 @@ int itkVoronoiDiagram2DTest( int argc, char* argv[] )
   voronoiDiagramGenerator->SetBoundary(insize);
 
   voronoiDiagramGenerator->SetRandomSeeds(numberOfSeeds);
-  TEST_SET_GET_VALUE( numberOfSeeds, voronoiDiagramGenerator->GetNumberOfSeeds() );
+  ITK_TEST_SET_GET_VALUE( numberOfSeeds, voronoiDiagramGenerator->GetNumberOfSeeds() );
 
   voronoiDiagramGenerator->Update();
   voronoiDiagram = voronoiDiagramGenerator->GetOutput();

@@ -41,40 +41,40 @@ static int FastMarchingImageFilterBaseTestFunction()
       FastMarchingImageFilterType::New();
 
   bool overrideOutputInformation = true;
-  TEST_SET_GET_BOOLEAN( fastMarchingFilter, OverrideOutputInformation,
+  ITK_TEST_SET_GET_BOOLEAN( fastMarchingFilter, OverrideOutputInformation,
     overrideOutputInformation );
 
   typename FastMarchingImageFilterType::OutputSizeType outputSize;
   outputSize.Fill( 32 );
   fastMarchingFilter->SetOutputSize( outputSize );
-  TEST_SET_GET_VALUE( outputSize, fastMarchingFilter->GetOutputSize() );
+  ITK_TEST_SET_GET_VALUE( outputSize, fastMarchingFilter->GetOutputSize() );
 
   typename FastMarchingImageFilterType::OutputRegionType outputRegion;
   outputRegion.SetSize( outputSize );
   fastMarchingFilter->SetOutputRegion( outputRegion );
-  TEST_SET_GET_VALUE( outputRegion, fastMarchingFilter->GetOutputRegion() );
+  ITK_TEST_SET_GET_VALUE( outputRegion, fastMarchingFilter->GetOutputRegion() );
 
   typename FastMarchingImageFilterType::OutputSpacingType outputSpacing;
   outputSpacing.Fill( 1.0 );
   fastMarchingFilter->SetOutputSpacing( outputSpacing );
-  TEST_SET_GET_VALUE( outputSpacing, fastMarchingFilter->GetOutputSpacing() );
+  ITK_TEST_SET_GET_VALUE( outputSpacing, fastMarchingFilter->GetOutputSpacing() );
 
   typename FastMarchingImageFilterType::OutputDirectionType outputDirection;
   outputDirection.SetIdentity();
   fastMarchingFilter->SetOutputDirection( outputDirection );
-  TEST_SET_GET_VALUE( outputDirection, fastMarchingFilter->GetOutputDirection() );
+  ITK_TEST_SET_GET_VALUE( outputDirection, fastMarchingFilter->GetOutputDirection() );
 
   typename FastMarchingImageFilterType::OutputPointType outputOrigin;
   outputOrigin.Fill( 0.0 );
   fastMarchingFilter->SetOutputOrigin( outputOrigin );
-  TEST_SET_GET_VALUE( outputOrigin, fastMarchingFilter->GetOutputOrigin() );
+  ITK_TEST_SET_GET_VALUE( outputOrigin, fastMarchingFilter->GetOutputOrigin() );
 
   // DO NOT ATTEMPT TO UPDATE the base class filter.
   // the base class filter is not sufficiently configured
   // with trial point, stopping criteria, normalization factors, or speed constants.
   // or given a valid image.
   //
-  // DO NOT ADD TRY_EXPECT_NO_EXCEPTION( fastMarchingFilter->Update() );
+  // DO NOT ADD ITK_TRY_EXPECT_NO_EXCEPTION( fastMarchingFilter->Update() );
   // DO NOT ADD typename ImageType::Pointer output = fastMarchingFilter->GetOutput();
 
   return EXIT_SUCCESS;
@@ -96,7 +96,7 @@ int itkFastMarchingImageFilterBaseTest( int , char * [] )
   FastMarchingImageFilterType::Pointer fastMarchingFilter =
     FastMarchingImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( fastMarchingFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( fastMarchingFilter,
     FastMarchingImageFilterBase, FastMarchingBase );
 
 

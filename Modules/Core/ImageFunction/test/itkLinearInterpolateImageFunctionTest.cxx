@@ -175,7 +175,7 @@ int RunLinearInterpolateTest()
  radius.Fill( 1 );
  for( unsigned int d = 0; d < Dimensions; ++d )
    {
-   TEST_SET_GET_VALUE( radius[d], interpolator->GetRadius()[d] );
+   ITK_TEST_SET_GET_VALUE( radius[d], interpolator->GetRadius()[d] );
    }
 
  constexpr AccumulatorType incr  = 0.2;
