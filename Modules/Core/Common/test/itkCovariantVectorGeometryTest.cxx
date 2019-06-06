@@ -112,7 +112,7 @@ int itkCovariantVectorGeometryTest(int, char* [] )
     std::cout << "vnl_vector_ref.begin() = va.Begin()";
     std::cout << std::endl;
     std::cout << vnlVector.begin() << " = ";
-    std::cout << va.Begin() << std::endl;
+    std::cout << va.cbegin() << std::endl;
   }
 
   // Test the const version that returns an vnl_vector
@@ -129,7 +129,7 @@ int itkCovariantVectorGeometryTest(int, char* [] )
     std::cout << "vnl_vector.begin() != vf.Begin()";
     std::cout << std::endl;
     std::cout << vnlVector2.begin() << " = ";
-    std::cout << vf.Begin() << std::endl;
+    std::cout << vf.cbegin() << std::endl;
   }
 
   // Test for CastFrom() method

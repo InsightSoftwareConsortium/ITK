@@ -147,8 +147,8 @@ FrequencyBandImageFilter< TImageType, TFrequencyIterator >
   else // Cut-off box taking into account max absolute scalar frequency.
     {
     vectorFrequency = freqIt.GetFrequency();
-    maxFrequency = std::abs( *std::max_element(vectorFrequency.Begin(), vectorFrequency.End()) );
-    minFrequency = std::abs( *std::min_element(vectorFrequency.Begin(), vectorFrequency.End()) );
+    maxFrequency = std::abs( *std::max_element(vectorFrequency.cbegin(), vectorFrequency.cend()) );
+    minFrequency = std::abs( *std::min_element(vectorFrequency.cbegin(), vectorFrequency.cend()) );
     scalarFrequency = std::max(maxFrequency, minFrequency);
     if ( minFrequency < maxFrequency )
       {

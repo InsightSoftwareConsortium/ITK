@@ -158,7 +158,7 @@ bool
 RGBPixel< T >
 ::operator<(const Self & r) const
 {
-  return std::lexicographical_compare( this->Begin(), this->End(), r.Begin(), r.End() );
+  return std::lexicographical_compare( this->cbegin(), this->cend(), r.cbegin(), r.cend() );
 }
 
 template< typename T >
