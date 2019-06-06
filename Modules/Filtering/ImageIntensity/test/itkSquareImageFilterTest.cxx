@@ -89,7 +89,7 @@ int itkSquareImageFilterTest( int, char* [] )
   // Create a Filter
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, SquareImageFilter, UnaryGeneratorImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, SquareImageFilter, UnaryGeneratorImageFilter );
 
   // Connect the input images
   filter->SetInput( inputImage );

@@ -119,25 +119,25 @@ int itkResampleImageTest2Streaming( int argc, char * argv [] )
   using MonitorFilterType = itk::PipelineMonitorImageFilter< ImageType >;
   MonitorFilterType::Pointer monitor = MonitorFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( resample, ResampleImageFilter, ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( resample, ResampleImageFilter, ImageToImageFilter );
 
   monitor->SetInput( reader1->GetOutput() );
-  TEST_SET_GET_VALUE( reader1->GetOutput(), monitor->GetInput() );
+  ITK_TEST_SET_GET_VALUE( reader1->GetOutput(), monitor->GetInput() );
 
   resample->SetReferenceImage( reader2->GetOutput() );
-  TEST_SET_GET_VALUE( reader2->GetOutput(), resample->GetReferenceImage() );
+  ITK_TEST_SET_GET_VALUE( reader2->GetOutput(), resample->GetReferenceImage() );
 
   resample->UseReferenceImageOn();
-  TEST_EXPECT_TRUE( resample->GetUseReferenceImage() );
+  ITK_TEST_EXPECT_TRUE( resample->GetUseReferenceImage() );
 
   resample->SetTransform( affineTransform );
-  TEST_SET_GET_VALUE( affineTransform, resample->GetTransform() );
+  ITK_TEST_SET_GET_VALUE( affineTransform, resample->GetTransform() );
 
   resample->SetInterpolator( interpolator );
-  TEST_SET_GET_VALUE( interpolator, resample->GetInterpolator() );
+  ITK_TEST_SET_GET_VALUE( interpolator, resample->GetInterpolator() );
 
   resample->SetInput( monitor->GetOutput() );
-  TEST_SET_GET_VALUE( monitor->GetOutput(), resample->GetInput() );
+  ITK_TEST_SET_GET_VALUE( monitor->GetOutput(), resample->GetInput() );
   writer1->SetInput( resample->GetOutput() );
 
   // Check GetReferenceImage
@@ -153,7 +153,7 @@ int itkResampleImageTest2Streaming( int argc, char * argv [] )
   std::cout << "Test with normal AffineTransform." << std::endl;
   writer1->SetNumberOfStreamDivisions(8); //split into 8 pieces for streaming.
   monitor->ClearPipelineSavedInformation();
-  TRY_EXPECT_NO_EXCEPTION( writer1->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer1->Update() );
 
   if( !monitor->VerifyInputFilterExecutedStreaming(8) )
     {
@@ -177,7 +177,7 @@ int itkResampleImageTest2Streaming( int argc, char * argv [] )
   monitor->ClearPipelineSavedInformation();
   writer2->SetInput( resample->GetOutput() );
   writer2->SetNumberOfStreamDivisions(8);
-  TRY_EXPECT_NO_EXCEPTION( writer2->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer2->Update() );
 
   std::cout << "We demanded splitting into 8 pieces for streaming, \
 but faked non-linearity should disable streaming." << std::endl;
@@ -196,7 +196,7 @@ but faked non-linearity should disable streaming." << std::endl;
   writer3->SetInput( resample->GetOutput() );
   std::cout << "Test with nearest neighbor extrapolator, affine transform." << std::endl;
   writer3->SetNumberOfStreamDivisions(8); //split into 8 pieces for streaming.
-  TRY_EXPECT_NO_EXCEPTION( writer3->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer3->Update() );
 
   // Instead of using the default pixel when sampling outside the input image,
   // we use a nearest neighbor extrapolator.
@@ -204,7 +204,7 @@ but faked non-linearity should disable streaming." << std::endl;
   writer4->SetInput( resample->GetOutput() );
   std::cout << "Test with nearest neighbor extrapolator, nonlinear transform." << std::endl;
   writer4->SetNumberOfStreamDivisions(8); //demand splitting into 8 pieces for streaming, but faked non-linearity will disable streaming
-  TRY_EXPECT_NO_EXCEPTION( writer4->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer4->Update() );
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;

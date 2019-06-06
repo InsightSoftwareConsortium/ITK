@@ -61,30 +61,30 @@ int itkStatisticsOpeningLabelMapFilterTest1(int argc, char * argv[])
   using LabelOpeningType = itk::StatisticsOpeningLabelMapFilter< LabelMapType >;
   LabelOpeningType::Pointer opening = LabelOpeningType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( opening, StatisticsOpeningLabelMapFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( opening, StatisticsOpeningLabelMapFilter,
     ShapeOpeningLabelMapFilter);
 
   // Testing get and set macros for Lambda
   double lambda = std::stod( argv[4] );
   opening->SetLambda( lambda );
-  TEST_SET_GET_VALUE( lambda , opening->GetLambda() );
+  ITK_TEST_SET_GET_VALUE( lambda , opening->GetLambda() );
 
   // Testing get and set macros for ReverseOrdering
   bool reverseOrdering = std::stoi( argv[5] );
   opening->SetReverseOrdering( reverseOrdering );
-  TEST_SET_GET_VALUE( reverseOrdering , opening->GetReverseOrdering() );
+  ITK_TEST_SET_GET_VALUE( reverseOrdering , opening->GetReverseOrdering() );
 
   // Testing boolean macro for ReverseOrdering
   opening->ReverseOrderingOn();
-  TEST_SET_GET_VALUE( true, opening->GetReverseOrdering() );
+  ITK_TEST_SET_GET_VALUE( true, opening->GetReverseOrdering() );
 
   opening->ReverseOrderingOff();
-  TEST_SET_GET_VALUE( false, opening->GetReverseOrdering() );
+  ITK_TEST_SET_GET_VALUE( false, opening->GetReverseOrdering() );
 
   // Testing get and set macros for Attribute
   LabelOpeningType::AttributeType attribute = std::stoi( argv[6] );
   opening->SetAttribute( attribute );
-  TEST_SET_GET_VALUE( attribute, opening->GetAttribute() );
+  ITK_TEST_SET_GET_VALUE( attribute, opening->GetAttribute() );
 
   opening->SetInput( i2l->GetOutput() );
 
@@ -101,7 +101,7 @@ int itkStatisticsOpeningLabelMapFilterTest1(int argc, char * argv[])
   writer->SetFileName( argv[3] );
   writer->UseCompressionOn();
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

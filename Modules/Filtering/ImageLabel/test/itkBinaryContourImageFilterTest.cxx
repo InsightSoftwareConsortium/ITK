@@ -46,7 +46,7 @@ int itkBinaryContourImageFilterTest(int argc, char * argv[])
   using FilterType = itk::BinaryContourImageFilter< IType, IType >;
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(filter, BinaryContourImageFilter, InPlaceImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, BinaryContourImageFilter, InPlaceImageFilter);
 
   // test default values
   if ( filter->GetFullyConnected( ) != false )
@@ -65,9 +65,9 @@ int itkBinaryContourImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
-  TRY_EXPECT_EXCEPTION(filter->Update());
+  ITK_TRY_EXPECT_EXCEPTION(filter->Update());
 
-  TEST_SET_GET_BOOLEAN(filter, FullyConnected, std::stoi(argv[3]));
+  ITK_TEST_SET_GET_BOOLEAN(filter, FullyConnected, std::stoi(argv[3]));
 
   filter->SetForegroundValue( std::stoi(argv[4]) );
   if ( filter->GetForegroundValue( ) != std::stoi(argv[4]) )
@@ -92,7 +92,7 @@ int itkBinaryContourImageFilterTest(int argc, char * argv[])
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[2] );
 
-  TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   return EXIT_SUCCESS;
 }

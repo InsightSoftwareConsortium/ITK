@@ -59,10 +59,10 @@ int itkLabelMapToBinaryImageFilterTest( int argc, char * argv [] )
   L2IType::Pointer l2i = L2IType::New();
 
   l2i->SetForegroundValue( std::stoi(argv[3]) );
-  TEST_SET_GET_VALUE( std::stoi(argv[3]), l2i->GetForegroundValue() );
+  ITK_TEST_SET_GET_VALUE( std::stoi(argv[3]), l2i->GetForegroundValue() );
 
   l2i->SetBackgroundValue( std::stoi(argv[4]) );
-  TEST_SET_GET_VALUE( std::stoi(argv[4]), l2i->GetBackgroundValue() );
+  ITK_TEST_SET_GET_VALUE( std::stoi(argv[4]), l2i->GetBackgroundValue() );
 
   itk::SimpleFilterWatcher watcher( l2i );
 
@@ -77,7 +77,7 @@ int itkLabelMapToBinaryImageFilterTest( int argc, char * argv [] )
   l2i->SetInput( i2l->GetOutput() );
   writer->SetInput( l2i->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() )
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() )
 
   i2l->GetOutput()->PrintLabelObjects();
 

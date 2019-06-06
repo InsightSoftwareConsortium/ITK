@@ -43,7 +43,7 @@ int itkConicShellInteriorExteriorSpatialFunctionTest( int, char *[] )
   ConicShellInteriorExteriorSpatialFunctionType::Pointer conicShellInteriorExteriorSpatialFunction =
     ConicShellInteriorExteriorSpatialFunctionType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( conicShellInteriorExteriorSpatialFunction,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( conicShellInteriorExteriorSpatialFunction,
     ConicShellInteriorExteriorSpatialFunction,
     InteriorExteriorSpatialFunction );
 
@@ -52,7 +52,7 @@ int itkConicShellInteriorExteriorSpatialFunctionTest( int, char *[] )
   origin.Fill( 1.0 );
 
   conicShellInteriorExteriorSpatialFunction->SetOrigin( origin );
-  TEST_SET_GET_VALUE( origin, conicShellInteriorExteriorSpatialFunction->GetOrigin() );
+  ITK_TEST_SET_GET_VALUE( origin, conicShellInteriorExteriorSpatialFunction->GetOrigin() );
 
   ConicShellInteriorExteriorSpatialFunctionType::GradientType originGradient;
   originGradient.Fill( 1.6 );
@@ -75,18 +75,18 @@ int itkConicShellInteriorExteriorSpatialFunctionTest( int, char *[] )
 
   double distanceMin = 10.0;
   conicShellInteriorExteriorSpatialFunction->SetDistanceMin( distanceMin );
-  TEST_SET_GET_VALUE( distanceMin, conicShellInteriorExteriorSpatialFunction->GetDistanceMin() );
+  ITK_TEST_SET_GET_VALUE( distanceMin, conicShellInteriorExteriorSpatialFunction->GetDistanceMin() );
 
   double distanceMax = 50.0;
   conicShellInteriorExteriorSpatialFunction->SetDistanceMax( distanceMax );
-  TEST_SET_GET_VALUE( distanceMax, conicShellInteriorExteriorSpatialFunction->GetDistanceMax() );
+  ITK_TEST_SET_GET_VALUE( distanceMax, conicShellInteriorExteriorSpatialFunction->GetDistanceMax() );
 
   double epsilon = 1e-3;
   conicShellInteriorExteriorSpatialFunction->SetEpsilon( epsilon );
-  TEST_SET_GET_VALUE( epsilon, conicShellInteriorExteriorSpatialFunction->GetEpsilon() );
+  ITK_TEST_SET_GET_VALUE( epsilon, conicShellInteriorExteriorSpatialFunction->GetEpsilon() );
 
   bool polarity = false;
-  TEST_SET_GET_BOOLEAN( conicShellInteriorExteriorSpatialFunction, Polarity, polarity );
+  ITK_TEST_SET_GET_BOOLEAN( conicShellInteriorExteriorSpatialFunction, Polarity, polarity );
 
 
   // Define two points to test the function
@@ -128,7 +128,7 @@ int itkConicShellInteriorExteriorSpatialFunctionTest( int, char *[] )
   // Test for the opposite polarity
   //
   polarity = true;
-  TEST_SET_GET_BOOLEAN( conicShellInteriorExteriorSpatialFunction, Polarity, polarity );
+  ITK_TEST_SET_GET_BOOLEAN( conicShellInteriorExteriorSpatialFunction, Polarity, polarity );
 
   insidePoint[0] = 60.0;
   insidePoint[1] = 60.0;

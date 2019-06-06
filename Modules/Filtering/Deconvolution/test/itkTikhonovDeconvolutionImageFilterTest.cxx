@@ -79,10 +79,10 @@ int itkTikhonovDeconvolutionImageFilterTest(int argc, char * argv[])
   deconvolutionFilter->SetSizeGreatestPrimeFactor( 5 );
 
   // Check default RegularizationConstant value
-  TEST_SET_GET_VALUE( 0.0, deconvolutionFilter->GetRegularizationConstant() );
+  ITK_TEST_SET_GET_VALUE( 0.0, deconvolutionFilter->GetRegularizationConstant() );
   double regularizationConstant = 1.0e-4;
   deconvolutionFilter->SetRegularizationConstant( regularizationConstant );
-  TEST_SET_GET_VALUE( regularizationConstant,
+  ITK_TEST_SET_GET_VALUE( regularizationConstant,
                       deconvolutionFilter->GetRegularizationConstant() );
 
   using WriterType = itk::ImageFileWriter<ImageType>;

@@ -36,7 +36,7 @@ int itkFourierSeriesPathTest( int, char*[] )
 
   PathType::Pointer path = PathType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( path, FourierSeriesPath, ParametricPath );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( path, FourierSeriesPath, ParametricPath );
 
   // Average value is (5,5)
   cosV.Fill( 5 );

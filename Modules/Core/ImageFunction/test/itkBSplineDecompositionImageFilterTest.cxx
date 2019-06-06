@@ -97,7 +97,7 @@ int itkBSplineDecompositionImageFilterTest( int argc, char* argv[] )
   using FilterType = itk::BSplineDecompositionImageFilter< ImageType, ImageType >;
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, BSplineDecompositionImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, BSplineDecompositionImageFilter,
     ImageToImageFilter );
 
   itk::SimpleFilterWatcher watcher( filter, "BSplineDecompositionImageFilter" );
@@ -106,7 +106,7 @@ int itkBSplineDecompositionImageFilterTest( int argc, char* argv[] )
 
   int unsupportedSplineOrder = 6;
 
-  TRY_EXPECT_EXCEPTION( filter->SetSplineOrder( unsupportedSplineOrder ) );
+  ITK_TRY_EXPECT_EXCEPTION( filter->SetSplineOrder( unsupportedSplineOrder ) );
 
   filter->SetSplineOrder( interpolator->GetSplineOrder() );
 
@@ -143,7 +143,7 @@ int itkBSplineDecompositionImageFilterTest( int argc, char* argv[] )
       }
     }
 
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
 
   // Set up a BSplineResampleImageFunction.
@@ -196,7 +196,7 @@ int itkBSplineDecompositionImageFilterTest( int argc, char* argv[] )
       itk::BSplineDecompositionImageFilter< ComplexImageType, ComplexImageType >;
   ComplexFilterType::Pointer complexFilter = ComplexFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, BSplineDecompositionImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, BSplineDecompositionImageFilter,
     ImageToImageFilter );
 
   return EXIT_SUCCESS;

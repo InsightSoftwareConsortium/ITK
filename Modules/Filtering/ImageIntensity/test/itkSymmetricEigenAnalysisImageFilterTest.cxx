@@ -116,7 +116,7 @@ public:
       SymmetricEigenAnalysisImageFilterType::New();
 
     filter->SetDimension( InputImageType::ImageDimension );
-    TEST_SET_GET_VALUE( InputImageType::ImageDimension, filter->GetDimension() );
+    ITK_TEST_SET_GET_VALUE( InputImageType::ImageDimension, filter->GetDimension() );
 
     // Set the input image
     filter->SetInput( inputImage );
@@ -126,7 +126,7 @@ public:
     filter->OrderEigenValuesBy( order );
 
     // Execute the filter
-    TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+    ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
     // Get the filter output
     // It is important to do it AFTER the filter is Updated
@@ -143,7 +143,7 @@ public:
 
     roundImageFilter->SetInput( internalImage );
 
-    TRY_EXPECT_NO_EXCEPTION( roundImageFilter->Update() );
+    ITK_TRY_EXPECT_NO_EXCEPTION( roundImageFilter->Update() );
 
     // Write the result image
     using WriterType = itk::ImageFileWriter< OutputImageType >;
@@ -154,7 +154,7 @@ public:
 
     writer->SetInput( roundImageFilter->GetOutput() );
 
-    TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+    ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
     std::cout << "Test succeeded." << std::endl;
     return EXIT_SUCCESS;
@@ -261,7 +261,7 @@ public:
     filter->OrderEigenValuesBy( order );
 
     // Execute the filter
-    TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+    ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
     // Get the filter output
     // It is important to do it AFTER the filter is Updated
@@ -278,7 +278,7 @@ public:
 
     roundImageFilter->SetInput( internalImage );
 
-    TRY_EXPECT_NO_EXCEPTION( roundImageFilter->Update() );
+    ITK_TRY_EXPECT_NO_EXCEPTION( roundImageFilter->Update() );
 
     // Write the result image
     using WriterType = itk::ImageFileWriter< OutputImageType >;
@@ -289,7 +289,7 @@ public:
 
     writer->SetInput( roundImageFilter->GetOutput() );
 
-    TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+    ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
     std::cout << "Test succeeded." << std::endl;
     return EXIT_SUCCESS;
@@ -340,7 +340,7 @@ int itkSymmetricEigenAnalysisImageFilterTest( int argc, char* argv[] )
   // Create an instance to exercise basic object methods
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, SymmetricEigenAnalysisImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, SymmetricEigenAnalysisImageFilter,
     UnaryFunctorImageFilter );
 
 
@@ -370,7 +370,7 @@ int itkSymmetricEigenAnalysisImageFilterTest( int argc, char* argv[] )
   std::string outputFilenameFixedDimension = argv[3];
   // Create an instance to exercise basic object methods
   auto filterFixedDimension = FilterFixedDimensionType::New();
-  EXERCISE_BASIC_OBJECT_METHODS( filterFixedDimension, SymmetricEigenAnalysisFixedDimensionImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filterFixedDimension, SymmetricEigenAnalysisFixedDimensionImageFilter,
     UnaryFunctorImageFilter );
 
   int testFixedDimensionResult = itk::SymmetricEigenAnalysisFixedDimensionImageFilterHelper<

@@ -87,48 +87,48 @@ int itkBSplineScatteredDataPointSetToImageFilterTest( int argc, char * argv [] )
 
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, BSplineScatteredDataPointSetToImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, BSplineScatteredDataPointSetToImageFilter,
     PointSetToImageFilter );
 
 
   unsigned int splineOrder = 0u;
-  TRY_EXPECT_EXCEPTION( filter->SetSplineOrder( splineOrder ) );
+  ITK_TRY_EXPECT_EXCEPTION( filter->SetSplineOrder( splineOrder ) );
 
   FilterType::ArrayType splineOrderArray;
   splineOrderArray.Fill( 4u );
   filter->SetSplineOrder( splineOrderArray );
-  TEST_SET_GET_VALUE( splineOrderArray, filter->GetSplineOrder() );
+  ITK_TEST_SET_GET_VALUE( splineOrderArray, filter->GetSplineOrder() );
 
   splineOrder = 3u;
   filter->SetSplineOrder( splineOrder );
   splineOrderArray.Fill( splineOrder );
-  TEST_SET_GET_VALUE( splineOrderArray, filter->GetSplineOrder() );
+  ITK_TEST_SET_GET_VALUE( splineOrderArray, filter->GetSplineOrder() );
 
 
   unsigned numberOfLevels = 0u;
-  TRY_EXPECT_EXCEPTION( filter->SetNumberOfLevels( numberOfLevels ) );
+  ITK_TRY_EXPECT_EXCEPTION( filter->SetNumberOfLevels( numberOfLevels ) );
 
   FilterType::ArrayType numberOfLevelsArray;
   numberOfLevelsArray.Fill( 4u );
   filter->SetNumberOfLevels( numberOfLevelsArray );
-  TEST_SET_GET_VALUE( numberOfLevelsArray, filter->GetNumberOfLevels() );
+  ITK_TEST_SET_GET_VALUE( numberOfLevelsArray, filter->GetNumberOfLevels() );
 
   numberOfLevels = 3u;
   filter->SetNumberOfLevels( numberOfLevels );
   numberOfLevelsArray.Fill( numberOfLevels );
-  TEST_SET_GET_VALUE( numberOfLevelsArray, filter->GetNumberOfLevels() );
+  ITK_TEST_SET_GET_VALUE( numberOfLevelsArray, filter->GetNumberOfLevels() );
 
 
   FilterType::ArrayType ncps;
   ncps.Fill( 4u );
   filter->SetNumberOfControlPoints( ncps );
-  TEST_SET_GET_VALUE( ncps, filter->GetNumberOfControlPoints() );
+  ITK_TEST_SET_GET_VALUE( ncps, filter->GetNumberOfControlPoints() );
 
 
   FilterType::ArrayType close;
   close.Fill( 0u );
   filter->SetCloseDimension( close );
-  TEST_SET_GET_VALUE( close, filter->GetCloseDimension() );
+  ITK_TEST_SET_GET_VALUE( close, filter->GetCloseDimension() );
 
 
   // Define the parametric domain.
@@ -139,7 +139,7 @@ int itkBSplineScatteredDataPointSetToImageFilterTest( int argc, char * argv [] )
 
   filter->SetInput( pointSet );
 
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   // Get the current number of control points to increase coverage
   std::cout << "Current number of control points: "
@@ -170,7 +170,7 @@ int itkBSplineScatteredDataPointSetToImageFilterTest( int argc, char * argv [] )
   writer->SetInput( image );
   writer->SetFileName( argv[2] );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

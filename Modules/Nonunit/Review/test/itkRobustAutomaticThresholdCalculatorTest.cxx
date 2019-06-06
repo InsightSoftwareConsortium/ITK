@@ -56,7 +56,7 @@ int itkRobustAutomaticThresholdCalculatorTest( int argc, char *argv[] )
       itk::RobustAutomaticThresholdCalculator< ImageType, RealImageType >;
   CalculatorType::Pointer calculator = CalculatorType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( calculator,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( calculator,
     RobustAutomaticThresholdCalculator, Object );
 
 
@@ -64,18 +64,18 @@ int itkRobustAutomaticThresholdCalculatorTest( int argc, char *argv[] )
 
   double pow = std::stod( argv[2] );
   calculator->SetPow( pow );
-  TEST_SET_GET_VALUE( pow, calculator->GetPow() );
+  ITK_TEST_SET_GET_VALUE( pow, calculator->GetPow() );
 
 
   // Test input or gradient unset exceptions
-  TRY_EXPECT_EXCEPTION( calculator->Compute() );
+  ITK_TRY_EXPECT_EXCEPTION( calculator->Compute() );
 
-  TRY_EXPECT_EXCEPTION( calculator->GetOutput() );
+  ITK_TRY_EXPECT_EXCEPTION( calculator->GetOutput() );
 
 
   calculator->SetInput( reader->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( calculator->Compute() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( calculator->Compute() );
 
 
   // Regression test

@@ -137,7 +137,7 @@ int itkTernaryMagnitudeImageFilterTest( int argc, char* argv[] )
   TernaryMagnitudeImageFilterType::Pointer filter =
     TernaryMagnitudeImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, TernaryMagnitudeImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, TernaryMagnitudeImageFilter,
     TernaryFunctorImageFilter );
 
   // Set the input images
@@ -162,7 +162,7 @@ int itkTernaryMagnitudeImageFilterTest( int argc, char* argv[] )
 
   writer->SetInput( outputImage );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;

@@ -92,7 +92,7 @@ int itkSqrtImageFilterAndAdaptorTest( int, char* [] )
   // Create the filter
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, SqrtImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, SqrtImageFilter,
     UnaryGeneratorImageFilter );
 
   // Set the input image
@@ -139,7 +139,7 @@ int itkSqrtImageFilterAndAdaptorTest( int, char* [] )
 
   AdaptorType::Pointer sqrtAdaptor = AdaptorType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( sqrtAdaptor, SqrtImageAdaptor,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( sqrtAdaptor, SqrtImageAdaptor,
     ImageAdaptor );
 
   sqrtAdaptor->SetImage( inputImage );

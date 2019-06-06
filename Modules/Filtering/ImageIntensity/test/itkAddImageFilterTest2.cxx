@@ -78,10 +78,10 @@ int itkAddImageFilterTest2(int argc, char* argv[] )
   writer->SetNumberOfStreamDivisions( streams );
   writer->SetFileName( outputImage );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
-  TEST_EXPECT_TRUE( monitorFilter->VerifyInputFilterExecutedStreaming( streams ) );
-  TEST_EXPECT_TRUE( integerMonitorFilter->VerifyInputFilterExecutedStreaming( streams ) );
+  ITK_TEST_EXPECT_TRUE( monitorFilter->VerifyInputFilterExecutedStreaming( streams ) );
+  ITK_TEST_EXPECT_TRUE( integerMonitorFilter->VerifyInputFilterExecutedStreaming( streams ) );
 
   return EXIT_SUCCESS;
 }

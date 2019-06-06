@@ -274,7 +274,7 @@ int itkImageToSpatialObjectRegistrationTest(int, char* [] )
     = itk::ImageToSpatialObjectRegistrationMethod<ImageType,GroupType>;
   RegistrationType::Pointer registration = RegistrationType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( registration,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( registration,
     ImageToSpatialObjectRegistrationMethod,
     ProcessObject );
 
@@ -294,7 +294,7 @@ int itkImageToSpatialObjectRegistrationTest(int, char* [] )
 
   metric->SetTransform(transform);
   std::cout << "Number of Parameters  : "<< metric->GetNumberOfParameters() << std::endl;
-  TEST_EXPECT_EQUAL( metric->GetNumberOfParameters(), 3 );
+  ITK_TEST_EXPECT_EQUAL( metric->GetNumberOfParameters(), 3 );
 
   bool catching;
   try

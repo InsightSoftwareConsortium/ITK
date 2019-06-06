@@ -86,7 +86,7 @@ int itkNaryAddImageFilterTest( int, char* [] )
   // Create the filter
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, NaryAddImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, NaryAddImageFilter,
     NaryFunctorImageFilter );
 
   // Set the input images
@@ -97,7 +97,7 @@ int itkNaryAddImageFilterTest( int, char* [] )
   filter->SetFunctor( filter->GetFunctor() );
 
   // Execute the filter
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
 
   // Get the filter output
@@ -138,7 +138,7 @@ int itkNaryAddImageFilterTest( int, char* [] )
   // Execute the filter in place
   filter->InPlaceOn();
 
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
 
   // Test the validity of the output
@@ -206,7 +206,7 @@ int itkNaryAddImageFilterTest( int, char* [] )
 
   VectorAdderType::Pointer vectorFilter = VectorAdderType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( vectorFilter, NaryAddImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( vectorFilter, NaryAddImageFilter,
     NaryFunctorImageFilter );
 
 
@@ -220,7 +220,7 @@ int itkNaryAddImageFilterTest( int, char* [] )
 
 
   // Execute the filter
-  TRY_EXPECT_NO_EXCEPTION( vectorFilter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( vectorFilter->Update() );
 
 
   // Test the validity of the output

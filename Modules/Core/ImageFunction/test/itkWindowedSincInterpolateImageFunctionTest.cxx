@@ -188,7 +188,7 @@ int itkWindowedSincInterpolateImageFunctionTest(int, char* [] )
 
   for( unsigned int d = 0; d < ImageDimension; ++d )
     {
-    TEST_SET_GET_VALUE( 2, interp->GetRadius()[d] );
+    ITK_TEST_SET_GET_VALUE( 2, interp->GetRadius()[d] );
     }
 
   /* Test evaluation at continuous indices and corresponding

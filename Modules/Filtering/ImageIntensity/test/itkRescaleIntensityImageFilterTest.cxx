@@ -54,7 +54,7 @@ int itkRescaleIntensityImageFilterTest( int, char* [] )
 
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, RescaleIntensityImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, RescaleIntensityImageFilter,
     UnaryFunctorImageFilter );
 
   // Now generate a real image
@@ -79,12 +79,12 @@ int itkRescaleIntensityImageFilterTest( int, char* [] )
   constexpr double desiredMaximum = 1.0;
 
   filter->SetOutputMinimum( desiredMinimum );
-  TEST_SET_GET_VALUE( desiredMinimum, filter->GetOutputMinimum() );
+  ITK_TEST_SET_GET_VALUE( desiredMinimum, filter->GetOutputMinimum() );
 
   filter->SetOutputMaximum( desiredMaximum );
-  TEST_SET_GET_VALUE( desiredMaximum, filter->GetOutputMaximum() );
+  ITK_TEST_SET_GET_VALUE( desiredMaximum, filter->GetOutputMaximum() );
 
-  TRY_EXPECT_NO_EXCEPTION( filter->UpdateLargestPossibleRegion() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->UpdateLargestPossibleRegion() );
 
   using CalculatorType = itk::MinimumMaximumImageCalculator< TestOutputImage >;
   CalculatorType::Pointer calculator = CalculatorType::New();

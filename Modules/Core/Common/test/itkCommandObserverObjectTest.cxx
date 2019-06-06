@@ -89,16 +89,16 @@ int testDeleteObserverDuringEvent()
 
   onAnyCount = 0;
   o->InvokeEvent( itk::AnyEvent() );
-  TEST_EXPECT_TRUE( onAnyCount == 2 );
+  ITK_TEST_EXPECT_TRUE( onAnyCount == 2 );
 
   onAnyCount = 0;
   o->InvokeEvent( itk::UserEvent() );
-  TEST_EXPECT_TRUE( onAnyCount == 1 );
+  ITK_TEST_EXPECT_TRUE( onAnyCount == 1 );
 
 
   onAnyCount = 0;
   o->InvokeEvent( itk::AnyEvent() );
-  TEST_EXPECT_TRUE( onAnyCount == 1 );
+  ITK_TEST_EXPECT_TRUE( onAnyCount == 1 );
 
   o->RemoveAllObservers();
 
@@ -110,16 +110,16 @@ int testDeleteObserverDuringEvent()
 
   onAnyCount = 0;
   o->InvokeEvent( itk::AnyEvent() );
-  TEST_EXPECT_TRUE( onAnyCount == 2 );
+  ITK_TEST_EXPECT_TRUE( onAnyCount == 2 );
 
   onAnyCount = 0;
   o->InvokeEvent( itk::UserEvent() );
-  TEST_EXPECT_TRUE( onAnyCount == 2 );
+  ITK_TEST_EXPECT_TRUE( onAnyCount == 2 );
 
 
   onAnyCount = 0;
   o->InvokeEvent( itk::AnyEvent() );
-  TEST_EXPECT_TRUE( onAnyCount == 1 );
+  ITK_TEST_EXPECT_TRUE( onAnyCount == 1 );
 
   o->RemoveAllObservers();
 
@@ -131,16 +131,16 @@ int testDeleteObserverDuringEvent()
 
   onAnyCount = 0;
   o->InvokeEvent( itk::AnyEvent() );
-  TEST_EXPECT_TRUE( onAnyCount == 2 );
+  ITK_TEST_EXPECT_TRUE( onAnyCount == 2 );
 
   onAnyCount = 0;
   o->InvokeEvent( itk::UserEvent() );
-  TEST_EXPECT_TRUE( onAnyCount == 2 );
+  ITK_TEST_EXPECT_TRUE( onAnyCount == 2 );
 
 
   onAnyCount = 0;
   o->InvokeEvent( itk::AnyEvent() );
-  TEST_EXPECT_TRUE( onAnyCount == 1 );
+  ITK_TEST_EXPECT_TRUE( onAnyCount == 1 );
 
   o->RemoveAllObservers();
 
@@ -152,16 +152,16 @@ int testDeleteObserverDuringEvent()
 
   onAnyCount = 0;
   o->InvokeEvent( itk::AnyEvent() );
-  TEST_EXPECT_TRUE( onAnyCount == 2 );
+  ITK_TEST_EXPECT_TRUE( onAnyCount == 2 );
 
   onAnyCount = 0;
   o->InvokeEvent( itk::UserEvent() );
-  TEST_EXPECT_TRUE( onAnyCount == 1 );
+  ITK_TEST_EXPECT_TRUE( onAnyCount == 1 );
 
 
   onAnyCount = 0;
   o->InvokeEvent( itk::AnyEvent() );
-  TEST_EXPECT_TRUE( onAnyCount == 1 );
+  ITK_TEST_EXPECT_TRUE( onAnyCount == 1 );
 
   o->RemoveAllObservers();
 
@@ -185,17 +185,17 @@ int testCommandConstObject()
   removeCmd->SetObjectName("Remove Command");
 
   co->AddObserver(itk::AnyEvent(), cmd);
-  TEST_EXPECT_TRUE( co->HasObserver( itk::AnyEvent() ) );
+  ITK_TEST_EXPECT_TRUE( co->HasObserver( itk::AnyEvent() ) );
 
   // the constant command doesn't get executed from the non-const
   // invocation
   onAnyCount = 0;
   o->InvokeEvent( itk::AnyEvent() );
-  TEST_EXPECT_TRUE( onAnyCount == 0 );
+  ITK_TEST_EXPECT_TRUE( onAnyCount == 0 );
 
   onAnyCount = 0;
   co->InvokeEvent( itk::AnyEvent() );
-  TEST_EXPECT_TRUE( onAnyCount == 1 );
+  ITK_TEST_EXPECT_TRUE( onAnyCount == 1 );
 
   return EXIT_SUCCESS;
 }
@@ -232,7 +232,7 @@ int testCommandRecursiveObject()
 
   onAnyCount = 0;
   o->InvokeEvent( itk::AnyEvent() );
-  TEST_EXPECT_TRUE( onAnyCount == 2 );
+  ITK_TEST_EXPECT_TRUE( onAnyCount == 2 );
 
   o->RemoveAllObservers();
 
@@ -244,7 +244,7 @@ int testCommandRecursiveObject()
 
   onAnyCount = 0;
   o->InvokeEvent( itk::AnyEvent() );
-  TEST_EXPECT_TRUE( onAnyCount == 2 );
+  ITK_TEST_EXPECT_TRUE( onAnyCount == 2 );
 
   o->RemoveAllObservers();
 
@@ -256,7 +256,7 @@ int testCommandRecursiveObject()
 
   onAnyCount = 0;
   o->InvokeEvent( itk::AnyEvent() );
-  TEST_EXPECT_TRUE( onAnyCount == 0 );
+  ITK_TEST_EXPECT_TRUE( onAnyCount == 0 );
 
   return EXIT_SUCCESS;
 }

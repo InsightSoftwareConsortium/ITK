@@ -75,7 +75,7 @@ int itkLabelMapMaskImageFilterTest( int argc, char * argv[] )
   using MaskFilterType = itk::LabelMapMaskImageFilter< LabelMapType, ImageType >;
   MaskFilterType::Pointer maskFilter = MaskFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( maskFilter, LabelMapMaskImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( maskFilter, LabelMapMaskImageFilter,
     LabelMapFilter );
 
   maskFilter->SetInput( i2l->GetOutput() );
@@ -84,44 +84,44 @@ int itkLabelMapMaskImageFilterTest( int argc, char * argv[] )
 
   MaskFilterType::InputImagePixelType label = std::stoi( argv[4] );
   maskFilter->SetLabel( label );
-  TEST_SET_GET_VALUE( label, maskFilter->GetLabel() );
+  ITK_TEST_SET_GET_VALUE( label, maskFilter->GetLabel() );
 
   MaskFilterType::OutputImagePixelType backgroundValue = std::stoi( argv[5] );
   maskFilter->SetBackgroundValue( backgroundValue );
-  TEST_SET_GET_VALUE( backgroundValue, maskFilter->GetBackgroundValue() );
+  ITK_TEST_SET_GET_VALUE( backgroundValue, maskFilter->GetBackgroundValue() );
 
   auto negated = static_cast< bool >(std::stoi( argv[6] ) );
   maskFilter->SetNegated( negated );
-  TEST_SET_GET_VALUE( negated, maskFilter->GetNegated() );
+  ITK_TEST_SET_GET_VALUE( negated, maskFilter->GetNegated() );
   if( negated )
     {
     maskFilter->NegatedOn();
-    TEST_SET_GET_VALUE( true, maskFilter->GetNegated() );
+    ITK_TEST_SET_GET_VALUE( true, maskFilter->GetNegated() );
     }
   else
     {
     maskFilter->NegatedOff();
-    TEST_SET_GET_VALUE( false, maskFilter->GetNegated() );
+    ITK_TEST_SET_GET_VALUE( false, maskFilter->GetNegated() );
     }
 
   auto crop = static_cast< bool >( std::stoi( argv[7] ) );
   maskFilter->SetCrop( crop );
-  TEST_SET_GET_VALUE( crop, maskFilter->GetCrop() );
+  ITK_TEST_SET_GET_VALUE( crop, maskFilter->GetCrop() );
   if( crop )
     {
     maskFilter->CropOn();
-    TEST_SET_GET_VALUE( true, maskFilter->GetCrop() );
+    ITK_TEST_SET_GET_VALUE( true, maskFilter->GetCrop() );
     }
   else
     {
     maskFilter->CropOff();
-    TEST_SET_GET_VALUE( false, maskFilter->GetCrop() );
+    ITK_TEST_SET_GET_VALUE( false, maskFilter->GetCrop() );
     }
 
   MaskFilterType::SizeType border;
   border.Fill( std::stoi(argv[8]) );
   maskFilter->SetCropBorder( border );
-  TEST_SET_GET_VALUE( border, maskFilter->GetCropBorder() );
+  ITK_TEST_SET_GET_VALUE( border, maskFilter->GetCropBorder() );
 
   itk::SimpleFilterWatcher watcher( maskFilter, "LabelMapMaskImageFilter" );
 
@@ -131,7 +131,7 @@ int itkLabelMapMaskImageFilterTest( int argc, char * argv[] )
   writer->SetInput( maskFilter->GetOutput() );
   writer->SetFileName( argv[3] );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

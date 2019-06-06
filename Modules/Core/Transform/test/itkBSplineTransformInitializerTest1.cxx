@@ -117,20 +117,20 @@ int itkBSplineTransformInitializerTest1( int argc, char * argv[] )
       itk::BSplineTransformInitializer< TransformType, FixedImageType >;
   InitializerType::Pointer transformInitializer = InitializerType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( transformInitializer, BSplineTransformInitializer,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( transformInitializer, BSplineTransformInitializer,
     Object );
 
   TransformType::MeshSizeType meshSize;
   meshSize.Fill( 4 );
 
   transformInitializer->SetTransform( bsplineTransform );
-  TEST_SET_GET_VALUE( bsplineTransform, transformInitializer->GetTransform() );
+  ITK_TEST_SET_GET_VALUE( bsplineTransform, transformInitializer->GetTransform() );
 
   transformInitializer->SetImage( fixedImage );
-  TEST_SET_GET_VALUE( fixedImage, transformInitializer->GetImage() );
+  ITK_TEST_SET_GET_VALUE( fixedImage, transformInitializer->GetImage() );
 
   transformInitializer->SetTransformDomainMeshSize( meshSize );
-  TEST_SET_GET_VALUE( meshSize, transformInitializer->GetTransformDomainMeshSize() );
+  ITK_TEST_SET_GET_VALUE( meshSize, transformInitializer->GetTransformDomainMeshSize() );
 
   transformInitializer->InitializeTransform();
 

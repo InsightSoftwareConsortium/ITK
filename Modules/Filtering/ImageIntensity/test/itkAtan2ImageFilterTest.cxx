@@ -107,7 +107,7 @@ int itkAtan2ImageFilterTest( int, char* [] )
   // Create the Filter
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, Atan2ImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, Atan2ImageFilter,
     BinaryGeneratorImageFilter );
 
   // Set the input images

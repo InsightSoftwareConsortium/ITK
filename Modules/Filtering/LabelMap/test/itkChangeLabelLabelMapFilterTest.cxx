@@ -89,7 +89,7 @@ int itkChangeLabelLabelMapFilterTest( int argc, char * argv [] )
   writer->SetFileName( argv[2] );
   writer->UseCompressionOn();
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   std::cout << "GetNameOfClass() = " << changeFilter->GetNameOfClass() << std::endl;
 

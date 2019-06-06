@@ -163,7 +163,7 @@ int itkGradientDescentOptimizerBasev4Test(int , char* [])
 
   optimizer->SetNumberOfWorkUnits( 2 );
 
-  TRY_EXPECT_NO_EXCEPTION( optimizer->StartOptimization() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( optimizer->StartOptimization() );
 
   std::cout << "Printing self.." << std::endl;
   std::cout << optimizer << std::endl;

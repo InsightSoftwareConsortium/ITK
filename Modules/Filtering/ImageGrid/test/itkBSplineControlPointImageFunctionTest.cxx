@@ -62,7 +62,7 @@ int itkBSplineControlPointImageFunctionTest( int, char * [] )
   using BSplinerType = itk::BSplineControlPointImageFunction<VectorImageType>;
   BSplinerType::Pointer bspliner = BSplinerType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( bspliner, BSplineControlPointImageFunction,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( bspliner, BSplineControlPointImageFunction,
     ImageFunction );
 
   // Define the parametric domain [0, 1).

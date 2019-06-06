@@ -60,19 +60,19 @@ int itkShapeRelabelLabelMapFilterTest1(int argc, char * argv[])
   //testing get and set macros for ReverseOrdering
   bool reverseOrdering = std::stoi( argv[3] );
   relabel->SetReverseOrdering( reverseOrdering );
-  TEST_SET_GET_VALUE( reverseOrdering , relabel->GetReverseOrdering() );
+  ITK_TEST_SET_GET_VALUE( reverseOrdering , relabel->GetReverseOrdering() );
 
   //testing boolean macro for ReverseOrdering
   relabel->ReverseOrderingOff();
-  TEST_SET_GET_VALUE( false, relabel->GetReverseOrdering() );
+  ITK_TEST_SET_GET_VALUE( false, relabel->GetReverseOrdering() );
 
   relabel->ReverseOrderingOn();
-  TEST_SET_GET_VALUE( true, relabel->GetReverseOrdering() );
+  ITK_TEST_SET_GET_VALUE( true, relabel->GetReverseOrdering() );
 
   //testing get and set macros for Attribute
   unsigned int attribute = std::stoi( argv[4] );
   relabel->SetAttribute( attribute );
-  TEST_SET_GET_VALUE( attribute, relabel->GetAttribute() );
+  ITK_TEST_SET_GET_VALUE( attribute, relabel->GetAttribute() );
 
   std::string attributeName  = ShapeLabelObjectType::GetNameFromAttribute( attribute );
   relabel->SetAttribute( attributeName );
@@ -92,7 +92,7 @@ int itkShapeRelabelLabelMapFilterTest1(int argc, char * argv[])
   writer->SetFileName( argv[2] );
   writer->UseCompressionOn();
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

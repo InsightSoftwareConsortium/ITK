@@ -52,14 +52,14 @@ int itkModulusImageFilterTest(int argc, char * argv[])
   using FilterType = itk::ModulusImageFilter< ImageType, ImageType >;
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, ModulusImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, ModulusImageFilter,
     BinaryGeneratorImageFilter );
 
   filter->SetInput( distance->GetOutput() );
 
   FilterType::InputPixelType dividend = 8;
   filter->SetDividend( dividend );
-  TEST_SET_GET_VALUE( dividend, filter->GetDividend() )
+  ITK_TEST_SET_GET_VALUE( dividend, filter->GetDividend() )
 
   filter->InPlaceOn();
 
@@ -76,7 +76,7 @@ int itkModulusImageFilterTest(int argc, char * argv[])
   writer->SetInput( rescale->GetOutput() );
   writer->SetFileName( argv[2] );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

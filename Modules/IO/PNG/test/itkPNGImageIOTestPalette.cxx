@@ -53,18 +53,18 @@ int itkPNGImageIOTestPalette( int argc, char * argv[] )
   WriterType::Pointer writer = WriterType::New();
 
 
-  EXERCISE_BASIC_OBJECT_METHODS( io, PNGImageIO, ImageIOBase );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( io, PNGImageIO, ImageIOBase );
 
   const auto expandRGBPalette = static_cast< bool >( std::stoi(argv[3]) );
   const auto isPaletteImage   = static_cast< bool >( std::stoi(argv[4]) );
-  TEST_SET_GET_BOOLEAN( io, ExpandRGBPalette, expandRGBPalette );
+  ITK_TEST_SET_GET_BOOLEAN( io, ExpandRGBPalette, expandRGBPalette );
 
   // Exercise exception cases
   size_t sizeOfActualIORegion = io->GetIORegion().GetNumberOfPixels() *
     ( io->GetComponentSize() * io->GetNumberOfComponents() );
   auto * loadBuffer = new char[sizeOfActualIORegion];
 
-  TRY_EXPECT_EXCEPTION( io->Read( loadBuffer ) );
+  ITK_TRY_EXPECT_EXCEPTION( io->Read( loadBuffer ) );
 
 
   io->SetFileName( argv[1] );
@@ -106,7 +106,7 @@ int itkPNGImageIOTestPalette( int argc, char * argv[] )
     }
 
   // Try reading
-  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
   // Try Palette reading and scalar image reading
   if( io->GetExpandRGBPalette() )
@@ -159,7 +159,7 @@ int itkPNGImageIOTestPalette( int argc, char * argv[] )
   writer->SetFileName( argv[2] );
   writer->SetImageIO( io );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Write() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Write() );
 
   // Exercise other methods
   itk::ImageIOBase::SizeType pixelStride = io->GetPixelStride();

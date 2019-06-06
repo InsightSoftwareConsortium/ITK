@@ -91,7 +91,7 @@ int itkCosImageFilterAndAdaptorTest( int, char* [] )
   // Create the Filter
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, CosImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, CosImageFilter,
     UnaryGeneratorImageFilter );
 
   // Set the input image
@@ -139,7 +139,7 @@ int itkCosImageFilterAndAdaptorTest( int, char* [] )
 
   AdaptorType::Pointer cosAdaptor = AdaptorType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( cosAdaptor, CosImageAdaptor,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( cosAdaptor, CosImageAdaptor,
     ImageAdaptor );
 
   cosAdaptor->SetImage( inputImage );

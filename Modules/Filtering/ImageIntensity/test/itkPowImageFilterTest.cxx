@@ -70,7 +70,7 @@ int itkPowImageFilterTest(int, char* [] )
   // Create a PowFilter
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, PowImageFilter, BinaryGeneratorImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, PowImageFilter, BinaryGeneratorImageFilter );
 
   // Check == and != operators
   //FilterType::FunctorType func2;
@@ -91,31 +91,31 @@ int itkPowImageFilterTest(int, char* [] )
   idx1[0] = 1;
 
   // Values should be 1.0^1.0 and 2.0^1.0
-  TEST_EXPECT_EQUAL( outputImage->GetPixel( idx0 ), 1.0 );
-  TEST_EXPECT_EQUAL( outputImage->GetPixel( idx1 ), 2.0 );
+  ITK_TEST_EXPECT_EQUAL( outputImage->GetPixel( idx0 ), 1.0 );
+  ITK_TEST_EXPECT_EQUAL( outputImage->GetPixel( idx1 ), 2.0 );
 
   filter->SetInput1( inputImageA );
   filter->SetConstant2( 2.0 );
   filter->Update();
 
   // Values should be 1.0^2.0 and 2.0^2.0
-  TEST_EXPECT_EQUAL( outputImage->GetPixel( idx0 ), 1.0 );
-  TEST_EXPECT_EQUAL( outputImage->GetPixel( idx1 ), 4.0 );
+  ITK_TEST_EXPECT_EQUAL( outputImage->GetPixel( idx0 ), 1.0 );
+  ITK_TEST_EXPECT_EQUAL( outputImage->GetPixel( idx1 ), 4.0 );
 
   filter->SetConstant1( 2.0 );
   filter->SetInput2( inputImageA );
   filter->Update();
 
   // Values should be 2.0^1.0 and 2.0^2.0
-  TEST_EXPECT_EQUAL( outputImage->GetPixel( idx0 ), 2.0 );
-  TEST_EXPECT_EQUAL( outputImage->GetPixel( idx1 ), 4.0 );
+  ITK_TEST_EXPECT_EQUAL( outputImage->GetPixel( idx0 ), 2.0 );
+  ITK_TEST_EXPECT_EQUAL( outputImage->GetPixel( idx1 ), 4.0 );
 
   {
   using complexFloatFilterType = itk::PowImageFilter<itk::Image<float>,
                               itk::Image<std::complex<float> >,
                               itk::Image<std::complex<float> > >;
   complexFloatFilterType::Pointer tFilter = complexFloatFilterType::New();
-  TEST_EXPECT_TRUE(!tFilter.IsNull());
+  ITK_TEST_EXPECT_TRUE(!tFilter.IsNull());
   }
 
   // All objects should be automatically destroyed at this point

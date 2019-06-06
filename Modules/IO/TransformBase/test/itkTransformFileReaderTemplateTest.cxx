@@ -39,11 +39,11 @@ int itkTransformFileReaderTemplateTest( int argc, char *argv[] )
             << std::endl;
 
   //trigger empty read exception
-  TRY_EXPECT_EXCEPTION( transformReader->Update() );
+  ITK_TRY_EXPECT_EXCEPTION( transformReader->Update() );
 
   transformReader->SetFileName("transform.garbage");
   // trigger exception for transformio not found
-  TRY_EXPECT_EXCEPTION( transformReader->Update() );
+  ITK_TRY_EXPECT_EXCEPTION( transformReader->Update() );
 
   std::cout << "Test PASSED!" << std::endl;
   return EXIT_SUCCESS;

@@ -118,12 +118,12 @@ bool runTestByType()
 
   /* Test SetParametersObject. Should throw exception with default helper. */
   typename itk::LightObject::Pointer dummyObj = itk::LightObject::New();
-  TRY_EXPECT_EXCEPTION( params.SetParametersObject( dummyObj ) );
+  ITK_TRY_EXPECT_EXCEPTION( params.SetParametersObject( dummyObj ) );
 
   /* Test with null helper and expect exception */
   params.SetHelper( nullptr );
-  TRY_EXPECT_EXCEPTION( params.MoveDataPointer( block ) );
-  TRY_EXPECT_EXCEPTION( params.SetParametersObject( dummyObj ) );
+  ITK_TRY_EXPECT_EXCEPTION( params.MoveDataPointer( block ) );
+  ITK_TRY_EXPECT_EXCEPTION( params.SetParametersObject( dummyObj ) );
 
   /* Test copy operator */
   itk::OptimizerParameters<TValue> params1(4);

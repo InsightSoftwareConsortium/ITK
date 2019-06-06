@@ -117,7 +117,7 @@ int itkAndImageFilterTest( int argc, char* argv[] )
   // Create the filter
   AndImageFilterType::Pointer filter = AndImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, AndImageFilter, BinaryGeneratorImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, AndImageFilter, BinaryGeneratorImageFilter );
 
   // Set the input images
   filter->SetInput1( inputImageA );
@@ -139,7 +139,7 @@ int itkAndImageFilterTest( int argc, char* argv[] )
 
   writer->SetInput( outputImage );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;

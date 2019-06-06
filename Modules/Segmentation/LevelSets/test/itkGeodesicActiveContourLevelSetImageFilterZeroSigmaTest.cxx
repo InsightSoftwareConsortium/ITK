@@ -133,7 +133,7 @@ int itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest( int, char* [] )
 
   ShapeDetectionFilterType::Pointer shapeDetection = ShapeDetectionFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( shapeDetection, GeodesicActiveContourLevelSetImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( shapeDetection, GeodesicActiveContourLevelSetImageFilter,
     SegmentationLevelSetImageFilter );
 
   // set the initial level set

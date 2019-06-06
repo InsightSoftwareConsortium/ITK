@@ -170,7 +170,7 @@ int itkGaussianDerivativeImageFunctionTest( int, char* [] )
 
   DoGFunctionType::Pointer DoG = DoGFunctionType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( DoG, GaussianDerivativeImageFunction, ImageFunction );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( DoG, GaussianDerivativeImageFunction, ImageFunction );
 
 
   std::cout << "\nTesting derivative of Gaussian image function for float" << std::endl;

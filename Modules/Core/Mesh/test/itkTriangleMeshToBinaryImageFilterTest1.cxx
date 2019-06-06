@@ -55,11 +55,11 @@ int itkTriangleMeshToBinaryImageFilterTest1(int argc, char * argv[])
 
   using TriangleMeshToBinaryImageFilterType = itk::TriangleMeshToBinaryImageFilter<TriangleMeshType, ImageType>;
   TriangleMeshToBinaryImageFilterType::Pointer imageFilter = TriangleMeshToBinaryImageFilterType::New();
-  EXERCISE_BASIC_OBJECT_METHODS(imageFilter, TriangleMeshToBinaryImageFilter, ImageSource);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(imageFilter, TriangleMeshToBinaryImageFilter, ImageSource);
 
   imageFilter->SetInput(mySphereMeshSource->GetOutput());
   imageFilter->SetInfoImage(im);
-  TRY_EXPECT_NO_EXCEPTION(imageFilter->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(imageFilter->Update());
 
   using ROIImageFilter = itk::RegionOfInterestImageFilter< ImageType, ImageType >;
   ROIImageFilter::Pointer roifilter = ROIImageFilter::New();
@@ -68,10 +68,10 @@ int itkTriangleMeshToBinaryImageFilterTest1(int argc, char * argv[])
   region.GetModifiableSize().Fill(30);
   roifilter->SetInput(im);
   roifilter->SetRegionOfInterest(region);
-  TRY_EXPECT_NO_EXCEPTION(roifilter->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(roifilter->Update());
   ImageType::Pointer roiImage = roifilter->GetOutput();
   imageFilter->SetInfoImage(roiImage);
-  TRY_EXPECT_NO_EXCEPTION(imageFilter->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(imageFilter->Update());
 
   if (argc > 1)
     {
@@ -79,7 +79,7 @@ int itkTriangleMeshToBinaryImageFilterTest1(int argc, char * argv[])
     WriterType::Pointer ImageWriter = WriterType::New();
     ImageWriter->SetInput(imageFilter->GetOutput());
     ImageWriter->SetFileName(argv[1]);
-    TRY_EXPECT_NO_EXCEPTION(ImageWriter->Update());
+    ITK_TRY_EXPECT_NO_EXCEPTION(ImageWriter->Update());
     }
 
   std::cout << "TEST PASSED" << std::endl;

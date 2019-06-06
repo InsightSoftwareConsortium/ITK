@@ -351,7 +351,7 @@ int itkCentralDifferenceImageFunctionOnVectorTestRun( )
   using BadFunctionType = itk::CentralDifferenceImageFunction<ImageType,CoordRepType,BadDerivativeType>;
 
   typename BadFunctionType::Pointer badFunction = BadFunctionType::New();
-  TRY_EXPECT_EXCEPTION( badFunction->SetInputImage( image ) );
+  ITK_TRY_EXPECT_EXCEPTION( badFunction->SetInputImage( image ) );
 
   return result;
 }

@@ -108,9 +108,9 @@ int itkObjectToObjectMetricBaseTest(int ,char * [])
   ParametersType parameters(13);
   parameters.Fill( 19.5);
 
-  TEST_EXPECT_EQUAL( objectMetric->GetValue( ), 1.0 );
+  ITK_TEST_EXPECT_EQUAL( objectMetric->GetValue( ), 1.0 );
 
-  TEST_EXPECT_EQUAL( objectMetric->GetCurrentValue( ), 1.0 );
+  ITK_TEST_EXPECT_EQUAL( objectMetric->GetCurrentValue( ), 1.0 );
 
   return EXIT_SUCCESS;
 }

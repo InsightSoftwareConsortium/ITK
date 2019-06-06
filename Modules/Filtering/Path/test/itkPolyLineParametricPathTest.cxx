@@ -37,7 +37,7 @@ int itkPolyLineParametricPathTest( int, char* [] )
 
   PathType::Pointer path = PathType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( path, PolyLineParametricPath, ParametricPath );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( path, PolyLineParametricPath, ParametricPath );
 
   v.Fill(1);
   path->AddVertex( v );

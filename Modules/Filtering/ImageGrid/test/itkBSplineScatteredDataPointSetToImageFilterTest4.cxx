@@ -137,7 +137,7 @@ int itkBSplineScatteredDataPointSetToImageFilterTest4( int, char * [] )
 
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, BSplineScatteredDataPointSetToImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, BSplineScatteredDataPointSetToImageFilter,
     PointSetToImageFilter );
 
   // Define the parametric domain.
@@ -169,7 +169,7 @@ int itkBSplineScatteredDataPointSetToImageFilterTest4( int, char * [] )
   filter->SetCloseDimension( close );
 
 
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
 
   // Instantiate the BSpline transform

@@ -88,7 +88,7 @@ int doDenoising( const std::string & inputFileName, const std::string & outputFi
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( inputFileName );
 
-  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
 
   // Create filter and initialize
@@ -98,20 +98,20 @@ int doDenoising( const std::string & inputFileName, const std::string & outputFi
   filter->SetInput( inputImage );
 
   // Set whether conditional derivatives should be used estimating sigma
-  TEST_SET_GET_BOOLEAN( filter, ComputeConditionalDerivatives,
+  ITK_TEST_SET_GET_BOOLEAN( filter, ComputeConditionalDerivatives,
     computeConditionalDerivatives );
 
   // Patch radius is same for all dimensions of the image
   constexpr unsigned int patchRadius = 4;
   filter->SetPatchRadius( patchRadius );
-  TEST_SET_GET_VALUE( patchRadius, filter->GetPatchRadius() );
+  ITK_TEST_SET_GET_VALUE( patchRadius, filter->GetPatchRadius() );
 
   // Instead of directly setting the weights, could also specify type
   bool useSmoothDiscPatchWeights = true;
-  TEST_SET_GET_BOOLEAN( filter, UseSmoothDiscPatchWeights,
+  ITK_TEST_SET_GET_BOOLEAN( filter, UseSmoothDiscPatchWeights,
     useSmoothDiscPatchWeights );
   bool useFastTensorComputations = true;
-  TEST_SET_GET_BOOLEAN( filter, UseFastTensorComputations,
+  ITK_TEST_SET_GET_BOOLEAN( filter, UseFastTensorComputations,
     useFastTensorComputations );
 
   // Noise model to use
@@ -133,21 +133,21 @@ int doDenoising( const std::string & inputFileName, const std::string & outputFi
     noiseModel = FilterType::NOMODEL;
     }
   filter->SetNoiseModel( noiseModel );
-  TEST_SET_GET_VALUE( noiseModel, filter->GetNoiseModel() );
+  ITK_TEST_SET_GET_VALUE( noiseModel, filter->GetNoiseModel() );
 
   // Stepsize or weight for smoothing term
   double smoothingWeight = 1.0;
   filter->SetSmoothingWeight( smoothingWeight );
-  TEST_SET_GET_VALUE( smoothingWeight, filter->GetSmoothingWeight() );
+  ITK_TEST_SET_GET_VALUE( smoothingWeight, filter->GetSmoothingWeight() );
 
   // Stepsize or weight for fidelity term
   filter->SetNoiseModelFidelityWeight( noiseModelFidelityWeight );
-  TEST_SET_GET_VALUE( noiseModelFidelityWeight,
+  ITK_TEST_SET_GET_VALUE( noiseModelFidelityWeight,
     filter->GetNoiseModelFidelityWeight() );
 
   // Number of iterations over the image of denoising
   filter->SetNumberOfIterations( numIterations );
-  TEST_SET_GET_VALUE( numIterations, filter->GetNumberOfIterations() );
+  ITK_TEST_SET_GET_VALUE( numIterations, filter->GetNumberOfIterations() );
 
   // Number of threads to use in parallel
   filter->SetNumberOfWorkUnits( numThreads );
@@ -167,30 +167,30 @@ int doDenoising( const std::string & inputFileName, const std::string & outputFi
   // Sampler can be complete neighborhood sampler, random neighborhood sampler,
   // Gaussian sampler, etc.
   filter->SetSampler( sampler );
-  TEST_SET_GET_VALUE( sampler, filter->GetSampler() );
+  ITK_TEST_SET_GET_VALUE( sampler, filter->GetSampler() );
 
   // Automatic estimation of the kernel bandwidth
   bool kernelBandwidthEstimation = true;
-  TEST_SET_GET_BOOLEAN( filter, KernelBandwidthEstimation,
+  ITK_TEST_SET_GET_BOOLEAN( filter, KernelBandwidthEstimation,
     kernelBandwidthEstimation );
 
   // Update bandwidth every 'n' iterations
   unsigned int kernelBandwidthUpdateFrequency = 3;
   filter->SetKernelBandwidthUpdateFrequency(
     kernelBandwidthUpdateFrequency );
-  TEST_SET_GET_VALUE( kernelBandwidthUpdateFrequency,
+  ITK_TEST_SET_GET_VALUE( kernelBandwidthUpdateFrequency,
     filter->GetKernelBandwidthUpdateFrequency() );
 
   // Use 20% of the pixels for the sigma update calculation
   double kernelBandwidthFractionPixelsForEstimation = 0.20;
   filter->SetKernelBandwidthFractionPixelsForEstimation(
     kernelBandwidthFractionPixelsForEstimation );
-  TEST_SET_GET_VALUE( kernelBandwidthFractionPixelsForEstimation,
+  ITK_TEST_SET_GET_VALUE( kernelBandwidthFractionPixelsForEstimation,
     filter->GetKernelBandwidthFractionPixelsForEstimation() );
 
   // Multiplication factor modifying the automatically-estimated kernel sigma
   filter->SetKernelBandwidthMultiplicationFactor( kernelBandwidthMultiplicationFactor );
-  TEST_SET_GET_VALUE( kernelBandwidthMultiplicationFactor,
+  ITK_TEST_SET_GET_VALUE( kernelBandwidthMultiplicationFactor,
     filter->GetKernelBandwidthMultiplicationFactor() );
 
   // Test the filter exceptions
@@ -215,7 +215,7 @@ int doDenoising( const std::string & inputFileName, const std::string & outputFi
     inputImage->SetPixel( pixelIndex, nonpositivePixelValue );
 
 
-    TRY_EXPECT_EXCEPTION( filter->Update() );
+    ITK_TRY_EXPECT_EXCEPTION( filter->Update() );
 
     // Restore the original pixel value
     inputImage->SetPixel( pixelIndex, originalPixelValue );
@@ -223,7 +223,7 @@ int doDenoising( const std::string & inputFileName, const std::string & outputFi
 
 
   // Denoise the image
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
 
   // Exercise the PrintSelf method to know the patch radius in voxels once
@@ -290,7 +290,7 @@ int doDenoising( const std::string & inputFileName, const std::string & outputFi
   writer->SetFileName( outputFileName );
   writer->SetInput( filter->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
 
   std::cout << "Test finished" << std::endl;
@@ -324,7 +324,7 @@ int itkPatchBasedDenoisingImageFilterTest( int argc, char * argv [] )
 
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, PatchBasedDenoisingImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, PatchBasedDenoisingImageFilter,
     PatchBasedDenoisingBaseImageFilter );
 
   const std::string inFileName( argv[1] );

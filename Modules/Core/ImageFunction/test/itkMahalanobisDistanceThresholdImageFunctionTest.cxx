@@ -61,7 +61,7 @@ int itkMahalanobisDistanceThresholdImageFunctionTest( int, char* [] )
 
   FunctionType::Pointer function = FunctionType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( function, MahalanobisDistanceThresholdImageFunction,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( function, MahalanobisDistanceThresholdImageFunction,
     ImageFunction );
 
   function->SetInputImage( image );
@@ -84,8 +84,8 @@ int itkMahalanobisDistanceThresholdImageFunctionTest( int, char* [] )
   function->SetCovariance( covariance );
   function->SetMean( mean );
 
-  TEST_SET_GET_VALUE( covariance, function->GetCovariance() );
-  TEST_SET_GET_VALUE( mean, function->GetMean() );
+  ITK_TEST_SET_GET_VALUE( covariance, function->GetCovariance() );
+  ITK_TEST_SET_GET_VALUE( mean, function->GetMean() );
 
   ImageType::IndexType index;
 
@@ -93,7 +93,7 @@ int itkMahalanobisDistanceThresholdImageFunctionTest( int, char* [] )
   index[1] = 25;
   index[2] = 25;
 
-  TEST_EXPECT_TRUE( function->EvaluateAtIndex( index ) );
+  ITK_TEST_EXPECT_TRUE( function->EvaluateAtIndex( index ) );
 
   const double distance = function->EvaluateDistanceAtIndex( index );
   std::cout << "function->EvaluateDistanceAtIndex( index ): " << distance << std::endl;
@@ -113,7 +113,7 @@ int itkMahalanobisDistanceThresholdImageFunctionTest( int, char* [] )
   point[1] = 25;
   point[2] = 25;
 
-  TEST_EXPECT_TRUE( function->Evaluate( point ) );
+  ITK_TEST_EXPECT_TRUE( function->Evaluate( point ) );
 
   const double distance2 = function->EvaluateDistance(point);
   std::cout << "function->EvaluateDistance(point): " << distance2 << std::endl;
@@ -132,7 +132,7 @@ int itkMahalanobisDistanceThresholdImageFunctionTest( int, char* [] )
   cindex[1] = 25;
   cindex[2] = 25;
 
-  TEST_EXPECT_TRUE( function->EvaluateAtContinuousIndex( cindex ) );
+  ITK_TEST_EXPECT_TRUE( function->EvaluateAtContinuousIndex( cindex ) );
 
   // Test GetConstReferenceMacro
   const double & getThreshold = function->GetThreshold();

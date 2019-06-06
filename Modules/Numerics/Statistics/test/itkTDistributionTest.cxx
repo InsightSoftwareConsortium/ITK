@@ -449,50 +449,50 @@ int itkTDistributionTest(int, char* [] )
   distributionFunction->SetParameters( wrongParameters );
   std::cout << "new set number of parameters = " << distributionFunction->GetParameters().Size() << std::endl;
 
-  TRY_EXPECT_NO_EXCEPTION( distributionFunction->HasMean() );
-  TRY_EXPECT_EXCEPTION( distributionFunction->HasVariance() );
-  TRY_EXPECT_EXCEPTION( distributionFunction->GetVariance() );
-  TRY_EXPECT_EXCEPTION( distributionFunction->GetDegreesOfFreedom() );
-  TRY_EXPECT_EXCEPTION( distributionFunction->PDF( x, wrongParameters ) );
-  TRY_EXPECT_EXCEPTION( distributionFunction->EvaluatePDF( x ) );
-  TRY_EXPECT_EXCEPTION( distributionFunction->EvaluatePDF( x, wrongParameters ) );
-  TRY_EXPECT_EXCEPTION( distributionFunction->CDF( x, wrongParameters ) );
-  TRY_EXPECT_EXCEPTION( distributionFunction->InverseCDF( x, wrongParameters ) );
-  TRY_EXPECT_EXCEPTION( distributionFunction->PDF( x, wrongParameters ) );
-  TRY_EXPECT_EXCEPTION( distributionFunction->EvaluatePDF( x ) );
-  TRY_EXPECT_EXCEPTION( distributionFunction->EvaluatePDF( x, wrongParameters ) );
-  TRY_EXPECT_EXCEPTION( distributionFunction->EvaluateCDF( x ) );
-  TRY_EXPECT_EXCEPTION( distributionFunction->EvaluateCDF( x, wrongParameters ) );
-  TRY_EXPECT_EXCEPTION( distributionFunction->EvaluateInverseCDF( x ) );
-  TRY_EXPECT_EXCEPTION( distributionFunction->EvaluateInverseCDF( x, wrongParameters ) );
-  TRY_EXPECT_EXCEPTION( distributionFunction->CDF( x, wrongParameters ) );
-  TRY_EXPECT_EXCEPTION( distributionFunction->InverseCDF( x, wrongParameters ) );
+  ITK_TRY_EXPECT_NO_EXCEPTION( distributionFunction->HasMean() );
+  ITK_TRY_EXPECT_EXCEPTION( distributionFunction->HasVariance() );
+  ITK_TRY_EXPECT_EXCEPTION( distributionFunction->GetVariance() );
+  ITK_TRY_EXPECT_EXCEPTION( distributionFunction->GetDegreesOfFreedom() );
+  ITK_TRY_EXPECT_EXCEPTION( distributionFunction->PDF( x, wrongParameters ) );
+  ITK_TRY_EXPECT_EXCEPTION( distributionFunction->EvaluatePDF( x ) );
+  ITK_TRY_EXPECT_EXCEPTION( distributionFunction->EvaluatePDF( x, wrongParameters ) );
+  ITK_TRY_EXPECT_EXCEPTION( distributionFunction->CDF( x, wrongParameters ) );
+  ITK_TRY_EXPECT_EXCEPTION( distributionFunction->InverseCDF( x, wrongParameters ) );
+  ITK_TRY_EXPECT_EXCEPTION( distributionFunction->PDF( x, wrongParameters ) );
+  ITK_TRY_EXPECT_EXCEPTION( distributionFunction->EvaluatePDF( x ) );
+  ITK_TRY_EXPECT_EXCEPTION( distributionFunction->EvaluatePDF( x, wrongParameters ) );
+  ITK_TRY_EXPECT_EXCEPTION( distributionFunction->EvaluateCDF( x ) );
+  ITK_TRY_EXPECT_EXCEPTION( distributionFunction->EvaluateCDF( x, wrongParameters ) );
+  ITK_TRY_EXPECT_EXCEPTION( distributionFunction->EvaluateInverseCDF( x ) );
+  ITK_TRY_EXPECT_EXCEPTION( distributionFunction->EvaluateInverseCDF( x, wrongParameters ) );
+  ITK_TRY_EXPECT_EXCEPTION( distributionFunction->CDF( x, wrongParameters ) );
+  ITK_TRY_EXPECT_EXCEPTION( distributionFunction->InverseCDF( x, wrongParameters ) );
 
   DistributionType::ParametersType parameters1( 1 );
   parameters1[0] = 3.0;
 
   distributionFunction->SetParameters( parameters1 );
 
-  TRY_EXPECT_NO_EXCEPTION( distributionFunction->HasMean() );
-  TRY_EXPECT_NO_EXCEPTION( distributionFunction->HasVariance() );
-  TRY_EXPECT_NO_EXCEPTION( distributionFunction->GetMean() );
-  TRY_EXPECT_NO_EXCEPTION( distributionFunction->GetVariance() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( distributionFunction->HasMean() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( distributionFunction->HasVariance() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( distributionFunction->GetMean() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( distributionFunction->GetVariance() );
 
   parameters1[0] = 1.5;
 
   distributionFunction->SetParameters( parameters1 );
 
-  TRY_EXPECT_NO_EXCEPTION( distributionFunction->HasMean() );
-  TRY_EXPECT_NO_EXCEPTION( distributionFunction->HasVariance() );
-  TRY_EXPECT_NO_EXCEPTION( distributionFunction->GetMean() );
-  TRY_EXPECT_NO_EXCEPTION( distributionFunction->GetVariance() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( distributionFunction->HasMean() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( distributionFunction->HasVariance() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( distributionFunction->GetMean() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( distributionFunction->GetVariance() );
 
   std::cout << "Exercise negative argument " << std::endl;
   std::cout << "InverseCDF(x,p) = " <<  distributionFunction->InverseCDF( -1.0, dof ) << std::endl;
 
   unsigned long newdof = 17;
   distributionFunction->SetDegreesOfFreedom( newdof );
-  TEST_SET_GET_VALUE( newdof, distributionFunction->GetDegreesOfFreedom() );
+  ITK_TEST_SET_GET_VALUE( newdof, distributionFunction->GetDegreesOfFreedom() );
 
 
   DistributionType::ParametersType parameters2( 2 );

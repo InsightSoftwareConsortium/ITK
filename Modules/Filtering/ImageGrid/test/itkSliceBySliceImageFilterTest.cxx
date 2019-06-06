@@ -147,9 +147,9 @@ int itkSliceBySliceImageFilterTest(int argc, char * argv[])
 
   // check that one slice executed is just one pixel and the input
   // filter just update that region
-  TEST_EXPECT_EQUAL( monitor->GetNumberOfUpdates(), 1 );
-  TEST_EXPECT_EQUAL( monitor->GetOutputRequestedRegions()[0].GetNumberOfPixels(), 1 );
-  TEST_EXPECT_TRUE( monitor->VerifyAllInputCanStream(1) );
+  ITK_TEST_EXPECT_EQUAL( monitor->GetNumberOfUpdates(), 1 );
+  ITK_TEST_EXPECT_EQUAL( monitor->GetOutputRequestedRegions()[0].GetNumberOfPixels(), 1 );
+  ITK_TEST_EXPECT_TRUE( monitor->VerifyAllInputCanStream(1) );
 
   //
   // Test that a sliced version of the input image information is passed
@@ -190,8 +190,8 @@ int itkSliceBySliceImageFilterTest(int argc, char * argv[])
     expectedInternalSpacing[internal_i] = spacing[i];
     expectedInternalOrigin[internal_i] = origin[i];
     }
-  TEST_EXPECT_EQUAL( monitor->GetUpdatedOutputSpacing(), expectedInternalSpacing );
-  TEST_EXPECT_EQUAL( monitor->GetUpdatedOutputOrigin(), expectedInternalOrigin );
+  ITK_TEST_EXPECT_EQUAL( monitor->GetUpdatedOutputSpacing(), expectedInternalSpacing );
+  ITK_TEST_EXPECT_EQUAL( monitor->GetUpdatedOutputOrigin(), expectedInternalOrigin );
 
   //
   // Exercise PrintSelf()
@@ -242,8 +242,8 @@ int itkSliceBySliceImageFilterTest(int argc, char * argv[])
     }
 
   // check nullptr input/output
-  TRY_EXPECT_EXCEPTION(badFilter->SetInputFilter(nullptr));
-  TRY_EXPECT_EXCEPTION(badFilter->SetOutputFilter(nullptr));
+  ITK_TRY_EXPECT_EXCEPTION(badFilter->SetInputFilter(nullptr));
+  ITK_TRY_EXPECT_EXCEPTION(badFilter->SetOutputFilter(nullptr));
 
   return EXIT_SUCCESS;
 }

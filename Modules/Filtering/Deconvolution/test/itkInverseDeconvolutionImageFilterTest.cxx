@@ -78,10 +78,10 @@ int itkInverseDeconvolutionImageFilterTest(int argc, char * argv[])
   deconvolutionFilter->SetSizeGreatestPrimeFactor( 5 );
 
   // Check default KernelZeroMagnitudeThreshold value
-  TEST_SET_GET_VALUE( 1.0e-4, deconvolutionFilter->GetKernelZeroMagnitudeThreshold() );
+  ITK_TEST_SET_GET_VALUE( 1.0e-4, deconvolutionFilter->GetKernelZeroMagnitudeThreshold() );
   double zeroMagnitudeThreshold = 1.0e-2;
   deconvolutionFilter->SetKernelZeroMagnitudeThreshold( zeroMagnitudeThreshold );
-  TEST_SET_GET_VALUE( zeroMagnitudeThreshold,
+  ITK_TEST_SET_GET_VALUE( zeroMagnitudeThreshold,
                       deconvolutionFilter->GetKernelZeroMagnitudeThreshold() );
 
   using WriterType = itk::ImageFileWriter<ImageType>;

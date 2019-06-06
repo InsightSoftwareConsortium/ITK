@@ -76,7 +76,7 @@ int itkScalarImageKmeansImageFilterTest(int argc, char* argv [] )
     }
 
   // before we add any mean check that an expection is thrown
-  TRY_EXPECT_EXCEPTION( kmeansFilter->Update() );
+  ITK_TRY_EXPECT_EXCEPTION( kmeansFilter->Update() );
 
 
   for(unsigned k=0; k<numberOfInitialClasses; k++)

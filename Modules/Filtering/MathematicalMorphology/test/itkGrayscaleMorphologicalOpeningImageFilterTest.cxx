@@ -65,7 +65,7 @@ int itkGrayscaleMorphologicalOpeningImageFilterTest(int argc, char* argv [] )
   // Create the filter
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, GrayscaleMorphologicalOpeningImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, GrayscaleMorphologicalOpeningImageFilter,
     KernelImageFilter );
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
@@ -86,7 +86,7 @@ int itkGrayscaleMorphologicalOpeningImageFilterTest(int argc, char* argv [] )
   filter->SetKernel( ball );
 
   // Execute the filter
- TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+ ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 

@@ -86,7 +86,7 @@ bool SetAndVerify( int number )
     result = false;                                                        \
     }                                                                      \
                                                                            \
-  EXERCISE_BASIC_OBJECT_METHODS( threader, ClassName, MultiThreaderBase ); \
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( threader, ClassName, MultiThreaderBase ); \
 }
 
 int itkMultiThreaderBaseTest(int argc, char* argv[])

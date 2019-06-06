@@ -65,7 +65,7 @@ int itkOrthogonallyCorrected2DParametricPathTest( int, char*[] )
   // Create the corrected path
   PathType::Pointer path = PathType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( path, OrthogonallyCorrected2DParametricPath,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( path, OrthogonallyCorrected2DParametricPath,
     ParametricPath );
 
   path->SetOriginalPath( originalPath );

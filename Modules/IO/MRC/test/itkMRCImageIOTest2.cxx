@@ -91,7 +91,7 @@ bool Test( const std::string &inFileName, const std::string &outFileName, const 
   hasher->SetInput( image );
   hasher->Update();
 
-  TEST_EXPECT_EQUAL( md5, hasher->GetHash() );
+  ITK_TEST_EXPECT_EQUAL( md5, hasher->GetHash() );
 
   using WriterType = itk::ImageFileWriter<ImageType>;
   typename WriterType::Pointer writer = WriterType::New();

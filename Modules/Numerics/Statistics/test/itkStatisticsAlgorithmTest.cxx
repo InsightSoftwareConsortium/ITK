@@ -44,7 +44,7 @@ int itkStatisticsAlgorithmTest( int, char * [] )
   // Testing the exception throwing for samples of measurement size = 0
   sample->SetMeasurementVectorSize( 0 );
 
-  TRY_EXPECT_EXCEPTION(
+  ITK_TRY_EXPECT_EXCEPTION(
       itk::Statistics::Algorithm::FindSampleBound(
       constSample,
       constSample->Begin(), constSample->End(),
@@ -57,7 +57,7 @@ int itkStatisticsAlgorithmTest( int, char * [] )
   // Testing the equivalent of an empty sample by passing
   // the Begin() iterator inlieu of the End() iterator.
 
-  TRY_EXPECT_EXCEPTION(
+  ITK_TRY_EXPECT_EXCEPTION(
       itk::Statistics::Algorithm::FindSampleBound(
           constSample,
           constSample->Begin(), constSample->Begin(),
@@ -99,7 +99,7 @@ int itkStatisticsAlgorithmTest( int, char * [] )
     }
 
   // Now testing the real algorithm
-  TRY_EXPECT_NO_EXCEPTION(
+  ITK_TRY_EXPECT_NO_EXCEPTION(
       itk::Statistics::Algorithm::FindSampleBound(
           constSample,
           constSample->Begin(), constSample->End(),

@@ -50,33 +50,33 @@ int itkLabelShapeKeepNObjectsImageFilterTest1(int argc, char * argv[])
   //testing get/set BackgroundValue macro
   int BackgroundValue = ( std::stoi(argv[3]) );
   KeepNObjects->SetBackgroundValue( BackgroundValue );
-  TEST_SET_GET_VALUE( BackgroundValue, KeepNObjects->GetBackgroundValue() );
+  ITK_TEST_SET_GET_VALUE( BackgroundValue, KeepNObjects->GetBackgroundValue() );
 
   //testing get and set macros for NumberOfObjects
   unsigned int numberOfObjects = std::stoi( argv[4] );
   KeepNObjects->SetNumberOfObjects( numberOfObjects );
-  TEST_SET_GET_VALUE( numberOfObjects, KeepNObjects->GetNumberOfObjects() );
+  ITK_TEST_SET_GET_VALUE( numberOfObjects, KeepNObjects->GetNumberOfObjects() );
 
   //testing boolean macro for ReverseOrdering
   KeepNObjects->ReverseOrderingOn();
-  TEST_SET_GET_VALUE( true, KeepNObjects->GetReverseOrdering() );
+  ITK_TEST_SET_GET_VALUE( true, KeepNObjects->GetReverseOrdering() );
 
   KeepNObjects->ReverseOrderingOff();
-  TEST_SET_GET_VALUE( false, KeepNObjects->GetReverseOrdering() );
+  ITK_TEST_SET_GET_VALUE( false, KeepNObjects->GetReverseOrdering() );
 
   //testing get and set macros or ReverseOrdering
   bool reverseOrdering = std::stoi( argv[5] );
   KeepNObjects->SetReverseOrdering( reverseOrdering );
-  TEST_SET_GET_VALUE( reverseOrdering , KeepNObjects->GetReverseOrdering() );
+  ITK_TEST_SET_GET_VALUE( reverseOrdering , KeepNObjects->GetReverseOrdering() );
 
   //testing get and set macros for Attribute
   KeepNObjects->SetAttribute(LabelKeepNObjectsType::LabelObjectType::PERIMETER_ON_BORDER);
-  TEST_SET_GET_VALUE( LabelKeepNObjectsType::LabelObjectType::PERIMETER_ON_BORDER, KeepNObjects->GetAttribute() );
+  ITK_TEST_SET_GET_VALUE( LabelKeepNObjectsType::LabelObjectType::PERIMETER_ON_BORDER, KeepNObjects->GetAttribute() );
 
   const std::string attributeByName{ argv[6] };
   KeepNObjects->SetAttribute( attributeByName ); // SetAttribute accepts a string for conversion to internal label code
   const LabelKeepNObjectsType::AttributeType attributeByCode = LabelKeepNObjectsType::LabelObjectType::LABEL;
-  TEST_SET_GET_VALUE( attributeByCode, KeepNObjects->GetAttribute() );
+  ITK_TEST_SET_GET_VALUE( attributeByCode, KeepNObjects->GetAttribute() );
 
   itk::SimpleFilterWatcher watcher(KeepNObjects, "filter");
 
@@ -86,7 +86,7 @@ int itkLabelShapeKeepNObjectsImageFilterTest1(int argc, char * argv[])
   writer->SetFileName( argv[2] );
   writer->UseCompressionOn();
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   std::cout << "Test Complete!" << std::endl;
 

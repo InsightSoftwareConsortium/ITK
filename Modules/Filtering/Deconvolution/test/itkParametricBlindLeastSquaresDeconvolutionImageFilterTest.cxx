@@ -244,8 +244,8 @@ int itkParametricBlindLeastSquaresDeconvolutionImageFilterTest(int argc, char* a
     }
 
   // Exercise the setters/getters
-  TEST_SET_GET_VALUE( alpha, deconvolutionFilter->GetAlpha() );
-  TEST_SET_GET_VALUE( beta, deconvolutionFilter->GetBeta() );
+  ITK_TEST_SET_GET_VALUE( alpha, deconvolutionFilter->GetAlpha() );
+  ITK_TEST_SET_GET_VALUE( beta, deconvolutionFilter->GetBeta() );
 
   return EXIT_SUCCESS;
 }

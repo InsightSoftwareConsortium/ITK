@@ -57,16 +57,16 @@ int itkMorphologicalWatershedFromMarkersImageFilterTest( int argc, char * argv[]
       itk::MorphologicalWatershedFromMarkersImageFilter< ImageType, ImageType >;
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter,
     MorphologicalWatershedFromMarkersImageFilter,
     ImageToImageFilter );
 
 
   bool markWatershedLine = std::stoi( argv[4] );
-  TEST_SET_GET_BOOLEAN( filter, MarkWatershedLine, markWatershedLine );
+  ITK_TEST_SET_GET_BOOLEAN( filter, MarkWatershedLine, markWatershedLine );
 
   bool fullyConnected = std::stoi( argv[5] );
-  TEST_SET_GET_BOOLEAN( filter, FullyConnected, fullyConnected );
+  ITK_TEST_SET_GET_BOOLEAN( filter, FullyConnected, fullyConnected );
 
 
   filter->SetInput( reader->GetOutput() );
@@ -75,7 +75,7 @@ int itkMorphologicalWatershedFromMarkersImageFilterTest( int argc, char * argv[]
   //
   // Create a marker image larger than the input image
 
-  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
   ImageType::RegionType region = reader->GetOutput()->GetLargestPossibleRegion();
   ImageType::RegionType::SizeType size = region.GetSize();
@@ -97,17 +97,17 @@ int itkMorphologicalWatershedFromMarkersImageFilterTest( int argc, char * argv[]
 
   filter->SetInput2( largerMarkerImage );
 
-  TRY_EXPECT_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_EXCEPTION( filter->Update() );
 
 
   FilterType::LabelImageType::Pointer markerImage = reader2->GetOutput();
   filter->SetInput2( markerImage );
-  TEST_SET_GET_VALUE( markerImage, filter->GetMarkerImage() );
+  ITK_TEST_SET_GET_VALUE( markerImage, filter->GetMarkerImage() );
 
   itk::SimpleFilterWatcher watcher( filter,
     "MorphologicalWatershedFromMarkersImageFilter" );
 
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
 
   // Write output image
@@ -116,7 +116,7 @@ int itkMorphologicalWatershedFromMarkersImageFilterTest( int argc, char * argv[]
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[3] );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   if( argc > 6 )
     {
@@ -139,7 +139,7 @@ int itkMorphologicalWatershedFromMarkersImageFilterTest( int argc, char * argv[]
       overlay->SetOpacity( std::stod( argv[7] ) );
       }
 
-    TRY_EXPECT_NO_EXCEPTION( rgbwriter->Update() );
+    ITK_TRY_EXPECT_NO_EXCEPTION( rgbwriter->Update() );
     }
 
   std::cerr << "Test finished" << std::endl;

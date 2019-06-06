@@ -72,7 +72,7 @@ int itkAutoCropLabelMapFilterTest2( int argc, char * argv [] )
   using AutoCropLabelMapFilterType = itk::AutoCropLabelMapFilter< LabelMapType >;
   AutoCropLabelMapFilterType::Pointer autoCropFilter = AutoCropLabelMapFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( autoCropFilter, AutoCropLabelMapFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( autoCropFilter, AutoCropLabelMapFilter,
     ChangeRegionLabelMapFilter );
 
   autoCropFilter->SetInput( select->GetOutput() );
@@ -92,13 +92,13 @@ int itkAutoCropLabelMapFilterTest2( int argc, char * argv [] )
   select->SetLabel( std::stoi(argv[4]) );
   labelMapToLabelImageFilter->UpdateLargestPossibleRegion();
   writer->SetFileName( argv[2] );
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   // Second label
   select->SetLabel( std::stoi(argv[5]) );
   labelMapToLabelImageFilter->UpdateLargestPossibleRegion();
   writer->SetFileName( argv[3] );
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

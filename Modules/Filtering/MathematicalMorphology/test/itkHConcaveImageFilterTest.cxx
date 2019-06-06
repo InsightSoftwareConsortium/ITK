@@ -53,7 +53,7 @@ int itkHConcaveImageFilterTest( int argc, char * argv[] )
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
 
   // Define the itk::HConcaveImageFilter filter type
@@ -64,7 +64,7 @@ int itkHConcaveImageFilterTest( int argc, char * argv[] )
   // Create the filter
   HConcaveFilterType::Pointer hConcaveFilter = HConcaveFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( hConcaveFilter, HConcaveImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( hConcaveFilter, HConcaveImageFilter,
     ImageToImageFilter );
 
   itk::SimpleFilterWatcher watchConcave( hConcaveFilter, "HConcaveImageFilter" );
@@ -73,16 +73,16 @@ int itkHConcaveImageFilterTest( int argc, char * argv[] )
   auto height = static_cast< HConcaveFilterType::InputImagePixelType >( std::stod( argv[3] ) );
 
   hConcaveFilter->SetHeight( height );
-  TEST_SET_GET_VALUE( height, hConcaveFilter->GetHeight() );
+  ITK_TEST_SET_GET_VALUE( height, hConcaveFilter->GetHeight() );
 
   auto fullyConnected = static_cast< bool >( std::stod( argv[4] ) );
-  TEST_SET_GET_BOOLEAN( hConcaveFilter, FullyConnected, fullyConnected );
+  ITK_TEST_SET_GET_BOOLEAN( hConcaveFilter, FullyConnected, fullyConnected );
 
 
   hConcaveFilter->SetInput( reader->GetOutput() );
 
   // Run the filter
-  TRY_EXPECT_NO_EXCEPTION( hConcaveFilter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( hConcaveFilter->Update() );
 
 
   // Write the output
@@ -91,7 +91,7 @@ int itkHConcaveImageFilterTest( int argc, char * argv[] )
   writer->SetFileName( argv[2] );
   writer->SetInput( hConcaveFilter->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
 
   std::cout << "Test finished." << std::endl;

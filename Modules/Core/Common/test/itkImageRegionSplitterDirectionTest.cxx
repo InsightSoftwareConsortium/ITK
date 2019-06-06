@@ -27,7 +27,7 @@ int itkImageRegionSplitterDirectionTest(int, char*[])
   itk::ImageRegionSplitterDirection::Pointer splitter =
     itk::ImageRegionSplitterDirection::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( splitter, ImageRegionSplitterDirection,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( splitter, ImageRegionSplitterDirection,
     ImageRegionSplitterBase );
 
   itk::ImageRegion<2> region;
@@ -39,33 +39,33 @@ int itkImageRegionSplitterDirectionTest(int, char*[])
 
   const itk::ImageRegion<2> lpRegion = region;
 
-  TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 1 ), 1 );
-  TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 2 ), 2 );
-  TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 3 ), 3 );
-  TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 4 ), 4 );
-  TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 7 ), 6 );
-  TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 11 ), 11 );
-  TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 12 ), 11 );
-  TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 99 ), 11 );
+  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 1 ), 1 );
+  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 2 ), 2 );
+  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 3 ), 3 );
+  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 4 ), 4 );
+  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 7 ), 6 );
+  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 11 ), 11 );
+  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 12 ), 11 );
+  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 99 ), 11 );
 
   splitter->SetDirection(1);
-  TEST_EXPECT_EQUAL( splitter->GetDirection(), 1);
+  ITK_TEST_EXPECT_EQUAL( splitter->GetDirection(), 1);
 
-  TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 1 ), 1 );
-  TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 4 ), 4 );
-  TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 7 ), 5 );
-  TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 11 ), 10 );
-  TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 99 ), 10 );
+  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 1 ), 1 );
+  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 4 ), 4 );
+  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 7 ), 5 );
+  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 11 ), 10 );
+  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 99 ), 10 );
 
   region = lpRegion;
   splitter->GetSplit(0, 2, region);
-  TEST_EXPECT_EQUAL(region.GetSize(0), 5);
-  TEST_EXPECT_EQUAL(region.GetSize(1), 11);
+  ITK_TEST_EXPECT_EQUAL(region.GetSize(0), 5);
+  ITK_TEST_EXPECT_EQUAL(region.GetSize(1), 11);
 
   region = lpRegion;
   splitter->GetSplit(1, 2, region);
-  TEST_EXPECT_EQUAL(region.GetSize(0), 5);
-  TEST_EXPECT_EQUAL(region.GetSize(1), 11);
+  ITK_TEST_EXPECT_EQUAL(region.GetSize(0), 5);
+  ITK_TEST_EXPECT_EQUAL(region.GetSize(1), 11);
 
 
   return EXIT_SUCCESS;

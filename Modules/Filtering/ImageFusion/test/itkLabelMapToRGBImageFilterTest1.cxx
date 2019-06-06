@@ -64,11 +64,11 @@ int itkLabelMapToRGBImageFilterTest1(int argc, char * argv[])
   functor.ResetColors();
   functor.AddColor(0, 0, 255);
 
-  TEST_EXPECT_TRUE( colorizer->GetFunctor() != functor );
+  ITK_TEST_EXPECT_TRUE( colorizer->GetFunctor() != functor );
   colorizer->SetFunctor( functor );
-  TEST_EXPECT_TRUE( ColorizerType::ConstPointer(colorizer)->GetFunctor() == functor );
+  ITK_TEST_EXPECT_TRUE( ColorizerType::ConstPointer(colorizer)->GetFunctor() == functor );
   colorizer->GetFunctor().AddColor(0, 255, 0);
-  TEST_EXPECT_TRUE( colorizer->GetFunctor() != functor );
+  ITK_TEST_EXPECT_TRUE( colorizer->GetFunctor() != functor );
 
   return 0;
 }

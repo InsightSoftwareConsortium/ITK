@@ -89,7 +89,7 @@ int itkLog10ImageFilterAndAdaptorTest( int, char* [] )
   // Create the Filter
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, Log10ImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, Log10ImageFilter,
     UnaryGeneratorImageFilter );
 
   // Set the input image
@@ -137,7 +137,7 @@ int itkLog10ImageFilterAndAdaptorTest( int, char* [] )
 
   AdaptorType::Pointer log10Adaptor = AdaptorType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( log10Adaptor, Log10ImageAdaptor,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( log10Adaptor, Log10ImageAdaptor,
     ImageAdaptor );
 
   log10Adaptor->SetImage( inputImage );

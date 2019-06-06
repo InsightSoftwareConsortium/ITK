@@ -42,39 +42,39 @@ int itkBinaryGrindPeakImageFilterTest1( int argc, char * argv[] )
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
   using BinaryGrindPeakImageFilterType = itk::BinaryGrindPeakImageFilter<ImageType>;
   BinaryGrindPeakImageFilterType::Pointer binaryGrindPeakImageFilter =
     BinaryGrindPeakImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( binaryGrindPeakImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( binaryGrindPeakImageFilter,
     BinaryGrindPeakImageFilter, ImageToImageFilter );
 
   binaryGrindPeakImageFilter->SetInput( reader->GetOutput() );
 
   bool fullyConnected = std::stoi( argv[3] ) != 0;
   binaryGrindPeakImageFilter->SetFullyConnected( fullyConnected );
-  TEST_SET_GET_VALUE( fullyConnected, binaryGrindPeakImageFilter->GetFullyConnected() );
+  ITK_TEST_SET_GET_VALUE( fullyConnected, binaryGrindPeakImageFilter->GetFullyConnected() );
 
   if( fullyConnected )
     {
     binaryGrindPeakImageFilter->FullyConnectedOn();
-    TEST_SET_GET_VALUE( true, binaryGrindPeakImageFilter->GetFullyConnected() );
+    ITK_TEST_SET_GET_VALUE( true, binaryGrindPeakImageFilter->GetFullyConnected() );
     }
   else
     {
     binaryGrindPeakImageFilter->FullyConnectedOff();
-    TEST_SET_GET_VALUE( false, binaryGrindPeakImageFilter->GetFullyConnected() );
+    ITK_TEST_SET_GET_VALUE( false, binaryGrindPeakImageFilter->GetFullyConnected() );
     }
 
   auto foregroundValue = static_cast< BinaryGrindPeakImageFilterType::InputImagePixelType >( std::stod( argv[4] ) );
   binaryGrindPeakImageFilter->SetForegroundValue( foregroundValue );
-  TEST_SET_GET_VALUE( foregroundValue, binaryGrindPeakImageFilter->GetForegroundValue() );
+  ITK_TEST_SET_GET_VALUE( foregroundValue, binaryGrindPeakImageFilter->GetForegroundValue() );
 
   auto backgroundValue = static_cast< BinaryGrindPeakImageFilterType::InputImagePixelType >( std::stoi( argv[5] ) );
   binaryGrindPeakImageFilter->SetBackgroundValue( backgroundValue );
-  TEST_SET_GET_VALUE( backgroundValue, binaryGrindPeakImageFilter->GetBackgroundValue() );
+  ITK_TEST_SET_GET_VALUE( backgroundValue, binaryGrindPeakImageFilter->GetBackgroundValue() );
 
 
   itk::SimpleFilterWatcher watcher( binaryGrindPeakImageFilter, "BinaryGrindPeakImageFilter" );
@@ -84,7 +84,7 @@ int itkBinaryGrindPeakImageFilterTest1( int argc, char * argv[] )
   writer->SetInput( binaryGrindPeakImageFilter->GetOutput() );
   writer->SetFileName( argv[2] );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

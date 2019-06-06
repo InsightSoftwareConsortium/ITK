@@ -29,16 +29,16 @@ int itkGaussianInterpolateImageFunctionTest( int, char*[] )
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( interpolator, GaussianInterpolateImageFunction, InterpolateImageFunction );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( interpolator, GaussianInterpolateImageFunction, InterpolateImageFunction );
 
   InterpolatorType::ArrayType sigma;
   sigma.Fill(1.0);
   interpolator->SetSigma(sigma);
-  TEST_SET_GET_VALUE( sigma, interpolator->GetSigma() );
+  ITK_TEST_SET_GET_VALUE( sigma, interpolator->GetSigma() );
 
   InterpolatorType::RealType alpha = 1.0;
   interpolator->SetAlpha(alpha);
-  TEST_SET_GET_VALUE( alpha, interpolator->GetAlpha() );
+  ITK_TEST_SET_GET_VALUE( alpha, interpolator->GetAlpha() );
 
   ImageType::Pointer image = ImageType::New();
 
@@ -76,7 +76,7 @@ int itkGaussianInterpolateImageFunctionTest( int, char*[] )
   radius.Fill( 1 );
   for ( unsigned int d = 0; d < ImageType::ImageDimension; d++ )
     {
-      TEST_SET_GET_VALUE( radius[d], interpolator->GetRadius()[d] );
+      ITK_TEST_SET_GET_VALUE( radius[d], interpolator->GetRadius()[d] );
     }
 
   InterpolatorType::OutputType expectedValues[5][5] =

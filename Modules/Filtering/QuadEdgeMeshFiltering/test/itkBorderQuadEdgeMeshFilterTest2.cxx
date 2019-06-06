@@ -65,7 +65,7 @@ int itkBorderQuadEdgeMeshFilterTest2( int argc, char* argv[] )
         return EXIT_FAILURE;
     }
 
-  TRY_EXPECT_EXCEPTION( border_transform->Update() );
+  ITK_TRY_EXPECT_EXCEPTION( border_transform->Update() );
 
   // GET OUT OF HERE AND GET (YET ANOTHER) COFFEE
   return EXIT_SUCCESS;

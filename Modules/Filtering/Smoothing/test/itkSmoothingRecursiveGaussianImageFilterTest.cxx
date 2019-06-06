@@ -52,7 +52,7 @@ int InPlaceTest( char * inputFilename, bool normalizeAcrossScale, typename TFilt
     }
 
 
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   typename TFilter::OutputImageType::Pointer outputImage1 = filter->GetOutput();
   outputImage1->DisconnectPipeline();
@@ -60,7 +60,7 @@ int InPlaceTest( char * inputFilename, bool normalizeAcrossScale, typename TFilt
 
   // Set the InPlace flag to On
   filter->InPlaceOn();
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   typename TFilter::OutputImageType::Pointer outputImage2 = filter->GetOutput();
   outputImage2->DisconnectPipeline();
@@ -126,14 +126,14 @@ int itkSmoothingRecursiveGaussianImageFilterTest( int argc, char* argv[] )
   // Create the filter
   SmoothingRecursiveGaussianImageFilterType::Pointer filter = SmoothingRecursiveGaussianImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, SmoothingRecursiveGaussianImageFilter, InPlaceImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, SmoothingRecursiveGaussianImageFilter, InPlaceImageFilter );
 
   itk::SimpleFilterWatcher watcher( filter );
 
 
   // Set the scale normalization flag
   bool normalizeAcrossScale = std::stoi( argv[3] );
-  TEST_SET_GET_BOOLEAN( filter, NormalizeAcrossScale, normalizeAcrossScale );
+  ITK_TEST_SET_GET_BOOLEAN( filter, NormalizeAcrossScale, normalizeAcrossScale );
 
   // Set the value ofthe standard deviation of the Gaussian used for smoothing
   SmoothingRecursiveGaussianImageFilterType::SigmaArrayType::ValueType sigmaValue = std::stod( argv[4] );
@@ -141,17 +141,17 @@ int itkSmoothingRecursiveGaussianImageFilterTest( int argc, char* argv[] )
   sigma.Fill( sigmaValue );
 
   filter->SetSigma( sigmaValue );
-  TEST_SET_GET_VALUE( sigmaValue, filter->GetSigma() );
+  ITK_TEST_SET_GET_VALUE( sigmaValue, filter->GetSigma() );
 
   filter->SetSigmaArray( sigma );
-  TEST_SET_GET_VALUE( sigma, filter->GetSigmaArray() );
+  ITK_TEST_SET_GET_VALUE( sigma, filter->GetSigmaArray() );
 
 
   // Set the input image
   filter->SetInput( reader->GetOutput() );
 
   // Run the filter
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
 
   // Write the output
@@ -160,7 +160,7 @@ int itkSmoothingRecursiveGaussianImageFilterTest( int argc, char* argv[] )
   writer->SetFileName( argv[2] );
   writer->SetInput( filter->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   // Test the InPlaceOn option output
   if( InPlaceTest< SmoothingRecursiveGaussianImageFilterType >( argv[1], normalizeAcrossScale, sigmaValue ) == EXIT_FAILURE )

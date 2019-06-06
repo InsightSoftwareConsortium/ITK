@@ -42,7 +42,7 @@ int itkGaussianSpatialFunctionTest( int argc, char* argv[] )
   GaussianSpatialFunctionType::Pointer gaussianSpatialFunction =
     GaussianSpatialFunctionType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( gaussianSpatialFunction, GaussianSpatialFunction,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( gaussianSpatialFunction, GaussianSpatialFunction,
     SpatialFunction );
 
   ArrayType mean;
@@ -50,32 +50,32 @@ int itkGaussianSpatialFunctionTest( int argc, char* argv[] )
   mean[1] = 17;
   mean[2] = 19;
   gaussianSpatialFunction->SetMean( mean );
-  TEST_SET_GET_VALUE( mean, gaussianSpatialFunction->GetMean() );
+  ITK_TEST_SET_GET_VALUE( mean, gaussianSpatialFunction->GetMean() );
 
   ArrayType sigma;
   sigma[0] = 5;
   sigma[1] = 7;
   sigma[2] = 9;
   gaussianSpatialFunction->SetSigma( sigma );
-  TEST_SET_GET_VALUE( sigma, gaussianSpatialFunction->GetSigma() );
+  ITK_TEST_SET_GET_VALUE( sigma, gaussianSpatialFunction->GetSigma() );
 
   double scale = std::stod( argv[1] );
   gaussianSpatialFunction->SetScale( scale );
-  TEST_SET_GET_VALUE( scale, gaussianSpatialFunction->GetScale() );
+  ITK_TEST_SET_GET_VALUE( scale, gaussianSpatialFunction->GetScale() );
 
   auto normalized = static_cast< bool >( std::stoi( argv[2] ) );
   gaussianSpatialFunction->SetNormalized( normalized );
-  TEST_SET_GET_VALUE( normalized, gaussianSpatialFunction->GetNormalized() );
+  ITK_TEST_SET_GET_VALUE( normalized, gaussianSpatialFunction->GetNormalized() );
 
   if( normalized )
     {
     gaussianSpatialFunction->NormalizedOn();
-    TEST_SET_GET_VALUE( true, gaussianSpatialFunction->GetNormalized() );
+    ITK_TEST_SET_GET_VALUE( true, gaussianSpatialFunction->GetNormalized() );
     }
   else
     {
     gaussianSpatialFunction->NormalizedOff();
-    TEST_SET_GET_VALUE( false, gaussianSpatialFunction->GetNormalized() );
+    ITK_TEST_SET_GET_VALUE( false, gaussianSpatialFunction->GetNormalized() );
     }
 
 

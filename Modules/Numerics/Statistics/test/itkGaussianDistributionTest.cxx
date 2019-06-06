@@ -359,27 +359,27 @@ int itkGaussianDistributionTest(int, char* [] )
   wrongParameters.Fill(1.0);
   distributionFunction->SetParameters( wrongParameters );
 
-  TRY_EXPECT_EXCEPTION( distributionFunction->GetVariance() );
-  TRY_EXPECT_EXCEPTION( distributionFunction->GetMean() );
-  TRY_EXPECT_EXCEPTION( distributionFunction->PDF( x, wrongParameters ) );
-  TRY_EXPECT_EXCEPTION( distributionFunction->EvaluatePDF( x ) );
-  TRY_EXPECT_EXCEPTION( distributionFunction->EvaluatePDF( x, wrongParameters ) );
-  TRY_EXPECT_EXCEPTION( distributionFunction->EvaluateCDF( x ) );
-  TRY_EXPECT_EXCEPTION( distributionFunction->EvaluateCDF( x, wrongParameters ) );
-  TRY_EXPECT_EXCEPTION( distributionFunction->EvaluateInverseCDF( x ) );
-  TRY_EXPECT_EXCEPTION( distributionFunction->EvaluateInverseCDF( x, wrongParameters ) );
-  TRY_EXPECT_EXCEPTION( distributionFunction->CDF( x, wrongParameters ) );
-  TRY_EXPECT_EXCEPTION( distributionFunction->InverseCDF( x, wrongParameters ) );
+  ITK_TRY_EXPECT_EXCEPTION( distributionFunction->GetVariance() );
+  ITK_TRY_EXPECT_EXCEPTION( distributionFunction->GetMean() );
+  ITK_TRY_EXPECT_EXCEPTION( distributionFunction->PDF( x, wrongParameters ) );
+  ITK_TRY_EXPECT_EXCEPTION( distributionFunction->EvaluatePDF( x ) );
+  ITK_TRY_EXPECT_EXCEPTION( distributionFunction->EvaluatePDF( x, wrongParameters ) );
+  ITK_TRY_EXPECT_EXCEPTION( distributionFunction->EvaluateCDF( x ) );
+  ITK_TRY_EXPECT_EXCEPTION( distributionFunction->EvaluateCDF( x, wrongParameters ) );
+  ITK_TRY_EXPECT_EXCEPTION( distributionFunction->EvaluateInverseCDF( x ) );
+  ITK_TRY_EXPECT_EXCEPTION( distributionFunction->EvaluateInverseCDF( x, wrongParameters ) );
+  ITK_TRY_EXPECT_EXCEPTION( distributionFunction->CDF( x, wrongParameters ) );
+  ITK_TRY_EXPECT_EXCEPTION( distributionFunction->InverseCDF( x, wrongParameters ) );
 
   distributionFunction->SetParameters( wrongParameters );
   double newMean = 17.0;
   distributionFunction->SetMean( newMean );
-  TEST_SET_GET_VALUE( newMean, distributionFunction->GetMean() );
+  ITK_TEST_SET_GET_VALUE( newMean, distributionFunction->GetMean() );
 
   distributionFunction->SetParameters( wrongParameters );
   double newVariance = 42.0;
   distributionFunction->SetVariance( newVariance );
-  TEST_SET_GET_VALUE( newVariance, distributionFunction->GetVariance() );
+  ITK_TEST_SET_GET_VALUE( newVariance, distributionFunction->GetVariance() );
 
   constexpr double mean2 = 0.0;
   constexpr double variance2 = 1.0;

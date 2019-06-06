@@ -128,7 +128,7 @@ int itkNaryMaximumImageFilterTest( int, char* [] )
   // Create the  itk::NaryMaximumImageFilter filter
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, NaryMaximumImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, NaryMaximumImageFilter,
     NaryFunctorImageFilter );
 
   // Set the input images

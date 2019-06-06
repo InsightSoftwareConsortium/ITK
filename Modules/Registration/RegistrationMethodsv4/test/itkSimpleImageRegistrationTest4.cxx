@@ -152,7 +152,7 @@ int ImageRegistration( int itkNotUsed( argc ), char *argv[] )
   std::cout << "Parameters: " << results << std::endl;
 
   std::cout << "Number Of Iterations: " << optimizer->GetCurrentIteration();
-  TEST_EXPECT_TRUE( optimizer->GetCurrentIteration() > 5 );
+  ITK_TEST_EXPECT_TRUE( optimizer->GetCurrentIteration() > 5 );
 
   return EXIT_SUCCESS;
 }

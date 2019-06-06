@@ -46,7 +46,7 @@ int itkInvertIntensityImageFilterTest( int argc, char * argv[] )
   using FilterType = itk::InvertIntensityImageFilter< ImageType, ImageType >;
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, InvertIntensityImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, InvertIntensityImageFilter,
     UnaryFunctorImageFilter );
 
   itk::SimpleFilterWatcher watcher( filter );
@@ -54,7 +54,7 @@ int itkInvertIntensityImageFilterTest( int argc, char * argv[] )
   FilterType::InputPixelType maximum =
     itk::NumericTraits< FilterType::InputPixelType >::max();
   filter->SetMaximum( maximum );
-  TEST_SET_GET_VALUE( maximum, filter->GetMaximum() );
+  ITK_TEST_SET_GET_VALUE( maximum, filter->GetMaximum() );
 
   filter->SetFunctor(filter->GetFunctor());
 
@@ -65,7 +65,7 @@ int itkInvertIntensityImageFilterTest( int argc, char * argv[] )
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[2] );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

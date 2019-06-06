@@ -120,7 +120,7 @@ int itkConstrainedValueDifferenceImageFilterTest( int argc, char* argv[] )
   ConstrainedValueDifferenceImageFilterType::Pointer filter =
     ConstrainedValueDifferenceImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, ConstrainedValueDifferenceImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, ConstrainedValueDifferenceImageFilter,
     BinaryGeneratorImageFilter );
 
   // Set the input images
@@ -143,7 +143,7 @@ int itkConstrainedValueDifferenceImageFilterTest( int argc, char* argv[] )
 
   writer->SetInput( outputImage );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;

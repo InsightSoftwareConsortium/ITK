@@ -65,23 +65,23 @@ int itkShiftScaleLabelMapFilterTest1(int argc, char * argv[])
   change->SetInput( i2l->GetOutput() );
 
   change->SetShift( std::stod( argv[3] ) );
-  TEST_SET_GET_VALUE( std::stod( argv[3] ), change->GetShift() );
+  ITK_TEST_SET_GET_VALUE( std::stod( argv[3] ), change->GetShift() );
 
   change->SetScale( std::stod( argv[4] ) );
-  TEST_SET_GET_VALUE( std::stod( argv[4] ), change->GetScale() );
+  ITK_TEST_SET_GET_VALUE( std::stod( argv[4] ), change->GetScale() );
 
 
   const std::string shouldChangBackgroundBoolean{ argv[5] };
   static const std::string trueString{ "true" };
   const bool changeBackground =  (shouldChangBackgroundBoolean == trueString) ? true : false;
   change->SetChangeBackgroundValue( changeBackground );
-  TEST_SET_GET_VALUE( changeBackground, change->GetChangeBackgroundValue() );
+  ITK_TEST_SET_GET_VALUE( changeBackground, change->GetChangeBackgroundValue() );
 
   change->ChangeBackgroundValueOff();
-  TEST_SET_GET_VALUE( false, change->GetChangeBackgroundValue() );
+  ITK_TEST_SET_GET_VALUE( false, change->GetChangeBackgroundValue() );
 
   change->ChangeBackgroundValueOn();
-  TEST_SET_GET_VALUE( true, change->GetChangeBackgroundValue() );
+  ITK_TEST_SET_GET_VALUE( true, change->GetChangeBackgroundValue() );
 
 
   itk::SimpleFilterWatcher watcher6(change, "filter");
@@ -96,7 +96,7 @@ int itkShiftScaleLabelMapFilterTest1(int argc, char * argv[])
   writer->SetFileName( argv[2] );
   writer->UseCompressionOn();
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

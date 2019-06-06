@@ -79,7 +79,7 @@ int itkRegionFromReferenceLabelMapFilterTest1(int argc, char * argv[])
   writer->SetFileName( argv[3] );
   writer->UseCompressionOn();
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

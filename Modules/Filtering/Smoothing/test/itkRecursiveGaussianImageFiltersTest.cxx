@@ -434,7 +434,7 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
     }
 
   filter->SetSigma( 0.0 );
-  TRY_EXPECT_EXCEPTION( filter->Update() )
+  ITK_TRY_EXPECT_EXCEPTION( filter->Update() )
   }
 
   {
@@ -511,7 +511,7 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
     }
 
   filter->SetSigma( 0.0 );
-  TRY_EXPECT_EXCEPTION( filter->Update() )
+  ITK_TRY_EXPECT_EXCEPTION( filter->Update() )
 
   }
 

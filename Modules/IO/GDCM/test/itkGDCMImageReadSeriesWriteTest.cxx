@@ -48,7 +48,7 @@ int itkGDCMImageReadSeriesWriteTest( int argc, char* argv[] )
 
   reader->SetFileName( inputImage );
 
-  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
   using ImageIOType = itk::GDCMImageIO;
   using NamesGeneratorType = itk::NumericSeriesFileNames;
@@ -97,7 +97,7 @@ int itkGDCMImageReadSeriesWriteTest( int argc, char* argv[] )
 
   seriesWriter->SetFileNames( namesGenerator->GetFileNames() );
 
-  TRY_EXPECT_NO_EXCEPTION( seriesWriter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( seriesWriter->Update() );
 
 
   // Now read back in and write out as 3D image for comparison with the input.
@@ -110,7 +110,7 @@ int itkGDCMImageReadSeriesWriteTest( int argc, char* argv[] )
   singleWriter->SetInput( seriesReader->GetOutput() );
   singleWriter->SetFileName( singleOutputImage );
 
-  TRY_EXPECT_NO_EXCEPTION( singleWriter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( singleWriter->Update() );
 
   return EXIT_SUCCESS;
 }

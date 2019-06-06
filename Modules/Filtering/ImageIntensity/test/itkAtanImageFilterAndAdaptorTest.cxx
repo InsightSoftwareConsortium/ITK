@@ -91,7 +91,7 @@ int itkAtanImageFilterAndAdaptorTest( int, char* [] )
   // Create the Filter
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, AtanImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, AtanImageFilter,
     UnaryGeneratorImageFilter );
 
   // Set the input image
@@ -139,7 +139,7 @@ int itkAtanImageFilterAndAdaptorTest( int, char* [] )
 
   AdaptorType::Pointer atanAdaptor = AdaptorType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( atanAdaptor, AtanImageAdaptor,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( atanAdaptor, AtanImageAdaptor,
     ImageAdaptor );
 
   atanAdaptor->SetImage( inputImage );

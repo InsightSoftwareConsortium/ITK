@@ -57,7 +57,7 @@ int itkCSVNumericObjectFileWriterTest( int argc, char *argv[] )
                           <double, ARows, ACols >;
   Array2DWriterType::Pointer array_writer = Array2DWriterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( array_writer, CSVNumericObjectFileWriter, LightProcessObject );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( array_writer, CSVNumericObjectFileWriter, LightProcessObject );
 
   // should throw an exception as there is no input file nor any object
   // to write out

@@ -91,7 +91,7 @@ int itkBSplineScatteredDataPointSetToImageFilterTest3( int argc, char * argv [] 
 
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, BSplineScatteredDataPointSetToImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, BSplineScatteredDataPointSetToImageFilter,
     PointSetToImageFilter );
 
   // Define the parametric domain
@@ -119,16 +119,16 @@ int itkBSplineScatteredDataPointSetToImageFilterTest3( int argc, char * argv [] 
 
   bool generateOutputImage = true;
   filter->SetGenerateOutputImage( generateOutputImage );
-  TEST_SET_GET_VALUE( generateOutputImage, filter->GetGenerateOutputImage() );
+  ITK_TEST_SET_GET_VALUE( generateOutputImage, filter->GetGenerateOutputImage() );
 
   filter->GenerateOutputImageOff();
-  TEST_SET_GET_VALUE( false, filter->GetGenerateOutputImage() );
+  ITK_TEST_SET_GET_VALUE( false, filter->GetGenerateOutputImage() );
 
   filter->GenerateOutputImageOn();
-  TEST_SET_GET_VALUE( true, filter->GetGenerateOutputImage() );
+  ITK_TEST_SET_GET_VALUE( true, filter->GetGenerateOutputImage() );
 
 
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   // Get the filter output
   ImageType::Pointer outputImage = filter->GetOutput();
@@ -149,7 +149,7 @@ int itkBSplineScatteredDataPointSetToImageFilterTest3( int argc, char * argv [] 
 
   writer->SetInput( caster->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
 
   return EXIT_SUCCESS;

@@ -236,12 +236,12 @@ int itkEuclideanDistancePointSetMetricTest2Run()
   badRegion.SetSize( badSize );
   badRegion.SetIndex( regionIndex );
   metric->SetVirtualDomain( spacing, origin, direction, badRegion );
-  TRY_EXPECT_EXCEPTION( metric->Initialize() );
+  ITK_TRY_EXPECT_EXCEPTION( metric->Initialize() );
 
   typename FieldType::SpacingType badSpacing;
   badSpacing.Fill( 0.5 );
   metric->SetVirtualDomain( badSpacing, origin, direction, region );
-  TRY_EXPECT_EXCEPTION( metric->Initialize() );
+  ITK_TRY_EXPECT_EXCEPTION( metric->Initialize() );
 
   return EXIT_SUCCESS;
 }

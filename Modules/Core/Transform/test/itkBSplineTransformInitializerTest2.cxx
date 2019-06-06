@@ -89,14 +89,14 @@ int itkBSplineTransformInitializerTest2( int argc, char * argv[] )
 
   InitializerType::Pointer transformInitializer = InitializerType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( transformInitializer, BSplineTransformInitializer,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( transformInitializer, BSplineTransformInitializer,
     Object );
 
   transformInitializer->SetTransform( bsplineTransform );
-  TEST_SET_GET_VALUE( bsplineTransform, transformInitializer->GetTransform() );
+  ITK_TEST_SET_GET_VALUE( bsplineTransform, transformInitializer->GetTransform() );
 
   transformInitializer->SetImage( fixedImage );
-  TEST_SET_GET_VALUE( fixedImage, transformInitializer->GetImage() );
+  ITK_TEST_SET_GET_VALUE( fixedImage, transformInitializer->GetImage() );
 
   TransformType::CoefficientImageArray coefficientImages;
 
@@ -142,7 +142,7 @@ int itkBSplineTransformInitializerTest2( int argc, char * argv[] )
   TransformType::Pointer bsplineTransform2 = TransformType::New();
   InitializerType::Pointer transformInitializer2 = InitializerType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( transformInitializer2, BSplineTransformInitializer,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( transformInitializer2, BSplineTransformInitializer,
     Object );
 
   transformInitializer2->SetTransform( bsplineTransform2 );

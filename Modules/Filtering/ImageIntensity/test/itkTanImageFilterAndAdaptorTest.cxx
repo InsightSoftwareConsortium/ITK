@@ -91,7 +91,7 @@ int itkTanImageFilterAndAdaptorTest( int, char* [] )
   // Create the filter
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, TanImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, TanImageFilter,
     UnaryGeneratorImageFilter );
 
   // Set the input image
@@ -137,7 +137,7 @@ int itkTanImageFilterAndAdaptorTest( int, char* [] )
 
   AdaptorType::Pointer tanAdaptor = AdaptorType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( tanAdaptor, TanImageAdaptor,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( tanAdaptor, TanImageAdaptor,
     ImageAdaptor );
 
   tanAdaptor->SetImage( inputImage );

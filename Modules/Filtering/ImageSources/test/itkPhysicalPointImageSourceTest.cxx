@@ -41,14 +41,14 @@ int itkPhysicalPointImageSourceTest( const std::string &fname,
   typename PhysicalPointImageSourceType::Pointer physicalPointImageSource =
     PhysicalPointImageSourceType::New();
 
-  TRY_EXPECT_NO_EXCEPTION( physicalPointImageSource->UpdateLargestPossibleRegion() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( physicalPointImageSource->UpdateLargestPossibleRegion() );
 
   physicalPointImageSource->SetSize(size);
   physicalPointImageSource->SetSpacing(spacing);
   physicalPointImageSource->SetOrigin(origin);
   physicalPointImageSource->SetDirection( direction );
 
-  TRY_EXPECT_NO_EXCEPTION( physicalPointImageSource->UpdateLargestPossibleRegion() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( physicalPointImageSource->UpdateLargestPossibleRegion() );
 
   using ValueImageType =
       itk::Image< typename itk::NumericTraits< typename ImageType::PixelType >::ValueType, ImageType::ImageDimension >;
@@ -63,7 +63,7 @@ int itkPhysicalPointImageSourceTest( const std::string &fname,
   writer->SetFileName( fname );
   writer->SetInput( vif->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
    return EXIT_SUCCESS;
 }
@@ -100,7 +100,7 @@ int itkPhysicalPointImageSourceTest( int argc, char *argv[] )
   PhysicalPointImageSourceType::Pointer physicalPointImageSource =
     PhysicalPointImageSourceType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( physicalPointImageSource,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( physicalPointImageSource,
     PhysicalPointImageSource, GenerateImageSource );
 
 

@@ -55,33 +55,33 @@ int ExerciseIsPrime()
 {
   int testPassStatus = EXIT_SUCCESS;
 
-  TEST_EXPECT_TRUE_STATUS_VALUE(
+  ITK_TEST_EXPECT_TRUE_STATUS_VALUE(
     (itk::Math::IsPrime(static_cast< T >(0)) == false), testPassStatus );
-  TEST_EXPECT_TRUE_STATUS_VALUE(
+  ITK_TEST_EXPECT_TRUE_STATUS_VALUE(
     (itk::Math::IsPrime(static_cast< T >(1)) == false), testPassStatus );
-  TEST_EXPECT_TRUE_STATUS_VALUE(
+  ITK_TEST_EXPECT_TRUE_STATUS_VALUE(
     (itk::Math::IsPrime(static_cast< T >(2))), testPassStatus );
-  TEST_EXPECT_TRUE_STATUS_VALUE(
+  ITK_TEST_EXPECT_TRUE_STATUS_VALUE(
     (itk::Math::IsPrime(static_cast< T >(3))), testPassStatus );
-  TEST_EXPECT_TRUE_STATUS_VALUE(
+  ITK_TEST_EXPECT_TRUE_STATUS_VALUE(
     (itk::Math::IsPrime(static_cast< T >(4)) == false), testPassStatus );
-  TEST_EXPECT_TRUE_STATUS_VALUE(
+  ITK_TEST_EXPECT_TRUE_STATUS_VALUE(
     (itk::Math::IsPrime(static_cast< T >(5))), testPassStatus );
-  TEST_EXPECT_TRUE_STATUS_VALUE(
+  ITK_TEST_EXPECT_TRUE_STATUS_VALUE(
     (itk::Math::IsPrime(static_cast< T >(6)) == false), testPassStatus );
-  TEST_EXPECT_TRUE_STATUS_VALUE(
+  ITK_TEST_EXPECT_TRUE_STATUS_VALUE(
     (itk::Math::IsPrime(static_cast< T >(7))), testPassStatus );
-  TEST_EXPECT_TRUE_STATUS_VALUE(
+  ITK_TEST_EXPECT_TRUE_STATUS_VALUE(
     (itk::Math::IsPrime(static_cast< T >(8)) == false), testPassStatus );
-  TEST_EXPECT_TRUE_STATUS_VALUE(
+  ITK_TEST_EXPECT_TRUE_STATUS_VALUE(
     (itk::Math::IsPrime(static_cast< T >(9)) == false), testPassStatus );
-  TEST_EXPECT_TRUE_STATUS_VALUE(
+  ITK_TEST_EXPECT_TRUE_STATUS_VALUE(
     (itk::Math::IsPrime(static_cast< T >(10)) == false), testPassStatus );
-  TEST_EXPECT_TRUE_STATUS_VALUE(
+  ITK_TEST_EXPECT_TRUE_STATUS_VALUE(
     (itk::Math::IsPrime(static_cast< T >(11))), testPassStatus );
-  TEST_EXPECT_TRUE_STATUS_VALUE(
+  ITK_TEST_EXPECT_TRUE_STATUS_VALUE(
     (itk::Math::IsPrime(static_cast< T >(12)) == false), testPassStatus );
-  TEST_EXPECT_TRUE_STATUS_VALUE(
+  ITK_TEST_EXPECT_TRUE_STATUS_VALUE(
     (itk::Math::IsPrime(static_cast< T >(13))), testPassStatus );
 
   return testPassStatus;
@@ -93,11 +93,11 @@ int ExerciseGreatestPrimeFactor()
 {
   int testPassStatus = EXIT_SUCCESS;
 
-  TEST_EXPECT_EQUAL_STATUS_VALUE(
+  ITK_TEST_EXPECT_EQUAL_STATUS_VALUE(
     itk::Math::GreatestPrimeFactor(static_cast< T >(12)), 3, testPassStatus );
-  TEST_EXPECT_EQUAL_STATUS_VALUE(
+  ITK_TEST_EXPECT_EQUAL_STATUS_VALUE(
     itk::Math::GreatestPrimeFactor(static_cast< T >(75)), 5, testPassStatus );
-  TEST_EXPECT_EQUAL_STATUS_VALUE(
+  ITK_TEST_EXPECT_EQUAL_STATUS_VALUE(
     itk::Math::GreatestPrimeFactor(static_cast< T >(1024)), 2, testPassStatus );
 
   return testPassStatus;
