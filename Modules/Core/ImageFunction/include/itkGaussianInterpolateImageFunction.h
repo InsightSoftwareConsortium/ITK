@@ -182,15 +182,13 @@ private:
   virtual OutputType EvaluateAtContinuousIndex(
     const ContinuousIndexType &, OutputType * ) const;
 
-  ArrayType                                 m_Sigma;
-  RealType                                  m_Alpha;
+  ArrayType m_Sigma;
+  RealType  m_Alpha;
 
-  ArrayType                                 m_BoundingBoxStart;
-  ArrayType                                 m_BoundingBoxEnd;
-  ArrayType                                 m_ScalingFactor;
-  ArrayType                                 m_CutOffDistance;
-
-
+  ArrayType m_BoundingBoxStart;
+  ArrayType m_BoundingBoxEnd;
+  ArrayType m_ScalingFactor;
+  ArrayType m_CutOffDistance;
 };
 
 } // end namespace itk
