@@ -115,8 +115,8 @@ SpatialObject< TDimension >
     PointType                  p1, p2;
     DerivativeVectorType       v1, v2;
     typename DerivativeVectorType::Iterator it = value.Begin();
-    typename DerivativeVectorType::Iterator it_v1 = v1.Begin();
-    typename DerivativeVectorType::Iterator it_v2 = v2.Begin();
+    auto it_v1 = v1.cbegin();
+    auto it_v2 = v2.cbegin();
 
     DerivativeOffsetType offsetDiv2;
     for ( unsigned short i = 0; i < TDimension; i++ )

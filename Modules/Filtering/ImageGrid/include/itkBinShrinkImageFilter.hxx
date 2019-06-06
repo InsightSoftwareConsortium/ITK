@@ -153,8 +153,8 @@ BinShrinkImageFilter<TInputImage,TOutputImage>
       factorSize[i] = this->GetShrinkFactors()[i];
       }
 
-    const size_t numSamples = std::accumulate( this->GetShrinkFactors().Begin(),
-                                               this->GetShrinkFactors().End(),
+    const size_t numSamples = std::accumulate( this->GetShrinkFactors().cbegin(),
+                                               this->GetShrinkFactors().cend(),
                                                size_t(1),
                                                std::multiplies<size_t>() );
     const double inumSamples = 1.0 / (double)numSamples;
