@@ -28,11 +28,9 @@ namespace itk
 template< typename T, unsigned int TVectorDimension >
 Vector< T, TVectorDimension >
 ::Vector(const ValueType & r)
+  :
+  Superclass{ r }
 {
-  for ( typename BaseArray::Iterator i = BaseArray::Begin(); i != BaseArray::End(); ++i )
-    {
-    *i = r;
-    }
 }
 
 template< typename T, unsigned int TVectorDimension >
