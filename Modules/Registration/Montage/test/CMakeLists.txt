@@ -365,8 +365,40 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region2_150_Mosaic36Flat/36/1323.
       ${TESTING_OUTPUT_PATH}/itkMockMontageTestTi7R2_150S36raw_
       0 1 1 5 0 0
     )
-    
-    endif(ITKMontage_EnableFailingTests)
+
+  endif(ITKMontage_EnableFailingTests)
+endif()
+
+if (EXISTS "${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region1_10_Mosaic36/Ti-7Al_Region #1_10_Mosaic_36_p323.tif")
+  set(rawFolder "${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region1_10_Mosaic36")
+  set(rawPrefix "${rawFolder}/Ti-7Al_Region #1_10_Mosaic_36_p")
+
+  if (ITKMontage_EnableFailingTests)
+  itk_add_test(NAME itkMontageTestTi7R1_10S36
+    COMMAND MontageTestDriver
+    itkMontageTest2D
+      ${rawFolder}
+      ${TESTING_OUTPUT_PATH}/itkMontageTestTi7R1_10S36_
+      ${TESTING_OUTPUT_PATH}/itkMockMontageTestTi7R1_10S36_
+      0 1 1 5 0 0
+    )
+  endif(ITKMontage_EnableFailingTests)
+endif()
+
+if (EXISTS "${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region1_10_Mosaic180/Ti-7Al_Region #1_10_Mosaic_180_p323.tif")
+  set(rawFolder "${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region1_10_Mosaic180")
+  set(rawPrefix "${rawFolder}/Ti-7Al_Region #1_10_Mosaic_180_p")
+
+  if (ITKMontage_EnableFailingTests)
+  itk_add_test(NAME itkMontageTestTi7R1_10S180
+    COMMAND MontageTestDriver
+    itkMontageTest2D
+      ${rawFolder}
+      ${TESTING_OUTPUT_PATH}/itkMontageTestTi7R1_10S180_
+      ${TESTING_OUTPUT_PATH}/itkMockMontageTestTi7R1_10S180_
+      0 1 1 5 0 0
+    )
+  endif(ITKMontage_EnableFailingTests)
 endif()
 
 if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles/Image_10_10.tif)
