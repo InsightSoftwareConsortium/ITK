@@ -61,10 +61,12 @@ int main( int , char *[] )
 // We create a point list and we set:
 // \begin{enumerate}
 // \item The position of each point in the local coordinate system using the
-// \code{SetPosition()} method.
-// \item The radius of the tube at this position using \code{SetRadius()}.
-// \item The two normals at the tube is set using \code{SetNormal1()} and
-// \code{SetNormal2()}.
+// \code{SetPositionInObjectSpace()} method.
+// \item The radius of the tube at this position using
+// \code{SetRadiusInObjectSpace()}.
+// \item The two normals at the tube is set using
+// \code{SetNormal1InObjectSpace()} and
+// \code{SetNormal2InObjectSpace()}.
 // \item The color of the point is set to red in our case.
 // \end{enumerate}
 //
@@ -137,11 +139,13 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Then we can access the points using STL iterators.  \code{GetPosition()}
+// Then we can access the points using STL iterators.
+// \code{GetPositionInObjectSpace()}
 // and \code{GetColor()} functions return respectively the position and the
-// color of the point. \code{GetRadius()} returns the radius at that
-// point. \code{GetNormal1()} and \code{GetNormal1()} functions return a
-// \doxygen{CovariantVector} and \code{GetTangent()} returns a
+// color of the point. \code{GetRadiusInObjectSpace()} returns the radius at
+// that point. \code{GetNormal1InObjectSpace()} and
+// \code{GetNormal2InObjectSpace()} functions return a
+// \doxygen{CovariantVector} and \code{GetTangentInObjectSpace()} returns a
 // \doxygen{Vector}.
 //
 // Software Guide : EndLatex

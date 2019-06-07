@@ -93,9 +93,12 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// At this point we can use \code{IsInside()}, \code{ValueAt()} and
-// \code{DerivativeAt()} functions inherent in SpatialObjects.  The
-// \code{IsInside()} value can be useful when dealing with registration.
+// At this point we can use \code{IsInsideInWorldSpace()},
+// \code{IsInsideInObjectSpace()}, \code{ValueAtInWorldSpace()},
+// \code{ValueAtInObjectSpace()}, \code{DerivativeAtInWorldSpace()},
+// and \code{DerivativeAtInObjectSpace()} functions inherent in SpatialObjects.
+// The \code{IsInsideInWorldSpace()} value can be particularly useful when
+// dealing with registration.
 //
 // Software Guide : EndLatex
 
@@ -127,12 +130,13 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 //  The derivative at a specified position in space can be computed using the
-//  \code{DerivativeAt()} function. The first argument is the point in
+//  \code{DerivativeAtInWorldSpace()} function. The first argument is the
+//  point in
 //  physical coordinates where we are evaluating the derivatives. The second
 //  argument is the order of the derivation, and the third argument is the
 //  result expressed as a \doxygen{Vector}.  Derivatives are computed
-//  iteratively using finite differences and, like the \code{ValueAt()}, no
-//  interpolator is used.
+//  iteratively using finite differences and, like the
+//  \code{ValueAtInWorldSpace()}, no interpolator is used.
 //
 // Software Guide : EndLatex
 

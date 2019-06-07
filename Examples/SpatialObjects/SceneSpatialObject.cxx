@@ -19,8 +19,9 @@
 // Software Guide : BeginLatex
 //
 // \index{itk::GroupSpatialObject - Continued}
-// This example describes how to use the \doxygen{GroupSpatialObject}.
-// A GroupSpatialObject contains a collection of SpatialObjects. This
+//
+// This example describes how to use the \doxygen{GroupSpatialObject} as a
+// replacement to ITKv4's \code{SceneSpatialObject}. This
 // example begins by including the appropriate header file.
 //
 // Software Guide : EndLatex
@@ -34,7 +35,7 @@ int main( int , char *[] )
 {
 // Software Guide : BeginLatex
 //
-// An GroupSpatialObject is templated over the dimension of the
+// A GroupSpatialObject is templated over the dimension of the
 // space which requires all the objects referenced by the GroupSpatialObject to
 // have the same dimension.
 //
@@ -108,7 +109,7 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // Objects can also be removed from the GroupSpatialObject using the
-// \code{RemoveSpatialObject()} function.
+// \code{RemoveChild()} function.
 //
 // Software Guide : EndLatex
 
