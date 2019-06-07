@@ -227,6 +227,15 @@ itk_add_test(NAME itkMontageTest-10-129-C_2
     0 2 0 1 0 0
   )
 
+itk_add_test(NAME itkMontageTest-S200-small
+  COMMAND MontageTestDriver
+  itkMontageTest2D
+    DATA{Input/S200-small/,REGEX:.*}
+    ${TESTING_OUTPUT_PATH}/itkMontageTest-S200-small
+    ${TESTING_OUTPUT_PATH}/itkPairsMontageTest-S200-small
+    0 1 1 1 0 0
+  )
+
 itk_add_test(NAME itkMontageTest-S200-6-C
   COMMAND MontageTestDriver
   itkMontageTest2D
