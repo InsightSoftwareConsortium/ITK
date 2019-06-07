@@ -205,6 +205,15 @@ itk_add_test(NAME itkMontageTestMediumCarbonSteel
     1 -1 1 4 1 0
   )
 
+itk_add_test(NAME itkMontageTestCMUrun2_64
+  COMMAND MontageTestDriver
+  itkMontageTest2D
+    DATA{Input/05MAR09_run2_64-Raw/,REGEX:.*}
+    ${TESTING_OUTPUT_PATH}/itkMontageTestCMUrun2_64
+    ${TESTING_OUTPUT_PATH}/itkMockMontageTestCMUrun2_64
+    1 -1 1 4 1 1
+  )
+
 option(ITKMontage_EnableFailingTests "Should we enable tests which are failing due to not-yet-resolved issues?" OFF)
 
 if (ITKMontage_EnableFailingTests)
@@ -215,7 +224,7 @@ itk_add_test(NAME itkMontageTest-10-129-C_2
     DATA{Input/10-129-C_2/,REGEX:.*}
     ${TESTING_OUTPUT_PATH}/itkMontageTest-10-129-C_2
     ${TESTING_OUTPUT_PATH}/itkPairsMontageTest-10-129-C_2
-    0 2 0 1 0 1
+    0 2 0 1 0 0
   )
 
 itk_add_test(NAME itkMontageTest-S200-6-C
