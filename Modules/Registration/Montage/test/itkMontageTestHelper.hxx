@@ -256,9 +256,7 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
             tr[d] /= sp[d];
             }
           VectorType ta = stageTiles[y][x].Position - actualTiles[y][x].Position; // translation (actual)
-          PointType  p0;
-          p0.Fill( 0 );
-          ta += actualTiles[0][0].Position - p0; // account for tile zero maybe not being at coordinates 0
+          ta += actualTiles[0][0].Position - stageTiles[0][0].Position; // account for tile zero maybe not being at coordinates 0
           double singleError = 0.0;
           for ( unsigned d = 0; d < Dimension; d++ )
             {
