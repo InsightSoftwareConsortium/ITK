@@ -202,8 +202,15 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
   WriteDebug( iAdjusted.GetPointer(), "iAdjustedZS.nrrd" );
 
   m_MaxCalculator->SetImage( iAdjusted );
-  m_MaxCalculator->SetN( std::ceil( this->m_Offsets.size() / 2 ) *
+  if (m_MergePeaks)
+    {
+    m_MaxCalculator->SetN( std::ceil( this->m_Offsets.size() / 2 ) *
                          ( static_cast< unsigned >( std::pow( 3, ImageDimension ) ) - 1 ) );
+    }
+  else
+    {
+    m_MaxCalculator->SetN( this->m_Offsets.size() );
+    }
 
   try
     {
