@@ -237,41 +237,99 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
 
       std::cout << std::fixed;
 
-      double totalError = 0.0;
+      std::vector< std::vector< VectorType > > regPos( yMontageSize ); // translations measured by registration
+      // translations using average translation to neighbors and neighbors' ground truth
+      std::vector< std::vector< itk::Tile2D::PointType > > avgPos( yMontageSize );
       for ( unsigned y = 0; y < yMontageSize; y++ )
         {
         ind[1] = y;
+        regPos[y].resize( xMontageSize );
+        avgPos[y].resize( xMontageSize );
         for ( unsigned x = 0; x < xMontageSize; x++ )
           {
           ind[0] = x;
           const TransformType* regTr = montage->GetOutputTransform( ind );
-          std::cout << "(" << x << ", " << y << "): " << regTr->GetOffset();
-
-          registrationErrors << peakMethod << '\t' << x << '\t' << y;
-
-          // calculate error
-          VectorType tr = regTr->GetOffset(); // translation measured by registration
-          for ( unsigned d = 0; d < Dimension; d++ )
-            {
-            tr[d] /= sp[d];
-            }
-          VectorType ta = stageTiles[y][x].Position - actualTiles[y][x].Position; // translation (actual)
-          ta += actualTiles[0][0].Position - stageTiles[0][0].Position; // account for tile zero maybe not being at coordinates 0
-          double singleError = 0.0;
-          for ( unsigned d = 0; d < Dimension; d++ )
-            {
-            registrationErrors << '\t' << ( tr[d] - ta[d] );
-            std::cout << "  " << std::setw( 8 ) << std::setprecision( 3 ) << ( tr[d] - ta[d] );
-            singleError += std::abs( tr[d] - ta[d] );
-            }
-          totalError += singleError;
-          registrationErrors << std::endl;
-          std::cout << std::endl;
           if ( writeTransformFiles )
             {
             WriteTransform( regTr, outFilename + std::to_string( padMethod ) + "_" + std::to_string( peakMethod )
                             + "_Tr_" + std::to_string( x ) + "_" + std::to_string( y ) + ".tfm" );
             }
+          regPos[y][x] = regTr->GetOffset();
+          for ( unsigned d = 0; d < Dimension; d++ )
+            {
+            regPos[y][x][d] /= sp[d]; //convert into index units
+            }
+          avgPos[y][x].Fill( 0.0 ); // initialize to zeroes
+          }
+        }
+
+      // make averages
+      for ( unsigned y = 0; y < yMontageSize; y++ )
+        {
+        for ( unsigned x = 0; x < xMontageSize; x++ )
+          {
+          for ( unsigned d = 0; d < Dimension; d++ ) // iterate over dimension because Vector and Point don't mix well
+            {
+            unsigned count = 0;
+            if ( x > 0 )
+              {
+              ++count;
+              avgPos[y][x][d] += regPos[y][x][d] - regPos[y][x - 1][d]
+                - (actualTiles[y][x - 1].Position[d] - stageTiles[y][x - 1].Position[d]);
+              }
+            if ( x < xMontageSize - 1 )
+              {
+              ++count;
+              avgPos[y][x][d] += regPos[y][x][d] - regPos[y][x + 1][d]
+                - (actualTiles[y][x + 1].Position[d] - stageTiles[y][x + 1].Position[d]);
+              }
+            if ( y > 0 )
+              {
+              ++count;
+              avgPos[y][x][d] += regPos[y][x][d] - regPos[y - 1][x][d]
+                - (actualTiles[y - 1][x].Position[d] - stageTiles[y - 1][x].Position[d]);
+              }
+            if ( y < yMontageSize - 1 )
+              {
+              ++count;
+              avgPos[y][x][d] += regPos[y][x][d] - regPos[y + 1][x][d]
+                - (actualTiles[y + 1][x].Position[d] - stageTiles[y + 1][x].Position[d]);
+              }
+            avgPos[y][x][d] /= count;
+            }
+          }
+        }
+
+      double totalError = 0.0;
+      for ( unsigned y = 0; y < yMontageSize; y++ )
+        {
+        for ( unsigned x = 0; x < xMontageSize; x++ )
+          {
+          std::cout << "(" << x << ", " << y << "): " << regPos[y][x];
+          registrationErrors << peakMethod << '\t' << x << '\t' << y;
+
+          // calculate error
+          const VectorType& tr = regPos[y][x]; // translation measured by registration
+          VectorType ta = stageTiles[y][x].Position - actualTiles[y][x].Position; // translation (actual)
+          ta += actualTiles[0][0].Position - stageTiles[0][0].Position; // account for tile zero maybe not being at coordinates 0
+          double singleError = 0.0;
+          double alternativeError = 0.0; // to account for accumulation of individual errors
+          for ( unsigned d = 0; d < Dimension; d++ )
+            {
+            registrationErrors << '\t' << ( tr[d] - ta[d] );
+            std::cout << "  " << std::setw( 8 ) << std::setprecision( 3 ) << ( tr[d] - ta[d] );
+            singleError += std::abs( tr[d] - ta[d] );
+            alternativeError += std::abs( avgPos[y][x][d] - ta[d] );
+            }
+
+          if ( alternativeError >= 5.0 && alternativeError < singleError )
+            {
+            result = EXIT_FAILURE;
+            std::cout << "  severly wrong: " << alternativeError;
+            }
+          totalError += std::min( singleError, alternativeError );
+          registrationErrors << std::endl;
+          std::cout << std::endl;
           }
         }
       // allow error of whole pixel for each tile, ignoring tile 0
