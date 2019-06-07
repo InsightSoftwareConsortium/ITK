@@ -18,7 +18,9 @@
 
 // Software Guide : BeginLatex
 //
-// \index{itk::SpatialObjectTransform}s This example describes the different
+// \index{itk::SpatialObjectTransform}
+//
+// This example describes the different
 // transformations and the Object and World "spaces" associated with a spatial
 // object.
 //
@@ -116,9 +118,10 @@ int main( int , char *[] )
 //
 // Note that this scaling would also apply to the children of object2,
 // if it had children.  If you wish to scale an object, but not its children,
-// then those children aren't actually "children", but they are siblings.  So,
-// you should insert a \index{GroupSpatialObject} that holds the object and its
-// children.  Then you can manipulate the object's transform/scaling
+// then those children aren't actually ``children'', but they are siblings.  So,
+// you should insert a \code{GroupSpatialObject} that holds both the object and
+// its siblings as children.  Then you can manipulate the object's
+// transform/scaling
 // independent of its siblings in that group, and if you wish to transform
 // the object and its simblings, you apply that transform to the group.
 //
@@ -153,8 +156,8 @@ int main( int , char *[] )
 // To realize the previous operations on the transformations, we should
 // invoke the \code{Update()} that recomputes all dependent transformations.
 //
-// By calling this function on \code{object1}, it will also descend to its children,
-// thereby also updating the objectToWorldTransform for \code{object2}.
+// By calling this function on \code{object1}, it will also descend to its
+// children, thereby also updating the objectToWorldTransform for \code{object2}.
 //
 // Software Guide : EndLatex
 
@@ -211,9 +214,10 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Second, the \code{ObjectToWorldTransform} that is cached, derived
+// Second, the \code{ObjectToWorldTransform} that is derived
 // from the parent-child hierarchy and the composition of the corresponding
-// \code{ObjectToParentTransform}, for \code{object2}:
+// \code{ObjectToParentTransform}s, computed by called to
+// \code{Update()}, and cached for efficient subsequent use, for \code{object2}:
 //
 // Software Guide : EndLatex
 
@@ -274,7 +278,7 @@ int main( int , char *[] )
 //
 // Also, as a child is disconnected from its parent, it should not move;
 // so its \code{ObjectToParentTransform} should be updated to match its
-// ]code{ObjectToWorldTransform}.
+// \code{ObjectToWorldTransform}.
 //
 // Software Guide : EndLatex
 

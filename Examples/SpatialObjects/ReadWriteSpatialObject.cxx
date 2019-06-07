@@ -110,7 +110,7 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // To get the objects in the file you can call the \code{GetGroup()} method.
-// Calls to \code{GetGroup()} returns an pointer to a
+// Calls to \code{GetGroup()} returns a pointer to a
 // \doxygen{GroupSpatialObject}.
 //
 // Software Guide : EndLatex
