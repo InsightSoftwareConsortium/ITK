@@ -21,8 +21,8 @@
 // \index{itk::SurfaceSpatialObject}
 //
 // \doxygen{SurfaceSpatialObject} defines a surface in n-dimensional space.
-// A SurfaceSpatialObject is defined by a list of points which lie on the
-// surface. Each point has a position and a unique normal. The example begins
+// A \code{SurfaceSpatialObject} is defined by a list of points which lie on the
+// surface. Each point has a position and a normal. The example begins
 // by including the appropriate header file.
 //
 // Software Guide : EndLatex
@@ -35,9 +35,10 @@ int main( int , char *[] )
 {
 // Software Guide : BeginLatex
 //
-// SurfaceSpatialObject is templated over the dimension of the space.  A
-// SurfaceSpatialObject contains a list of SurfaceSpatialObjectPoints.  A
-// SurfaceSpatialObjectPoint has a position, a normal and a color.
+// \code{SurfaceSpatialObject} is templated over the dimension of the space.  A
+// \code{SurfaceSpatialObject} contains a list of
+// \code{SurfaceSpatialObjectPoint}s.  A
+// \code{SurfaceSpatialObjectPoint} has a position, a normal and a color.
 //
 // First we define some type definitions
 //
@@ -57,8 +58,8 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // We create a point list and we set the position of each point in the local
-// coordinate system using the \code{SetPosition()} method. We also set the
-// color of each point to red.
+// coordinate system using the \code{SetPositionInObjectSpace()} method. We
+// also set the color of each point to red.
 //
 // Software Guide : EndLatex
 
@@ -101,8 +102,8 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// The \code{GetPoints()} method returns a reference to the internal list of points
-// of the object.
+// The \code{GetPoints()} method returns a reference to the internal list of
+// points of the object.
 //
 // Software Guide : EndLatex
 
@@ -116,8 +117,10 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // Then we can access the points using standard STL iterators.
-// \code{GetPosition()} and \code{GetColor()} functions return respectively
-// the position and the color of the point. \code{GetNormal()} returns the
+// \code{GetPositionInObjectSpace()} and \code{GetColor()} functions return
+// respectively
+// the position and the color of the point. \code{GetNormalInObjectSpace()}
+// returns the
 // normal as a \doxygen{CovariantVector}.
 //
 // Software Guide : EndLatex

@@ -121,8 +121,9 @@ int main(int, char * [] )
 
   // Software Guide : BeginLatex
   //
-  // The \code{GetBoundingBox()}, \code{ValueAt()}, \code{IsInside()}
-  // functions can be used to access important information.
+  // The \code{GetBoundingBoxInWorldSpace()}, \code{ValueAtInWorldSpace()},
+  // \code{IsInsideInWorldSpace()}, and related functions in ObjectSpace
+  // can be used to access important information.
   //
   // Software Guide : EndLatex
 

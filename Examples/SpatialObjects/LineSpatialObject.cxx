@@ -57,10 +57,12 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // We create a point list and we set the position of each point in the local
-// coordinate system using the \code{SetPosition()} method. We also set the
+// coordinate system using the \code{SetPositionInObjectSpace()} method. We
+// also set the
 // color of each point to red.
 //
-// The two normals are set using the \code{SetNormal()} function; the first
+// The two normals are set using the \code{SetNormalInObjectSpace()} function;
+// the first
 // argument is the normal itself and the second argument is the index of the
 // normal.
 //
@@ -110,8 +112,8 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// The \code{GetPoints()} method returns a reference to the internal list of points
-// of the object.
+// The \code{GetPoints()} method returns a reference to the internal list of
+// points of the object.
 //
 // Software Guide : EndLatex
 
@@ -125,8 +127,10 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // Then we can access the points using standard STL iterators.  The
-// \code{GetPosition()} and \code{GetColor()} functions return respectively the position
-// and the color of the point. Using the GetNormal(unsigned int) function we
+// \code{GetPositionInObjectSpace()} and \code{GetColor()} functions return
+// respectively the position
+// and the color of the point. Using the
+// \code{GetNormalInObjectSpace(unsigned int)} function we
 // can access each normal.
 //
 // Software Guide : EndLatex
