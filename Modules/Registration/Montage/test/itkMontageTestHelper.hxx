@@ -274,7 +274,9 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
             }
           }
         }
-      double avgError = totalError / ( xMontageSize * ( yMontageSize - 1 ) + ( xMontageSize - 1 ) * yMontageSize );
+      // allow error of whole pixel for each tile, ignoring tile 0
+      // also allow accumulation of one pixel for each registration - this effectively double the tolerance
+      double avgError = 0.5 * totalError / ( xMontageSize * yMontageSize - 1 );
       avgError /= Dimension; // report per-dimension error
       std::cout << "\nAverage translation error for padding method " << padMethod
                 << " and peak interpolation method " << peakMethod << ": " << avgError << std::endl;
