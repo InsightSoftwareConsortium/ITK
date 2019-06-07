@@ -31,7 +31,9 @@ namespace itk
 template< unsigned Dimension >
 struct Tile
 {
-  itk::Point< double, Dimension > Position; // x, y... coordinates
+  using PointType = itk::Point< double, Dimension >;
+
+  PointType Position; // x, y... coordinates
 
   std::string FileName;
 };
