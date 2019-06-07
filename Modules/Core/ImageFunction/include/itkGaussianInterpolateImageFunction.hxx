@@ -61,15 +61,37 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
 
   typename InputImageType::ConstPointer input = this->GetInputImage();
   typename InputImageType::SpacingType spacing = input->GetSpacing();
+  typename InputImageType::IndexType index = input->GetBufferedRegion().GetIndex();
   typename InputImageType::SizeType size = input->GetBufferedRegion().GetSize();
 
   for( unsigned int d = 0; d < ImageDimension; d++ )
     {
-    this->m_BoundingBoxStart[d] = -0.5;
-    this->m_BoundingBoxEnd[d] = static_cast<RealType>( size[d] ) - 0.5;
+    this->m_BoundingBoxStart[d] = index[d] - 0.5;
+    this->m_BoundingBoxEnd[d] = static_cast<RealType>( index[d] + size[d] ) - 0.5;
     this->m_ScalingFactor[d] = 1.0 / ( itk::Math::sqrt2 * this->m_Sigma[d] / spacing[d] );
     this->m_CutOffDistance[d] = this->m_Sigma[d] * this->m_Alpha / spacing[d];
     }
+}
+
+
+template< typename TInputImage, typename TCoordRep >
+typename GaussianInterpolateImageFunction< TInputImage, TCoordRep >::RegionType
+GaussianInterpolateImageFunction< TInputImage, TCoordRep >
+::ComputeInterpolationRegion( const ContinuousIndexType& cindex ) const
+{
+  RegionType region = this->GetInputImage()->GetBufferedRegion();
+  for( unsigned int d = 0; d < ImageDimension; d++ )
+    {
+    TCoordRep cBegin = cindex[d] + 0.5 - this->m_CutOffDistance[d];
+    IndexValueType begin = std::max( region.GetIndex()[d],
+      static_cast< IndexValueType >( std::floor( cBegin ) ) );
+    TCoordRep cEnd = cindex[d] + 0.5 + this->m_CutOffDistance[d];
+    SizeValueType end = std::min( region.GetIndex()[d] + region.GetSize()[d],
+      static_cast< SizeValueType >( std::ceil( cEnd ) ) );
+    region.SetIndex( d, begin );
+    region.SetSize( d, end - begin );
+    }
+  return region;
 }
 
 template<typename TImageType, typename TCoordRep>
@@ -81,16 +103,12 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
   vnl_vector<RealType> erfArray[ImageDimension];
   vnl_vector<RealType> gerfArray[ImageDimension];
 
+  RegionType region = this->ComputeInterpolationRegion( cindex );
+
   // Compute the ERF difference arrays
   for( unsigned int d = 0; d < ImageDimension; d++ )
     {
-    bool evaluateGradient = false;
-    if( grad )
-      {
-      evaluateGradient = true;
-      }
-    this->ComputeErrorFunctionArray( d, cindex[d], erfArray[d],
-      gerfArray[d], evaluateGradient );
+    this->ComputeErrorFunctionArray( region, d, cindex[d], erfArray[d], gerfArray[d], grad != nullptr );
     }
 
   RealType sum_me = 0.0;
@@ -103,25 +121,11 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
   dsum_me.Fill( 0.0 );
   dw.Fill( 0.0 );
 
-  // Loop over the voxels in the region identified
-  ImageRegion<ImageDimension> region;
-  for( unsigned int d = 0; d < ImageDimension; d++ )
-    {
-    auto boundingBoxSize = static_cast<int>(
-      this->m_BoundingBoxEnd[d] - this->m_BoundingBoxStart[d] + 0.5 );
-    int begin = std::max( 0, static_cast<int>( std::floor( cindex[d] -
-      this->m_BoundingBoxStart[d] - this->m_CutOffDistance[d] ) ) );
-    int end = std::min( boundingBoxSize, static_cast<int>( std::ceil(
-      cindex[d] - this->m_BoundingBoxStart[d] + this->m_CutOffDistance[d] ) ) );
-    region.SetIndex( d, begin );
-    region.SetSize( d, end - begin );
-    }
 
-  ImageRegionConstIteratorWithIndex<InputImageType> It(
-    this->GetInputImage(), region );
+  ImageRegionConstIteratorWithIndex<InputImageType> It( this->GetInputImage(), region );
   for( It.GoToBegin(); !It.IsAtEnd(); ++It )
     {
-    unsigned int j = It.GetIndex()[0];
+    unsigned int j = It.GetIndex()[0] - region.GetIndex()[0];
     RealType w = erfArray[0][j];
     if( grad )
       {
@@ -133,7 +137,7 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
       }
     for( unsigned int d = 1; d < ImageDimension; d++)
       {
-      j = It.GetIndex()[d];
+      j = It.GetIndex()[d] - region.GetIndex()[d];
       w *= erfArray[d][j];
       if( grad )
         {
@@ -179,27 +183,16 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
 template<typename TImageType, typename TCoordRep>
 void
 GaussianInterpolateImageFunction<TImageType, TCoordRep>
-::ComputeErrorFunctionArray( unsigned int dimension, RealType cindex,
+::ComputeErrorFunctionArray( const RegionType& region, unsigned int dimension, RealType cindex,
   vnl_vector<RealType> &erfArray, vnl_vector<RealType> &gerfArray,
   bool evaluateGradient ) const
 {
-  // Determine the range of voxels along the line where to evaluate erf
-  auto boundingBoxSize = static_cast<int>(
-    this->m_BoundingBoxEnd[dimension] - this->m_BoundingBoxStart[dimension] +
-    0.5 );
-  int begin = std::max( 0, static_cast<int>( std::floor( cindex -
-    this->m_BoundingBoxStart[dimension] -
-    this->m_CutOffDistance[dimension] ) ) );
-  int end = std::min( boundingBoxSize, static_cast<int>( std::ceil( cindex -
-    this->m_BoundingBoxStart[dimension] +
-    this->m_CutOffDistance[dimension] ) ) );
-
-  erfArray.set_size( boundingBoxSize );
-  gerfArray.set_size( boundingBoxSize );
+  erfArray.set_size( region.GetSize()[dimension] );
+  gerfArray.set_size( region.GetSize()[dimension] );
 
   // Start at the first voxel
   RealType t = ( this->m_BoundingBoxStart[dimension] - cindex +
-    static_cast<RealType>( begin ) ) * this->m_ScalingFactor[dimension];
+    static_cast<RealType>( region.GetIndex()[dimension] ) ) * this->m_ScalingFactor[dimension];
   RealType e_last = vnl_erf( t );
   RealType g_last = 0.0;
   if( evaluateGradient )
@@ -207,7 +200,7 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
     g_last = itk::Math::two_over_sqrtpi * std::exp( -itk::Math::sqr( t ) );
     }
 
-  for( int i = begin; i < end; i++ )
+  for( unsigned i = 0; i < region.GetSize()[dimension]; i++ )
     {
     t += this->m_ScalingFactor[dimension];
     RealType e_now = vnl_erf( t );

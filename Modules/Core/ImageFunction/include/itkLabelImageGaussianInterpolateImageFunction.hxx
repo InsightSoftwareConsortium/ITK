@@ -43,26 +43,12 @@ LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordRep, TPixelCompare
   vnl_vector<RealType> erfArray[ImageDimension];
   vnl_vector<RealType> gerfArray[ImageDimension];
 
+  typename Superclass::RegionType region = this->ComputeInterpolationRegion( cindex );
+
   // Compute the ERF difference arrays
   for( unsigned int d = 0; d < ImageDimension; d++ )
     {
-    const bool evaluateGradient = false;
-    this->ComputeErrorFunctionArray( d, cindex[d], erfArray[d],
-      gerfArray[d], evaluateGradient );
-    }
-
-  // Loop over the voxels in the region identified
-  ImageRegion<ImageDimension> region;
-  for( unsigned int d = 0; d < ImageDimension; d++ )
-    {
-    const auto boundingBoxSize = static_cast<int>(
-      this->GetBoundingBoxEnd()[d] - this->GetBoundingBoxStart()[d] + 0.5 );
-    const int begin = std::max( 0, static_cast<int>( std::floor( cindex[d] -
-      this->GetBoundingBoxStart()[d] - this->GetCutOffDistance()[d] ) ) );
-    const int end = std::min( boundingBoxSize, static_cast<int>( std::ceil(
-      cindex[d] - this->GetBoundingBoxStart()[d] + this->GetCutOffDistance()[d] ) ) );
-    region.SetIndex( d, begin );
-    region.SetSize( d, end - begin );
+    this->ComputeErrorFunctionArray( region, d, cindex[d], erfArray[d], gerfArray[d], false );
     }
 
   RealType wmax = 0.0;
@@ -78,11 +64,11 @@ LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordRep, TPixelCompare
   ImageRegionConstIteratorWithIndex<InputImageType> It( this->GetInputImage(), region );
   for( It.GoToBegin(); !It.IsAtEnd(); ++It )
     {
-    unsigned int j = It.GetIndex()[0];
+    unsigned int j = It.GetIndex()[0] - region.GetIndex()[0];
     RealType w = erfArray[0][j];
     for( unsigned int d = 1; d < ImageDimension; d++)
       {
-      j = It.GetIndex()[d];
+      j = It.GetIndex()[d] - region.GetIndex()[d];
       w *= erfArray[d][j];
       }
 
