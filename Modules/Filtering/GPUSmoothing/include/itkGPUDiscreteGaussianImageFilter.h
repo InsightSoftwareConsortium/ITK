@@ -41,6 +41,10 @@ namespace itk
  * itk::RecursiveGaussianImageFilter.
  *
  * \ingroup ITKGPUSmoothing
+ *
+ * \sphinx
+ * \sphinxexample{Filtering/Smoothing/SmoothImageWithDiscreteGaussianFilter,Smooth Image With Discrete Gaussian Filter}
+ * \endsphinx
  */
 
 template< typename TInputImage, typename TOutputImage >

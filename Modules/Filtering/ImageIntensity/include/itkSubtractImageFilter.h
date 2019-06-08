@@ -58,10 +58,10 @@ namespace itk
  * \ingroup IntensityImageFilters MultiThreaded
  * \ingroup ITKImageIntensity
  *
- * \wiki
- * \wikiexample{ImageProcessing/SubtractImageFilter,Subtract two images}
- * \wikiexample{ImageProcessing/SubtractConstantFromImageFilter,Subtract a constant from every pixel in an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageIntensity/SubtractTwoImages,Subtract Two Images}
+ * \sphinxexample{Filtering/ImageIntensity/SubtractConstantFromEveryPixel,Subtract Constant From Every Pixel}
+ * \endsphinx
  */
 template< typename TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1 >
 class SubtractImageFilter:

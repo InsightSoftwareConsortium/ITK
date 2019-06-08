@@ -41,11 +41,10 @@ namespace itk
  * specifying a layout of 1,1,0.
  * \ingroup ITKImageGrid
  *
- * \wiki
- * \wikiexample{ImageProcessing/TileImageFilter,Tile multiple images into another image}
- * \wikiexample{ImageProcessing/TileImageFilter_CreateVolume,Stack multiple 2D images into a 3D image}
- * \wikiexample{ImageProcessing/TileImageFilter_SideBySide,Tile multiple images side by side}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageGrid/Stack2DImagesInto3DImage,Stack 2D Images Into 3D Image}
+ * \sphinxexample{Filtering/ImageGrid/TileImagesSideBySide,Tile Images Side By Side}
+ * \endsphinx
  */
 
 template< typename TInputImage, typename TOutputImage >

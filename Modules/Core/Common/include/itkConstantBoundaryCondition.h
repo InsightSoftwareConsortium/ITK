@@ -59,9 +59,9 @@ template <typename TValue> class VariableLengthVector;
  * \ingroup ImageObjects
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{Iterators/ConstantBoundaryCondition,Make out of bounds pixels return a constant value}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/OutOfBoundsPixelsReturnConstValue,Make Out Of Bounds Pixels Return Constant Value}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage = TInputImage >
 class ITK_TEMPLATE_EXPORT ConstantBoundaryCondition:

@@ -134,9 +134,9 @@ private:
  *
  * \ingroup ITKImageAdaptors
  *
- * \wiki
- * \wikiexample{VectorImages/VectorImageToImageAdaptor,View a component of a vector image as if it were a scalar image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/ImageAdaptors/ViewComponentVectorImageAsScaleImage,View Component Vector Image As Scalar Image}
+ * \endsphinx
  */
 template< typename TPixelType, unsigned int Dimension >
 class VectorImageToImageAdaptor:public

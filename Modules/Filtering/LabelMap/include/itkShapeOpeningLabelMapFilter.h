@@ -41,9 +41,9 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  *
- * \wiki
- * \wikiexample{ImageProcessing/ShapeOpeningLabelMapFilter,Keep only regions that meet a specified threshold of a specified property}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/LabelMap/KeepRegionsThatMeetSpecific,Keep Regions That Meet Specific Properties}
+ * \endsphinx
  */
 template< typename TImage >
 class ITK_TEMPLATE_EXPORT ShapeOpeningLabelMapFilter:

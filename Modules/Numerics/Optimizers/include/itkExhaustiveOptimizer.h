@@ -75,6 +75,10 @@ namespace itk
  *
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
+ *
+ * \sphinx
+ * \sphinxexample{Numerics/Optimizers/ExhaustiveOptimizer,Exhaustive Optimizer}
+ * \endsphinx
  */
 class ITKOptimizers_EXPORT ExhaustiveOptimizer:
   public SingleValuedNonLinearOptimizer

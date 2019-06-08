@@ -58,9 +58,9 @@ namespace itk
  * \ingroup Operators
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{Operators/DerivativeOperator,Create a derivative kernel}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/CreateDerivativeKernel,Create Derivative Kernel}
+ * \endsphinx
  */
 template< typename TPixel, unsigned int VDimension = 2,
           typename TAllocator = NeighborhoodAllocator< TPixel > >

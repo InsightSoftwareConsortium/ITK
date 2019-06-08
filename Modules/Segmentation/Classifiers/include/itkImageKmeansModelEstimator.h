@@ -122,9 +122,9 @@ namespace itk
  * \ingroup ClassificationFilters
  * \ingroup ITKClassifiers
  *
- * \wiki
- * \wikiexample{Statistics/ImageKmeansModelEstimator,Compute kmeans clusters of pixels in an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Segmentation/Classifiers/KMeansClusterOfPixelsInImage,K Means Cluster Of Pixels In Image}
+ * \endsphinx
  */
 template< typename TInputImage,
           typename TMembershipFunction >

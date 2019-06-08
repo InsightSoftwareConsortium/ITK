@@ -44,9 +44,9 @@ namespace itk
  * \ingroup MathematicalMorphologyImageFilters
  * \ingroup ITKMathematicalMorphology
  *
- * \wiki
- * \wikiexample{ImageProcessing/RegionalMinimaImageFilter,RegionalMinimaImageFilter}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/MathematicalMorphology/RegionalMinimal,Regional Minimal}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT RegionalMinimaImageFilter:

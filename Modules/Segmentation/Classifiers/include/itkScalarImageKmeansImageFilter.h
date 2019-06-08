@@ -55,9 +55,10 @@ namespace itk
  * \ingroup ClassificationFilters
  * \ingroup ITKClassifiers
  *
- * \wiki
- * \wikiexample{Statistics/ScalarImageKmeansImageFilter,Cluster the pixels in a greyscale image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Segmentation/Classifiers/ClusterPixelsInGrayscaleImage,Cluster Pixels In Grayscale Image}
+ * \sphinxexample{Segmentation/Classifiers/KMeansClustering,K-Means Clustering}
+ * \endsphinx
  */
 template< typename TInputImage,
           typename TOutputImage = Image< unsigned char, TInputImage::ImageDimension > >

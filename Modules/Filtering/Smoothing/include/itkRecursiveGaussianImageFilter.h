@@ -54,9 +54,9 @@ namespace itk
  * \see DiscreteGaussianImageFilter
  * \ingroup ITKSmoothing
  *
- * \wiki
- * \wikiexample{EdgesAndGradients/RecursiveGaussianImageFilter,Find higher derivatives of an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/Smoothing/FindHigherDerivativesOfImage,Find Higher Derivatives Of Image}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage = TInputImage >
 class ITK_TEMPLATE_EXPORT RecursiveGaussianImageFilter:

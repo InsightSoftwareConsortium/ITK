@@ -35,9 +35,9 @@ namespace itk
  * \ingroup IOFilters
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{IO/ImportImageFilter,Convert a C-style array to an itkImage}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/ConvertArrayToImage,Convert Array To Image}
+ * \endsphinx
  */
 template< typename TPixel, unsigned int VImageDimension = 2 >
 class ITK_TEMPLATE_EXPORT ImportImageFilter:

@@ -29,6 +29,10 @@ namespace itk
  * \ingroup ImageIterators
  *
  * \ingroup ITKCommon
+ *
+ * \sphinx
+ * \sphinxexample{Core/Common/IterateImageStartingAtSeed,Iterate Image Starting At Seed}
+ * \endsphinx
  */
 template< typename TImage, typename TFunction >
 class FloodFilledImageFunctionConditionalIterator:public FloodFilledImageFunctionConditionalConstIterator<

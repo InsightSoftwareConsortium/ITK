@@ -42,9 +42,9 @@ namespace itk
  * \ingroup   IntensityImageFilters     MultiThreaded
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{ImageProcessing/UnaryFunctorImageFilter,Apply a custom operation to each pixel in an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{ImageProcessing/UnaryFunctorImageFilter,Apply Custom Operation To Each Pixel In Image}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage, typename TFunction >
 class ITK_TEMPLATE_EXPORT UnaryFunctorImageFilter:public InPlaceImageFilter< TInputImage, TOutputImage >

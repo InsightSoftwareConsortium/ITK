@@ -57,9 +57,9 @@ namespace itk
  * \author James C. Gee
  * \ingroup ITKConvolution
  *
- * \wiki
- * \wikiexample{ImageProcessing/ConvolutionImageFilter,Convolve an image with a kernel}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/Convolution/ConvolveImageWithKernel,Convolve Image With Kernel}
+ * \endsphinx
  */
 template< typename TInputImage, typename TKernelImage = TInputImage, typename TOutputImage = TInputImage >
 class ITK_TEMPLATE_EXPORT ConvolutionImageFilter :

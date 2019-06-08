@@ -72,9 +72,9 @@ namespace itk
  * \ingroup SingleThreaded
  * \ingroup ITKConnectedComponents
  *
- * \wiki
- * \wikiexample{ImageProcessing/RelabelComponentImageFilter,Assign contiguous labels to connected regions of an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Segmentation/ConnectedComponents/AssignContiguousLabelsToConnectedRegions,Assign Contiguous Labels To Connected Regions In An Image}
+ * \endsphinx
  */
 
 template< typename TInputImage, typename TOutputImage >

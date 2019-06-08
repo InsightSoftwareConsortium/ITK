@@ -67,10 +67,6 @@ namespace Statistics
  * \sa ImageKmeansModelEstimator
  * \sa WeightedCentroidKdTreeGenerator, KdTree
  * \ingroup ITKStatistics
- *
- * \wiki
- * \wikiexample{Statistics/KdTreeBasedKmeansEstimator,Compute kmeans clusters}
- * \endwiki
  */
 
 template< typename TKdTree >

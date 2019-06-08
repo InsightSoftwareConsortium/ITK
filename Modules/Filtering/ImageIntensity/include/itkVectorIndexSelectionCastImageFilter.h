@@ -76,9 +76,9 @@ private:
 *
 * \sa ComposeImageFilter
  *
- * \wiki
- * \wikiexample{VectorImages/VectorIndexSelectionCastImageFilter,Extract a component/channel of a vector image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageIntensity/ExtractComponentOfVectorImage,Extract Component Of Vector Image}
+ * \endsphinx
  */
 
 template< typename TInputImage, typename TOutputImage >

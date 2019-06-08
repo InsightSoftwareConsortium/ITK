@@ -46,9 +46,9 @@ namespace itk
  * \ingroup MathematicalMorphologyImageFilters
  * \ingroup ITKMathematicalMorphology
  *
- * \wiki
- * \wikiexample{ImageProcessing/RegionalMaximaImageFilter,RegionalMaximaImageFilter}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/MathematicalMorphology/RegionalMaximal,Regional Maximal}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT RegionalMaximaImageFilter:

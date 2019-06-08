@@ -44,6 +44,10 @@ namespace itk
  * "Evaluation of new algorithms for the interactive measurement of
  * surface area and volume", Med Phys 21(6) 1994.).
  * \ingroup ITKMesh
+ *
+ * \sphinx
+ * \sphinxexample{Core/Mesh/CalculateAreaAndVolumeOfSimplexMesh,Calculate Area And Volume Of Simplex Mesh}
+ * \endsphinx
  */
 
 template< typename TInputMesh >

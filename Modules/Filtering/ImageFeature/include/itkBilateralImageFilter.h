@@ -66,9 +66,9 @@ namespace itk
  * \todo Support vector images
  * \ingroup ITKImageFeature
  *
- * \wiki
- * \wikiexample{Smoothing/BilateralImageFilter,Bilateral filter an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageFeature/BilateralFilterAnImage,Bilateral Filter An Image}
+ * \endsphinx
  */
 
 template< typename TInputImage, typename TOutputImage >

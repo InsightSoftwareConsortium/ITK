@@ -48,6 +48,10 @@ namespace itk
  * \sa BinaryThinningImageFilter
  * \ingroup ImageEnhancement MathematicalMorphologyImageFilters
  * \ingroup ITKBinaryMathematicalMorphology
+ *
+ * \sphinx
+ * \sphinxexample{Filtering/BinaryMathematicalMorphology/PruneBinaryImage,Prune Binary Image}
+ * \endsphinx
  */
 
 template< typename TInputImage, typename TOutputImage >

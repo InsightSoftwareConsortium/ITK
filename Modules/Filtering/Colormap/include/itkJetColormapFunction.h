@@ -40,6 +40,10 @@ namespace Function
  * https://hdl.handle.net/1926/1452
  *
  * \ingroup ITKColormap
+ *
+ * \sphinx
+ * \sphinxexample{Filtering/Colormap/MapScalarsIntoJetColormap,Map Scalars Into Jet Colormap}
+ * \endsphinx
  */
 template< typename TScalar, typename TRGBPixel >
 class ITK_TEMPLATE_EXPORT JetColormapFunction:

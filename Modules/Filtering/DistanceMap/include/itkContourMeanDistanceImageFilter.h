@@ -61,9 +61,9 @@ ected
  * \ingroup MultiThreaded
  * \ingroup ITKDistanceMap
  *
- * \wiki
- * \wikiexample{Curves/ContourMeanDistanceImageFilter,Compute the mean distance between all points of two curves}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/DistanceMap/MeanDistanceBetweenAllPointsOnTwoCurves,Mean Distance Between All Points On Two Curves}
+ * \endsphinx
  */
 template< typename TInputImage1, typename TInputImage2 >
 class ITK_TEMPLATE_EXPORT ContourMeanDistanceImageFilter:

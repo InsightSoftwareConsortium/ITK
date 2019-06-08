@@ -33,6 +33,9 @@ namespace itk
  * number of dimensions, and the output to be of a scalar image type.
  *
  * \ingroup ITKImageIntensity
+ * \sphinx
+ * \sphinxexample{,}
+ * \endsphinx
  */
 namespace Functor
 {

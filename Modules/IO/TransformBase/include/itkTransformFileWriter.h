@@ -31,9 +31,9 @@ namespace itk
    * \brief TODO
    * \ingroup ITKIOTransformBase
    *
-   * \wiki
-   * \wikiexample{IO/TransformFileWriter,Write a transform to a file}
-   * \endwiki
+   * \sphinx
+   * \sphinxexample{IO/TransformBase/WriteTransformToFile,Write Transform From File}
+   * \endsphinx
    */
 template<typename TParametersValueType>
 class ITKIOTransformBase_TEMPLATE_EXPORT TransformFileWriterTemplate:public LightProcessObject

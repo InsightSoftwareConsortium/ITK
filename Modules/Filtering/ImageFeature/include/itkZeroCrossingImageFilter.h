@@ -55,9 +55,9 @@ namespace itk
  *  \ingroup ImageFeatureExtraction
  * \ingroup ITKImageFeature
  *
- * \wiki
- * \wikiexample{ImageProcessing/ZeroCrossingImageFilter,Find zero crossings in a signed image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageFeature/FindZeroCrossings,Find Zero Crossings In Signed Image}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT ZeroCrossingImageFilter:

@@ -47,9 +47,9 @@ namespace itk
  *
  * \ingroup ITKImageFusion
  *
- * \wiki
- * \wikiexample{ImageProcessing/LabelOverlayImageFilter,Overlay a LabelMap on an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageFusion/OverlayLabelMapOnImage,Overlay Label Map On Image}
+ * \endsphinx
  */
 template< typename  TInputImage, typename TLabelImage, typename  TOutputImage >
 class ITK_TEMPLATE_EXPORT LabelOverlayImageFilter:

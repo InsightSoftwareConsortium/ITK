@@ -60,11 +60,11 @@ namespace itk
  * \ingroup RegistrationFilters
  * \ingroup ITKRegistrationCommon
  *
- * \wiki
- * \wikiexample{Registration/ImageRegistrationMethod,A basic global registration of two images}
- * \wikiexample{Registration/ImageRegistrationMethodAffine,A global registration of two images}
- * \wikiexample{Registration/ImageRegistrationMethodBSpline,A global registration of two images}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Registration/Common/GlobalRegistrationOfTwoImages,Global Registration Of Two Images}
+ * \sphinxexample{Core/Transform/GlobalRegistrationTwoImagesAffine,Global Registration Two Images (Affine)}
+ * \sphinxexample{Core/Transform/GlobalRegistrationTwoImagesBSpline,Global Registration Of Two Images (BSpline)}
+ * \endsphinx
  */
 template< typename TFixedImage, typename TMovingImage >
 class ITK_TEMPLATE_EXPORT ImageRegistrationMethod:public ProcessObject

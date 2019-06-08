@@ -47,9 +47,9 @@ namespace itk
  * \ingroup MultiThreaded
  * \ingroup ITKImageIntensity
  *
- * \wiki
- * \wikiexample{ImageProcessing/XorImageFilter,Binary XOR (exclusive OR) two images}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageIntensity/BinaryXORTwoImages,Binary XOR Two Images}
+ * \endsphinx
  */
 template< typename TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1 >
 class XorImageFilter:

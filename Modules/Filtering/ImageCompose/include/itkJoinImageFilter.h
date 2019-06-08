@@ -193,9 +193,9 @@ struct MakeJoin {
  * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITKImageCompose
  *
- * \wiki
- * \wikiexample{VectorImages/JoinImageFilter,Join images\, stacking their components}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageCompose/JoinImages,Join Images}
+ * \endsphinx
  */
 template< typename TInputImage1, typename TInputImage2 >
 class JoinImageFilter:

@@ -41,9 +41,9 @@ namespace itk
  * \ingroup ImageFunctions ImageInterpolators
  * \ingroup ITKImageFunction
  *
- * \wiki
- * \wikiexample{ImageProcessing/LinearInterpolateImageFunction,Linearly interpolate a position in an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/ImageFunction/LinearlyInterpolatePositionInImage,Linearly Interpolate Position In Image}
+ * \endsphinx
  */
 template< typename TInputImage, typename TCoordRep = double >
 class ITK_TEMPLATE_EXPORT LinearInterpolateImageFunction:

@@ -43,9 +43,9 @@ namespace itk
  * \ingroup IntensityImageFilters
  * \ingroup ITKImageFilterBase
  *
- * \wiki
- * \wikiexample{Statistics/NoiseImageFilter,Compute the local noise in an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageFilterBase/ComputerLocalNoise,Compute Local Noise In Image}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT NoiseImageFilter:

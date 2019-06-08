@@ -65,6 +65,10 @@ namespace itk
  * \sa ZeroCrossingImageFilter
  * \ingroup ImageFeatureExtraction
  * \ingroup ITKImageFeature
+ *
+ * \sphinx
+ * \sphinxexample{Filtering/ImageFeature/ZeroCrossingBasedEdgeDecor,Zero-crossing Based Edge Decor}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT ZeroCrossingBasedEdgeDetectionImageFilter:

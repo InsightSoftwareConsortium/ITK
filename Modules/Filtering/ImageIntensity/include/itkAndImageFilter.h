@@ -46,9 +46,9 @@ namespace itk
  * \ingroup MultiThreaded
  * \ingroup ITKImageIntensity
  *
- * \wiki
- * \wikiexample{ImageProcessing/AndImageFilter,Binary AND two images}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageIntensity/BinaryANDTwoImages,Binary AND Two Images}
+ * \endsphinx
  */
 template< typename TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1 >
 class AndImageFilter:

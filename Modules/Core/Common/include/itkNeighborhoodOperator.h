@@ -60,6 +60,10 @@ namespace itk
  *
  * \ingroup Operators
  * \ingroup ITKCommon
+ *
+ * \sphinx
+ * \sphinxexample{Core/Common/DemonstrateAllOperators,Demonstrate All Operators}
+ * \endsphinx
  */
 template< typename TPixel, unsigned int VDimension,
           typename TAllocator = NeighborhoodAllocator< TPixel > >

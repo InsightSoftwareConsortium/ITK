@@ -39,6 +39,10 @@ namespace itk
  *
  * \sa ForwardFFTImageFilter, InverseFFTImageFilter
  * \ingroup ITKFFT
+ *
+ * \sphinx
+ * \sphinxexample{Filtering/FFT/ComputeInverseFFTOfImage,Compute Inverse FFT Of Image}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage=Image< typename TInputImage::PixelType::value_type, TInputImage::ImageDimension> >
 class ITK_TEMPLATE_EXPORT InverseFFTImageFilter:

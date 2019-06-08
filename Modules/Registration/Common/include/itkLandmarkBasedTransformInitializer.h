@@ -78,9 +78,9 @@ namespace itk
  *
  * \ingroup ITKRegistrationCommon
  *
- * \wiki
- * \wikiexample{Registration/LandmarkBasedTransformInitializer,Rigidly register one image to another using manually specified landmarks}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Registration/Common/RegisterImageToAnotherUsingLandmarks,Register Image To Another Using Landmarks}
+ * \endsphinx
  */
 template< typename TTransform,
           typename TFixedImage = itk::ImageBase<TTransform::InputSpaceDimension > ,

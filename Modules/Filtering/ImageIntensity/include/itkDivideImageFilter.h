@@ -39,9 +39,9 @@ namespace itk
  * \ingroup MultiThreaded
  * \ingroup ITKImageIntensity
  *
- * \wiki
- * \wikiexample{ImageProcessing/DivideImageFilter,Pixel-wise division of two images}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageIntensity/PixelDivisionOfTwoImages,Pixel Division Of Two Images}
+ * \endsphinx
  */
 template< typename TInputImage1, typename TInputImage2, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT DivideImageFilter:

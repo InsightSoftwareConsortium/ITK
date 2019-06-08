@@ -41,6 +41,10 @@ namespace itk
  * \sa StatisticsLabelObject, LabelStatisticsOpeningImageFilter, BinaryStatisticsOpeningImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
+ *
+ * \sphinx
+ * \sphinxexample{Filtering/LabelMap/KeepBinaryRegionsThatMeetSpecific,Keep Binary Regions That Meet Specific Properties}
+ * \endsphinx
  */
 template< typename TInputImage, typename TFeatureImage >
 class ITK_TEMPLATE_EXPORT BinaryStatisticsOpeningImageFilter:

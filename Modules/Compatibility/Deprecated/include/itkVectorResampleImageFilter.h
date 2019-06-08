@@ -54,9 +54,11 @@ namespace itk
  * \ingroup GeometricTransform
  * \ingroup ITKDeprecated
  *
- * \wiki
- * \wikiexample{VectorImages/VectorResampleImageFilter,Translate a vector image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Compatibility/Deprecated/ResampleRGBImage,Resample RGB Image}
+ * \sphinxexample{Core/Transform/TranslateAVectorImage,Translate A Vector Image}
+ * \sphinxexample{Compatibility/Deprecated/ResampleITK::VectorImage,Resample A Vector Image}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType = double >
 class ITK_TEMPLATE_EXPORT VectorResampleImageFilter:

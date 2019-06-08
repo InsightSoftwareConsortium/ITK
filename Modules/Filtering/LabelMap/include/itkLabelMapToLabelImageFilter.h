@@ -38,9 +38,9 @@ namespace itk
  * \ingroup LabeledImageFilters
  * \ingroup ITKLabelMap
  *
- * \wiki
- * \wikiexample{ImageProcessing/LabelMapToLabelImageFilter,Convert a LabelMap to a normal image with different values representing each region}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/LabelMap/ConvertLabelMapToImage,Convert Label Map To Normal Image}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT LabelMapToLabelImageFilter:

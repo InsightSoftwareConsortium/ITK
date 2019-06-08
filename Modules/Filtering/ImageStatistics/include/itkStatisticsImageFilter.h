@@ -47,9 +47,9 @@ namespace itk
  * \ingroup MathematicalStatisticsImageFilters
  * \ingroup ITKImageStatistics
  *
- * \wiki
- * \wikiexample{Statistics/StatisticsImageFilter,Compute min\, max\, variance and mean of an Image.}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageStatistics/ComputeMinMaxVarianceMeanOfImage,Compute Min, Max, Variance And Mean Of Image}
+ * \endsphinx
  */
 template< typename TInputImage >
 class ITK_TEMPLATE_EXPORT StatisticsImageFilter:

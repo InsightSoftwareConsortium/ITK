@@ -45,9 +45,9 @@ namespace itk
  * \ingroup MathematicalImageFilters
  * \ingroup ITKImageIntensity
  *
- * \wiki
- * \wikiexample{ImageProcessing/NormalizeImageFilter,Normalize an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageIntensity/NormalizeImage,Normalize Image}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT NormalizeImageFilter:

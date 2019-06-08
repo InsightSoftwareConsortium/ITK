@@ -85,9 +85,9 @@ private:
  *
  * \ingroup ITKImageIntensity
  *
- * \wiki
- * \wikiexample{Images/VectorRescaleIntensityImageFilter,Apply a transformation to the magnitude of vector valued image pixels}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageIntensity/TransformVectorValuedImagePixels,Transform Magnitude Of Vector Valued Image Pixels}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage = TInputImage >
 class ITK_TEMPLATE_EXPORT VectorRescaleIntensityImageFilter:

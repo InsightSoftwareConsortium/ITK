@@ -48,6 +48,10 @@ namespace itk
  * \sa ShapeLabelObject, RelabelComponentImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
+ *
+ * \sphinx
+ * \sphinxexample{Filtering/LabelMap/MergeLabelMaps,Merge LabelMaps}
+ * \endsphinx
  */
 template< typename TImage >
 class ITK_TEMPLATE_EXPORT MergeLabelMapFilter:

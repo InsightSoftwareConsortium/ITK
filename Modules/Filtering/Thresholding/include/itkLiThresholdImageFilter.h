@@ -46,6 +46,10 @@ namespace itk
  *
  * \ingroup Multithreaded
  * \ingroup ITKThresholding
+ *
+ * \sphinx
+ * \sphinxexample{Filtering/Thresholding/DemonstrateThresholdAlgorithms,Demonstrate Available Threshold Algorithms}
+ * \endsphinx
  */
 
 template<typename TInputImage, typename TOutputImage, typename TMaskImage=TOutputImage>

@@ -41,6 +41,10 @@ namespace itk
  * and the resulting vertices.
  *
  * \ingroup ITKVoronoi
+ *
+ * \sphinx
+ * \sphinxexample{Segmentation/Voronoi/VoronoiDiagram,Voronoi Diagram}
+ * \endsphinx
  */
 template< typename TCoordType >
 class ITK_TEMPLATE_EXPORT VoronoiDiagram2DGenerator:

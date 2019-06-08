@@ -111,9 +111,9 @@ private:
  *
  * \ingroup ITKImageIntensity
  *
- * \wiki
- * \wikiexample{ImageProcessing/IntensityWindowingImageFilter,IntensityWindowingImageFilter}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageIntensity/IntensityWindowing,Intensity Windowing}
+ * \endsphinx
  *
  * \sa RescaleIntensityImageFilter
  */

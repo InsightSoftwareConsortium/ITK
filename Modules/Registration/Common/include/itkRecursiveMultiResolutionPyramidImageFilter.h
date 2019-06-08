@@ -56,9 +56,9 @@ namespace itk
  * \ingroup PyramidImageFilter MultiThreaded Streamed
  * \ingroup ITKRegistrationCommon
  *
- * \wiki
- * \wikiexample{ImageProcessing/RecursiveMultiResolutionPyramidImageFilter,Construct a multiresolution pyramid from an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Registration/Common/MultiresolutionPyramidFromImage,Multiresolution Pyramid From Image}
+ * \endsphinx
  */
 template<
   typename TInputImage,

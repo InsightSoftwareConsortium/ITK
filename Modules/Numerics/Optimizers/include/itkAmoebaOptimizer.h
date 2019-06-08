@@ -58,6 +58,10 @@ namespace itk
  *
  * \ingroup Numerics Optimizers
  * \ingroup ITKOptimizers
+ *
+ * \sphinx
+ * \sphinxexample{Numerics/Optimizers/AmoebaOptimizer, Amoeba Optimization}
+ * \endsphinx
  */
 class ITKOptimizers_EXPORT AmoebaOptimizer:
   public SingleValuedNonLinearVnlOptimizer

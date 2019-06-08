@@ -37,6 +37,10 @@ namespace itk
  * DefaultConvertPixelTraits.
  *
  * \ingroup ITKIOImageBase
+ *
+ * \sphinx
+ * \sphinxexample{IO/ImageBase/ConvertImageToAnotherType, Convert Image To Another Type}
+ * \endsphinx
  */
 template<
   typename InputPixelType,

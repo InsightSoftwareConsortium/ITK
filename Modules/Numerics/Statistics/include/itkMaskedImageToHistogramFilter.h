@@ -35,6 +35,10 @@ namespace Statistics
  * added to the computed histogram.
  *
  * \ingroup ITKStatistics
+ *
+ * \sphinx
+ * \sphinxexample{Numerics/Statistics/ComputeHistogramOfMaskedRegion,Compute Histogram Of Masked Region In Image}
+ * \endsphinx
  */
 
 template< typename TImage, typename TMaskImage >

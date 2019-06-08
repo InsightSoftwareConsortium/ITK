@@ -61,9 +61,9 @@ public:
  * \ingroup MultiThreaded
  * \ingroup ITKImageIntensity
  *
- * \wiki
- * \wikiexample{ImageProcessing/AbsImageFilter,Compute the absolute value of an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageIntensity/AbsValueOfImage,Absolute Value Of Image}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class AbsImageFilter:

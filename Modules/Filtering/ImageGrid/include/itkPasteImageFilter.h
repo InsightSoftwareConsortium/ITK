@@ -42,6 +42,7 @@ namespace itk
  *
  * \sphinx
  * \sphinxexample{Filtering/ImageGrid/PasteImageIntoAnotherOne,Paste Image Into Another One}
+ * \sphinxexample{Filtering/ImageGrid/RunImageFilterOnRegionOfImage,Run Image Filter On Region Of Image}
  * \endsphinx
  */
 template< typename TInputImage, typename TSourceImage = TInputImage, typename TOutputImage = TInputImage >

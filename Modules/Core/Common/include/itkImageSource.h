@@ -59,9 +59,9 @@ namespace itk
  * \ingroup DataSources
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{Developer/ImageSource,Produce an image programmatically.}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/ProduceImageProgrammatically,Produce Image Programmatically}
+ * \endsphinx
  */
 template< typename TOutputImage >
 class ITK_TEMPLATE_EXPORT ImageSource

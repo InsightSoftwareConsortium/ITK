@@ -202,10 +202,10 @@ std::cout << *iterator[c]              << std::endl;
  * \ingroup Operators
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{Iterators/NeighborhoodIterator,Iterate over a region of an image with a neighborhood (with write access)}
- * \wikiexample{VectorImages/NeighborhoodIterator,NeighborhoodIterator on a VectorImage}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/IterateRegionWithNeighborhood,Iterate Region In Image With Neighborhood}
+ * \sphinxexample{VectorImages/NeighborhoodIterator,Neighborhood Iterator On Vector Image}
+ * \endsphinx
  */
 template< typename TImage, typename TBoundaryCondition =
             ZeroFluxNeumannBoundaryCondition< TImage > >

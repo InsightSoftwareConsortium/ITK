@@ -50,6 +50,11 @@ template <typename TPixelType, unsigned int VImageDimension > class VectorImage;
  *
  * \ingroup GradientFilters
  * \ingroup ITKImageGradient
+ *
+ * \sphinx
+ * \sphinxexample{Filtering/ImageGradient/GradientOfVectorImage,Gradient Of Vector Image}
+ * \sphinxexample{Filtering/ImageGradient/ComputeAndDisplayGradient,Compute And Display Gradient Of Image}
+ * \sphinxend
  */
 template< typename TInputImage,
           typename TOperatorValueType = float,

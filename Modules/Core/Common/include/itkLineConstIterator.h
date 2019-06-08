@@ -48,9 +48,9 @@ namespace itk
  *
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{Iterators/LineConstIterator,Iterate over a line through an image without write access}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/IterateLineThroughImageWithoutWriteAccess,Iterate Line Through Image Without Write Access}
+ * \endsphinx
  */
 template< typename TImage >
 class ITK_TEMPLATE_EXPORT LineConstIterator

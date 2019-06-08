@@ -43,9 +43,9 @@ namespace itk
  * \sa NeighborhoodIterator
  * \ingroup ITKImageFilterBase
  *
- * \wiki
- * \wikiexample{Images/NeighborhoodOperatorImageFilter,Apply a kernel to every pixel in an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageFilterBase/ApplyKernelToEveryPixel,Apply Kernel To Every Pixel}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage, typename TOperatorValueType = typename TOutputImage::PixelType >
 class ITK_TEMPLATE_EXPORT NeighborhoodOperatorImageFilter:

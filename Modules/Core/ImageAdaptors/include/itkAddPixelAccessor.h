@@ -35,9 +35,9 @@ namespace Accessor
  * \ingroup ImageAdaptors
  * \ingroup ITKImageAdaptors
  *
- * \wiki
- * \wikiexample{ImageProcessing/AddPixelAccessor,Add a constant to every pixel without duplicating the image in memory (an accessor)}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/ImageAdaptors/AddConstantToPixelsWithoutDuplicatingImage,Add Constant To Every Pixel Without Duplicating Memory}
+ * \endsphinx
  */
 
 template< typename TPixel >

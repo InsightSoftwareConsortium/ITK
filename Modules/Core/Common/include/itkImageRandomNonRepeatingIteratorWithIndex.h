@@ -69,6 +69,10 @@ namespace itk
  * \sa ImageConstIteratorWithIndex
  *
  * \ingroup ITKCommon
+ *
+ * \sphinx
+ * \sphinxexample{Core/Common/AddNoiseToBinaryImage,Add Noise To Binary Image}
+ * \endsphinx
  */
 template< typename TImage >
 class ITK_TEMPLATE_EXPORT ImageRandomNonRepeatingIteratorWithIndex:public ImageRandomNonRepeatingConstIteratorWithIndex< TImage >

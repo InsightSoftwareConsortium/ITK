@@ -29,9 +29,9 @@ namespace itk
    * \brief TODO
    * \ingroup ITKIOTransformBase
    *
-   * \wiki
-   * \wikiexample{IO/TransformFileReader,Read a transform from a file}
-   * \endwiki
+   * \sphinx
+   * \sphinxexample{IO/TransformBase/ReadTransformFromFile,Read Transform From File}
+   * \endsphinx
    */
 template<typename TParametersValueType>
 class ITK_TEMPLATE_EXPORT TransformFileReaderTemplate: public LightProcessObject
