@@ -70,10 +70,10 @@ namespace itk
  * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITKImageIntensity
  *
- * \wiki
- * \wikiexample{ImageProcessing/AddImageFilter,Add two images together}
- * \wikiexample{ImageProcessing/AddConstantToImageFilter,Add a constant to every pixel in an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageIntensity/AddTwoImages,Add Two Images Together}
+ * \sphinxexample{Filtering/ImageIntensity/AddConstantToEveryPixel,Add Constant To Every Pixel}
+ * \endsphinx
  */
 template< typename TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1 >
 class ITK_TEMPLATE_EXPORT AddImageFilter:

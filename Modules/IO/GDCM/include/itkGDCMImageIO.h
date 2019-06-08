@@ -73,9 +73,10 @@ namespace itk
  *
  * \ingroup ITKIOGDCM
  *
- * \wiki
- * \wikiexample{DICOM/ResampleDICOM,Resample a DICOM series}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{IO/GDCM/ResamleDICOMSeries,Resample DICOM Series}
+ * \sphinxexample{IO/GDCM/ReadDICOMSeriesAndWrite3DImage,Read DICOM Series and Write 3D Image}
+ * \endsphinx
  */
 class InternalHeader;
 class ITKIOGDCM_EXPORT GDCMImageIO:public ImageIOBase

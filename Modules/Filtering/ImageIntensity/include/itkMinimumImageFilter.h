@@ -64,9 +64,9 @@ public:
  * \ingroup MultiThreaded
  * \ingroup ITKImageIntensity
  *
- * \wiki
- * \wikiexample{ImageProcessing/MinimumImageFilter,Pixel wise compare two input images and set the output pixel to their min}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageIntensity/SetOutputPixelToMin,Compare Two Images And Set Output Pixel To Min}
+ * \endsphinx
  */
 template< typename TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1 >
 class MinimumImageFilter:

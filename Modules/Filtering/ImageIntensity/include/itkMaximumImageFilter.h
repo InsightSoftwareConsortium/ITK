@@ -73,9 +73,9 @@ public:
  * \ingroup MultiThreaded
  * \ingroup ITKImageIntensity
  *
- * \wiki
- * \wikiexample{ImageProcessing/MaximumImageFilter,Pixel wise compare two input images and set the output pixel to their max}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageIntensity/SetOutputPixelToMax,Compare Two Images And Set Output Pixel To Max}
+ * \endsphinx
  */
 template< typename TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1 >
 class MaximumImageFilter:

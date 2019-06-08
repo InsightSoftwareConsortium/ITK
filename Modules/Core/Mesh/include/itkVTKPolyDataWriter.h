@@ -37,6 +37,10 @@ namespace itk
  * \ingroup ITKMesh
  *
  * \sa MeshFileWriter
+ *
+ * \sphinx
+ * \sphinxexample{Core/Mesh/WorkingWithPointAndCellData,Write Mesh To VTP}
+ * \endsphinx
  */
 template< typename TInputMesh >
 class ITK_TEMPLATE_EXPORT VTKPolyDataWriter:public Object

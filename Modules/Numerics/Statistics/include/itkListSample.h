@@ -42,9 +42,9 @@ namespace Statistics
  * \sa Sample, Histogram
  * \ingroup ITKStatistics
  *
- * \wiki
- * \wikiexample{Statistics/ListSample,Create a list of sample measurements}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Numerics/Statistics/CreateListOfSampleMeasurements,Create List Of Sample Measurements}
+ * \endsphinx
  */
 
 template< typename TMeasurementVector >

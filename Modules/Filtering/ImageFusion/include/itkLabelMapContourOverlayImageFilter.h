@@ -49,9 +49,9 @@ namespace itk {
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKImageFusion
  *
- * \wiki
- * \wikiexample{Segmentation/LabelMapContourOverlayImageFilter,Color the boundaries of labeled regions in an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageFusion/ColorBoundariesOfRegions,Color Boundaries Of Labeled Regions}
+ * \endsphinx
  */
 template<typename TLabelMap, typename TFeatureImage, typename TOutputImage=Image< RGBPixel< typename TFeatureImage::PixelType >, TFeatureImage::ImageDimension > >
 class ITK_TEMPLATE_EXPORT LabelMapContourOverlayImageFilter :

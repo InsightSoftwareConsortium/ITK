@@ -42,6 +42,10 @@ namespace itk
  *
  * \ingroup MeshObjects
  * \ingroup ITKVoronoi
+ *
+ * \sphinx
+ * \sphinexample{Segmentation/Voronoi/VoronoiDiagram,Voronoi Diagram}
+ * \endsphinx
  */
 template< typename TCoordType >
 class ITK_TEMPLATE_EXPORT VoronoiDiagram2D:

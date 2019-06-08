@@ -54,9 +54,9 @@ namespace Statistics
  * can be obtained from http://commonfund.nih.gov/bioinformatics.
  * \ingroup ITKStatistics
  *
- * \wiki
- * \wikiexample{Statistics/GaussianDistribution,Create a Gaussian distribution}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Numerics/Statistics/CreateGaussianDistribution,Create Gaussian Distribution}
+ * \endsphinx
  */
 class ITKStatistics_EXPORT GaussianDistribution:
   public ProbabilityDistribution

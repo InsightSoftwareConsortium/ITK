@@ -94,14 +94,15 @@ namespace itk
  * \ingroup ImageFilters
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{Developer/ImageFilter,Filter an image}
- * \wikiexample{Developer/ImageFilterMultipleInputs,Write a filter with multiple inputs of the same type.}
- * \wikiexample{Developer/ImageFilterMultipleInputsDifferentType,Write a filter with multiple inputs of different types.}
- * \wikiexample{Developer/ImageFilterMultipleOutputs,Write a filter with multiple outputs of the same type.}
- * \wikiexample{Developer/OilPaintingImageFilter,Multi-threaded oil painting image filter}
- * \wikiexample{Developer/ImageFilterMultipleOutputsDifferentType,Write a filter with multiple outputs of different types.}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/FilterImage,Filter Image}
+ * \sphinxexample{Core/Common/MultipleInputsOfSameType,Multiple Inputs Of Same Type}
+ * \sphinxexample{Core/Common/MultipleInputsOfDifferentType,Multiple Inputs Of Different Type}
+ * \sphinxexample{Core/Common/MultipleOutputsOfSameType,Multiple Outputs Of Same Type}
+ * \sphinxexample{Core/Common/MultThreadOilPainting,Mult-thread Oil Painting}
+ * \sphinxexample{Core/Common/MultipleOutputsOfDifferentType,Multiple Outputs Of Different Type}
+ * \sphinxexample{Core/Common/FilterImageUsingMultipleThreads,Filter Image Using Multiple Threads}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT ImageToImageFilter:public ImageSource< TOutputImage >,

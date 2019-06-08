@@ -40,9 +40,10 @@ namespace itk
  * \ingroup ImageFeatureExtraction
  * \ingroup ITKImageFeature
  *
- * \wiki
- * \wikiexample{EdgesAndGradients/DerivativeImageFilter,Compute the derivative of an image in a particular direction}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageFeature/DerivativeImage,Apply A Filter Only To A Specified Region Of An Image}
+ * \sphinxexample{Filtering/ImageFeature/RequesterRegion, Apply A Filter Only To A Specified Region Of An Image}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT DerivativeImageFilter:

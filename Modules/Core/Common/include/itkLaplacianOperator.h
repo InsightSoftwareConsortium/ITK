@@ -55,9 +55,9 @@ namespace itk
  * \ingroup Operators
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{Operators/LaplacianOperator,Create a Laplacian kernel}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/CreateLaplacianKernel,Create Laplacian Kernel}
+ * \endsphinx
  */
 template< typename TPixel, unsigned int VDimension = 2,
           typename TAllocator = NeighborhoodAllocator< TPixel > >

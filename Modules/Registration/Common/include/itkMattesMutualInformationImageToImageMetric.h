@@ -107,6 +107,10 @@ namespace itk
  *
  * \ingroup RegistrationMetrics
  * \ingroup ITKRegistrationCommon
+ *
+ * \sphinx
+ * \sphinxexample{Registration/Common/WatchRegistration,Watch Registration}
+ * \endsphinx
  */
 template <typename TFixedImage, typename TMovingImage>
 class ITK_TEMPLATE_EXPORT MattesMutualInformationImageToImageMetric:

@@ -123,6 +123,10 @@ namespace itk
  * with Confidence Values", Proceedings of the MIAR conference, August 2006.
  *
  * \ingroup ITKImageGrid
+ *
+ * \sphinx
+ * \sphinxexample{Filtering/ImageGrid/FitSplineIntoPointSet,}
+ * \endsphinx
  */
 
 template< typename TInputPointSet, typename TOutputImage >

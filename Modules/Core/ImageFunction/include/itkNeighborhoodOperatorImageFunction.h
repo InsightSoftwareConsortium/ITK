@@ -33,9 +33,9 @@ namespace itk
  * \sa ImageFunction
  * \ingroup ITKImageFunction
  *
- * \wiki
- * \wikiexample{Functions/NeighborhoodOperatorImageFunction,Multiply a kernel with an image at a particular location}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/ImageFunction/MultiplyKernelWithAnImageAtLocation,Multiply Kernel With An Image At Location}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutput >
 class ITK_TEMPLATE_EXPORT NeighborhoodOperatorImageFunction:

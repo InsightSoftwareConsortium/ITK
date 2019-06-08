@@ -35,9 +35,9 @@ namespace itk
  * \ingroup GeometricTransform
  * \ingroup ITKImageGrid
  *
- * \wiki
- * \wikiexample{ImageProcessing/CropImageFilter,Crop an image by specifying the region to throw away}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageGrid/CropImageBySpecifyingRegion2,Crop Image By Specifying Region}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT CropImageFilter:

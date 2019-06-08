@@ -119,9 +119,9 @@ namespace itk
  * \ingroup ITKCommon
  *
  *
- * \wiki
- * \wikiexample{Iterators/ImageRegionConstIteratorWithIndex,Iterate over a region of an image with efficient access to the current index (without write access)}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/IterateRegionWithAccessToIndexWithoutWriteAccess,Iterate Region In Image With Access To Index Without Write Access}
+ * \endsphinx
  */
 template< typename TImage >
 class ITK_TEMPLATE_EXPORT ImageRegionConstIteratorWithIndex:public ImageConstIteratorWithIndex< TImage >

@@ -123,9 +123,9 @@ namespace itk
  * \sa ImageConstIteratorWithIndex
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{Iterators/ImageRegionExclusionConstIteratorWithIndex,Iterator over an image skipping a specified region}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/IterateOverSpecificRegion,Iterate Over Image While Skipping Specific Region}
+ * \endsphinx
  */
 template< typename TImage >
 class ITK_TEMPLATE_EXPORT ImageRegionExclusionConstIteratorWithIndex:

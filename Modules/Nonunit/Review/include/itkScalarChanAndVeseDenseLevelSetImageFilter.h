@@ -54,10 +54,6 @@ namespace itk
  *      https://hdl.handle.net/1926/1533
  *
  * \ingroup ITKReview
- *
- * \wiki
- * \wikiexample{Segmentation/SinglephaseChanAndVeseDenseFieldLevelSetSegmentation,Single-phase Chan And Vese Dense Field Level Set Segmentation}
- * \endwiki
  */
 template< typename TInputImage, typename TFeatureImage, typename TOutputImage,
           typename TFunction = ScalarChanAndVeseLevelSetFunction< TInputImage, TFeatureImage >,

@@ -47,11 +47,11 @@ namespace itk
  * \sa VectorIndexSelectionCastImageFilter
  * \ingroup ITKImageCompose
  *
- * \wiki
- * \wikiexample{VectorImages/ImageToVectorImageFilter,Create a vector image from a collection of scalar images}
- * \wikiexample{ImageProcessing/Compose3DCovariantVectorImageFilter,Compose a vector image (with 3 components) from three scalar images}
- * \wikiexample{SpectralAnalysis/RealAndImaginaryToComplexImageFilter,Convert a real image and an imaginary image to a complex image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageCompose/CreateVectorImageFromScalarImages,Create Vector Image From Scalar Images}
+ * \sphinxexample{Filtering/ImageCompose/ComposeVectorFromThreeScalarImages,Compose Vector From Three Scalar Images}
+ * \sphinxexample{Filtering/ImageCompose/ConvertRealAndImaginaryToComplexImage,Convert Real And Imaginary Images To Complex Image}
+ * \endsphinx
  */
 
 template< typename TInputImage, typename TOutputImage=VectorImage<typename TInputImage::PixelType, TInputImage::ImageDimension> >

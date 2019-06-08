@@ -81,9 +81,9 @@ namespace itk
  * \ingroup GeometricTransform
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{ImageProcessing/ExtractImageFilter,Crop an image by specifying the region to keep}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/CropImageBySpecifyingRegion,Crop Image By Specifying Region}
+ * \endsphinx
  */
 
 template< typename TInputImage, typename TOutputImage >

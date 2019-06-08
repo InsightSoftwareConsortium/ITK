@@ -46,6 +46,9 @@ namespace itk
  * modified.
  *
  * \ingroup ITKCommon
+ * \sphinx
+ * \sphinxexample{Core/Common/StoreNonPixelDataInImage,Store Non-Pixel Data In Image}
+ * \endsphinx
  */
 class ITKCommon_EXPORT MetaDataDictionary
 {

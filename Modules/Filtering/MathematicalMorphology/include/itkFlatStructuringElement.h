@@ -77,12 +77,12 @@ namespace itk
  *
  * \ingroup ITKMathematicalMorphology
  *
- * \wiki
- * \wikiexample{Morphology/FlatStructuringElement,Erode a binary image using a flat (box) structuring element}
- * \endwiki
- * \wiki
- * \wikiexample{Morphology/FlatStructuringElementRadiusIsParametric,Generate structuring elements with accurate area}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/MathematicalMorphology/ErodeBinaryImageUsingFlatStruct,Erode Binary Image Using Flat Structure Element}
+ * \endsphinx
+ * \sphinx
+ * \sphinxexample{Filtering/MathematicalMorphology/GenerateStructureElementsWithAccurateArea,Generate Structuring Elements With Accurate Area}
+ * \endsphinx
  */
 
 template< unsigned int VDimension >

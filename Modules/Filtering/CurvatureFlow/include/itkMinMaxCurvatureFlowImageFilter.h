@@ -72,6 +72,11 @@ namespace itk
  * \ingroup MultiThreaded
  *
  * \ingroup ITKCurvatureFlow
+ *
+ * \sphinx
+ * \sphinxexample{Filtering/CurvatureFlow/SmoothImageUsingMinMaxCurvatureFlow,Smooth Image Using Min Max Curvature Flow}
+ * \sphinxexample{Filtering/CurvatureFlow/SmoothRGBImageUsingMinMaxCurvatureFlow,SmoothRGBImageUsingMinMaxCurvatureFlow}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT MinMaxCurvatureFlowImageFilter:

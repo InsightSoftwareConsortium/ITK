@@ -49,6 +49,10 @@ namespace itk
  * \sa MorphologyImageFilter, GrayscaleDilateImageFilter, GrayscaleErodeImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKBinaryMathematicalMorphology
+ *
+ * \sphinx
+ * \sphinxexample{Filtering/BinaryMathematicalMorphology/OpeningBinaryImage,Opening A Binary Image}
+ * \endsphinx
  */
 
 template< typename TInputImage, typename TOutputImage, typename TKernel >

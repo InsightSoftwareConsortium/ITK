@@ -85,10 +85,10 @@ namespace itk
  * \ingroup RegistrationMetrics
  * \ingroup ITKRegistrationCommon
  *
- * \wiki
- * \wikiexample{Registration/MutualInformation,Mutual Information}
- * \wikiexample{Registration/MutualInformationAffine,Mutual Information Affine}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Registration/Common/MutualInformation,Mutual Information}
+ * \sphinxexample{Core/Transform/MutualInformationAffine,Mutual Information Affine}
+ * \endsphinx
  */
 template< typename TFixedImage, typename TMovingImage >
 class ITK_TEMPLATE_EXPORT MutualInformationImageToImageMetric:

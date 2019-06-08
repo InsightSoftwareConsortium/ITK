@@ -61,9 +61,6 @@ namespace itk
  * \ingroup ImageObjects
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{Utilities/BoundingBox,Bounding box}
- * \endwiki
  */
 template<
   typename TPointIdentifier = IdentifierType,

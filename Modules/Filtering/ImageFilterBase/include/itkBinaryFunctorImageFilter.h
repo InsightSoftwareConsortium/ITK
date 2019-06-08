@@ -43,10 +43,10 @@ namespace itk
  * \ingroup MultiThreaded
  * \ingroup ITKImageFilterBase
  *
- * \wiki
- * \wikiexample{ImageProcessing/BinaryFunctorImageFilter,Apply a predefined operation to corresponding pixels in two images}
- * \wikiexample{ImageProcessing/BinaryFunctorImageFilterCustom,Apply a custom operation to corresponding pixels in two images}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageFilterBase/PredefinedOperationToCorrespondingPixelsInTwoImages,Predefined Operation To Corresponding Pixels In Two Images}
+ * \sphinxexample{Filtering/ImageFilterBase/CustomOperationToCorrespondingPixelsInTwoImages,Custom Operation To Corresponding Pixels In Two Images}
+ * \endsphinx
  */
 template< typename TInputImage1, typename TInputImage2,
           typename TOutputImage, typename TFunction    >

@@ -47,9 +47,9 @@ namespace itk
  * \ingroup MultiThreaded
  * \ingroup ITKImageIntensity
  *
- * \wiki
- * \wikiexample{ImageProcessing/OrImageFilter,Binary OR two images}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageIntensity/BinaryORTwoImages,Binary OR Two Images}
+ * \endsphinx
  */
 template< typename TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1 >
 class OrImageFilter:

@@ -99,6 +99,10 @@ namespace Statistics
  *
  * Author: Zachary Pincus
  * \ingroup ITKStatistics
+ *
+ * \sphinx
+ * \sphinxexample{Numerics/Statistics/ComputeTextureFeatures,Compute Texture Features}
+ * \endsphinx
  */
 
 template< typename TImageType,

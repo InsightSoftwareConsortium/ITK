@@ -40,9 +40,9 @@ namespace itk
  *
  * \ingroup ITKSpatialObjects
  *
- * \wiki
- * \wikiexample{SpatialObjects/BlobSpatialObject,Blob}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/SpatialObjects/Blob,Blob}
+ * \endsphinx
  */
 template< unsigned int TDimension = 3 >
 class ITK_TEMPLATE_EXPORT BlobSpatialObject:

@@ -105,9 +105,9 @@ outputPoint = transform->TransformPoint( inputPoint );
  *
  * \sa BSplineTransform
  *
- * \wiki
- * \wikiexample{Registration/ImageRegistrationMethodBSpline,A global registration of two images}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Registration/ImageRegistrationMethodBSpline,Global Registration Of Two Images (BSpline)}
+ * \endsphinx
  */
 template<typename TParametersValueType=double,
           unsigned int NDimensions = 3,

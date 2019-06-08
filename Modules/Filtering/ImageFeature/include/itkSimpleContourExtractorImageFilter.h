@@ -37,7 +37,9 @@ namespace itk
 * background value.
 *
 * The neighborhood "radius" is set thanks to the radius params.
-*
+* \sphinx
+* \sphinxexample{Filtering/ImageFeature/ExtractContoursFromImage,Extract Contours From Image}
+* \endsphinx
 * \sa Image
 * \sa Neighborhood
 * \sa NeighborhoodOperator

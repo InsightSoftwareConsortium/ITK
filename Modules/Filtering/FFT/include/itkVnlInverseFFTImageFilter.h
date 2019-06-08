@@ -38,9 +38,7 @@ namespace itk
  * \sa InverseFFTImageFilter
  * \ingroup ITKFFT
  *
- * \wiki
- * \wikiexample{SpectralAnalysis/CrossCorrelationInFourierDomain,Compute the cross-correlation of two images in the Fourier domain}
- * \endwiki
+ *
  */
 template< typename TInputImage, typename TOutputImage=Image< typename TInputImage::PixelType::value_type, TInputImage::ImageDimension> >
 class ITK_TEMPLATE_EXPORT VnlInverseFFTImageFilter:

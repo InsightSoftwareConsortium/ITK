@@ -58,6 +58,10 @@ namespace itk
  * \author Nick Tustison
  *
  * \ingroup ITKImageFunction
+ *
+ * \sphinx
+ * \sphinxexample{Core/ImageFunction/ResampleSegmentedImage,Resample Segmented Image}
+ * \endsphinx
  */
 
 template <typename TInputImage, typename TCoordRep = double,

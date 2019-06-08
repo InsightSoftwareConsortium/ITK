@@ -138,9 +138,9 @@ private:
  * \ingroup MultiThreaded
  * \ingroup ITKImageIntensity
  *
- * \wiki
- * \wikiexample{ImageProcessing/MaskImageFilter,Apply a mask to an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageIntensity/MaskImage,Mask Image}
+ * \endsphinx
  */
 template< typename TInputImage, typename TMaskImage, typename TOutputImage = TInputImage >
 class MaskImageFilter:

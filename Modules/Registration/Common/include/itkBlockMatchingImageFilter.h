@@ -62,6 +62,10 @@ namespace itk
  * \sa MaskFeaturePointSelectionFilter
  *
  * \ingroup ITKRegistrationCommon
+ *
+ * \sphinx
+ * \sphinxexample{Registration/Common/MatchFeaturePoints,Match Feature Points}
+ * \endsphinx
  */
 
 template<

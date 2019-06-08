@@ -80,9 +80,9 @@ r = std::sqrt(x^2 + y^2 + z^2)
  *
  * \ingroup ITKTransform
  *
- * \wiki
- * \wikiexample{Utilities/AzimuthElevationToCartesianTransform,Cartesian to AzimuthElevation and vice-versa}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Transform/CartesianToAzimuthElevation,Cartesian To Azimuth Elevation}
+ * \endsphinx
  */
 template<typename TParametersValueType=double,
          unsigned int NDimensions = 3>

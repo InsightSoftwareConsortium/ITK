@@ -39,9 +39,9 @@ namespace itk
  * \ingroup ImageFunctions
  * \ingroup ITKImageFunction
  *
- * \wiki
- * \wikiexample{Functions/MedianImageFunction,Compute the median of an image at a pixels (in a regular neighborhood)}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/ImageFunction/ComputeMedianOfImageAtPixel,Compute Median Of Image At Pixel}
+ * \endsphinx
  */
 template< typename TInputImage, typename TCoordRep = float >
 class ITK_TEMPLATE_EXPORT MedianImageFunction:

@@ -77,9 +77,6 @@ namespace itk
  * \ingroup ImageFunctions
  * \ingroup ITKImageFunction
  *
- * \wiki
- * \wikiexample{ImageProcessing/Upsampling,Upsampling an image}
- * \endwiki
  */
 template<
   typename TImageType,

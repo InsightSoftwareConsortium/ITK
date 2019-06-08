@@ -34,10 +34,9 @@ namespace itk
  * \sa ImageFunction
  * \ingroup ITKImageFunction
  *
- * \wiki
- * \wikiexample{Functions/GaussianBlurImageFunction,GaussianBlurImageFunction}
- * \wikiexample{Functions/GaussianBlurImageFunctionFilter,GaussianBlurImageFunctionFilter}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/ImageFunction/GaussianBlueImageFunction,GaussianBlurImageFunction}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutput = double >
 class ITK_TEMPLATE_EXPORT GaussianBlurImageFunction:

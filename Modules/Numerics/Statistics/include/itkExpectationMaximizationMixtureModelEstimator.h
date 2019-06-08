@@ -52,9 +52,11 @@ namespace Statistics
  * \sa MixtureModelComponentBase, GaussianMixtureModelComponent
  * \ingroup ITKStatistics
  *
- * \wiki
- * \wikiexample{Statistics/ExpectationMaximizationMixtureModelEstimator_2D,2D Gaussian Mixture Model Expectation Maximization}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Numerics/Statistics/2DGaussianMixtureModelExpectMax,2D Gaussian Mixture Model Expectation Maximum}
+ * \sphinxexample{Numerics/Statistics/DistributionOfPixelsUsingGMM,Distribution Of Pixels Using GMM EM}
+ * \sphinxexample{Numerics/Statistics/DistributeSamplingUsingGMM,Distribute Sampling Using GMM EM}
+ * \endsphinx
  */
 
 template< typename TSample >

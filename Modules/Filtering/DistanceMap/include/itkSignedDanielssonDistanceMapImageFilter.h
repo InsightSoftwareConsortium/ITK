@@ -82,6 +82,10 @@ namespace itk
  * \ingroup ImageFeatureExtraction
  *
  * \ingroup ITKDistanceMap
+ *
+ * \sphinx
+ * \sphinxexample{Filtering/DistanceMap/SignedDistanceMapOfBinary,Signed Distance Map Of Binary Image}
+ * \endsphinx
  */
 
 template< typename TInputImage,

@@ -62,9 +62,9 @@ namespace itk
  * \ingroup LabeledImageObject
  * \ingroup ITKLabelMap
  *
- * \wiki
- * \wikiexample{ImageProcessing/ManuallyRemovingLabels,Remove labels from a LabelMap}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/LabelMap/RemoveLabelsFromLabelMa,Remove Labels From Label Map}
+ * \endsphinx
  */
 template< typename TLabelObject >
 class ITK_TEMPLATE_EXPORT LabelMap:public ImageBase< TLabelObject::ImageDimension >

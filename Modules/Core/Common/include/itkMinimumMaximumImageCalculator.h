@@ -35,10 +35,10 @@ namespace itk
  * \ingroup Operators
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{ImageProcessing/MinimumMaximumImageCalculator,Find the minimum and maximum value (and the position of the value) in an image}
- * \wikiexample{Developer/OilPaintingImageFilter,Multi-threaded oil painting image filter}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/FindMaxAndMinInImage,Find Max And Min In Image}
+ * \sphinxexample{Developer/OilPaintingImageFilter,Multi-threaded oil painting image filter}
+ * \endsphinx
  */
 template< typename TInputImage >
 class ITK_TEMPLATE_EXPORT MinimumMaximumImageCalculator:public Object

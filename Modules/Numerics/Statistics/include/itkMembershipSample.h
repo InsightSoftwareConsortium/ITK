@@ -47,9 +47,9 @@ namespace Statistics
  *
  * \ingroup ITKStatistics
  *
- * \wiki
- * \wikiexample{Statistics/MembershipSample,Create a list of samples with associated class IDs}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Numerics/Statistics/CreateListOfSamplesWithIDs,Create List Of Samples With Associated ID's}
+ * \endsphinx
  */
 
 template< typename TSample >

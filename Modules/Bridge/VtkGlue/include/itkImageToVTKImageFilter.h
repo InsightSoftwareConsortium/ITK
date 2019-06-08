@@ -37,10 +37,10 @@ namespace itk
  *
  * \ingroup   ITKVtkGlue
  *
- * \wiki
- * \wikiexample{IO/ImageToVTKImageFilter,Display an ITK image}
- * \wikiexample{IO/itkVtkImageConvertDICOM,Uses a custom user matrix to align the image with DICOM physical space}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Remote/WikiExamples/DisplayITKImage,Display ITK Image}
+ * \sphinxexample{IO/itkVtkImageConvertDICOM,Uses a custom user matrix to align the image with DICOM physical space}
+ * \endsphinx
  */
 template <typename TInputImage >
 class ITK_TEMPLATE_EXPORT ImageToVTKImageFilter : public ProcessObject

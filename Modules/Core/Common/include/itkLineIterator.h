@@ -48,9 +48,9 @@ namespace itk
  * \sa LineConstIterator
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{Iterators/LineIterator,Iterate over a line through an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/IterateLineThroughImage,Iterate Line Through Image}
+ * \endsphinx
  */
 template< typename TImage >
 class ITK_TEMPLATE_EXPORT LineIterator:public LineConstIterator< TImage >

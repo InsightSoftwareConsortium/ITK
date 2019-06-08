@@ -33,9 +33,9 @@ namespace itk
  * A LineSpatialObjectPoint has NDimension-1 normals.
  * \ingroup ITKSpatialObjects
  *
- * \wiki
- * \wikiexample{SpatialObjects/LineSpatialObject,Line spatial object}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/SpatialObjects/LineSpacialObject,Line Spatial Object}
+ * \endsphinx
  */
 
 template< unsigned int TPointDimension = 3 >

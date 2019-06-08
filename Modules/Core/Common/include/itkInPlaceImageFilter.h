@@ -67,6 +67,11 @@ namespace itk
  *
  * \ingroup ImageFilters
  * \ingroup ITKCommon
+ *
+ * \sphinx
+ * \sphinxexample{Core/Common/FilterImageWithoutCopying,Filter Image Without Copying Its Data}
+ * \sphinxexample{Core/Common/InPlaceFilterOfImage,In Place Filter Of Image}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage = TInputImage >
 class ITK_TEMPLATE_EXPORT InPlaceImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >

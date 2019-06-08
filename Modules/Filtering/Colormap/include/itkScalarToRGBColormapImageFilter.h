@@ -70,6 +70,7 @@ namespace itk
  * \ingroup ITKColormap
  *
  * \sphinx
+ * \sphinxexample{Filtering/Colormap/CreateACustomColorMap, Create A Custom Color Map}
  * \sphinxexample{Filtering/Colormap/ApplyAColorMapToAnImage,Apply A Color Map To An Image}
  * \endsphinx
  */

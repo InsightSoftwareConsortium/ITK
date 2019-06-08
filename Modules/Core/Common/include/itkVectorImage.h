@@ -71,11 +71,11 @@ namespace itk
  * \ingroup ImageObjects
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{IO/ReadVectorImage,Read an image file with an unknown number of components}
- * \wikiexample{VectorImages/VectorImage,Create a vector image}
- * \wikiexample{VectorImages/NeighborhoodIterator,NeighborhoodIterator on a VectorImage}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/CastVectorImageToAnotherType,Cast Vector Image To Another Type}
+ * \sphinxexample{Core/Common/CreateVectorImage,Create Vector Image}
+ * \sphinxexample{VectorImages/NeighborhoodIterator,Neighborhood Iterator On Vector Image}
+ * \endsphinx
  */
 template< typename TPixel, unsigned int VImageDimension = 3 >
 class ITK_TEMPLATE_EXPORT VectorImage:

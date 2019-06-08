@@ -42,6 +42,9 @@ namespace itk
  *  output.
  *
  * \ingroup ITKVtkGlue
+ * \sphinx
+ * \sphinxexample{Bridge/VtkGlue/VTKImageToITKImage,VTK Image To ITK Image}
+ * \endsphinx
  */
 template <typename TOutputImage >
 class ITK_TEMPLATE_EXPORT VTKImageToImageFilter : public VTKImageImport< TOutputImage >

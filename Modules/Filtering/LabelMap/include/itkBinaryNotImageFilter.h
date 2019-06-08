@@ -47,9 +47,9 @@ namespace itk
  * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITKLabelMap
  *
- * \wiki
- * \wikiexample{ImageProcessing/BinaryNotImageFilter,Invert an image using the Binary Not operation}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/LabelMap/InvertImageUsingBinaryNot,Invert Image Using Binary Not Operation}
+ * \endsphinx
  */
 namespace Functor {
 

@@ -45,9 +45,9 @@ namespace itk
  * \sa MirrorPadImageFilter, ConstantPadImageFilter
  * \ingroup ITKImageGrid
  *
- * \wiki
- * \wikiexample{Images/WrapPadImageFilter,Pad an image by wrapping}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageGrid/PadImageByWrapping,Pad Image By Wrapping}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT WrapPadImageFilter:

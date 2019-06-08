@@ -41,14 +41,14 @@ namespace itk
  * https://hdl.handle.net/10380/3279  or
  * http://www.insight-journal.org/browse/publication/811
  *
- * \wiki
- * \wikiexample{Segmentation/OtsuThresholdImageFilter,Separate foreground and background using Otsu's method}
- * \endwiki
- *
  * \sa HistogramThresholdImageFilter
  *
  * \ingroup Multithreaded
  * \ingroup ITKThresholding
+ *
+ * \sphinx
+ * \sphinxexample{Filtering/Thresholding/SeparateGroundUsingOtsu,Separate Foreround And Background Using Otsu Method}
+ * \endsphinx
  */
 
 template<typename TInputImage, typename TOutputImage, typename TMaskImage=TOutputImage>

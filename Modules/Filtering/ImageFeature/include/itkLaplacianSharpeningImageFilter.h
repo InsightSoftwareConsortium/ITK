@@ -45,9 +45,9 @@ namespace itk
  * \ingroup ImageFeatureExtraction
  * \ingroup ITKImageFeature
  *
- * \wiki
- * \wikiexample{ImageProcessing/LaplacianSharpeningImageFilter,Sharpen an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageFeature/SharpenImage,Sharpen Image}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT LaplacianSharpeningImageFilter:
