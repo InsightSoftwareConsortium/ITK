@@ -35,11 +35,11 @@ int main( int , char *[] )
 {
 // Software Guide : BeginLatex
 //
-// A GroupSpatialObject is templated over the dimension of the
-// space which requires all the objects referenced by the GroupSpatialObject to
+// A \code{GroupSpatialObject} is templated over the dimension of the
+// space which requires all the objects referenced by the \code{GroupSpatialObject} to
 // have the same dimension.
 //
-// First we define some type definitions and we create the GroupSpatialObject.
+// First we define some type definitions and we create the \code{GroupSpatialObject}.
 //
 // Software Guide : EndLatex
 
@@ -67,7 +67,7 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Then we add the two ellipses into the GroupSpatialObject.
+// Then we add the two ellipses into the \code{GroupSpatialObject}.
 //
 // Software Guide : EndLatex
 
@@ -79,7 +79,7 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// We can query the number of object in the GroupSpatialObject with the
+// We can query the number of object in the \code{GroupSpatialObject} with the
 // \code{GetNumberOfObjects()} function. This function takes two optional
 // arguments: the depth at which we should count the number of objects
 // (default is set to infinity) and the name of the object to count (default
@@ -96,7 +96,7 @@ int main( int , char *[] )
 // Software Guide : BeginLatex
 //
 // The \code{GetObjectById()} returns the first object in the
-// GroupSpatialObject that has the specified identification number.
+// \code{GroupSpatialObject} that has the specified identification number.
 //
 // Software Guide : EndLatex
 
@@ -108,7 +108,7 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Objects can also be removed from the GroupSpatialObject using the
+// Objects can also be removed from the \code{GroupSpatialObject} using the
 // \code{RemoveChild()} function.
 //
 // Software Guide : EndLatex
@@ -119,7 +119,7 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// The list of current objects in the GroupSpatialObject can be retrieved
+// The list of current objects in the \code{GroupSpatialObject} can be retrieved
 // using the \code{GetChildren()} method.  Like the
 // \code{GetNumberOfChildren()} method, \code{GetChildren()} can take two
 // arguments: a search depth and a matching name.
@@ -138,8 +138,8 @@ int main( int , char *[] )
 //
 // In some cases, it is useful to define the hierarchy by using
 // \code{ParentId()} and the current identification number. This results in
-// having a flat list of SpatialObjects in the GroupSpatialObject. Therefore,
-// the GroupSpatialObject provides the
+// having a flat list of SpatialObjects in the \code{GroupSpatialObject}. Therefore,
+// the \code{GroupSpatialObject} provides the
 // \code{FixParentChildHierarchyUsingParentIds()} method which
 // reorganizes the Parent-Child hierarchy based on identification numbers.
 //

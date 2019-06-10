@@ -43,7 +43,7 @@ int main(int, char * [] )
 {
   // Software Guide : BeginLatex
   //
-  // The MeshSpatialObject wraps an \doxygen{Mesh}, therefore we first
+  // The \code{MeshSpatialObject} wraps an \doxygen{Mesh}, therefore we first
   // create a mesh.
   //
   // Software Guide : EndLatex
@@ -86,7 +86,7 @@ int main(int, char * [] )
 
   // Software Guide : BeginLatex
   //
-  // We then create a MeshSpatialObject which is templated over the type of mesh
+  // We then create a \code{MeshSpatialObject} which is templated over the type of mesh
   // previously defined...
   //
   // Software Guide : EndLatex
@@ -99,7 +99,7 @@ int main(int, char * [] )
 
   // Software Guide : BeginLatex
   //
-  // ... and pass the Mesh pointer to the MeshSpatialObject
+  // ... and pass the Mesh pointer to the \code{MeshSpatialObject}
   //
   // Software Guide : EndLatex
 
@@ -139,7 +139,7 @@ int main(int, char * [] )
 
   // Software Guide : BeginLatex
   //
-  // Now that we have defined the MeshSpatialObject, we can save the actual mesh
+  // Now that we have defined the \code{MeshSpatialObject}, we can save the actual mesh
   // using the \doxygen{SpatialObjectWriter}. In order to do so,
   // we need to specify the type of Mesh we are writing.
   //
@@ -188,7 +188,7 @@ int main(int, char * [] )
 
   // Software Guide : BeginLatex
   //
-  // Next, we show how to create a binary image of a MeshSpatialObject
+  // Next, we show how to create a binary image of a \code{MeshSpatialObject}
   // using the \doxygen{SpatialObjectToImageFilter}. The resulting image
   // will have ones inside and zeros outside the mesh.
   // First we define and instantiate the SpatialObjectToImageFilter.
@@ -206,7 +206,7 @@ int main(int, char * [] )
 
   // Software Guide : BeginLatex
   //
-  // Then we pass the output of the reader, i.e the MeshSpatialObject, to the
+  // Then we pass the output of the reader, i.e the \code{MeshSpatialObject}, to the
   // filter.
   //
   // Software Guide : EndLatex

@@ -69,7 +69,7 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// We can now define the ImageSpatialObject which is templated over the dimension
+// We can now define the \code{ImageSpatialObject} which is templated over the dimension
 // and the pixel type of the image.
 //
 // Software Guide : EndLatex
@@ -81,7 +81,7 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Then we set the itkImage to the ImageSpatialObject by using the
+// Then we set the itkImage to the \code{ImageSpatialObject} by using the
 // \code{SetImage()} function.
 //
 // Software Guide : EndLatex
