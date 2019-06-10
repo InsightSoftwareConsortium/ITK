@@ -53,7 +53,7 @@ int main( int , char *[] )
 //
 // We then add the second object to the first one by using the
 // \code{AddChild()} method.  As a result \code{object2} becomes a
-// child of object1.
+// child of \code{object1}.
 //
 // Software Guide : EndLatex
 

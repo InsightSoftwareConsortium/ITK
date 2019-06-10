@@ -34,9 +34,9 @@ int main( int , char *[] )
 {
 // Software Guide : BeginLatex
 //
-// LineSpatialObject is templated over the dimension of the space.
-// A LineSpatialObject contains a list of LineSpatialObjectPoints.
-// A LineSpatialObjectPoint has a position, $n-1$ normals and a color.
+// \code{LineSpatialObject} is templated over the dimension of the space.
+// A \code{LineSpatialObject} contains a list of \code{LineSpatialObjectPoint}s.
+// A \code{LineSpatialObjectPoint} has a position, $n-1$ normals and a color.
 // Each normal is expressed as a \doxygen{CovariantVector} of size N.
 //
 // First, we define some type definitions and we create our line.
