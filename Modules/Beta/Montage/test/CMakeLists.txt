@@ -214,37 +214,6 @@ itk_add_test(NAME itkMontageTestCMUrun2_64
     1 -1 1 4 1 1
   )
 
-option(ITKMontage_EnableFailingTests "Should we enable tests which are failing due to not-yet-resolved issues?" OFF)
-
-if (ITKMontage_EnableFailingTests)
-
-itk_add_test(NAME itkMontageTest-10-129-C_2
-  COMMAND MontageTestDriver
-  itkMontageTest2D
-    DATA{Input/10-129-C_2/,REGEX:.*}
-    ${TESTING_OUTPUT_PATH}/itkMontageTest-10-129-C_2
-    ${TESTING_OUTPUT_PATH}/itkPairsMontageTest-10-129-C_2
-    0 2 0 1 0 0
-  )
-
-itk_add_test(NAME itkMontageTest-S200-small
-  COMMAND MontageTestDriver
-  itkMontageTest2D
-    DATA{Input/S200-small/,REGEX:.*}
-    ${TESTING_OUTPUT_PATH}/itkMontageTest-S200-small
-    ${TESTING_OUTPUT_PATH}/itkPairsMontageTest-S200-small
-    0 1 1 1 0 0
-  )
-
-itk_add_test(NAME itkMontageTest-S200-6-C
-  COMMAND MontageTestDriver
-  itkMontageTest2D
-    DATA{Input/S200-6-C/,REGEX:.*}
-    ${TESTING_OUTPUT_PATH}/itkMontageTest-S200-6-C
-    ${TESTING_OUTPUT_PATH}/itkPairsMontageTest-S200-6-C
-    0 2 1 1 0 0
-  )
-
 function(AddTestTi64flat slicerNumber)
   set(inDir "${CMAKE_CURRENT_LIST_DIR}/Input/Ti64Cylinder/FlatField/1000${slicerNumber}/")
   if (EXISTS ${inDir}10099.tif)   
@@ -284,6 +253,37 @@ AddTestTi64raw(1)
 AddTestTi64raw(2)
 AddTestTi64raw(3)
 AddTestTi64raw(4)
+
+option(ITKMontage_EnableFailingTests "Should we enable tests which are failing due to not-yet-resolved issues?" OFF)
+
+if (ITKMontage_EnableFailingTests)
+
+itk_add_test(NAME itkMontageTest-10-129-C_2
+  COMMAND MontageTestDriver
+  itkMontageTest2D
+    DATA{Input/10-129-C_2/,REGEX:.*}
+    ${TESTING_OUTPUT_PATH}/itkMontageTest-10-129-C_2
+    ${TESTING_OUTPUT_PATH}/itkPairsMontageTest-10-129-C_2
+    0 2 0 1 0 0
+  )
+
+itk_add_test(NAME itkMontageTest-S200-small
+  COMMAND MontageTestDriver
+  itkMontageTest2D
+    DATA{Input/S200-small/,REGEX:.*}
+    ${TESTING_OUTPUT_PATH}/itkMontageTest-S200-small
+    ${TESTING_OUTPUT_PATH}/itkPairsMontageTest-S200-small
+    0 1 1 1 0 0
+  )
+
+itk_add_test(NAME itkMontageTest-S200-6-C
+  COMMAND MontageTestDriver
+  itkMontageTest2D
+    DATA{Input/S200-6-C/,REGEX:.*}
+    ${TESTING_OUTPUT_PATH}/itkMontageTest-S200-6-C
+    ${TESTING_OUTPUT_PATH}/itkPairsMontageTest-S200-6-C
+    0 2 1 1 0 0
+  )
 
 itk_add_test(NAME itkMontageTestMNML3
   COMMAND MontageTestDriver
