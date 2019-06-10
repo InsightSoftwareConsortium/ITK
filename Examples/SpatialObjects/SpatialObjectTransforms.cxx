@@ -18,7 +18,9 @@
 
 // Software Guide : BeginLatex
 //
-// \index{itk::SpatialObjectTransform}s This example describes the different
+// \index{itk::SpatialObjectTransform}
+//
+// This example describes the different
 // transformations and the Object and World "spaces" associated with a spatial
 // object.
 //
@@ -116,9 +118,10 @@ int main( int , char *[] )
 //
 // Note that this scaling would also apply to the children of object2,
 // if it had children.  If you wish to scale an object, but not its children,
-// then those children aren't actually "children", but they are siblings.  So,
-// you should insert a \index{GroupSpatialObject} that holds the object and its
-// children.  Then you can manipulate the object's transform/scaling
+// then those children aren't actually ``children'', but they are siblings.  So,
+// you should insert a \code{GroupSpatialObject} that holds both the object and
+// its siblings as children.  Then you can manipulate the object's
+// transform/scaling
 // independent of its siblings in that group, and if you wish to transform
 // the object and its simblings, you apply that transform to the group.
 //
@@ -153,8 +156,8 @@ int main( int , char *[] )
 // To realize the previous operations on the transformations, we should
 // invoke the \code{Update()} that recomputes all dependent transformations.
 //
-// By calling this function on \code{object1}, it will also descend to its children,
-// thereby also updating the objectToWorldTransform for \code{object2}.
+// By calling this function on \code{object1}, it will also descend to its
+// children, thereby also updating the \code{ObjectToWorldTransform} for \code{object2}.
 //
 // Software Guide : EndLatex
 
@@ -211,9 +214,10 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Second, the \code{ObjectToWorldTransform} that is cached, derived
+// Second, the \code{ObjectToWorldTransform} that is derived
 // from the parent-child hierarchy and the composition of the corresponding
-// \code{ObjectToParentTransform}, for \code{object2}:
+// \code{ObjectToParentTransform}s, computed by called to
+// \code{Update()}, and cached for efficient subsequent use, for \code{object2}:
 //
 // Software Guide : EndLatex
 
@@ -238,28 +242,28 @@ int main( int , char *[] )
   TransformType::OffsetType Object1ToWorldOffset;
   Object1ToWorldOffset[0] = 3;
   Object1ToWorldOffset[1] = 3;
-  object2->GetModifiableObjectToWorldTransform()->SetOffset(
+  object1->GetModifiableObjectToWorldTransform()->SetOffset(
     Object1ToWorldOffset);
-  object2->ComputeObjectToParentTransform();
+  object1->ComputeObjectToParentTransform();
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
 //
 // Finally, we display the resulting affine transformations.   First,
-// for the \code{ObjectToParentTransform}.
+// for the \code{ObjectToParentTransform} for \code{object1}.
 //
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  std::cout << "object2 ObjectToParent Matrix: " << std::endl;
-  std::cout << object2->GetObjectToParentTransform()->GetMatrix() << std::endl;
-  std::cout << "object2 ObjectToParent Offset: ";
-  std::cout << object2->GetObjectToParentTransform()->GetOffset() << std::endl;
+  std::cout << "object1 ObjectToParent Matrix: " << std::endl;
+  std::cout << object1->GetObjectToParentTransform()->GetMatrix() << std::endl;
+  std::cout << "object1 ObjectToParent Offset: ";
+  std::cout << object1->GetObjectToParentTransform()->GetOffset() << std::endl;
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
 //
-// Second, for the \code{ObjectToWorldTransform}.
+// Second, for the \code{ObjectToWorldTransform} for \code{object2}.
 //
 // Software Guide : EndLatex
 
@@ -274,7 +278,7 @@ int main( int , char *[] )
 //
 // Also, as a child is disconnected from its parent, it should not move;
 // so its \code{ObjectToParentTransform} should be updated to match its
-// ]code{ObjectToWorldTransform}.
+// \code{ObjectToWorldTransform}.
 //
 // Software Guide : EndLatex
 
@@ -297,22 +301,32 @@ int main( int , char *[] )
 // The output of this second example looks like the following:
 // \small
 // \begin{verbatim}
-//object2 IndexToObject Matrix:
+//object2 ObjectToParent Matrix:
 //2 0
 //0 2
-//object2 IndexToObject Offset: 0  0
-//object2 IndexToWorld Matrix:
+//object2 ObjectToParent Offset: 0  0
+//object2 ObjectToWorld Matrix:
 //2 0
 //0 2
-//object2 IndexToWorld Offset: 4  3
-//object1 IndexToWorld Matrix:
+//object2 ObjectToWorld Offset: 4  3
+//
+//object1 ObjectToParent Matrix:
 //1 0
 //0 1
-//object1 IndexToWorld Offset: 3  3
-//object2 IndexToWorld Matrix:
+//object1 ObjecTParent Offset: 3  3
+//object2 ObjecToWorld Matrix:
 //2 0
 //0 2
-//object2 IndexToWorld Offset: 7  6
+//object2 ObjectToWorld Offset: 7  6
+//
+//object2 ObjecToParent Matrix:
+//2 0
+//0 2
+//object2 ObjectToParent Offset: 7  6
+//object2 ObjecToWorld Matrix:
+//2 0
+//0 2
+//object2 ObjectToWorld Offset: 7  6
 // \end{verbatim}
 // \normalsize
 //

@@ -58,7 +58,8 @@ int main(int, char* [])
 
   // Software Guide : BeginLatex
   //
-  // The radius of the Gaussian is defined by the \code{SetRadius()} method.
+  // The radius of the Gaussian is defined by the
+  // \code{SetRadiusInObjectSpace()} method.
   // By default the radius is set to 1.0.
   //
   // Software Guide : EndLatex
