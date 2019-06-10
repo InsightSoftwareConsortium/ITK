@@ -34,7 +34,7 @@ int main( int , char *[] )
 {
 // Software Guide : BeginLatex
 //
-// LandmarkSpatialObject is templated over the dimension of the space.
+// \code{LandmarkSpatialObject} is templated over the dimension of the space.
 //
 // Here we create a 3-dimensional landmark.
 //
