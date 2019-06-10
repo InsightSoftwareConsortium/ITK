@@ -96,7 +96,7 @@ for filename in ${remote_modules_path}/*.cmake; do
     continue
   fi
 
-if [ $ongreen -eq 1 ]; then
+  if [ $ongreen -eq 1 ]; then
     # Get the repository status
     # Be careful of rate limiting (https://developer.github.com/v3/#rate-limiting)
     # alternatively using Azure: https://docs.microsoft.com/en-us/azure/data-factory/monitor-programmatically#rest-api
