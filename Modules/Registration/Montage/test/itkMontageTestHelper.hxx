@@ -99,8 +99,9 @@ assignRGBtoScalar( typename RGBImage::Pointer rgbImage, typename ScalarImage::Po
 template< typename PixelType, typename AccumulatePixelType >
 int
 montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actualTiles,
-             const std::string& inputPath, const std::string& outFilename, bool varyPaddingMethods,
-             int peakMethodToUse, bool loadIntoMemory, unsigned streamSubdivisions, bool writeTransformFiles )
+             const std::string& inputPath, const std::string& outFilename,
+             bool varyPaddingMethods, int peakMethodToUse, bool loadIntoMemory,
+             unsigned streamSubdivisions, bool writeTransformFiles, bool allowDrift )
 {
   int result = EXIT_SUCCESS;
   using ScalarPixelType = typename itk::NumericTraits< PixelType >::ValueType;
@@ -327,7 +328,14 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
             result = EXIT_FAILURE;
             std::cout << "  severly wrong: " << alternativeError;
             }
-          totalError += std::min( singleError, alternativeError );
+          if ( allowDrift )
+            {
+            totalError += std::min( singleError, alternativeError );
+            }
+          else
+            {
+            totalError += singleError;
+            }
           registrationErrors << std::endl;
           std::cout << std::endl;
           }
