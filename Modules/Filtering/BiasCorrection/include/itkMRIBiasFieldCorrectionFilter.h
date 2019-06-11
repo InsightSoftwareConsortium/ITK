@@ -442,7 +442,7 @@ public:
    * clamped to a minimum value of 1. */
   void SetStartingShrinkFactors(unsigned int factor);
 
-  void SetStartingShrinkFactors(unsigned int *factors);
+  void SetStartingShrinkFactors(const unsigned int *factors);
 
   /** Get the starting shrink factors. */
   const unsigned int * GetStartingShrinkFactors() const;
