@@ -56,6 +56,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
   this->m_StoreDerivativeAsSparseFieldForLocalSupportTransforms = true;
 
   this->m_CalculateValueAndDerivativeInTangentSpace = false;
+  this->m_Percentile = 100;
 }
 
 /** Initialize the metric */
@@ -161,8 +162,6 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
 {
   this->InitializeForIteration();
 
-  CompensatedSummation< MeasureType > value;
-
   PointsConstIterator It = this->m_FixedTransformedPointSet->GetPoints()->Begin();
   // Virtual point set will be the same size as fixed point set as long as it's
   // generated from the fixed point set.
@@ -171,7 +170,9 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
     itkExceptionMacro("Expected FixedTransformedPointSet to be the same size as VirtualTransformedPointSet.");
     }
   PointsConstIterator virtualIt = this->m_VirtualTransformedPointSet->GetPoints()->Begin();
-
+  PointIdentifier numberOfFixedPoints = this->m_FixedTransformedPointSet->GetNumberOfPoints();
+  std::vector<MeasureType> distances(numberOfFixedPoints, NumericTraits<MeasureType>::max());
+  size_t index = 0;
   while( It != this->m_FixedTransformedPointSet->GetPoints()->End() )
     {
     /* Verify the virtual point is in the virtual domain.
@@ -194,17 +195,24 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
         itkExceptionMacro( "The corresponding data for point " << It.Value() << " (pointId = " << It.Index() << ") does not exist." );
         }
       }
-
-    value += this->GetLocalNeighborhoodValue( It.Value(), pixel );
+    distances[index] = this->GetLocalNeighborhoodValue( It.Value(), pixel );
     ++virtualIt;
     ++It;
+    ++index;
     }
-
+  std::sort (distances.begin(), distances.end());
   DerivativeType derivative;
-  MeasureType valueSum = value.GetSum();
+  // `valueSum` default value is not used as it is initialized inside `VerifyNumberOfValidPoints`
+  // if there is no valid point.
+  MeasureType valueSum = 0.0;
   if( this->VerifyNumberOfValidPoints( valueSum, derivative ) )
     {
-    valueSum /= static_cast<MeasureType>( this->m_NumberOfValidPoints );
+    size_t last_index = this->m_NumberOfValidPoints * m_Percentile / 100;
+    if( last_index < 1 )
+      {
+      itkExceptionMacro( "Percentile too small. No valid point in selected percentile." );
+      }
+    valueSum = std::accumulate(distances.begin(), distances.begin()+last_index, 0)/static_cast<MeasureType>(last_index);
     }
   this->m_Value = valueSum;
 
@@ -246,21 +254,23 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
   MovingTransformJacobianType  jacobian( MovingPointDimension, this->GetNumberOfLocalParameters() );
   MovingTransformJacobianType  jacobianCache;
 
-  DerivativeType localTransformDerivative( this->GetNumberOfLocalParameters() );
-  localTransformDerivative.Fill( NumericTraits<DerivativeValueType>::ZeroValue() );
-
   // Virtual point set will be the same size as fixed point set as long as it's
   // generated from the fixed point set.
-  if( this->m_VirtualTransformedPointSet->GetNumberOfPoints() != this->m_FixedTransformedPointSet->GetNumberOfPoints() )
+  PointIdentifier numberOfFixedPoints = this->m_FixedTransformedPointSet->GetNumberOfPoints();
+  if( this->m_VirtualTransformedPointSet->GetNumberOfPoints() != numberOfFixedPoints )
     {
     itkExceptionMacro( "Expected FixedTransformedPointSet to be the same size as VirtualTransformedPointSet." );
     }
   PointsConstIterator virtualIt = this->m_VirtualTransformedPointSet->GetPoints()->Begin();
   PointsConstIterator It = this->m_FixedTransformedPointSet->GetPoints()->Begin();
   PointsConstIterator end = this->m_FixedTransformedPointSet->GetPoints()->End();
-
+  using ValueType = std::pair<MeasureType, DerivativeType>;
+  std::vector<ValueType> values(numberOfFixedPoints);
+  size_t index = 0;
   while( It != end )
     {
+    DerivativeType localTransformDerivative( this->GetNumberOfLocalParameters() );
+    localTransformDerivative.Fill( NumericTraits<DerivativeValueType>::ZeroValue() );
     MeasureType pointValue = NumericTraits<MeasureType>::ZeroValue();
     LocalDerivativeType pointDerivative;
 
@@ -271,6 +281,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
       {
       ++It;
       ++virtualIt;
+      values[index].first = NumericTraits<MeasureType>::max();
       continue;
       }
 
@@ -288,18 +299,11 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
     if( calculateValue )
       {
       this->GetLocalNeighborhoodValueAndDerivative( It.Value(), pointValue, pointDerivative, pixel );
-      value += pointValue;
+      values[index].first = pointValue;
       }
     else
       {
       pointDerivative = this->GetLocalNeighborhoodDerivative( It.Value(), pixel );
-      }
-
-    // Map into parameter space
-    if( this->HasLocalSupport() || this->m_CalculateValueAndDerivativeInTangentSpace )
-      {
-      // Reset to zero since we're not accumulating in the local-support case.
-      localTransformDerivative.Fill( NumericTraits<DerivativeValueType>::ZeroValue() );
       }
 
     if( this->m_CalculateValueAndDerivativeInTangentSpace )
@@ -341,24 +345,55 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
           }
         }
       }
+    else
+      {
+      values[index].second = localTransformDerivative;
+      }
 
     ++It;
     ++virtualIt;
+    ++index;
     }
 
-  MeasureType valueSum = value.GetSum();
+  std::sort( values.begin(), values.end(), [](ValueType a, ValueType b) {
+    return a.first < b.first ? true : false;
+    });
+  // `valueSum` default value is not used as it is initialized inside `VerifyNumberOfValidPoints`
+  // if there is no valid point.
+  MeasureType valueSum = 0.0;
+
   if( this->VerifyNumberOfValidPoints( valueSum, derivative ) )
     {
     // For global-support transforms, average the accumulated derivative result
+    size_t last_index = this->m_NumberOfValidPoints * m_Percentile / 100;
+    if( last_index < 1 )
+      {
+      itkExceptionMacro( "Percentile too small. No valid point in selected percentile." );
+      }
+    double last_index_d = static_cast<MeasureType>(last_index);
+
     if( ! this->HasLocalSupport() && ! this->m_CalculateValueAndDerivativeInTangentSpace )
       {
-      derivative = localTransformDerivative / static_cast<DerivativeValueType>( this->m_NumberOfValidPoints );
+      DerivativeType derivativeAccumulator( this->GetNumberOfLocalParameters() );
+      derivativeAccumulator.Fill( NumericTraits<DerivativeValueType>::ZeroValue() );
+      derivative = std::accumulate(values.begin(), values.begin()+last_index, derivativeAccumulator, [&](DerivativeType acc, const ValueType &el) {
+        for( NumberOfParametersType par = 0; par < this->GetNumberOfLocalParameters(); par++ )
+          {
+          acc[par] += el.second[par];
+          }
+        return std::move(acc);
+        }) / last_index_d;
       }
 
-    valueSum /= static_cast<MeasureType>( this->m_NumberOfValidPoints );
-    }
+
+   valueSum = std::accumulate(values.begin(), values.begin()+last_index, 0.0, [&](double acc, ValueType el) {
+     return acc + el.first;
+     })/last_index_d;
+   }
+
   calculatedValue = valueSum;
   this->m_Value = valueSum;
+  std::cout<<"Get value and derivative"<<std::endl;
 }
 
 template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>

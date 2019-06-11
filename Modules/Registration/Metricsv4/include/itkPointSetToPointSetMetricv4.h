@@ -301,6 +301,31 @@ public:
   }
 
   /**
+  * Get/Set the cut off percentile cut off value.
+  */
+  void SetPercentile( unsigned int percentile )
+    {
+    if( percentile > 0 && percentile <= 1000 )
+      {
+      m_Percentile = percentile;
+      }
+    else
+      {
+      itkExceptionMacro( "Percentile value must belong to ]0;100]." )
+      }
+    }
+  itkGetMacro( Percentile, unsigned int );
+
+  /**
+  * Cut off value to filter the number of points used to drive the registration
+  * at each iteration. Points from the fixed point set whose error measurement
+  * are within the given percentile are kept (i.e. if percentile is set to 80,
+  * all the points below the 80th percentile are kept) to compute the error
+  * and the derivative. Other points are ignored.
+  */
+  unsigned int m_Percentile;
+
+  /**
    * By default, the point set metric derivative for a displacement field transform
    * is stored by saving the gradient for every voxel in the displacement field (see
    * the function StorePointDerivative()).  Since the "fixed points" will typically
