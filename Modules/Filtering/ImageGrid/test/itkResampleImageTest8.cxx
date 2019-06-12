@@ -27,7 +27,7 @@
 /* itkResampleImageFilter output compared to streamed output
  */
 
-int itkResampleImageTest7( int , char *[] )
+int itkResampleImageTest8( int , char *[] )
 {
 
   constexpr unsigned int NDimensions = 2;
