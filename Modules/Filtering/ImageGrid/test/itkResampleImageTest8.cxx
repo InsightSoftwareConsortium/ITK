@@ -19,6 +19,7 @@
 #include <iostream>
 
 #include "itkAffineTransform.h"
+#include "itkGaussianInterpolateImageFunction.h"
 #include "itkResampleImageFilter.h"
 #include "itkStreamingImageFilter.h"
 #include "itkTestingMacros.h"
@@ -44,7 +45,7 @@ int itkResampleImageTest8( int , char *[] )
 
   using AffineTransformType = itk::AffineTransform<CoordRepType,NDimensions>;
 
-  using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType,CoordRepType>;
+  using InterpolatorType = itk::GaussianInterpolateImageFunction<ImageType,CoordRepType>;
 
   // Create and configure an image
   ImagePointerType image = ImageType::New();
