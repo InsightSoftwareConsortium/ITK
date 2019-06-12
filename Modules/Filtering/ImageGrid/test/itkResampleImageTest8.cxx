@@ -31,7 +31,7 @@
 int itkResampleImageTest8( int , char *[] )
 {
 
-  constexpr unsigned int NDimensions = 2;
+  constexpr unsigned int NDimensions = 3;
 
   using PixelType = float;
 
@@ -49,8 +49,8 @@ int itkResampleImageTest8( int , char *[] )
 
   // Create and configure an image
   ImagePointerType image = ImageType::New();
-  ImageIndexType  index = {{0,  0}};
-  ImageSizeType   size  = {{64,64}};
+  ImageIndexType  index = {{ 0, 0, 0}};
+  ImageSizeType   size  = {{64,64,64}};
   ImageRegionType region;
   region.SetSize ( size );
   region.SetIndex( index );
