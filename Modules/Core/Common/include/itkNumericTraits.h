@@ -1080,8 +1080,8 @@ public:
   static constexpr bool IsSigned = NumericTraits< ValueType >::IsSigned;
   static constexpr bool IsInteger = false;
   static constexpr bool IsComplex = true;
-  static Self ZeroValue() { return Zero; }
-  static Self OneValue() { return One; }
+  static Self ZeroValue() { return Self(0, 0); }
+  static Self OneValue() { return Self(1, 0); }
   static constexpr unsigned int GetLength(const Self &) { return 2; }
   static constexpr unsigned int GetLength() { return 2; }
   static constexpr Self NonpositiveMin(const Self &) { return NonpositiveMin(); }
