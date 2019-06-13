@@ -202,8 +202,15 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
   WriteDebug( iAdjusted.GetPointer(), "iAdjustedZS.nrrd" );
 
   m_MaxCalculator->SetImage( iAdjusted );
-  m_MaxCalculator->SetN( std::ceil( this->m_Offsets.size() / 2 ) *
+  if (m_MergePeaks)
+    {
+    m_MaxCalculator->SetN( std::ceil( this->m_Offsets.size() / 2 ) *
                          ( static_cast< unsigned >( std::pow( 3, ImageDimension ) ) - 1 ) );
+    }
+  else
+    {
+    m_MaxCalculator->SetN( this->m_Offsets.size() );
+    }
 
   try
     {
@@ -340,7 +347,7 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
             break;
           case PeakInterpolationMethod::Cosine:
             ratio = ( y0 + y2 ) / ( 2 * y1 );
-            if ( m_MergePeaks ) // clip to -0.999... to 0.999... range
+            if ( m > 0 ) // clip to -0.999... to 0.999... range
               {
               ratio = std::min( ratio, 1.0 - std::numeric_limits< OffsetScalarType >::epsilon() );
               ratio = std::max( ratio, -1.0 + std::numeric_limits< OffsetScalarType >::epsilon() );
