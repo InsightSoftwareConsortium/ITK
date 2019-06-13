@@ -47,9 +47,7 @@ int main( int argc, char *argv[] )
   const char* transformFile = argv[3];
 
 
-  //
   // read the images
-  //
   constexpr unsigned int Dimension = 2;
   using PixelType = float;
   using ImageType = itk::Image< PixelType, Dimension >;
@@ -73,11 +71,7 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-
-  //
   // init the registration method
-  //
-
   using RegistrationType = itk::PhaseCorrelationImageRegistrationMethod< ImageType, ImageType >;
   RegistrationType::Pointer pcmRegistration = RegistrationType::New();
   pcmRegistration->SetFixedImage( fixedReader->GetOutput() );
@@ -92,9 +86,7 @@ int main( int argc, char *argv[] )
   pcmRegistration->SetOptimizer( pcmOptimizer );
 
 
-  //
   // execute the registration
-  //
   try
     {
     pcmRegistration->Update();
@@ -107,20 +99,14 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  //
   // get the results
-  //
   RegistrationType::ParametersType parameters
       = pcmRegistration->GetTransformParameters();
   RegistrationType::TransformType::ConstPointer transform
       = pcmRegistration->GetOutput()->Get();
-
   std::cout << "Translation found: " << parameters << std::endl;
 
-
-  //
   // write output transform to file
-  //
   using WriterType = itk::TransformFileWriterTemplate< double >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( pcmRegistration->GetOutput()->Get() );
