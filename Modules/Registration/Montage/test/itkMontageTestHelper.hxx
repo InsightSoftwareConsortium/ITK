@@ -347,7 +347,7 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
       avgError /= Dimension; // report per-dimension error
       std::cout << "\nAverage translation error for padding method " << padMethod
                 << " and peak interpolation method " << peakMethod << ": " << avgError << std::endl;
-      if ( avgError >= 1.0 )
+      if ( avgError >= 1.2 )
         {
         result = EXIT_FAILURE;
         }
