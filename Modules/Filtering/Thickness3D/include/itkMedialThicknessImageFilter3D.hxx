@@ -39,6 +39,7 @@ MedialThicknessImageFilter3D<TInputImage, TOutputImage>::MedialThicknessImageFil
   m_MaskFilter->SetInput(m_DistanceFilter->GetOutput());
   m_MaskFilter->SetMaskImage(m_ThinningFilter->GetOutput());
   m_ThinningFilter->ReleaseDataFlagOn();
+  m_MultiplyFilter = MultiplyImageFilterType::New();
   m_MultiplyFilter->SetInput(m_MaskFilter->GetOutput());
   m_MultiplyFilter->SetConstant(-2.0);
 }
