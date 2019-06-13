@@ -90,16 +90,16 @@ void
 CastImageFilter< TInputImage, TOutputImage >
 ::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
-  DynamicThreadedGenerateDataDispatched<InputPixelType>(outputRegionForThread,
-                                                        is_static_castable<InputPixelType,OutputPixelType>() );
-
+  DynamicThreadedGenerateDataDispatched<InputPixelType, OutputPixelType>(outputRegionForThread);
 }
 
 template< typename TInputImage, typename TOutputImage >
-template<typename TInputPixelType>
+template<typename TInputPixelType,
+         typename TOutputPixelType,
+         typename std::enable_if<mpl::is_static_castable<TInputPixelType, TOutputPixelType>::value, int>::type>
 void
 CastImageFilter< TInputImage, TOutputImage >
-::DynamicThreadedGenerateDataDispatched(const OutputImageRegionType & outputRegionForThread, std::true_type)
+::DynamicThreadedGenerateDataDispatched(const OutputImageRegionType & outputRegionForThread)
 {
   const TInputImage *inputPtr = this->GetInput();
   TOutputImage *outputPtr = this->GetOutput(0);
@@ -116,10 +116,12 @@ CastImageFilter< TInputImage, TOutputImage >
 
 
 template< typename TInputImage, typename TOutputImage >
-template<typename TInputPixelType>
+template<typename TInputPixelType,
+         typename TOutputPixelType,
+         typename std::enable_if<!mpl::is_static_castable<TInputPixelType, TOutputPixelType>::value, int>::type>
 void
 CastImageFilter< TInputImage, TOutputImage >
-::DynamicThreadedGenerateDataDispatched(const OutputImageRegionType & outputRegionForThread, std::false_type)
+::DynamicThreadedGenerateDataDispatched(const OutputImageRegionType & outputRegionForThread)
 {
   // Implementation for non-implicit convertible pixels which are
   // itk-array-like.
