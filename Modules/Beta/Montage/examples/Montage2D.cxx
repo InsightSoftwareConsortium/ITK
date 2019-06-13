@@ -68,14 +68,21 @@ montage2D( const itk::TileLayout2D& stageTiles,
   using TransformType = itk::TranslationTransform< double, Dimension >;
   using ScalarImageType = itk::Image< ScalarPixelType, Dimension >;
   using OriginalImageType = itk::Image< PixelType, Dimension >; // possibly RGB instead of scalar
-  typename ScalarImageType::SpacingType sp;
-  sp.Fill( 1.0 ); // most data assumes unit spacing, even if the files themselves have something else (72 DPI, 96 DPI, 300 DPI etc)
+  using ReaderType = itk::ImageFileReader< OriginalImageType >;
+  typename ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName( inputPath + stageTiles[0][0].FileName );
+  reader->UpdateOutputInformation();
+  typename OriginalImageType::SpacingType sp = reader->GetOutput()->GetSpacing();
   itk::ObjectFactoryBase::RegisterFactory( itk::TxtTransformIOFactory::New() );
   const size_t yMontageSize = stageTiles.size();
   const size_t xMontageSize = stageTiles[0].size();
   const unsigned origin1x = xMontageSize > 1 ? 1 : 0; // support 1xN montages
   const unsigned origin1y = yMontageSize > 1 ? 1 : 0; // support Nx1 montages
-  const itk::Point< double, Dimension > stageStrideXY = stageTiles[origin1y][origin1x].Position;
+  itk::Point< double, Dimension > stageStrideXY = stageTiles[origin1y][origin1x].Position - stageTiles[0][0].Position;
+  for ( unsigned d = 0; d < Dimension; d++ )
+    {
+    stageStrideXY[d] *= sp[d];
+    }
 
   using MontageType = itk::TileMontage< ScalarImageType >;
   typename MontageType::Pointer montage = MontageType::New();
@@ -113,7 +120,6 @@ montage2D( const itk::TileLayout2D& stageTiles,
   typename Resampler::Pointer resampleF = Resampler::New();
   resampleF->SetMontageSize( { xMontageSize, yMontageSize } );
   resampleF->SetOriginAdjustment( stageStrideXY );
-  resampleF->SetForcedSpacing( sp );
   for ( unsigned y = 0; y < yMontageSize; y++ )
     {
     ind[1] = y;
