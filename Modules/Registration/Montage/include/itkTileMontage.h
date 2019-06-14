@@ -208,6 +208,8 @@ protected:
   /** For reading if only filename was given. */
   using ReaderType = itk::ImageFileReader< ImageType >;
 
+  using TranslationOffset = typename TransformType::OutputVectorType;
+
   template <typename TImageToRead>
   typename TImageToRead::Pointer
   GetImageHelper( TileIndexType nDIndex, bool metadataOnly, RegionType region,
@@ -220,7 +222,7 @@ protected:
   TileIndexType LinearIndexTonDIndex( DataObjectPointerArraySizeType linearIndex ) const;
 
   /** Register a pair of images with given indices. Handles FFTcaching. */
-  TransformPointer RegisterPair( TileIndexType fixed, TileIndexType moving );
+  void RegisterPair( TileIndexType fixed, TileIndexType moving );
 
   /** If possible, removes from memory tile with index smaller by 1 along all dimensions. */
   void ReleaseMemory( TileIndexType finishedTile );
@@ -229,7 +231,7 @@ protected:
   void MontageDimension( int d, TileIndexType initialTile );
 
   /** Accesses output, sets a transform to it, and updates progress. */
-  void WriteOutTransform( TileIndexType index, TransformPointer transform );
+  void WriteOutTransform( TileIndexType index, TranslationOffset offset );
 
   /** Updates mosaic bounds. The transform applies to input.
    *  input0 is tile in the top-left corner. */
@@ -244,12 +246,8 @@ protected:
   using FFTPointer = typename FFTType::Pointer;
   using FFTConstPointer = typename FFTType::ConstPointer;
 
-  using TransformVector = std::vector< TransformPointer >;
+  using OffsetVector = std::vector< TranslationOffset >;
   using ConfidencesType = typename PCMType::ConfidencesVector;
-
-  // convets translation from index space into physical space
-  TransformPointer OffsetToTransform( const typename PCMOptimizerType::OffsetType& translation,
-                                      typename ImageType::Pointer tileInformation );
 
   void OptimizeTiles();
 
@@ -263,14 +261,14 @@ private:
   float         m_RelativeThreshold = 3.0;
   SizeType      m_ObligatoryPadding;
 
-  std::vector< std::string >      m_Filenames;
-  std::vector< FFTConstPointer >  m_FFTCache;
-  std::vector< TransformVector >  m_TransformCandidates; // to adjacent tiles
-  std::vector< ConfidencesType >  m_CandidateConfidences;
-  std::vector< TransformPointer > m_CurrentAdjustments;
-  typename PCMType::Pointer       m_PCM = PCMType::New();
-  typename ReaderType::Pointer    m_Reader = ReaderType::New();
-  typename ImageType::Pointer     m_Dummy = ImageType::New();
+  std::vector< std::string >       m_Filenames;
+  std::vector< FFTConstPointer >   m_FFTCache;
+  std::vector< OffsetVector >      m_TransformCandidates; // to adjacent tiles
+  std::vector< ConfidencesType >   m_CandidateConfidences;
+  std::vector< TranslationOffset > m_CurrentAdjustments;
+  typename PCMType::Pointer        m_PCM = PCMType::New();
+  typename ReaderType::Pointer     m_Reader = ReaderType::New();
+  typename ImageType::Pointer      m_Dummy = ImageType::New();
 
   typename PCMOperatorType::Pointer  m_PCMOperator = PCMOperatorType::New();
   typename PCMOptimizerType::Pointer m_PCMOptimizer = PCMOptimizerType::New();
