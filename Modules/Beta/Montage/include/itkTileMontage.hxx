@@ -218,21 +218,7 @@ TileMontage< TImageType, TCoordinate >
 }
 
 template< typename TImageType, typename TCoordinate >
-typename TileMontage< TImageType, TCoordinate >::TransformPointer
-TileMontage< TImageType, TCoordinate >
-::OffsetToTransform( const typename PCMOptimizerType::OffsetType& translation, typename ImageType::Pointer tileInformation )
-{
-  PointType p0;
-  p0.Fill( 0.0 );
-  typename TransformType::OutputVectorType tr = translation - p0;
-
-  TransformPointer t = TransformType::New();
-  t->SetOffset( tr );
-  return t;
-}
-
-template< typename TImageType, typename TCoordinate >
-typename TileMontage< TImageType, TCoordinate >::TransformPointer
+void
 TileMontage< TImageType, TCoordinate >
 ::RegisterPair( TileIndexType fixed, TileIndexType moving )
 {
@@ -263,12 +249,12 @@ TileMontage< TImageType, TCoordinate >
 
   m_CandidateConfidences[regLinearIndex] = m_PCM->GetConfidences();
   m_TransformCandidates[regLinearIndex].resize( offsets.size() );
+  PointType p0;
+  p0.Fill( 0.0 );
   for ( unsigned i = 0; i < offsets.size(); i++ )
     {
-    m_TransformCandidates[regLinearIndex][i] = OffsetToTransform( offsets[i], mImage );
+    m_TransformCandidates[regLinearIndex][i] = offsets[i] - p0;
     }
-
-  return m_TransformCandidates[regLinearIndex][0];
 }
 
 template< typename TImageType, typename TCoordinate >
@@ -330,7 +316,7 @@ TileMontage< TImageType, TCoordinate >
         }
 
       // optimize positions later, now just set the expected position (no translation)
-      m_CurrentAdjustments[this->nDIndexToLinearIndex( currentIndex )] = TransformType::New();
+      m_CurrentAdjustments[this->nDIndexToLinearIndex( currentIndex )].Fill( 0.0 );
 
       // montage this index in lower dimension
       MontageDimension( d - 1, currentIndex );
@@ -349,12 +335,14 @@ TileMontage< TImageType, TCoordinate >
 template< typename TImageType, typename TCoordinate >
 void
 TileMontage< TImageType, TCoordinate >
-::WriteOutTransform( TileIndexType index, TransformPointer transform )
+::WriteOutTransform( TileIndexType index, TranslationOffset offset )
 {
+  TransformPointer transform = TransformType::New();
+  transform->SetOffset( offset );
   const SizeValueType linearIndex = this->nDIndexToLinearIndex( index );
   auto dOut = this->GetOutput( linearIndex );
   const auto cOut = static_cast< TransformOutputType* >( dOut );
-  auto  decorator = const_cast< TransformOutputType* >( cOut );
+  auto decorator = const_cast< TransformOutputType* >( cOut );
   decorator->Set( transform );
   auto input0 = static_cast< const ImageType* >( this->GetInput( 0 ) );
   auto input = static_cast< const ImageType* >( this->GetInput( linearIndex ) );
@@ -483,7 +471,7 @@ TileMontage< TImageType, TCoordinate >
   SizeValueType regIndex = 0;
   for ( SizeValueType i = 0; i < m_LinearMontageSize * ImageDimension; i++ )
     {
-    if ( !m_TransformCandidates[i].empty() && m_TransformCandidates[i][0] != nullptr )
+    if ( !m_TransformCandidates[i].empty() )
       {
       SizeValueType linIndex = i % m_LinearMontageSize;
       unsigned dim = i / m_LinearMontageSize;
@@ -495,7 +483,7 @@ TileMontage< TImageType, TCoordinate >
       // construct equation: -1*refLinearIndex + 1*linIndex = candidateOffset
       regCoef.insert( regIndex, refLinearIndex ) = -1;
       regCoef.insert( regIndex, linIndex ) = 1;
-      typename TransformType::OutputVectorType candidateOffset = m_TransformCandidates[i][0]->GetOffset();
+      const TranslationOffset& candidateOffset = m_TransformCandidates[i][0];
       for ( unsigned d = 0; d < ImageDimension; d++ )
         {
         translations( regIndex, d ) = candidateOffset[d];
@@ -538,7 +526,7 @@ TileMontage< TImageType, TCoordinate >
       }
     for ( SizeValueType i = 0; i < m_LinearMontageSize; i++ )
       {
-      typename TransformType::OutputVectorType cOffset = m_CurrentAdjustments[i]->GetOffset();
+      TranslationOffset& cOffset = m_CurrentAdjustments[i];
       for ( unsigned d = 0; d < ImageDimension; d++ )
         {
         if ( this->GetDebug() )
@@ -552,7 +540,6 @@ TileMontage< TImageType, TCoordinate >
         solutions( i, d ) /= spacing[d];
         residuals( i, d ) /= spacing[d];
         }
-      m_CurrentAdjustments[i]->SetOffset( cOffset );
       if ( this->GetDebug() )
         {
         std::cout << std::endl;
@@ -635,7 +622,7 @@ TileMontage< TImageType, TCoordinate >
       std::cout << "Outlier detected. Equation " << maxIndex << ", Registration " << candidateIndex << ", T: ";
       if ( !m_TransformCandidates[candidateIndex].empty() )
         {
-        std::cout << m_TransformCandidates[candidateIndex][0]->GetOffset();
+        std::cout << m_TransformCandidates[candidateIndex][0];
         m_TransformCandidates[candidateIndex].erase( m_TransformCandidates[candidateIndex].begin() );
         }
       else
@@ -646,8 +633,7 @@ TileMontage< TImageType, TCoordinate >
       if ( !m_TransformCandidates[candidateIndex].empty() )
         {
         // get a new equation from m_TransformCandidates
-        typename TransformType::OutputVectorType candidateOffset =
-          m_TransformCandidates[candidateIndex][0]->GetOffset();
+        const TranslationOffset& candidateOffset = m_TransformCandidates[candidateIndex][0];
         for ( unsigned d = 0; d < ImageDimension; d++ )
           {
           translations( maxIndex, d ) = candidateOffset[d];
@@ -689,7 +675,7 @@ TileMontage< TImageType, TCoordinate >
   TileIndexType ind0;
   ind0.Fill( 0 );
   m_FinishedTiles = 0;
-  m_CurrentAdjustments[0] = TransformType::New(); // 0 translation by default
+  m_CurrentAdjustments[0].Fill( 0.0 ); // 0 translation by default
 
   this->MontageDimension( this->ImageDimension - 1, ind0 );
 
