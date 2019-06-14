@@ -374,20 +374,6 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region2_150_Mosaic36Flat/36/1323.
       1.48522189017301
     )
 
-  if (ITKMontage_EnableFailingTests)
-  
-  itk_add_test(NAME itkMontagePCMFiles36_088
-    COMMAND MontageTestDriver
-    itkMontagePCMTestFiles
-      ${rawPrefix}088.tif
-      ${rawPrefix}089.tif
-      ${TESTING_OUTPUT_PATH}/itkMontagePCMFiles36raw088_089.nrrd
-      81.28
-      0.0
-      0.182847892
-      -0.247248172
-    )
-
   itk_add_test(NAME itkMontageTi7R2_150S36flat
     COMMAND MontageTestDriver
     itkMontageTest2D
@@ -406,6 +392,18 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region2_150_Mosaic36Flat/36/1323.
       0 1 1 5 0 0 1
     )
 
+  if (ITKMontage_EnableFailingTests) 
+  itk_add_test(NAME itkMontagePCMFiles36_088
+    COMMAND MontageTestDriver
+    itkMontagePCMTestFiles
+      ${rawPrefix}088.tif
+      ${rawPrefix}089.tif
+      ${TESTING_OUTPUT_PATH}/itkMontagePCMFiles36raw088_089.nrrd
+      81.28
+      0.0
+      0.182847892
+      -0.247248172
+    )
   endif(ITKMontage_EnableFailingTests)
 endif()
 
@@ -413,7 +411,6 @@ if (EXISTS "${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region1_10_Mosaic36/Ti-7Al_Regio
   set(rawFolder "${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region1_10_Mosaic36")
   set(rawPrefix "${rawFolder}/Ti-7Al_Region #1_10_Mosaic_36_p")
 
-  if (ITKMontage_EnableFailingTests)
   itk_add_test(NAME itkMontageTi7R1_10S36
     COMMAND MontageTestDriver
     itkMontageTest2D
@@ -422,14 +419,12 @@ if (EXISTS "${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region1_10_Mosaic36/Ti-7Al_Regio
       ${TESTING_OUTPUT_PATH}/itkMontageTi7R1_10S36Pairs_
       0 1 1 5 0 0 1
     )
-  endif(ITKMontage_EnableFailingTests)
 endif()
 
 if (EXISTS "${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region1_10_Mosaic180/Ti-7Al_Region #1_10_Mosaic_180_p323.tif")
   set(rawFolder "${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region1_10_Mosaic180")
   set(rawPrefix "${rawFolder}/Ti-7Al_Region #1_10_Mosaic_180_p")
 
-  if (ITKMontage_EnableFailingTests)
   itk_add_test(NAME itkMontageTi7R1_10S180
     COMMAND MontageTestDriver
     itkMontageTest2D
@@ -438,7 +433,6 @@ if (EXISTS "${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region1_10_Mosaic180/Ti-7Al_Regi
       ${TESTING_OUTPUT_PATH}/itkMontageTi7R1_10S180Pairs_
       0 1 1 5 0 0 1
     )
-  endif(ITKMontage_EnableFailingTests)
 endif()
 
 if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles/Image_10_10.tif)
