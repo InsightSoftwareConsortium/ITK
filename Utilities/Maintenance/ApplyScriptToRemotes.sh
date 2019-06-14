@@ -79,7 +79,7 @@ script="$1"
 feature_branch="$2"
 commit_message="$3"
 
-if test "${script}" = "" || "${feature_branch}" = "" || "${commit_message}" = "" || $help; then
+if test "${script}" = "" || test "${feature_branch}" = "" || test "${commit_message}" = "" || $help; then
   usage
   exit 1
 fi
@@ -175,11 +175,23 @@ function apply_script_and_push_remotes() {
     git checkout -b $feature_branch origin/master
     $script
 
-    # Add the files, adding filters if necessary
-    git add -u *.txt ./*.cmake ./*.rst ./*.py ./*.yml ./*.c ./*.cxx ./*.h ./*.hxx ./*.wrap
+    # Add the files, adding filters if necessary, and redirecting stdout and
+    # stderr to /dev/null in order to avoid a too verbose output and
+    # displaying error messages if files with some given extensions are not
+    # found.
+    git add -u *.txt > /dev/null 2>&1
+    git add -u *.cmake > /dev/null 2>&1
+    git add -u *.rst > /dev/null 2>&1
+    git add -u *.py > /dev/null 2>&1
+    git add -u *.yml > /dev/null 2>&1
+    git add -u *.c > /dev/null 2>&1
+    git add -u *.cxx > /dev/null 2>&1
+    git add -u *.h > /dev/null 2>&1
+    git add -u *.hxx > /dev/null 2>&1
+    git add -u *.wrap > /dev/null 2>&1
 
     # Commit and push to the feature branch
-    git commit -m $commit_message
+    git commit -m "$commit_message"
     git push --quiet https://$username:$password@github.com/$username/$repository_basename $feature_branch
 
     cd ..
@@ -198,6 +210,6 @@ echo -e "Applying script to remotes..."
 apply_script_and_push_remotes
 echo -e "Done applying script to remotes."
 
-rm -r ../../../ITK-build
+rm -Rf ../../../ITK-build
 
 echo -e "Visit the remote repositories and open the corresponding pull requests."

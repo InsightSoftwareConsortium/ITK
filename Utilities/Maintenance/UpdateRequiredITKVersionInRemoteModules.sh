@@ -63,7 +63,7 @@ done
 azure_pipelines_ci_filename=$1
 python_setup_filename=$2
 
-if test "${azure_pipelines_ci_filename}" = "" || "${python_setup_filename}" = "" || $help; then
+if test "${azure_pipelines_ci_filename}" = "" || test "${python_setup_filename}" = "" || $help; then
   usage
   exit 1
 fi
