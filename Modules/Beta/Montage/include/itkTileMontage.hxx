@@ -492,7 +492,6 @@ TileMontage< TImageType, TCoordinate >
       ++regIndex;
       }
     }
-  std::cout << std::endl;
 
   regCoef.insert( regIndex, 0 ) = 1; // tile 0,0...0
   for ( unsigned d = 0; d < ImageDimension; d++ )

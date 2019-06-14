@@ -121,13 +121,21 @@ public:
 
   /** Set/Get absolute registration threshold.
    * The maximum allowed residual error for a registration pair during
-   * global optimization. Expressed in number of pixels. Default: 1.0. */
+   * global optimization. Expressed in number of pixels. Default: 1.0.
+   * When a registration pair exceeds the threshold, it is replaced by
+   * the next best candidate for that pair. If all canidates are
+   * exhausted, the registration pair is assumed to have no translation.
+   * The weight of this equation is also significantly reduced. */
   itkSetMacro( AbsoluteThreshold, float );
   itkGetConstMacro( AbsoluteThreshold, float );
 
   /** Set/Get relative registration threshold.
    * The maximum allowed deviation for a registration pair during global
-   * optimization. Expressed in multiples of standard deviation. Default: 3.0. */
+   * optimization. Expressed in multiples of standard deviation. Default: 3.0.
+   * The deviation is calculated by taking the translations of all the
+   * registration pairs, while assuming zero mean. This implies expectation
+   * that deviations from expected positions for all registration pairs
+   * are similar. The pairs that don't satify this will be penalized. */
   itkSetMacro( RelativeThreshold, float );
   itkGetConstMacro( RelativeThreshold, float );
 
