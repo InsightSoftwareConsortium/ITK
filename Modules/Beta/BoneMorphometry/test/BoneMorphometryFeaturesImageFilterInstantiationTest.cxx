@@ -60,18 +60,18 @@ int BoneMorphometryFeaturesImageFilterInstantiationTest( int argc, char *argv[] 
   using FilterType = itk::BoneMorphometryFeaturesImageFilter<InputImageType, OutputImageType, InputImageType>;
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter,
    BoneMorphometryFeaturesImageFilter, ImageToImageFilter );
 
   filter->SetInput( reader->GetOutput() );
 
   filter->SetMaskImage( maskReader->GetOutput() );
-  TEST_SET_GET_VALUE( maskReader->GetOutput(), filter->GetMaskImage() );
+  ITK_TEST_SET_GET_VALUE( maskReader->GetOutput(), filter->GetMaskImage() );
 
   filter->SetThreshold( 1300 );
-  TEST_SET_GET_VALUE( 1300, filter->GetThreshold() );
+  ITK_TEST_SET_GET_VALUE( 1300, filter->GetThreshold() );
 
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   // Create and set up a writer
   using WriterType = itk::ImageFileWriter< OutputImageType >;
@@ -79,7 +79,7 @@ int BoneMorphometryFeaturesImageFilterInstantiationTest( int argc, char *argv[] 
   writer->SetFileName( argv[3] );
   writer->SetInput( filter->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
