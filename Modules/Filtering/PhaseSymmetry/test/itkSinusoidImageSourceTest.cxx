@@ -133,7 +133,7 @@ itkSinusoidImageSourceTest(int argc, char * argv[])
   ImageType::ConstPointer image = source->GetOutput();
 
   // Run the pipeline
-  TRY_EXPECT_NO_EXCEPTION(source->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(source->Update());
 
   // Exercise the print method
   std::cout << source << std::endl;
@@ -143,7 +143,7 @@ itkSinusoidImageSourceTest(int argc, char * argv[])
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(outputImageFileName);
   writer->SetInput(source->GetOutput());
-  TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   // Instantiate 1D case.
   using Image1DType = itk::Image<PixelType, 1>;
