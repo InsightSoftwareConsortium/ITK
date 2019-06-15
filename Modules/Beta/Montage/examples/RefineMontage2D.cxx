@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+#include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkParseTileConfiguration.h"
 #include "itkRGBPixel.h"
@@ -35,13 +36,20 @@ montage2D( const itk::TileLayout2D& stageTiles, itk::TileLayout2D& actualTiles,
   constexpr unsigned Dimension = 2;
   using TransformType = itk::TranslationTransform< double, Dimension >;
   using ScalarImageType = itk::Image< ScalarPixelType, Dimension >;
-  typename ScalarImageType::SpacingType sp;
-  sp.Fill( 1.0 ); // most data assumes unit spacing, even if the files themselves have something else (72 DPI, 96 DPI, 300 DPI etc)
+  using ReaderType = itk::ImageFileReader< ScalarImageType >;
+  typename ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName( inputPath + stageTiles[0][0].FileName );
+  reader->UpdateOutputInformation();
+  typename ScalarImageType::SpacingType sp = reader->GetOutput()->GetSpacing();
   const size_t yMontageSize = stageTiles.size();
   const size_t xMontageSize = stageTiles[0].size();
   const unsigned origin1x = xMontageSize > 1 ? 1 : 0; // support 1xN montages
   const unsigned origin1y = yMontageSize > 1 ? 1 : 0; // support Nx1 montages
-  const itk::Point< double, Dimension > stageStrideXY = stageTiles[origin1y][origin1x].Position;
+  itk::Point< double, Dimension > stageStrideXY = stageTiles[origin1y][origin1x].Position - stageTiles[0][0].Position;
+  for ( unsigned d = 0; d < Dimension; d++ )
+    {
+    stageStrideXY[d] *= sp[d];
+    }
 
   using MontageType = itk::TileMontage< ScalarImageType >;
   typename MontageType::Pointer montage = MontageType::New();
@@ -73,8 +81,8 @@ montage2D( const itk::TileLayout2D& stageTiles, itk::TileLayout2D& actualTiles,
       // we need to compensate for origin adjustment
       stagePos[0] = x * stageStrideXY[0];
       stagePos[1] = y * stageStrideXY[1];
-      actualTiles[y][x].Position[0] = stagePos[0] - regTr->GetParameters()[0];
-      actualTiles[y][x].Position[1] = stagePos[1] - regTr->GetParameters()[1];
+      actualTiles[y][x].Position[0] = ( stagePos[0] - regTr->GetParameters()[0] ) / sp[0] + stageTiles[0][0].Position[0];
+      actualTiles[y][x].Position[1] = ( stagePos[1] - regTr->GetParameters()[1] ) / sp[1] + stageTiles[0][0].Position[1];
       }
     }
 

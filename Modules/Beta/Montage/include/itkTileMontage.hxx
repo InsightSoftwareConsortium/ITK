@@ -24,8 +24,12 @@
 #include "itkMultiThreaderBase.h"
 #include "itkNumericTraits.h"
 
+#include "itk_eigen.h"
+#include ITK_EIGEN( Sparse )
+
 #include <algorithm>
 #include <cassert>
+#include <iomanip>
 
 namespace itk
 {
@@ -214,26 +218,12 @@ TileMontage< TImageType, TCoordinate >
 }
 
 template< typename TImageType, typename TCoordinate >
-typename TileMontage< TImageType, TCoordinate >::TransformPointer
-TileMontage< TImageType, TCoordinate >
-::OffsetToTransform( const typename PCMOptimizerType::OffsetType& translation, typename ImageType::Pointer tileInformation )
-{
-  PointType p0;
-  p0.Fill( 0.0 );
-  typename TransformType::OutputVectorType tr = translation - p0;
-
-  TransformPointer t = TransformType::New();
-  t->SetOffset( tr );
-  return t;
-}
-
-template< typename TImageType, typename TCoordinate >
-typename TileMontage< TImageType, TCoordinate >::TransformPointer
+void
 TileMontage< TImageType, TCoordinate >
 ::RegisterPair( TileIndexType fixed, TileIndexType moving )
 {
-  DataObjectPointerArraySizeType lFixedInd = nDIndexToLinearIndex( fixed );
-  DataObjectPointerArraySizeType lMovingInd = nDIndexToLinearIndex( moving );
+  SizeValueType lFixedInd = nDIndexToLinearIndex( fixed );
+  SizeValueType lMovingInd = nDIndexToLinearIndex( moving );
 
   auto mImage = this->GetImage( moving, false );
   m_PCM->SetFixedImage( this->GetImage( fixed, false ) );
@@ -247,7 +237,7 @@ TileMontage< TImageType, TCoordinate >
   m_FFTCache[lMovingInd] = m_PCM->GetMovingImageFFT(); // certrainly not null
 
   const typename PCMType::OffsetVector& offsets = m_PCM->GetOffsets();
-  DataObjectPointerArraySizeType regLinearIndex = lMovingInd;
+  SizeValueType regLinearIndex = lMovingInd;
   for (unsigned d = 0; d < ImageDimension; d++)
     {
     if (fixed[d] != moving[d]) // this is the different dimension
@@ -259,12 +249,12 @@ TileMontage< TImageType, TCoordinate >
 
   m_CandidateConfidences[regLinearIndex] = m_PCM->GetConfidences();
   m_TransformCandidates[regLinearIndex].resize( offsets.size() );
+  PointType p0;
+  p0.Fill( 0.0 );
   for ( unsigned i = 0; i < offsets.size(); i++ )
     {
-    m_TransformCandidates[regLinearIndex][i] = OffsetToTransform( offsets[i], mImage );
+    m_TransformCandidates[regLinearIndex][i] = offsets[i] - p0;
     }
-
-  return m_TransformCandidates[regLinearIndex][0];
 }
 
 template< typename TImageType, typename TCoordinate >
@@ -315,33 +305,18 @@ TileMontage< TImageType, TCoordinate >
       {
       // register i-th tile to adjacent tiles along all dimensions (lower index only)
       currentIndex[d] = i;
-      std::vector< TransformPointer > transforms;
-      std::vector< double > confidences;
       for ( unsigned regDim = 0; regDim < ImageDimension; regDim++ )
         {
         if ( currentIndex[regDim] > 0 ) // we are not at the edge along this dimension
           {
           TileIndexType referenceIndex = currentIndex;
           referenceIndex[regDim] = currentIndex[regDim] - 1;
-          TransformPointer t = this->RegisterPair( referenceIndex, currentIndex );
-          t->Compose( m_CurrentAdjustments[this->nDIndexToLinearIndex( referenceIndex )], true );
-          transforms.push_back( t );
-          DataObjectPointerArraySizeType linearIndex = this->nDIndexToLinearIndex( currentIndex );
-          DataObjectPointerArraySizeType transformIndex = regDim * m_LinearMontageSize + linearIndex;
-          confidences.push_back( m_CandidateConfidences[transformIndex][0] );
+          this->RegisterPair( referenceIndex, currentIndex );
           }
         }
 
-      // determine how to best combine transforms later - make weighted average for now
-      TransformPointer t = TransformType::New(); // identity i.e. 0-translation by default
-      double confidenceSum = 0.0;
-      for ( unsigned ti = 0; ti < transforms.size(); ti++ )
-        {
-        confidenceSum += confidences[ti];
-        t->SetOffset( t->GetOffset() + transforms[ti]->GetOffset() * confidences[ti] );
-        }
-      t->SetOffset( t->GetOffset() / confidenceSum );
-      m_CurrentAdjustments[this->nDIndexToLinearIndex( currentIndex )] = t;
+      // optimize positions later, now just set the expected position (no translation)
+      m_CurrentAdjustments[this->nDIndexToLinearIndex( currentIndex )].Fill( 0.0 );
 
       // montage this index in lower dimension
       MontageDimension( d - 1, currentIndex );
@@ -360,12 +335,14 @@ TileMontage< TImageType, TCoordinate >
 template< typename TImageType, typename TCoordinate >
 void
 TileMontage< TImageType, TCoordinate >
-::WriteOutTransform( TileIndexType index, TransformPointer transform )
+::WriteOutTransform( TileIndexType index, TranslationOffset offset )
 {
+  TransformPointer transform = TransformType::New();
+  transform->SetOffset( offset );
   const SizeValueType linearIndex = this->nDIndexToLinearIndex( index );
   auto dOut = this->GetOutput( linearIndex );
   const auto cOut = static_cast< TransformOutputType* >( dOut );
-  auto  decorator = const_cast< TransformOutputType* >( cOut );
+  auto decorator = const_cast< TransformOutputType* >( cOut );
   decorator->Set( transform );
   auto input0 = static_cast< const ImageType* >( this->GetInput( 0 ) );
   auto input = static_cast< const ImageType* >( this->GetInput( linearIndex ) );
@@ -472,7 +449,212 @@ void
 TileMontage< TImageType, TCoordinate >
 ::OptimizeTiles()
 {
-  // optimize m_CurrentAdjustments
+  // formulate global optimization as an overdetermined linear system
+  SizeValueType mullAll = 1; // multiplication of sizes along all dimensions
+  for ( unsigned d = 0; d < ImageDimension; d++ )
+    {
+    mullAll *= m_MontageSize[d];
+    }
+  SizeValueType nReg = 0; // number of equations = number of registration pairs
+  for ( unsigned d = 0; d < ImageDimension; d++ )
+    {
+    nReg += ( mullAll / m_MontageSize[d] ) * ( m_MontageSize[d] - 1 );
+    }
+
+  constexpr unsigned Dimension = ImageDimension;
+  using SparseMatrix = Eigen::SparseMatrix< TCoordinate, Eigen::RowMajor >;
+  SparseMatrix regCoef( nReg + 1, m_LinearMontageSize );
+  regCoef.reserve( Eigen::VectorXi::Constant( nReg + 1, 2 ) ); // 2 non-zeroes per row
+  using TranslationsMatrix = Eigen::Matrix< TCoordinate, Eigen::Dynamic, Dimension >;
+  TranslationsMatrix translations( nReg + 1, Dimension );
+  std::vector< SizeValueType > equationToCandidate( nReg );
+  SizeValueType regIndex = 0;
+  for ( SizeValueType i = 0; i < m_LinearMontageSize * ImageDimension; i++ )
+    {
+    if ( !m_TransformCandidates[i].empty() )
+      {
+      SizeValueType linIndex = i % m_LinearMontageSize;
+      unsigned dim = i / m_LinearMontageSize;
+      TileIndexType currentIndex = this->LinearIndexTonDIndex( linIndex );
+      TileIndexType referenceIndex = currentIndex;
+      referenceIndex[dim] = currentIndex[dim] - 1;
+      SizeValueType refLinearIndex = this->nDIndexToLinearIndex( referenceIndex );
+
+      // construct equation: -1*refLinearIndex + 1*linIndex = candidateOffset
+      regCoef.insert( regIndex, refLinearIndex ) = -1;
+      regCoef.insert( regIndex, linIndex ) = 1;
+      const TranslationOffset& candidateOffset = m_TransformCandidates[i][0];
+      for ( unsigned d = 0; d < ImageDimension; d++ )
+        {
+        translations( regIndex, d ) = candidateOffset[d];
+        }
+      equationToCandidate[regIndex] = i;
+      ++regIndex;
+      }
+    }
+
+  regCoef.insert( regIndex, 0 ) = 1; // tile 0,0...0
+  for ( unsigned d = 0; d < ImageDimension; d++ )
+    {
+    translations( regIndex, d ) = 0; // should have position 0,0...0
+    }
+
+  typename ImageType::SpacingType spacing = this->GetImage( this->LinearIndexTonDIndex( 0 ), true )->GetSpacing();
+  Eigen::LeastSquaresConjugateGradient< SparseMatrix > solver;
+  const unsigned maxIter = 10 + std::pow( m_LinearMontageSize, 1.0 / ImageDimension );
+  bool outlierExists = true;
+  unsigned iteration = 0;
+  while ( outlierExists )
+    {
+    if ( this->GetDebug() )
+      {
+      std::cout << "\n\n"; // make it easier to spot new iteration
+      }
+    std::cout << "\nIteration " << ++iteration << "  ";
+    regCoef.makeCompressed();
+    solver.compute( regCoef );
+    TranslationsMatrix solutions( m_LinearMontageSize, Dimension );
+    TranslationsMatrix residuals( m_LinearMontageSize, Dimension );
+    solutions = solver.solve( translations );
+    residuals = regCoef * solutions - translations;
+
+    if ( this->GetDebug() )
+      {
+      std::cout << "\ntranslations:\n" << translations;
+      std::cout << std::endl << "current|solution:" << std::endl;
+      }
+    for ( SizeValueType i = 0; i < m_LinearMontageSize; i++ )
+      {
+      TranslationOffset& cOffset = m_CurrentAdjustments[i];
+      for ( unsigned d = 0; d < ImageDimension; d++ )
+        {
+        if ( this->GetDebug() )
+          {
+          std::cout << std::fixed << std::setprecision( 2 );
+          std::cout << " " << std::setw( 8 ) << cOffset[d] << '|' << std::setw( 8 ) << solutions( i, d );
+          }
+
+        cOffset[d] = solutions( i, d );
+        // convert solutions and residuals into pixel coordinates
+        solutions( i, d ) /= spacing[d];
+        residuals( i, d ) /= spacing[d];
+        }
+      if ( this->GetDebug() )
+        {
+        std::cout << std::endl;
+        }
+      }
+
+    TranslationsMatrix stdDev0 = ( translations.cwiseAbs2().colwise().sum() / nReg ).cwiseSqrt(); // assume zero mean
+    if ( this->GetDebug() )
+      {
+      std::cout << "\nstdDev0:\n" << stdDev0;
+      }
+
+    std::vector< TCoordinate > outlierScore( nReg, 0.0 ); // sum of squares
+    for ( SizeValueType i = 0; i < nReg; i++ )
+      {
+      for ( unsigned d = 0; d < ImageDimension; d++ )
+        {
+        TCoordinate trOverDev = translations( i, d ) / stdDev0( d );
+        outlierScore[i] += std::abs( trOverDev );
+        }
+      if ( outlierScore[i] > m_RelativeThreshold ) // more than this many standard deviations
+        {
+        outlierScore[i] -= m_RelativeThreshold;
+        }
+      else
+        {
+        outlierScore[i] = 0.0; // not an outlier
+        }
+      }
+
+    TCoordinate maxCost = 0;
+    SizeValueType maxIndex;
+    if ( this->GetDebug() )
+      {
+      std::cout << "\nresiduals:\n";
+      }
+
+    for ( SizeValueType i = 0; i < nReg; i++ )
+      {
+      TCoordinate residual = 0;
+      if ( this->GetDebug() )
+        {
+        std::cout << 'E' << i << ':';
+        }
+      for ( unsigned d = 0; d < ImageDimension; d++ )
+        {
+        if ( this->GetDebug() )
+          {
+          std::cout << ' ' << std::setw( 8 ) << residuals( i, d );
+          }
+        residual += residuals( i, d ) * residuals( i, d );
+        }
+      residual = std::sqrt( residual ); // MSE -> RMSE
+      TCoordinate cost = residual + std::sqrt( residual * outlierScore[i] ) + outlierScore[i];
+      if ( this->GetDebug() )
+        {
+        std::cout << " :" << std::setw( 6 ) << outlierScore[i];
+        std::cout << " =" << std::setw( 8 ) << cost;
+        std::cout << std::endl;
+        }
+      if ( cost > maxCost )
+        {
+        maxCost = cost;
+        maxIndex = i;
+        }
+      }
+    if ( this->GetDebug() )
+      {
+      std::cout << std::endl;
+      }
+
+    static float const sqrtDim = std::sqrt( ImageDimension );
+    if ( maxCost < m_AbsoluteThreshold * sqrtDim )
+      {
+      outlierExists = false;
+      }
+    else // eliminate the problematic equation
+      {
+      SizeValueType candidateIndex = equationToCandidate[maxIndex];
+      std::cout << "Outlier detected. Equation " << maxIndex << ", Registration " << candidateIndex << ", T: ";
+      if ( !m_TransformCandidates[candidateIndex].empty() )
+        {
+        std::cout << m_TransformCandidates[candidateIndex][0];
+        m_TransformCandidates[candidateIndex].erase( m_TransformCandidates[candidateIndex].begin() );
+        }
+      else
+        {
+        std::cout << "zeroes";
+        }
+
+      if ( !m_TransformCandidates[candidateIndex].empty() )
+        {
+        // get a new equation from m_TransformCandidates
+        const TranslationOffset& candidateOffset = m_TransformCandidates[candidateIndex][0];
+        for ( unsigned d = 0; d < ImageDimension; d++ )
+          {
+          translations( maxIndex, d ) = candidateOffset[d];
+          }
+        std::cout << "  Replaced by T: " << candidateOffset;
+        }
+      else
+        {
+        // nudge this registration towards zero adjustment
+        typename SparseMatrix::InnerIterator it( regCoef, maxIndex );
+        regCoef.coeffRef( maxIndex, it.index() ) = 0.01 * regCoef.coeffRef( maxIndex, it.index() );
+        ++it;
+        regCoef.coeffRef( maxIndex, it.index() ) = 0.01 * regCoef.coeffRef( maxIndex, it.index() );
+
+        for ( unsigned d = 0; d < ImageDimension; d++ )
+          {
+          translations( maxIndex, d ) = 0;
+          }
+        std::cout << "  Replaced by zeroes.";
+        }
+      }
+    }
 }
 
 template< typename TImageType, typename TCoordinate >
@@ -492,7 +674,7 @@ TileMontage< TImageType, TCoordinate >
   TileIndexType ind0;
   ind0.Fill( 0 );
   m_FinishedTiles = 0;
-  m_CurrentAdjustments[0] = TransformType::New(); // 0 translation by default
+  m_CurrentAdjustments[0].Fill( 0.0 ); // 0 translation by default
 
   this->MontageDimension( this->ImageDimension - 1, ind0 );
 
@@ -509,6 +691,7 @@ TileMontage< TImageType, TCoordinate >
       this->SetInputTile( tileIndex, m_Dummy );
       }
     }
+  this->UpdateProgress( 1.0f );
 }
 
 } // namespace itk

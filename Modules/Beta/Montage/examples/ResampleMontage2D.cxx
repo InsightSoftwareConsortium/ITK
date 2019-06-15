@@ -34,8 +34,11 @@ montage2D( const itk::TileLayout2D& actualTiles, const std::string& inputPath,
   constexpr unsigned Dimension = 2;
   using TransformType = itk::TranslationTransform< double, Dimension >;
   using OriginalImageType = itk::Image< PixelType, Dimension >; // possibly RGB instead of scalar
-  typename OriginalImageType::SpacingType sp;
-  sp.Fill( 1.0 ); // most data assumes unit spacing, even if the files themselves have something else (72 DPI, 96 DPI, 300 DPI etc)
+  using ReaderType = itk::ImageFileReader< OriginalImageType >;
+  typename ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName( inputPath + actualTiles[0][0].FileName );
+  reader->UpdateOutputInformation();
+  typename OriginalImageType::SpacingType sp = reader->GetOutput()->GetSpacing();
   const unsigned yMontageSize = actualTiles.size();
   const unsigned xMontageSize = actualTiles[0].size();
 
@@ -43,7 +46,6 @@ montage2D( const itk::TileLayout2D& actualTiles, const std::string& inputPath,
   using Resampler = itk::TileMergeImageFilter< OriginalImageType, AccumulatePixelType >;
   typename Resampler::Pointer resampleF = Resampler::New();
   resampleF->SetMontageSize( { xMontageSize, yMontageSize } );
-  resampleF->SetForcedSpacing( sp );
   typename Resampler::TileIndexType ind;
   for ( unsigned y = 0; y < yMontageSize; y++ )
     {
@@ -54,8 +56,8 @@ montage2D( const itk::TileLayout2D& actualTiles, const std::string& inputPath,
       resampleF->SetInputTile( ind, inputPath + actualTiles[y][x].FileName );
       TransformType::ParametersType params( Dimension );
       typename TransformType::Pointer regTr = TransformType::New();
-      params[0] = -actualTiles[y][x].Position[0];
-      params[1] = -actualTiles[y][x].Position[1];
+      params[0] = -actualTiles[y][x].Position[0] * sp[0];
+      params[1] = -actualTiles[y][x].Position[1] * sp[1];
       regTr->SetParametersByValue( params );
       resampleF->SetTileTransform( ind, regTr );
       }
