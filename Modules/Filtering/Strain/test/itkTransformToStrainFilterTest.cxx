@@ -55,7 +55,7 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
 
   TransformToStrainFilterType::Pointer transformToStrainFilter = TransformToStrainFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(transformToStrainFilter, TransformToStrainFilter, GenerateImageSource);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(transformToStrainFilter, TransformToStrainFilter, GenerateImageSource);
 
 
   // Test the unknown strain form exception
@@ -63,7 +63,7 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
 
   transformToStrainFilter->SetStrainForm(static_cast<TransformToStrainFilterType::StrainFormType>(strainForm));
 
-  TRY_EXPECT_EXCEPTION(transformToStrainFilter->Update());
+  ITK_TRY_EXPECT_EXCEPTION(transformToStrainFilter->Update());
 
 
   // Get the input strain form
@@ -97,8 +97,8 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
   }
 
   transformToStrainFilter->SetStrainForm(static_cast<TransformToStrainFilterType::StrainFormType>(strainForm));
-  TEST_SET_GET_VALUE(static_cast<TransformToStrainFilterType::StrainFormType>(strainForm),
-                     transformToStrainFilter->GetStrainForm());
+  ITK_TEST_SET_GET_VALUE(static_cast<TransformToStrainFilterType::StrainFormType>(strainForm),
+                         transformToStrainFilter->GetStrainForm());
 
 
   // Create output information.
@@ -137,7 +137,7 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
   if (transformName == "Similarity")
   {
     transformToStrainFilter->SetTransform(similarityTransform.GetPointer());
-    TEST_SET_GET_VALUE(similarityTransform.GetPointer(), transformToStrainFilter->GetTransform());
+    ITK_TEST_SET_GET_VALUE(similarityTransform.GetPointer(), transformToStrainFilter->GetTransform());
 
     transformToDisplacement->SetTransform(similarityTransform.GetPointer());
 
@@ -152,7 +152,7 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
   else if (transformName == "Affine")
   {
     transformToStrainFilter->SetTransform(affineTransform.GetPointer());
-    TEST_SET_GET_VALUE(affineTransform.GetPointer(), transformToStrainFilter->GetTransform());
+    ITK_TEST_SET_GET_VALUE(affineTransform.GetPointer(), transformToStrainFilter->GetTransform());
 
     transformToDisplacement->SetTransform(affineTransform.GetPointer());
 
@@ -181,7 +181,7 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
   else if (transformName == "BSpline")
   {
     transformToStrainFilter->SetTransform(bSplineTransform);
-    TEST_SET_GET_VALUE(bSplineTransform, transformToStrainFilter->GetTransform());
+    ITK_TEST_SET_GET_VALUE(bSplineTransform, transformToStrainFilter->GetTransform());
 
     transformToDisplacement->SetTransform(bSplineTransform);
 
@@ -231,13 +231,13 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
 
   // Create and setup strain field generator.
   transformToStrainFilter->SetSize(size);
-  TEST_SET_GET_VALUE(size, transformToStrainFilter->GetSize());
+  ITK_TEST_SET_GET_VALUE(size, transformToStrainFilter->GetSize());
 
   transformToStrainFilter->SetSpacing(spacing);
-  TEST_SET_GET_VALUE(spacing, transformToStrainFilter->GetSpacing());
+  ITK_TEST_SET_GET_VALUE(spacing, transformToStrainFilter->GetSpacing());
 
   transformToStrainFilter->SetOrigin(origin);
-  TEST_SET_GET_VALUE(origin, transformToStrainFilter->GetOrigin());
+  ITK_TEST_SET_GET_VALUE(origin, transformToStrainFilter->GetOrigin());
 
 
   transformToDisplacement->SetSize(size);
@@ -250,7 +250,7 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
   writer->SetInput(transformToStrainFilter->GetOutput());
   writer->SetFileName(strainFieldFileName);
 
-  TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
   // Write strain computed from the displacement field.
@@ -261,7 +261,7 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
   writer->SetInput(strainImageFilter->GetOutput());
   writer->SetFileName(displacementFieldStrainFileName);
 
-  TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
   using DisplacementWriterType = itk::ImageFileWriter<DisplacementFieldType>;
@@ -269,7 +269,7 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
   displacementWriter->SetFileName(displacementFieldFileName);
   displacementWriter->SetInput(transformToDisplacement->GetOutput());
 
-  TRY_EXPECT_NO_EXCEPTION(displacementWriter->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(displacementWriter->Update());
 
 
   std::cout << "Test finished." << std::endl;
