@@ -36,7 +36,7 @@ itkDCMTKTransformIOTest(int argc, char * argv[])
   using ScalarType = float;
 
   itk::DCMTKTransformIOFactory::Pointer dcmtkTransformIOFactory = itk::DCMTKTransformIOFactory::New();
-  EXERCISE_BASIC_OBJECT_METHODS(dcmtkTransformIOFactory, DCMTKTransformIOFactory, ObjectFactoryBase);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(dcmtkTransformIOFactory, DCMTKTransformIOFactory, ObjectFactoryBase);
   std::cout << std::endl;
   itk::ObjectFactoryBase::RegisterFactory(dcmtkTransformIOFactory);
 
@@ -46,18 +46,18 @@ itkDCMTKTransformIOTest(int argc, char * argv[])
 
   using TransformIOType = itk::DCMTKTransformIO<ScalarType>;
   TransformIOType::Pointer transformIO = TransformIOType::New();
-  EXERCISE_BASIC_OBJECT_METHODS(transformIO, DCMTKTransformIO, TransformIOBaseTemplate);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(transformIO, DCMTKTransformIO, TransformIOBaseTemplate);
   transformReader->SetTransformIO(transformIO);
 
-  TEST_EXPECT_TRUE(!transformIO->CanWriteFile(transformFileName));
+  ITK_TEST_EXPECT_TRUE(!transformIO->CanWriteFile(transformFileName));
 
-  TEST_EXPECT_TRUE(!transformIO->CanReadFile("fileThatDoesNotExist.dcm"));
+  ITK_TEST_EXPECT_TRUE(!transformIO->CanReadFile("fileThatDoesNotExist.dcm"));
 
-  TEST_EXPECT_TRUE(transformIO->CanReadFile(transformFileName));
+  ITK_TEST_EXPECT_TRUE(transformIO->CanReadFile(transformFileName));
 
-  TRY_EXPECT_EXCEPTION(transformIO->Write());
+  ITK_TRY_EXPECT_EXCEPTION(transformIO->Write());
 
-  TRY_EXPECT_NO_EXCEPTION(transformReader->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(transformReader->Update());
 
   using TransformListType = TransformReaderType::TransformListType;
   const TransformListType * const transformList = transformReader->GetTransformList();
@@ -71,11 +71,11 @@ itkDCMTKTransformIOTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
   readTransform->Print(std::cout);
-  TEST_EXPECT_EQUAL(3, transformIO->GetReadTransformList().size());
+  ITK_TEST_EXPECT_EQUAL(3, transformIO->GetReadTransformList().size());
 
   transformIO->SetFrameOfReferenceUID("1.2.826.0.1.3680043.8.274.1.1.8323328.22085.1372783046.709932");
-  TRY_EXPECT_NO_EXCEPTION(transformReader->Update());
-  TEST_EXPECT_EQUAL(2, transformIO->GetReadTransformList().size());
+  ITK_TRY_EXPECT_NO_EXCEPTION(transformReader->Update());
+  ITK_TEST_EXPECT_EQUAL(2, transformIO->GetReadTransformList().size());
 
   return EXIT_SUCCESS;
 }
