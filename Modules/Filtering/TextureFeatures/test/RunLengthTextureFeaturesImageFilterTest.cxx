@@ -69,41 +69,41 @@ RunLengthTextureFeaturesImageFilterTest(int argc, char * argv[])
 
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(filter, RunLengthTextureFeaturesImageFilter, ImageToImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, RunLengthTextureFeaturesImageFilter, ImageToImageFilter);
 
 
   filter->SetInput(reader->GetOutput());
   filter->SetMaskImage(maskReader->GetOutput());
-  TEST_SET_GET_VALUE(maskReader->GetOutput(), filter->GetMaskImage());
+  ITK_TEST_SET_GET_VALUE(maskReader->GetOutput(), filter->GetMaskImage());
 
   if (argc >= 5)
   {
     unsigned int numberOfBinsPerAxis = std::stoi(argv[4]);
     filter->SetNumberOfBinsPerAxis(numberOfBinsPerAxis);
-    TEST_SET_GET_VALUE(numberOfBinsPerAxis, filter->GetNumberOfBinsPerAxis());
+    ITK_TEST_SET_GET_VALUE(numberOfBinsPerAxis, filter->GetNumberOfBinsPerAxis());
 
     FilterType::PixelType pixelValueMin = std::stod(argv[5]);
     FilterType::PixelType pixelValueMax = std::stod(argv[6]);
     filter->SetHistogramValueMinimum(pixelValueMin);
     filter->SetHistogramValueMaximum(pixelValueMax);
-    TEST_SET_GET_VALUE(pixelValueMin, filter->GetHistogramValueMinimum());
-    TEST_SET_GET_VALUE(pixelValueMax, filter->GetHistogramValueMaximum());
+    ITK_TEST_SET_GET_VALUE(pixelValueMin, filter->GetHistogramValueMinimum());
+    ITK_TEST_SET_GET_VALUE(pixelValueMax, filter->GetHistogramValueMaximum());
 
     FilterType::RealType minDistance = std::stod(argv[7]);
     FilterType::RealType maxDistance = std::stod(argv[8]);
     filter->SetHistogramDistanceMinimum(minDistance);
     filter->SetHistogramDistanceMaximum(maxDistance);
-    TEST_SET_GET_VALUE(minDistance, filter->GetHistogramDistanceMinimum());
-    TEST_SET_GET_VALUE(maxDistance, filter->GetHistogramDistanceMaximum());
+    ITK_TEST_SET_GET_VALUE(minDistance, filter->GetHistogramDistanceMinimum());
+    ITK_TEST_SET_GET_VALUE(maxDistance, filter->GetHistogramDistanceMaximum());
 
     NeighborhoodType::SizeValueType neighborhoodRadius = std::stoi(argv[9]);
     NeighborhoodType                hood;
     hood.SetRadius(neighborhoodRadius);
     filter->SetNeighborhoodRadius(hood.GetRadius());
-    TEST_SET_GET_VALUE(hood.GetRadius(), filter->GetNeighborhoodRadius());
+    ITK_TEST_SET_GET_VALUE(hood.GetRadius(), filter->GetNeighborhoodRadius());
   }
 
-  TRY_EXPECT_NO_EXCEPTION(filter->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   // Create and set up a writer
   using WriterType = itk::ImageFileWriter<OutputImageType>;
@@ -111,7 +111,7 @@ RunLengthTextureFeaturesImageFilterTest(int argc, char * argv[])
   writer->SetFileName(argv[3]);
   writer->SetInput(filter->GetOutput());
 
-  TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
   std::cout << "Test finished." << std::endl;

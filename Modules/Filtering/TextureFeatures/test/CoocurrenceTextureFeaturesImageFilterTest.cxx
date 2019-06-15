@@ -80,7 +80,7 @@ CoocurrenceTextureFeaturesImageFilterTest(int argc, char * argv[])
     filter->SetNeighborhoodRadius(hood.GetRadius());
   }
 
-  TRY_EXPECT_NO_EXCEPTION(filter->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   // Create and set up a writer
   using WriterType = itk::ImageFileWriter<OutputImageType>;
@@ -88,7 +88,7 @@ CoocurrenceTextureFeaturesImageFilterTest(int argc, char * argv[])
   writer->SetFileName(argv[3]);
   writer->SetInput(filter->GetOutput());
 
-  TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
   std::cout << "Test finished." << std::endl;

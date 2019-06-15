@@ -63,53 +63,53 @@ RunLengthTextureFeaturesImageFilterInstantiationTest(int argc, char * argv[])
 
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(filter, RunLengthTextureFeaturesImageFilter, ImageToImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, RunLengthTextureFeaturesImageFilter, ImageToImageFilter);
 
 
   filter->SetInput(reader->GetOutput());
 
   filter->SetMaskImage(maskReader->GetOutput());
-  TEST_SET_GET_VALUE(maskReader->GetOutput(), filter->GetMaskImage());
+  ITK_TEST_SET_GET_VALUE(maskReader->GetOutput(), filter->GetMaskImage());
 
   unsigned int numberOfBinsPerAxis = 15;
   filter->SetNumberOfBinsPerAxis(numberOfBinsPerAxis);
-  TEST_SET_GET_VALUE(numberOfBinsPerAxis, filter->GetNumberOfBinsPerAxis());
+  ITK_TEST_SET_GET_VALUE(numberOfBinsPerAxis, filter->GetNumberOfBinsPerAxis());
 
   FilterType::PixelType pixelValueMin = -62;
   FilterType::PixelType pixelValueMax = 2456;
   filter->SetHistogramValueMinimum(pixelValueMin);
   filter->SetHistogramValueMaximum(pixelValueMax);
-  TEST_SET_GET_VALUE(pixelValueMin, filter->GetHistogramValueMinimum());
-  TEST_SET_GET_VALUE(pixelValueMax, filter->GetHistogramValueMaximum());
+  ITK_TEST_SET_GET_VALUE(pixelValueMin, filter->GetHistogramValueMinimum());
+  ITK_TEST_SET_GET_VALUE(pixelValueMax, filter->GetHistogramValueMaximum());
 
   FilterType::RealType minDistance = 0.15;
   FilterType::RealType maxDistance = 1.5;
   filter->SetHistogramDistanceMinimum(minDistance);
   filter->SetHistogramDistanceMaximum(maxDistance);
-  TEST_SET_GET_VALUE(minDistance, filter->GetHistogramDistanceMinimum());
-  TEST_SET_GET_VALUE(maxDistance, filter->GetHistogramDistanceMaximum());
+  ITK_TEST_SET_GET_VALUE(minDistance, filter->GetHistogramDistanceMinimum());
+  ITK_TEST_SET_GET_VALUE(maxDistance, filter->GetHistogramDistanceMaximum());
 
   NeighborhoodType::SizeValueType neighborhoodRadius = 3;
   NeighborhoodType                hood;
   hood.SetRadius(neighborhoodRadius);
   filter->SetNeighborhoodRadius(hood.GetRadius());
-  TEST_SET_GET_VALUE(hood.GetRadius(), filter->GetNeighborhoodRadius());
+  ITK_TEST_SET_GET_VALUE(hood.GetRadius(), filter->GetNeighborhoodRadius());
 
   FilterType::MaskPixelType insidePixelValue = 0;
   filter->SetInsidePixelValue(insidePixelValue);
-  TEST_SET_GET_VALUE(insidePixelValue, filter->GetInsidePixelValue());
+  ITK_TEST_SET_GET_VALUE(insidePixelValue, filter->GetInsidePixelValue());
 
   FilterType::OffsetType            offset = { { -1, 0, 1 } };
   FilterType::OffsetVector::Pointer offsetVector = FilterType::OffsetVector::New();
   offsetVector->push_back(offset);
   filter->SetOffsets(offsetVector);
-  TEST_SET_GET_VALUE(offsetVector, filter->GetOffsets());
+  ITK_TEST_SET_GET_VALUE(offsetVector, filter->GetOffsets());
 
   filter->SetOffsets(offsetVector);
-  TEST_SET_GET_VALUE(offsetVector, filter->GetOffsets());
+  ITK_TEST_SET_GET_VALUE(offsetVector, filter->GetOffsets());
 
 
-  TRY_EXPECT_NO_EXCEPTION(filter->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
 
   std::cout << "Test finished." << std::endl;
