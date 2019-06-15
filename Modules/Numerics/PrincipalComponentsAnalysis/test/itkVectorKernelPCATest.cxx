@@ -49,7 +49,7 @@ ParseVectorFields(std::vector<std::string> vectorFieldFilenames, typename TVecto
 
     meshReader->SetFileName(vectorFieldName);
 
-    TRY_EXPECT_NO_EXCEPTION(meshReader->Update());
+    ITK_TRY_EXPECT_NO_EXCEPTION(meshReader->Update());
 
     // Get the objects
     typename TMesh::Pointer meshWithField = meshReader->GetOutput();
@@ -136,7 +136,7 @@ itkVectorKernelPCATest(int argc, char * argv[])
 
   meshReader->SetFileName(argv[1]);
 
-  TRY_EXPECT_NO_EXCEPTION(meshReader->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(meshReader->Update());
 
 
   // Get the input mesh
@@ -145,11 +145,11 @@ itkVectorKernelPCATest(int argc, char * argv[])
 
   PCACalculatorType::Pointer pcaCalc = PCACalculatorType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(pcaCalc, VectorFieldPCA, Object);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(pcaCalc, VectorFieldPCA, Object);
 
 
   // Test exception when trying to compute before setting much of anything
-  TRY_EXPECT_EXCEPTION(pcaCalc->Compute());
+  ITK_TRY_EXPECT_EXCEPTION(pcaCalc->Compute());
 
 
   // Set user variables
@@ -158,7 +158,7 @@ itkVectorKernelPCATest(int argc, char * argv[])
 
   // Connect the input
   pcaCalc->SetPointSet(mesh);
-  TEST_SET_GET_VALUE(mesh, pcaCalc->GetPointSet());
+  ITK_TEST_SET_GET_VALUE(mesh, pcaCalc->GetPointSet());
 
   // Set vector fields
 
@@ -182,11 +182,11 @@ itkVectorKernelPCATest(int argc, char * argv[])
     ParseVectorFields<PixelType, MeshType, PCACalculatorType::VectorFieldSetType>(vectorFieldFilenames, vectorFieldSet);
 
   pcaCalc->SetVectorFieldSet(vectorFieldSet);
-  TEST_SET_GET_VALUE(vectorFieldSet, pcaCalc->GetVectorFieldSet());
+  ITK_TEST_SET_GET_VALUE(vectorFieldSet, pcaCalc->GetVectorFieldSet());
 
 
   // Execute the PCA calculator
-  TRY_EXPECT_NO_EXCEPTION(pcaCalc->Compute());
+  ITK_TRY_EXPECT_NO_EXCEPTION(pcaCalc->Compute());
 
 
   double              kernelSigma = 6.25;
@@ -258,7 +258,7 @@ itkVectorKernelPCATest(int argc, char * argv[])
   // than the number of vector field sets
   pcaCalc->SetComponentCount(fieldSetCount + 1);
 
-  TRY_EXPECT_EXCEPTION(pcaCalc->Compute());
+  ITK_TRY_EXPECT_EXCEPTION(pcaCalc->Compute());
 
 
   std::cout << "Test finished." << std::endl;
