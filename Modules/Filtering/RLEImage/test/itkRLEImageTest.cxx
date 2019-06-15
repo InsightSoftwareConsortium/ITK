@@ -146,11 +146,11 @@ doTest(std::string inFilename, std::string outFilename)
   if (xSize > 127)
   {
     std::cout << "\n  xSize>127 (CHAR_MAX)" << std::endl;
-    TRY_EXPECT_EXCEPTION(roiTest<myRLEImage>(test));
+    ITK_TRY_EXPECT_EXCEPTION(roiTest<myRLEImage>(test));
   }
   else
   {
-    TRY_EXPECT_NO_EXCEPTION(roiTest<myRLEImage>(test));
+    ITK_TRY_EXPECT_NO_EXCEPTION(roiTest<myRLEImage>(test));
   }
 
   using outConverterType = itk::RegionOfInterestImageFilter<myRLEImage, ImageType>;
