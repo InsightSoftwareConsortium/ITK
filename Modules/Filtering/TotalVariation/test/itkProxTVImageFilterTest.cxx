@@ -105,7 +105,7 @@ itkProxTVImageFilterTest(int argc, char * argv[])
   using FilterType = itk::ProxTVImageFilter<ImageType, ImageType>;
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(filter, ProxTVImageFilter, ImageToImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ProxTVImageFilter, ImageToImageFilter);
 
   auto image = Create2DImage<ImageType>();
   filter->SetInput(image);
@@ -130,7 +130,7 @@ itkProxTVImageFilterTest(int argc, char * argv[])
   using Image3DType = itk::Image<PixelType, 3>;
   using Filter3DType = itk::ProxTVImageFilter<Image3DType, Image3DType>;
   Filter3DType::Pointer filter3D = Filter3DType::New();
-  EXERCISE_BASIC_OBJECT_METHODS(filter3D, ProxTVImageFilter, ImageToImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter3D, ProxTVImageFilter, ImageToImageFilter);
   auto image3D = Create3DImage<Image3DType>();
   filter3D->SetInput(image3D);
   filter3D->Update();
