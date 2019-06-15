@@ -66,7 +66,7 @@ itkSTLMeshIOTest(int argc, char * argv[])
 
   writer->SetInput(reader->GetOutput());
 
-  TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
   //
@@ -74,7 +74,7 @@ itkSTLMeshIOTest(int argc, char * argv[])
   //
   itk::STLMeshIO::Pointer meshIO = itk::STLMeshIO::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(meshIO, STLMeshIO, MeshIOBase);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(meshIO, STLMeshIO, MeshIOBase);
 
   mesh->Print(std::cout);
   reader->GetMeshIO()->Print(std::cout);
