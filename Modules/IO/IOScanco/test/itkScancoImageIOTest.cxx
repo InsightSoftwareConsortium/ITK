@@ -85,7 +85,7 @@ itkScancoImageIOTest(int argc, char * argv[])
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput(reader->GetOutput());
   writer->SetFileName(outputFileName);
-  TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   return EXIT_SUCCESS;
 }
