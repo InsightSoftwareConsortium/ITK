@@ -97,10 +97,12 @@ public:
   itkGetConstMacro( ZeroSuppression, double );
   itkSetClampMacro( ZeroSuppression, double, 0.0, 100.0 );
 
-  /** Get/Set exponential factor for biasing the solution towards expectation.
-   * The expectation is that no translation will be needed given current image origins. */
-  itkGetConstMacro( BiasTowardsExpected, double );
-  itkSetClampMacro( BiasTowardsExpected, double, 0.0, 1000.0 );
+  /** Get/Set expected maximum linear translation needed, in pixels.
+   * Zero (the default) has a special meaning: sigmoid scaling
+   * with half-way point at around quarter of image size.
+   * Translations can plausibly be up to half an image size. */
+  itkGetConstMacro( PixelDistanceTolerance, SizeValueType );
+  itkSetMacro( PixelDistanceTolerance, SizeValueType );
 
 
 protected:
@@ -118,7 +120,7 @@ private:
   PeakInterpolationMethod             m_PeakInterpolationMethod = PeakInterpolationMethod::Parabolic;
   unsigned                            m_MergePeaks = 1;
   double                              m_ZeroSuppression = 5;
-  double                              m_BiasTowardsExpected = 10.0;
+  SizeValueType                       m_PixelDistanceTolerance = 0;
 };
 
 } // end namespace itk
