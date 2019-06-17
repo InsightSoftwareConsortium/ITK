@@ -97,7 +97,7 @@ public:
   itkGetConstMacro( ZeroSuppression, double );
   itkSetClampMacro( ZeroSuppression, double, 0.0, 100.0 );
 
-  /** Get/Set multiplicative factor for biasing the solution towards expectation.
+  /** Get/Set exponential factor for biasing the solution towards expectation.
    * The expectation is that no translation will be needed given current image origins. */
   itkGetConstMacro( BiasTowardsExpected, double );
   itkSetClampMacro( BiasTowardsExpected, double, 0.0, 1000.0 );

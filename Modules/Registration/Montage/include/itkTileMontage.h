@@ -139,6 +139,13 @@ public:
   itkSetMacro( RelativeThreshold, float );
   itkGetConstMacro( RelativeThreshold, float );
 
+  /** Set/Get tile positioning precision.
+   * The penalty term is e(-f*d), where d is distance from the expected solution
+   * and f is this factor. Higher values make large translations very unlikely.
+   * Default: 10.0. */
+  itkSetMacro( PositionPrecision, float );
+  itkGetConstMacro( PositionPrecision, float );
+
   /** Set/Get obligatory padding.
    * If set, padding of this many pixels is added on both beginning and end
    * sides of each dimension of the image. */
@@ -267,6 +274,7 @@ private:
   SpacingType   m_ForcedSpacing;
   float         m_AbsoluteThreshold = 1.0;
   float         m_RelativeThreshold = 3.0;
+  float         m_PositionPrecision = 10.0;
   SizeType      m_ObligatoryPadding;
 
   std::vector< std::string >       m_Filenames;
