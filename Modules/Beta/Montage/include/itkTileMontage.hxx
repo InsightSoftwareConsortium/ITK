@@ -72,7 +72,7 @@ TileMontage< TImageType, TCoordinate >
   os << indent << "Obligatory Padding: " << m_ObligatoryPadding << std::endl;
   os << indent << "Absolute Threshold: " << m_AbsoluteThreshold << std::endl;
   os << indent << "Relative Threshold: " << m_RelativeThreshold << std::endl;
-  os << indent << "Position Precision: " << m_PositionPrecision << std::endl;
+  os << indent << "Position Tolerance: " << m_PositionTolerance << std::endl;
 
   auto nullCount = std::count( m_Filenames.begin(), m_Filenames.end(), std::string() );
   os << indent << "Filenames (filled/capcity): " << m_Filenames.size() - nullCount
@@ -442,7 +442,7 @@ TileMontage< TImageType, TCoordinate >
     m_PCM->SetPadToSize( maxSizes );
     }
 
-  m_PCMOptimizer->SetBiasTowardsExpected( m_PositionPrecision );
+  m_PCMOptimizer->SetPixelDistanceTolerance( m_PositionTolerance );
 
   // we connect these classes here in case user has provided new versions
   m_PCM->SetOperator( m_PCMOperator );
