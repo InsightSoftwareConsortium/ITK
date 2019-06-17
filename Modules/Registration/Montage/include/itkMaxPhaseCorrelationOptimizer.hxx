@@ -85,7 +85,7 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
   const typename ImageType::PointType fixedOrigin = fixed->GetOrigin();
   const typename ImageType::PointType movingOrigin = moving->GetOrigin();
 
-  // create the image which be biased towards the expected solution and be zero-suppressed
+  // create the image which will be biased towards the expected solution
   typename ImageType::Pointer iAdjusted = ImageType::New();
   iAdjusted->CopyInformation( input );
   iAdjusted->SetRegions( input->GetBufferedRegion() );
@@ -166,8 +166,8 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
         if ( dist < znSize ) // neighborhood of [0,0,...,0] - in case zero peak is blurred
           {
           pixel = oIt.Get();
-          // avoid the initial steep rise of function x/(1+x) by shifting it by 3
-          pixel *= ( dist + 3 ) / ( m_ZeroSuppression + dist + 3 );
+          // avoid the initial steep rise of function x/(1+x) by shifting it by 5
+          pixel *= ( dist + 5 ) / ( m_ZeroSuppression + dist + 5 );
           pixelValid = true;
           }
 
