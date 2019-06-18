@@ -69,9 +69,10 @@ if test "${azure_pipelines_ci_filename}" = "" || test "${python_setup_filename}"
 fi
 
 # Get the latest ITK git tag
-latest_git_tag=$(git ls-remote --tags --sort="v:refname" \
-git://github.com/InsightSoftwareConsortium/ITK.git | tail -n1 | \
-sed 's/.*\///; s/\^{}//')
+latest_git_tag=$(git ls-remote --tags \
+git://github.com/InsightSoftwareConsortium/ITK.git | \
+awk -F/ '{ print $3 }' | egrep -v 'a0|b0|rc|}' | \
+sort -n - | tail -n1)
 
 # Azure pipeline CI file
 git_tag_label='ITKGitTag: '
