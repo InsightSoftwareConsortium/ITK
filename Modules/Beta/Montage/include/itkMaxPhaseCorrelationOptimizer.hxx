@@ -123,6 +123,7 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
     {
       ImageRegionConstIterator< ImageType > iIt(input, region);
       ImageRegionIteratorWithIndex< ImageType > oIt(iAdjusted, region);
+      IndexValueType zeroDist2 = 100 * m_PixelDistanceTolerance * m_PixelDistanceTolerance; // round down to zero further from this
       for (; !oIt.IsAtEnd(); ++iIt, ++oIt)
         {
         typename ImageType::IndexType ind = oIt.GetIndex();
@@ -141,12 +142,20 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
             }
           }
 
-        typename ImageType::PixelType pixel = iIt.Get() * std::exp( distancePenaltyFactor * dist );
+        typename ImageType::PixelType pixel;
+        if ( m_PixelDistanceTolerance > 0 && dist > zeroDist2 )
+          {
+          pixel = 0;
+          }
+        else // evaluate the expensive exponential function
+          {
+          pixel = iIt.Get() * std::exp( distancePenaltyFactor * dist );
 #ifndef NDEBUG
-        pixel *= 1000; // make the intensities in this image more humane (close to 1.0)
-        // it is really hard to count zeroes after decimal point when comparing pixel intensities
-        // since this images is used to find maxima, absolute values are irrelevant
+          pixel *= 1000; // make the intensities in this image more humane (close to 1.0)
+          // it is really hard to count zeroes after decimal point when comparing pixel intensities
+          // since this images is used to find maxima, absolute values are irrelevant
 #endif
+          }
         oIt.Set( pixel );
         }
     },
