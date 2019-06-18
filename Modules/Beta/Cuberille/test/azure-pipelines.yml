@@ -1,6 +1,6 @@
 variables:
-  ITKGitTag: v5.0rc01
-  ITKPythonGitTag: v5.0rc01
+  ITKGitTag: v5.0.0
+  ITKPythonGitTag: v5.0.0.post1
   CMakeBuildType: MinSizeRel
 
 trigger:
