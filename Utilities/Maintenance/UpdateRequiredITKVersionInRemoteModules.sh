@@ -78,11 +78,11 @@ sort -n - | tail -n1)
 git_tag_label='ITKGitTag: '
 
 # Read the ITK git tag information
-curr_git_str=($(grep $git_tag_label $azure_pipelines_ci_filename))
-curr_git_tag=${curr_git_str[1]}
+current_git_str=($(grep $git_tag_label $azure_pipelines_ci_filename))
+current_git_tag=${current_git_str[1]}
 
 # Sed the latest ITK git tag in the Azure pipelines config file
-sed -i "s/${curr_git_tag}/${latest_git_tag}/g" $azure_pipelines_ci_filename
+sed -i "s/${current_git_tag}/${latest_git_tag}/g" $azure_pipelines_ci_filename
 
 # Python setup file
 
@@ -96,10 +96,10 @@ git_install_req_tag_str=($(grep -A1 -P ${git_install_req_tag_label}$ $python_set
 git_install_req_tag=${git_install_req_tag_str[1]}
 
 git_install_req_tag_arr=($(echo $git_install_req_tag | tr "=" " "))
-curr_git_tag=${git_install_req_tag_arr[-1]}
+current_git_tag=${git_install_req_tag_arr[-1]}
 
 # Sed the latest ITK git tag in the Python setup file
-sed -i "s/${curr_git_tag}/${latest_git_tag}/g" $python_setup_filename
+sed -i "s/${current_git_tag}/${latest_git_tag}/g" $python_setup_filename
 
 pckg_version_label='version'
 
