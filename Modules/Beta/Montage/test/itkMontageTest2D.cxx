@@ -65,6 +65,11 @@ int itkMontageTest2D(int argc, char* argv[])
     {
     allowDrift = std::stoi( argv[10] );
     }
+  unsigned positionTolerance = 0;
+  if ( argc > 11 )
+    {
+    positionTolerance = std::stoul( argv[11] );
+    }
 
   std::string inputPath = argv[1];
   if ( inputPath.back() != '/' && inputPath.back() != '\\' )
@@ -86,22 +91,24 @@ int itkMontageTest2D(int argc, char* argv[])
     {
     r1 = montageTest< itk::RGBPixel< unsigned char >, itk::RGBPixel< unsigned int > >(
       stageTiles, actualTiles, inputPath, argv[2],
-      varyPaddingMethods, peakMethod, loadIntoMemory, streamSubdivisions, writeTransforms, allowDrift );
+      varyPaddingMethods, peakMethod, loadIntoMemory, streamSubdivisions,
+      writeTransforms, allowDrift, positionTolerance );
     if ( doPairs )
       {
       r2 = pairwiseTests< unsigned char >(
-          stageTiles, actualTiles, inputPath, argv[3], varyPaddingMethods );
+          stageTiles, actualTiles, inputPath, argv[3], varyPaddingMethods, positionTolerance );
       }
     }
   else
     {
     r1 = montageTest< unsigned short, double >(
       stageTiles, actualTiles, inputPath, argv[2],
-      varyPaddingMethods, peakMethod, loadIntoMemory, streamSubdivisions, writeTransforms, allowDrift );
+      varyPaddingMethods, peakMethod, loadIntoMemory, streamSubdivisions,
+      writeTransforms, allowDrift, positionTolerance );
     if ( doPairs )
       {
       r2 = pairwiseTests< unsigned short >(
-          stageTiles, actualTiles, inputPath, argv[3], varyPaddingMethods );
+          stageTiles, actualTiles, inputPath, argv[3], varyPaddingMethods, positionTolerance );
       }
     }
 
