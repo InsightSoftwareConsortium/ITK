@@ -117,10 +117,10 @@ pckg_version=${pckg_version_tag_arr[1]}
 pckg_version=$(echo $pckg_version | tr -d "\'")
 
 pckg_version_arr=($(echo $pckg_version | tr "." " "))
-pckg_major_version=${pckg_version_arr[0]}
-new_pckg_major_version=$((pckg_major_version + 1))
+pckg_patch_version=${pckg_version_arr[2]}
+new_pckg_patch_version=$((pckg_patch_version + 1))
 
 # Update to a new major version
-new_pckg_version="version='$new_pckg_major_version.0.0'"
+new_pckg_version="${pckg_version_tag_str::-2}${new_pckg_patch_version}'"
 
 sed -i "s/${pckg_version_tag_str}/${new_pckg_version}/g" $python_setup_filename
