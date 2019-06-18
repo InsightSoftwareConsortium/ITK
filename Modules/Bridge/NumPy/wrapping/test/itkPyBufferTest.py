@@ -201,5 +201,14 @@ class TestNumpyITKMemoryviewInterface(unittest.TestCase):
         index[1] = 1
         assert(image.GetPixel(index) == 3)
 
+    def test_NumPyBridge_ImageFromBuffer(self):
+        "Create an image with image_from_array with a non-writeable input"
+
+        data = 'hello world '
+        array = np.frombuffer(data, dtype=np.uint8)
+        array = array.reshape((2, 6))
+        image = itk.image_from_array(array)
+
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)
