@@ -26,6 +26,7 @@
 #include "itkMirrorPadImageFilter.h"
 #include "itkProcessObject.h"
 #include "itkRealToHalfHermitianForwardFFTImageFilter.h"
+#include "itkRegionOfInterestImageFilter.h"
 #include "itkTranslationTransform.h"
 #include "itkUnaryFrequencyDomainFilter.h"
 #include <cmath>
@@ -249,6 +250,14 @@ public:
   itkGetConstMacro( PaddingMethod, PaddingMethod );
   void SetPaddingMethod( const PaddingMethod paddingMethod );
 
+  /** Set/Get tile cropping. Should tiles be cropped to overlapping
+   * region for computing the cross correlation? Default: True.
+   *
+   * This improves results, and in case overlaps are less than 25%
+   * computation is also faster. */
+  itkSetMacro( CropToOverlap, bool );
+  itkGetConstMacro( CropToOverlap, bool );
+
   /** Set/Get the order for Butterworth band-pass filtering
    * of complex correlation surface. Greater than zero. Default is 3. */
   itkSetMacro( ButterworthOrder, unsigned );
@@ -267,7 +276,7 @@ public:
       this->Modified();
       }
   }
-  virtual double GetButterworthLowFrequency()
+  virtual double GetButterworthLowFrequency() const
   {
     return std::sqrt( m_LowFrequency2 );
   }
@@ -285,7 +294,7 @@ public:
       this->Modified();
       }
   }
-  virtual double GetButterworthHighFrequency()
+  virtual double GetButterworthHighFrequency() const
   {
     return std::sqrt( m_HighFrequency2 );
   }
@@ -402,6 +411,8 @@ protected:
 
 
   /** Types for internal componets. */
+  using FixedRoIType = RegionOfInterestImageFilter< FixedImageType, FixedImageType >;
+  using MovingRoIType = RegionOfInterestImageFilter< MovingImageType, MovingImageType >;
   using FixedPadderImageFilter = PadImageFilter< FixedImageType, RealImageType >;
   using MovingPadderImageFilter = PadImageFilter< MovingImageType, RealImageType >;
   using FixedConstantPadderType = ConstantPadImageFilter< FixedImageType, RealImageType >;
@@ -434,6 +445,8 @@ private:
   SizeType       m_ObligatoryPadding;
   PaddingMethod  m_PaddingMethod = PaddingMethod::MirrorWithExponentialDecay;
 
+  typename FixedRoIType::Pointer             m_FixedRoI = FixedRoIType::New();
+  typename MovingRoIType::Pointer            m_MovingRoI = MovingRoIType::New();
   typename FixedPadderImageFilter::Pointer   m_FixedPadder = FixedPadderImageFilter::New();
   typename MovingPadderImageFilter::Pointer  m_MovingPadder = MovingPadderImageFilter::New();
   typename FixedConstantPadderType::Pointer  m_FixedConstantPadder = FixedConstantPadderType::New();
@@ -444,6 +457,7 @@ private:
   typename MovingMirrorPadderType::Pointer   m_MovingMirrorWEDPadder = MovingMirrorPadderType::New();
   typename BandBassFilterType::Pointer       m_BandPassFilter = BandBassFilterType::New();
 
+  bool     m_CropToOverlap = true;
   unsigned m_ButterworthOrder = 3;
   double   m_LowFrequency2 = 0.0025; // 0.05^2 // square of low frequency threshold
   double   m_HighFrequency2 = 0.25;  // 0.5^2 // square of high frequency threshold

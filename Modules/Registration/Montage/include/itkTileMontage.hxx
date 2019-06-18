@@ -236,8 +236,11 @@ TileMontage< TImageType, TCoordinate >
   // m_PCM->DebugOn();
   m_PCM->Update();
 
-  m_FFTCache[lFixedInd] = m_PCM->GetFixedImageFFT(); // certainly not null
-  m_FFTCache[lMovingInd] = m_PCM->GetMovingImageFFT(); // certrainly not null
+  if ( !m_CropToOverlap )
+    {
+    m_FFTCache[lFixedInd] = m_PCM->GetFixedImageFFT(); // certainly not null
+    m_FFTCache[lMovingInd] = m_PCM->GetMovingImageFFT(); // certrainly not null
+    }
 
   const typename PCMType::OffsetVector& offsets = m_PCM->GetOffsets();
   SizeValueType regLinearIndex = lMovingInd;
@@ -436,13 +439,14 @@ TileMontage< TImageType, TCoordinate >
       }
     maxSizes[d] += 2 * m_ObligatoryPadding[d];
     }
-  if ( forceSame )
+  if ( forceSame && !m_CropToOverlap )
     {
     maxSizes = m_PCM->RoundUpToFFTSize( maxSizes );
     m_PCM->SetPadToSize( maxSizes );
     }
 
   m_PCMOptimizer->SetPixelDistanceTolerance( m_PositionTolerance );
+  m_PCM->SetCropToOverlap( m_CropToOverlap );
 
   // we connect these classes here in case user has provided new versions
   m_PCM->SetOperator( m_PCMOperator );

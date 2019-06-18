@@ -146,6 +146,14 @@ public:
   itkSetMacro( PositionTolerance, SizeValueType );
   itkGetConstMacro( PositionTolerance, SizeValueType );
 
+  /** Set/Get tile cropping. Should tiles be cropped to overlapping
+   * region for computing the cross correlation? Default: True.
+   *
+   * This improves results, and in case overlaps are less than 25%
+   * computation is also faster. */
+  itkSetMacro( CropToOverlap, bool );
+  itkGetConstMacro( CropToOverlap, bool );
+
   /** Set/Get obligatory padding.
    * If set, padding of this many pixels is added on both beginning and end
    * sides of each dimension of the image. */
@@ -275,6 +283,7 @@ private:
   float         m_AbsoluteThreshold = 1.0;
   float         m_RelativeThreshold = 3.0;
   SizeValueType m_PositionTolerance = 0;
+  bool          m_CropToOverlap = true;
   SizeType      m_ObligatoryPadding;
 
   std::vector< std::string >       m_Filenames;
