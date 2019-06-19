@@ -20,8 +20,7 @@
 
 #include "itkMath.h"
 #include "itkImageMaskSpatialObject.h"
-#include "itkImageRegionConstIterator.h"
-#include "itkImageRegionConstIteratorWithIndex.h"
+#include "itkImageRegionRange.h"
 
 #include <cstdint> // For uintmax_t.
 
@@ -181,11 +180,11 @@ ImageMaskSpatialObject< TDimension, TPixel >
 
   const auto HasForegroundPixels = [&image](const RegionType& region)
   {
-    for (ImageRegionConstIterator<ImageType> it{ &image, region }; !it.IsAtEnd(); ++it)
+    for (const PixelType pixelValue: Experimental::ImageRegionRange<const ImageType>{ image, region })
     {
       constexpr auto zeroValue = NumericTraits<PixelType>::ZeroValue();
 
-      if (it.Get() != zeroValue)
+      if (pixelValue != zeroValue)
       {
         return true;
       }
