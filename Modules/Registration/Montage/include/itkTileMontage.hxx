@@ -483,9 +483,9 @@ TileMontage< TImageType, TCoordinate >
     if ( !m_TransformCandidates[i].empty() )
       {
       SizeValueType linIndex = i % m_LinearMontageSize;
-      unsigned dim = i / m_LinearMontageSize;
       TileIndexType currentIndex = this->LinearIndexTonDIndex( linIndex );
       TileIndexType referenceIndex = currentIndex;
+      unsigned dim = i / m_LinearMontageSize;
       referenceIndex[dim] = currentIndex[dim] - 1;
       SizeValueType refLinearIndex = this->nDIndexToLinearIndex( referenceIndex );
 
@@ -630,7 +630,16 @@ TileMontage< TImageType, TCoordinate >
     else // eliminate the problematic equation
       {
       SizeValueType candidateIndex = equationToCandidate[maxIndex];
-      std::cout << "Outlier detected. Equation " << maxIndex << ", Registration " << candidateIndex << ", T: ";
+      std::cout << "Outlier detected. Eq. " << maxIndex << ", Reg. " << candidateIndex;
+
+      // calculate indices of the involved tiles
+      SizeValueType linIndex = candidateIndex % m_LinearMontageSize;
+      TileIndexType currentIndex = this->LinearIndexTonDIndex( linIndex );
+      TileIndexType referenceIndex = currentIndex;
+      unsigned dim = candidateIndex / m_LinearMontageSize;
+      referenceIndex[dim] = currentIndex[dim] - 1;
+      std::cout << ": " << currentIndex << "->" << referenceIndex << "  T: ";
+
       if ( !m_TransformCandidates[candidateIndex].empty() )
         {
         std::cout << m_TransformCandidates[candidateIndex][0];
