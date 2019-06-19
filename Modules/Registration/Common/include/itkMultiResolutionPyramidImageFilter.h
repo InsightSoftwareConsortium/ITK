@@ -169,7 +169,7 @@ public:
    * clamped to a minimum value of 1. */
   virtual void SetStartingShrinkFactors(unsigned int factor);
 
-  virtual void SetStartingShrinkFactors(unsigned int *factors);
+  virtual void SetStartingShrinkFactors(const unsigned int *factors);
 
   /** Get the starting shrink factors */
   const unsigned int * GetStartingShrinkFactors() const;
