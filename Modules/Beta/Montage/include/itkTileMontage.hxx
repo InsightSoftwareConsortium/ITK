@@ -601,7 +601,10 @@ TileMontage< TImageType, TCoordinate >
         residual += residuals( i, d ) * residuals( i, d );
         }
       residual = std::sqrt( residual ); // MSE -> RMSE
-      TCoordinate cost = residual + std::sqrt( residual * outlierScore[i] ) + outlierScore[i];
+
+      // establish cost of this equation
+      TCoordinate cost = residual * ( 1.0 + outlierScore[i] );
+
       if ( this->GetDebug() )
         {
         std::cout << " :" << std::setw( 6 ) << outlierScore[i];
