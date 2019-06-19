@@ -3,6 +3,8 @@
 ITK: The Insight Toolkit
 ========================
 
+WIP -- checking CDash status check pending race condition fix
+
 [![GitHub release](https://img.shields.io/github/release/InsightSoftwareConsortium/ITK.svg)](https://github.com/InsightSoftwareConsortium/ITK/releases/latest)
 [![PyPI](https://img.shields.io/pypi/v/itk.svg)](https://pypi.python.org/pypi/itk)
 [![Wheels](https://img.shields.io/pypi/wheel/itk.svg)](https://pypi.org/project/itk)
