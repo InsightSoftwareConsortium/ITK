@@ -346,9 +346,9 @@ itk_add_test(NAME itkMontagePCMFilesMNML0304
     DATA{Input/MNML_3_200x_701/MNML-3_200x_701-Raw_p04.png}
     ${TESTING_OUTPUT_PATH}/itkMontagePCMFilesMNML0304.nrrd
     0.0
-    155.6277085
-    0.176346072
-    0.431967015
+    917.0
+    1.0
+    1.0
   )
 
 itk_add_test(NAME itkMontagePCMFilesDzZ_T1_identity
@@ -358,7 +358,7 @@ itk_add_test(NAME itkMontagePCMFilesDzZ_T1_identity
     DATA{Input/DzZ_T1/DzZ_T1_inf.nrrd}
     ${TESTING_OUTPUT_PATH}/itkMontagePCMFilesDzZ_T1_identity.nrrd
     0.0
-    0.0
+    140.904
     0.0
     0.0
     0.0
@@ -412,8 +412,8 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region2_150_Mosaic36Flat/36/1323.
       ${TESTING_OUTPUT_PATH}/itkMontagePCMFiles36raw088_089.nrrd
       81.28
       0.0
-      0.182847892
-      -0.247248172
+      0.0
+      0.0
     )
   endif(ITKMontage_EnableFailingTests)
 endif()
