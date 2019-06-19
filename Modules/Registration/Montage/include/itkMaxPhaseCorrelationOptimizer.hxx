@@ -207,8 +207,8 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
               distD = size[d] - distD;
               }
             double distF = distD * dimFactor[d];
-            // avoid the initial steep rise of x/(1+x) by shifting it by 3% of image size
-            pixel *= ( distF + 3 ) / ( m_ZeroSuppression + distF + 3 );
+            // avoid the initial steep rise of x/(1+x) by shifting it by 5% of image size
+            pixel *= ( distF + 5 ) / ( m_ZeroSuppression + distF + 5 );
             }
           }
 
