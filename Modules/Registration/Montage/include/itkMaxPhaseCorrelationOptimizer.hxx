@@ -44,8 +44,9 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
   os << indent << "MaxCalculator: " << m_MaxCalculator << std::endl;
   auto pim = static_cast< typename std::underlying_type< PeakInterpolationMethod >::type >( m_PeakInterpolationMethod );
   os << indent << "PeakInterpolationMethod: " << pim << std::endl;
+  os << indent << "MergePeaks: " << m_MergePeaks << std::endl;  
   os << indent << "ZeroSuppression: " << m_ZeroSuppression << std::endl;
-  os << indent << "BiasTowardsExpected: " << m_BiasTowardsExpected << std::endl;
+  os << indent << "PixelDistanceTolerance: " << m_PixelDistanceTolerance << std::endl;
 }
 
 template< typename TRegistrationMethod >
@@ -85,7 +86,10 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
   const typename ImageType::PointType fixedOrigin = fixed->GetOrigin();
   const typename ImageType::PointType movingOrigin = moving->GetOrigin();
 
-  // create the image which be biased towards the expected solution and be zero-suppressed
+  // create the image which will be biased towards the expected solution
+  // other pixels get their value reduced by multiplication with
+  // e^(-f*(d/s)^2), where f is distancePenaltyFactor,
+  // d is pixel's distance, and s is approximate image size
   typename ImageType::Pointer iAdjusted = ImageType::New();
   iAdjusted->CopyInformation( input );
   iAdjusted->SetRegions( input->GetBufferedRegion() );
@@ -94,16 +98,24 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
   typename ImageType::IndexType adjustedSize;
   typename ImageType::IndexType directExpectedIndex;
   typename ImageType::IndexType mirrorExpectedIndex;
-  double distancePenaltyFactor = 0.0;
+  double imageSize2 = 0.0; // image size, squared
   for ( unsigned d = 0; d < ImageDimension; d++ )
     {
     adjustedSize[d] = size[d] + oIndex[d];
-    distancePenaltyFactor += adjustedSize[d] * adjustedSize[d]; // make it proportional to image size
+    imageSize2 += adjustedSize[d] * adjustedSize[d];
     directExpectedIndex[d] = ( movingOrigin[d] - fixedOrigin[d] ) / spacing[d] + oIndex[d];
     mirrorExpectedIndex[d] = ( movingOrigin[d] - fixedOrigin[d] ) / spacing[d] + adjustedSize[d];
     }
 
-  distancePenaltyFactor = -m_BiasTowardsExpected / distancePenaltyFactor;
+  double distancePenaltyFactor = 0.0;
+  if ( m_PixelDistanceTolerance == 0 ) // up to about half image size
+    {
+    distancePenaltyFactor = -10.0 / imageSize2;
+    }
+  else // up to about five times the provided tolerance
+    {
+    distancePenaltyFactor = std::log( 0.9 ) / ( m_PixelDistanceTolerance * m_PixelDistanceTolerance );
+    }
 
   MultiThreaderBase* mt = this->GetMultiThreader();
   mt->ParallelizeImageRegion< ImageDimension >( wholeImage,
@@ -111,6 +123,7 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
     {
       ImageRegionConstIterator< ImageType > iIt(input, region);
       ImageRegionIteratorWithIndex< ImageType > oIt(iAdjusted, region);
+      IndexValueType zeroDist2 = 100 * m_PixelDistanceTolerance * m_PixelDistanceTolerance; // round down to zero further from this
       for (; !oIt.IsAtEnd(); ++iIt, ++oIt)
         {
         typename ImageType::IndexType ind = oIt.GetIndex();
@@ -129,12 +142,20 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
             }
           }
 
-        typename ImageType::PixelType pixel = iIt.Get() * std::exp( distancePenaltyFactor * dist );
+        typename ImageType::PixelType pixel;
+        if ( m_PixelDistanceTolerance > 0 && dist > zeroDist2 )
+          {
+          pixel = 0;
+          }
+        else // evaluate the expensive exponential function
+          {
+          pixel = iIt.Get() * std::exp( distancePenaltyFactor * dist );
 #ifndef NDEBUG
-        pixel *= 1000; // make the intensities in this image more humane (close to 1.0)
-        // it is really hard to count zeroes after decimal point when comparing pixel intensities
-        // since this images is used to find maxima, absolute values are irrelevant
+          pixel *= 1000; // make the intensities in this image more humane (close to 1.0)
+          // it is really hard to count zeroes after decimal point when comparing pixel intensities
+          // since this images is used to find maxima, absolute values are irrelevant
 #endif
+          }
         oIt.Set( pixel );
         }
     },
@@ -166,8 +187,8 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
         if ( dist < znSize ) // neighborhood of [0,0,...,0] - in case zero peak is blurred
           {
           pixel = oIt.Get();
-          // avoid the initial steep rise of function x/(1+x) by shifting it by 3
-          pixel *= ( dist + 3 ) / ( m_ZeroSuppression + dist + 3 );
+          // avoid the initial steep rise of function x/(1+x) by shifting it by 5
+          pixel *= ( dist + 5 ) / ( m_ZeroSuppression + dist + 5 );
           pixelValid = true;
           }
 
