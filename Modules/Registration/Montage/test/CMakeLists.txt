@@ -327,6 +327,18 @@ itk_add_test(NAME itkMontageMNML5
     0 1 1 1 0 0 1 10
   )
 
+itk_add_test(NAME itkMontagePCMFiles-10-129
+  COMMAND MontageTestDriver
+  itkMontagePCMTestFiles
+    DATA{Input/10-129-C_2/10-129-C_2_p00.jpg}
+    DATA{Input/10-129-C_2/10-129-C_2_p01.jpg}
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMFiles-10-129.nrrd
+    0.0
+    295.0904267
+    -6.143508728
+    -10.488
+  )
+
 itk_add_test(NAME itkMontagePCMFilesFocus
   COMMAND MontageTestDriver
   itkMontagePCMTestFiles
