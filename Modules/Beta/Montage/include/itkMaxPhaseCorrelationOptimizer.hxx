@@ -44,7 +44,7 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
   os << indent << "MaxCalculator: " << m_MaxCalculator << std::endl;
   auto pim = static_cast< typename std::underlying_type< PeakInterpolationMethod >::type >( m_PeakInterpolationMethod );
   os << indent << "PeakInterpolationMethod: " << pim << std::endl;
-  os << indent << "MergePeaks: " << m_MergePeaks << std::endl;  
+  os << indent << "MergePeaks: " << m_MergePeaks << std::endl;
   os << indent << "ZeroSuppression: " << m_ZeroSuppression << std::endl;
   os << indent << "PixelDistanceTolerance: " << m_PixelDistanceTolerance << std::endl;
 }
@@ -163,64 +163,66 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
 
   WriteDebug( iAdjusted.GetPointer(), "iAdjusted.nrrd" );
 
-  // suppress trivial zero solution
-  FixedArray< double, ImageDimension > dimFactor; // each dimension might have different size
-  for ( unsigned d = 0; d < ImageDimension; d++ )
+  if ( m_ZeroSuppression > 0.0 ) // suppress trivial zero solution
     {
-    dimFactor = 100.0 / size[d]; // turn absolute size into percentages
-    }
-  constexpr IndexValueType znSize = 4; // zero neighborhood size, in city-block distance
-  mt->ParallelizeImageRegion<ImageDimension>( wholeImage,
-    [&]( const typename ImageType::RegionType& region )
-    {
-      ImageRegionIteratorWithIndex< ImageType > oIt(iAdjusted, region);
-      for (; !oIt.IsAtEnd(); ++oIt)
-        {
-        bool pixelValid = false;
-        typename ImageType::PixelType pixel;
-        typename ImageType::IndexType ind = oIt.GetIndex();
-        IndexValueType dist = 0;
-        for ( unsigned d = 0; d < ImageDimension; d++ )
+    FixedArray< double, ImageDimension > dimFactor; // each dimension might have different size
+    for ( unsigned d = 0; d < ImageDimension; d++ )
+      {
+      dimFactor = 100.0 / size[d]; // turn absolute size into percentages
+      }
+    constexpr IndexValueType znSize = 4; // zero neighborhood size, in city-block distance
+    mt->ParallelizeImageRegion<ImageDimension>( wholeImage,
+      [&]( const typename ImageType::RegionType& region )
+      {
+        ImageRegionIteratorWithIndex< ImageType > oIt(iAdjusted, region);
+        for (; !oIt.IsAtEnd(); ++oIt)
           {
-          dist += ind[d] - oIndex[d];
-          }
-        if ( dist < znSize ) // neighborhood of [0,0,...,0] - in case zero peak is blurred
-          {
-          pixel = oIt.Get();
-          // avoid the initial steep rise of function x/(1+x) by shifting it by 5
-          pixel *= ( dist + 5 ) / ( m_ZeroSuppression + dist + 5 );
-          pixelValid = true;
-          }
-
-        for ( unsigned d = 0; d < ImageDimension; d++ ) // lines/sheets of zero indices
-          {
-          if ( ind[d] == oIndex[d] ) // one of the indices is "zero"
+          bool pixelValid = false;
+          typename ImageType::PixelType pixel;
+          typename ImageType::IndexType ind = oIt.GetIndex();
+          IndexValueType dist = 0;
+          for ( unsigned d = 0; d < ImageDimension; d++ )
             {
-            if ( !pixelValid )
+            dist += ind[d] - oIndex[d];
+            }
+          if ( dist < znSize ) // neighborhood of [0,0,...,0] - in case zero peak is blurred
+            {
+            pixel = oIt.Get();
+            // avoid the initial steep rise of function x/(1+x) by shifting it by 5
+            pixel *= ( dist + 5 ) / ( m_ZeroSuppression + dist + 5 );
+            pixelValid = true;
+            }
+
+          for ( unsigned d = 0; d < ImageDimension; d++ ) // lines/sheets of zero indices
+            {
+            if ( ind[d] == oIndex[d] ) // one of the indices is "zero"
               {
-              pixel = oIt.Get();
-              pixelValid = true;
+              if ( !pixelValid )
+                {
+                pixel = oIt.Get();
+                pixelValid = true;
+                }
+              IndexValueType distD = ind[d] - oIndex[d];
+              if ( distD > IndexValueType( size[d] / 2 ) ) // wrap around
+                {
+                distD = size[d] - distD;
+                }
+              double distF = distD * dimFactor[d];
+              // avoid the initial steep rise of x/(1+x) by shifting it by 5% of image size
+              pixel *= ( distF + 5 ) / ( m_ZeroSuppression + distF + 5 );
               }
-            IndexValueType distD = ind[d] - oIndex[d];
-            if ( distD > IndexValueType( size[d] / 2 ) ) // wrap around
-              {
-              distD = size[d] - distD;
-              }
-            double distF = distD * dimFactor[d];
-            // avoid the initial steep rise of x/(1+x) by shifting it by 5% of image size
-            pixel *= ( distF + 5 ) / ( m_ZeroSuppression + distF + 5 );
+            }
+
+          if ( pixelValid ) // either neighborhood or lines/sheets has updated the pixel
+            {
+            oIt.Set( pixel );
             }
           }
+      },
+      nullptr );
 
-        if ( pixelValid ) // either neighborhood or lines/sheets has updated the pixel
-          {
-          oIt.Set( pixel );
-          }
-        }
-    },
-    nullptr );
-
-  WriteDebug( iAdjusted.GetPointer(), "iAdjustedZS.nrrd" );
+    WriteDebug( iAdjusted.GetPointer(), "iAdjustedZS.nrrd" );
+    }
 
   m_MaxCalculator->SetImage( iAdjusted );
   if (m_MergePeaks)
@@ -404,7 +406,7 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
 #ifdef NDEBUG
     this->m_Confidences[m] *= 1000.0; // make the intensities more humane (close to 1.0)
 #endif
-    
+
     this->m_Offsets[m] = offset;
     }
 }
