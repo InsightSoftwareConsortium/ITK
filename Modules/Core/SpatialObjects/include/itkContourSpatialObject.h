@@ -34,6 +34,10 @@ namespace itk
  *
  * \sa SpatialObjectPoint
  * \ingroup ITKSpatialObjects
+ *
+ * \sphinx
+ * \sphinxexample{Core/SpatialObjects/{{ContourSpatialObject,Contour Spacial Object}
+ * \endsphinx
  */
 
 template< unsigned int TDimension = 3 >

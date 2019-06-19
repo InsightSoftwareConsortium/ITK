@@ -48,7 +48,7 @@ int itkSaltAndPepperNoiseImageFilterTest(int argc, char * argv[])
   SaltAndPepperNoiseImageFilterType::Pointer saltAndPepperNoiseImageFilter =
     SaltAndPepperNoiseImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( saltAndPepperNoiseImageFilter, SaltAndPepperNoiseImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( saltAndPepperNoiseImageFilter, SaltAndPepperNoiseImageFilter,
     NoiseBaseImageFilter );
 
   double probability = 0.01;
@@ -57,16 +57,16 @@ int itkSaltAndPepperNoiseImageFilterTest(int argc, char * argv[])
     probability = std::stod( argv[3] );
     }
   saltAndPepperNoiseImageFilter->SetProbability( probability );
-  TEST_SET_GET_VALUE( probability, saltAndPepperNoiseImageFilter->GetProbability() );
+  ITK_TEST_SET_GET_VALUE( probability, saltAndPepperNoiseImageFilter->GetProbability() );
 
   // change the default values and then set back to defaults so that
   // the original test image is still valid.
   PixelType saltValue = 245;
   saltAndPepperNoiseImageFilter->SetSaltValue( saltValue );
-  TEST_SET_GET_VALUE( saltValue, saltAndPepperNoiseImageFilter->GetSaltValue() );
+  ITK_TEST_SET_GET_VALUE( saltValue, saltAndPepperNoiseImageFilter->GetSaltValue() );
   PixelType pepperValue = 10;
   saltAndPepperNoiseImageFilter->SetPepperValue( pepperValue );
-  TEST_SET_GET_VALUE( pepperValue, saltAndPepperNoiseImageFilter->GetPepperValue() );
+  ITK_TEST_SET_GET_VALUE( pepperValue, saltAndPepperNoiseImageFilter->GetPepperValue() );
   saltAndPepperNoiseImageFilter->SetSaltValue( itk::NumericTraits<PixelType>::max() );
   saltAndPepperNoiseImageFilter->SetPepperValue( itk::NumericTraits<PixelType>::NonpositiveMin() );
 
@@ -79,7 +79,7 @@ int itkSaltAndPepperNoiseImageFilterTest(int argc, char * argv[])
   writer->SetInput( saltAndPepperNoiseImageFilter->GetOutput() );
   writer->SetFileName( argv[2] );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

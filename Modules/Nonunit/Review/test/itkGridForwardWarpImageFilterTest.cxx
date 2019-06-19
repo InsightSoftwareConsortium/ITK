@@ -102,25 +102,25 @@ int itkGridForwardWarpImageFilterTest( int argc, char* argv[] )
   // Create the filter instance
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, GridForwardWarpImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, GridForwardWarpImageFilter,
     ImageToImageFilter );
 
   FilterType::PixelType backgroundValue =
     itk::NumericTraits< FilterType::PixelType >::ZeroValue();
   filter->SetBackgroundValue( backgroundValue );
-  TEST_SET_GET_VALUE( backgroundValue, filter->GetBackgroundValue() );
+  ITK_TEST_SET_GET_VALUE( backgroundValue, filter->GetBackgroundValue() );
 
   FilterType::PixelType foregroundValue =
     itk::NumericTraits< FilterType::PixelType >::OneValue();
   filter->SetForegroundValue( foregroundValue );
-  TEST_SET_GET_VALUE( foregroundValue, filter->GetForegroundValue());
+  ITK_TEST_SET_GET_VALUE( foregroundValue, filter->GetForegroundValue());
 
 
   // Set the input image
   filter->SetInput( inputDisplacementField );
 
   // Execute the filter
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
 
   // Write the result image
@@ -130,7 +130,7 @@ int itkGridForwardWarpImageFilterTest( int argc, char* argv[] )
   writer->SetFileName( argv[1] );
 
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
 
   std::cout << "Test finished." << std::endl;

@@ -57,6 +57,10 @@ namespace itk
  *
  * \ingroup ImageFeatureExtraction
  * \ingroup ITKDistanceMap
+ *
+ * \sphinx
+ * \sphinxexample{Filtering/DistanceMap/MaurerDistanceMapOfBinary,Maurer Distance Map Of Binary Image}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT SignedMaurerDistanceMapImageFilter:

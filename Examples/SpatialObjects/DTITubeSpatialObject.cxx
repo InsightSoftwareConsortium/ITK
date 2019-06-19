@@ -62,8 +62,8 @@ int main( int , char *[] )
 // We create a point list and we set:
 // \begin{enumerate}
 // \item The position of each point in the local coordinate system using the
-// \code{SetPosition()} method.
-// \item The radius of the tube at this position using \code{SetRadius()}.
+// \code{SetPositionInObjectSpace()} method.
+// \item The radius of the tube at this position using \code{SetRadiusInObjectSpace()}.
 // \item The FA value using \code{AddField(DTITubePointType::FA)}.
 // \item The ADC value using \code{AddField(DTITubePointType::ADC)}.
 // \item The GA value using \code{AddField(DTITubePointType::GA)}.
@@ -132,7 +132,8 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Then we can access the points using STL iterators.  \code{GetPosition()}
+// Then we can access the points using STL iterators.
+// \code{GetPositionInObjectSpace()}
 // and \code{GetColor()} functions return respectively the position and the
 // color of the point.
 //

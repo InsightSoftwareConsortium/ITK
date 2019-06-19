@@ -101,7 +101,7 @@ int itkMaskNeighborhoodOperatorImageFilterTest(int ac, char* av[] )
 
   FilterType::Pointer filter1 = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter1, MaskNeighborhoodOperatorImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter1, MaskNeighborhoodOperatorImageFilter,
     NeighborhoodOperatorImageFilter );
 
   filter1->SetInput(input->GetOutput());
@@ -111,7 +111,7 @@ int itkMaskNeighborhoodOperatorImageFilterTest(int ac, char* av[] )
 
   FilterType::Pointer filter2 = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter2, MaskNeighborhoodOperatorImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter2, MaskNeighborhoodOperatorImageFilter,
     NeighborhoodOperatorImageFilter );
 
   filter2->SetInput(filter1->GetOutput());

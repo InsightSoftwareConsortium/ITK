@@ -76,7 +76,7 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest( int, char *[] )
   CostFunctionType::Pointer costFunction = CostFunctionType::New();
   OptimizerType::Pointer optimizer       = OptimizerType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, GeodesicActiveContourShapePriorLevelSetImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, GeodesicActiveContourShapePriorLevelSetImageFilter,
     ShapePriorSegmentationLevelSetImageFilter );
 
   ImageType::SizeType imageSize;

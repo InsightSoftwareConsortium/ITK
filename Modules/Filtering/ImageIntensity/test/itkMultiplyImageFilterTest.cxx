@@ -97,7 +97,7 @@ int itkMultiplyImageFilterTest( int, char* [] )
   // Create the filter
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, MultiplyImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, MultiplyImageFilter,
     BinaryGeneratorImageFilter );
 
   // Connect the input images
@@ -106,7 +106,7 @@ int itkMultiplyImageFilterTest( int, char* [] )
 
 
   // Execute the filter
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
 
   // Get the filter output

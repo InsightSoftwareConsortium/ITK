@@ -58,7 +58,7 @@ int itkBinShrinkImageFilterTest1( int , char *[] )
   BinShrinkFilterType::Pointer bin = BinShrinkFilterType::New();
 
   // Exercise some methods for coverage
-  EXERCISE_BASIC_OBJECT_METHODS( bin, BinShrinkImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( bin, BinShrinkImageFilter,
     ImageToImageFilter );
 
   bin->SetInput( monitor1->GetOutput() );
@@ -66,27 +66,27 @@ int itkBinShrinkImageFilterTest1( int , char *[] )
   itk::ModifiedTimeType t = bin->GetMTime();
 
   std::cout << bin;
-  TEST_EXPECT_EQUAL(bin->GetShrinkFactors()[0], 1 );
+  ITK_TEST_EXPECT_EQUAL(bin->GetShrinkFactors()[0], 1 );
 
   // test no change
   bin->SetShrinkFactors(1);
-  TEST_EXPECT_EQUAL(bin->GetShrinkFactors()[0], 1 );
-  TEST_EXPECT_EQUAL(t,  bin->GetMTime());
+  ITK_TEST_EXPECT_EQUAL(bin->GetShrinkFactors()[0], 1 );
+  ITK_TEST_EXPECT_EQUAL(t,  bin->GetMTime());
 
   // test zero value
   bin->SetShrinkFactors(0);
-  TEST_EXPECT_EQUAL(bin->GetShrinkFactors()[0], 1 );
-  TEST_EXPECT_TRUE( t != bin->GetMTime() );
+  ITK_TEST_EXPECT_EQUAL(bin->GetShrinkFactors()[0], 1 );
+  ITK_TEST_EXPECT_TRUE( t != bin->GetMTime() );
   t = bin->GetMTime();
 
   // no change
   bin->SetShrinkFactor(0,1);
-  TEST_EXPECT_EQUAL(bin->GetShrinkFactors()[0], 1 );
-  TEST_EXPECT_EQUAL(t,  bin->GetMTime());
+  ITK_TEST_EXPECT_EQUAL(bin->GetShrinkFactors()[0], 1 );
+  ITK_TEST_EXPECT_EQUAL(t,  bin->GetMTime());
 
   bin->SetShrinkFactor(0,2);
-  TEST_EXPECT_EQUAL(bin->GetShrinkFactors()[0], 2 );
-  TEST_EXPECT_TRUE( t != bin->GetMTime() );
+  ITK_TEST_EXPECT_EQUAL(bin->GetShrinkFactors()[0], 2 );
+  ITK_TEST_EXPECT_TRUE( t != bin->GetMTime() );
 
 
   using OutputMonitorFilterType = itk::PipelineMonitorImageFilter<OutputImageType>;

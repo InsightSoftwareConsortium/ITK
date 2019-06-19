@@ -25,27 +25,27 @@ int itkGaborKernelFunctionTest( int itkNotUsed( argc ), char * itkNotUsed( argv 
   using KernelFunctionType = itk::GaborKernelFunction< double >;
   KernelFunctionType::Pointer gabor = KernelFunctionType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( gabor, GaborKernelFunction,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( gabor, GaborKernelFunction,
     KernelFunctionBase );
 
   double sigma = 1.5;
   gabor->SetSigma(sigma);
-  TEST_SET_GET_VALUE( sigma, gabor->GetSigma() );
+  ITK_TEST_SET_GET_VALUE( sigma, gabor->GetSigma() );
 
   double frequency = 2.;
   gabor->SetFrequency(frequency);
-  TEST_SET_GET_VALUE( frequency, gabor->GetFrequency() );
+  ITK_TEST_SET_GET_VALUE( frequency, gabor->GetFrequency() );
 
   double phaseOffset = 0.8;
   gabor->SetPhaseOffset(phaseOffset);
-  TEST_SET_GET_VALUE( phaseOffset, gabor->GetPhaseOffset() );
+  ITK_TEST_SET_GET_VALUE( phaseOffset, gabor->GetPhaseOffset() );
 
   bool calculateImaginaryPart = true;
   gabor->SetCalculateImaginaryPart( calculateImaginaryPart );
-  TEST_SET_GET_VALUE( calculateImaginaryPart, gabor->GetCalculateImaginaryPart() );
+  ITK_TEST_SET_GET_VALUE( calculateImaginaryPart, gabor->GetCalculateImaginaryPart() );
 
   gabor->CalculateImaginaryPartOn();
-  TEST_SET_GET_VALUE( true, gabor->GetCalculateImaginaryPart() );
+  ITK_TEST_SET_GET_VALUE( true, gabor->GetCalculateImaginaryPart() );
 
   double tolerance = 1e-12;
   double point = 2.86;
@@ -63,7 +63,7 @@ int itkGaborKernelFunctionTest( int itkNotUsed( argc ), char * itkNotUsed( argv 
     }
 
   gabor->CalculateImaginaryPartOff();
-  TEST_SET_GET_VALUE( false, gabor->GetCalculateImaginaryPart() );
+  ITK_TEST_SET_GET_VALUE( false, gabor->GetCalculateImaginaryPart() );
 
   expectedValue = 0.093234196962237226;
   result = gabor->Evaluate( point );

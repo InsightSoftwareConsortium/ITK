@@ -80,13 +80,13 @@ int itkTestingComparisonImageFilterTest(int argc, char *argv [] )
 
   writer->SetFileName( argv[3] );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   unsigned long numberOfPixelsWithDifferences =
     filter->GetNumberOfPixelsWithDifferences();
 
   char *end;
-  TEST_EXPECT_EQUAL(numberOfPixelsWithDifferences, std::strtoul( argv[6], &end, 10 ) );
+  ITK_TEST_EXPECT_EQUAL(numberOfPixelsWithDifferences, std::strtoul( argv[6], &end, 10 ) );
 
   // Change test input spacing to test that comparison filter fails if spacings are different
   InputImageType::SpacingType spacing;
@@ -95,13 +95,13 @@ int itkTestingComparisonImageFilterTest(int argc, char *argv [] )
 
   // Expect failure
   reader2->GetOutput()->SetSpacing( spacing );
-  TRY_EXPECT_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_EXCEPTION( filter->Update() );
 
   // Expect success
   auto coordinateTolerance = static_cast<double>( spacing[0] );
   filter->SetCoordinateTolerance(coordinateTolerance);
-  TEST_SET_GET_VALUE( coordinateTolerance, filter->GetCoordinateTolerance() );
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TEST_SET_GET_VALUE( coordinateTolerance, filter->GetCoordinateTolerance() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   // Reset
   filter->SetCoordinateTolerance(1.0e-6);
@@ -113,11 +113,11 @@ int itkTestingComparisonImageFilterTest(int argc, char *argv [] )
 
   // Expect failure
   reader2->GetOutput()->SetOrigin( origin );
-  TRY_EXPECT_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_EXCEPTION( filter->Update() );
 
   filter->SetCoordinateTolerance( 10 );
   // Expect success
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   // Reset
   filter->SetCoordinateTolerance( 1.0e-6 );
@@ -132,25 +132,25 @@ int itkTestingComparisonImageFilterTest(int argc, char *argv [] )
 
   // Expect failure
   reader2->GetOutput()->SetDirection( direction );
-  TRY_EXPECT_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_EXCEPTION( filter->Update() );
 
   // Expect success
   filter->SetDirectionTolerance( 2 );
-  TEST_SET_GET_VALUE( 2, filter->GetDirectionTolerance() );
+  ITK_TEST_SET_GET_VALUE( 2, filter->GetDirectionTolerance() );
 
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   // Reset
   filter->SetDirectionTolerance( 1.0e-6 );
 
   // Test disabling VerifyInputInformation()
   filter->SetVerifyInputInformation(false);
-  TEST_SET_GET_VALUE( false, filter->GetVerifyInputInformation() );
+  ITK_TEST_SET_GET_VALUE( false, filter->GetVerifyInputInformation() );
   filter->VerifyInputInformationOn();
-  TEST_SET_GET_VALUE( true, filter->GetVerifyInputInformation() );
+  ITK_TEST_SET_GET_VALUE( true, filter->GetVerifyInputInformation() );
   filter->VerifyInputInformationOff();
-  TEST_SET_GET_VALUE( false, filter->GetVerifyInputInformation() );
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TEST_SET_GET_VALUE( false, filter->GetVerifyInputInformation() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   return EXIT_SUCCESS;
 }

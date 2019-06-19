@@ -32,9 +32,9 @@ namespace itk
  *  Spatial object.
  * \ingroup ITKSpatialObjects
  *
- * \wiki
- * \wikiexample{SpatialObjects/SpatialObjectToImageFilter,Convert a spatial object to an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/SpatialObjects/ConvertSpacialObjectToImage,Convert Spacial Object To Image}
+ * \endsphinx
  */
 template< typename TInputSpatialObject, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT SpatialObjectToImageFilter:public ImageSource< TOutputImage >

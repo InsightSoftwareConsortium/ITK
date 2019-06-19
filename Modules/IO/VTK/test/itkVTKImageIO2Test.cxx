@@ -445,7 +445,7 @@ int itkVTKImageIO2Test(int argc, char* argv[])
   using IOType = itk::VTKImageIO;
   IOType::Pointer vtkIO = IOType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( vtkIO, VTKImageIO, StreamingImageIOBase );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( vtkIO, VTKImageIO, StreamingImageIOBase );
 
   std::cout << "All tests finished!" << std::endl;
   return status;

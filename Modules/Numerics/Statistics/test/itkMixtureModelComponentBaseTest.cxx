@@ -69,7 +69,7 @@ int itkMixtureModelComponentBaseTest( int , char* [] )
   std::cout << "component->GetWeights(): " << component->GetWeights() << std::endl;
   component->RunTests();
 
-  TRY_EXPECT_EXCEPTION( component->GetWeight(5) );
+  ITK_TRY_EXPECT_EXCEPTION( component->GetWeight(5) );
 
   std::cerr << "[PASSED]" << std::endl;
   return EXIT_SUCCESS;

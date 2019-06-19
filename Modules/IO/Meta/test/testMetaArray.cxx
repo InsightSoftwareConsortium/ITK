@@ -41,19 +41,19 @@ int testMetaArray(int argc, char * argv[])
   // Write them
   itk::MetaArrayWriter::Pointer arrayWriter = itk::MetaArrayWriter::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( arrayWriter, MetaArrayWriter, LightProcessObject );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( arrayWriter, MetaArrayWriter, LightProcessObject );
 
   std::string filename = "test.mva";
   arrayWriter->SetFileName( filename );
-  TEST_SET_GET_VALUE( filename, arrayWriter->GetFileName() );
+  ITK_TEST_SET_GET_VALUE( filename, arrayWriter->GetFileName() );
 
   unsigned int precision = 6;
   arrayWriter->SetPrecision( precision );
-  TEST_SET_GET_VALUE( precision, arrayWriter->GetPrecision() );
+  ITK_TEST_SET_GET_VALUE( precision, arrayWriter->GetPrecision() );
 
   bool binary = false;
   arrayWriter->SetBinary( binary );
-  TEST_SET_GET_VALUE( binary, arrayWriter->GetBinary() );
+  ITK_TEST_SET_GET_VALUE( binary, arrayWriter->GetBinary() );
 
   arrayWriter->SetInput(MET_SHORT, &arr);
   arrayWriter->Update();
@@ -68,7 +68,7 @@ int testMetaArray(int argc, char * argv[])
 
   filename = "test_far.mva";
   arrayWriter->SetFileName( filename );
-  TEST_SET_GET_VALUE( filename, arrayWriter->GetFileName() );
+  ITK_TEST_SET_GET_VALUE( filename, arrayWriter->GetFileName() );
 
   arrayWriter->SetInput(MET_SHORT, &farr);
   arrayWriter->Update();
@@ -83,15 +83,15 @@ int testMetaArray(int argc, char * argv[])
 
   filename = "test_vec.mva";
   arrayWriter->SetFileName( filename );
-  TEST_SET_GET_VALUE( filename, arrayWriter->GetFileName() );
+  ITK_TEST_SET_GET_VALUE( filename, arrayWriter->GetFileName() );
 
   precision = 4;
   arrayWriter->SetPrecision( precision );
-  TEST_SET_GET_VALUE( precision, arrayWriter->GetPrecision() );
+  ITK_TEST_SET_GET_VALUE( precision, arrayWriter->GetPrecision() );
 
   binary = true;
   arrayWriter->SetBinary( binary );
-  TEST_SET_GET_VALUE( binary, arrayWriter->GetBinary() );
+  ITK_TEST_SET_GET_VALUE( binary, arrayWriter->GetBinary() );
 
   arrayWriter->SetInput(MET_FLOAT, &vec);
   arrayWriter->Update();
@@ -106,7 +106,7 @@ int testMetaArray(int argc, char * argv[])
 
   filename = "test_cvec.mvh";
   arrayWriter->SetFileName( filename );
-  TEST_SET_GET_VALUE( filename, arrayWriter->GetFileName() );
+  ITK_TEST_SET_GET_VALUE( filename, arrayWriter->GetFileName() );
 
   arrayWriter->SetInput(MET_FLOAT, &cvec);
   arrayWriter->Update();
@@ -122,7 +122,7 @@ int testMetaArray(int argc, char * argv[])
 
   filename = "test_vvec.mvh";
   arrayWriter->SetFileName( filename );
-  TEST_SET_GET_VALUE( filename, arrayWriter->GetFileName() );
+  ITK_TEST_SET_GET_VALUE( filename, arrayWriter->GetFileName() );
 
   arrayWriter->SetInput(MET_FLOAT, &vvec);
   arrayWriter->Update();
@@ -132,11 +132,11 @@ int testMetaArray(int argc, char * argv[])
   itk::VariableLengthVector<short> rvecs;
   itk::MetaArrayReader::Pointer arrayReader = itk::MetaArrayReader::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( arrayReader, MetaArrayReader, LightProcessObject );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( arrayReader, MetaArrayReader, LightProcessObject );
 
   filename = "test.mva";
   arrayReader->SetFileName( filename );
-  TEST_SET_GET_VALUE( filename, arrayReader->GetFileName() );
+  ITK_TEST_SET_GET_VALUE( filename, arrayReader->GetFileName() );
 
   arrayReader->Update();
   arrayReader->GetOutput(MET_SHORT, & rvecs);

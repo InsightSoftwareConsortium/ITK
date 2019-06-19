@@ -67,9 +67,9 @@ namespace Statistics
  * \sa Sample, DenseFrequencyContainer, SparseFrequencyContainer, VariableDimensionHistogram
  * \ingroup ITKStatistics
  *
- * \wiki
- * \wikiexample{Statistics/Histogram,Compute a histogram from measurements.}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Numerics/Statistics/HistogramCreationAndBinAccess,Histogram Creation And Bin Access}
+ * \endsphinx
  */
 
 template< typename TMeasurement = float,

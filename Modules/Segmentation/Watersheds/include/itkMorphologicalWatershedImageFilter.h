@@ -47,6 +47,10 @@ namespace itk
  * \sa WatershedImageFilter, MorphologicalWatershedFromMarkersImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKWatersheds
+ *
+ * \sphinx
+ * \sphinexample{Segmentation/Watersheds/MorphologicalWatershedSegmentation,Morphological Watershed Segmentation}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT MorphologicalWatershedImageFilter:

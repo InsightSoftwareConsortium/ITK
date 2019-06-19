@@ -25,7 +25,7 @@
 namespace itk
 {
 
-template <class TInputImage>
+template <typename TInputImage>
 ImageSink<TInputImage>
 ::ImageSink()
   : m_NumberOfStreamDivisions{1},
@@ -40,7 +40,7 @@ ImageSink<TInputImage>
 }
 
 
-template <class TInputImage>
+template <typename TInputImage>
 void
 ImageSink<TInputImage>
 ::SetInput(const InputImageType *input)
@@ -50,16 +50,16 @@ ImageSink<TInputImage>
 }
 
 
-template <class TInputImage>
+template <typename TInputImage>
 const typename ImageSink<TInputImage>::InputImageType *
 ImageSink<TInputImage>
-::GetInput(void) const
+::GetInput() const
 {
   return itkDynamicCastInDebugMode< const TInputImage * >( this->ProcessObject::GetPrimaryInput() );
 }
 
 
-template <class TInputImage>
+template <typename TInputImage>
 const typename ImageSink<TInputImage>::InputImageType *
 ImageSink<TInputImage>
 ::GetInput(unsigned int idx) const
@@ -75,7 +75,7 @@ ImageSink<TInputImage>
 }
 
 
-template <class TInputImage>
+template <typename TInputImage>
 const typename ImageSink<TInputImage>::InputImageType *
 ImageSink<TInputImage>
 ::GetInput(const DataObjectIdentifierType & key) const
@@ -91,19 +91,28 @@ ImageSink<TInputImage>
 }
 
 
-template <class TInputImage>
+template <typename TInputImage>
 void
 ImageSink<TInputImage>
-::Update( )
+::UpdateLargestPossibleRegion()
 {
-  this->UpdateOutputInformation();
-  // if output 1, the just call it
-  // this->PropagateRequestedRegion( NULL );
-  this->UpdateOutputData( NULL );
+  this->Update();
 }
 
 
-template <class TInputImage>
+template <typename TInputImage>
+void
+ImageSink<TInputImage>
+::Update()
+{
+  this->UpdateOutputInformation();
+  // if output 1, the just call it
+  // this->PropagateRequestedRegion( nullptr );
+  this->UpdateOutputData( nullptr );
+}
+
+
+template <typename TInputImage>
 void
 ImageSink<TInputImage>
 ::PrintSelf(std::ostream & os, Indent indent) const
@@ -116,10 +125,10 @@ ImageSink<TInputImage>
 }
 
 
-template <class TInputImage>
+template <typename TInputImage>
 unsigned int
 ImageSink<TInputImage>
-::GetNumberOfInputRequestedRegions (void)
+::GetNumberOfInputRequestedRegions()
 {
   const InputImageType* inputPtr = const_cast< InputImageType * >( this->GetInput() );
   InputImageRegionType inputImageRegion = inputPtr->GetLargestPossibleRegion();
@@ -128,7 +137,7 @@ ImageSink<TInputImage>
 }
 
 
-template <class TInputImage>
+template <typename TInputImage>
 void
 ImageSink<TInputImage>
 ::GenerateNthInputRequestedRegion (unsigned int inputRequestedRegionNumber)
@@ -153,24 +162,18 @@ ImageSink<TInputImage>
       {
       // Check whether the input is an image of the appropriate
       // dimension (use ProcessObject's version of the GetInput()
-      // method sink it returns the input as a pointer to a
+      // method since it returns the input as a pointer to a
       // DataObject as opposed to the subclass version which
       // static_casts the input to an TInputImage).
       using ImageBaseType = ImageBase< InputImageDimension >;
-      typename ImageBaseType::ConstPointer constInput =
-        dynamic_cast< ImageBaseType const * >( this->GetInput(inputName) );
+      auto * input = dynamic_cast< ImageBaseType  * >( this->ProcessObject::GetInput(inputName) );
 
-      // If not an image, skip it, and let a subclass of
-      // ImageToImageFilter handle this input.
-      if ( constInput.IsNull() )
+      // If not an image, skip it. A subclass can override this method
+      // for particular input types.
+      if ( input == nullptr )
         {
         continue;
         }
-
-      // Input is an image, cast away the constness so we can set
-      // the requested region.
-      InputImagePointer input = const_cast< TInputImage * >( this->GetInput(inputName) );
-
       // copy the requested region of the first input to the others
       InputImageRegionType inputRegion;
       input->SetRequestedRegion( m_CurrentInputRegion );
@@ -179,7 +182,7 @@ ImageSink<TInputImage>
 }
 
 
-template <class TInputImage>
+template <typename TInputImage>
 void
 ImageSink<TInputImage>
 ::VerifyInputInformation() ITKv5_CONST
@@ -259,7 +262,7 @@ ImageSink<TInputImage>
 
 }
 
-template <class TInputImage>
+template <typename TInputImage>
 void
 ImageSink<TInputImage>
 ::StreamedGenerateData( unsigned int inputRequestedRegionNumber )

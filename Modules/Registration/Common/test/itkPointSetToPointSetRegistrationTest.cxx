@@ -112,7 +112,7 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
     MovingPointSetType >;
   RegistrationType::Pointer registration = RegistrationType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( registration, PointSetToPointSetRegistrationMethod,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( registration, PointSetToPointSetRegistrationMethod,
     ProcessObject );
 
   // Scale the translation components of the Transform in the Optimizer
@@ -132,19 +132,19 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
 
   // Connect all the components required for the registration
   registration->SetMetric( metric );
-  TEST_SET_GET_VALUE( metric, registration->GetMetric() );
+  ITK_TEST_SET_GET_VALUE( metric, registration->GetMetric() );
 
   registration->SetOptimizer( optimizer );
-  TEST_SET_GET_VALUE( optimizer, registration->GetOptimizer() );
+  ITK_TEST_SET_GET_VALUE( optimizer, registration->GetOptimizer() );
 
   registration->SetTransform( transform );
-  TEST_SET_GET_VALUE( transform, registration->GetTransform() );
+  ITK_TEST_SET_GET_VALUE( transform, registration->GetTransform() );
 
   registration->SetFixedPointSet( fixedPointSet );
-  TEST_SET_GET_VALUE( fixedPointSet, registration->GetFixedPointSet() );
+  ITK_TEST_SET_GET_VALUE( fixedPointSet, registration->GetFixedPointSet() );
 
   registration->SetMovingPointSet( movingPointSet );
-  TEST_SET_GET_VALUE( movingPointSet, registration->GetMovingPointSet() );
+  ITK_TEST_SET_GET_VALUE( movingPointSet, registration->GetMovingPointSet() );
 
   // Set up transform parameters
   ParametersType parameters( transform->GetNumberOfParameters() );
@@ -156,11 +156,11 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
     }
   transform->SetParameters( parameters );
   registration->SetInitialTransformParameters( transform->GetParameters() );
-  TEST_SET_GET_VALUE( transform->GetParameters(),
+  ITK_TEST_SET_GET_VALUE( transform->GetParameters(),
     registration->GetInitialTransformParameters() );
 
 
-  TRY_EXPECT_NO_EXCEPTION( registration->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( registration->Update() );
 
 
   // Print the last transform parameters to improve coverage
@@ -195,7 +195,7 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
   using PSToImageFilterType = itk::PointSetToImageFilter< FixedPointSetType, BinaryImageType >;
   PSToImageFilterType::Pointer psToImageFilter = PSToImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( psToImageFilter, PointSetToImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( psToImageFilter, PointSetToImageFilter,
     ImageSource );
 
   psToImageFilter->SetInput( fixedPointSet );
@@ -211,7 +211,7 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
             << psToImageFilter->GetOrigin() << "]" << std::endl;
 
 
-  TRY_EXPECT_NO_EXCEPTION( psToImageFilter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( psToImageFilter->Update() );
 
   BinaryImageType::Pointer binaryImage = psToImageFilter->GetOutput();
 
@@ -221,7 +221,7 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
 
   ddFilter->SetInput( binaryImage );
 
-  TRY_EXPECT_NO_EXCEPTION( ddFilter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( ddFilter->Update() );
 
   metric->SetDistanceMap( ddFilter->GetOutput() );
   metric->ComputeSquaredDistanceOn();
@@ -235,7 +235,7 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
   transform->SetParameters(parameters);
   registration->SetInitialTransformParameters( transform->GetParameters() );
 
-  TRY_EXPECT_NO_EXCEPTION( registration->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( registration->Update() );
 
   std::cout << "Solution = " << transform->GetParameters() << std::endl;
 

@@ -40,9 +40,10 @@ namespace itk
  * \ingroup GeometricTransform
  * \ingroup ITKImageGrid
  *
- * \wiki
- * \wikiexample{ImageProcessing/PasteImageFilter,Paste a part of one image into another image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageGrid/PasteImageIntoAnotherOne,Paste Image Into Another One}
+ * \sphinxexample{Filtering/ImageGrid/RunImageFilterOnRegionOfImage,Run Image Filter On Region Of Image}
+ * \endsphinx
  */
 template< typename TInputImage, typename TSourceImage = TInputImage, typename TOutputImage = TInputImage >
 class ITK_TEMPLATE_EXPORT PasteImageFilter:

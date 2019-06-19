@@ -64,11 +64,11 @@ namespace itk
  *
  * \ingroup ITKReview
  *
- * \wiki
- * \wikiexample{Segmentation/MultiphaseChanAndVeseSparseFieldLevelSetSegmentation,Multiphase Chan And Vese Sparse Field Level Set Segmentation}
- * \wikiexample{Segmentation/SinglephaseChanAndVeseSparseFieldLevelSetSegmentation,Single-phase Chan And Vese Sparse Field Level Set Segmentation}
- * \wikiexample{Segmentation/SinglephaseChanAndVeseDenseFieldLevelSetSegmentation,Single-phase Chan And Vese Dense Field Level Set Segmentation}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Nonunit/Review/MultiphaseChanAndVeseSparseFieldLevelSetSegmentation,Multiphase Chan And Vese Sparse Field Level Set Segmentation}
+ * \sphinxexample{Nonunit/Review/SinglephaseChanAndVeseSparseFieldLevelSetSegmentation,Single-phase Chan And Vese Sparse Field Level Set Segmentation}
+ * \sphinxexample{Nonunit/Review/SinglephaseChanAndVeseSparseFieldLevelSetSegmentation2,Single-phase Chan And Vese Dense Field Level Set Segmentation}
+ * \endsphinx
  */
 template< typename TInputImage,
           typename TFeatureImage,

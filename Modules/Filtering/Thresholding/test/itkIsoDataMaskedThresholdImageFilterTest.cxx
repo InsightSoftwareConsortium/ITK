@@ -56,10 +56,10 @@ int itkIsoDataMaskedThresholdImageFilterTest(int argc, char* argv[] )
   itk::SimpleFilterWatcher watcher(filter);
 
   filter->SetInsideValue( 255 );
-  TEST_SET_GET_VALUE( 255, filter->GetInsideValue() );
+  ITK_TEST_SET_GET_VALUE( 255, filter->GetInsideValue() );
 
   filter->SetOutsideValue( 0 );
-  TEST_SET_GET_VALUE( 0, filter->GetOutsideValue() );
+  ITK_TEST_SET_GET_VALUE( 0, filter->GetOutsideValue() );
 
   reader->SetFileName( argv[1] );
   maskreader->SetFileName(argv[2]);

@@ -36,7 +36,7 @@ int itkDiscreteGaussianDerivativeImageFunctionTestND( int argc, char* argv[] )
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
   ImageType *inputImage = reader->GetOutput();
 
@@ -83,28 +83,28 @@ int itkDiscreteGaussianDerivativeImageFunctionTestND( int argc, char* argv[] )
 
 
   function->SetOrder( order );
-  TEST_SET_GET_VALUE( order, function->GetOrder() );
+  ITK_TEST_SET_GET_VALUE( order, function->GetOrder() );
 
   typename GaussianDerivativeImageFunctionType::VarianceArrayType variance;
   variance.Fill( sigma * sigma );
 
   function->SetSigma( sigma );
-  TEST_SET_GET_VALUE( variance, function->GetVariance() );
+  ITK_TEST_SET_GET_VALUE( variance, function->GetVariance() );
 
   function->SetMaximumError( maxError );
-  TEST_SET_GET_VALUE( maxError, function->GetMaximumError() );
+  ITK_TEST_SET_GET_VALUE( maxError, function->GetMaximumError() );
 
   function->SetMaximumKernelWidth( maxKernelWidth );
-  TEST_SET_GET_VALUE( maxKernelWidth, function->GetMaximumKernelWidth() );
+  ITK_TEST_SET_GET_VALUE( maxKernelWidth, function->GetMaximumKernelWidth() );
 
   bool normalizeAcrossScale = true;
-  TEST_SET_GET_BOOLEAN( function, NormalizeAcrossScale, normalizeAcrossScale );
+  ITK_TEST_SET_GET_BOOLEAN( function, NormalizeAcrossScale, normalizeAcrossScale );
 
   bool useImageSpacing = true;
-  TEST_SET_GET_BOOLEAN( function, UseImageSpacing, useImageSpacing );
+  ITK_TEST_SET_GET_BOOLEAN( function, UseImageSpacing, useImageSpacing );
 
   function->SetInterpolationMode( interpolationMode );
-  TEST_SET_GET_VALUE( interpolationMode, function->GetInterpolationMode() );
+  ITK_TEST_SET_GET_VALUE( interpolationMode, function->GetInterpolationMode() );
 
 
   function->Initialize();
@@ -176,7 +176,7 @@ int itkDiscreteGaussianDerivativeImageFunctionTestND( int argc, char* argv[] )
   writer->SetFileName( argv[2] );
   writer->SetInput( rescaler->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
 
   std::cout << "Test finished." << std::endl;
@@ -212,7 +212,7 @@ int itkDiscreteGaussianDerivativeImageFunctionTest( int argc, char* argv[] )
   GaussianDerivativeImageFunctionType::Pointer function =
     GaussianDerivativeImageFunctionType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( function,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( function,
     DiscreteGaussianDerivativeImageFunction, ImageFunction );
 
 

@@ -96,7 +96,7 @@ int ThresholdLabelerImageFilterTestHelper( bool useRealTypeThresholds )
   using LabelerFilterType = itk::ThresholdLabelerImageFilter< InputImageType, LabeledImageType >;
   LabelerFilterType::Pointer labelerFilter = LabelerFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( labelerFilter, ThresholdLabelerImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( labelerFilter, ThresholdLabelerImageFilter,
     UnaryFunctorImageFilter );
 
   labelerFilter->SetInput(inputImage);
@@ -110,7 +110,7 @@ int ThresholdLabelerImageFilterTestHelper( bool useRealTypeThresholds )
     thresholds.push_back(3.0);
 
     labelerFilter->SetThresholds(thresholds);
-    //TEST_SET_GET_VALUE( thresholds, labelerFilter->GetThresholds() );
+    //ITK_TEST_SET_GET_VALUE( thresholds, labelerFilter->GetThresholds() );
     }
   else
     {
@@ -121,11 +121,11 @@ int ThresholdLabelerImageFilterTestHelper( bool useRealTypeThresholds )
     thresholds.push_back(3.0);
 
     labelerFilter->SetRealThresholds(thresholds);
-    //TEST_SET_GET_VALUE( thresholds, labelerFilter->GetRealThresholds() );
+    //ITK_TEST_SET_GET_VALUE( thresholds, labelerFilter->GetRealThresholds() );
     }
 
   labelerFilter->SetLabelOffset(offset);
-  TEST_SET_GET_VALUE( offset, labelerFilter->GetLabelOffset() );
+  ITK_TEST_SET_GET_VALUE( offset, labelerFilter->GetLabelOffset() );
 
   try
     {

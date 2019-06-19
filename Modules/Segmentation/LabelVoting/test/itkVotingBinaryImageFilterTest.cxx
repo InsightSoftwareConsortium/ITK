@@ -60,11 +60,11 @@ int itkVotingBinaryImageFilterTestImp( const std::string &infname,
   filter->SetBirthThreshold( birthThreshold );
   filter->SetSurvivalThreshold( survivalThreshold );
 
-  TEST_SET_GET_VALUE( R, filter->GetRadius() );
-  TEST_SET_GET_VALUE( itk::Math::CastWithRangeCheck<InputPixelType>( foregroundValue ), filter->GetForegroundValue() );
-  TEST_SET_GET_VALUE( itk::Math::CastWithRangeCheck<InputPixelType>( backgroundValue ), filter->GetBackgroundValue() );
-  TEST_SET_GET_VALUE( birthThreshold, filter->GetBirthThreshold() );
-  TEST_SET_GET_VALUE( survivalThreshold, filter->GetSurvivalThreshold() );
+  ITK_TEST_SET_GET_VALUE( R, filter->GetRadius() );
+  ITK_TEST_SET_GET_VALUE( itk::Math::CastWithRangeCheck<InputPixelType>( foregroundValue ), filter->GetForegroundValue() );
+  ITK_TEST_SET_GET_VALUE( itk::Math::CastWithRangeCheck<InputPixelType>( backgroundValue ), filter->GetBackgroundValue() );
+  ITK_TEST_SET_GET_VALUE( birthThreshold, filter->GetBirthThreshold() );
+  ITK_TEST_SET_GET_VALUE( survivalThreshold, filter->GetSurvivalThreshold() );
 
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
@@ -114,7 +114,7 @@ int itkVotingBinaryImageFilterTest(int argc, char* argv[] )
   using FilterType = itk::VotingBinaryImageFilter<TestImageType, TestImageType>;
 
   FilterType::Pointer filter = FilterType::New();
-  EXERCISE_BASIC_OBJECT_METHODS( filter, VotingBinaryImageFilter, ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, VotingBinaryImageFilter, ImageToImageFilter );
 
   switch(componentType)
     {

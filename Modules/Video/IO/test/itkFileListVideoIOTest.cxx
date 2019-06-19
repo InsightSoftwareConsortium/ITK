@@ -49,7 +49,7 @@ int test_FileListVideoIO( const char* input,
   // Create the VideoIO
   itk::FileListVideoIO::Pointer fileListIO = itk::FileListVideoIO::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( fileListIO, FileListVideoIO, VideoIOBase );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( fileListIO, FileListVideoIO, VideoIOBase );
 
   fileListIO->SetFileName(input);
 

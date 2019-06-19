@@ -125,7 +125,7 @@ int itkExtractOrthogonalSwath2DImageFilterTest( int argc, char* argv[] )
   ExtractOrthogonalSwath2DImageFilterType::Pointer extractOrthogonalSwath2DImageFilter =
     ExtractOrthogonalSwath2DImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( extractOrthogonalSwath2DImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( extractOrthogonalSwath2DImageFilter,
     ExtractOrthogonalSwath2DImageFilter, ImageAndPathToImageFilter );
 
   extractOrthogonalSwath2DImageFilter->SetImageInput( inputImage );
@@ -178,7 +178,7 @@ int itkExtractOrthogonalSwath2DImageFilterTest( int argc, char* argv[] )
 
 
   // Update the pipeline
-  TRY_EXPECT_NO_EXCEPTION( outputImage->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( outputImage->Update() );
 
   // Test pipeline execution
   //
@@ -210,7 +210,7 @@ int itkExtractOrthogonalSwath2DImageFilterTest( int argc, char* argv[] )
   writer->SetInput( extractOrthogonalSwath2DImageFilter->GetOutput() );
   writer->SetFileName( argv[1] );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Write() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Write() );
 
   std::cout << "Test finished" << std::endl;
 

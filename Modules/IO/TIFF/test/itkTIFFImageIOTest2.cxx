@@ -64,13 +64,13 @@ int itkTIFFImageIOTest2( int argc, char* argv[] )
 
   writer->SetInput( image );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
   const ImageType * readImage = reader->GetOutput();
 

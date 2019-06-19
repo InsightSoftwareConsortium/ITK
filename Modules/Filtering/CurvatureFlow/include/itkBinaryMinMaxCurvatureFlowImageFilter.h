@@ -71,6 +71,10 @@ namespace itk
  * \ingroup MultiThreaded
  *
  * \ingroup ITKCurvatureFlow
+ *
+ * \sphinx
+ * \sphinxexample{Filtering/CurvatureFlow/BinaryMinMaxCurvatureFlow,Binary Min And Max Curvature Flow Of Binary Image}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT BinaryMinMaxCurvatureFlowImageFilter:

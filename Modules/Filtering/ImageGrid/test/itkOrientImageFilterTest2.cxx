@@ -178,7 +178,7 @@ int itkOrientImageFilterTest2(int, char *[])
   itk::OrientImageFilter<ImageType,ImageType>::Pointer orienter =
     itk::OrientImageFilter<ImageType,ImageType>::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( orienter, OrientImageFilter, ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( orienter, OrientImageFilter, ImageToImageFilter );
 
   orienter->UseImageDirectionOn();
   orienter->SetInput(axialImage);

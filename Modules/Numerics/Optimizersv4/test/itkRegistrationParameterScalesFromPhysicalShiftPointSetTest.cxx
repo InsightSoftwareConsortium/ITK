@@ -357,7 +357,7 @@ int itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int , char* [])
   std::cout << "Test without setting virtual domain point set." << std::endl;
   RegistrationParameterScalesFromPhysicalShiftType::Pointer shiftScaleEstimator2 = RegistrationParameterScalesFromPhysicalShiftType::New();
   shiftScaleEstimator2->SetMetric(metric);
-  TRY_EXPECT_EXCEPTION( shiftScaleEstimator2->EstimateStepScale(displacementStep) );
+  ITK_TRY_EXPECT_EXCEPTION( shiftScaleEstimator2->EstimateStepScale(displacementStep) );
 
   //
   // Check the correctness of all cases above

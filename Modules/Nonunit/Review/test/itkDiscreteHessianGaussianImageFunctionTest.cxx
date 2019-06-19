@@ -37,7 +37,7 @@ int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
 
   // Create the itk::DiscreteHessianGaussianImageFunction
@@ -72,11 +72,11 @@ int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
   varianceArray.Fill( varianceValue );
 
   function->SetVariance( varianceArray );
-  TEST_SET_GET_VALUE( varianceArray, function->GetVariance() );
+  ITK_TEST_SET_GET_VALUE( varianceArray, function->GetVariance() );
 
   // Increase code coverage calling other variations of the SetVariance method
   function->SetVariance( varianceValue );
-  TEST_SET_GET_VALUE( varianceArray, function->GetVariance() );
+  ITK_TEST_SET_GET_VALUE( varianceArray, function->GetVariance() );
 
   // Test itkSetVectorMacro
   double varianceVector[HessianGaussianImageFunctionType::VarianceArrayType::Length];
@@ -87,26 +87,26 @@ int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
       varianceVector[i] = varianceValue;
     }
   function->SetVariance( varianceVector );
-  TEST_SET_GET_VALUE( varianceArray, function->GetVariance() );
+  ITK_TEST_SET_GET_VALUE( varianceArray, function->GetVariance() );
 
 
   function->SetMaximumError( maxError );
-  TEST_SET_GET_VALUE( maxError, function->GetMaximumError() );
+  ITK_TEST_SET_GET_VALUE( maxError, function->GetMaximumError() );
 
   function->SetMaximumKernelWidth( maxKernelWidth );
-  TEST_SET_GET_VALUE( maxKernelWidth, function->GetMaximumKernelWidth() );
+  ITK_TEST_SET_GET_VALUE( maxKernelWidth, function->GetMaximumKernelWidth() );
 
   bool normalizeAcrossScale = true;
-  TEST_SET_GET_BOOLEAN( function, NormalizeAcrossScale, normalizeAcrossScale );
+  ITK_TEST_SET_GET_BOOLEAN( function, NormalizeAcrossScale, normalizeAcrossScale );
 
   bool useImageSpacing = true;
-  TEST_SET_GET_BOOLEAN( function, UseImageSpacing, useImageSpacing );
+  ITK_TEST_SET_GET_BOOLEAN( function, UseImageSpacing, useImageSpacing );
 
   typename HessianGaussianImageFunctionType::InterpolationModeType interpolationMode =
     HessianGaussianImageFunctionType::NearestNeighbourInterpolation;
 
   function->SetInterpolationMode( interpolationMode );
-  TEST_SET_GET_VALUE( interpolationMode, function->GetInterpolationMode() );
+  ITK_TEST_SET_GET_VALUE( interpolationMode, function->GetInterpolationMode() );
 
 
   function->Initialize();
@@ -179,7 +179,7 @@ int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
   writer->SetFileName( argv[2] );
   writer->SetInput( output );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
 
   // Check that VarianceArrayType can be changed
@@ -286,7 +286,7 @@ int itkDiscreteHessianGaussianImageFunctionTest( int argc, char* argv[] )
   HessianGaussianImageFunctionType::Pointer function =
     HessianGaussianImageFunctionType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( function,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( function,
     DiscreteHessianGaussianImageFunction, ImageFunction );
 
 

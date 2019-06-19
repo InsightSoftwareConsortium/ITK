@@ -93,7 +93,7 @@ int itkShrinkImageStreamingTest(int, char* [] )
   // Verify that only the data needed is requested;
   for (const auto & j : monitor1->GetOutputRequestedRegions() )
     {
-    TEST_EXPECT_TRUE(j.GetSize(1)%factors[1] == 1);
+    ITK_TEST_EXPECT_TRUE(j.GetSize(1)%factors[1] == 1);
     }
 
 

@@ -99,7 +99,7 @@ int itkRGBToLuminanceImageFilterAndAdaptorTest( int, char* [] )
   // Create the filter
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, RGBToLuminanceImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, RGBToLuminanceImageFilter,
     UnaryGeneratorImageFilter );
 
   // Set the input image
@@ -148,7 +148,7 @@ int itkRGBToLuminanceImageFilterAndAdaptorTest( int, char* [] )
 
   AdaptorType::Pointer luminanceAdaptor = AdaptorType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( luminanceAdaptor, RGBToLuminanceImageAdaptor,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( luminanceAdaptor, RGBToLuminanceImageAdaptor,
     ImageAdaptor );
 
   luminanceAdaptor->SetImage( inputImage );

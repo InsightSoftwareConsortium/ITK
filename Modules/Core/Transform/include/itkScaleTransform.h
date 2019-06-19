@@ -33,9 +33,9 @@ namespace itk
  *
  * \ingroup ITKTransform
  *
- * \wiki
- * \wikiexample{ImageProcessing/ScaleTransform,Scale an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Transform/ScaleAnImage,Scale An Image}
+ * \endsphinx
  */
 template<typename TParametersValueType=float,
           unsigned int NDimensions=3>

@@ -53,17 +53,17 @@ CompareMeshSources( bool computeSquaredDistance )
   typename MetricType::Pointer metric = MetricType::New();
 
   metric->SetComputeSquaredDistance( computeSquaredDistance );
-  TEST_SET_GET_VALUE( computeSquaredDistance, metric->GetComputeSquaredDistance() );
+  ITK_TEST_SET_GET_VALUE( computeSquaredDistance, metric->GetComputeSquaredDistance() );
 
   if( computeSquaredDistance )
     {
     metric->ComputeSquaredDistanceOn();
-    TEST_EXPECT_TRUE( metric->GetComputeSquaredDistance() );
+    ITK_TEST_EXPECT_TRUE( metric->GetComputeSquaredDistance() );
     }
   else
     {
     metric->ComputeSquaredDistanceOff();
-    TEST_EXPECT_TRUE( !metric->GetComputeSquaredDistance() );
+    ITK_TEST_EXPECT_TRUE( !metric->GetComputeSquaredDistance() );
     }
 
   metric->SetFixedPointSet( fixed->GetOutput() );
@@ -106,7 +106,7 @@ int itkEuclideanDistancePointMetricTest( int argc, char* argv [] )
 
   MetricType::Pointer metric = MetricType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( metric, EuclideanDistancePointMetric,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( metric, EuclideanDistancePointMetric,
     PointSetToPointSetMetric );
 
   bool computeSquaredDistance = static_cast< bool >( std::stoi( argv[1] ) );

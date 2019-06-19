@@ -40,9 +40,9 @@ namespace itk
  *
  * \ingroup ITKImageIntensity
  *
- * \wiki
- * \wikiexample{ImageProcessing/SigmoidImageFilter,Pass image pixels through a sigmoid function}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageIntensity/ComputeSigmoid,Compute Sigmoid}
+ * \endsphinx
  */
 
 namespace Functor

@@ -34,7 +34,7 @@
 
 namespace itk
 {
-/** \class MultiThreader
+/** \class PlatformMultiThreader
  * \brief A class for performing multithreaded execution
  *
  * Multithreader is a class that provides support for multithreaded

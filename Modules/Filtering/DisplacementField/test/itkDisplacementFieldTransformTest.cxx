@@ -185,20 +185,20 @@ int itkDisplacementFieldTransformTest( int argc, char* argv[] )
   DisplacementTransformType::Pointer displacementTransform =
     DisplacementTransformType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( displacementTransform,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( displacementTransform,
     DisplacementFieldTransform, Transform );
 
 
   DisplacementTransformType::DisplacementFieldType::Pointer displacementField =
     DisplacementTransformType::DisplacementFieldType::New();
   displacementTransform->SetDisplacementField( displacementField );
-  TEST_SET_GET_VALUE( displacementField,
+  ITK_TEST_SET_GET_VALUE( displacementField,
     displacementTransform->GetDisplacementField() );
 
   DisplacementTransformType::DisplacementFieldType::Pointer inverseDisplacementField =
     DisplacementTransformType::DisplacementFieldType::New();
   displacementTransform->SetInverseDisplacementField( inverseDisplacementField );
-  TEST_SET_GET_VALUE( inverseDisplacementField,
+  ITK_TEST_SET_GET_VALUE( inverseDisplacementField,
     displacementTransform->GetInverseDisplacementField() );
 
   using InterpolatorType = itk::VectorLinearInterpolateImageFunction<
@@ -207,22 +207,22 @@ int itkDisplacementFieldTransformTest( int argc, char* argv[] )
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   displacementTransform->SetInterpolator( interpolator );
-  TEST_SET_GET_VALUE( interpolator,
+  ITK_TEST_SET_GET_VALUE( interpolator,
     displacementTransform->GetInterpolator() );
 
   InterpolatorType::Pointer inverseInterpolator = InterpolatorType::New();
   displacementTransform->SetInverseInterpolator( inverseInterpolator );
-  TEST_SET_GET_VALUE( inverseInterpolator,
+  ITK_TEST_SET_GET_VALUE( inverseInterpolator,
     displacementTransform->GetInverseInterpolator() );
 
   double coordinateTolerance = std::stod( argv[1] );
   displacementTransform->SetCoordinateTolerance( coordinateTolerance );
-  TEST_SET_GET_VALUE( coordinateTolerance,
+  ITK_TEST_SET_GET_VALUE( coordinateTolerance,
     displacementTransform->GetCoordinateTolerance() );
 
   double directionTolerance = std::stod( argv[2] );
   displacementTransform->SetDirectionTolerance( directionTolerance );
-  TEST_SET_GET_VALUE( directionTolerance,
+  ITK_TEST_SET_GET_VALUE( directionTolerance,
     displacementTransform->GetDirectionTolerance() );
 
 
@@ -244,7 +244,7 @@ int itkDisplacementFieldTransformTest( int argc, char* argv[] )
   field->FillBuffer( zeroVector );
 
   displacementTransform->SetDisplacementField( field );
-  TEST_SET_GET_VALUE( field, displacementTransform->GetDisplacementField() );
+  ITK_TEST_SET_GET_VALUE( field, displacementTransform->GetDisplacementField() );
 
 
   // Test the fixed parameters
@@ -252,7 +252,7 @@ int itkDisplacementFieldTransformTest( int argc, char* argv[] )
   DisplacementTransformType::ParametersType fixedParameters =
     displacementTransform->GetFixedParameters();
   displacementTransform->SetFixedParameters( fixedParameters );
-  TEST_SET_GET_VALUE( fixedParameters, displacementTransform->GetFixedParameters() );
+  ITK_TEST_SET_GET_VALUE( fixedParameters, displacementTransform->GetFixedParameters() );
 
   DisplacementFieldType::SizeType size2 =
     displacementTransform->GetDisplacementField()->GetLargestPossibleRegion().GetSize();
@@ -333,7 +333,7 @@ int itkDisplacementFieldTransformTest( int argc, char* argv[] )
     }
 
   displacementTransform->SetDisplacementField( field );
-  TEST_SET_GET_VALUE( field, displacementTransform->GetDisplacementField() );
+  ITK_TEST_SET_GET_VALUE( field, displacementTransform->GetDisplacementField() );
 
   DisplacementTransformType::InputPointType testPoint;
   testPoint[0] = 10;
@@ -452,7 +452,7 @@ int itkDisplacementFieldTransformTest( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  TRY_EXPECT_EXCEPTION( deformVector =
+  ITK_TRY_EXPECT_EXCEPTION( deformVector =
     displacementTransform->TransformVector( testVector ) );
 
 
@@ -476,7 +476,7 @@ int itkDisplacementFieldTransformTest( int argc, char* argv[] )
     }
 
 
-  TRY_EXPECT_EXCEPTION( deformVVector =
+  ITK_TRY_EXPECT_EXCEPTION( deformVVector =
     displacementTransform->TransformVector( testVVector ) );
 
 
@@ -498,7 +498,7 @@ int itkDisplacementFieldTransformTest( int argc, char* argv[] )
     }
 
 
-  TRY_EXPECT_EXCEPTION( deformcVector =
+  ITK_TRY_EXPECT_EXCEPTION( deformcVector =
     displacementTransform->TransformCovariantVector( testcVector ) );
 
 
@@ -521,7 +521,7 @@ int itkDisplacementFieldTransformTest( int argc, char* argv[] )
     }
 
 
-  TRY_EXPECT_EXCEPTION( deformcVVector =
+  ITK_TRY_EXPECT_EXCEPTION( deformcVVector =
     displacementTransform->TransformCovariantVector( testcVVector ) );
 
 
@@ -553,7 +553,7 @@ int itkDisplacementFieldTransformTest( int argc, char* argv[] )
     }
 
 
-  TRY_EXPECT_EXCEPTION( deformTensor =
+  ITK_TRY_EXPECT_EXCEPTION( deformTensor =
     displacementTransform->TransformDiffusionTensor( testTensor ) );
 
 
@@ -562,7 +562,7 @@ int itkDisplacementFieldTransformTest( int argc, char* argv[] )
   DisplacementTransformType::ParametersType paramsWrongSize( 1 );
   paramsWrongSize.Fill( 0 );
 
-  TRY_EXPECT_EXCEPTION( displacementTransform->SetParameters( paramsWrongSize ) );
+  ITK_TRY_EXPECT_EXCEPTION( displacementTransform->SetParameters( paramsWrongSize ) );
 
 
   // Test UpdateTransformParameters

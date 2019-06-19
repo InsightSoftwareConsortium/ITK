@@ -99,23 +99,23 @@ int itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
 
   //testing boolean macro for ReverseOrdering
   unique->ReverseOrderingOn();
-  TEST_SET_GET_VALUE( true, unique->GetReverseOrdering() );
+  ITK_TEST_SET_GET_VALUE( true, unique->GetReverseOrdering() );
 
   unique->ReverseOrderingOff();
-  TEST_SET_GET_VALUE( false, unique->GetReverseOrdering() );
+  ITK_TEST_SET_GET_VALUE( false, unique->GetReverseOrdering() );
 
   //testing get and set macros for ReverseOrdering
   // ToDo: decrease reverseOrdering argv index once the JIRA issue 3370 has been solved
   // Then, argv[4]
   unique->SetReverseOrdering( reverseOrdering );
-  TEST_SET_GET_VALUE( reverseOrdering , unique->GetReverseOrdering() );
+  ITK_TEST_SET_GET_VALUE( reverseOrdering , unique->GetReverseOrdering() );
 
 
   //testing get and set macros for Attribute
   // ToDo: decrease attribute argv index once the JIRA issue 3370 has been solved
   // Then, argv[5]
   unique->SetAttribute( attribute );
-  TEST_SET_GET_VALUE( attribute, unique->GetAttribute() );
+  ITK_TEST_SET_GET_VALUE( attribute, unique->GetAttribute() );
 
   unique->SetInput( statisticsFilter->GetOutput() );
 
@@ -131,7 +131,7 @@ int itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
   writer->SetFileName( outputImage );
   writer->UseCompressionOn();
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
 
   // WARNING: TEMPORARY: JIRA ISSUE 3370
@@ -140,7 +140,7 @@ int itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
   writer->SetFileName( dilationOutput );
   writer->UseCompressionOn();
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

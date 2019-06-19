@@ -27,7 +27,7 @@ int itkImageRegionSplitterSlowDimensionTest(int, char*[])
   itk::ImageRegionSplitterSlowDimension::Pointer splitter =
     itk::ImageRegionSplitterSlowDimension::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( splitter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( splitter,
     ImageRegionSplitterSlowDimension, ImageRegionSplitterBase );
 
   itk::ImageRegion<2> region;
@@ -39,25 +39,25 @@ int itkImageRegionSplitterSlowDimensionTest(int, char*[])
 
   const itk::ImageRegion<2> lpRegion = region;
 
-  TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 1 ), 1 );
-  TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 2 ), 2 );
-  TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 3 ), 3 );
-  TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 4 ), 4 );
-  TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 7 ), 6 );
-  TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 11 ), 11 );
-  TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 12 ), 11 );
-  TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 99 ), 11 );
+  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 1 ), 1 );
+  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 2 ), 2 );
+  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 3 ), 3 );
+  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 4 ), 4 );
+  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 7 ), 6 );
+  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 11 ), 11 );
+  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 12 ), 11 );
+  ITK_TEST_EXPECT_EQUAL( splitter->GetNumberOfSplits( lpRegion, 99 ), 11 );
 
 
   region = lpRegion;
   splitter->GetSplit(0, 2, region);
-  TEST_EXPECT_EQUAL(region.GetSize(0), 10);
-  TEST_EXPECT_EQUAL(region.GetSize(1), 6);
+  ITK_TEST_EXPECT_EQUAL(region.GetSize(0), 10);
+  ITK_TEST_EXPECT_EQUAL(region.GetSize(1), 6);
 
   region = lpRegion;
   splitter->GetSplit(1, 2, region);
-  TEST_EXPECT_EQUAL(region.GetSize(0), 10);
-  TEST_EXPECT_EQUAL(region.GetSize(1), 5);
+  ITK_TEST_EXPECT_EQUAL(region.GetSize(0), 10);
+  ITK_TEST_EXPECT_EQUAL(region.GetSize(1), 5);
 
 
   return EXIT_SUCCESS;

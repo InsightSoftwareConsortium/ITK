@@ -50,7 +50,7 @@ int itkCannyEdgeDetectionImageFilterTest( int argc, char * argv[] )
   // Set up the filter
   CannyEdgeDetectionImageFilterType::Pointer filter = CannyEdgeDetectionImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, CannyEdgeDetectionImageFilter, ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, CannyEdgeDetectionImageFilter, ImageToImageFilter );
 
   itk::SimpleFilterWatcher watcher( filter );
 
@@ -58,19 +58,19 @@ int itkCannyEdgeDetectionImageFilterTest( int argc, char * argv[] )
 
   CannyEdgeDetectionImageFilterType::OutputImagePixelType upperThreshold = 30;
   filter->SetUpperThreshold( upperThreshold );
-  TEST_SET_GET_VALUE( upperThreshold, filter->GetUpperThreshold() );
+  ITK_TEST_SET_GET_VALUE( upperThreshold, filter->GetUpperThreshold() );
 
   CannyEdgeDetectionImageFilterType::OutputImagePixelType lowerThreshold = 15;
   filter->SetLowerThreshold( lowerThreshold );
-  TEST_SET_GET_VALUE( lowerThreshold, filter->GetLowerThreshold() );
+  ITK_TEST_SET_GET_VALUE( lowerThreshold, filter->GetLowerThreshold() );
 
   CannyEdgeDetectionImageFilterType::ArrayType variance = 1.0f;
   filter->SetVariance( variance );
-  TEST_SET_GET_VALUE( variance, filter->GetVariance() );
+  ITK_TEST_SET_GET_VALUE( variance, filter->GetVariance() );
 
   CannyEdgeDetectionImageFilterType::ArrayType maximumError = .01f;
   filter->SetMaximumError( maximumError );
-  TEST_SET_GET_VALUE( maximumError, filter->GetMaximumError() );
+  ITK_TEST_SET_GET_VALUE( maximumError, filter->GetMaximumError() );
 
 
   itk::RescaleIntensityImageFilter<InputImage, OutputImage>::Pointer rescale =
@@ -85,7 +85,7 @@ int itkCannyEdgeDetectionImageFilterTest( int argc, char * argv[] )
   writer->SetInput( rescale->GetOutput() );
   writer->SetFileName( argv[2] );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

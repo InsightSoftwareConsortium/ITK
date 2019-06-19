@@ -33,11 +33,11 @@ namespace itk
  *
  * \ingroup ITKTransform
  *
- * \wiki
- * \wikiexample{SimpleOperations/TranslationTransform,Translate an image}
- * \wikiexample{Registration/ImageRegistrationMethod,A basic global registration of two images}
- * \wikiexample{Registration/MutualInformation,Mutual Information}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Transform/TranslateAVectorImage,Translate Vector Image}
+ * \sphinxexample{Registration/Common/GlobalRegistrationOfTwoImages,Global Registration Of Two Images}
+ * \sphinxexample{Registration/Common/MutualInformation,Mutual Information}
+ * \endsphinx
  */
 template<typename TParametersValueType=double,
            unsigned int NDimensions = 3>

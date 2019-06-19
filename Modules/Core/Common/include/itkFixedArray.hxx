@@ -29,10 +29,7 @@ template< typename TValue, unsigned int VLength >
 FixedArray< TValue, VLength >
 ::FixedArray(const ValueType & r)
 {
-  for ( Iterator i = Begin(); i != End(); ++i )
-    {
-    *i = r;
-    }
+  std::fill_n(m_InternalArray, VLength, r);
 }
 
 /**
@@ -44,13 +41,7 @@ template< typename TValue, unsigned int VLength >
 FixedArray< TValue, VLength >
 ::FixedArray(const ValueType r[VLength])
 {
-  ConstIterator input = r;
-  Iterator      i = this->Begin();
-
-  while ( i != this->End() )
-    {
-    *i++ = *input++;
-    }
+  std::copy_n(r, VLength, m_InternalArray);
 }
 
 /**
@@ -65,12 +56,7 @@ FixedArray< TValue, VLength >
 {
   if ( r != m_InternalArray )
     {
-    ConstIterator input = r;
-    Iterator      i = this->Begin();
-    while ( i != this->End() )
-      {
-      *i++ = *input++;
-      }
+    std::copy_n(r, VLength, m_InternalArray);
     }
   return *this;
 }
@@ -83,23 +69,7 @@ bool
 FixedArray< TValue, VLength >
 ::operator==(const FixedArray & r) const
 {
-  ConstIterator i = this->Begin();
-  ConstIterator j = r.Begin();
-
-  while ( i != this->End() )
-    {
-CLANG_PRAGMA_PUSH
-CLANG_SUPPRESS_Wfloat_equal
-    if ( *i != *j )
-CLANG_PRAGMA_POP
-      {
-      return false;
-      }
-    ++j;
-    ++i;
-    }
-
-  return true;
+  return std::equal(m_InternalArray, m_InternalArray + VLength, r.m_InternalArray);
 }
 
 /**
@@ -213,12 +183,7 @@ void
 FixedArray< TValue, VLength >
 ::Fill(const ValueType & value)
 {
-  Iterator i = this->Begin();
-
-  while ( i != this->End() )
-    {
-    *i++ = value;
-    }
+  std::fill_n(m_InternalArray, VLength, value);
 }
 
 /**

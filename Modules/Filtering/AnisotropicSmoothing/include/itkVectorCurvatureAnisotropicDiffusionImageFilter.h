@@ -58,6 +58,10 @@ namespace itk
  * \ingroup ImageEnhancement
  *
  * \ingroup ITKAnisotropicSmoothing
+ *
+ * \sphinx
+ * \sphinxexample{Filtering/AnisotropicSmoothing/SmoothImageWhilePreservingEdges2,Smooth Image While Preserving Edges (Curvature)}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class VectorCurvatureAnisotropicDiffusionImageFilter:

@@ -133,14 +133,12 @@ int itkNearestNeighborInterpolateImageFunctionTest( int , char*[] )
  InterpolatorType::Pointer interpolator = InterpolatorType::New();
  interpolator->SetInputImage( image );
 
-#if !defined(ITKV4_COMPATIBILITY)
  typename ImageType::SizeType radius;
  radius.Fill( 0 );
  for( unsigned int d = 0; d < Dimension; ++d )
    {
-   TEST_SET_GET_VALUE( radius[d], interpolator->GetRadius()[d] );
+   ITK_TEST_SET_GET_VALUE( radius[d], interpolator->GetRadius()[d] );
    }
-#endif
 
  VectorInterpolatorType::Pointer
   vectorinterpolator = VectorInterpolatorType::New();

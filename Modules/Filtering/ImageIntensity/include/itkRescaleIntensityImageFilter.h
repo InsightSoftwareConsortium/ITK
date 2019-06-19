@@ -128,9 +128,9 @@ private:
  *
  * \ingroup ITKImageIntensity
  *
- * \wiki
- * \wikiexample{ImageProcessing/RescaleIntensityImageFilter,Rescale the intensity values of an image to a specified range}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageIntensity/RescaleAnImage,Rescale An Image}
+ * \endsphinx
  */
 template< typename  TInputImage, typename  TOutputImage = TInputImage >
 class ITK_TEMPLATE_EXPORT RescaleIntensityImageFilter:

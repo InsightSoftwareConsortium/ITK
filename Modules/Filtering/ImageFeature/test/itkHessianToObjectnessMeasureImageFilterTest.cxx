@@ -58,7 +58,7 @@ int itkHessianToObjectnessMeasureImageFilterTest( int argc, char *argv[] )
   FileReaderType::Pointer imageReader = FileReaderType::New();
   imageReader->SetFileName( argv[1] );
 
-  TRY_EXPECT_NO_EXCEPTION( imageReader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( imageReader->Update() );
 
 
   // Create a Gaussian filter
@@ -67,7 +67,7 @@ int itkHessianToObjectnessMeasureImageFilterTest( int argc, char *argv[] )
   // Create an objectness filter
   ObjectnessFilterType::Pointer objectnessFilter = ObjectnessFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( objectnessFilter, HessianToObjectnessMeasureImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( objectnessFilter, HessianToObjectnessMeasureImageFilter,
     ImageToImageFilter );
 
 
@@ -77,47 +77,47 @@ int itkHessianToObjectnessMeasureImageFilterTest( int argc, char *argv[] )
 
   // Set the filter properties
   bool scaleObjectnessMeasure = false;
-  TEST_SET_GET_BOOLEAN( objectnessFilter, ScaleObjectnessMeasure, scaleObjectnessMeasure );
+  ITK_TEST_SET_GET_BOOLEAN( objectnessFilter, ScaleObjectnessMeasure, scaleObjectnessMeasure );
 
   bool brightObject = true;
-  TEST_SET_GET_BOOLEAN( objectnessFilter, BrightObject, brightObject );
+  ITK_TEST_SET_GET_BOOLEAN( objectnessFilter, BrightObject, brightObject );
 
   double alphaValue = 0.5;
   objectnessFilter->SetAlpha( alphaValue );
-  TEST_SET_GET_VALUE( alphaValue, objectnessFilter->GetAlpha() );
+  ITK_TEST_SET_GET_VALUE( alphaValue, objectnessFilter->GetAlpha() );
 
   double betaValue = 0.5;
   objectnessFilter->SetBeta( betaValue );
-  TEST_SET_GET_VALUE( betaValue, objectnessFilter->GetBeta() );
+  ITK_TEST_SET_GET_VALUE( betaValue, objectnessFilter->GetBeta() );
 
   double gammaValue = 0.5;
   objectnessFilter->SetGamma( gammaValue );
-  TEST_SET_GET_VALUE( gammaValue, objectnessFilter->GetGamma() );
+  ITK_TEST_SET_GET_VALUE( gammaValue, objectnessFilter->GetGamma() );
 
 
   // Check that an exception is thrown if the object dimension is larger than
   // the image dimension
   objectnessFilter->SetObjectDimension( 3 );
 
-  TRY_EXPECT_EXCEPTION( objectnessFilter->Update() );
+  ITK_TRY_EXPECT_EXCEPTION( objectnessFilter->Update() );
 
 
   if( argc >= 3 )
     {
     unsigned int objectDimension = std::stoi( argv[3] );
     objectnessFilter->SetObjectDimension( objectDimension );
-    TEST_SET_GET_VALUE( objectDimension, objectnessFilter->GetObjectDimension() );
+    ITK_TEST_SET_GET_VALUE( objectDimension, objectnessFilter->GetObjectDimension() );
     }
 
   if( argc >= 4 )
     {
     brightObject = std::stoi( argv[4] );
     objectnessFilter->SetBrightObject( brightObject );
-    TEST_SET_GET_VALUE( brightObject, objectnessFilter->GetBrightObject() );
+    ITK_TEST_SET_GET_VALUE( brightObject, objectnessFilter->GetBrightObject() );
     }
 
 
-  TRY_EXPECT_NO_EXCEPTION( objectnessFilter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( objectnessFilter->Update() );
 
 
   // Write the output image
@@ -128,7 +128,7 @@ int itkHessianToObjectnessMeasureImageFilterTest( int argc, char *argv[] )
   writer->SetInput( objectnessFilter->GetOutput() );
 
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
 
   std::cout << "Test finished." << std::endl;

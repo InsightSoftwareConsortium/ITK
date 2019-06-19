@@ -76,11 +76,11 @@ namespace itk
  * \ingroup GeometricTransform
  * \ingroup ITKImageGrid
  *
- * \wiki
- * \wikiexample{SimpleOperations/TranslationTransform,Translate an image}
- * \wikiexample{ImageProcessing/Upsampling,Upsampling an image}
- * \wikiexample{ImageProcessing/ResampleImageFilter,Resample (stretch or compress) an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Transform/TranslateImage,Translate Image}
+ * \sphinxexample{Filtering/ImageGrid/UpsampleAnImage,Upsampling An Image}
+ * \sphinxexample{Filtering/ImageGrid/ResampleAnImage,Resample An Image}
+ * \endsphinx
  */
 template< typename TInputImage,
           typename TOutputImage,

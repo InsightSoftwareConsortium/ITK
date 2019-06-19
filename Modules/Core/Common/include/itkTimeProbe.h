@@ -37,9 +37,9 @@ namespace itk
  *
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{Utilities/TimeProbe,Time probe}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/ComputeTimeBetweenPoints,Compute Time Between Points}
+ * \endsphinx
  */
 class ITKCommon_EXPORT TimeProbe:public
   ResourceProbe< RealTimeClock::TimeStampType, RealTimeClock::TimeStampType >

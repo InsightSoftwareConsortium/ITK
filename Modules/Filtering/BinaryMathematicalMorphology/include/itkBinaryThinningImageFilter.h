@@ -52,9 +52,9 @@ namespace itk
  * \ingroup ImageEnhancement MathematicalMorphologyImageFilters
  * \ingroup ITKBinaryMathematicalMorphology
  *
- * \wiki
- * \wikiexample{ImageProcessing/BinaryThinningImageFilter,Skeletonize/thin an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/BinaryMathematicalMorphology/ThinImage,Thin Image}
+ * \endsphinx
  */
 
 template< typename TInputImage, typename TOutputImage >

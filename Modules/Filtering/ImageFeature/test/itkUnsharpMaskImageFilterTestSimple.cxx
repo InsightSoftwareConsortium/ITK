@@ -91,7 +91,7 @@ int itkUnsharpMaskImageFilterTestSimple( int, char* [] )
   UnsharpMaskImageFilterFilterType::Pointer filter =
     UnsharpMaskImageFilterFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(filter, UnsharpMaskImageFilter, ImageToImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, UnsharpMaskImageFilter, ImageToImageFilter);
 
   itk::SimpleFilterWatcher watchit( filter );
 
@@ -102,7 +102,7 @@ int itkUnsharpMaskImageFilterTestSimple( int, char* [] )
   UnsharpMaskImageFilterFilterType::InternalPrecisionType threshold = -0.1;
   filter->SetThreshold( threshold );
 
-  TRY_EXPECT_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_EXCEPTION( filter->Update() );
 
 
   // Set the filter properties
@@ -130,30 +130,30 @@ int itkUnsharpMaskImageFilterTestSimple( int, char* [] )
 
   UnsharpMaskImageFilterFilterType::InternalPrecisionType amount = 0.8;
   filter->SetAmount( amount );
-  TEST_SET_GET_VALUE( amount, filter->GetAmount() );
+  ITK_TEST_SET_GET_VALUE( amount, filter->GetAmount() );
 
   threshold = 0.01;
   filter->SetThreshold( threshold );
-  TEST_SET_GET_VALUE( threshold, filter->GetThreshold() );
+  ITK_TEST_SET_GET_VALUE( threshold, filter->GetThreshold() );
 
   bool clamp = itk::NumericTraits<
     UnsharpMaskImageFilterFilterType::OutputPixelType >::IsInteger;
   filter->SetClamp( clamp );
-  TEST_SET_GET_VALUE( clamp, filter->GetClamp() );
+  ITK_TEST_SET_GET_VALUE( clamp, filter->GetClamp() );
 
   if( clamp )
     {
     filter->ClampOn();
-    TEST_SET_GET_VALUE( true, filter->GetClamp() );
+    ITK_TEST_SET_GET_VALUE( true, filter->GetClamp() );
     }
   else
     {
     filter->ClampOff();
-    TEST_SET_GET_VALUE( false, filter->GetClamp() );
+    ITK_TEST_SET_GET_VALUE( false, filter->GetClamp() );
     }
 
   // Execute the filter
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   // Get the Smart Pointer to the Filter Output
   // It is important to do it AFTER the filter is Updated

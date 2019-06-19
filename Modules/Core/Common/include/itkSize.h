@@ -58,9 +58,9 @@ namespace itk
  * \ingroup ImageObjects
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{Images/Size,An object which holds the size of an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/CreateASize,Create A Size}
+ * \endsphinx
  */
 
 template <unsigned int VDimension = 2>

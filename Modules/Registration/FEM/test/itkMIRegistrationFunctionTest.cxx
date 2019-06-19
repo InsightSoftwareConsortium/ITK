@@ -85,7 +85,7 @@ int itkMIRegistrationFunctionTest( int, char* [] )
 
   MetricFunctionType::Pointer metricFunction = MetricFunctionType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( metricFunction, MIRegistrationFunction,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( metricFunction, MIRegistrationFunction,
     PDEDeformableRegistrationFunction );
 
 

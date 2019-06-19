@@ -45,7 +45,7 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// The position of the arrow in the object (local) coordinate frame is done
+// The position of the arrow in the object (local) coordinate frame is defined
 // using the \code{SetPositionInObjectSpace()} method. By default the position
 // is set to the origin of the space.  This is the "tip" of the arrow.
 //

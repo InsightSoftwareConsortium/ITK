@@ -294,7 +294,7 @@ int itkClampImageFilterTest( int, char* [] )
   using ImageType = itk::Image< unsigned char, 3 >;
   using FilterType = itk::ClampImageFilter< ImageType, ImageType >;
   FilterType::Pointer filter = FilterType::New();
-  EXERCISE_BASIC_OBJECT_METHODS( filter, ClampImageFilter, UnaryFunctorImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, ClampImageFilter, UnaryFunctorImageFilter );
 
   bool success =
     TestClampFrom< char >() &&

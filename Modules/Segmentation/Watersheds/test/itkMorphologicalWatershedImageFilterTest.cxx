@@ -55,25 +55,25 @@ int itkMorphologicalWatershedImageFilterTest( int argc, char * argv[] )
       itk::MorphologicalWatershedImageFilter< ImageType, ImageType >;
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, MorphologicalWatershedImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, MorphologicalWatershedImageFilter,
     ImageToImageFilter );
 
   bool markWatershedLine = std::stoi( argv[3] );
-  TEST_SET_GET_BOOLEAN( filter, MarkWatershedLine, markWatershedLine );
+  ITK_TEST_SET_GET_BOOLEAN( filter, MarkWatershedLine, markWatershedLine );
 
   bool fullyConnected = std::stoi( argv[4] );
-  TEST_SET_GET_BOOLEAN( filter, FullyConnected, fullyConnected );
+  ITK_TEST_SET_GET_BOOLEAN( filter, FullyConnected, fullyConnected );
 
   auto level = static_cast< FilterType::InputImagePixelType >( std::stod( argv[5] ) );
   filter->SetLevel( level );
-  TEST_SET_GET_VALUE( level, filter->GetLevel() );
+  ITK_TEST_SET_GET_VALUE( level, filter->GetLevel() );
 
 
   filter->SetInput( reader->GetOutput() );
 
   itk::SimpleFilterWatcher watcher( filter, "MorphologicalWatershedImageFilter" );
 
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
 
   // Rescale the output to have a better display
@@ -97,7 +97,7 @@ int itkMorphologicalWatershedImageFilterTest( int argc, char * argv[] )
   writer->SetInput( rescaler->GetOutput() );
   writer->SetFileName( argv[2] );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   if( argc > 6 )
     {
@@ -121,7 +121,7 @@ int itkMorphologicalWatershedImageFilterTest( int argc, char * argv[] )
       overlay->SetOpacity( std::stod( argv[7] ) );
       }
 
-    TRY_EXPECT_NO_EXCEPTION( rgbwriter->Update() );
+    ITK_TRY_EXPECT_NO_EXCEPTION( rgbwriter->Update() );
     }
 
   std::cerr << "Test finished" << std::endl;

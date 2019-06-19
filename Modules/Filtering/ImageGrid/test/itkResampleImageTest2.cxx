@@ -121,22 +121,22 @@ int itkResampleImageTest2(int argc, char * argv[])
 
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(resample, ResampleImageFilter, ImageToImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(resample, ResampleImageFilter, ImageToImageFilter);
 
 
-  TRY_EXPECT_NO_EXCEPTION( reader1->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader1->Update() );
 
   resample->SetInput(reader1->GetOutput());
-  TEST_SET_GET_VALUE(reader1->GetOutput(), resample->GetInput());
+  ITK_TEST_SET_GET_VALUE(reader1->GetOutput(), resample->GetInput());
 
   resample->SetTransform(affineTransform);
-  TEST_SET_GET_VALUE(affineTransform, resample->GetTransform());
+  ITK_TEST_SET_GET_VALUE(affineTransform, resample->GetTransform());
 
   resample->SetInterpolator(interpolator);
-  TEST_SET_GET_VALUE(interpolator, resample->GetInterpolator());
+  ITK_TEST_SET_GET_VALUE(interpolator, resample->GetInterpolator());
 
   bool useReferenceImage = std::stoi( argv[7] );
-  TEST_SET_GET_BOOLEAN( resample, UseReferenceImage, useReferenceImage );
+  ITK_TEST_SET_GET_BOOLEAN( resample, UseReferenceImage, useReferenceImage );
 
 
   // If the reference image is to be used, read it and set it to the filter;
@@ -145,10 +145,10 @@ int itkResampleImageTest2(int argc, char * argv[])
     {
     reader2->SetFileName( argv[2] );
 
-    TRY_EXPECT_NO_EXCEPTION( reader2->Update() );
+    ITK_TRY_EXPECT_NO_EXCEPTION( reader2->Update() );
 
     resample->SetReferenceImage( reader2->GetOutput() );
-    TEST_SET_GET_VALUE( reader2->GetOutput(), resample->GetReferenceImage() );
+    ITK_TEST_SET_GET_VALUE( reader2->GetOutput(), resample->GetReferenceImage() );
     }
   else
     {
@@ -186,23 +186,23 @@ int itkResampleImageTest2(int argc, char * argv[])
       resample->GetInput()->GetOrigin();
 
     resample->SetOutputSpacing( outputSpacing );
-    TEST_SET_GET_VALUE( outputSpacing, resample->GetOutputSpacing() );
+    ITK_TEST_SET_GET_VALUE( outputSpacing, resample->GetOutputSpacing() );
 
     resample->SetSize( outputSize );
-    TEST_SET_GET_VALUE( outputSize, resample->GetSize() );
+    ITK_TEST_SET_GET_VALUE( outputSize, resample->GetSize() );
 
     resample->SetOutputOrigin( outputOrigin );
-    TEST_SET_GET_VALUE( outputOrigin, resample->GetOutputOrigin() );
+    ITK_TEST_SET_GET_VALUE( outputOrigin, resample->GetOutputOrigin() );
 
     resample->SetOutputDirection( outputDirection );
-    TEST_SET_GET_VALUE( outputDirection, resample->GetOutputDirection() );
+    ITK_TEST_SET_GET_VALUE( outputDirection, resample->GetOutputDirection() );
     }
 
   // Run the resampling filter with the normal, linear, affine transform.
   // This will use ResampleImageFilter::LinearThreadedGenerateData().
   std::cout << "Test with normal AffineTransform." << std::endl;
 
-  TRY_EXPECT_NO_EXCEPTION(resample->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(resample->Update());
 
   writer1->SetInput(resample->GetOutput());
 
@@ -217,7 +217,7 @@ int itkResampleImageTest2(int argc, char * argv[])
       }
     }
 
-  TRY_EXPECT_NO_EXCEPTION( writer1->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer1->Update() );
 
 
   // Assign an affine transform that returns
@@ -232,11 +232,11 @@ int itkResampleImageTest2(int argc, char * argv[])
   nonlinearAffineTransform->Scale(2.0);
   resample->SetTransform( nonlinearAffineTransform );
 
-  TRY_EXPECT_NO_EXCEPTION( resample->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( resample->Update() );
 
   writer2->SetInput( resample->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( writer2->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer2->Update() );
 
 
   // Instead of using the default pixel when sampling outside the input image,
@@ -244,13 +244,13 @@ int itkResampleImageTest2(int argc, char * argv[])
   std::cout << "Test with nearest neighbor extrapolator, affine transform." << std::endl;
   resample->SetTransform( affineTransform );
   resample->SetExtrapolator( extrapolator );
-  TEST_SET_GET_VALUE( extrapolator, resample->GetExtrapolator() );
+  ITK_TEST_SET_GET_VALUE( extrapolator, resample->GetExtrapolator() );
 
-  TRY_EXPECT_NO_EXCEPTION( resample->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( resample->Update() );
 
   writer3->SetInput( resample->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( writer3->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer3->Update() );
 
 
   // Instead of using the default pixel when sampling outside the input image,
@@ -258,11 +258,11 @@ int itkResampleImageTest2(int argc, char * argv[])
   std::cout << "Test with nearest neighbor extrapolator, nonlinear transform." << std::endl;
   resample->SetTransform( nonlinearAffineTransform );
 
-  TRY_EXPECT_NO_EXCEPTION( resample->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( resample->Update() );
 
   writer4->SetInput( resample->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( writer4->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer4->Update() );
 
 
  std::cout << "Test finished." << std::endl;

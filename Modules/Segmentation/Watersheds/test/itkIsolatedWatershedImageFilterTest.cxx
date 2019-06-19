@@ -52,7 +52,7 @@ int itkIsolatedWatershedImageFilterTest( int argc, char* argv[] )
 
   reader->SetFileName( argv[1] );
 
-  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
 
   // Create the IsolatedWatershedImageFilter object
@@ -60,7 +60,7 @@ int itkIsolatedWatershedImageFilterTest( int argc, char* argv[] )
 
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, IsolatedWatershedImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, IsolatedWatershedImageFilter,
     ImageToImageFilter );
 
 
@@ -81,7 +81,7 @@ int itkIsolatedWatershedImageFilterTest( int argc, char* argv[] )
   seed1[0] = region.GetUpperIndex()[0] + offset[0];
   filter->SetSeed1( seed1 );
 
-  TRY_EXPECT_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_EXCEPTION( filter->Update() );
 
   seed1.Fill( 0 );
   filter->SetSeed1( seed1 );
@@ -89,41 +89,41 @@ int itkIsolatedWatershedImageFilterTest( int argc, char* argv[] )
   seed2[1] = region.GetUpperIndex()[1] + offset[1];
   filter->SetSeed2( seed2 );
 
-  TRY_EXPECT_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_EXCEPTION( filter->Update() );
 
 
   seed1[0] = std::stoi( argv[3] );
   seed1[1] = std::stoi( argv[4] );
   filter->SetSeed1( seed1 );
-  TEST_SET_GET_VALUE( seed1, filter->GetSeed1() );
+  ITK_TEST_SET_GET_VALUE( seed1, filter->GetSeed1() );
 
   seed2[0] = std::stoi( argv[5] );
   seed2[1] = std::stoi( argv[6] );
   filter->SetSeed2( seed2 );
-  TEST_SET_GET_VALUE( seed2, filter->GetSeed2() );
+  ITK_TEST_SET_GET_VALUE( seed2, filter->GetSeed2() );
 
   double threshold = std::stod( argv[7] );
   filter->SetThreshold( threshold );
-  TEST_SET_GET_VALUE( threshold, filter->GetThreshold() );
+  ITK_TEST_SET_GET_VALUE( threshold, filter->GetThreshold() );
 
   PixelType replaceValue1 = 255;
   filter->SetReplaceValue1( replaceValue1 );
-  TEST_SET_GET_VALUE( replaceValue1, filter->GetReplaceValue1() );
+  ITK_TEST_SET_GET_VALUE( replaceValue1, filter->GetReplaceValue1() );
 
   PixelType replaceValue2 = 127;
   filter->SetReplaceValue2( replaceValue2 );
-  TEST_SET_GET_VALUE( replaceValue2, filter->GetReplaceValue2() );
+  ITK_TEST_SET_GET_VALUE( replaceValue2, filter->GetReplaceValue2() );
 
   double upperValueLimit = 1.0;
   filter->SetUpperValueLimit( upperValueLimit );
-  TEST_SET_GET_VALUE( upperValueLimit, filter->GetUpperValueLimit() );
+  ITK_TEST_SET_GET_VALUE( upperValueLimit, filter->GetUpperValueLimit() );
 
   double isolatedValueTolerance = std::stod( argv[8] );
   filter->SetIsolatedValueTolerance( isolatedValueTolerance );
-  TEST_SET_GET_VALUE( isolatedValueTolerance,
+  ITK_TEST_SET_GET_VALUE( isolatedValueTolerance,
     filter->GetIsolatedValueTolerance() );
 
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
 
   double isolatedValue = filter->GetIsolatedValue();
@@ -135,7 +135,7 @@ int itkIsolatedWatershedImageFilterTest( int argc, char* argv[] )
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[2] );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
 
   std::cout << "Test finished." << std::endl;

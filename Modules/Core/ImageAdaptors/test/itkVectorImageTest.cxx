@@ -146,10 +146,10 @@ bool testVectorImageBasicMethods()
 
   // test get methods
 
-  TEST_EXPECT_EQUAL(f, image->GetPixel(idx));
-  TEST_EXPECT_EQUAL(f, cimage->GetPixel(idx));
-  TEST_EXPECT_EQUAL(f, (*image)[idx]);
-  TEST_EXPECT_EQUAL(f, (*cimage)[idx]);
+  ITK_TEST_EXPECT_EQUAL(f, image->GetPixel(idx));
+  ITK_TEST_EXPECT_EQUAL(f, cimage->GetPixel(idx));
+  ITK_TEST_EXPECT_EQUAL(f, (*image)[idx]);
+  ITK_TEST_EXPECT_EQUAL(f, (*cimage)[idx]);
 
 
   // test get by reference methods
@@ -160,37 +160,37 @@ bool testVectorImageBasicMethods()
   // note: this VectorImage method requires the compiler to perform return value
   // optimization to work as expected
   image->GetPixel(idx).Fill( 2.22f );
-  TEST_EXPECT_EQUAL(v, image->GetPixel(idx));
-  TEST_EXPECT_EQUAL(v, cimage->GetPixel(idx));
-  TEST_EXPECT_EQUAL(v, (*image)[idx]);
-  TEST_EXPECT_EQUAL(v, (*cimage)[idx]);
+  ITK_TEST_EXPECT_EQUAL(v, image->GetPixel(idx));
+  ITK_TEST_EXPECT_EQUAL(v, cimage->GetPixel(idx));
+  ITK_TEST_EXPECT_EQUAL(v, (*image)[idx]);
+  ITK_TEST_EXPECT_EQUAL(v, (*cimage)[idx]);
 
   v.Fill(2.23f);
 
   /*
   // Cannot be used as an l-value
   image->GetPixel(idx) = v;
-  TEST_EXPECT_EQUAL(v, image->GetPixel(idx));
-  TEST_EXPECT_EQUAL(v, cimage->GetPixel(idx));
-  TEST_EXPECT_EQUAL(v, (*image)[idx]);
-  TEST_EXPECT_EQUAL(v, (*cimage)[idx]);
+  ITK_TEST_EXPECT_EQUAL(v, image->GetPixel(idx));
+  ITK_TEST_EXPECT_EQUAL(v, cimage->GetPixel(idx));
+  ITK_TEST_EXPECT_EQUAL(v, (*image)[idx]);
+  ITK_TEST_EXPECT_EQUAL(v, (*cimage)[idx]);
   */
 
   typename VectorImageType::PixelType temp = image->GetPixel(idx);
   temp.Fill(2.24f);
   v.Fill(2.24f);
-  TEST_EXPECT_EQUAL(v, image->GetPixel(idx));
-  TEST_EXPECT_EQUAL(v, cimage->GetPixel(idx));
-  TEST_EXPECT_EQUAL(v, (*image)[idx]);
-  TEST_EXPECT_EQUAL(v, (*cimage)[idx]);
+  ITK_TEST_EXPECT_EQUAL(v, image->GetPixel(idx));
+  ITK_TEST_EXPECT_EQUAL(v, cimage->GetPixel(idx));
+  ITK_TEST_EXPECT_EQUAL(v, (*image)[idx]);
+  ITK_TEST_EXPECT_EQUAL(v, (*cimage)[idx]);
 
   v.Fill(3.33f);
 
   (*image)[idx].Fill( 3.33f );
-  TEST_EXPECT_EQUAL(v, image->GetPixel(idx));
-  TEST_EXPECT_EQUAL(v, cimage->GetPixel(idx));
-  TEST_EXPECT_EQUAL(v, (*image)[idx]);
-  TEST_EXPECT_EQUAL(v, (*cimage)[idx]);
+  ITK_TEST_EXPECT_EQUAL(v, image->GetPixel(idx));
+  ITK_TEST_EXPECT_EQUAL(v, cimage->GetPixel(idx));
+  ITK_TEST_EXPECT_EQUAL(v, (*image)[idx]);
+  ITK_TEST_EXPECT_EQUAL(v, (*cimage)[idx]);
 
 
   // test immutable access methods
@@ -204,27 +204,27 @@ bool testVectorImageBasicMethods()
   // The following line modifies the image and is considered a bug in
   // the interface design that it works.
   //temp2.Fill(3.44f);
-  TEST_EXPECT_EQUAL(v, image->GetPixel(idx));
-  TEST_EXPECT_EQUAL(v, cimage->GetPixel(idx));
-  TEST_EXPECT_EQUAL(v, (*image)[idx]);
-  TEST_EXPECT_EQUAL(v, (*cimage)[idx]);
+  ITK_TEST_EXPECT_EQUAL(v, image->GetPixel(idx));
+  ITK_TEST_EXPECT_EQUAL(v, cimage->GetPixel(idx));
+  ITK_TEST_EXPECT_EQUAL(v, (*image)[idx]);
+  ITK_TEST_EXPECT_EQUAL(v, (*cimage)[idx]);
 
   // test set method
 
   v.Fill(4.44f);
 
   image->SetPixel(idx, v);
-  TEST_EXPECT_EQUAL(v, image->GetPixel(idx));
-  TEST_EXPECT_EQUAL(v, cimage->GetPixel(idx));
-  TEST_EXPECT_EQUAL(v, (*image)[idx]);
-  TEST_EXPECT_EQUAL(v, (*cimage)[idx]);
+  ITK_TEST_EXPECT_EQUAL(v, image->GetPixel(idx));
+  ITK_TEST_EXPECT_EQUAL(v, cimage->GetPixel(idx));
+  ITK_TEST_EXPECT_EQUAL(v, (*image)[idx]);
+  ITK_TEST_EXPECT_EQUAL(v, (*cimage)[idx]);
 
   std::cout << "Testing Get/SetPixel methods [PASSED]" << std::endl;
 
   // test Graft method
   typename VectorImageType::Pointer imageGraft = VectorImageType::New();
   imageGraft->Graft(image);
-  TEST_EXPECT_EQUAL(image->GetPixelContainer(), imageGraft->GetPixelContainer());
+  ITK_TEST_EXPECT_EQUAL(image->GetPixelContainer(), imageGraft->GetPixelContainer());
 
   std::cout << "Testing Graft method [PASSED]" << std::endl;
   return EXIT_SUCCESS;

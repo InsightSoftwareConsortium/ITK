@@ -54,24 +54,24 @@ int itkStatisticsRelabelImageFilterTest1(int argc, char * argv[])
   //testing get/set BackgroundValue macro
   int BackgroundValue = ( std::stoi(argv[4]) );
   statisticsRelabel->SetBackgroundValue( BackgroundValue );
-  TEST_SET_GET_VALUE( BackgroundValue, statisticsRelabel->GetBackgroundValue() );
+  ITK_TEST_SET_GET_VALUE( BackgroundValue, statisticsRelabel->GetBackgroundValue() );
 
   //testing boolean macro for ReverseOrdering
   statisticsRelabel->ReverseOrderingOn();
-  TEST_SET_GET_VALUE( true, statisticsRelabel->GetReverseOrdering() );
+  ITK_TEST_SET_GET_VALUE( true, statisticsRelabel->GetReverseOrdering() );
 
   statisticsRelabel->ReverseOrderingOff();
-  TEST_SET_GET_VALUE( false, statisticsRelabel->GetReverseOrdering() );
+  ITK_TEST_SET_GET_VALUE( false, statisticsRelabel->GetReverseOrdering() );
 
   //testing get and set macros or ReverseOrdering
   bool reverseOrdering = std::stoi( argv[5] );
   statisticsRelabel->SetReverseOrdering( reverseOrdering );
-  TEST_SET_GET_VALUE( reverseOrdering , statisticsRelabel->GetReverseOrdering() );
+  ITK_TEST_SET_GET_VALUE( reverseOrdering , statisticsRelabel->GetReverseOrdering() );
 
   //testing get and set macros for Attribute
   RelabelType::AttributeType attribute = std::stoi( argv[6] );
   statisticsRelabel->SetAttribute( attribute );
-  TEST_SET_GET_VALUE( attribute, statisticsRelabel->GetAttribute() );
+  ITK_TEST_SET_GET_VALUE( attribute, statisticsRelabel->GetAttribute() );
 
   itk::SimpleFilterWatcher watcher(statisticsRelabel, "filter");
 
@@ -81,7 +81,7 @@ int itkStatisticsRelabelImageFilterTest1(int argc, char * argv[])
   writer->SetFileName( argv[3] );
   writer->UseCompressionOn();
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   std::cout << "Test Complete!" << std::endl;
 

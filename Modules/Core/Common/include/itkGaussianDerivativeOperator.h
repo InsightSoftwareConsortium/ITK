@@ -70,9 +70,9 @@ namespace itk
  * \ingroup Operators
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{Operators/GaussianDerivativeOperator,Create a Gaussian derivative kernel}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/CreateGaussianDerivativeKernel,Create Gaussian Derivative Kernel}
+ * \endsphinx
  */
 template< typename TPixel, unsigned int VDimension = 2,
           typename TAllocator = NeighborhoodAllocator< TPixel > >

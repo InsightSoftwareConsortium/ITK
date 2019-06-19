@@ -106,7 +106,7 @@ int itkMinimumImageFilterTest( int, char* [] )
   // Create the filter
   MinimumFilterType::Pointer minimumImageFilter = MinimumFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( minimumImageFilter, MinimumImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( minimumImageFilter, MinimumImageFilter,
     BinaryGeneratorImageFilter);
 
   // Connect the input images
@@ -126,8 +126,8 @@ int itkMinimumImageFilterTest( int, char* [] )
 
   ImageType::IndexType pixelIndex = {{0, 1, 1}};
 
-  TEST_EXPECT_EQUAL( outputImage->GetPixel( start ), smallPixelValue );
-  TEST_EXPECT_EQUAL( outputImage->GetPixel( pixelIndex ), smallPixelValue );
+  ITK_TEST_EXPECT_EQUAL( outputImage->GetPixel( start ), smallPixelValue );
+  ITK_TEST_EXPECT_EQUAL( outputImage->GetPixel( pixelIndex ), smallPixelValue );
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;

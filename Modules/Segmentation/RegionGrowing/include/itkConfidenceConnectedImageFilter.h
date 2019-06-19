@@ -55,9 +55,9 @@ namespace itk
  * \ingroup RegionGrowingSegmentation
  * \ingroup ITKRegionGrowing
  *
- * \wiki
- * \wikiexample{ImageSegmentation/ConfidenceConnectedImageFilter,Segment pixels with similar statistics using connectivity}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Segmentation/RegionGrowing/SegmentPixelsWithSimilarStats,SegmentPixelsWithSimilarStats}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT ConfidenceConnectedImageFilter:

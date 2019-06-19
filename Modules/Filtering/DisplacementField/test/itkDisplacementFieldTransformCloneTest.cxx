@@ -74,7 +74,7 @@ int itkDisplacementFieldTransformCloneTest( int, char *[] )
   DisplacementTransformType::Pointer displacementTransformClone =
     displacementTransform->Clone();
 
-  EXERCISE_BASIC_OBJECT_METHODS( displacementTransformClone,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( displacementTransformClone,
     DisplacementFieldTransform, Transform );
 
 

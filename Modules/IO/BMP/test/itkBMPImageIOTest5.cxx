@@ -52,7 +52,7 @@ int itkBMPImageIOTest5( int argc, char* argv[] )
 
   itk::BMPImageIO::Pointer compressedImageIO = itk::BMPImageIO::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( compressedImageIO, BMPImageIO, ImageIOBase );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( compressedImageIO, BMPImageIO, ImageIOBase );
 
   compressedImageReader->SetImageIO( compressedImageIO );
   compressedImageReader->SetFileName( argv[1] );
@@ -62,7 +62,7 @@ int itkBMPImageIOTest5( int argc, char* argv[] )
 
   itk::BMPImageIO::Pointer uncompressedImageIO = itk::BMPImageIO::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( uncompressedImageIO, BMPImageIO, ImageIOBase );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( uncompressedImageIO, BMPImageIO, ImageIOBase );
 
   uncompressedImageReader->SetImageIO( uncompressedImageIO );
   uncompressedImageReader->SetFileName( argv[2] );
@@ -102,9 +102,9 @@ int itkBMPImageIOTest5( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  TRY_EXPECT_NO_EXCEPTION( compressedImageReader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( compressedImageReader->Update() );
 
-  TRY_EXPECT_NO_EXCEPTION( uncompressedImageReader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( uncompressedImageReader->Update() );
 
 
   if( compressedImageIO->GetBMPCompression() != 1 )

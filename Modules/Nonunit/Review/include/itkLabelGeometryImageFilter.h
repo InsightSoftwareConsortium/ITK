@@ -69,9 +69,9 @@ namespace itk
  *
  * \ingroup ITKReview
  *
- * \wiki
- * \wikiexample{ImageProcessing/LabelGeometryImageFilter,Get geometric properties of labeled regions in an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Nonunit/Review/GeometricPropertiesOfRegion,Geometric Properties Of Labeled Region}
+ * \endsphinx
  */
 template< typename TLabelImage, typename TIntensityImage = TLabelImage >
 class ITK_TEMPLATE_EXPORT LabelGeometryImageFilter:

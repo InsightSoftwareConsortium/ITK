@@ -41,9 +41,9 @@ namespace itk
  * \sa WrapPadImageFilter, MirrorPadImageFilter
  * \ingroup ITKImageGrid
  *
- * \wiki
- * \wikiexample{Images/ConstantPadImageFilter,Pad an image with a constant value}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageGrid/PadAnImageWithAConstant,Pad An Image With A Constant}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT ConstantPadImageFilter:

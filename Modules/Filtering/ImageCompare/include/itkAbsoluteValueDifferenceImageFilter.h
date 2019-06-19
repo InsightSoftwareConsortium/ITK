@@ -47,9 +47,9 @@ namespace itk
  * \ingroup IntensityImageFilters MultiThreaded
  * \ingroup ITKImageCompare
  *
- * \wiki
- * \wikiexample{ImageProcessing/AbsoluteValueDifferenceImageFilter,Compute the absolute value of the difference of corresponding pixels in two images}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageCompare/AbsValueOfTwoImages,Absolute Value Of Difference Between Two Images}
+ * \endsphinx
  */
 namespace Functor
 {

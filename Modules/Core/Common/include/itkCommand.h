@@ -35,9 +35,9 @@ namespace itk
  * \ingroup ITKSystemObjects
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{Utilities/ObserveEvent,Observe an event}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/ObserveAnEvent,Observe An Event}
+ * \endsphinx
  */
 
 // The superclass that all commands should be subclasses of

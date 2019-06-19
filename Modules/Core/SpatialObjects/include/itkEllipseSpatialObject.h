@@ -28,9 +28,9 @@ namespace itk
  *
  * \ingroup ITKSpatialObjects
  *
- * \wiki
- * \wikiexample{SpatialObjects/EllipseSpatialObject,Ellipse}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/SpatialObjects/Ellipse,Ellipse}
+ * \endsphinx
  */
 
 template< unsigned int TDimension = 3 >

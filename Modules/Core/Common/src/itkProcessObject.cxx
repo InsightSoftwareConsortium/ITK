@@ -90,7 +90,8 @@ ProcessObject
     {
     return this->MakeOutput( this->MakeIndexFromOutputName(name) );
     }
-  return static_cast<DataObject *>(DataObject::New().GetPointer());
+
+  return itkDynamicCastInDebugMode<DataObject *>(DataObject::New().GetPointer());
 }
 
 
@@ -399,8 +400,11 @@ ProcessObject
 
   if ( it != m_Outputs.end() )
     {
-    // let the output know we no longer want to associate with the object
-    it->second->DisconnectSource( this, it->first );
+    if (it->second)
+      {
+      // let the output know we no longer want to associate with the object
+      it->second->DisconnectSource( this, it->first );
+      }
     m_Outputs.erase( it );
     // let go of our reference to the data object
     this->Modified();

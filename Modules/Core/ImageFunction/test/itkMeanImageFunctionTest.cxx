@@ -56,13 +56,13 @@ int itkMeanImageFunctionTest( int, char* [] )
 
   FunctionType::Pointer function = FunctionType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( function, MeanImageFunction, ImageFunction );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( function, MeanImageFunction, ImageFunction );
 
   function->SetInputImage( image );
 
   unsigned int neighborhoodRadius = 5;
   function->SetNeighborhoodRadius( neighborhoodRadius );
-  TEST_SET_GET_VALUE( neighborhoodRadius, function->GetNeighborhoodRadius() );
+  ITK_TEST_SET_GET_VALUE( neighborhoodRadius, function->GetNeighborhoodRadius() );
 
   ImageType::IndexType index;
 

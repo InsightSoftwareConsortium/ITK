@@ -31,9 +31,9 @@ namespace itk
  * \brief TODO
  * \ingroup ITKRegistrationCommon
  *
- * \wiki
- * \wikiexample{Metrics/MeanSquaresImageToImageMetric,Compute the mean squares metric between two images}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Registration/Common/ComputeMeanSquareBetweenTwoImages,Compute Mean Squares Metric Between Two Images}
+ * \endsphinx
  */
 template< typename TFixedImage, typename TMovingImage >
 class ITK_TEMPLATE_EXPORT MeanSquaresImageToImageMetric:

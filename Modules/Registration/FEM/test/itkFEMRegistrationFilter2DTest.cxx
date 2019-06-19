@@ -155,21 +155,21 @@ int itkFEMRegistrationFilter2DTest( int argc, char *argv[] )
     {
     RegistrationType::Pointer registrator = RegistrationType::New();
 
-    EXERCISE_BASIC_OBJECT_METHODS( registrator, FEMRegistrationFilter,
+    ITK_EXERCISE_BASIC_OBJECT_METHODS( registrator, FEMRegistrationFilter,
       ImageToImageFilter );
 
     registrator->SetFixedImage( fixedImage );
-    TEST_SET_GET_VALUE( fixedImage, registrator->GetFixedImage() );
+    ITK_TEST_SET_GET_VALUE( fixedImage, registrator->GetFixedImage() );
 
     registrator->SetMovingImage( movingImage );
-    TEST_SET_GET_VALUE( movingImage, registrator->GetMovingImage() );
+    ITK_TEST_SET_GET_VALUE( movingImage, registrator->GetMovingImage() );
 
     unsigned int maxLevel = 1;
     registrator->SetMaxLevel( maxLevel );
-    TEST_SET_GET_VALUE( maxLevel, registrator->GetMaxLevel() );
+    ITK_TEST_SET_GET_VALUE( maxLevel, registrator->GetMaxLevel() );
 
     bool useNormalizedGradient = true;
-    TEST_SET_GET_BOOLEAN( registrator, UseNormalizedGradient, useNormalizedGradient );
+    ITK_TEST_SET_GET_BOOLEAN( registrator, UseNormalizedGradient, useNormalizedGradient );
 
     registrator->ChooseMetric( met );
 
@@ -178,19 +178,19 @@ int itkFEMRegistrationFilter2DTest( int argc, char *argv[] )
 
     RegistrationType::Float elasticity = 10;
     registrator->SetElasticity( elasticity, 0 );
-    TEST_SET_GET_VALUE( elasticity, registrator->GetElasticity() );
+    ITK_TEST_SET_GET_VALUE( elasticity, registrator->GetElasticity() );
 
     RegistrationType::Float rho = 1;
     registrator->SetRho( rho, 0 );
-    //TEST_SET_GET_VALUE( rho, registrator->GetRho() );
+    //ITK_TEST_SET_GET_VALUE( rho, registrator->GetRho() );
 
     RegistrationType::Float gamma = 1.;
     registrator->SetGamma( gamma, 0 );
-    //TEST_SET_GET_VALUE( gamma, registrator->GetGamma() );
+    //ITK_TEST_SET_GET_VALUE( gamma, registrator->GetGamma() );
 
     RegistrationType::Float alpha = 1.;
     registrator->SetAlpha( alpha );
-    TEST_SET_GET_VALUE( alpha, registrator->GetAlpha() );
+    ITK_TEST_SET_GET_VALUE( alpha, registrator->GetAlpha() );
 
     registrator->SetMeshPixelsPerElementAtEachResolution( 4, 0 );
 
@@ -204,14 +204,14 @@ int itkFEMRegistrationFilter2DTest( int argc, char *argv[] )
       widthOfMetricRegion = 1;
       }
     registrator->SetWidthOfMetricRegion( widthOfMetricRegion, 0 );
-    TEST_SET_GET_VALUE( widthOfMetricRegion,
+    ITK_TEST_SET_GET_VALUE( widthOfMetricRegion,
       registrator->GetWidthOfMetricRegion() );
 
     registrator->SetNumberOfIntegrationPoints( 2, 0 );
 
     RegistrationType::Float timeStep = 1.;
     registrator->SetTimeStep( timeStep );
-    TEST_SET_GET_VALUE( timeStep, registrator->GetTimeStep() );
+    ITK_TEST_SET_GET_VALUE( timeStep, registrator->GetTimeStep() );
 
     unsigned int doLineSearchOnImageEnergy;
     unsigned int employRegridding;
@@ -227,48 +227,48 @@ int itkFEMRegistrationFilter2DTest( int argc, char *argv[] )
       }
 
     registrator->SetDoLineSearchOnImageEnergy( doLineSearchOnImageEnergy );
-    TEST_SET_GET_VALUE( doLineSearchOnImageEnergy,
+    ITK_TEST_SET_GET_VALUE( doLineSearchOnImageEnergy,
       registrator->GetDoLineSearchOnImageEnergy() );
 
     registrator->SetEmployRegridding( employRegridding );
-    TEST_SET_GET_VALUE( employRegridding, registrator->GetEmployRegridding() );
+    ITK_TEST_SET_GET_VALUE( employRegridding, registrator->GetEmployRegridding() );
 
     bool useLandmarks = false;
-    TEST_SET_GET_BOOLEAN( registrator, UseLandmarks, useLandmarks );
+    ITK_TEST_SET_GET_BOOLEAN( registrator, UseLandmarks, useLandmarks );
 
     bool useMassMatrix = true;
-    TEST_SET_GET_BOOLEAN( registrator, UseMassMatrix, useMassMatrix );
+    ITK_TEST_SET_GET_BOOLEAN( registrator, UseMassMatrix, useMassMatrix );
 
     RegistrationType::Float energyReductionFactor = 0.0;
     registrator->SetEnergyReductionFactor( energyReductionFactor );
-    TEST_SET_GET_VALUE( energyReductionFactor,
+    ITK_TEST_SET_GET_VALUE( energyReductionFactor,
       registrator->GetEnergyReductionFactor() );
 
     unsigned int lineSearchMaximumIterations = 100;
     registrator->SetLineSearchMaximumIterations( lineSearchMaximumIterations );
-    TEST_SET_GET_VALUE( lineSearchMaximumIterations,
+    ITK_TEST_SET_GET_VALUE( lineSearchMaximumIterations,
       registrator->GetLineSearchMaximumIterations() );
 
     bool createMeshFromImage = true;
-    TEST_SET_GET_BOOLEAN( registrator, CreateMeshFromImage, createMeshFromImage );
+    ITK_TEST_SET_GET_BOOLEAN( registrator, CreateMeshFromImage, createMeshFromImage );
 
     double standardDeviation = 0.5;
     registrator->SetStandardDeviations( standardDeviation );
-    //TEST_SET_GET_VALUE( standardDeviations, registrator->GetStandardDeviations() );
+    //ITK_TEST_SET_GET_VALUE( standardDeviations, registrator->GetStandardDeviations() );
 
     standardDeviation = 1.0;
     RegistrationType::StandardDeviationsType standardDeviations;
     standardDeviations.Fill( standardDeviation );
     registrator->SetStandardDeviations( standardDeviations );
-    //TEST_SET_GET_VALUE( standardDeviations, registrator->GetStandardDeviations() );
+    //ITK_TEST_SET_GET_VALUE( standardDeviations, registrator->GetStandardDeviations() );
 
     unsigned int maximumKernelWidth = 30;
     registrator->SetMaximumKernelWidth( maximumKernelWidth );
-    TEST_SET_GET_VALUE( maximumKernelWidth, registrator->GetMaximumKernelWidth() );
+    ITK_TEST_SET_GET_VALUE( maximumKernelWidth, registrator->GetMaximumKernelWidth() );
 
     double maximumError = 0.1;
     registrator->SetMaximumError( maximumError );
-    TEST_SET_GET_VALUE( maximumError, registrator->GetMaximumError() );
+    ITK_TEST_SET_GET_VALUE( maximumError, registrator->GetMaximumError() );
 
 
     itk::fem::MaterialLinearElasticity::Pointer material =

@@ -78,7 +78,7 @@ int itkFlipImageFilterTest( int argc, char* argv[] )
   // Flip the image
   FlipperType::Pointer flipper = FlipperType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( flipper, FlipImageFilter, ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( flipper, FlipImageFilter, ImageToImageFilter );
 
   itk::SimpleFilterWatcher watcher( flipper, "FlipImageFilter" );
 
@@ -86,10 +86,10 @@ int itkFlipImageFilterTest( int argc, char* argv[] )
   FlipperType::FlipAxesArrayType flipAxes( bArray );
 
   flipper->SetFlipAxes( flipAxes );
-  TEST_SET_GET_VALUE( flipAxes, flipper->GetFlipAxes() );
+  ITK_TEST_SET_GET_VALUE( flipAxes, flipper->GetFlipAxes() );
 
   auto flipAboutOrigin = static_cast< bool >( std::stoi( argv[1] ) );
-  TEST_SET_GET_BOOLEAN( flipper, FlipAboutOrigin, flipAboutOrigin );
+  ITK_TEST_SET_GET_BOOLEAN( flipper, FlipAboutOrigin, flipAboutOrigin );
 
   flipper->SetInput( inputImage );
 

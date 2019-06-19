@@ -91,7 +91,8 @@ CastImageFilter< TInputImage, TOutputImage >
 ::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   DynamicThreadedGenerateDataDispatched<InputPixelType>(outputRegionForThread,
-                                               std::is_convertible<InputPixelType, OutputPixelType>());
+                                                        is_static_castable<InputPixelType,OutputPixelType>() );
+
 }
 
 template< typename TInputImage, typename TOutputImage >

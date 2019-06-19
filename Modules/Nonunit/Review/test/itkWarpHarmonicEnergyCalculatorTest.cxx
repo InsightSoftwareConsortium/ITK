@@ -88,23 +88,23 @@ int itkWarpHarmonicEnergyCalculatorTest( int argc, char* argv[] )
   // Create the calculator
   CalculatorType::Pointer calculator = CalculatorType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( calculator, WarpHarmonicEnergyCalculator,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( calculator, WarpHarmonicEnergyCalculator,
     Object );
 
 
   auto useImageSpacing = static_cast< bool >( std::stoi( argv[1] ) );
-  TEST_SET_GET_BOOLEAN( calculator, UseImageSpacing, useImageSpacing );
+  ITK_TEST_SET_GET_BOOLEAN( calculator, UseImageSpacing, useImageSpacing );
 
   CalculatorType::WeightsType derivativeWeights;
   derivativeWeights.Fill( std::stod( argv[2] ) );
   calculator->SetDerivativeWeights(derivativeWeights );
-  TEST_SET_GET_VALUE( derivativeWeights, calculator->GetDerivativeWeights() );
+  ITK_TEST_SET_GET_VALUE( derivativeWeights, calculator->GetDerivativeWeights() );
 
   // Set the input image
   calculator->SetImage( inputDisplacementField );
 
   // Execute the calculator
-  TRY_EXPECT_NO_EXCEPTION( calculator->Compute() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( calculator->Compute() );
 
   // Regression test: check the computed harmonic energy
   double expectedEnergy = std::stod( argv[3] );

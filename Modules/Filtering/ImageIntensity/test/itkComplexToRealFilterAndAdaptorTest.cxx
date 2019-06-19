@@ -90,7 +90,7 @@ int itkComplexToRealFilterAndAdaptorTest( int, char* [] )
   // Create the Filter
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, ComplexToRealImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, ComplexToRealImageFilter,
     UnaryGeneratorImageFilter );
 
   // Set the input image
@@ -136,7 +136,7 @@ int itkComplexToRealFilterAndAdaptorTest( int, char* [] )
 
   AdaptorType::Pointer realAdaptor = AdaptorType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( realAdaptor, ComplexToRealImageAdaptor,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( realAdaptor, ComplexToRealImageAdaptor,
     ImageAdaptor );
 
   realAdaptor->SetImage( inputImage );

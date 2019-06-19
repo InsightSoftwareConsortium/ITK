@@ -124,9 +124,9 @@ private:
  * \ingroup MultiThreaded
  * \ingroup ITKImageIntensity
  *
- * \wiki
- * \wikiexample{ImageProcessing/MaskNegatedImageFilter,Apply the inverse of a mask to an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageIntensity/InverseOfMaskToImage,Inverse Of Mask To Image}
+ * \endsphinx
  */
 template< typename TInputImage, typename TMaskImage, typename TOutputImage = TInputImage >
 class MaskNegatedImageFilter:

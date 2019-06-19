@@ -34,7 +34,7 @@ int RunTest( int argc, char* argv[] )
 
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[2] );
-  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
   using OutImageType = itk::Image< OutPixelType, Dimension>;
   using WriterType = itk::ImageFileWriter< OutImageType >;
@@ -63,9 +63,9 @@ int RunTest( int argc, char* argv[] )
     }
 
   filter->SetInput( reader->GetOutput() );
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
   writer->SetInput( filter->GetOutput() );
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   std::cout << std::endl << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;

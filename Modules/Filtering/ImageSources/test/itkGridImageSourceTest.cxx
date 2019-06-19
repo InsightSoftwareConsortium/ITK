@@ -51,7 +51,7 @@ int itkGridImageSourceTest( int argc, char *argv[] )
   using GridSourceType = itk::GridImageSource< ImageType >;
   GridSourceType::Pointer gridImage = GridSourceType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( gridImage, GridImageSource, GenerateImageSource );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( gridImage, GridImageSource, GenerateImageSource );
 
 
   // Specify image parameters
@@ -77,7 +77,7 @@ int itkGridImageSourceTest( int argc, char *argv[] )
   // Specify grid parameters
   double scale = 255.0;
   gridImage->SetScale( scale );
-  TEST_SET_GET_VALUE( scale, gridImage->GetScale() );
+  ITK_TEST_SET_GET_VALUE( scale, gridImage->GetScale() );
 
 
   auto sigmaValue = static_cast< GridSourceType::ArrayType::ValueType >( std::stod( argv[3] ) );
@@ -94,7 +94,7 @@ int itkGridImageSourceTest( int argc, char *argv[] )
       }
     }
   gridImage->SetSigma( sigma );
-  TEST_SET_GET_VALUE( sigma, gridImage->GetSigma() );
+  ITK_TEST_SET_GET_VALUE( sigma, gridImage->GetSigma() );
 
 
   auto spacing = static_cast< GridSourceType::ArrayType::ValueType >( std::stod( argv[5] ) );
@@ -111,14 +111,14 @@ int itkGridImageSourceTest( int argc, char *argv[] )
       }
     }
   gridImage->SetGridSpacing( gridSpacing );
-  TEST_SET_GET_VALUE( gridSpacing, gridImage->GetGridSpacing() );
+  ITK_TEST_SET_GET_VALUE( gridSpacing, gridImage->GetGridSpacing() );
 
 
   auto offset = static_cast< GridSourceType::ArrayType::ValueType >( std::stod( argv[7] ) );
   GridSourceType::ArrayType gridOffset;
   gridOffset.Fill( offset );
   gridImage->SetGridOffset( gridOffset );
-  TEST_SET_GET_VALUE( gridOffset, gridImage->GetGridOffset() );
+  ITK_TEST_SET_GET_VALUE( gridOffset, gridImage->GetGridOffset() );
 
 
   auto gridAllDimensions = static_cast< bool >( std::stoi( argv[8] ) );
@@ -131,7 +131,7 @@ int itkGridImageSourceTest( int argc, char *argv[] )
     whichDimension[ImageDimension - 1] = !gridAllDimensions;
     }
   gridImage->SetWhichDimensions( whichDimension );
-  TEST_SET_GET_VALUE( whichDimension, gridImage->GetWhichDimensions() );
+  ITK_TEST_SET_GET_VALUE( whichDimension, gridImage->GetWhichDimensions() );
 
 
   auto useBSplineKernel = static_cast< bool >( std::stoi( argv[10] ) );
@@ -156,14 +156,14 @@ int itkGridImageSourceTest( int argc, char *argv[] )
 
   itk::SimpleFilterWatcher watcher( gridImage, "GridImageSource" );
 
-  TRY_EXPECT_NO_EXCEPTION( gridImage->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( gridImage->Update() );
 
   using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[1] );
   writer->SetInput( gridImage->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;

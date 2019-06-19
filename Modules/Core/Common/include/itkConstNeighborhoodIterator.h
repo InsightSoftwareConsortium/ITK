@@ -42,9 +42,9 @@ namespace itk
  * \sa Neighborhood \sa ImageIterator \sa NeighborhoodIterator
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{Iterators/ConstNeighborhoodIterator,Iterate over a region of an image with a neighborhood (without write access)}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/IterateWithNeighborhoodWithoutAccess,Iterate Region In Image With Neighborhood Without Write Access}
+ * \endsphinx
  */
 template< typename TImage,  typename TBoundaryCondition =
             ZeroFluxNeumannBoundaryCondition< TImage > >

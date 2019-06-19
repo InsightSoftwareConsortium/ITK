@@ -47,25 +47,25 @@ int itkCannyEdgeDetectionImageFilterTest2( int argc, char * argv[] )
   // Set up the filter
   CannyEdgeDetectionImageFilterType::Pointer filter = CannyEdgeDetectionImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, CannyEdgeDetectionImageFilter, ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, CannyEdgeDetectionImageFilter, ImageToImageFilter );
 
   filter->SetInput( reader->GetOutput() );
 
   CannyEdgeDetectionImageFilterType::OutputImagePixelType upperThreshold = 25;
   filter->SetUpperThreshold( upperThreshold );
-  TEST_SET_GET_VALUE( upperThreshold, filter->GetUpperThreshold() );
+  ITK_TEST_SET_GET_VALUE( upperThreshold, filter->GetUpperThreshold() );
 
   CannyEdgeDetectionImageFilterType::OutputImagePixelType lowerThreshold = 10;
   filter->SetLowerThreshold( lowerThreshold );
-  TEST_SET_GET_VALUE( lowerThreshold, filter->GetLowerThreshold() );
+  ITK_TEST_SET_GET_VALUE( lowerThreshold, filter->GetLowerThreshold() );
 
   CannyEdgeDetectionImageFilterType::ArrayType variance = 1.0f;
   filter->SetVariance(variance);
-  TEST_SET_GET_VALUE( variance, filter->GetVariance() );
+  ITK_TEST_SET_GET_VALUE( variance, filter->GetVariance() );
 
   CannyEdgeDetectionImageFilterType::ArrayType maximumError = .01f;
   filter->SetMaximumError(maximumError );
-  TEST_SET_GET_VALUE( maximumError, filter->GetMaximumError() );
+  ITK_TEST_SET_GET_VALUE( maximumError, filter->GetMaximumError() );
 
 
   itk::RescaleIntensityImageFilter<InputImage, OutputImage>::Pointer rescale =
@@ -80,32 +80,32 @@ int itkCannyEdgeDetectionImageFilterTest2( int argc, char * argv[] )
   writer->SetInput( rescale->GetOutput() );
   writer->SetFileName( argv[2] );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   // Set the Canny filter to other values
   upperThreshold = 20;
   filter->SetUpperThreshold( upperThreshold );
-  TEST_SET_GET_VALUE( upperThreshold, filter->GetUpperThreshold() );
+  ITK_TEST_SET_GET_VALUE( upperThreshold, filter->GetUpperThreshold() );
 
   lowerThreshold = 5;
   filter->SetLowerThreshold( lowerThreshold );
-  TEST_SET_GET_VALUE( lowerThreshold, filter->GetLowerThreshold() );
+  ITK_TEST_SET_GET_VALUE( lowerThreshold, filter->GetLowerThreshold() );
 
 
-  TRY_EXPECT_NO_EXCEPTION( rescale->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( rescale->Update() );
 
 
   // Set it back expecting the same values
   upperThreshold = 25;
   filter->SetUpperThreshold( upperThreshold );
-  TEST_SET_GET_VALUE( upperThreshold, filter->GetUpperThreshold() );
+  ITK_TEST_SET_GET_VALUE( upperThreshold, filter->GetUpperThreshold() );
 
   lowerThreshold = 10;
   filter->SetLowerThreshold( lowerThreshold );
-  TEST_SET_GET_VALUE( lowerThreshold, filter->GetLowerThreshold() );
+  ITK_TEST_SET_GET_VALUE( lowerThreshold, filter->GetLowerThreshold() );
 
   writer->SetFileName( argv[3] );
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

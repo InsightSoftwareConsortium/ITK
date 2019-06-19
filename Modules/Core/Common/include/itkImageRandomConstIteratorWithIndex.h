@@ -108,9 +108,9 @@ namespace itk
  *
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{Iterators/ImageRandomConstIteratorWithIndex,Randomly select pixels from a region of an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/RandomSelectOfPixelsFromRegion,Random Selection Of Pixels From Region}
+ * \endsphinx
  */
 template< typename TImage >
 class ITK_TEMPLATE_EXPORT ImageRandomConstIteratorWithIndex:public ImageConstIteratorWithIndex< TImage >

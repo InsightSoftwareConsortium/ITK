@@ -34,10 +34,10 @@ int itkSinRegularizedHeavisideStepFunctionTest1( int, char* [] )
   constexpr double epsilon0 = 1.0;
   const double epsilon1 = 1e-4;
 
-  TEST_SET_GET_VALUE( epsilon0, functionBase0->GetEpsilon() );
+  ITK_TEST_SET_GET_VALUE( epsilon0, functionBase0->GetEpsilon() );
 
   functionBase0->SetEpsilon( epsilon1 );
-  TEST_SET_GET_VALUE( epsilon1, functionBase0->GetEpsilon() );
+  ITK_TEST_SET_GET_VALUE( epsilon1, functionBase0->GetEpsilon() );
 
   constexpr double epsilon2 = 0.5;
   functionBase0->SetEpsilon( epsilon2 );

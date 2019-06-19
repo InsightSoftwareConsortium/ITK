@@ -46,9 +46,9 @@ namespace Statistics
  *
  * \ingroup ITKStatistics
  *
- * \wiki
- * \wikiexample{Statistics/SampleToHistogramFilter,Create a histogram from a list of sample measurements}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Numerics/Statistics/CreateHistogramFromListOfMeasurements,Create Histogram From List Of Measurements}
+ * \endsphinx
  */
 
 template< typename TSample, typename THistogram >

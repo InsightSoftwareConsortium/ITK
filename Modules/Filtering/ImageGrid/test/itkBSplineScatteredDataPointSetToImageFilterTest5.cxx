@@ -82,7 +82,7 @@ int itkBSplineScatteredDataPointSetToImageFilterTest5( int argc, char * argv[] )
 
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, BSplineScatteredDataPointSetToImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, BSplineScatteredDataPointSetToImageFilter,
     PointSetToImageFilter );
 
   // Define the parametric domain
@@ -117,7 +117,7 @@ int itkBSplineScatteredDataPointSetToImageFilterTest5( int argc, char * argv[] )
   filter->SetCloseDimension( close );
 
 
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   // Cast the PhiLattice
   using CastImageFilterType =
@@ -131,7 +131,7 @@ int itkBSplineScatteredDataPointSetToImageFilterTest5( int argc, char * argv[] )
   writer->SetFileName( argv[1] );
   writer->SetInput( caster->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

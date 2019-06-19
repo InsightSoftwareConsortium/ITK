@@ -109,7 +109,7 @@ int itkNthElementPixelAccessorTest2(int, char* []) {
 
   ScalarImageType::Pointer scalarImage = adaptor->GetOutput();
 
-  TEST_EXPECT_EQUAL( adaptor->GetOutput()->GetPixel(index), referencePixel[0] );
+  ITK_TEST_EXPECT_EQUAL( adaptor->GetOutput()->GetPixel(index), referencePixel[0] );
 
   // Test operator
   AccessorType accessor1;
@@ -120,7 +120,7 @@ int itkNthElementPixelAccessorTest2(int, char* []) {
     adaptor->SetAccessor( accessor);
     adaptor->Update();
     scalarImage = adaptor->GetOutput();
-    TEST_EXPECT_EQUAL( adaptor->GetOutput()->GetPixel(index), referencePixel[1] );
+    ITK_TEST_EXPECT_EQUAL( adaptor->GetOutput()->GetPixel(index), referencePixel[1] );
     }
 
   return EXIT_SUCCESS;

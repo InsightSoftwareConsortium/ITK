@@ -45,9 +45,9 @@ namespace itk
  *
  * \ingroup ITKImageLabel
  *
- * \wiki
- * \wikiexample{ImageSegmentation/LabelContourImageFilter,Label the contours of connected components}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageLabel/LabelContoursOfConnectComponent,Label Contours Of Connect Components}
+ * \endsphinx
  */
 
 template< typename TInputImage, typename TOutputImage >

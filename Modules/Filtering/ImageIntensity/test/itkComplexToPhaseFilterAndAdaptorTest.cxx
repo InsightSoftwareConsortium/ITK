@@ -90,7 +90,7 @@ int itkComplexToPhaseFilterAndAdaptorTest( int, char* [] )
   // Create the filter
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, ComplexToPhaseImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, ComplexToPhaseImageFilter,
     UnaryGeneratorImageFilter );
 
   // Set the input image
@@ -140,7 +140,7 @@ int itkComplexToPhaseFilterAndAdaptorTest( int, char* [] )
 
   AdaptorType::Pointer imaginaryAdaptor = AdaptorType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( imaginaryAdaptor, ComplexToPhaseImageAdaptor,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( imaginaryAdaptor, ComplexToPhaseImageAdaptor,
     ImageAdaptor );
 
   imaginaryAdaptor->SetImage( inputImage );

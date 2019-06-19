@@ -64,16 +64,16 @@ int itkDecoratorTest(int, char* [] )
 
   const itk::ModifiedTimeType t1 = decoratedTransform->GetMTime();
   transformObject->Modified();
-  TEST_EXPECT_TRUE(t1 < decoratedTransform->GetMTime());
+  ITK_TEST_EXPECT_TRUE(t1 < decoratedTransform->GetMTime());
 
   TransformObjectType::Pointer decoratedTransform2 = TransformObjectType::New();
   decoratedTransform2->Graft( decoratedTransform );
 
-  TEST_EXPECT_EQUAL( decoratedTransform2->Get(), decoratedTransform->Get() );
+  ITK_TEST_EXPECT_EQUAL( decoratedTransform2->Get(), decoratedTransform->Get() );
 
   const itk::ModifiedTimeType t2 = decoratedTransform->GetMTime();
   decoratedTransform2->GetModifiable()->Modified();
-  TEST_EXPECT_TRUE(t2 < decoratedTransform->GetMTime());
+  ITK_TEST_EXPECT_TRUE(t2 < decoratedTransform->GetMTime());
 
 
   std::cout << "Value of decoratedTransform: ";
@@ -86,25 +86,25 @@ int itkDecoratorTest(int, char* [] )
   TransformBaseObjectType::Pointer decoratedBaseTransform = TransformBaseObjectType::New();
   //NOTE: GetPointer is needed to force selection of the correct overloaded function signature.
   decoratedBaseTransform->Graft( decoratedTransform.GetPointer() );
-  TEST_EXPECT_TRUE( decoratedBaseTransform->Get() != nullptr );
+  ITK_TEST_EXPECT_TRUE( decoratedBaseTransform->Get() != nullptr );
 
   decoratedBaseTransform->ReleaseData();
-  TEST_EXPECT_TRUE( decoratedBaseTransform->Get() == nullptr );
+  ITK_TEST_EXPECT_TRUE( decoratedBaseTransform->Get() == nullptr );
   //NOTE: GetPointer is needed to force selection of the correct overloaded function signature.
   decoratedBaseTransform->Graft( f.GetPointer() );
-  TEST_EXPECT_TRUE( decoratedBaseTransform->Get() == nullptr );
+  ITK_TEST_EXPECT_TRUE( decoratedBaseTransform->Get() == nullptr );
 
   decoratedBaseTransform->Graft( static_cast<itk::DataObject *>(nullptr) );
   //NOTE: GetPointer is needed to force selection of the correct overloaded function signature.
   decoratedBaseTransform->Graft( decoratedTransform.GetPointer() );
-  TEST_EXPECT_TRUE( decoratedBaseTransform->Get() != nullptr );
+  ITK_TEST_EXPECT_TRUE( decoratedBaseTransform->Get() != nullptr );
 
   decoratedBaseTransform->Graft( static_cast<itk::DataObject *>(nullptr) );
-  TEST_EXPECT_TRUE( decoratedBaseTransform->Get() != nullptr );
+  ITK_TEST_EXPECT_TRUE( decoratedBaseTransform->Get() != nullptr );
 
   decoratedTransform->ReleaseData();
   decoratedTransform->Graft( decoratedBaseTransform );
-  TEST_EXPECT_TRUE( decoratedTransform->Get() == nullptr );
+  ITK_TEST_EXPECT_TRUE( decoratedTransform->Get() == nullptr );
 
   std::cout << "----------------------------------------------------"
             << std::endl;

@@ -35,7 +35,7 @@ int itkRealTimeClockTest( int, char * [] )
 
     // Create an ITK RealTimeClock
     itk::RealTimeClock::Pointer clock = itk::RealTimeClock::New();
-    EXERCISE_BASIC_OBJECT_METHODS( clock, RealTimeClock, Object );
+    ITK_EXERCISE_BASIC_OBJECT_METHODS( clock, RealTimeClock, Object );
 
     std::cout << "Testing itk::RealTimeClock" << std::endl;
     std::cout << "Frequency: " << clock->GetFrequency() << std::endl;

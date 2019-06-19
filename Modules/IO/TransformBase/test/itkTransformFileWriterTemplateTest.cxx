@@ -40,11 +40,11 @@ int itkTransformFileWriterTemplateTest( int argc, char *argv[] )
             << std::endl;
 
   // trigger empty write exception
-  TRY_EXPECT_EXCEPTION( transformWriter->Update() );
+  ITK_TRY_EXPECT_EXCEPTION( transformWriter->Update() );
 
   transformWriter->SetFileName("transform.garbage");
   // trigger exception for transformio not found
-  TRY_EXPECT_EXCEPTION( transformWriter->Update() );
+  ITK_TRY_EXPECT_EXCEPTION( transformWriter->Update() );
 
   std::cout << "Test PASSED!" << std::endl;
   return EXIT_SUCCESS;

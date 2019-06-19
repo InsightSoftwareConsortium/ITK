@@ -40,6 +40,11 @@ namespace Function
  * https://hdl.handle.net/1926/1452
  *
  * \ingroup ITKColormap
+ *
+ * \sphinx
+ * \sphinxexample{Filtering/Colormap/CreateACustomColorMap, Create A Custom Color Map}
+ * \sphinxexample{Filtering/Colormap/ApplyAColorMapToAnImage,Apply A Color Map To An Image}
+ * \endsphinx
  */
 template< typename TScalar, typename TRGBPixel >
 class ITK_TEMPLATE_EXPORT CustomColormapFunction:

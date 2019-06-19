@@ -51,9 +51,9 @@ namespace itk
  * \ingroup MathematicalMorphologyImageFilters
  * \ingroup ITKITKMathematicalMorphology
  *
- * \wiki
- * \wikiexample{ImageProcessing/ValuedRegionalMaximaImageFilter,ValuedRegionalMaximaImageFilter}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/MathematicalMorphology/ValuedRegionalMaximaImage,Valued Regional Maxima Image}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ValuedRegionalMaximaImageFilter:

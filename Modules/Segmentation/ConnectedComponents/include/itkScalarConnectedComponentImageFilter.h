@@ -42,9 +42,9 @@ namespace itk
  *         Uses ConnectedComponentFunctorImageFilter.
  * \ingroup ITKConnectedComponents
  *
- * \wiki
- * \wikiexample{ImageProcessing/ScalarConnectedComponentImageFilter,Label connected components in a grayscale image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Segmentation/ConnectedComponents/LabelConnectComponentsInGrayscaleImage,Label Connect Components In Grayscale Image}
+ * \endsphinx
  */
 
 namespace Functor

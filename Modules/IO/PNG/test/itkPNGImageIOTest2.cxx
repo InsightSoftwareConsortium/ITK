@@ -69,25 +69,25 @@ int itkPNGImageIOTest2( int argc, char * argv[] )
   // Read the input image
   itk::PNGImageIO::Pointer io = itk::PNGImageIO::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( io, PNGImageIO, ImageIOBase );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( io, PNGImageIO, ImageIOBase );
 
   // Exercise exception cases
   size_t sizeOfActualIORegion = io->GetIORegion().GetNumberOfPixels() *
     ( io->GetComponentSize() * io->GetNumberOfComponents() );
   auto * loadBuffer = new char[sizeOfActualIORegion];
 
-  TRY_EXPECT_EXCEPTION( io->Read( loadBuffer ) );
+  ITK_TRY_EXPECT_EXCEPTION( io->Read( loadBuffer ) );
 
 
   auto useCompression = static_cast< bool >( argv[3] );
-  TEST_SET_GET_BOOLEAN( io, UseCompression, useCompression );
+  ITK_TEST_SET_GET_BOOLEAN( io, UseCompression, useCompression );
 
   int compressionLevel = std::stoi( argv[4] );
   io->SetCompressionLevel( compressionLevel );
-  TEST_SET_GET_VALUE( compressionLevel, io->GetCompressionLevel() );
+  ITK_TEST_SET_GET_VALUE( compressionLevel, io->GetCompressionLevel() );
 
   auto expandRGBPalette = static_cast< bool >( std::stoi( argv[5] ) );
-  TEST_SET_GET_BOOLEAN( io, ExpandRGBPalette, expandRGBPalette );
+  ITK_TEST_SET_GET_BOOLEAN( io, ExpandRGBPalette, expandRGBPalette );
 
   if( io->CanReadFile( "" ) )
     {
@@ -149,7 +149,7 @@ int itkPNGImageIOTest2( int argc, char * argv[] )
   reader->SetFileName( argv[1] );
   reader->SetImageIO( io );
 
-  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
   if( io->GetExpandRGBPalette() )
     {
@@ -191,7 +191,7 @@ int itkPNGImageIOTest2( int argc, char * argv[] )
   writer->SetImageIO( io );
   writer->SetFileName( argv[2] );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
 
   // Release memory

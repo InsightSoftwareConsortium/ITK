@@ -37,7 +37,7 @@ int itkPathToImageFilterTest( int, char* [] )
   // Set up the path
   PolyLineParametricPathType::Pointer path = PolyLineParametricPathType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( path, PolyLineParametricPath, ParametricPath );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( path, PolyLineParametricPath, ParametricPath );
 
   std::cout << "Making a square Path with v0 at (30,30) and v2 at (33,33)" << std::endl;
   VertexType v;
@@ -58,24 +58,24 @@ int itkPathToImageFilterTest( int, char* [] )
   PathToImageFilterType::Pointer pathToImageFilter =
     PathToImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( pathToImageFilter, PathToImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( pathToImageFilter, PathToImageFilter,
     ImageSource );
 
   pathToImageFilter->SetInput( path );
 
   PathToImageFilterType::ValueType pathValue = 1;
   pathToImageFilter->SetPathValue( pathValue );
-  TEST_SET_GET_VALUE( pathValue, pathToImageFilter->GetPathValue() );
+  ITK_TEST_SET_GET_VALUE( pathValue, pathToImageFilter->GetPathValue() );
 
   PathToImageFilterType::ValueType backgroundValue = 0;
   pathToImageFilter->SetBackgroundValue( backgroundValue );
-  TEST_SET_GET_VALUE( backgroundValue, pathToImageFilter->GetBackgroundValue() );
+  ITK_TEST_SET_GET_VALUE( backgroundValue, pathToImageFilter->GetBackgroundValue() );
 
   ImageType::SizeType size;
   size[0] = 256;
   size[1] = 256;
   pathToImageFilter->SetSize( size );
-  TEST_SET_GET_VALUE( size, pathToImageFilter->GetSize() );
+  ITK_TEST_SET_GET_VALUE( size, pathToImageFilter->GetSize() );
 
   // Test spacing
   //
@@ -116,7 +116,7 @@ int itkPathToImageFilterTest( int, char* [] )
   }
 
   // Update the filter
-  TRY_EXPECT_NO_EXCEPTION( pathToImageFilter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( pathToImageFilter->Update() );
 
   ImageType::Pointer image = pathToImageFilter->GetOutput();
 

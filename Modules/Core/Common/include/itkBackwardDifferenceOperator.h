@@ -24,22 +24,22 @@ namespace itk
 {
 /**
  * \class BackwardDifferenceOperator
+ *
  * \brief Operator whose inner product with a neighborhood returns
  * a "half" derivative at the center of the neighborhood.
  *
  * BackwardDifferenceOperator uses backward differences
- * i.e. F(x) - F(x-1) to calculate a "half" derivative useful, among
+ * i.e. \f$ F(x) - F(x-1) \f$ to calculate a "half" derivative useful, among
  * other things, in solving differential equations. It is a directional
  * NeighborhoodOperator that should be applied to a Neighborhood using the
  * inner product.
  *
  * \ingroup Operators
- *
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{Operators/BackwardDifferenceOperator,Create a backward difference kernel}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/CreateABackwardDifferenceOperator,Create A Backward Difference Operator}
+ * \endsphinx
  */
 template< typename TPixel, unsigned int TDimension = 2,
           typename TAllocator = NeighborhoodAllocator< TPixel > >

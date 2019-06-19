@@ -36,7 +36,7 @@ int itkDiscreteGradientMagnitudeGaussianImageFunctionTestND( int argc, char* arg
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
   ImageType *inputImage = reader->GetOutput();
 
@@ -83,11 +83,11 @@ int itkDiscreteGradientMagnitudeGaussianImageFunctionTestND( int argc, char* arg
   varianceArray.Fill( varianceValue );
 
   function->SetVariance( varianceArray );
-  TEST_SET_GET_VALUE( varianceArray, function->GetVariance() );
+  ITK_TEST_SET_GET_VALUE( varianceArray, function->GetVariance() );
 
   // Increase code coverage calling other variations of the SetVariance method
   function->SetVariance( varianceValue );
-  TEST_SET_GET_VALUE( varianceArray, function->GetVariance() );
+  ITK_TEST_SET_GET_VALUE( varianceArray, function->GetVariance() );
 
   // Test itkSetVectorMacro
   double varianceVector[DiscreteGradientMagnitudeGaussianFunctionType::VarianceArrayType::Length];
@@ -98,22 +98,22 @@ int itkDiscreteGradientMagnitudeGaussianImageFunctionTestND( int argc, char* arg
       varianceVector[i] = varianceValue;
     }
   function->SetVariance( varianceVector );
-  TEST_SET_GET_VALUE( varianceArray, function->GetVariance() );
+  ITK_TEST_SET_GET_VALUE( varianceArray, function->GetVariance() );
 
 
   function->SetMaximumError( maxError );
-  TEST_SET_GET_VALUE( maxError, function->GetMaximumError() );
+  ITK_TEST_SET_GET_VALUE( maxError, function->GetMaximumError() );
 
   function->SetMaximumKernelWidth( maxKernelWidth );
-  TEST_SET_GET_VALUE( maxKernelWidth, function->GetMaximumKernelWidth() );
+  ITK_TEST_SET_GET_VALUE( maxKernelWidth, function->GetMaximumKernelWidth() );
 
   bool normalizeAcrossScale = true;
-  TEST_SET_GET_BOOLEAN( function, NormalizeAcrossScale, normalizeAcrossScale );
+  ITK_TEST_SET_GET_BOOLEAN( function, NormalizeAcrossScale, normalizeAcrossScale );
 
-  TEST_SET_GET_BOOLEAN( function, UseImageSpacing, useImageSpacing );
+  ITK_TEST_SET_GET_BOOLEAN( function, UseImageSpacing, useImageSpacing );
 
   function->SetInterpolationMode( interpolationMode );
-  TEST_SET_GET_VALUE( interpolationMode, function->GetInterpolationMode() );
+  ITK_TEST_SET_GET_VALUE( interpolationMode, function->GetInterpolationMode() );
 
 
   function->Initialize();
@@ -185,7 +185,7 @@ int itkDiscreteGradientMagnitudeGaussianImageFunctionTestND( int argc, char* arg
   writer->SetInput( rescaler->GetOutput() );
 
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
 
   std::cout << "Test finished." << std::endl;
@@ -223,7 +223,7 @@ int itkDiscreteGradientMagnitudeGaussianImageFunctionTest( int argc, char* argv[
   DiscreteGradientMagnitudeGaussianFunctionType::Pointer function =
     DiscreteGradientMagnitudeGaussianFunctionType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( function,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( function,
     DiscreteGradientMagnitudeGaussianImageFunction, ImageFunction );
 
 

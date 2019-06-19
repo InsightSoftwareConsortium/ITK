@@ -276,12 +276,7 @@ using ObjectToObjectOptimizerBase = ObjectToObjectOptimizerBaseTemplate<double>;
 
 } // end namespace itk
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkObjectToObjectOptimizerBase.hxx"
 #endif
-
-#endif
-
 
 /** Explicit instantiations */
 #ifndef ITK_TEMPLATE_EXPLICIT_ObjectToObjectOptimizerBaseTemplate
@@ -306,6 +301,9 @@ namespace itk
 ITK_GCC_PRAGMA_DIAG_PUSH()
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 
+#if defined( _MSC_VER )
+#pragma warning( disable : 4661 ) // no suitable definition provided for explicit template instantiation request
+#endif
 extern template class ITKOptimizersv4_EXPORT_EXPLICIT ObjectToObjectOptimizerBaseTemplate<double>;
 extern template class ITKOptimizersv4_EXPORT_EXPLICIT ObjectToObjectOptimizerBaseTemplate<float>;
 

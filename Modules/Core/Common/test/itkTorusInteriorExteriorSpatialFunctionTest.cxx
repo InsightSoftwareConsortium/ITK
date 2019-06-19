@@ -40,7 +40,7 @@ int itkTorusInteriorExteriorSpatialFunctionTest( int, char *[] )
   TorusInteriorExteriorSpatialFunctionType::Pointer torusInteriorExteriorSpatialFunction =
     TorusInteriorExteriorSpatialFunctionType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( torusInteriorExteriorSpatialFunction,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( torusInteriorExteriorSpatialFunction,
     TorusInteriorExteriorSpatialFunction,
     InteriorExteriorSpatialFunction );
 
@@ -49,15 +49,15 @@ int itkTorusInteriorExteriorSpatialFunctionTest( int, char *[] )
   origin.Fill( 1.0 );
 
   torusInteriorExteriorSpatialFunction->SetOrigin( origin );
-  TEST_SET_GET_VALUE( origin, torusInteriorExteriorSpatialFunction->GetOrigin() );
+  ITK_TEST_SET_GET_VALUE( origin, torusInteriorExteriorSpatialFunction->GetOrigin() );
 
   double majorRadius = 10.0;
   torusInteriorExteriorSpatialFunction->SetMajorRadius( majorRadius );
-  TEST_SET_GET_VALUE( majorRadius, torusInteriorExteriorSpatialFunction->GetMajorRadius() );
+  ITK_TEST_SET_GET_VALUE( majorRadius, torusInteriorExteriorSpatialFunction->GetMajorRadius() );
 
   double minorRadius = 4.0;
   torusInteriorExteriorSpatialFunction->SetMinorRadius( minorRadius );
-  TEST_SET_GET_VALUE( minorRadius, torusInteriorExteriorSpatialFunction->GetMinorRadius() );
+  ITK_TEST_SET_GET_VALUE( minorRadius, torusInteriorExteriorSpatialFunction->GetMinorRadius() );
 
   // Define a to test the function
   TorusInteriorExteriorSpatialFunctionType::InputType insidePoint;

@@ -50,9 +50,9 @@ namespace itk
  *
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{SimpleOperations/Transparency,Make part of an image transparent}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/CommonTransparency,Make Part Of An Image Transparent}
+ * \endsphinx
  */
 
 template< typename TComponent = unsigned short >

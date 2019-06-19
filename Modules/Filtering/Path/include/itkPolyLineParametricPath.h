@@ -48,9 +48,9 @@ namespace itk
  * \ingroup PathObjects
  * \ingroup ITKPath
  *
- * \wiki
- * \wikiexample{Curves/PolyLineParametricPath,A data structure for a piece-wise linear curve}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/Path/DataStructureForPieceWiseLinearCurve,Data Structure For Piece-Wise Linear Curve}
+ * \endsphinx
  */
 template< unsigned int VDimension >
 class ITK_TEMPLATE_EXPORT PolyLineParametricPath:public

@@ -314,16 +314,13 @@ Solve( OutputImageType* oImage,
   double spaceFactor = 0.;
   unsigned int axis = 0;
 
-  typename InternalNodeStructureArray::Iterator
-      n_it = iNeighbors.Begin();
-
-  while( n_it != iNeighbors.End() )
+  for(const auto& neighbor: iNeighbors)
     {
-    value = static_cast< double >( n_it->m_Value );
+    value = static_cast< double >( neighbor.m_Value );
 
     if ( oSolution >= value )
       {
-      axis = n_it->m_Axis;
+      axis = neighbor.m_Axis;
 
       // spaceFactor = \frac{1}{spacing[axis]^2}
       spaceFactor = itk::Math::sqr(1.0 / m_OutputSpacing[axis]);
@@ -347,7 +344,6 @@ Solve( OutputImageType* oImage,
       {
       break;
       }
-    ++n_it;
     }
 
   return oSolution;

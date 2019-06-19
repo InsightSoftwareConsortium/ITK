@@ -60,7 +60,7 @@ int itkRobustAutomaticThresholdImageFilterTest( int argc, char *argv[] )
       itk::RobustAutomaticThresholdImageFilter< ImageType, RealImageType >;
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter,
     RobustAutomaticThresholdImageFilter, ImageToImageFilter );
 
   itk::SimpleFilterWatcher watcher( filter, "RobustAutomaticThresholdImageFilter" );
@@ -70,20 +70,20 @@ int itkRobustAutomaticThresholdImageFilterTest( int argc, char *argv[] )
 
   double pow = std::stod( argv[3] );
   filter->SetPow( pow );
-  TEST_SET_GET_VALUE( pow, filter->GetPow() );
+  ITK_TEST_SET_GET_VALUE( pow, filter->GetPow() );
 
   auto insideValue = static_cast< FilterType::InputPixelType >( std::stod( argv[4] ) );
   filter->SetInsideValue( insideValue );
-  TEST_SET_GET_VALUE( insideValue, filter->GetInsideValue() );
+  ITK_TEST_SET_GET_VALUE( insideValue, filter->GetInsideValue() );
 
   auto outsideValue = static_cast< FilterType::InputPixelType >( std::stod( argv[5] ) );
   filter->SetOutsideValue( outsideValue );
-  TEST_SET_GET_VALUE( outsideValue, filter->GetOutsideValue() );
+  ITK_TEST_SET_GET_VALUE( outsideValue, filter->GetOutsideValue() );
 
 
   filter->SetInput( reader->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
 
   // Regression test
@@ -110,7 +110,7 @@ int itkRobustAutomaticThresholdImageFilterTest( int argc, char *argv[] )
   writer->SetFileName( argv[2] );
 
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
 
   std::cout << "Test finished." << std::endl;

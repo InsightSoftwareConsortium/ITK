@@ -67,9 +67,20 @@ namespace itk
  * \ingroup ImageObjects
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{SimpleOperations/SetPixels,Set specified pixels to specified values}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/SetPixelValueInOneImage,Set Pixel Value In One Image}
+ * \sphinxexample{Core/Common/GetImageSize,Get Image Size}
+ * \sphinxexample{Core/Common/SortITKIndex,Sort ITK Index}
+ * \sphinxexample{Core/Common/ReturnObjectFromFunction,Return Object From Function}
+ * \sphinxexample{Core/Common/CreateAnotherInstanceOfAnImage,Create Another Instance Of An Image}
+ * \sphinxexample{Core/Common/PassImageToFunction,Pass Image To Function}
+ * \sphinxexample{Core/Common/DeepCopyImage,Deep Copy Image}
+ * \sphinxexample{Core/Common/ThrowException,Throw Exception}
+ * \sphinxexample{Core/Common/GetOrSetMemberVariableOfITKClass,Get Or Set Member Variable Of ITK Class}
+ * \sphinxexample{Core/Common/MiniPipeline,Mini Pipeline}
+ * \sphinxexample{Core/Common/CheckIfModuleIsPresent,Check If Module Is Present}
+ * \sphinxexample{Core/Common/DisplayImage,Display Image}
+ * \endsphinx
  */
 template< typename TPixel, unsigned int VImageDimension = 2 >
 class ITK_TEMPLATE_EXPORT Image:public ImageBase< VImageDimension >

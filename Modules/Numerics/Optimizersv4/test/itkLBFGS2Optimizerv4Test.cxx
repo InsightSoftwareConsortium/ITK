@@ -284,7 +284,7 @@ int itkLBFGS2Optimizerv4Test(int, char* [] )
   // Test with local-support transform. Should FAIL.
   // Such transforms are not yet supported.
   metric->SetHasLocalSupport( true );
-  TRY_EXPECT_EXCEPTION( itkOptimizer->StartOptimization() );
+  ITK_TRY_EXPECT_EXCEPTION( itkOptimizer->StartOptimization() );
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;

@@ -121,7 +121,7 @@ int itkGradientImageFilterTest2(int argc, char * argv[] )
   using FilterType = itk::GradientImageFilter<TestImageType >;
 
   FilterType::Pointer filter = FilterType::New();
-  EXERCISE_BASIC_OBJECT_METHODS( filter, GradientImageFilter, ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, GradientImageFilter, ImageToImageFilter );
 
   const unsigned int dimension = iobase->GetNumberOfDimensions();
 

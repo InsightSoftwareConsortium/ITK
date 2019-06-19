@@ -98,7 +98,9 @@ int main( int, char *[] )
 //
 // Next, we create the blob and set its name using the \code{SetName()}
 // function. We also set its Identification number with \code{SetId()} and we
-// add the list of points previously created.
+// add the list of points previously created and call \code{Update()} so that
+// the object can update its transforms, bounding boxes, and other cached
+// convenience member variables.
 //
 // Software Guide : EndLatex
 
@@ -107,6 +109,7 @@ int main( int, char *[] )
   blob->GetProperty().SetName("My Blob");
   blob->SetId(1);
   blob->SetPoints(list);
+  blob->Update();
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
@@ -129,9 +132,11 @@ int main( int, char *[] )
 // \code{GetPositionInWorldSpace()} and \code{GetColor()} functions return
 // respectively the position and the color of the point.
 //
-// GetPositionInWorldSpace applies the objectToParent transforms of all of
-// the parent objects to this point.   Since this object has no parents
-// and since this object's objecttoParent transform is the identify transform
+// \code{GetPositionInWorldSpace()} applies the \code{ObjectToParentTransform}s
+// of all of the parent objects to this point.   Since this object has no
+// parents
+// and since this object's \code{ObjectToParentTransform} is the identify
+// transform
 // (by default), these world space positions are the same as the object space
 // positions that were set.
 //

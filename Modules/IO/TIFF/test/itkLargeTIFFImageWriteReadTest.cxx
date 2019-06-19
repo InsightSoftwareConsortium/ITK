@@ -102,7 +102,7 @@ int itkLargeTIFFImageWriteReadTestHelper( std::string filename, typename TImage:
 
   chronometer.Start( "Write" );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   chronometer.Stop( "Write" );
 
@@ -118,7 +118,7 @@ int itkLargeTIFFImageWriteReadTestHelper( std::string filename, typename TImage:
 
   chronometer.Start( "Read" );
 
-  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
   chronometer.Stop( "Read" );
 

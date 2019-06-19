@@ -92,9 +92,9 @@ public:
  * \sa ExtractImageFilter
  * \ingroup ITKImageFilterBase
  *
- * \wiki
- * \wikiexample{ImageProcessing/CastImageFilter,Cast an image from one type to another}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageFilterBase/CastAnImageToAnotherType,Cast An Image To Another Type}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT CastImageFilter:
@@ -125,7 +125,7 @@ public:
 
 protected:
   CastImageFilter();
-  virtual ~CastImageFilter() = default;
+  ~CastImageFilter() override = default;
 
   void GenerateOutputInformation() override;
 
@@ -138,6 +138,21 @@ protected:
 
   template<typename TInputPixelType>
     void DynamicThreadedGenerateDataDispatched(const OutputImageRegionType & outputRegionForThread, std::false_type isConvertible);
+
+private:
+
+  template <typename TFromType, typename TToType, typename TNoDeclType = TToType>
+    struct is_static_castable
+    : std::false_type
+  {};
+
+  template <typename TFromType, typename TToType>
+    struct is_static_castable<TFromType,
+                              TToType,
+                              decltype(static_cast<TToType>(std::declval<TFromType>()))>
+    : std::true_type
+  {};
+
 };
 } // end namespace itk
 

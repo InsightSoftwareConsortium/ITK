@@ -45,9 +45,9 @@ namespace Statistics
  * \sa Sample, ListSample
  * \ingroup ITKStatistics
  *
- * \wiki
- * \wikiexample{Statistics/ImageToListSampleAdaptor,Create a list of samples from an image without duplicating the data}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Numerics/Statistics/CreateListOfSamplesFromImageWithoutDuplication,Create List Of Samples From Image Without Duplication}
+ * \endsphinx
  */
 
 template< typename TImage >

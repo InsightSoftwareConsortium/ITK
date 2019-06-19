@@ -68,15 +68,15 @@ public:
     // Test the Get/Set functions
     for (unsigned int i = 0; i < redChannel.size(); ++i )
       {
-      TEST_SET_GET_VALUE(redChannel[i], colormap->GetRedChannel()[i]);
+      ITK_TEST_SET_GET_VALUE(redChannel[i], colormap->GetRedChannel()[i]);
       }
     for (unsigned int i = 0; i < greenChannel.size(); ++i )
       {
-      TEST_SET_GET_VALUE(greenChannel[i], colormap->GetGreenChannel()[i]);
+      ITK_TEST_SET_GET_VALUE(greenChannel[i], colormap->GetGreenChannel()[i]);
       }
     for (unsigned int i = 0; i < blueChannel.size(); ++i )
       {
-      TEST_SET_GET_VALUE(blueChannel[i], colormap->GetBlueChannel()[i]);
+      ITK_TEST_SET_GET_VALUE(blueChannel[i], colormap->GetBlueChannel()[i]);
       }
 
     // Set the maximum and minimum input values

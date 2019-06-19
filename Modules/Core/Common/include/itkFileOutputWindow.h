@@ -33,6 +33,10 @@ namespace itk
  * \ingroup OSSystemObjects
  *
  * \ingroup ITKCommon
+ *
+ * \sphinx
+ * \sphinxexample{Core/Common/DirectWarningToFile,Direct Warning To File}
+ * \endsphinx
  */
 
 class ITKCommon_EXPORT FileOutputWindow:public OutputWindow

@@ -161,19 +161,19 @@ int itkObjectToObjectOptimizerBaseTest(int , char* [])
   optimizer->SetNumberOfWorkUnits( 1 );
 
   /* Test StartOptimization */
-  TRY_EXPECT_NO_EXCEPTION( optimizer->StartOptimization() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( optimizer->StartOptimization() );
 
   /* Test with incorrectly-sized scales. Expect exception */
   scales.SetSize(scalesSize+1);
   optimizer->SetScales( scales );
-  TRY_EXPECT_EXCEPTION( optimizer->StartOptimization() );
+  ITK_TRY_EXPECT_EXCEPTION( optimizer->StartOptimization() );
 
   /* Test with scales close to identity, within tolerance.
    * The flag indicating identity scales should be set. */
   scales.SetSize(scalesSize);
   scales.Fill( 0.999 );
   optimizer->SetScales( scales );
-  TRY_EXPECT_NO_EXCEPTION( optimizer->StartOptimization() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( optimizer->StartOptimization() );
   if( ! optimizer->GetScalesAreIdentity() )
     {
     std::cerr << "Expected GetScalesAreIdentity to return true." << std::endl;
@@ -182,7 +182,7 @@ int itkObjectToObjectOptimizerBaseTest(int , char* [])
 
   /* Test that weights are init'ed by default to identity */
   ObjectToObjectOptimizerBaseTestOptimizer::NumberOfParametersType weightsSize = metric->GetNumberOfLocalParameters();
-  TRY_EXPECT_NO_EXCEPTION( optimizer->StartOptimization() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( optimizer->StartOptimization() );
   ScalesType weightsReturn = optimizer->GetWeights();
   if( weightsReturn.Size() != 0 || ! optimizer->GetWeightsAreIdentity() )
     {
@@ -205,14 +205,14 @@ int itkObjectToObjectOptimizerBaseTest(int , char* [])
   /* Test with incorrectly-sized weights. Expect exception */
   weights.SetSize(weightsSize+1);
   optimizer->SetWeights( weights );
-  TRY_EXPECT_EXCEPTION( optimizer->StartOptimization() );
+  ITK_TRY_EXPECT_EXCEPTION( optimizer->StartOptimization() );
 
   /* Test with weights close to identity, within tolerance.
    * The flag indicating identity weights should be set. */
   weights.SetSize(weightsSize);
   weights.Fill( 0.99999 );
   optimizer->SetWeights( weights );
-  TRY_EXPECT_NO_EXCEPTION( optimizer->StartOptimization() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( optimizer->StartOptimization() );
   if( ! optimizer->GetWeightsAreIdentity() )
     {
     std::cerr << "Expected GetWeightsAreIdentity to return true." << std::endl;

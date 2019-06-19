@@ -33,9 +33,9 @@ namespace itk
  * \sa NeighborhoodIterator
  * \ingroup ITKImageGradient
  *
- * \wiki
- * \wikiexample{EdgesAndGradients/GradientMagnitudeImageFilter,Compute the gradient magnitude image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageGradient/ComputeGradientMagnitude,Compute Gradient Magnitude Of Grayscale Image}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT GradientMagnitudeImageFilter:

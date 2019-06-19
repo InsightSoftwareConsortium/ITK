@@ -138,7 +138,7 @@ int test2DInterpolateImagePointsFilter()
   // Initialize InterpolateImagePointsFilter
   InterpolatorType2D::Pointer resamp = InterpolatorType2D::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( resamp, InterpolateImagePointsFilter, ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( resamp, InterpolateImagePointsFilter, ImageToImageFilter );
 
   unsigned int splineOrder = 3;
   resamp->GetInterpolator()->SetSplineOrder(splineOrder);
@@ -149,7 +149,7 @@ int test2DInterpolateImagePointsFilter()
   InterpolatorType2D::PixelType defaultPixelValue = DEFAULTPIXELVALUE;
   resamp->SetDefaultPixelValue( defaultPixelValue );
 
-  TEST_SET_GET_VALUE( defaultPixelValue, resamp->GetDefaultPixelValue() );
+  ITK_TEST_SET_GET_VALUE( defaultPixelValue, resamp->GetDefaultPixelValue() );
 
   resamp->Update();
   resamp->Print(std::cout);
@@ -195,7 +195,7 @@ int test3DInterpolateImagePointsFilter()
   // Initialize InterpolateImagePointsFilter and set input image
   InterpolatorType3D::Pointer resamp = InterpolatorType3D::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( resamp, InterpolateImagePointsFilter, ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( resamp, InterpolateImagePointsFilter, ImageToImageFilter );
 
   unsigned int splineOrder = 3;
   resamp->GetInterpolator()->SetSplineOrder(splineOrder);

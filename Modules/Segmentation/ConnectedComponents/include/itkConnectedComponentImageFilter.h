@@ -48,9 +48,10 @@ namespace itk
  * \ingroup SingleThreaded
  * \ingroup ITKConnectedComponents
  *
- * \wiki
- * \wikiexample{ImageProcessing/ConnectedComponentImageFilter,Label connected components in a binary image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Segmentation/ConnectedComponents/LabelConnectComponentsInBinaryImage,Label Connect Components In Binary Image}
+ * \sphinxexample{Segmentation/ConnectedComponents/ExtraLargestConnectComponentFromBinaryImage,Extra Largest Connect Component From Binary Image}
+ * \endsphinx
  */
 
 template< typename TInputImage, typename TOutputImage, typename TMaskImage = TInputImage >

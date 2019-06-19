@@ -182,7 +182,7 @@ int itkOrthogonalSwath2DPathFilterTest( int, char*[] )
   OrthogonalSwath2DPathFilterType::Pointer orthogonalSwath2DPathFilter =
     OrthogonalSwath2DPathFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( orthogonalSwath2DPathFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( orthogonalSwath2DPathFilter,
     OrthogonalSwath2DPathFilter, PathAndImageToPathFilter );
 
   orthogonalSwath2DPathFilter->SetPathInput(
@@ -224,7 +224,7 @@ int itkOrthogonalSwath2DPathFilterTest( int, char*[] )
 
   // Update the pipeline
 
-  TRY_EXPECT_NO_EXCEPTION( outputImage->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( outputImage->Update() );
 
 /*
   // Save the output images

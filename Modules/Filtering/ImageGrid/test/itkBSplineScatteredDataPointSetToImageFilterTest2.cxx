@@ -74,7 +74,7 @@ int itkBSplineScatteredDataPointSetToImageFilterTest2( int argc, char * argv[] )
 
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, BSplineScatteredDataPointSetToImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, BSplineScatteredDataPointSetToImageFilter,
     PointSetToImageFilter );
 
   // Define the parametric domain
@@ -92,7 +92,7 @@ int itkBSplineScatteredDataPointSetToImageFilterTest2( int argc, char * argv[] )
 
   FilterType::RealType bSplineEpsilon = 1e-4;
   filter->SetBSplineEpsilon( bSplineEpsilon );
-  TEST_SET_GET_VALUE( bSplineEpsilon, filter->GetBSplineEpsilon() );
+  ITK_TEST_SET_GET_VALUE( bSplineEpsilon, filter->GetBSplineEpsilon() );
 
   filter->SetSplineOrder( 3 );
   FilterType::ArrayType ncps;
@@ -114,7 +114,7 @@ int itkBSplineScatteredDataPointSetToImageFilterTest2( int argc, char * argv[] )
     }
   filter->SetPointWeights( pointWeights );
 
-  TRY_EXPECT_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_EXCEPTION( filter->Update() );
 
   pointWeights->resize( filter->GetInput()->GetNumberOfPoints() );
   for( unsigned int i = 0; i < pointWeights->Size(); ++i )
@@ -123,7 +123,7 @@ int itkBSplineScatteredDataPointSetToImageFilterTest2( int argc, char * argv[] )
     }
   filter->SetPointWeights( pointWeights );
 
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   // Cast the PhiLattice
   using CastImageFilterType =
@@ -137,7 +137,7 @@ int itkBSplineScatteredDataPointSetToImageFilterTest2( int argc, char * argv[] )
   writer->SetFileName( argv[1] );
   writer->SetInput( caster->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

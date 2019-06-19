@@ -71,7 +71,7 @@ int itkOrientImageFilterTest(int, char *[])
   itk::OrientImageFilter<ImageType,ImageType>::Pointer orienter =
     itk::OrientImageFilter<ImageType,ImageType>::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( orienter, OrientImageFilter, ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( orienter, OrientImageFilter, ImageToImageFilter );
 
   orienter->SetGivenCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
   orienter->SetInput(randImage);

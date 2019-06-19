@@ -49,7 +49,7 @@ int itkAdaptiveHistogramEqualizationImageFilterTest( int argc, char * argv[] )
 
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, AdaptiveHistogramEqualizationImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, AdaptiveHistogramEqualizationImageFilter,
     MovingHistogramImageFilter );
 
   itk::SimpleFilterWatcher watcher(filter);
@@ -59,11 +59,11 @@ int itkAdaptiveHistogramEqualizationImageFilterTest( int argc, char * argv[] )
 
   float alpha = std::stod(argv[4]);
   filter->SetAlpha( alpha );
-  TEST_SET_GET_VALUE( alpha, filter->GetAlpha() );
+  ITK_TEST_SET_GET_VALUE( alpha, filter->GetAlpha() );
 
   float beta = std::stod(argv[5]);
   filter->SetBeta( beta );
-  TEST_SET_GET_VALUE( beta, filter->GetBeta() );
+  ITK_TEST_SET_GET_VALUE( beta, filter->GetBeta() );
 
   //
   //  The output of the filter is connected here to a intensity rescaler filter
@@ -91,7 +91,7 @@ int itkAdaptiveHistogramEqualizationImageFilterTest( int argc, char * argv[] )
 
   writer->SetInput( rescaler->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

@@ -47,9 +47,9 @@ template <typename TPixelType, unsigned int VImageDimension > class VectorImage;
  *
  * \ingroup ITKImageAdaptors
  *
- * \wiki
- * \wikiexample{ImageProcessing/ImageAdaptorExtractVectorComponent,Present an image by first performing an operation}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/ImageAdaptors/PresentImageAfterOperation,Present Image After Operation}
+ * \endsphinx
  */
 template< typename TImage, typename TAccessor >
 class ITK_TEMPLATE_EXPORT ImageAdaptor:public ImageBase< TImage::ImageDimension >

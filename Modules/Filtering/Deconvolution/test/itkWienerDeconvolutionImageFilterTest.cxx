@@ -77,10 +77,10 @@ int itkWienerDeconvolutionImageFilterTest(int argc, char * argv[])
   deconvolutionFilter->SetSizeGreatestPrimeFactor( 5 );
 
   // Check default NoiseVariance value
-  TEST_SET_GET_VALUE( 0.0, deconvolutionFilter->GetNoiseVariance() );
+  ITK_TEST_SET_GET_VALUE( 0.0, deconvolutionFilter->GetNoiseVariance() );
   double noiseVariance = 1.0;
   deconvolutionFilter->SetNoiseVariance( noiseVariance );
-  TEST_SET_GET_VALUE( noiseVariance, deconvolutionFilter->GetNoiseVariance() );
+  ITK_TEST_SET_GET_VALUE( noiseVariance, deconvolutionFilter->GetNoiseVariance() );
 
   using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();

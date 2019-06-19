@@ -32,6 +32,9 @@ namespace itk
  *
  * \ingroup RegionGrowingSegmentation
  * \ingroup ITKRegionGrowing
+ * \sphinx
+ * \sphinxexample{Segmentation/RegionGrowing/ConnectedComponentsInImage,Connected Components In Image}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT ConnectedThresholdImageFilter:

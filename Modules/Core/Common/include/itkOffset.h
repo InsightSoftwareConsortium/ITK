@@ -57,9 +57,9 @@ namespace itk
  * \ingroup ImageAccess
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{SimpleOperations/Offset,Add an offset to a pixel index}
- * \endwiki
+ * \sphinx
+ * \sphinxexamples{Core/Common/AddOffsetToIndex,Add Offset To Index}
+ * \endsphinx
  */
 
 template <unsigned int VDimension = 2>

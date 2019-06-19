@@ -87,18 +87,18 @@ int itkImageAlgorithmCopyTest2( int, char *[] )
   std::cout << "Copying two images of same type"  << std::endl;
   itk::ImageAlgorithm::Copy( image1.GetPointer(), image2.GetPointer(), region, region );
 
-  TEST_EXPECT_TRUE( CheckBuffer( image2.GetPointer(), 13 ) );
+  ITK_TEST_EXPECT_TRUE( CheckBuffer( image2.GetPointer(), 13 ) );
 
   std::cout << "Copying images of different types" << std::endl;
   itk::ImageAlgorithm::Copy( image1.GetPointer(), image3.GetPointer(), region, region );
 
-  TEST_EXPECT_TRUE( CheckBuffer( image3.GetPointer(), 13 ) );
+  ITK_TEST_EXPECT_TRUE( CheckBuffer( image3.GetPointer(), 13 ) );
 
   image1->FillBuffer(0);
 
   itk::ImageAlgorithm::Copy( image3.GetPointer(), image1.GetPointer(), region, region );
 
-  TEST_EXPECT_TRUE( CheckBuffer( image1.GetPointer(), 13 ) );
+  ITK_TEST_EXPECT_TRUE( CheckBuffer( image1.GetPointer(), 13 ) );
 
 
   AbsImageType::Pointer absimage = AbsImageType::New();
@@ -108,7 +108,7 @@ int itkImageAlgorithmCopyTest2( int, char *[] )
   std::cout << "Copying from adaptor" << std::endl;
   itk::ImageAlgorithm::Copy( absimage.GetPointer(), image2.GetPointer(), region, region );
 
-  TEST_EXPECT_TRUE( CheckBuffer( image2.GetPointer(), 13 ) );
+  ITK_TEST_EXPECT_TRUE( CheckBuffer( image2.GetPointer(), 13 ) );
 
 
   STDVectorImageType::Pointer image4 = STDVectorImageType::New();
@@ -123,7 +123,7 @@ int itkImageAlgorithmCopyTest2( int, char *[] )
   std::cout << "Copying Non-POD pixels" << std::endl;
   itk::ImageAlgorithm::Copy( image4.GetPointer(), image5.GetPointer(), region, region );
 
-  TEST_EXPECT_TRUE( CheckBuffer( image5.GetPointer(), std::vector<float>( 10, 3.14) ) );
+  ITK_TEST_EXPECT_TRUE( CheckBuffer( image5.GetPointer(), std::vector<float>( 10, 3.14) ) );
 
   return EXIT_SUCCESS;
 }

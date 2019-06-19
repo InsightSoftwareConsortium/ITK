@@ -43,9 +43,9 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  *
- * \wiki
- * \wikiexample{ImageProcessing/LabelShapeKeepNObjectsImageFilter,Keep only regions that rank above a certain level of a particular property}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/LabelMap/KeepRegionsAboveLevel,Keep Regions Above Certain Level}
+ * \endsphinx
  */
 template< typename TInputImage >
 class ITK_TEMPLATE_EXPORT LabelShapeKeepNObjectsImageFilter:

@@ -98,7 +98,7 @@ int itkSubtractImageFilterTest( int, char* [] )
   // Create the filter
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, SubtractImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, SubtractImageFilter,
     BinaryGeneratorImageFilter );
 
   // Set the input images
@@ -107,7 +107,7 @@ int itkSubtractImageFilterTest( int, char* [] )
 
 
   // Execute the filter
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
 
   // Get the filter output

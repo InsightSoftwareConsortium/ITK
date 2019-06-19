@@ -77,6 +77,10 @@ public:
  *
  * \ingroup IOFilters
  * \ingroup ITKIOImageBase
+ *
+ * \sphinx
+ * \sphinxexample{IO/ImageBase/Creade3DFromSeriesOf2D,Creade 3D Volume From Series Of 2D Images}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT ImageSeriesWriter:public ProcessObject

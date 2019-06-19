@@ -35,9 +35,9 @@ namespace itk
  * \ingroup MultiThreaded
  * \ingroup ITKImageFeature
  *
- * \wiki
- * \wikiexample{EdgesAndGradients/LaplacianRecursiveGaussianImageFilter,Compute the Laplacian of Gaussian (LoG) of an image}
- * \endwiki
+ * \spihnx
+ * \sphinxexample{Filtering/ImageFeature/ComputeLaplacian,Compute Laplacian}
+ * \endsphinx
  */
 template< typename TInputImage,
           typename TOutputImage = TInputImage >

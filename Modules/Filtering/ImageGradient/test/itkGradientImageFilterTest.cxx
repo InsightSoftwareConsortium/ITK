@@ -42,7 +42,7 @@ int itkGradientImageFilterTest(int , char * [] )
     // Set up filter
     FilterType::Pointer filter = FilterType::New();
 
-    EXERCISE_BASIC_OBJECT_METHODS( filter, GradientImageFilter, ImageToImageFilter );
+    ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, GradientImageFilter, ImageToImageFilter );
 
     // Run test
     itk::Size<2> sz;
@@ -73,7 +73,7 @@ int itkGradientImageFilterTest(int , char * [] )
     //Test the OverrideBoundaryCondition setting;
     filter->OverrideBoundaryCondition( new PeriodicBoundaryType );
 
-    EXERCISE_BASIC_OBJECT_METHODS( filter, GradientImageFilter, ImageToImageFilter );
+    ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, GradientImageFilter, ImageToImageFilter );
 
     // Run test
     itk::Size<3> sz;

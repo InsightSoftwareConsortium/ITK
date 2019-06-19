@@ -81,9 +81,9 @@ struct VariableLengthVectorExpression;
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{SimpleOperations/VariableLengthVector,Variable length vector}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/VariableLengthVector,Variable Length Vector}
+ * \endsphinx
  *
  * \invariant If \c m_LetArrayManageMemory is true, \c m_Data is deletable
  * (whether it's null or pointing to something with no elements. i.e. \c

@@ -74,33 +74,33 @@ int itkResampleImageTest(int, char* [] )
   itk::ResampleImageFilter< ImageType, ImageType >::Pointer resample =
     itk::ResampleImageFilter< ImageType, ImageType >::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( resample, ResampleImageFilter, ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( resample, ResampleImageFilter, ImageToImageFilter );
 
   resample->SetInput(image);
-  TEST_SET_GET_VALUE( image, resample->GetInput() );
+  ITK_TEST_SET_GET_VALUE( image, resample->GetInput() );
 
   resample->SetSize(size);
-  TEST_SET_GET_VALUE( size, resample->GetSize() );
+  ITK_TEST_SET_GET_VALUE( size, resample->GetSize() );
 
   resample->SetTransform(aff);
-  TEST_SET_GET_VALUE( aff, resample->GetTransform() );
+  ITK_TEST_SET_GET_VALUE( aff, resample->GetTransform() );
 
   resample->SetInterpolator(interp);
-  TEST_SET_GET_VALUE( interp, resample->GetInterpolator() );
+  ITK_TEST_SET_GET_VALUE( interp, resample->GetInterpolator() );
 
   index.Fill( 0 );
   resample->SetOutputStartIndex( index );
-  TEST_SET_GET_VALUE( index, resample->GetOutputStartIndex() );
+  ITK_TEST_SET_GET_VALUE( index, resample->GetOutputStartIndex() );
 
   ImageType::PointType origin;
   origin.Fill( 0.0 );
   resample->SetOutputOrigin( origin );
-  TEST_SET_GET_VALUE( origin, resample->GetOutputOrigin() );
+  ITK_TEST_SET_GET_VALUE( origin, resample->GetOutputOrigin() );
 
   ImageType::SpacingType spacing;
   spacing.Fill( 1.0 );
   resample->SetOutputSpacing( spacing );
-  TEST_SET_GET_VALUE( spacing, resample->GetOutputSpacing() );
+  ITK_TEST_SET_GET_VALUE( spacing, resample->GetOutputSpacing() );
 
 
   // Run the resampling filter

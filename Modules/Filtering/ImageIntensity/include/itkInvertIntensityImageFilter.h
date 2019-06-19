@@ -81,9 +81,9 @@ private:
  *
  * \ingroup ITKImageIntensity
  *
- * \wiki
- * \wikiexample{ImageProcessing/InvertIntensityImageFilter,Invert an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageIntensity/InvertImage,Invert Image}
+ * \endsphinx
  */
 template< typename  TInputImage, typename  TOutputImage = TInputImage >
 class ITK_TEMPLATE_EXPORT InvertIntensityImageFilter:

@@ -578,17 +578,17 @@ int itkMultiTransformTest(int, char *[] )
 
     /* Test with wrong size for update */
     update.SetSize(1);
-    TRY_EXPECT_EXCEPTION( multiTransform->UpdateTransformParameters( update, factor ) );
+    ITK_TRY_EXPECT_EXCEPTION( multiTransform->UpdateTransformParameters( update, factor ) );
     }
 
   /* Test SetParameters with wrong size array */
   std::cout << std::endl << "Test SetParameters with wrong size array. EXPECT EXCEPTION:" << std::endl;
   parametersTruth.SetSize(1);
-  TRY_EXPECT_EXCEPTION( multiTransform->SetParameters( parametersTruth ) );
+  ITK_TRY_EXPECT_EXCEPTION( multiTransform->SetParameters( parametersTruth ) );
 
   /* Test SetFixedParameters with wrong size array */
   std::cout << std::endl << "Test SetFixedParameters with wrong size array. EXPECT EXCEPTION:" << std::endl;
-  TRY_EXPECT_EXCEPTION( multiTransform->SetFixedParameters( parametersTruth ) );
+  ITK_TRY_EXPECT_EXCEPTION( multiTransform->SetFixedParameters( parametersTruth ) );
 
   /* GetTransformCategory */
   if( multiTransform->GetTransformCategory() != MultiTransformType::UnknownTransformCategory )

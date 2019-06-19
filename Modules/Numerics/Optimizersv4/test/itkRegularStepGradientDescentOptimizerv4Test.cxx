@@ -185,25 +185,25 @@ int RegularStepGradientDescentOptimizerv4TestHelper(
   optimizer->SetDoEstimateLearningRateAtEachIteration( doEstimateLearningRateAtEachIteration );
   optimizer->SetDoEstimateLearningRateOnce( doEstimateLearningRateOnce );
 
-  TEST_SET_GET_VALUE( doEstimateLearningRateAtEachIteration, optimizer->GetDoEstimateLearningRateAtEachIteration() );
-  TEST_SET_GET_VALUE( doEstimateLearningRateOnce, optimizer->GetDoEstimateLearningRateOnce() );
+  ITK_TEST_SET_GET_VALUE( doEstimateLearningRateAtEachIteration, optimizer->GetDoEstimateLearningRateAtEachIteration() );
+  ITK_TEST_SET_GET_VALUE( doEstimateLearningRateOnce, optimizer->GetDoEstimateLearningRateOnce() );
 
   optimizer->SetRelaxationFactor( relaxationFactor );
 
-  TEST_SET_GET_VALUE( relaxationFactor, optimizer->GetRelaxationFactor() );
+  ITK_TEST_SET_GET_VALUE( relaxationFactor, optimizer->GetRelaxationFactor() );
 
   optimizer->SetMinimumStepLength( minimumStepLength );
 
-  TEST_SET_GET_VALUE( minimumStepLength, optimizer->GetMinimumStepLength() );
+  ITK_TEST_SET_GET_VALUE( minimumStepLength, optimizer->GetMinimumStepLength() );
 
   optimizer->SetGradientMagnitudeTolerance( gradientMagnitudeTolerance );
 
-  TEST_SET_GET_VALUE( gradientMagnitudeTolerance,
+  ITK_TEST_SET_GET_VALUE( gradientMagnitudeTolerance,
     optimizer->GetGradientMagnitudeTolerance() );
 
   optimizer->SetCurrentLearningRateRelaxation( currentLearningRateRelaxation );
 
-  TEST_SET_GET_VALUE( currentLearningRateRelaxation,
+  ITK_TEST_SET_GET_VALUE( currentLearningRateRelaxation,
     optimizer->GetCurrentLearningRateRelaxation() );
 
   try
@@ -266,7 +266,7 @@ int itkRegularStepGradientDescentOptimizerv4Test( int, char* [] )
 
   OptimizerType::Pointer itkOptimizer = OptimizerType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( itkOptimizer, RegularStepGradientDescentOptimizerv4,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( itkOptimizer, RegularStepGradientDescentOptimizerv4,
     GradientDescentOptimizerv4Template );
 
   bool testStatus = EXIT_SUCCESS;

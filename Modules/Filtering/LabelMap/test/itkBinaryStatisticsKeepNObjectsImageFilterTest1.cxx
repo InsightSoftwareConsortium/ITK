@@ -54,46 +54,46 @@ int itkBinaryStatisticsKeepNObjectsImageFilterTest1(int argc, char * argv[])
   //testing get/set ForegroundValue macro
   int ForegroundValue = ( std::stoi(argv[4]) );
   KeepNObjects->SetForegroundValue( ForegroundValue );
-  TEST_SET_GET_VALUE( ForegroundValue, KeepNObjects->GetForegroundValue() );
+  ITK_TEST_SET_GET_VALUE( ForegroundValue, KeepNObjects->GetForegroundValue() );
 
   //testing get/set BackgroundValue macro
   int BackgroundValue = ( std::stoi(argv[5]) );
   KeepNObjects->SetBackgroundValue( BackgroundValue );
-  TEST_SET_GET_VALUE( BackgroundValue, KeepNObjects->GetBackgroundValue() );
+  ITK_TEST_SET_GET_VALUE( BackgroundValue, KeepNObjects->GetBackgroundValue() );
 
   //testing get and set macros for NumberOfObjects
   unsigned int numberOfObjects = std::stoi( argv[6] );
   KeepNObjects->SetNumberOfObjects( numberOfObjects );
-  TEST_SET_GET_VALUE( numberOfObjects, KeepNObjects->GetNumberOfObjects() );
+  ITK_TEST_SET_GET_VALUE( numberOfObjects, KeepNObjects->GetNumberOfObjects() );
 
   //testing boolean macro for ReverseOrdering
   KeepNObjects->ReverseOrderingOn();
-  TEST_SET_GET_VALUE( true, KeepNObjects->GetReverseOrdering() );
+  ITK_TEST_SET_GET_VALUE( true, KeepNObjects->GetReverseOrdering() );
 
   KeepNObjects->ReverseOrderingOff();
-  TEST_SET_GET_VALUE( false, KeepNObjects->GetReverseOrdering() );
+  ITK_TEST_SET_GET_VALUE( false, KeepNObjects->GetReverseOrdering() );
 
   //testing get and set macros or ReverseOrdering
   bool reverseOrdering = std::stoi( argv[7] );
   KeepNObjects->SetReverseOrdering( reverseOrdering );
-  TEST_SET_GET_VALUE( reverseOrdering , KeepNObjects->GetReverseOrdering() );
+  ITK_TEST_SET_GET_VALUE( reverseOrdering , KeepNObjects->GetReverseOrdering() );
 
   //testing boolean macro for FullyConnected
   KeepNObjects->FullyConnectedOn();
-  TEST_SET_GET_VALUE( true, KeepNObjects->GetFullyConnected() );
+  ITK_TEST_SET_GET_VALUE( true, KeepNObjects->GetFullyConnected() );
 
   KeepNObjects->FullyConnectedOff();
-  TEST_SET_GET_VALUE( false, KeepNObjects->GetFullyConnected() );
+  ITK_TEST_SET_GET_VALUE( false, KeepNObjects->GetFullyConnected() );
 
   //testing get and set macros or FullyConnected
   bool fullyConnected = std::stoi( argv[8] );
   KeepNObjects->SetFullyConnected( fullyConnected );
-  TEST_SET_GET_VALUE( fullyConnected , KeepNObjects->GetFullyConnected() );
+  ITK_TEST_SET_GET_VALUE( fullyConnected , KeepNObjects->GetFullyConnected() );
 
   //testing get and set macros for Attribute
   BinaryKeepNObjectsType::AttributeType attribute = std::stoi( argv[9] );
   KeepNObjects->SetAttribute( attribute );
-  TEST_SET_GET_VALUE( attribute, KeepNObjects->GetAttribute() );
+  ITK_TEST_SET_GET_VALUE( attribute, KeepNObjects->GetAttribute() );
 
   itk::SimpleFilterWatcher watcher(KeepNObjects, "filter");
 
@@ -103,7 +103,7 @@ int itkBinaryStatisticsKeepNObjectsImageFilterTest1(int argc, char * argv[])
   writer->SetFileName( argv[3] );
   writer->UseCompressionOn();
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   std::cout << "Test Complete!" << std::endl;
 

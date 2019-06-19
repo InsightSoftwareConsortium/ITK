@@ -27,11 +27,9 @@ namespace itk
 template< typename T, unsigned int TVectorDimension >
 CovariantVector< T, TVectorDimension >
 ::CovariantVector(const ValueType & r)
+  :
+  Superclass{ r }
 {
-  for ( typename BaseArray::Iterator i = BaseArray::Begin(); i != BaseArray::End(); ++i )
-    {
-    *i = r;
-    }
 }
 
 template< typename T, unsigned int NVectorDimension >

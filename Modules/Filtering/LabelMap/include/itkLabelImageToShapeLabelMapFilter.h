@@ -40,9 +40,10 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  *
- * \wiki
- * \wikiexample{ImageSegmentation/LabelImageToShapeLabelMapFilter,Convert an itk::Image consisting of labeled regions to a ShapeLabelMap}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/LabelMap/ShapeAttributesForBinaryImage,Shape Attributes For Binary Image}
+ * \sphinxexample{Filtering/LabelMap/ConvertImageWithLabelsToShapeLabelMap,Convert Image With Labeled Regions To ShapeLabelMap}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage =
             LabelMap< ShapeLabelObject< typename TInputImage::PixelType,

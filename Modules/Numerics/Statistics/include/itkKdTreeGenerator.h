@@ -61,9 +61,9 @@ namespace Statistics
  * WeightedCentroidKdTreeGenerator
  * \ingroup ITKStatistics
  *
- * \wiki
- * \wikiexample{Statistics/KdTree,Spatial search}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Numerics/Statistics/SpatialSearch,Spatial Search}
+ * \endsphinx
  */
 
 template< typename TSample >

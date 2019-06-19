@@ -131,7 +131,7 @@ int itkGeodesicActiveContourLevelSetImageFilterTest( int, char* [] )
 
   GeodesicActiveContourFilterType::Pointer geodesicActiveContour = GeodesicActiveContourFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( geodesicActiveContour, GeodesicActiveContourLevelSetImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( geodesicActiveContour, GeodesicActiveContourLevelSetImageFilter,
     SegmentationLevelSetImageFilter );
 
   // set the initial level set

@@ -46,7 +46,7 @@ int main(int, char* [])
 {
 // Software Guide : BeginLatex
 //
-// The ImageMaskSpatialObject is templated over the dimensionality.
+// The \code{ImageMaskSpatialObject} is templated over the dimensionality.
 //
 // Software Guide : EndLatex
 
@@ -95,7 +95,7 @@ int main(int, char* [])
 
 // Software Guide : BeginLatex
 //
-// Then, we create an ImageMaskSpatialObject.
+// Then, we create an \code{ImageMaskSpatialObject}.
 //
 // Software Guide : EndLatex
 

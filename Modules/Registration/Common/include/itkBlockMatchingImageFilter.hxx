@@ -250,10 +250,8 @@ BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, 
   for ( SizeValueType idx = first, last = first + count; idx < last; idx++ )
     {
     FeaturePointsPhysicalCoordinates originalLocation = featurePoints->GetPoint( idx );
-    ImageIndexType fixedIndex;
-    fixedImage->TransformPhysicalPointToIndex(    originalLocation, fixedIndex );
-    ImageIndexType movingIndex;
-    movingImage->TransformPhysicalPointToIndex( originalLocation, movingIndex );
+    const auto fixedIndex = fixedImage->TransformPhysicalPointToIndex(originalLocation);
+    const auto movingIndex = movingImage->TransformPhysicalPointToIndex(originalLocation);
 
     // the block is selected for a minimum similarity metric
     SimilaritiesValue  similarity = NumericTraits< SimilaritiesValue >::ZeroValue();

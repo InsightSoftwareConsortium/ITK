@@ -40,9 +40,9 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  *
- * \wiki
- * \wikiexample{ImageSegmentation/LabelImageToLabelMapFilter,Convert an itk::Image consisting of labeled regions to a LabelMap}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/LabelMap/ConvertImageToLabelMap,Convert itk::Image With Labels To Label Map}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage =
             LabelMap< LabelObject< typename TInputImage::PixelType,

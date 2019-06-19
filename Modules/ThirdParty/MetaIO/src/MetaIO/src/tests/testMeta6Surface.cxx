@@ -50,7 +50,7 @@ int main(int, char * [])
     {
       std::cout << (*it)->m_V[d] << " ";
     }
-    
+
     std::cout << std::endl;
     for (d = 0; d < 4; d++)
     {

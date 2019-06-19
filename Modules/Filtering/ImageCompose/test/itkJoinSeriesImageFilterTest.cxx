@@ -103,7 +103,7 @@ int itkJoinSeriesImageFilterTest( int, char* [] )
 
   JoinSeriesImageType::Pointer joinSeriesImage = JoinSeriesImageType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( joinSeriesImage, JoinSeriesImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( joinSeriesImage, JoinSeriesImageFilter,
     ImageToImageFilter );
 
   // Check the default values
@@ -120,10 +120,10 @@ int itkJoinSeriesImageFilterTest( int, char* [] )
 
   // Setup the filter
   joinSeriesImage->SetSpacing( spacingValue );
-  TEST_SET_GET_VALUE( spacingValue, joinSeriesImage->GetSpacing() );
+  ITK_TEST_SET_GET_VALUE( spacingValue, joinSeriesImage->GetSpacing() );
 
   joinSeriesImage->SetOrigin( originValue );
-  TEST_SET_GET_VALUE( originValue, joinSeriesImage->GetOrigin() );
+  ITK_TEST_SET_GET_VALUE( originValue, joinSeriesImage->GetOrigin() );
 
   for ( int i = 0; i < numInputs; i++ )
     {

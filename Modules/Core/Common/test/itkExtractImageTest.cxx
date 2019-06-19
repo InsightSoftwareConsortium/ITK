@@ -51,7 +51,7 @@ bool ExtractImageInPlaceTest()
   extract->UpdateLargestPossibleRegion();
 
   // check that the it was not run in-place
-  TEST_EXPECT_TRUE( source->GetOutput()->GetBufferedRegion().GetSize() != zeroSize );
+  ITK_TEST_EXPECT_TRUE( source->GetOutput()->GetBufferedRegion().GetSize() != zeroSize );
 
   // add a filter between which will produce the requested region, and
   // enable in-place operation
@@ -65,10 +65,10 @@ bool ExtractImageInPlaceTest()
 
 
   // this buffer should still be ok
-  TEST_EXPECT_TRUE( source->GetOutput()->GetBufferedRegion().GetSize() != zeroSize );
+  ITK_TEST_EXPECT_TRUE( source->GetOutput()->GetBufferedRegion().GetSize() != zeroSize );
 
   // this should have been taken by the in-place;
-  TEST_EXPECT_TRUE( filter->GetOutput()->GetBufferedRegion().GetSize() == zeroSize );
+  ITK_TEST_EXPECT_TRUE( filter->GetOutput()->GetBufferedRegion().GetSize() == zeroSize );
 
   // try with in-place disabled
   extract->InPlaceOff();
@@ -76,8 +76,8 @@ bool ExtractImageInPlaceTest()
 
 
   // these buffers should still be ok
-  TEST_EXPECT_TRUE( source->GetOutput()->GetBufferedRegion().GetSize() != zeroSize );
-  TEST_EXPECT_TRUE( filter->GetOutput()->GetBufferedRegion().GetSize() != zeroSize );
+  ITK_TEST_EXPECT_TRUE( source->GetOutput()->GetBufferedRegion().GetSize() != zeroSize );
+  ITK_TEST_EXPECT_TRUE( filter->GetOutput()->GetBufferedRegion().GetSize() != zeroSize );
 
   return EXIT_SUCCESS;
 }

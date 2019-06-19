@@ -67,9 +67,9 @@ namespace itk
  * \ingroup ImageFeatureExtraction
  * \ingroup ITKImageStatistics
  *
- * \wiki
- * \wikiexample{Segmentation/EstimatePCAModel,Compute a PCA shape model from a training sample}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageStatistics/ComputePCAShapeFromSample,Compute PCA Shape From Training Sample}
+ * \endsphinx
  */
 
 template< typename TInputImage,

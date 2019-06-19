@@ -121,7 +121,7 @@ int itkConstrainedValueAdditionImageFilterTest( int argc, char* argv[] )
   ConstrainedValueAdditionImageFilterType::Pointer filter =
     ConstrainedValueAdditionImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, ConstrainedValueAdditionImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, ConstrainedValueAdditionImageFilter,
     BinaryGeneratorImageFilter );
 
   // Set the input images
@@ -143,7 +143,7 @@ int itkConstrainedValueAdditionImageFilterTest( int argc, char* argv[] )
 
   writer->SetInput( outputImage );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;

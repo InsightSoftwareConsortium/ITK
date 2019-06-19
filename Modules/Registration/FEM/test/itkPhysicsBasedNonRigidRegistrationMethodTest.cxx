@@ -66,19 +66,19 @@ int itkPhysicsBasedNonRigidRegistrationMethodTest( int argc, char *argv[] )
   ImageReaderType::Pointer fixedImageReader = ImageReaderType::New();
   fixedImageReader->SetFileName( argv[1] );
 
-  TRY_EXPECT_NO_EXCEPTION( fixedImageReader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( fixedImageReader->Update() );
 
   // Read moving image
   ImageReaderType::Pointer movingImageReader = ImageReaderType::New();
   movingImageReader->SetFileName( argv[2] );
 
-  TRY_EXPECT_NO_EXCEPTION( movingImageReader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( movingImageReader->Update() );
 
   // Read mask image
   ImageReaderType::Pointer maskImageReader = ImageReaderType::New();
   maskImageReader->SetFileName( argv[3] );
 
-  TRY_EXPECT_NO_EXCEPTION( maskImageReader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( maskImageReader->Update() );
 
   // Read mesh
   using MeshReaderType = itk::VTKTetrahedralMeshReader< MeshType >;
@@ -86,7 +86,7 @@ int itkPhysicsBasedNonRigidRegistrationMethodTest( int argc, char *argv[] )
   MeshReaderType::Pointer meshReader = MeshReaderType::New();
   meshReader->SetFileName( argv[4] );
 
-  TRY_EXPECT_NO_EXCEPTION( meshReader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( meshReader->Update() );
 
   // Create PhysicsBasedNonRigidRegistrationMethod filter
   using DeformationFieldType = itk::Image< itk::Vector< MeshPixelType, ImageDimension >,
@@ -97,57 +97,57 @@ int itkPhysicsBasedNonRigidRegistrationMethodTest( int argc, char *argv[] )
 
   PBNRRFilterType::Pointer filter = PBNRRFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter,
     PhysicsBasedNonRigidRegistrationMethod,
     ImageToImageFilter );
 
 
   InputImageType::Pointer fixedImage = fixedImageReader->GetOutput();
   filter->SetFixedImage( fixedImage );
-  TEST_SET_GET_VALUE( fixedImage, filter->GetFixedImage() );
+  ITK_TEST_SET_GET_VALUE( fixedImage, filter->GetFixedImage() );
 
   InputImageType::Pointer movingImage = movingImageReader->GetOutput();
   filter->SetMovingImage( movingImage );
-  TEST_SET_GET_VALUE( movingImage, filter->GetMovingImage() );
+  ITK_TEST_SET_GET_VALUE( movingImage, filter->GetMovingImage() );
 
   InputImageType::Pointer maskImage = maskImageReader->GetOutput();
   filter->SetMaskImage( maskImage );
-  TEST_SET_GET_VALUE( maskImage, filter->GetMaskImage() );
+  ITK_TEST_SET_GET_VALUE( maskImage, filter->GetMaskImage() );
 
   MeshType::Pointer mesh = meshReader->GetOutput();
   filter->SetMesh( mesh );
-  TEST_SET_GET_VALUE( mesh, filter->GetMesh() );
+  ITK_TEST_SET_GET_VALUE( mesh, filter->GetMesh() );
 
   double selectionFraction = std::stod( argv[6] );
   filter->SetSelectFraction( selectionFraction );
-  TEST_SET_GET_VALUE( selectionFraction, filter->GetSelectFraction() );
+  ITK_TEST_SET_GET_VALUE( selectionFraction, filter->GetSelectFraction() );
 
   unsigned int nonConnectivity = std::stoi( argv[7] );
   filter->SetNonConnectivity( nonConnectivity );
-  TEST_SET_GET_VALUE( nonConnectivity, filter->GetNonConnectivity() );
+  ITK_TEST_SET_GET_VALUE( nonConnectivity, filter->GetNonConnectivity() );
 
   auto blockRadiusValue = static_cast< PBNRRFilterType::ImageSizeType::SizeValueType >( std::stod( argv[8] ) );
   PBNRRFilterType::ImageSizeType blockRadius;
   blockRadius.Fill( blockRadiusValue );
   filter->SetBlockRadius( blockRadius );
-  TEST_SET_GET_VALUE( blockRadius, filter->GetBlockRadius() );
+  ITK_TEST_SET_GET_VALUE( blockRadius, filter->GetBlockRadius() );
 
   auto searchRadiusValue = static_cast< PBNRRFilterType::ImageSizeType::SizeValueType >( std::stod( argv[9] ) );
   PBNRRFilterType::ImageSizeType searchRadius;
   searchRadius.Fill( searchRadiusValue );
   filter->SetSearchRadius( searchRadius );
-  TEST_SET_GET_VALUE( searchRadius, filter->GetSearchRadius() );
+  ITK_TEST_SET_GET_VALUE( searchRadius, filter->GetSearchRadius() );
 
   unsigned int approximationSteps = std::stoi( argv[10] );
   filter->SetApproximationSteps( approximationSteps );
-  TEST_SET_GET_VALUE( approximationSteps, filter->GetApproximationSteps() );
+  ITK_TEST_SET_GET_VALUE( approximationSteps, filter->GetApproximationSteps() );
 
   unsigned int outlierRejectionSteps = std::stoi( argv[11] );
   filter->SetOutlierRejectionSteps( outlierRejectionSteps );
-  TEST_SET_GET_VALUE( outlierRejectionSteps, filter->GetOutlierRejectionSteps() );
+  ITK_TEST_SET_GET_VALUE( outlierRejectionSteps, filter->GetOutlierRejectionSteps() );
 
 
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
 
   // Display the FEM filter to improve code coverage
@@ -173,7 +173,7 @@ int itkPhysicsBasedNonRigidRegistrationMethodTest( int argc, char *argv[] )
   warpFilter->SetDisplacementField( deformationField );
 
 
-  TRY_EXPECT_NO_EXCEPTION( warpFilter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( warpFilter->Update() );
 
   // Write warped image to file
   using WriterType = itk::ImageFileWriter< InputImageType >;
@@ -181,7 +181,7 @@ int itkPhysicsBasedNonRigidRegistrationMethodTest( int argc, char *argv[] )
   writer->SetFileName( argv[5] );
   writer->SetInput( warpFilter->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
 
   std::cerr << "Test finished." << std::endl;

@@ -61,9 +61,9 @@ template< typename TValue, unsigned int VLength>  class FixedArray;
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{SimpleOperations/NumericTraits,Get some basic information about a type}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/GetTypeBasicInformation,Get Type Basic Information}
+ * \endsphinx
  */
 template< typename T >
 class NumericTraits:public std::numeric_limits< T >
@@ -1080,8 +1080,8 @@ public:
   static constexpr bool IsSigned = NumericTraits< ValueType >::IsSigned;
   static constexpr bool IsInteger = false;
   static constexpr bool IsComplex = true;
-  static Self ZeroValue() { return Zero; }
-  static Self OneValue() { return One; }
+  static Self ZeroValue() { return Self(0, 0); }
+  static Self OneValue() { return Self(1, 0); }
   static constexpr unsigned int GetLength(const Self &) { return 2; }
   static constexpr unsigned int GetLength() { return 2; }
   static constexpr Self NonpositiveMin(const Self &) { return NonpositiveMin(); }
@@ -1103,6 +1103,7 @@ public:
     m = NumericTraits< ValueType >::ZeroValue();
   }
 };
+/// \endcond
 } // end namespace itk
 
 #include "itkFixedArray.h"

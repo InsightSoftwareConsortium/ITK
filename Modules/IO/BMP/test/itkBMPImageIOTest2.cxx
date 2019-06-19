@@ -52,7 +52,7 @@ int itkBMPImageIOTest2( int argc, char* argv[] )
   std::cout << "NumberOfComponents: "
     << reader->GetImageIO()->GetNumberOfComponents() << std::endl;
 
-  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
   ImageType::Pointer image = reader->GetOutput();
 
@@ -71,7 +71,7 @@ int itkBMPImageIOTest2( int argc, char* argv[] )
   writer->SetInput( reader->GetOutput() );
   writer->SetFileName( argv[2] );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   // Print the IO
   writer->GetImageIO()->Print( std::cout );

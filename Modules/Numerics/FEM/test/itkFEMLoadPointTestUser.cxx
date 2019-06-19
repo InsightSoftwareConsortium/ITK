@@ -117,7 +117,7 @@ int itkFEMLoadPointTestUser(int, char *[])
 
   itk::fem::LoadPoint::Pointer lm0 = itk::fem::LoadPoint::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( lm0, LoadPoint, LoadElement );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( lm0, LoadPoint, LoadElement );
 
   lm0->SetGlobalNumber(1);
   vnl_vector<double> pt1(2);
@@ -125,12 +125,12 @@ int itkFEMLoadPointTestUser(int, char *[])
   pt1[1] = 0.5;
   // it is assumed that source is same as the point.
   lm0->SetPoint( pt1 );
-  TEST_SET_GET_VALUE( pt1, lm0->GetPoint() );
+  ITK_TEST_SET_GET_VALUE( pt1, lm0->GetPoint() );
 
   pt1[0] = 0.0;
   pt1[1] = 1.0;
   lm0->SetForce( pt1 );
-  TEST_SET_GET_VALUE( pt1, lm0->GetForce() );
+  ITK_TEST_SET_GET_VALUE( pt1, lm0->GetForce() );
 
   femObject->AddNextLoad(lm0);
 

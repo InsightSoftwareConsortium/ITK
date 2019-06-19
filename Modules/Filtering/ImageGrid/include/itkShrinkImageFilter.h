@@ -59,9 +59,9 @@ namespace itk
  * \ingroup GeometricTransform Streamed
  * \ingroup ITKImageGrid
  *
- * \wiki
- * \wikiexample{Images/ShrinkImageFilter,Shrink an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageGrid/ShrinkImage,Shrink Image}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT ShrinkImageFilter:

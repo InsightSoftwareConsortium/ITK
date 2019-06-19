@@ -45,7 +45,7 @@ int itkShotNoiseImageFilterTest(int argc, char * argv[])
       itk::ShotNoiseImageFilter< ImageType, ImageType >;
   ShotNoiseImageFilterType::Pointer shotNoiseImageFilter = ShotNoiseImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( shotNoiseImageFilter, ShotNoiseImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( shotNoiseImageFilter, ShotNoiseImageFilter,
     NoiseBaseImageFilter );
 
   double scale = 1.0;
@@ -54,7 +54,7 @@ int itkShotNoiseImageFilterTest(int argc, char * argv[])
     scale = std::stod( argv[3] );
     }
   shotNoiseImageFilter->SetScale( scale );
-  TEST_SET_GET_VALUE( scale, shotNoiseImageFilter->GetScale() );
+  ITK_TEST_SET_GET_VALUE( scale, shotNoiseImageFilter->GetScale() );
 
 
   shotNoiseImageFilter->SetInput( reader->GetOutput() );
@@ -66,7 +66,7 @@ int itkShotNoiseImageFilterTest(int argc, char * argv[])
   writer->SetInput( shotNoiseImageFilter->GetOutput() );
   writer->SetFileName( argv[2] );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

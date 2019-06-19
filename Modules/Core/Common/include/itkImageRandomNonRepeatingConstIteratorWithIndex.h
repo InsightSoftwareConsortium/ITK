@@ -206,10 +206,10 @@ public:
  *
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{Iterators/ImageRandomNonRepeatingConstIteratorWithIndex,Randomly select pixels from a region of an image without replacement}
- * \wikiexample{Utilities/RandomPermutation,Permute a sequence of indices}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/RandomSelectPixelFromRegionWithoutReplacee,Random Select Pixel From Region Without Replacing}
+ * \sphinxexample{Core/Common/PermuteSequenceOfIndices,Permute Sequence Of Indices}
+ * \endsphinx
  */
 template< typename TImage >
 class ITK_TEMPLATE_EXPORT ImageRandomNonRepeatingConstIteratorWithIndex:public ImageConstIteratorWithIndex< TImage >

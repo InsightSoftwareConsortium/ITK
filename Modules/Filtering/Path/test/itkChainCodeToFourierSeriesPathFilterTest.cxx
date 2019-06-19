@@ -47,7 +47,7 @@ int itkChainCodeToFourierSeriesPathFilterTest( int, char*[] )
 
   PolyLinePathType::Pointer inputPath = PolyLinePathType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( inputPath, PolyLineParametricPath,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( inputPath, PolyLineParametricPath,
     ParametricPath );
 
   v.Fill( 30 );
@@ -71,7 +71,7 @@ int itkChainCodeToFourierSeriesPathFilterTest( int, char*[] )
   ChainCodeToFSPathFilterType::Pointer chainCodeToFSPathFilter =
     ChainCodeToFSPathFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( chainCodeToFSPathFilter, ChainCodeToFourierSeriesPathFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( chainCodeToFSPathFilter, ChainCodeToFourierSeriesPathFilter,
     PathToPathFilter );
 
   chainCodeToFSPathFilter->SetInput( pathToChainCodePathFilter->GetOutput() );

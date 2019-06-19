@@ -59,19 +59,19 @@ int itkShapeUniqueLabelMapFilterTest1(int argc, char * argv[])
   //testing get and set macros for ReverseOrdering
   bool reverseOrdering = std::stoi( argv[3] );
   Unique->SetReverseOrdering( reverseOrdering );
-  TEST_SET_GET_VALUE( reverseOrdering , Unique->GetReverseOrdering() );
+  ITK_TEST_SET_GET_VALUE( reverseOrdering , Unique->GetReverseOrdering() );
 
   //testing boolean macro for ReverseOrdering
   Unique->ReverseOrderingOn();
-  TEST_SET_GET_VALUE( true, Unique->GetReverseOrdering() );
+  ITK_TEST_SET_GET_VALUE( true, Unique->GetReverseOrdering() );
 
   Unique->ReverseOrderingOff();
-  TEST_SET_GET_VALUE( false, Unique->GetReverseOrdering() );
+  ITK_TEST_SET_GET_VALUE( false, Unique->GetReverseOrdering() );
 
   //testing get and set macros for Attribute
   LabelUniqueType::AttributeType attribute = std::stoi( argv[4] );
   Unique->SetAttribute( attribute );
-  TEST_SET_GET_VALUE( attribute, Unique->GetAttribute() );
+  ITK_TEST_SET_GET_VALUE( attribute, Unique->GetAttribute() );
 
   Unique->SetInput( i2l->GetOutput() );
 
@@ -88,7 +88,7 @@ int itkShapeUniqueLabelMapFilterTest1(int argc, char * argv[])
   writer->SetFileName( argv[2] );
   writer->UseCompressionOn();
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

@@ -36,9 +36,9 @@ namespace itk
  * \ingroup IntensityImageFilters  MultiThreaded
  * \ingroup ITKImageIntensity
  *
- * \wiki
- * \wikiexample{VectorImages/VectorMagnitudeImageFilter,Compute the magnitude of each pixel in a vector image to produce a magnitude image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageIntensity/ComputerMagInVectorImageToMakeMagImage,Computer Magnitude In Vector Image To Make Magnitude Image}
+ * \endsphinx
  */
 
 namespace Functor

@@ -39,7 +39,7 @@ int itkFrustumSpatialFunctionTest( int, char *[] )
   FrustumSpatialFunctionType::Pointer frustrumSpatialFunction =
     FrustumSpatialFunctionType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( frustrumSpatialFunction, FrustumSpatialFunction,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( frustrumSpatialFunction, FrustumSpatialFunction,
     InteriorExteriorSpatialFunction );
 
   // Set the frustum properties
@@ -47,34 +47,34 @@ int itkFrustumSpatialFunctionTest( int, char *[] )
   apex.Fill( 1.1 );
 
   frustrumSpatialFunction->SetApex( apex );
-  TEST_SET_GET_VALUE( apex, frustrumSpatialFunction->GetApex() );
+  ITK_TEST_SET_GET_VALUE( apex, frustrumSpatialFunction->GetApex() );
 
   double topPlane = 50.0;
   frustrumSpatialFunction->SetTopPlane( topPlane );
-  TEST_SET_GET_VALUE( topPlane, frustrumSpatialFunction->GetTopPlane() );
+  ITK_TEST_SET_GET_VALUE( topPlane, frustrumSpatialFunction->GetTopPlane() );
 
   double bottomPlane = 10.0;
   frustrumSpatialFunction->SetBottomPlane( bottomPlane );
-  TEST_SET_GET_VALUE( bottomPlane, frustrumSpatialFunction->GetBottomPlane() );
+  ITK_TEST_SET_GET_VALUE( bottomPlane, frustrumSpatialFunction->GetBottomPlane() );
 
   double angleZ = 36;
   frustrumSpatialFunction->SetAngleZ( angleZ );
-  TEST_SET_GET_VALUE( angleZ, frustrumSpatialFunction->GetAngleZ() );
+  ITK_TEST_SET_GET_VALUE( angleZ, frustrumSpatialFunction->GetAngleZ() );
 
   double apertureAngleX = 54;
   frustrumSpatialFunction->SetApertureAngleX( apertureAngleX );
-  TEST_SET_GET_VALUE( apertureAngleX, frustrumSpatialFunction->GetApertureAngleX() );
+  ITK_TEST_SET_GET_VALUE( apertureAngleX, frustrumSpatialFunction->GetApertureAngleX() );
 
   double apertureAngleY = 120;
   frustrumSpatialFunction->SetApertureAngleY( apertureAngleY );
-  TEST_SET_GET_VALUE( apertureAngleY, frustrumSpatialFunction->GetApertureAngleY() );
+  ITK_TEST_SET_GET_VALUE( apertureAngleY, frustrumSpatialFunction->GetApertureAngleY() );
 
 
   // Test for a rotation in the XZ plane
   //
   auto rotationPlane = static_cast< FrustumSpatialFunctionType::FrustumRotationPlaneType > ( 1 );
   frustrumSpatialFunction->SetRotationPlane( rotationPlane );
-  TEST_SET_GET_VALUE( rotationPlane, frustrumSpatialFunction->GetRotationPlane() );
+  ITK_TEST_SET_GET_VALUE( rotationPlane, frustrumSpatialFunction->GetRotationPlane() );
 
   // Define inside/outside points to test the function
   FrustumSpatialFunctionType::InputType insidePoint;
@@ -143,7 +143,7 @@ int itkFrustumSpatialFunctionTest( int, char *[] )
   rotationPlane =
     static_cast< FrustumSpatialFunctionType::FrustumRotationPlaneType > ( 2 );
   frustrumSpatialFunction->SetRotationPlane( rotationPlane );
-  TEST_SET_GET_VALUE( rotationPlane, frustrumSpatialFunction->GetRotationPlane() );
+  ITK_TEST_SET_GET_VALUE( rotationPlane, frustrumSpatialFunction->GetRotationPlane() );
 
   insidePoint[0] = 20.0;
   insidePoint[1] = 15.0;

@@ -88,22 +88,22 @@ int itkResampleImageTest3(int argc, char * argv [] )
   // Create and configure a resampling filter
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( resample, ResampleImageFilter, ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( resample, ResampleImageFilter, ImageToImageFilter );
 
   resample->SetInput( reader1->GetOutput() );
-  TEST_SET_GET_VALUE( reader1->GetOutput(), resample->GetInput() );
+  ITK_TEST_SET_GET_VALUE( reader1->GetOutput(), resample->GetInput() );
 
   resample->SetReferenceImage( changeInfo->GetOutput() );
-  TEST_SET_GET_VALUE( changeInfo->GetOutput(), resample->GetReferenceImage() );
+  ITK_TEST_SET_GET_VALUE( changeInfo->GetOutput(), resample->GetReferenceImage() );
 
   resample->UseReferenceImageOn();
-  TEST_EXPECT_TRUE( resample->GetUseReferenceImage() );
+  ITK_TEST_EXPECT_TRUE( resample->GetUseReferenceImage() );
 
   resample->SetTransform( identityTransform );
-  TEST_SET_GET_VALUE( identityTransform, resample->GetTransform() );
+  ITK_TEST_SET_GET_VALUE( identityTransform, resample->GetTransform() );
 
   resample->SetInterpolator( interpolator );
-  TEST_SET_GET_VALUE( interpolator, resample->GetInterpolator() );
+  ITK_TEST_SET_GET_VALUE( interpolator, resample->GetInterpolator() );
 
   WriterType::Pointer writer1 = WriterType::New();
   writer1->SetFileName( argv[2] );

@@ -147,9 +147,7 @@ public:
     return this->EvaluateAtContinuousIndex( cindex, nullptr );
     }
 
-#if !defined(ITKV4_COMPATIBILITY)
   SizeType GetRadius() const override;
-#endif
 
 protected:
   GaussianInterpolateImageFunction();
@@ -158,9 +156,13 @@ protected:
 
   virtual void ComputeBoundingBox();
 
-  virtual void ComputeErrorFunctionArray( unsigned int dimension, RealType cindex,
-    vnl_vector<RealType> &erfArray, vnl_vector<RealType> &gerfArray,
-    bool evaluateGradient = false ) const;
+  using RegionType = ImageRegion< ImageDimension >;
+
+  /** Compute the region which we need to loop over. */
+  RegionType ComputeInterpolationRegion( const ContinuousIndexType& ) const;
+
+  virtual void ComputeErrorFunctionArray( const RegionType& region, unsigned int dimension, RealType cindex,
+    vnl_vector<RealType> &erfArray, vnl_vector<RealType> &gerfArray, bool evaluateGradient = false ) const;
 
   /** Set/Get the bounding box starting point. */
   itkSetMacro( BoundingBoxStart, ArrayType );
@@ -180,15 +182,13 @@ private:
   virtual OutputType EvaluateAtContinuousIndex(
     const ContinuousIndexType &, OutputType * ) const;
 
-  ArrayType                                 m_Sigma;
-  RealType                                  m_Alpha;
+  ArrayType m_Sigma;
+  RealType  m_Alpha;
 
-  ArrayType                                 m_BoundingBoxStart;
-  ArrayType                                 m_BoundingBoxEnd;
-  ArrayType                                 m_ScalingFactor;
-  ArrayType                                 m_CutOffDistance;
-
-
+  ArrayType m_BoundingBoxStart;
+  ArrayType m_BoundingBoxEnd;
+  ArrayType m_ScalingFactor;
+  ArrayType m_CutOffDistance;
 };
 
 } // end namespace itk

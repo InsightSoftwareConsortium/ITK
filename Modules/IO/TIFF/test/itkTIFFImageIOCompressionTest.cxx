@@ -41,35 +41,35 @@ int itkTIFFImageIOCompressionTestHelper( int, char * argv[], int JPEGQuality )
 
 
   itk::TIFFImageIO::Pointer imageIO = itk::TIFFImageIO::New();
-  TRY_EXPECT_NO_EXCEPTION( imageIO->SetCompressor("") );
-  TEST_EXPECT_EQUAL( imageIO->GetCompressor(), "" );
+  ITK_TRY_EXPECT_NO_EXCEPTION( imageIO->SetCompressor("") );
+  ITK_TEST_EXPECT_EQUAL( imageIO->GetCompressor(), "" );
 
-  TRY_EXPECT_NO_EXCEPTION( imageIO->SetCompressor("JPEG") );
-  TEST_EXPECT_EQUAL( imageIO->GetCompressor(), "JPEG" );
+  ITK_TRY_EXPECT_NO_EXCEPTION( imageIO->SetCompressor("JPEG") );
+  ITK_TEST_EXPECT_EQUAL( imageIO->GetCompressor(), "JPEG" );
 
-  TRY_EXPECT_NO_EXCEPTION( imageIO->SetCompressor("PackBits") );
-  TEST_EXPECT_EQUAL( imageIO->GetCompressor(), "PackBits" );
+  ITK_TRY_EXPECT_NO_EXCEPTION( imageIO->SetCompressor("PackBits") );
+  ITK_TEST_EXPECT_EQUAL( imageIO->GetCompressor(), "PackBits" );
 
-  TRY_EXPECT_NO_EXCEPTION( imageIO->SetCompressor("LZW") );
-  TEST_EXPECT_EQUAL( imageIO->GetCompressor(), "LZW" );
+  ITK_TRY_EXPECT_NO_EXCEPTION( imageIO->SetCompressor("LZW") );
+  ITK_TEST_EXPECT_EQUAL( imageIO->GetCompressor(), "LZW" );
 
-  TRY_EXPECT_NO_EXCEPTION( imageIO->SetCompressor("SomethingThatDoesNotExist") );
-  TEST_EXPECT_EQUAL( imageIO->GetCompressor(), "" );
+  ITK_TRY_EXPECT_NO_EXCEPTION( imageIO->SetCompressor("SomethingThatDoesNotExist") );
+  ITK_TEST_EXPECT_EQUAL( imageIO->GetCompressor(), "" );
 
-  TRY_EXPECT_NO_EXCEPTION( imageIO->SetCompressor("Deflate") );
-  TEST_EXPECT_EQUAL( imageIO->GetCompressor(), "Deflate" );
+  ITK_TRY_EXPECT_NO_EXCEPTION( imageIO->SetCompressor("Deflate") );
+  ITK_TEST_EXPECT_EQUAL( imageIO->GetCompressor(), "Deflate" );
 
   imageIO->SetCompressionLevel(2);
-  TEST_EXPECT_EQUAL( imageIO->GetCompressionLevel(), 2 );
+  ITK_TEST_EXPECT_EQUAL( imageIO->GetCompressionLevel(), 2 );
 
   imageIO->SetCompressionLevel(110);
-  TEST_EXPECT_EQUAL( imageIO->GetCompressionLevel(), 100 );
+  ITK_TEST_EXPECT_EQUAL( imageIO->GetCompressionLevel(), 100 );
 
   itk::TIFFImageIO::Pointer io = itk::TIFFImageIO::New();
   reader->SetFileName( argv[1] );
   reader->SetImageIO( io );
 
-  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
   std::string compression = argv[3];
 
@@ -82,15 +82,15 @@ int itkTIFFImageIOCompressionTestHelper( int, char * argv[], int JPEGQuality )
 
     io->SetCompressionToDeflate();
 
-    TEST_EXPECT_EQUAL(compression, io->GetCompressor());
-    TEST_EXPECT_TRUE(io->GetUseCompression());
+    ITK_TEST_EXPECT_EQUAL(compression, io->GetCompressor());
+    ITK_TEST_EXPECT_TRUE(io->GetUseCompression());
     }
   else if( compression == "LZW" )
     {
     io->SetCompressionToLZW();
 
-    TEST_EXPECT_EQUAL(compression, io->GetCompressor());
-    TEST_EXPECT_TRUE(io->GetUseCompression());
+    ITK_TEST_EXPECT_EQUAL(compression, io->GetCompressor());
+    ITK_TEST_EXPECT_TRUE(io->GetUseCompression());
     }
   else if( compression == "JPEG" )
     {
@@ -98,24 +98,24 @@ int itkTIFFImageIOCompressionTestHelper( int, char * argv[], int JPEGQuality )
     io->SetCompressionToJPEG();
     io->SetJPEGQuality( JPEGQuality );
 
-    TEST_EXPECT_EQUAL(compression, io->GetCompressor());
-    TEST_EXPECT_EQUAL(io->GetCompressionLevel(), JPEGQuality);
-    TEST_EXPECT_TRUE(io->GetUseCompression());
+    ITK_TEST_EXPECT_EQUAL(compression, io->GetCompressor());
+    ITK_TEST_EXPECT_EQUAL(io->GetCompressionLevel(), JPEGQuality);
+    ITK_TEST_EXPECT_TRUE(io->GetUseCompression());
     }
   else if( compression == "PackBits" )
     {
 
     io->SetCompressionToPackBits();
 
-    TEST_EXPECT_EQUAL(compression, io->GetCompressor());
-    TEST_EXPECT_TRUE(io->GetUseCompression());
+    ITK_TEST_EXPECT_EQUAL(compression, io->GetCompressor());
+    ITK_TEST_EXPECT_TRUE(io->GetUseCompression());
     }
   else if( compression == "NoCompression" )
     {
 
     io->SetCompressionToNoCompression();
 
-    TEST_EXPECT_TRUE(!io->GetUseCompression());
+    ITK_TEST_EXPECT_TRUE(!io->GetUseCompression());
     }
   else
     {
@@ -127,7 +127,7 @@ int itkTIFFImageIOCompressionTestHelper( int, char * argv[], int JPEGQuality )
   writer->SetImageIO( io );
   writer->UseCompressionOn();
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }
@@ -158,7 +158,7 @@ int itkTIFFImageIOCompressionTest( int argc, char* argv[] )
 
   itk::TIFFImageIO::Pointer imageIO = itk::TIFFImageIO::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( imageIO, TIFFImageIO, ImageIOBase );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( imageIO, TIFFImageIO, ImageIOBase );
 
   imageIO->SetFileName( inputFilename );
   imageIO->ReadImageInformation();

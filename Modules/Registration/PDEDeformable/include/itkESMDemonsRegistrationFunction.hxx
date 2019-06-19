@@ -389,9 +389,8 @@ ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
     itkExceptionMacro(<< "Unknown gradient type");
     }
 
-  CovariantVectorType usedGradientTimes2;
-  this->GetFixedImage()->TransformLocalVectorToPhysicalVector(
-    usedOrientFreeGradientTimes2, usedGradientTimes2);
+  const auto usedGradientTimes2 =
+    this->GetFixedImage()->TransformLocalVectorToPhysicalVector(usedOrientFreeGradientTimes2);
 
   /**
    * Compute Update.

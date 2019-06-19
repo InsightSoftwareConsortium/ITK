@@ -51,6 +51,10 @@ namespace itk
  * \ingroup ITKSystemObjects
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
+ *
+ * \sphinx
+ * \sphinx{Core/Common/GetNameOfClass, Get Name Of Class}
+ * \endsphinx
  */
 class ITKCommon_EXPORT LightObject
 {

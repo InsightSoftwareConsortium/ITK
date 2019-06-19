@@ -41,24 +41,24 @@ int itkFFTConvolutionImageFilterTestInt(int argc, char * argv[])
   ReaderType::Pointer reader1 = ReaderType::New();
   reader1->SetFileName( argv[1] );
 
-  TRY_EXPECT_NO_EXCEPTION( reader1->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader1->Update() );
 
   ReaderType::Pointer reader2 = ReaderType::New();
   reader2->SetFileName( argv[2] );
 
-  TRY_EXPECT_NO_EXCEPTION( reader2->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader2->Update() );
 
   using ConvolutionFilterType = itk::FFTConvolutionImageFilter<ImageType>;
   ConvolutionFilterType::Pointer convolver = ConvolutionFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( convolver, FFTConvolutionImageFilter, ConvolutionImageFilterBase );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( convolver, FFTConvolutionImageFilter, ConvolutionImageFilterBase );
 
   convolver->SetInput( reader1->GetOutput() );
   convolver->SetKernelImage( reader2->GetOutput() );
 
   ConvolutionFilterType::SizeValueType sizeGreatestPrimeFactor = 2;
   convolver->SetSizeGreatestPrimeFactor( sizeGreatestPrimeFactor );
-  TEST_SET_GET_VALUE( sizeGreatestPrimeFactor, convolver->GetSizeGreatestPrimeFactor() );
+  ITK_TEST_SET_GET_VALUE( sizeGreatestPrimeFactor, convolver->GetSizeGreatestPrimeFactor() );
 
   itk::SimpleFilterWatcher watcher(convolver, "filter");
 
@@ -73,13 +73,13 @@ int itkFFTConvolutionImageFilterTestInt(int argc, char * argv[])
     if ( outputRegionMode == "SAME" )
       {
       convolver->SetOutputRegionModeToSame();
-      TEST_SET_GET_VALUE( ConvolutionFilterType::SAME, convolver->GetOutputRegionMode() );
+      ITK_TEST_SET_GET_VALUE( ConvolutionFilterType::SAME, convolver->GetOutputRegionMode() );
       std::cout << "OutputRegionMode set to SAME." << std::endl;
       }
     else if ( outputRegionMode == "VALID" )
       {
       convolver->SetOutputRegionModeToValid();
-      TEST_SET_GET_VALUE( ConvolutionFilterType::VALID, convolver->GetOutputRegionMode() );
+      ITK_TEST_SET_GET_VALUE( ConvolutionFilterType::VALID, convolver->GetOutputRegionMode() );
       std::cout << "OutputRegionMode set to VALID." << std::endl;
       }
     else
@@ -90,14 +90,14 @@ int itkFFTConvolutionImageFilterTestInt(int argc, char * argv[])
       }
     }
 
-  TRY_EXPECT_NO_EXCEPTION( convolver->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( convolver->Update() );
 
   using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[3] );
   writer->SetInput( convolver->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

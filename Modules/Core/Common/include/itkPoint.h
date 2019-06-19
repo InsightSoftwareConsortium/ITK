@@ -43,10 +43,10 @@ namespace itk
  * \sa Image \sa Mesh \sa Vector \sa CovariantVector \sa Matrix
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{SimpleOperations/DistanceBetweenPoints,Distance between two points}
- * \wikiexample{SimpleOperations/DistanceBetweenIndices,Distance between two indices}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/DistanceBetweenPoints,Distance between two points}
+ * \sphinxexample{Core/Common/DistanceBetweenIndices,Distance between two indices}
+ * \endsphinx
  */
 template< typename TCoordRep, unsigned int NPointDimension = 3 >
 class ITK_TEMPLATE_EXPORT Point:public FixedArray< TCoordRep, NPointDimension >

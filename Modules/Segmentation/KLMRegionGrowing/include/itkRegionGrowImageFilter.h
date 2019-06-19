@@ -75,6 +75,10 @@ namespace itk
  *
  * \ingroup RegionGrowingSegmentation
  * \ingroup ITKKLMRegionGrowing
+ *
+ * \sphinx
+ * \sphinxexample{Segmentation/KLMRegionGrowing/BasicRegionGrowing,Basic Region Growing}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT RegionGrowImageFilter:

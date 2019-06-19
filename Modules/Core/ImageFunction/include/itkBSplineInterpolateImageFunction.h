@@ -39,23 +39,27 @@
 
 namespace itk
 {
-/** \class BSplineInterpolateImageFunction
+/**
+ * \class BSplineInterpolateImageFunction
+ *
  * \brief Evaluates the B-Spline interpolation of an image.  Spline order may be from 0 to 5.
  *
  * This class defines N-Dimension B-Spline transformation.
  * It is based on:
- *    [1] M. Unser,
- *       "Splines: A Perfect Fit for Signal and Image Processing,"
- *        IEEE Signal Processing Magazine, vol. 16, no. 6, pp. 22-38,
- *        November 1999.
- *    [2] M. Unser, A. Aldroubi and M. Eden,
- *        "B-Spline Signal Processing: Part I--Theory,"
- *        IEEE Transactions on Signal Processing, vol. 41, no. 2, pp. 821-832,
- *        February 1993.
- *    [3] M. Unser, A. Aldroubi and M. Eden,
- *        "B-Spline Signal Processing: Part II--Efficient Design and Applications,"
- *        IEEE Transactions on Signal Processing, vol. 41, no. 2, pp. 834-848,
- *        February 1993.
+\verbatim
+[1] M. Unser,
+    "Splines: A Perfect Fit for Signal and Image Processing,"
+    IEEE Signal Processing Magazine, vol. 16, no. 6, pp. 22-38,
+    November 1999.
+[2] M. Unser, A. Aldroubi and M. Eden,
+    "B-Spline Signal Processing: Part I--Theory,"
+    IEEE Transactions on Signal Processing, vol. 41, no. 2, pp. 821-832,
+    February 1993.
+[3] M. Unser, A. Aldroubi and M. Eden,
+    "B-Spline Signal Processing: Part II--Efficient Design and Applications,"
+     IEEE Transactions on Signal Processing, vol. 41, no. 2, pp. 834-848,
+     February 1993.
+\endverbatim
  * And code obtained from bigwww.epfl.ch by Philippe Thevenaz
  *
  * The B spline coefficients are calculated through the
@@ -73,9 +77,6 @@ namespace itk
  * \ingroup ImageFunctions
  * \ingroup ITKImageFunction
  *
- * \wiki
- * \wikiexample{ImageProcessing/Upsampling,Upsampling an image}
- * \endwiki
  */
 template<
   typename TImageType,
@@ -315,12 +316,10 @@ public:
   itkGetConstMacro(UseImageDirection, bool);
   itkBooleanMacro(UseImageDirection);
 
-#if !defined(ITKV4_COMPATIBILITY)
   SizeType GetRadius() const override
     {
     return SizeType::Filled(m_SplineOrder + 1);
     }
-#endif
 
 protected:
 

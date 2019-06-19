@@ -76,52 +76,52 @@ int itkTestingExtractSliceImageFilterTest(int, char* [] )
 
   // expect exception, because for output dimension = 2, one of the size
   // components must be zero.
-  TRY_EXPECT_EXCEPTION( filter->SetExtractionRegion( extractRegion ) );
+  ITK_TRY_EXPECT_EXCEPTION( filter->SetExtractionRegion( extractRegion ) );
 
   // Set properly, one of the size components to zero.
   regionSize[2] = 0;
   extractRegion.SetSize(regionSize);
 
   // Now it should be good, with the zero inserted.
-  TRY_EXPECT_NO_EXCEPTION( filter->SetExtractionRegion( extractRegion ) );
-  TEST_SET_GET_VALUE( extractRegion, filter->GetExtractionRegion() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->SetExtractionRegion( extractRegion ) );
+  ITK_TEST_SET_GET_VALUE( extractRegion, filter->GetExtractionRegion() );
 
   FilterType::DIRECTIONCOLLAPSESTRATEGY strategy = FilterType::DIRECTIONCOLLAPSETOUNKOWN;
 
-  TEST_SET_GET_VALUE( strategy, filter->GetDirectionCollapseToStrategy() );
-  TRY_EXPECT_EXCEPTION( filter->Update() );
+  ITK_TEST_SET_GET_VALUE( strategy, filter->GetDirectionCollapseToStrategy() );
+  ITK_TRY_EXPECT_EXCEPTION( filter->Update() );
 
-  TRY_EXPECT_EXCEPTION( filter->SetDirectionCollapseToStrategy( FilterType::DIRECTIONCOLLAPSETOUNKOWN ) );
+  ITK_TRY_EXPECT_EXCEPTION( filter->SetDirectionCollapseToStrategy( FilterType::DIRECTIONCOLLAPSETOUNKOWN ) );
 
   filter->SetDirectionCollapseToIdentity();
   strategy = FilterType::DIRECTIONCOLLAPSETOIDENTITY;
-  TEST_SET_GET_VALUE( strategy, filter->GetDirectionCollapseToStrategy() );
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TEST_SET_GET_VALUE( strategy, filter->GetDirectionCollapseToStrategy() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   filter->SetDirectionCollapseToGuess();
   strategy = FilterType::DIRECTIONCOLLAPSETOGUESS;
-  TEST_SET_GET_VALUE( strategy, filter->GetDirectionCollapseToStrategy() );
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TEST_SET_GET_VALUE( strategy, filter->GetDirectionCollapseToStrategy() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   filter->SetDirectionCollapseToSubmatrix();
   strategy = FilterType::DIRECTIONCOLLAPSETOSUBMATRIX;
-  TEST_SET_GET_VALUE( strategy, filter->GetDirectionCollapseToStrategy() );
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TEST_SET_GET_VALUE( strategy, filter->GetDirectionCollapseToStrategy() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   strategy = FilterType::DIRECTIONCOLLAPSETOIDENTITY;
   filter->SetDirectionCollapseToStrategy(strategy);
-  TEST_SET_GET_VALUE( strategy, filter->GetDirectionCollapseToStrategy() );
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TEST_SET_GET_VALUE( strategy, filter->GetDirectionCollapseToStrategy() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   strategy = FilterType::DIRECTIONCOLLAPSETOGUESS;
   filter->SetDirectionCollapseToStrategy(strategy);
-  TEST_SET_GET_VALUE( strategy, filter->GetDirectionCollapseToStrategy() );
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TEST_SET_GET_VALUE( strategy, filter->GetDirectionCollapseToStrategy() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   strategy = FilterType::DIRECTIONCOLLAPSETOSUBMATRIX;
   filter->SetDirectionCollapseToStrategy(strategy);
-  TEST_SET_GET_VALUE( strategy, filter->GetDirectionCollapseToStrategy() );
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TEST_SET_GET_VALUE( strategy, filter->GetDirectionCollapseToStrategy() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   try
     {

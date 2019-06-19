@@ -76,19 +76,19 @@ int itkAttributeKeepNObjectsLabelMapFilterTest1(int argc, char * argv[])
   //testing get and set macros for NumberOfObjects
   unsigned long nbOfObjects = std::stoi( argv[3] );
   opening->SetNumberOfObjects( nbOfObjects );
-  TEST_SET_GET_VALUE( nbOfObjects , opening->GetNumberOfObjects() );
+  ITK_TEST_SET_GET_VALUE( nbOfObjects , opening->GetNumberOfObjects() );
 
   //testing get and set macros for ReverseOrdering
   //testing boolean macro for ReverseOrdering
   opening->ReverseOrderingOn();
-  TEST_SET_GET_VALUE( true, opening->GetReverseOrdering() );
+  ITK_TEST_SET_GET_VALUE( true, opening->GetReverseOrdering() );
 
   opening->ReverseOrderingOff();
-  TEST_SET_GET_VALUE( false, opening->GetReverseOrdering() );
+  ITK_TEST_SET_GET_VALUE( false, opening->GetReverseOrdering() );
 
   bool reverseOrdering = std::stoi( argv[4] );
   opening->SetReverseOrdering( reverseOrdering );
-  TEST_SET_GET_VALUE( reverseOrdering , opening->GetReverseOrdering() );
+  ITK_TEST_SET_GET_VALUE( reverseOrdering , opening->GetReverseOrdering() );
 
   opening->SetInput( labelMap );
 
@@ -105,7 +105,7 @@ int itkAttributeKeepNObjectsLabelMapFilterTest1(int argc, char * argv[])
   writer->SetFileName( argv[2] );
   writer->UseCompressionOn();
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

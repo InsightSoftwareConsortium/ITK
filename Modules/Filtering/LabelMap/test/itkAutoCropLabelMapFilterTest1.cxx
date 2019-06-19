@@ -69,7 +69,7 @@ int itkAutoCropLabelMapFilterTest1( int argc, char * argv [] )
   using AutoCropLabelMapFilterType = itk::AutoCropLabelMapFilter< LabelMapType >;
   AutoCropLabelMapFilterType::Pointer autoCropFilter = AutoCropLabelMapFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( autoCropFilter, AutoCropLabelMapFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( autoCropFilter, AutoCropLabelMapFilter,
     ChangeRegionLabelMapFilter );
 
   autoCropFilter->SetInput( imageToLabelMapFilter->GetOutput() );
@@ -78,7 +78,7 @@ int itkAutoCropLabelMapFilterTest1( int argc, char * argv [] )
   size[0] = std::stoi( argv[4] );
   size[1] = std::stoi( argv[5] );
   autoCropFilter->SetCropBorder( size );
-  TEST_SET_GET_VALUE( size, autoCropFilter->GetCropBorder() );
+  ITK_TEST_SET_GET_VALUE( size, autoCropFilter->GetCropBorder() );
 
   itk::SimpleFilterWatcher watcher(autoCropFilter, "AutoCropLabelMapFilter");
 
@@ -94,7 +94,7 @@ int itkAutoCropLabelMapFilterTest1( int argc, char * argv [] )
   writer->SetFileName( argv[2] );
   writer->UseCompressionOn();
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

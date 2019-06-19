@@ -37,10 +37,6 @@ namespace itk
  * \sa ForwardFFTImageFilter
  * \ingroup ITKFFT
  *
- * \wiki
- * \wikiexample{SpectralAnalysis/VnlForwardFFTImageFilter,Compute the FFT of an image}
- * \wikiexample{SpectralAnalysis/CrossCorrelationInFourierDomain,Compute the cross-correlation of two images in the Fourier domain}
- * \endwiki
  */
 template< typename TInputImage, typename TOutputImage=Image< std::complex<typename TInputImage::PixelType>, TInputImage::ImageDimension> >
 class ITK_TEMPLATE_EXPORT VnlForwardFFTImageFilter:

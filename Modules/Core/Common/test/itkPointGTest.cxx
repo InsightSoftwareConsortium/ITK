@@ -40,7 +40,7 @@ namespace
     const PointType point(stdArray);
 
     // Check that the values of all element are copied.
-    EXPECT_TRUE(std::equal(point.Begin(), point.End(), stdArray.cbegin()));
+    EXPECT_TRUE(std::equal(point.cbegin(), point.cend(), stdArray.cbegin()));
   }
 }
 

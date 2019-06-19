@@ -133,6 +133,10 @@ namespace itk
  *
  * \author: Dirk Padfield, GE Global Research, padfield\@research.ge.com
  * \ingroup ITKConvolution
+ *
+ * \sphinx
+ * \sphinxexample{Filtering/Convolution/NormalizedCorrelationUsingFFTWithMaskImages,Normalized Correlation Using FFT With Mask Images For Input Images}
+ * \endsphinx
  */
 
 template <typename TInputImage, typename TOutputImage, typename TMaskImage=TInputImage >

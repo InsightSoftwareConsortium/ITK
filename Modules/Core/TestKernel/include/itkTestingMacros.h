@@ -32,9 +32,37 @@ namespace itk
 // end namespace itk - this is here for documentation purposes
 }
 
+// DEPRECATED: These macros are left here for compatibility.
+// In the future, they will be removed in favor of the "ITK_" prefixed
+// versions.
+#if defined ( ITK_FUTURE_LEGACY_REMOVE )
+  #define EXERCISE_BASIC_OBJECT_METHODS "Replace EXERCISE_BASIC_OBJECT_METHODS with ITK_EXERCISE_BASIC_OBJECT_METHODS"
+  #define TRY_EXPECT_EXCEPTION "Replace TRY_EXPECT_EXCEPTION with ITK_TRY_EXPECT_EXCEPTION"
+  #define TRY_EXPECT_NO_EXCEPTION "Replace TRY_EXPECT_NO_EXCEPTION with ITK_TRY_EXPECT_NO_EXCEPTION"
+  #define TEST_EXPECT_TRUE_STATUS_VALUE "Replace TEST_EXPECT_TRUE_STATUS_VALUE with ITK_TEST_EXPECT_TRUE_STATUS_VALUE"
+  #define TEST_EXPECT_TRUE "Replace TEST_EXPECT_TRUE with ITK_TEST_EXPECT_TRUE"
+  #define TEST_EXPECT_EQUAL_STATUS_VALUE "Replace TEST_EXPECT_EQUAL_STATUS_VALUE with ITK_TEST_EXPECT_EQUAL_STATUS_VALUE"
+  #define TEST_EXPECT_EQUAL "Replace TEST_EXPECT_EQUAL with ITK_TEST_EXPECT_EQUAL"
+  #define TEST_SET_GET "Replace TEST_SET_GET with ITK_TEST_SET_GET"
+  #define TEST_SET_GET_VALUE "Replace TEST_SET_GET_VALUE with ITK_TEST_SET_GET_VALUE"
+  #define TEST_SET_GET_NULL_VALUE "Replace TEST_SET_GET_NULL_VALUE with ITK_TEST_SET_GET_NULL_VALUE"
+  #define TEST_SET_GET_BOOLEAN "Replace TEST_SET_GET_BOOLEAN with ITK_TEST_SET_GET_BOOLEAN"
+#else
+  #define EXERCISE_BASIC_OBJECT_METHODS ITK_EXERCISE_BASIC_OBJECT_METHODS
+  #define TRY_EXPECT_EXCEPTION ITK_TRY_EXPECT_EXCEPTION
+  #define TRY_EXPECT_NO_EXCEPTION ITK_TRY_EXPECT_NO_EXCEPTION
+  #define TEST_EXPECT_TRUE_STATUS_VALUE ITK_TEST_EXPECT_TRUE_STATUS_VALUE
+  #define TEST_EXPECT_TRUE ITK_TEST_EXPECT_TRUE
+  #define TEST_EXPECT_EQUAL_STATUS_VALUE ITK_TEST_EXPECT_EQUAL_STATUS_VALUE
+  #define TEST_EXPECT_EQUAL ITK_TEST_EXPECT_EQUAL
+  #define TEST_SET_GET ITK_TEST_SET_GET
+  #define TEST_SET_GET_VALUE ITK_TEST_SET_GET_VALUE
+  #define TEST_SET_GET_NULL_VALUE ITK_TEST_SET_GET_NULL_VALUE
+  #define TEST_SET_GET_BOOLEAN ITK_TEST_SET_GET_BOOLEAN
+#endif
 
 // object's Class must be specified to build on sun studio
-#define EXERCISE_BASIC_OBJECT_METHODS( object, Class, SuperClass )        \
+#define ITK_EXERCISE_BASIC_OBJECT_METHODS( object, Class, SuperClass )        \
     object->Print( std::cout );                                           \
     std::cout << "Name of Class = " << object->GetNameOfClass() << std::endl; \
     std::cout << "Name of Superclass = " << object->Superclass::GetNameOfClass() << std::endl; \
@@ -57,7 +85,7 @@ namespace itk
       return EXIT_FAILURE;                                                \
       }
 
-#define TRY_EXPECT_EXCEPTION( command ) \
+#define ITK_TRY_EXPECT_EXCEPTION( command ) \
   try \
     {  \
     std::cout << "Trying " << #command << std::endl; \
@@ -73,7 +101,7 @@ namespace itk
     }
 
 
-#define TRY_EXPECT_NO_EXCEPTION( command ) \
+#define ITK_TRY_EXPECT_NO_EXCEPTION( command ) \
   try \
     {  \
     std::cout << "Trying " << #command << std::endl; \
@@ -86,46 +114,46 @@ namespace itk
     return EXIT_FAILURE;  \
     }
 
-#define TEST_EXPECT_TRUE_STATUS_VALUE( command, statusVal )                                     \
+#define ITK_TEST_EXPECT_TRUE_STATUS_VALUE( command, statusVal )                                     \
   {                                                                     \
 CLANG_PRAGMA_PUSH    \
 CLANG_SUPPRESS_Wfloat_equal   \
-  bool _TEST_EXPECT_TRUE_command(command);                              \
+  bool _ITK_TEST_EXPECT_TRUE_command(command);                              \
 CLANG_PRAGMA_POP    \
-  if( !(_TEST_EXPECT_TRUE_command) )                                    \
+  if( !(_ITK_TEST_EXPECT_TRUE_command) )                                    \
     {                                                                   \
     std::cerr << "Error in " << #command << std::endl;                  \
     std::cerr << "  In " __FILE__ ", line " << __LINE__ << std::endl;   \
     std::cerr << "Expected true" << std::endl;                          \
-    std::cerr << "  but got  " <<  _TEST_EXPECT_TRUE_command << std::endl; \
+    std::cerr << "  but got  " <<  _ITK_TEST_EXPECT_TRUE_command << std::endl; \
     statusVal = EXIT_FAILURE;                                                \
     }                                                                   \
   }
 
-#define TEST_EXPECT_TRUE( command )                                     \
+#define ITK_TEST_EXPECT_TRUE( command )                                     \
   {                                                                     \
 CLANG_PRAGMA_PUSH    \
 CLANG_SUPPRESS_Wfloat_equal   \
-  bool _TEST_EXPECT_TRUE_command(command);                              \
+  bool _ITK_TEST_EXPECT_TRUE_command(command);                              \
 CLANG_PRAGMA_POP    \
-  if( !(_TEST_EXPECT_TRUE_command) )                                    \
+  if( !(_ITK_TEST_EXPECT_TRUE_command) )                                    \
     {                                                                   \
     std::cerr << "Error in " << #command << std::endl;                  \
     std::cerr << "  In " __FILE__ ", line " << __LINE__ << std::endl;   \
     std::cerr << "Expected true" << std::endl;                          \
-    std::cerr << "  but got  " <<  _TEST_EXPECT_TRUE_command << std::endl; \
+    std::cerr << "  but got  " <<  _ITK_TEST_EXPECT_TRUE_command << std::endl; \
     return EXIT_FAILURE;                                                \
     }                                                                   \
   }
 
 
-#define TEST_EXPECT_EQUAL_STATUS_VALUE( lh, rh, statusVal )                                     \
+#define ITK_TEST_EXPECT_EQUAL_STATUS_VALUE( lh, rh, statusVal )                                     \
   {                                                                     \
 CLANG_PRAGMA_PUSH    \
 CLANG_SUPPRESS_Wfloat_equal   \
-    bool _TEST_EXPECT_EQUAL_result((lh) == (rh));                       \
+    bool _ITK_TEST_EXPECT_EQUAL_result((lh) == (rh));                       \
 CLANG_PRAGMA_POP    \
-    if( !(_TEST_EXPECT_EQUAL_result) )                                  \
+    if( !(_ITK_TEST_EXPECT_EQUAL_result) )                                  \
     {                                                                   \
     std::cerr << "Error in " << #lh << " == " << #rh << std::endl;      \
     std::cerr << "\tIn " __FILE__ ", line " << __LINE__ << std::endl;   \
@@ -136,13 +164,13 @@ CLANG_PRAGMA_POP    \
     }                                                                   \
   }
 
-#define TEST_EXPECT_EQUAL( lh, rh )                                     \
+#define ITK_TEST_EXPECT_EQUAL( lh, rh )                                     \
   {                                                                     \
 CLANG_PRAGMA_PUSH    \
 CLANG_SUPPRESS_Wfloat_equal   \
-    bool _TEST_EXPECT_EQUAL_result((lh) == (rh));                       \
+    bool _ITK_TEST_EXPECT_EQUAL_result((lh) == (rh));                       \
 CLANG_PRAGMA_POP    \
-    if( !(_TEST_EXPECT_EQUAL_result) )                                  \
+    if( !(_ITK_TEST_EXPECT_EQUAL_result) )                                  \
     {                                                                   \
     std::cerr << "Error in " << #lh << " == " << #rh << std::endl;      \
     std::cerr << "\tIn " __FILE__ ", line " << __LINE__ << std::endl;   \
@@ -154,7 +182,7 @@ CLANG_PRAGMA_POP    \
   }
 
 
-#define TEST_SET_GET( variable, command ) \
+#define ITK_TEST_SET_GET( variable, command ) \
   if( variable != command )   \
     {   \
     std::cerr << "Error in " << #command << std::endl; \
@@ -165,7 +193,7 @@ CLANG_PRAGMA_POP    \
     }
 
 
-#define TEST_SET_GET_VALUE( variable, command ) \
+#define ITK_TEST_SET_GET_VALUE( variable, command ) \
 CLANG_PRAGMA_PUSH    \
 CLANG_SUPPRESS_Wfloat_equal   \
   if( variable != command )   \
@@ -178,7 +206,7 @@ CLANG_PRAGMA_POP    \
     return EXIT_FAILURE; \
     }
 
-#define TEST_SET_GET_NULL_VALUE( command ) \
+#define ITK_TEST_SET_GET_NULL_VALUE( command ) \
   if( nullptr != command )   \
     {   \
     std::cerr << "Error in " << #command << std::endl; \
@@ -188,7 +216,7 @@ CLANG_PRAGMA_POP    \
     return EXIT_FAILURE; \
     }
 
-#define TEST_SET_GET_BOOLEAN( object, variable, value ) \
+#define ITK_TEST_SET_GET_BOOLEAN( object, variable, value ) \
   object->Set##variable( false ); \
   object->Set##variable( true ); \
   if( object->Get##variable() != 1 ) \

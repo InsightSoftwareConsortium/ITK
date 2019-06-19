@@ -62,7 +62,7 @@ int itkCropLabelMapFilterTest1(int argc, char * argv[])
   using CropType = itk::CropLabelMapFilter< LabelMapType >;
   CropType::Pointer crop = CropType::New();
   // test the behavior without input
-  TRY_EXPECT_EXCEPTION( crop->Update() );
+  ITK_TRY_EXPECT_EXCEPTION( crop->Update() );
   crop->ResetPipeline();
 
   crop->SetInput( i2l->GetOutput() );
@@ -71,8 +71,8 @@ int itkCropLabelMapFilterTest1(int argc, char * argv[])
   size[1] = std::stoi( argv[4] );
 
   crop->SetCropSize( size );
-  TEST_SET_GET_VALUE( size, crop->GetUpperBoundaryCropSize() );
-  TEST_SET_GET_VALUE( size, crop->GetLowerBoundaryCropSize() );
+  ITK_TEST_SET_GET_VALUE( size, crop->GetUpperBoundaryCropSize() );
+  ITK_TEST_SET_GET_VALUE( size, crop->GetLowerBoundaryCropSize() );
 
   itk::SimpleFilterWatcher watcher6(crop, "filter");
 
@@ -86,7 +86,7 @@ int itkCropLabelMapFilterTest1(int argc, char * argv[])
   writer->SetFileName( argv[2] );
   writer->UseCompressionOn();
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

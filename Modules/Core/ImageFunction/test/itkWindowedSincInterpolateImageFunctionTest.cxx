@@ -186,12 +186,10 @@ int itkWindowedSincInterpolateImageFunctionTest(int, char* [] )
   interp->SetInputImage( image );
   interp->Print( std::cout );
 
-#if !defined(ITKV4_COMPATIBILITY)
   for( unsigned int d = 0; d < ImageDimension; ++d )
     {
-    TEST_SET_GET_VALUE( 2, interp->GetRadius()[d] );
+    ITK_TEST_SET_GET_VALUE( 2, interp->GetRadius()[d] );
     }
-#endif
 
   /* Test evaluation at continuous indices and corresponding
      gemetric points */

@@ -107,8 +107,6 @@ WarpMeshFilter< TInputMesh, TOutputMesh, TDisplacementField >
 
   using InputPointType = typename InputMeshType::PointType;
   using OutputPointType = typename OutputMeshType::PointType;
-  using IndexType = typename DisplacementFieldType::IndexType;
-  IndexType index;
 
   OutputPointType displacedPoint;
 
@@ -119,7 +117,7 @@ WarpMeshFilter< TInputMesh, TOutputMesh, TDisplacementField >
   while ( inputPoint != inPoints->End() )
     {
     const InputPointType & originalPoint = inputPoint.Value();
-    fieldPtr->TransformPhysicalPointToIndex(originalPoint, index);
+    const auto index = fieldPtr->TransformPhysicalPointToIndex(originalPoint);
     displacement = fieldPtr->GetPixel(index);
 
     for ( unsigned int i = 0; i < Dimension; i++ )

@@ -88,9 +88,9 @@ namespace itk
  *
  * \ingroup ITKPath
  *
- * \wiki
- * \wikiexample{Segmentation/ContourExtractor2DImageFilter,Extract contours from an image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/Path/ExtractContoursFromImage,Extract Contours From Image}
+ * \endsphinx
  */
 
 template< typename TInputImage >

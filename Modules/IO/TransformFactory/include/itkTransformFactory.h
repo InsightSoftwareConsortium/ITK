@@ -35,6 +35,10 @@ namespace itk
 /** \class TransformFactory
  * \brief Create instances of Transforms
  * \ingroup ITKTransformFactory
+ *
+ * /sphinx
+ * /sphinxexample{IO/TransformFactory/RegisterTransformWithTransformFactory,Register Transform With Transform Factory}
+ * /endsphinx
  */
 
 template< typename T >

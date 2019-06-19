@@ -107,13 +107,13 @@ static int ReadWriteTest(const char * const fileName)
   typename TransformWriterType::Pointer transformWriter = TransformWriterType::New();
   transformWriter->SetFileName( fileName );
   transformWriter->AddTransform( transform );
-  TRY_EXPECT_NO_EXCEPTION( transformWriter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( transformWriter->Update() );
 
   // Read transform file
   using TransformReaderType = typename itk::TransformFileReaderTemplate<ParametersValueType>;
   typename TransformReaderType::Pointer transformReader = TransformReaderType::New();
   transformReader->SetFileName(fileName);
-  TRY_EXPECT_NO_EXCEPTION( transformReader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( transformReader->Update() );
 
   // Compare read transform results with expected results
   const typename TransformReaderType::TransformListType * list = transformReader->GetTransformList();

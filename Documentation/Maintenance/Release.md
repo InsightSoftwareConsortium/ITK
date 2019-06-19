@@ -387,7 +387,7 @@ specify the version of ITK used to name the output files:
    ./Utilities/Maintenance/SourceTarball.bash -v $version $commit_hash_to_be_tagged
 ```
 where, of course, `$version` must be changed for the for the correct release
-number and $commit_hash_to_be_tagged` to the correct commit hash.
+number and `$commit_hash_to_be_tagged` to the correct commit hash.
 
 Alternatively,
 
@@ -396,7 +396,7 @@ Alternatively,
 ```
 can be used to specify the version starting with `v`.
 
-Once all tarballs have been collected for uplod to GitHub, create *MD5SUMS* and
+Once all tarballs have been collected for upload to GitHub, create *MD5SUMS* and
 *SHA512SUMS* checksum files. These checksums are used by clients downloading
 the source tarballs to verify their contents, e.g. with `sha512sum -c
 SHA512SUMS`.
@@ -551,26 +551,19 @@ Create a PR to update
 the new version. This conda recipe downloads the wheel binary packages and
 re-packages them as conda packages.
 
+Note: A `post1` wheel corresponds to bumping the *build.number* field in
+*recipe/meta.yml*. `POST` variables in *bld.bat* and *build.sh* are available
+to specify an optional wheel post version.
+
 Generate Doxygen Documentation
 ------------------------------
-
-On a machine with [Doxygen] installed, configure a build with
-`BUILD_DOCUMENTATION=ON` and run the `DoxygenDoc` target. To create the
-documentation tarball, run:
-
-```sh
-   tar -C Utilities/Doxygen/doc -czf vtkDocHtml-$version.tar.gz html
-```
-
-from the top of the build tree.
-
 
 Note: links to the nightly generated Doxygen can be found in the footer of the
 Doxygen HTML pages. Use the files to upload and create:
 
   * `InsightDoxygenDocTag-MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.gz`
   * `InsightDoxygenXml-MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.tar.gz`
-  * `InsightDoxygenDocHtml-MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.tar.gz.s`
+  * `InsightDoxygenDocHtml-MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.tar.gz.`
 
 Prior to the release, new `Remote` modules should be enabled in the Doxygen
 build's configuration.
@@ -609,18 +602,19 @@ update the guide and make it available:
   * Add the necessary ITK contents (i.e. new modules, etc.).
   * Update the compiler and necessary tool (e.g. CMake minimum version)
     information if necessary.
-  * Bump the ITK version in `Superbuild/ExternalITKv4.cmake`.
+  * Bump the ITK version in `Superbuild/External_ITK.cmake`.
   * Set the `DRAFT_WATERMARK` CMake varable to `OFF` to remove the draft
     watermark.
   * Set the `PDF_QUALITY_LEVEL` CMake configuration option to `Screen` for the
     electronic version and `Printer` for the print version.
-  * Turn on `GENERATE_HTML`.
+  * Generate the cover page for the concatenated, single PDF by exporting a
+    PDF from *SoftwareGuide/Cover/ITKSoftwareGuideSinglePDFCoverPage.odt*.
 
-To create `ItkSoftwareGuide.pdf` to put at itk.org/ItkSoftwareGuide.pdf from
-`InsightSoftwareGuide-Book{1,2}-4.X.0.pdf`, use `pdftk`:
+To create `ItkSoftwareGuide.pdf` to deposit at itk.org/ItkSoftwareGuide.pdf from
+`InsightSoftwareGuide-Book{1,2}-5.X.0.pdf`, use `pdftk`:
 
 ```
-   pdftk ITKSoftwareGuide-Book1.pdf ITKSoftwareGuide-Book2.pdf cat output /tmp/ItkSoftwareGuide.pdf
+   pdftk ITKSoftwareGuideSinglePDFCoverPage.pdf ITKSoftwareGuide-Book1.pdf ITKSoftwareGuide-Book2.pdf cat output /tmp/ItkSoftwareGuide.pdf
 ```
 
 Update *ItkSoftwareGuide.pdf* hosted at itk.org. Many links point at this resource.
@@ -643,14 +637,6 @@ Then, run:
 ```sh
    pdftk ITKSoftwareGuide-Book1.pdf cat 2-3 5-end output /tmp/ITKSoftwareGuide-Book1.pdf
    pdftk ITKSoftwareGuide-Book2.pdf cat 2-3 5-end output /tmp/ITKSoftwareGuide-Book2.pdf
-```
-
-### Update the HTML pages
-
-`rsync` the newly generated pages to the web server:
-
-```sh
-   rsync -rt html/ kitware@public:/projects/Insight/WWW/InsightWeb/ITKSoftwareGuide/html
 ```
 
 Update ITK Sphinx Examples
@@ -720,14 +706,16 @@ Add the release notes (described below).
 Upload the release artifacts. These include:
 
 - InsightToolkit-$version.tar.gz
-- InsightToolkit-$version.tar.xz
 - InsightToolkit-$version.tar.zip
 - InsightData-$version.tar.gz
-- InsightData-$version.tar.xz
 - InsightData-$version.tar.zip
 - MD5SUMS
 - SHA512SUMS
-- TODO: Add more...
+- InsightDoxygenDocHtml-$version.tar.gz
+- InsightDoxygenDocTag-$version.gz
+- InsightDoxygenDocXml-$version.tar.gz
+- InsightSoftwareGuide-Book1-$version.pdf
+- InsightSoftwareGuide-Book2-$version.pdf
 
 If this is an alpha, beta, or release candidate release, check the *This is a
 pre-release* box.
@@ -799,54 +787,15 @@ Release Notes Posts
    git shortlog --topo-order --no-merges v$old_version..v$new_version
 ```
 
-TODO: update for ITK
-
-In `Utilities/Maintenance/release`, there are the following scripts:
-
-  * `make-changelog.sh`
-  * `prep-emails.py`
-  * `send-emails.sh`
-
-First, create the `changes.txt` file by giving a commit range to
-`make-changelog.sh`:
-
-```sh
-   make-changelog.sh $previous_release $release
-```
-
-This file contains all of the changes in the commit range grouped by author.
-It is then processed by `prep-emails.py`:
-
-```sh
-   ./prep-emails.py $version
-```
-
-It takes `changes.txt` and creates a file for each email address:
-`user@domain.tld.txt`. You should delete any files which point to upstream or
-the developer list which are used to preserve authorship for `ThirdParty`
-updates or wide, sweeping changes.
-
-Once that is complete, run `send-emails.sh`:
-
-```sh
-   mailer=mutt ./send-emails.sh $version
-```
-
-The `mailer` environment variable should support this command line:
-
-```sh
-   mailer -s "$subject" $cc_list "$to" < "$body"
-```
-
-which is any `sendmail`-compatible program.
-
 Announcing
 ----------
 
 For the final release, the release notes produced should be used to
 
+  * Provide the release notes in the [ITK GitHub Releases]
   * Post a message in the [ITK discussion]
   * Create a post in the [Kitware blog]
+  * Add a release note doc in [ITK/Documentation/ReleaseNotes](https://github.com/InsightSoftwareConsortium/ITK/tree/master/Documentation/ReleaseNotes)
   * Create a post in ITK project on [ResearchGate]
 
 Finally, inform Communications at <comm@kitware.com>.
@@ -875,7 +824,6 @@ excellent packaging.
 [ITK issue tracking]: http://issues.itk.org/
 [ITK Sofware Guide]: https://itk.org/ItkSoftwareGuide.pdf
 [ITK wiki]: https://itk.org/Wiki/ITK
-[ITK wiki examples]: https://itk.org/Wiki/ITK/Examples
 [ITK Sphinx examples]: https://itk.org/ITKExamples/
 [releases page]: https://itk.org/Wiki/ITK/Releases
 [release schedule]: https://itk.org/Wiki/ITK/Release_Schedule

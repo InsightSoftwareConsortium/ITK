@@ -60,9 +60,9 @@ public:
  * \ingroup MultiThreaded
  * \ingroup ITKImageIntensity
  *
- * \wiki
- * \wikiexample{Math/Trig/SinImageFilter,Compute the sine of each pixel.}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageIntensity/ApplySinImageFilter,Apply Sin Image Filter.}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class SinImageFilter:

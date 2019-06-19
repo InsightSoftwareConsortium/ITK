@@ -42,7 +42,7 @@ int itkVectorResampleImageFilterTest( int argc, char * argv[] )
 
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, VectorResampleImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, VectorResampleImageFilter,
     ImageToImageFilter );
 
   itk::SimpleFilterWatcher watcher(filter);
@@ -53,13 +53,13 @@ int itkVectorResampleImageFilterTest( int argc, char * argv[] )
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
   filter->SetInterpolator( interpolator );
-  TEST_SET_GET_VALUE( interpolator, filter->GetInterpolator() );
+  ITK_TEST_SET_GET_VALUE( interpolator, filter->GetInterpolator() );
 
   using TransformType = itk::IdentityTransform< double, Dimension >;
   TransformType::Pointer transform = TransformType::New();
 
   filter->SetTransform( transform );
-  TEST_SET_GET_VALUE( transform, filter->GetTransform() );
+  ITK_TEST_SET_GET_VALUE( transform, filter->GetTransform() );
 
   ImageType::SpacingType spacing;
   spacing.Fill( 1.0 );
@@ -107,44 +107,44 @@ int itkVectorResampleImageFilterTest( int argc, char * argv[] )
   blackValue.Fill( 0 );
 
   filter->SetDefaultPixelValue( blackValue );
-  TEST_SET_GET_VALUE( blackValue, filter->GetDefaultPixelValue() );
+  ITK_TEST_SET_GET_VALUE( blackValue, filter->GetDefaultPixelValue() );
 
   // Set the spacing for the resampling
   spacing[0] *= 2.0;
   spacing[1] *= 2.0;
 
   filter->SetOutputSpacing( spacing );
-  TEST_SET_GET_VALUE( spacing, filter->GetOutputSpacing() );
+  ITK_TEST_SET_GET_VALUE( spacing, filter->GetOutputSpacing() );
 
   // Keep the input image origin
   filter->SetOutputOrigin( origin );
-  TEST_SET_GET_VALUE( origin, filter->GetOutputOrigin() );
+  ITK_TEST_SET_GET_VALUE( origin, filter->GetOutputOrigin() );
 
   // Set the size
   size[0] /= 2;
   size[1] /= 2;
 
   filter->SetSize( size );
-  TEST_SET_GET_VALUE( size, filter->GetSize() );
+  ITK_TEST_SET_GET_VALUE( size, filter->GetSize() );
 
   // Set the output direction
   FilterType::DirectionType outputDirection =
     image->GetDirection();
 
   filter->SetOutputDirection( outputDirection );
-  TEST_SET_GET_VALUE( outputDirection, filter->GetOutputDirection() );
+  ITK_TEST_SET_GET_VALUE( outputDirection, filter->GetOutputDirection() );
 
   // Set the start index
   FilterType::IndexType outputStartIndex =
     image->GetLargestPossibleRegion().GetIndex();
 
   filter->SetOutputStartIndex( outputStartIndex );
-  TEST_SET_GET_VALUE( outputStartIndex, filter->GetOutputStartIndex() );
+  ITK_TEST_SET_GET_VALUE( outputStartIndex, filter->GetOutputStartIndex() );
 
 
   filter->SetInput( image );
 
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   // Write an image for regression testing
   using WriterType = itk::ImageFileWriter< ImageType >;
@@ -152,7 +152,7 @@ int itkVectorResampleImageFilterTest( int argc, char * argv[] )
   writer->SetInput (filter->GetOutput());
   writer->SetFileName( argv[1] );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

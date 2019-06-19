@@ -115,13 +115,12 @@ void PolylineMask2DImageFilter< TInputImage, TPolyline, TOutputImage >
   VertexType     endVertex;
   VertexType     pstartVertex;
   VertexType     tmpVertex;
-  ImageIndexType tmpIndex;
 
 /* Check if the polyline coordinates are within the input image */
   while ( piter != container->End() )
     {
     tmpVertex     = piter.Value();
-    outputImagePtr->TransformPhysicalPointToIndex(tmpVertex, tmpIndex);
+    const auto tmpIndex = outputImagePtr->TransformPhysicalPointToIndex(tmpVertex);
     if ( !outputImagePtr->GetBufferedRegion().IsInside(tmpIndex) )
       {
       itkExceptionMacro(<< "Polyline vertex is out of bounds (Vertex,Index): "
@@ -150,8 +149,6 @@ void PolylineMask2DImageFilter< TInputImage, TPolyline, TOutputImage >
   tmpVertex = pstartVertex;
   ++piter;
 
-  ImageIndexType startImageIndex;
-  ImageIndexType endImageIndex;
   ImageIndexType tmpImageIndex;
   tmpImageIndex.Fill(0);
 
@@ -166,8 +163,8 @@ void PolylineMask2DImageFilter< TInputImage, TPolyline, TOutputImage >
     startVertex    = tmpVertex;
     endVertex      = piter.Value();
 
-    outputImagePtr->TransformPhysicalPointToIndex(startVertex, startImageIndex);
-    outputImagePtr->TransformPhysicalPointToIndex(endVertex, endImageIndex);
+    const auto startImageIndex = outputImagePtr->TransformPhysicalPointToIndex(startVertex);
+    const auto endImageIndex = outputImagePtr->TransformPhysicalPointToIndex(endVertex);
 
     //itkDebugMacro(<<"Projection image (index,physical
     // coordinate):"<<startImageIndex<<","<<startVertex<<std::endl);
@@ -213,8 +210,8 @@ void PolylineMask2DImageFilter< TInputImage, TPolyline, TOutputImage >
   startVertex    = tmpVertex;
   endVertex      = pstartVertex;
 
-  outputImagePtr->TransformPhysicalPointToIndex(startVertex, startImageIndex);
-  outputImagePtr->TransformPhysicalPointToIndex(endVertex, endImageIndex);
+  const auto startImageIndex = outputImagePtr->TransformPhysicalPointToIndex(startVertex);
+  const auto endImageIndex = outputImagePtr->TransformPhysicalPointToIndex(endVertex);
 
   if ( endImageIndex[1] > startImageIndex[1] )
     {

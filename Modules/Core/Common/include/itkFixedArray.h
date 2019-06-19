@@ -44,9 +44,9 @@ namespace itk
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{Utilities/FixedArray,C-style array}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/CreateAFixedArray,Create A Fixed Array}
+ * \endsphinx
  */
 template< typename TValue, unsigned int VLength = 3 >
 class ITK_TEMPLATE_EXPORT FixedArray

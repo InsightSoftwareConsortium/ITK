@@ -43,10 +43,10 @@ namespace itk
  * \ingroup IntensityImageFilters
  * \ingroup ITKSmoothing
  *
- * \wiki
- * \wikiexample{Smoothing/MedianImageFilter,Median filter an image}
- * \wikiexample{Smoothing/RGBMedianImageFilter,Median filter an RGB image}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/Smoothing/ApplyMedianFilter,Median Filter Of An Image}
+ * \sphihnxexample{Filtering/Smoothing/MedianFilteringOfAnRGBImage,Median Filter Of An RGB Image}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT MedianImageFilter:

@@ -48,9 +48,9 @@ namespace itk {
  *
  * \ingroup ITKQuadEdgeMeshFiltering
  *
- * \wiki
- * \wikiexample{Meshes/QuadEdgeMeshParameterizationFilter,Planar parameterization of a mesh}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/QuadEdgeMeshFiltering/ComputePlanarParameterizationOfAMesh,Compute Planar Parameterization Of A Mesh}
+ * \endsphinx
  */
 template< typename TInputMesh, typename TOutputMesh, typename TSolverTraits >
 class ITK_TEMPLATE_EXPORT ParameterizationQuadEdgeMeshFilter:

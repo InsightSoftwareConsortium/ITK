@@ -130,9 +130,9 @@ Clamp< TInput, TOutput >
  * \sa UnaryFunctorImageFilter
  * \sa CastImageFilter
  *
- * \wiki
- * \wikiexample{ImageProcessing/ClampImageFilter,Cast an image from one type to another but clamp to the output value range}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/ImageIntensity/CastImageToAnotherTypeButClampToOutput,Cast Image To Another Type But Clamp To Output Range}
+ * \endsphinx
  */
 template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT ClampImageFilter :

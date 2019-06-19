@@ -52,11 +52,11 @@ int itkTIFFImageIOTestPalette(int argc, char * argv[])
   WriterType::Pointer writer = WriterType::New();
 
 
-  EXERCISE_BASIC_OBJECT_METHODS( io, TIFFImageIO, ImageIOBase );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( io, TIFFImageIO, ImageIOBase );
 
   const auto expandRGBPalette = static_cast< bool >( std::stoi(argv[3]) );
   const auto isPaletteImage   = static_cast< bool >( std::stoi(argv[4]) );
-  TEST_SET_GET_BOOLEAN( io, ExpandRGBPalette, expandRGBPalette );
+  ITK_TEST_SET_GET_BOOLEAN( io, ExpandRGBPalette, expandRGBPalette );
 
   io->SetFileName( argv[1] );
   reader->SetFileName( argv[1] );
@@ -96,7 +96,7 @@ int itkTIFFImageIOTestPalette(int argc, char * argv[])
     }
 
 
-  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
   // Try Palette reading and scalar image reading
   if( io->GetExpandRGBPalette() )
@@ -150,7 +150,7 @@ int itkTIFFImageIOTestPalette(int argc, char * argv[])
   writer->SetImageIO( io );
   writer->SetFileName( argv[2] );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   // Exercise other methods
   itk::ImageIOBase::SizeType pixelStride = io->GetPixelStride();

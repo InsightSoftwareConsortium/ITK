@@ -43,7 +43,7 @@ int itkPNGImageIOTest3( int argc, char * argv[] )
   reader->SetFileName( argv[1] );
   reader->SetImageIO( io );
 
-  TRY_EXPECT_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_EXCEPTION( reader->Update() );
   std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

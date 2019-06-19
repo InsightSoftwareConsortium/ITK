@@ -61,8 +61,8 @@ int main( int , char *[] )
 // We create a point list and we set:
 // \begin{enumerate}
 // \item The position of each point in the local coordinate system using the
-// \code{SetPosition()} method.
-// \item The radius of the tube at this position using \code{SetRadius()}.
+// \code{SetPositionInObjectSpace()} method.
+// \item The radius of the tube at this position using \code{SetRadiusInObjectSpace()}.
 // \item The medialness value describing how the point lies in the middle of the vessel using \code{SetMedialness()}.
 // \item The ridgeness value describing how the point lies on the ridge using \code{SetRidgeness()}.
 // \item The branchness value describing if the point is a branch point using \code{SetBranchness()}.
@@ -126,7 +126,8 @@ int main( int , char *[] )
 
 // Software Guide : BeginLatex
 //
-// Then we can access the points using STL iterators.  \code{GetPosition()}
+// Then we can access the points using STL iterators.
+// \code{GetPositionInObjectSpace()}
 // and \code{GetColor()} functions return respectively the position and the
 // color of the point.
 //

@@ -18,7 +18,10 @@
 
  // First include the header file to be tested:
 #include "itkImageBase.h"
+
+#include "itkCovariantVector.h"
 #include "itkImage.h"
+#include "itkVector.h"
 
 #include <gtest/gtest.h>
 #include <type_traits> // For is_same.
@@ -51,6 +54,8 @@ namespace
 
     using FloatArrayType = itk::FixedArray<float, ImageDimension>;
     using DoubleArrayType = itk::FixedArray<double, ImageDimension>;
+    using VectorType = itk::Vector<double, ImageDimension>;
+    using CovariantVectorType = itk::CovariantVector<double, ImageDimension>;
 
     const ImageBaseType& imageBase = *image;
 
@@ -83,7 +88,7 @@ namespace
 
     // The two member functions TransformLocalVectorToPhysicalVector and
     // TransformPhysicalVectorToLocalVector are expected to return an
-    // array of the same type as their first function argument.
+    // array or vector of the same type as their first function argument.
     Expect_same_type_and_equal_value(
       imageBase.TransformLocalVectorToPhysicalVector(FloatArrayType()),
       FloatArrayType());
@@ -91,11 +96,23 @@ namespace
       imageBase.TransformLocalVectorToPhysicalVector(DoubleArrayType()),
       DoubleArrayType());
     Expect_same_type_and_equal_value(
+      imageBase.TransformLocalVectorToPhysicalVector(VectorType()),
+      VectorType());
+    Expect_same_type_and_equal_value(
+      imageBase.TransformLocalVectorToPhysicalVector(CovariantVectorType()),
+      CovariantVectorType());
+    Expect_same_type_and_equal_value(
       imageBase.TransformPhysicalVectorToLocalVector(FloatArrayType()),
       FloatArrayType());
     Expect_same_type_and_equal_value(
       imageBase.TransformPhysicalVectorToLocalVector(DoubleArrayType()),
       DoubleArrayType());
+    Expect_same_type_and_equal_value(
+      imageBase.TransformPhysicalVectorToLocalVector(VectorType()),
+      VectorType());
+    Expect_same_type_and_equal_value(
+      imageBase.TransformPhysicalVectorToLocalVector(CovariantVectorType()),
+      CovariantVectorType());
   }
 
 } // end namespace

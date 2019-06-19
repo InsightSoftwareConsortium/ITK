@@ -52,7 +52,7 @@ int itkMergeLabelMapFilterTest1( int argc, char * argv[] )
 
   const PixelType background1 = std::stoi(argv[4]);
   i2l->SetBackgroundValue( background1 );
-  TEST_SET_GET_VALUE( background1, i2l->GetBackgroundValue() );
+  ITK_TEST_SET_GET_VALUE( background1, i2l->GetBackgroundValue() );
 
   ReaderType::Pointer reader2 = ReaderType::New();
   reader2->SetFileName( argv[2] );
@@ -61,7 +61,7 @@ int itkMergeLabelMapFilterTest1( int argc, char * argv[] )
 
   const PixelType background2 = std::stoi(argv[5]);
   i2l2->SetBackgroundValue( background2 );
-  TEST_SET_GET_VALUE( background2, i2l2->GetBackgroundValue() );
+  ITK_TEST_SET_GET_VALUE( background2, i2l2->GetBackgroundValue() );
 
   using ChangeType = itk::MergeLabelMapFilter< LabelMapType >;
   ChangeType::Pointer change = ChangeType::New();
@@ -74,10 +74,10 @@ int itkMergeLabelMapFilterTest1( int argc, char * argv[] )
   auto method = static_cast<MethodChoice>( std::stoi( argv[6] ) );
 
   change->SetMethod( ChangeType::STRICT );
-  TEST_SET_GET_VALUE( ChangeType::STRICT, change->GetMethod() );
+  ITK_TEST_SET_GET_VALUE( ChangeType::STRICT, change->GetMethod() );
 
   change->SetMethod( ChangeType::KEEP );
-  TEST_SET_GET_VALUE( ChangeType::KEEP, change->GetMethod() );
+  ITK_TEST_SET_GET_VALUE( ChangeType::KEEP, change->GetMethod() );
 
   change->SetMethod( method );
   itk::SimpleFilterWatcher watcher6(change, "filter");
@@ -96,14 +96,14 @@ int itkMergeLabelMapFilterTest1( int argc, char * argv[] )
 
   if( expectfailure )
     {
-    TRY_EXPECT_EXCEPTION( writer->Update() );
+    ITK_TRY_EXPECT_EXCEPTION( writer->Update() );
     }
   else
     {
-    TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+    ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
     }
 
-  TEST_SET_GET_VALUE( background1, change->GetOutput()->GetBackgroundValue() );
+  ITK_TEST_SET_GET_VALUE( background1, change->GetOutput()->GetBackgroundValue() );
 
   return EXIT_SUCCESS;
 }

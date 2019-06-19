@@ -53,9 +53,9 @@ namespace itk
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  *
- * \wiki
- * \wikiexample{ImageProcessing/BinaryImageToShapeLabelMapFilter,Label binary regions in an image and get their properties}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/LabelMap/LabelBinaryRegionsAndGetProperties,Label Binary Regions And Get Properties}
+ * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage =
             LabelMap< ShapeLabelObject< SizeValueType, TInputImage::ImageDimension > > >

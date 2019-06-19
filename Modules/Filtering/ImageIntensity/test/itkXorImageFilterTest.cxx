@@ -116,7 +116,7 @@ int itkXorImageFilterTest( int argc, char* argv[] )
   // Create the filter
   XorImageFilterType::Pointer filter = XorImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, XorImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, XorImageFilter,
     BinaryGeneratorImageFilter );
 
   // Set the input images
@@ -139,7 +139,7 @@ int itkXorImageFilterTest( int argc, char* argv[] )
 
   writer->SetInput( outputImage );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;

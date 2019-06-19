@@ -23,8 +23,10 @@
 #include "itkRandomVariateGeneratorBase.h"
 #include "itkIntTypes.h"
 #include "itkMath.h"
-#include <mutex>
 #include "itkSingletonMacro.h"
+
+#include <atomic>
+#include <mutex>
 #include <climits>
 #include <ctime>
 
@@ -115,9 +117,9 @@ namespace Statistics
  * \ingroup Common
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{Utilities/MersenneTwisterRandomVariateGenerator,Random number generator}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/MersenneTwisterRandomNumberGenerator,Mersenne Twister Random Number Generator}
+ * \endsphinx
  */
 
 struct MersenneTwisterGlobals;
@@ -226,7 +228,7 @@ public:
    *
    * \note This method is thread-safe.
    */
-  IntegerType GetSeed();
+  IntegerType GetSeed() const;
 
   /** Return the next seed, derived as a sequence from the seed of the
    * singleton instance.
@@ -277,7 +279,7 @@ protected:
   int          m_Left;
 
   // Seed value
-  IntegerType  m_Seed;
+  std::atomic<IntegerType>  m_Seed;
 
 private:
 
@@ -370,11 +372,9 @@ MersenneTwisterRandomVariateGenerator::SetSeed()
 
 
 inline MersenneTwisterRandomVariateGenerator::IntegerType
-MersenneTwisterRandomVariateGenerator::GetSeed()
+MersenneTwisterRandomVariateGenerator::GetSeed() const
 {
-  std::lock_guard<std::mutex> mutexHolder(m_InstanceLock);
-  volatile IntegerType seed = this->m_Seed;
-  return seed;
+  return this->m_Seed;
 }
 
 /** Get an integer variate in [0, 2^32-1] */

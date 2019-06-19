@@ -55,10 +55,10 @@ namespace itk
  * \ingroup ImageObjects
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{SimpleOperations/DistanceBetweenIndices,Distance between two indices}
- * \wikiexample{Images/Index,An object which holds the index of a pixel}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/DistanceBetweenIndices,Distance between two indices}
+ * \sphinxexample{Core/Common/CreateAIndex,Create A Index}
+ * \endsphinx
  */
 
 template <unsigned int VDimension = 2>

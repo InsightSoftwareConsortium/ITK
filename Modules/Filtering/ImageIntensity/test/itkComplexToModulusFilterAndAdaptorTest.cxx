@@ -95,7 +95,7 @@ int itkComplexToModulusFilterAndAdaptorTest( int, char* [] )
   // Create the filter
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, ComplexToModulusImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, ComplexToModulusImageFilter,
     UnaryGeneratorImageFilter );
 
   // Set the input image
@@ -146,7 +146,7 @@ int itkComplexToModulusFilterAndAdaptorTest( int, char* [] )
 
   AdaptorType::Pointer imaginaryAdaptor = AdaptorType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( imaginaryAdaptor, ComplexToModulusImageAdaptor,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( imaginaryAdaptor, ComplexToModulusImageAdaptor,
     ImageAdaptor );
 
   imaginaryAdaptor->SetImage( inputImage );

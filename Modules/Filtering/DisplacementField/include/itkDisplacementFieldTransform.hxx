@@ -156,9 +156,7 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>
 ::ComputeJacobianWithRespectToPosition( const InputPointType & point,
                                         JacobianPositionType & jacobian ) const
 {
-  IndexType idx;
-
-  this->m_DisplacementField->TransformPhysicalPointToIndex( point, idx );
+  const auto idx = m_DisplacementField->TransformPhysicalPointToIndex(point);
   this->ComputeJacobianWithRespectToPosition( idx, jacobian );
 }
 
@@ -177,8 +175,7 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>
 ::ComputeInverseJacobianWithRespectToPosition( const InputPointType & point,
                                         InverseJacobianPositionType & jacobian ) const
 {
-  IndexType idx;
-  this->m_DisplacementField->TransformPhysicalPointToIndex(point, idx);
+  const auto idx = m_DisplacementField->TransformPhysicalPointToIndex(point);
   this->ComputeJacobianWithRespectToPositionInternal( idx, jacobian, true );
 }
 
@@ -190,9 +187,7 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>
   JacobianPositionType & jacobian,
   bool useSVD ) const
 {
-  IndexType idx;
-
-  this->m_DisplacementField->TransformPhysicalPointToIndex( point, idx );
+  const auto idx = m_DisplacementField->TransformPhysicalPointToIndex(point);
   this->GetInverseJacobianOfForwardFieldWithRespectToPosition( idx, jacobian,
                                                                useSVD );
 }
@@ -292,21 +287,17 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>
 
       OutputVectorType tempPix;
 
-      OutputVectorType rpix;
       tempPix = m_DisplacementField->GetPixel( difIndex[row][1] );
-      m_DisplacementField->TransformLocalVectorToPhysicalVector( tempPix, rpix );
+      const auto rpix = m_DisplacementField->TransformLocalVectorToPhysicalVector(tempPix);
 
-      OutputVectorType lpix;
       tempPix = m_DisplacementField->GetPixel( difIndex[row][0] );
-      m_DisplacementField->TransformLocalVectorToPhysicalVector( tempPix, lpix );
+      const auto lpix = m_DisplacementField->TransformLocalVectorToPhysicalVector(tempPix);
 
-      OutputVectorType rrpix;
       tempPix = m_DisplacementField->GetPixel( ddrindex );
-      m_DisplacementField->TransformLocalVectorToPhysicalVector( tempPix, rrpix );
+      const auto rrpix = m_DisplacementField->TransformLocalVectorToPhysicalVector(tempPix);
 
-      OutputVectorType llpix;
       tempPix = m_DisplacementField->GetPixel( ddlindex );
-      m_DisplacementField->TransformLocalVectorToPhysicalVector( tempPix, llpix );
+      const auto llpix = m_DisplacementField->TransformLocalVectorToPhysicalVector(tempPix);
 
 
       // 4th order centered difference

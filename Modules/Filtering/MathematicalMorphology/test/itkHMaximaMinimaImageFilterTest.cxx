@@ -87,7 +87,7 @@ int itkHMaximaMinimaImageFilterTest( int argc, char * argv[] )
   // Run the filter
   writer->SetInput( hMinimaFilter->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
 
   std::cout << "Test finished." << std::endl;

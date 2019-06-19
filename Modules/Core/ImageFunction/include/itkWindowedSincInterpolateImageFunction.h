@@ -311,14 +311,12 @@ public:
   OutputType EvaluateAtContinuousIndex(
     const ContinuousIndexType & index) const override;
 
-#if !defined(ITKV4_COMPATIBILITY)
   SizeType GetRadius() const override
     {
     SizeType radius;
     radius.Fill( VRadius );
     return radius;
     }
-#endif
 
 protected:
   WindowedSincInterpolateImageFunction();

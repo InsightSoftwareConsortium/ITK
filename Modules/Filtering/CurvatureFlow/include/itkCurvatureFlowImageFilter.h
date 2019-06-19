@@ -85,6 +85,11 @@ namespace itk
   *  TInputImage and TOutputImage must have the same dimension.
   *  TOutputImage's pixel type must be a real number type.
   * \ingroup ITKCurvatureFlow
+  *
+  * \sphinx
+  * \sphinxexample{Filtering/CurvatureFlow/SmoothImageUsingCurvatureFlow,Smooth Image Using Curvature Flow}
+  * \sphinxexample{Filtering/CurvatureFlow/SmoothRGBImageUsingCurvatureFlow,Smooth RGB Image Using Curvature Flow}
+  * \endsphinx
   */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT CurvatureFlowImageFilter:

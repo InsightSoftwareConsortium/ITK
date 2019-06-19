@@ -39,7 +39,7 @@ int doDenoising( const std::string & inputFileName, const std::string & outputFi
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( inputFileName );
 
-  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
 
   // Create filter and initialize
@@ -50,7 +50,7 @@ int doDenoising( const std::string & inputFileName, const std::string & outputFi
   filter->SetNumberOfWorkUnits( 2 );
 
   // Denoise the image
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
 
   // Write the denoised image to file
@@ -58,7 +58,7 @@ int doDenoising( const std::string & inputFileName, const std::string & outputFi
   writer->SetFileName( outputFileName );
   writer->SetInput( filter->GetOutput() );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }
@@ -84,7 +84,7 @@ int itkPatchBasedDenoisingImageFilterDefaultTest( int argc, char * argv [] )
 
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, PatchBasedDenoisingImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, PatchBasedDenoisingImageFilter,
     PatchBasedDenoisingBaseImageFilter );
 
 

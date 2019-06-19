@@ -40,9 +40,10 @@ namespace itk
  * \ingroup DataRepresentation
  * \ingroup ITKCommon
  *
- * \wiki
- * \wikiexample{Math/Matrix,Matrix}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/Common/Matrix,Matrix}
+ * \sphinxexample{Core/Common/MatrixInverse, Matrix Inverse}
+ * \endsphinx
  */
 
 template< typename T, unsigned int NRows = 3, unsigned int NColumns = 3 >

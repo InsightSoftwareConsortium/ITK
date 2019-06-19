@@ -210,29 +210,29 @@ int itkHoughTransform2DLinesImageTest( int, char* [] )
 
   HoughTransformFilterType::Pointer houghFilter = HoughTransformFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( houghFilter, HoughTransform2DLinesImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( houghFilter, HoughTransform2DLinesImageFilter,
     ImageToImageFilter );
 
 
   float threshold = 2.3;
   houghFilter->SetThreshold( threshold );
-  TEST_SET_GET_VALUE( threshold, houghFilter->GetThreshold() );
+  ITK_TEST_SET_GET_VALUE( threshold, houghFilter->GetThreshold() );
 
   float angleResolution = 200.0;
   houghFilter->SetAngleResolution( angleResolution );
-  TEST_SET_GET_VALUE( angleResolution, houghFilter->GetAngleResolution() );
+  ITK_TEST_SET_GET_VALUE( angleResolution, houghFilter->GetAngleResolution() );
 
   auto numberOfLines = static_cast< HoughTransformFilterType::LinesListSizeType >( lines );
   houghFilter->SetNumberOfLines( numberOfLines );
-  TEST_SET_GET_VALUE( numberOfLines, houghFilter->GetNumberOfLines() );
+  ITK_TEST_SET_GET_VALUE( numberOfLines, houghFilter->GetNumberOfLines() );
 
   float discRadius = 25.0;
   houghFilter->SetDiscRadius( discRadius );
-  TEST_SET_GET_VALUE( discRadius, houghFilter->GetDiscRadius() );
+  ITK_TEST_SET_GET_VALUE( discRadius, houghFilter->GetDiscRadius() );
 
   float variance = 10;
   houghFilter->SetVariance( variance );
-  TEST_SET_GET_VALUE( variance, houghFilter->GetVariance() );
+  ITK_TEST_SET_GET_VALUE( variance, houghFilter->GetVariance() );
 
 
   houghFilter->SetInput( threshFilter->GetOutput() );

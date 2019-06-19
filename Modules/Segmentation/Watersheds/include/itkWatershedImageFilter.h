@@ -140,6 +140,10 @@ namespace itk
  *
  * \ingroup WatershedSegmentation
  * \ingroup ITKWatersheds
+ *
+ * \sphinx
+ * \sphinxexample{Segmentation/Watersheds/SegmentWithWatershedImageFilter,Watershed Image Filter}
+ * \endsphinx
  */
 template< typename TInputImage >
 class ITK_TEMPLATE_EXPORT WatershedImageFilter:

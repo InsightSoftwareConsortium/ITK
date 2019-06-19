@@ -47,6 +47,10 @@ namespace itk {
  * \sa LabelMapToRGBImageFilter, LabelMapToBinaryImageFilter, LabelMapToLabelImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKImageFusion
+ *
+ * \sphinx
+ * \sphinxexample{Filtering/ImageFusion/ColorLabeledRegions,Color Labeled Regions In Image}
+ * \endsphinx
 */
 template<typename TLabelMap, typename TFeatureImage, typename TOutputImage=Image< RGBPixel< typename TFeatureImage::PixelType >, TFeatureImage::ImageDimension > >
 class ITK_TEMPLATE_EXPORT LabelMapOverlayImageFilter :

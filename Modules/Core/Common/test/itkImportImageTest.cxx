@@ -40,7 +40,7 @@ int itkImportImageTest( int, char* [] )
   // Create an ImportImageFilter filter
   ImportImageFilter::Pointer basicImport = ImportImageFilter::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( basicImport, ImportImageFilter, ImageSource );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( basicImport, ImportImageFilter, ImageSource );
 
   ShortImage::Pointer image;
   itk::ImageRegion< Dimension > region;

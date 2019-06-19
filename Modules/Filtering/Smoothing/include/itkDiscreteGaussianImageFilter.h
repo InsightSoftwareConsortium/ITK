@@ -53,9 +53,9 @@ namespace itk
  * \ingroup ImageFeatureExtraction
  * \ingroup ITKSmoothing
  *
- * \wiki
- * \wikiexample{Smoothing/DiscreteGaussianImageFilter,Smooth an image with a discrete Gaussian filter}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Filtering/Smoothing/SmoothWithRecursiveGaussian,Computes the smoothing with Gaussian kernel}
+ * \endsphinx
  */
 
 template< typename TInputImage, typename TOutputImage >

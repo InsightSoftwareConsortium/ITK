@@ -50,11 +50,11 @@ int itkPathToChainCodePathFilterTest( int, char* [] )
 
   // Set up the filter
   FilterType::Pointer filter = FilterType::New();
-  EXERCISE_BASIC_OBJECT_METHODS( filter, PathToChainCodePathFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, PathToChainCodePathFilter,
     PathToPathFilter );
 
   bool maximallyConnected = false;
-  TEST_SET_GET_BOOLEAN( filter, MaximallyConnected, maximallyConnected );
+  ITK_TEST_SET_GET_BOOLEAN( filter, MaximallyConnected, maximallyConnected );
 
   filter->SetInput( inPath );
 
@@ -84,7 +84,7 @@ int itkPathToChainCodePathFilterTest( int, char* [] )
     }
 
   maximallyConnected = true;
-  TEST_SET_GET_BOOLEAN( filter, MaximallyConnected, maximallyConnected );
+  ITK_TEST_SET_GET_BOOLEAN( filter, MaximallyConnected, maximallyConnected );
 
   filter->Update();
 

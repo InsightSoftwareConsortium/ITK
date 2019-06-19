@@ -67,6 +67,11 @@ namespace itk
  * \ingroup ITKIOMeshBase
  *
  * \author Wanlin Zhu. Uviversity of New South Wales, Australia.
+ *
+ * \sphinx
+ * \sphinxexample{IO/Mesh/WriteMesh,Write Mesh}
+ * \sphinxexample{IO/Mesh/ReadMesh,Read Mesh}
+ * \endsphinx
  */
 
 template< typename TOutputMesh,

@@ -24,8 +24,10 @@
 
 namespace itk
 {
+
 /**
  * \class BlobSpatialObject
+ *
  * \brief Spatial object representing a potentially amorphous object.
  *
  * The BlobSpatialObject is a discretized representation of a "blob",
@@ -35,13 +37,13 @@ namespace itk
  * represent a binary image.
  *
  * \sa SpatialObjectPoint
+ *
  * \ingroup ITKSpatialObjects
  *
- * \wiki
- * \wikiexample{SpatialObjects/BlobSpatialObject,Blob}
- * \endwiki
+ * \sphinx
+ * \sphinxexample{Core/SpatialObjects/Blob,Blob}
+ * \endsphinx
  */
-
 template< unsigned int TDimension = 3 >
 class ITK_TEMPLATE_EXPORT BlobSpatialObject:
   public PointBasedSpatialObject<  TDimension,

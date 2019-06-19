@@ -118,7 +118,7 @@ int itkCheckerBoardImageFilterTest( int argc, char* argv[] )
   CheckerBoardImageFilterType::Pointer checkerBoard =
     CheckerBoardImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(checkerBoard, CheckerBoardImageFilter,
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(checkerBoard, CheckerBoardImageFilter,
     ImageToImageFilter);
 
   // Set the input images
@@ -131,7 +131,7 @@ int itkCheckerBoardImageFilterTest( int argc, char* argv[] )
   pattern[2] = 10; // number of checkers along Z
 
   checkerBoard->SetCheckerPattern( pattern );
-  TEST_SET_GET_VALUE( pattern, checkerBoard->GetCheckerPattern() );
+  ITK_TEST_SET_GET_VALUE( pattern, checkerBoard->GetCheckerPattern() );
 
   // Execute the filter
   checkerBoard->Update();
@@ -148,7 +148,7 @@ int itkCheckerBoardImageFilterTest( int argc, char* argv[] )
 
   writer->SetInput( outputImage );
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
