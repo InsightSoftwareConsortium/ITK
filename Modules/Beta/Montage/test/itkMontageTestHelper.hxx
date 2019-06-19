@@ -101,7 +101,7 @@ int
 montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actualTiles,
              const std::string& inputPath, const std::string& outFilename,
              bool varyPaddingMethods, int peakMethodToUse, bool loadIntoMemory,
-             unsigned streamSubdivisions, bool writeTransformFiles, bool allowDrift )
+             unsigned streamSubdivisions, bool writeTransformFiles, bool allowDrift, unsigned positionTolerance )
 {
   int result = EXIT_SUCCESS;
   using ScalarPixelType = typename itk::NumericTraits< PixelType >::ValueType;
@@ -194,6 +194,7 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
     typename MontageType::Pointer montage = MontageType::New();
     auto paddingMethod = static_cast< typename PCMType::PaddingMethod >( padMethod );
     montage->GetModifiablePCM()->SetPaddingMethod( paddingMethod );
+    montage->SetPositionTolerance( positionTolerance );
     montage->SetMontageSize( { xMontageSize, yMontageSize } );
     if ( !loadIntoMemory )
       {

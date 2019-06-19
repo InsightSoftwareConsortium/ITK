@@ -34,7 +34,7 @@
 template< typename PixelType >
 double
 calculateError( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actualTiles,
-                const std::string& inputPath, int paddingMethod, std::ostream& out,
+                const std::string& inputPath, int paddingMethod, unsigned positionTolerance, std::ostream& out,
                 unsigned xF, unsigned yF, unsigned xM, unsigned yM)
 {
   double translationError = 0.0;
@@ -96,6 +96,7 @@ calculateError( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& ac
 
   using OptimizerType = itk::MaxPhaseCorrelationOptimizer< PhaseCorrelationMethodType >;
   typename OptimizerType::Pointer pcmOptimizer = OptimizerType::New();
+  pcmOptimizer->SetPixelDistanceTolerance( positionTolerance );
   phaseCorrelationMethod->SetOptimizer( pcmOptimizer );
 
   using PeakInterpolationType =
@@ -149,7 +150,8 @@ calculateError( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& ac
 template< typename PixelType >
 int
 pairwiseTests( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actualTiles,
-               const std::string& inputPath, const std::string& outFilename, bool varyPaddingMethods )
+               const std::string& inputPath, const std::string& outFilename,
+               bool varyPaddingMethods, unsigned positionTolerance )
 {
   int result = EXIT_SUCCESS;
   constexpr unsigned Dimension = 2;
@@ -184,12 +186,12 @@ pairwiseTests( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& act
         if ( x > 0 )
           {
           totalError += calculateError< PixelType >(
-              stageTiles, actualTiles, inputPath, padMethod, registrationErrors, x - 1, y, x, y );
+              stageTiles, actualTiles, inputPath, padMethod, positionTolerance, registrationErrors, x - 1, y, x, y );
           }
         if ( y > 0 )
           {
           totalError += calculateError< PixelType >(
-              stageTiles, actualTiles, inputPath, padMethod, registrationErrors, x, y - 1, x, y );
+              stageTiles, actualTiles, inputPath, padMethod, positionTolerance, registrationErrors, x, y - 1, x, y );
           }
         }
       }
