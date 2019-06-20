@@ -20,6 +20,7 @@
 
 #include "itkIntTypes.h"
 #include "itkMacro.h"
+#include <algorithm> // For copy_n.
 #include <type_traits>
 #include <memory>
 
@@ -165,9 +166,7 @@ public:
    *  \sa GetSize */
   void SetSize(const SizeValueType val[VDimension])
   {
-    std::copy(val,
-              val + VDimension,
-              m_InternalArray);
+    std::copy_n(val, VDimension, m_InternalArray);
   }
 
   /** Sets the value of one of the elements.

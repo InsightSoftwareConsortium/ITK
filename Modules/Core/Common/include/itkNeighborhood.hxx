@@ -112,9 +112,7 @@ Neighborhood< TPixel, VDimension, TContainer >
   m_DataBuffer ( other.m_DataBuffer ),
   m_OffsetTable( other.m_OffsetTable )
 {
-  std::copy(other.m_StrideTable,
-            other.m_StrideTable+VDimension,
-            m_StrideTable);
+  std::copy_n(other.m_StrideTable, VDimension, m_StrideTable);
 }
 
 template< typename TPixel, unsigned int VDimension, typename TContainer >

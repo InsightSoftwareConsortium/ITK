@@ -411,9 +411,7 @@ BSplineDeformableTransform<TParametersValueType, NDimensions, VSplineOrder>
         images[j]->GetBufferPointer();
 
       ParametersValueType *dataPointer = this->m_InternalParametersBuffer.data_block();
-      std::copy(baseImagePointer,
-                baseImagePointer+numberOfPixels,
-                dataPointer);
+      std::copy_n(baseImagePointer, numberOfPixels, dataPointer);
       }
     this->SetParameters( this->m_InternalParametersBuffer );
     }

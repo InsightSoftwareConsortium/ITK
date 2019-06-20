@@ -353,9 +353,9 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
   while ( !itrLabelsImage.IsAtEnd() )
     {
     posteriorsPixel = itrPosteriorsImage.Get();
-    std::copy(posteriorsPixel.GetDataPointer(),
-              posteriorsPixel.GetDataPointer()+posteriorsPixel.Size(),
-              posteriorsVector.begin() );
+    std::copy_n(posteriorsPixel.GetDataPointer(),
+                posteriorsPixel.Size(),
+                posteriorsVector.begin() );
     itrLabelsImage.Set( static_cast< TLabelsType >(
                           decisionRule->Evaluate( posteriorsVector ) ) );
     ++itrLabelsImage;
