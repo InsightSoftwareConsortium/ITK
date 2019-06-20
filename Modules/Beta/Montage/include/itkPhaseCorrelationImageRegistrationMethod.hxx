@@ -259,18 +259,17 @@ void
 PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
 ::DeterminePadding()
 {
-  SizeType fixedSize = m_FixedImage->GetLargestPossibleRegion().GetSize();
-  SizeType movingSize = m_MovingImage->GetLargestPossibleRegion().GetSize();
-  typename MovingImageType::RegionType fRegion = m_FixedImage->GetLargestPossibleRegion();
-  typename MovingImageType::RegionType mRegion = m_MovingImage->GetLargestPossibleRegion();
+  const SizeType fixedSize = m_FixedImage->GetLargestPossibleRegion().GetSize();
+  const SizeType movingSize = m_MovingImage->GetLargestPossibleRegion().GetSize();
+  const SizeType size0 = SizeType::Filled( 0 );
   SizeType fftSize, fixedPad, movingPad;
-  SizeType size0;
-  size0.Fill( 0 );
 
   if ( m_CropToOverlap )
     {
+    typename MovingImageType::RegionType fRegion = m_FixedImage->GetLargestPossibleRegion();
+    typename MovingImageType::RegionType mRegion = m_MovingImage->GetLargestPossibleRegion();
     typename MovingImageType::SpacingType spacing = m_MovingImage->GetSpacing();
-    typename MovingImageType::IndexType shiftIndex;
+    typename MovingImageType::IndexType shiftIndex, fIndex;
     typename MovingImageType::IndexType mIndex = mRegion.GetIndex();
     typename MovingImageType::PointType originShift = m_MovingImage->GetOrigin() - m_FixedImage->GetOrigin();
     for ( unsigned int d = 0; d < ImageDimension; ++d )
@@ -280,10 +279,50 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
       }
     mRegion.SetIndex( mIndex );
     fRegion.Crop( mRegion );
+
+    // now expand this region somewhat
     SizeType iSize = fRegion.GetSize();
+    fIndex = fRegion.GetIndex();
+    SizeType extraPadding;
+    std::array< SizeValueType, 3 > padCandidates;
+    for ( unsigned int d = 0; d < ImageDimension; ++d )
+      {
+      padCandidates[0] = 16; // a fixed 16-pixel padding
+      padCandidates[1] = std::ceil( iSize[d] / 2 ); // 50% of overlapping region
+      padCandidates[2] = std::min( fixedSize[d], movingSize[d] ) / 100; // 1% of smaller image's size
+      std::sort( padCandidates.begin(), padCandidates.end() );
+      extraPadding[d] = padCandidates[1]; // pick median
+
+      // clip it to actual image sizes
+      if ( extraPadding[d] + iSize[d] > fixedSize[d] )
+        {
+        extraPadding[d] = fixedSize[d] - iSize[d];
+        }
+      if ( extraPadding[d] + iSize[d] > movingSize[d] )
+        {
+        extraPadding[d] = movingSize[d] - iSize[d];
+        }
+
+      // expand regions appropriately
+      iSize[d] += extraPadding[d];
+      if ( shiftIndex[d] > 0 ) // fixed is to the "left" of moving
+        {
+        fIndex[d] -= extraPadding[d];
+        mIndex[d] = 0;
+        }
+      else
+        {
+        mIndex[d] = movingSize[d] - iSize[d];
+        }
+      }
+
+    // construct regions from indices and size
+    fRegion.SetIndex( fIndex );
+    fRegion.SetSize( iSize );
+    mRegion.SetIndex( mIndex );
     mRegion.SetSize( iSize );
-    mRegion.SetIndex( m_MovingImage->GetLargestPossibleRegion().GetIndex() );
-    // fRegion and mRegion will be applied later
+    m_FixedRoI->SetRegionOfInterest( fRegion );
+    m_MovingRoI->SetRegionOfInterest( mRegion );
 
     for ( unsigned int d = 0; d < ImageDimension; ++d )
       {
@@ -360,8 +399,6 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
       }
     }
 
-  m_FixedRoI->SetRegionOfInterest( fRegion );
-  m_MovingRoI->SetRegionOfInterest( mRegion );
   m_FixedPadder->SetPadLowerBound( m_ObligatoryPadding );
   m_MovingPadder->SetPadLowerBound( m_ObligatoryPadding );
   m_FixedPadder->SetPadUpperBound( fixedPad );
