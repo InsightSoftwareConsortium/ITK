@@ -178,13 +178,16 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
           IndexValueType dist = 0;
           for ( unsigned d = 0; d < ImageDimension; d++ )
             {
-            dist += ind[d] - oIndex[d];
+            IndexValueType distD = ind[d] - oIndex[d];
+            if ( distD > IndexValueType( size[d] / 2 ) ) // wrap around
+              {
+              distD = size[d] - distD;
+              }
+            dist += distD;
             }
+
           if ( dist < znSize ) // neighborhood of [0,0,...,0] - in case zero peak is blurred
             {
-            pixel = oIt.Get();
-            // avoid the initial steep rise of function x/(1+x) by shifting it by 10
-            pixel *= ( dist + 10 ) / ( m_ZeroSuppression + dist + 10 );
             pixelValid = true;
             }
           else
@@ -193,24 +196,16 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
               {
               if ( ind[d] == oIndex[d] ) // one of the indices is "zero"
                 {
-                if ( !pixelValid )
-                  {
-                  pixel = oIt.Get();
-                  pixelValid = true;
-                  }
-                IndexValueType distD = ind[d] - oIndex[d];
-                if ( distD > IndexValueType( size[d] / 2 ) ) // wrap around
-                  {
-                  distD = size[d] - distD;
-                  }
-                // avoid the initial steep rise of function x/(1+x) by shifting it by 10
-                pixel *= ( dist + 10 ) / ( m_ZeroSuppression + dist + 10 );
+                pixelValid = true;
                 }
               }
             }
 
-          if ( pixelValid ) // either neighborhood or lines/sheets has updated the pixel
+          if ( pixelValid ) // either neighborhood or lines/sheets says update the pixel
             {
+            pixel = oIt.Get();
+            // avoid the initial steep rise of function x/(1+x) by shifting it by 10
+            pixel *= ( dist + 10 ) / ( m_ZeroSuppression + dist + 10 );
             oIt.Set( pixel );
             }
           }
