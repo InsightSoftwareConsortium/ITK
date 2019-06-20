@@ -324,7 +324,7 @@ itk_add_test(NAME itkMontageMNML5
     DATA{Input/MNML_5_500x_101/,REGEX:.*}
     ${TESTING_OUTPUT_PATH}/itkMontageMNML5_
     ${TESTING_OUTPUT_PATH}/itkMontageMNML5Pairs
-    0 1 1 1 0 0 0 10
+    0 1 1 1 0 0 1 10
   )
 
 itk_add_test(NAME itkMontagePCMFilesFocus
