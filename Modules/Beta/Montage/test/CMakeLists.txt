@@ -339,6 +339,42 @@ itk_add_test(NAME itkMontagePCMFiles-10-129
     -10.488
   )
 
+itk_add_test(NAME itkMontagePCMFilesS200_32_33
+  COMMAND MontageTestDriver
+  itkMontagePCMTestFiles
+    DATA{Input/S200-small/S200-6-320x_p032.jpg}
+    DATA{Input/S200-small/S200-6-320x_p033.jpg}
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMFilesS200_32_33.nrrd
+    2381.0
+    0.0
+    74.09566
+    7.614863315
+  )
+
+itk_add_test(NAME itkMontagePCMFilesS200_33_67
+  COMMAND MontageTestDriver
+  itkMontagePCMTestFiles
+    DATA{Input/S200-small/S200-6-320x_p033.jpg}
+    DATA{Input/S200-small/S200-6-320x_p067.jpg}
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMFilesS200_33_67.nrrd
+    0.0
+    1742.66
+    -6.05019
+    16.063841685
+  )
+
+itk_add_test(NAME itkMontagePCMFilesS200_134_168
+  COMMAND MontageTestDriver
+  itkMontagePCMTestFiles
+    DATA{Input/S200-small/S200-6-320x_p134.jpg}
+    DATA{Input/S200-small/S200-6-320x_p168.jpg}
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMFilesS200_134_168.nrrd
+    0.0
+    1742.06
+    -6.6058
+    21.370794
+  )
+
 itk_add_test(NAME itkMontagePCMFilesFocus
   COMMAND MontageTestDriver
   itkMontagePCMTestFiles
