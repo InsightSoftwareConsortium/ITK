@@ -273,7 +273,7 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
             }
           dist = std::max( dist, d1 );
           }
-        if ( dist < 2 ) // for city-block this is equivalent to:  dist == 1
+        if ( dist <= m_MergePeaks )
           {
           break;
           }
