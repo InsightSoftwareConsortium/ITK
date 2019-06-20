@@ -1401,7 +1401,7 @@ void TIFFImageIO::PutGrayscale( TType *to, TType * from,
 {
   for( unsigned int y = ysize; y-- > 0;)
     {
-    std::copy(from, from + xsize, to);
+    std::copy_n(from, xsize, to);
     to += xsize;
     to += toskew;
     from += xsize;
@@ -1421,7 +1421,7 @@ void TIFFImageIO::PutRGB_( TType *to, TType * from,
 
   for( unsigned int y = ysize; y-- > 0;)
     {
-    std::copy(from, from + linesize, to);
+    std::copy_n(from, linesize, to);
 
     to += linesize;
     to += toskew;

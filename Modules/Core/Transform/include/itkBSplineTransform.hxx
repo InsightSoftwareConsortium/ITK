@@ -500,9 +500,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
     const ParametersValueType * const baseImagePointer = images[j]->GetBufferPointer();
 
     ParametersValueType *dataPointer = this->m_InternalParametersBuffer.data_block();
-    std::copy(baseImagePointer,
-              baseImagePointer+numberOfPixels,
-              dataPointer + j * numberOfPixels);
+    std::copy_n(baseImagePointer, numberOfPixels, dataPointer + j * numberOfPixels);
 
     this->m_CoefficientImages[j]->CopyInformation( images[j] );
     this->m_CoefficientImages[j]->SetRegions( images[j]->GetLargestPossibleRegion() );

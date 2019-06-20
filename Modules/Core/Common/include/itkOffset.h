@@ -176,9 +176,7 @@ public:
    * \sa GetOffset() */
   void SetOffset(const OffsetValueType val[VDimension])
   {
-    std::copy(val,
-              val + VDimension,
-              m_InternalArray);
+    std::copy_n(val, VDimension, m_InternalArray);
   }
 
   /** Sets the value of one of the elements.

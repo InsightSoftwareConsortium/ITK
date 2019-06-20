@@ -79,7 +79,7 @@ VariableLengthVector< TValue >
     m_Data = this->AllocateElements(m_NumElements);
     itkAssertInDebugAndIgnoreInReleaseMacro(m_Data != nullptr);
     itkAssertInDebugAndIgnoreInReleaseMacro(v.m_Data != nullptr);
-    std::copy(&v.m_Data[0], &v.m_Data[m_NumElements], &this->m_Data[0]);
+    std::copy_n(&v.m_Data[0], m_NumElements, &this->m_Data[0]);
     }
   else
     {
@@ -198,9 +198,7 @@ void VariableLengthVector< TValue >
       itkAssertInDebugAndIgnoreInReleaseMacro(temp);
       itkAssertInDebugAndIgnoreInReleaseMacro(m_NumElements == 0 || (m_NumElements>0 && m_Data != nullptr));
       // only copy the portion of the data used in the old buffer
-      std::copy(m_Data,
-                m_Data+m_NumElements,
-                temp);
+      std::copy_n(m_Data, m_NumElements, temp);
       if ( m_LetArrayManageMemory )
         {
         delete[] m_Data;
@@ -380,7 +378,7 @@ VariableLengthVector< TValue >
   itkAssertInDebugAndIgnoreInReleaseMacro(v.m_Data     != nullptr);
   itkAssertInDebugAndIgnoreInReleaseMacro(this->m_Data != nullptr);
 
-  std::copy(&v.m_Data[0], &v.m_Data[N], &this->m_Data[0]);
+  std::copy_n(&v.m_Data[0], N, &this->m_Data[0]);
 
   return *this;
 }
