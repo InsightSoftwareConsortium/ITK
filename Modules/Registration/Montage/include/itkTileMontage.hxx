@@ -523,7 +523,7 @@ TileMontage< TImageType, TCoordinate >
     regCoef.makeCompressed();
     solver.compute( regCoef );
     TranslationsMatrix solutions( m_LinearMontageSize, Dimension );
-    TranslationsMatrix residuals( m_LinearMontageSize, Dimension );
+    TranslationsMatrix residuals( nReg + 1, Dimension );
     solutions = solver.solve( translations );
     residuals = regCoef * solutions - translations;
 
@@ -544,9 +544,7 @@ TileMontage< TImageType, TCoordinate >
           }
 
         cOffset[d] = solutions( i, d );
-        // convert solutions and residuals into pixel coordinates
-        solutions( i, d ) /= spacing[d];
-        residuals( i, d ) /= spacing[d];
+        solutions( i, d ) /= spacing[d]; // convert solutions into pixel coordinates
         }
       if ( this->GetDebug() )
         {
@@ -594,6 +592,7 @@ TileMontage< TImageType, TCoordinate >
         }
       for ( unsigned d = 0; d < ImageDimension; d++ )
         {
+        residuals( i, d ) /= spacing[d]; // convert residuals into pixel coordinates
         if ( this->GetDebug() )
           {
           std::cout << ' ' << std::setw( 8 ) << residuals( i, d );
