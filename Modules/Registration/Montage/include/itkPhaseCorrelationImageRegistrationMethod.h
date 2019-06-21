@@ -459,8 +459,8 @@ private:
 
   bool     m_CropToOverlap = true;
   unsigned m_ButterworthOrder = 3;
-  double   m_LowFrequency2 = 0.0025; // 0.05^2 // square of low frequency threshold
-  double   m_HighFrequency2 = 0.25;  // 0.5^2 // square of high frequency threshold
+  double   m_LowFrequency2 = 0.0004; // 0.02^2 // square of low frequency threshold
+  double   m_HighFrequency2 = 0.09; // 0.3^2 // square of high frequency threshold
 
   typename FFTFilterType::Pointer  m_FixedFFT = FFTFilterType::New();
   typename FFTFilterType::Pointer  m_MovingFFT = FFTFilterType::New();
