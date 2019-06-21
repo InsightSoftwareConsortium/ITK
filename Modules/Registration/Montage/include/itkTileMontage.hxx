@@ -478,6 +478,7 @@ TileMontage< TImageType, TCoordinate >
   TranslationsMatrix translations( nReg + 1, Dimension );
   std::vector< SizeValueType > equationToCandidate( nReg );
   SizeValueType regIndex = 0;
+  double confidenceTotal = 0.0;
   for ( SizeValueType i = 0; i < m_LinearMontageSize * ImageDimension; i++ )
     {
     if ( !m_TransformCandidates[i].empty() )
@@ -489,20 +490,25 @@ TileMontage< TImageType, TCoordinate >
       referenceIndex[dim] = currentIndex[dim] - 1;
       SizeValueType refLinearIndex = this->nDIndexToLinearIndex( referenceIndex );
 
-      // construct equation: -1*refLinearIndex + 1*linIndex = candidateOffset
-      regCoef.insert( regIndex, refLinearIndex ) = -1;
-      regCoef.insert( regIndex, linIndex ) = 1;
+      // construct equation: -c*refLinearIndex + c*linIndex = c*candidateOffset, c=confidence
+      const float& confidence = m_CandidateConfidences[i][0];
+      regCoef.insert( regIndex, refLinearIndex ) = -confidence;
+      regCoef.insert( regIndex, linIndex ) = confidence;
       const TranslationOffset& candidateOffset = m_TransformCandidates[i][0];
       for ( unsigned d = 0; d < ImageDimension; d++ )
         {
-        translations( regIndex, d ) = candidateOffset[d];
+        translations( regIndex, d ) = confidence * candidateOffset[d];
         }
       equationToCandidate[regIndex] = i;
       ++regIndex;
+      assert( m_CandidateConfidences[i][0] > 0 );
+      confidenceTotal += m_CandidateConfidences[i][0];
       }
     }
+  TCoordinate confidenceAvg = confidenceTotal / nReg;
+  assert( regIndex == nReg );
 
-  regCoef.insert( regIndex, 0 ) = 1; // tile 0,0...0
+  regCoef.insert( regIndex, 0 ) = confidenceAvg; // tile 0,0...0
   for ( unsigned d = 0; d < ImageDimension; d++ )
     {
     translations( regIndex, d ) = 0; // should have position 0,0...0
@@ -601,6 +607,17 @@ TileMontage< TImageType, TCoordinate >
         }
       residual = std::sqrt( residual ); // MSE -> RMSE
 
+      // reduce residual by confidence
+      SizeValueType candidateIndex = equationToCandidate[i];
+      if ( m_CandidateConfidences[candidateIndex].empty() )
+        {
+        residual /= confidenceAvg;
+        }
+      else
+        {
+        residual /= m_CandidateConfidences[candidateIndex][0];
+        }
+
       // establish cost of this equation
       TCoordinate cost = residual * ( 1.0 + outlierScore[i] );
 
@@ -652,10 +669,16 @@ TileMontage< TImageType, TCoordinate >
       if ( !m_TransformCandidates[candidateIndex].empty() )
         {
         // get a new equation from m_TransformCandidates
+        const float& confidence = m_CandidateConfidences[candidateIndex][0];
+        typename SparseMatrix::InnerIterator it( regCoef, maxIndex );
+        regCoef.coeffRef( maxIndex, it.index() ) = -confidence;
+        ++it;
+        regCoef.coeffRef( maxIndex, it.index() ) = confidence;
+
         const TranslationOffset& candidateOffset = m_TransformCandidates[candidateIndex][0];
         for ( unsigned d = 0; d < ImageDimension; d++ )
           {
-          translations( maxIndex, d ) = candidateOffset[d];
+          translations( maxIndex, d ) = confidence * candidateOffset[d];
           }
         std::cout << "  Replaced by T: " << candidateOffset;
         }
