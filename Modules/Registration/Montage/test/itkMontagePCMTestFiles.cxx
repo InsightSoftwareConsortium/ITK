@@ -73,7 +73,7 @@ int PhaseCorrelationRegistrationFiles( int argc, char* argv[] )
   phaseCorrelationMethod->DebugOn();
 
   // Operator type
-  using OperatorType = itk::PhaseCorrelationOperator< typename itk::NumericTraits< TFixedImagePixel >::RealType, VDimension >;
+  using OperatorType = itk::PhaseCorrelationOperator< typename PhaseCorrelationMethodType::InternalPixelType, VDimension >;
   typename OperatorType::Pointer pcmOperator = OperatorType::New();
   phaseCorrelationMethod->SetOperator( pcmOperator );
 

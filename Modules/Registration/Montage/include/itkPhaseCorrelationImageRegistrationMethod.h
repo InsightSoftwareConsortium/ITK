@@ -95,13 +95,18 @@ namespace itk
  *  This class allows caching of image FFTs, because image montaging usually
  *  requires a single tile to participate in multiple image registrations.
  *
+ *  TInternalPixelTypePixel will be used by internal filters. It should be
+ *  float for integral and float inputs, and double for double inputs.
+ *
  * \author Jakub Bican, jakub.bican@matfyz.cz, Department of Image Processing,
  *         Institute of Information Theory and Automation,
  *         Academy of Sciences of the Czech Republic.
  *
  * \ingroup Montage
  */
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage,
+  typename TInternalPixelType = typename std::conditional<
+  std::is_same< typename TFixedImage::PixelType, double >::value, double, float >::type >
 class ITK_TEMPLATE_EXPORT PhaseCorrelationImageRegistrationMethod : public ProcessObject
 {
 public:
@@ -138,7 +143,7 @@ public:
   /** Pixel type, that will be used by internal filters.
    *  It should be float for integral and float inputs and it should
    *  be double for double inputs */
-  using InternalPixelType = typename NumericTraits< FixedImagePixelType >::RealType;
+  using InternalPixelType = TInternalPixelType;
 
   /** Type of the image, that is passed between the internal components. */
   using RealImageType = Image< InternalPixelType, ImageDimension >;

@@ -28,8 +28,9 @@
 
 namespace itk
 {
-template< typename TFixedImage, typename TMovingImage >
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >::PhaseCorrelationImageRegistrationMethod()
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
+::PhaseCorrelationImageRegistrationMethod()
 {
   this->SetNumberOfRequiredInputs( 2 );
   this->SetNumberOfRequiredOutputs( 2 ); // for 0-the Transform, 1-the phase correlation image
@@ -75,9 +76,9 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >::PhaseCorre
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 void
-PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage>
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::SetPaddingMethod( const PaddingMethod paddingMethod )
 {
   if ( this->m_PaddingMethod != paddingMethod )
@@ -110,9 +111,9 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage>
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 void
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::Initialize()
 {
   itkDebugMacro( "initializing registration" );
@@ -227,9 +228,9 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
-typename PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >::SizeType
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
+typename PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >::SizeType
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::RoundUpToFFTSize( SizeType size )
 {
   // FFTs are faster when image size can be factorized using smaller prime numbers
@@ -254,9 +255,9 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
   return size;
 }
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 void
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::DeterminePadding()
 {
   const SizeType fixedSize = m_FixedImage->GetLargestPossibleRegion().GetSize();
@@ -406,9 +407,9 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 void
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::StartOptimization()
 {
   ParametersType empty( ImageDimension );
@@ -513,9 +514,9 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 void
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );
@@ -545,9 +546,9 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 void
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::GenerateOutputInformation()
 {
   Superclass::GenerateOutputInformation();
@@ -573,9 +574,9 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 void
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::GenerateData()
 {
   this->Initialize();
@@ -583,27 +584,27 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
-const typename PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >::TransformOutputType*
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
+const typename PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >::TransformOutputType*
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::GetOutput() const
 {
   return static_cast< const TransformOutputType* >( this->ProcessObject::GetOutput( 0 ) );
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
-const typename PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >::RealImageType*
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
+const typename PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >::RealImageType*
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::GetPhaseCorrelationImage() const
 {
   return static_cast< const RealImageType* >( this->ProcessObject::GetOutput( 1 ) );
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 DataObject::Pointer
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::MakeOutput( DataObjectPointerArraySizeType output )
 {
   switch ( output )
@@ -620,9 +621,9 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 void
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::SetFixedImage( const FixedImageType* fixedImage )
 {
   itkDebugMacro( "setting Fixed Image to " << fixedImage );
@@ -637,9 +638,9 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 void
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::SetMovingImage( const MovingImageType* movingImage )
 {
   itkDebugMacro( "setting Moving Image to " << movingImage );
@@ -654,9 +655,9 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 void
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::SetFixedImageFFT( const ComplexImageType* fixedImageFFT )
 {
   itkDebugMacro( "setting fixedImageFFT Image to " << fixedImageFFT );
@@ -668,9 +669,9 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 void
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::SetMovingImageFFT( const ComplexImageType* movingImageFFT )
 {
   itkDebugMacro( "setting movingImageFFT Image to " << movingImageFFT );
@@ -682,9 +683,9 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 void
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::SetReleaseDataFlag( bool a_flag )
 {
   Superclass::SetReleaseDataFlag( a_flag );
@@ -702,9 +703,9 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 void
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::SetReleaseDataBeforeUpdateFlag( bool a_flag )
 {
   Superclass::SetReleaseDataBeforeUpdateFlag( a_flag );
@@ -722,9 +723,9 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 void
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::SetOptimizer( RealOptimizerType* optimizer )
 {
   itkDebugMacro( "setting RealOptimizer to " << optimizer );
@@ -737,9 +738,9 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 void
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::SetOptimizer( ComplexOptimizerType* optimizer )
 {
   itkDebugMacro( "setting ComplexOptimizer to " << optimizer );
