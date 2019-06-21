@@ -36,7 +36,8 @@ namespace itk
  *
  * \ingroup Montage
  */
-template< typename TImageType, typename TCoordinate = float >
+template< typename TImageType, typename TCoordinate = typename std::conditional<
+  std::is_same< typename TImageType::PixelType, double >::value, double, float >::type >
 class ITK_TEMPLATE_EXPORT TileMontage : public ProcessObject
 {
 public:
@@ -74,9 +75,9 @@ public:
   using ImageIndexType = typename ImageType::IndexType;
 
   /** Internal PhaseCorrelationImageRegistrationMethod's type alias. */
-  using PCMType = PhaseCorrelationImageRegistrationMethod< ImageType, ImageType >;
+  using PCMType = PhaseCorrelationImageRegistrationMethod< ImageType, ImageType, TCoordinate >;
 
-  using RealType = typename itk::NumericTraits< PixelType >::RealType;
+  using RealType = typename PCMType::InternalPixelType;
 
   using PCMOperatorType = itk::PhaseCorrelationOperator< RealType, ImageDimension >;
 

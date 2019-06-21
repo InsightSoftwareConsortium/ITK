@@ -72,12 +72,12 @@ int main( int argc, char *argv[] )
     }
 
   // init the registration method
-  using RegistrationType = itk::PhaseCorrelationImageRegistrationMethod< ImageType, ImageType >;
+  using RegistrationType = itk::PhaseCorrelationImageRegistrationMethod< ImageType, ImageType, float >;
   RegistrationType::Pointer pcmRegistration = RegistrationType::New();
   pcmRegistration->SetFixedImage( fixedReader->GetOutput() );
   pcmRegistration->SetMovingImage( movingReader->GetOutput() );
 
-  using OperatorType = itk::PhaseCorrelationOperator< itk::NumericTraits< PixelType >::RealType, Dimension >;
+  using OperatorType = itk::PhaseCorrelationOperator< float, Dimension >;
   OperatorType::Pointer pcmOperator = OperatorType::New();
   pcmRegistration->SetOperator( pcmOperator );
 

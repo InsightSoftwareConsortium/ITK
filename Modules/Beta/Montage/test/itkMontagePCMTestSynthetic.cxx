@@ -127,7 +127,7 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
   using FixedImageSourceType = itk::HyperSphereImageSource< typename FixedImageType::PixelType, VDimension >;
   using MovingImageSourceType = itk::HyperSphereImageSource< typename MovingImageType::PixelType, VDimension >;
   using PCMType = itk::PhaseCorrelationImageRegistrationMethod< FixedImageType, MovingImageType >;
-  using OperatorType = itk::PhaseCorrelationOperator<typename itk::NumericTraits< TFixedImagePixel >::RealType, VDimension>;
+  using OperatorType = itk::PhaseCorrelationOperator< typename PCMType::InternalPixelType, VDimension >;
   using OptimizerType = itk::MaxPhaseCorrelationOptimizer< PCMType >;
   using TransformType = typename PCMType::TransformType;
   using ParametersType = typename TransformType::ParametersType;
