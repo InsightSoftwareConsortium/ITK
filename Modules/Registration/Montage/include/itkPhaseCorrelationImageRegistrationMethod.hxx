@@ -34,7 +34,7 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >::PhaseCorre
   this->SetNumberOfRequiredInputs( 2 );
   this->SetNumberOfRequiredOutputs( 2 ); // for 0-the Transform, 1-the phase correlation image
 
-  m_BandPassFilter->SetFunctor( m_BandPassFunctor );
+  m_BandPassFilter->SetFunctor( m_IdentityFunctor );
 
   m_FixedConstantPadder->SetConstant( NumericTraits< FixedImagePixelType >::Zero );
   m_MovingConstantPadder->SetConstant( NumericTraits< MovingImagePixelType >::Zero );
@@ -369,6 +369,21 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
       WriteDebug( m_IFFT->GetOutput(), "m_IFFT.nrrd" );
       WriteDebug( m_BandPassFilter->GetOutput(), "m_BandPassFilter.nrrd" );
       WriteDebug( m_Operator->GetOutput(), "m_Operator.nrrd" );
+
+      // now do banpass of input images and inverse FFT
+      m_IFFT->SetInput( m_BandPassFilter->GetOutput() );
+      m_BandPassFilter->SetInput( m_FixedFFT->GetOutput() );
+      typename RealImageType::Pointer invImage = m_IFFT->GetOutput();
+      invImage->Update();
+      invImage->DisconnectPipeline();
+      invImage->CopyInformation( m_FixedPadder->GetOutput() );
+      WriteDebug( invImage.GetPointer(), "iFixed.nrrd" );
+      m_BandPassFilter->SetInput( m_MovingFFT->GetOutput() );
+      invImage = m_IFFT->GetOutput();
+      invImage->Update();
+      invImage->DisconnectPipeline();
+      invImage->CopyInformation( m_MovingPadder->GetOutput() );
+      WriteDebug( invImage.GetPointer(), "iMoving.nrrd" );
       }
     }
   catch ( ExceptionObject& err )
