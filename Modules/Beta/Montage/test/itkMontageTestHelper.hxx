@@ -328,6 +328,7 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
           if ( alternativeError >= 5.0 && alternativeError < singleError )
             {
             result = EXIT_FAILURE;
+            registrationErrors << "\tseverly wrong\t" << alternativeError;
             std::cout << "  severly wrong: " << alternativeError;
             }
           if ( allowDrift )
@@ -346,6 +347,8 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
       // also allow accumulation of one pixel for each registration - this effectively double the tolerance
       double avgError = 0.5 * totalError / ( xMontageSize * yMontageSize - 1 );
       avgError /= Dimension; // report per-dimension error
+      registrationErrors << "\nAverage translation error for padding method " << padMethod
+                << " and peak interpolation method " << peakMethod << ": " << avgError << std::endl;
       std::cout << "\nAverage translation error for padding method " << padMethod
                 << " and peak interpolation method " << peakMethod << ": " << avgError << std::endl;
       if ( avgError >= 1.2 )
