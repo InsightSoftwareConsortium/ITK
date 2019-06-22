@@ -66,7 +66,7 @@ TileMontage< TImageType, TCoordinate >
     }
   os << indent << "Montage size: " << m_MontageSize << std::endl;
   os << indent << "Linear Montage size: " << m_LinearMontageSize << std::endl;
-  os << indent << "Finished Tiles: " << m_FinishedTiles << std::endl;
+  os << indent << "Finished Pairs: " << m_FinishedPairs << std::endl;
   os << indent << "Origin Adjustment: " << m_OriginAdjustment << std::endl;
   os << indent << "Forced Spacing: " << m_ForcedSpacing << std::endl;
   os << indent << "Obligatory Padding: " << m_ObligatoryPadding << std::endl;
@@ -318,17 +318,16 @@ TileMontage< TImageType, TCoordinate >
           TileIndexType referenceIndex = currentIndex;
           referenceIndex[regDim] = currentIndex[regDim] - 1;
           this->RegisterPair( referenceIndex, currentIndex );
+          m_FinishedPairs++;
+          // all registrations finished = 95% of total progress
+          this->UpdateProgress( m_FinishedPairs * 0.95 / m_NumberOfPairs );
           }
         }
 
       // optimize positions later, now just set the expected position (no translation)
       m_CurrentAdjustments[this->nDIndexToLinearIndex( currentIndex )].Fill( 0.0 );
 
-      // montage this index in lower dimension
-      MontageDimension( d - 1, currentIndex );
-
-      m_FinishedTiles++;
-      this->UpdateProgress( float( m_FinishedTiles ) / m_LinearMontageSize );
+      MontageDimension( d - 1, currentIndex ); // montage this index in lower dimension
       this->ReleaseMemory( currentIndex ); // kick old tile out of cache
       }
 
@@ -459,24 +458,13 @@ TileMontage< TImageType, TCoordinate >
 ::OptimizeTiles()
 {
   // formulate global optimization as an overdetermined linear system
-  SizeValueType mullAll = 1; // multiplication of sizes along all dimensions
-  for ( unsigned d = 0; d < ImageDimension; d++ )
-    {
-    mullAll *= m_MontageSize[d];
-    }
-  SizeValueType nReg = 0; // number of equations = number of registration pairs
-  for ( unsigned d = 0; d < ImageDimension; d++ )
-    {
-    nReg += ( mullAll / m_MontageSize[d] ) * ( m_MontageSize[d] - 1 );
-    }
-
   constexpr unsigned Dimension = ImageDimension;
   using SparseMatrix = Eigen::SparseMatrix< TCoordinate, Eigen::RowMajor >;
-  SparseMatrix regCoef( nReg + 1, m_LinearMontageSize );
-  regCoef.reserve( Eigen::VectorXi::Constant( nReg + 1, 2 ) ); // 2 non-zeroes per row
+  SparseMatrix regCoef( m_NumberOfPairs + 1, m_LinearMontageSize );
+  regCoef.reserve( Eigen::VectorXi::Constant( m_NumberOfPairs + 1, 2 ) ); // 2 non-zeroes per row
   using TranslationsMatrix = Eigen::Matrix< TCoordinate, Eigen::Dynamic, Dimension >;
-  TranslationsMatrix translations( nReg + 1, Dimension );
-  std::vector< SizeValueType > equationToCandidate( nReg );
+  TranslationsMatrix translations( m_NumberOfPairs + 1, Dimension );
+  std::vector< SizeValueType > equationToCandidate( m_NumberOfPairs );
   SizeValueType regIndex = 0;
   double confidenceTotal = 0.0;
   for ( SizeValueType i = 0; i < m_LinearMontageSize * ImageDimension; i++ )
@@ -505,8 +493,8 @@ TileMontage< TImageType, TCoordinate >
       confidenceTotal += m_CandidateConfidences[i][0];
       }
     }
-  TCoordinate confidenceAvg = confidenceTotal / nReg;
-  assert( regIndex == nReg );
+  TCoordinate confidenceAvg = confidenceTotal / m_NumberOfPairs;
+  assert( regIndex == m_NumberOfPairs );
 
   regCoef.insert( regIndex, 0 ) = confidenceAvg; // tile 0,0...0
   for ( unsigned d = 0; d < ImageDimension; d++ )
@@ -529,7 +517,7 @@ TileMontage< TImageType, TCoordinate >
     regCoef.makeCompressed();
     solver.compute( regCoef );
     TranslationsMatrix solutions( m_LinearMontageSize, Dimension );
-    TranslationsMatrix residuals( nReg + 1, Dimension );
+    TranslationsMatrix residuals( m_NumberOfPairs + 1, Dimension );
     solutions = solver.solve( translations );
     residuals = regCoef * solutions - translations;
 
@@ -558,14 +546,14 @@ TileMontage< TImageType, TCoordinate >
         }
       }
 
-    TranslationsMatrix stdDev0 = ( translations.cwiseAbs2().colwise().sum() / nReg ).cwiseSqrt(); // assume zero mean
+    TranslationsMatrix stdDev0 = ( translations.cwiseAbs2().colwise().sum() / m_NumberOfPairs ).cwiseSqrt(); // assume zero mean
     if ( this->GetDebug() )
       {
       std::cout << "\nstdDev0:\n" << stdDev0;
       }
 
-    std::vector< TCoordinate > outlierScore( nReg, 0.0 ); // sum of squares
-    for ( SizeValueType i = 0; i < nReg; i++ )
+    std::vector< TCoordinate > outlierScore( m_NumberOfPairs, 0.0 ); // sum of squares
+    for ( SizeValueType i = 0; i < m_NumberOfPairs; i++ )
       {
       for ( unsigned d = 0; d < ImageDimension; d++ )
         {
@@ -589,7 +577,7 @@ TileMontage< TImageType, TCoordinate >
       std::cout << "\nresiduals:\n";
       }
 
-    for ( SizeValueType i = 0; i < nReg; i++ )
+    for ( SizeValueType i = 0; i < m_NumberOfPairs; i++ )
       {
       TCoordinate residual = 0;
       if ( this->GetDebug() )
@@ -714,9 +702,15 @@ TileMontage< TImageType, TCoordinate >
   m_MaxOuter = ind;
   m_MaxInner.Fill( NumericTraits< TCoordinate >::max() );
 
+  m_NumberOfPairs = 0; // number of equations = number of registration pairs
+  for ( unsigned d = 0; d < ImageDimension; d++ )
+    {
+    m_NumberOfPairs += ( m_LinearMontageSize / m_MontageSize[d] ) * ( m_MontageSize[d] - 1 );
+    }
+
   TileIndexType ind0;
   ind0.Fill( 0 );
-  m_FinishedTiles = 0;
+  m_FinishedPairs = 0;
   m_CurrentAdjustments[0].Fill( 0.0 ); // 0 translation by default
 
   this->MontageDimension( this->ImageDimension - 1, ind0 );

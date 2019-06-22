@@ -278,7 +278,8 @@ protected:
 private:
   SizeType      m_MontageSize;
   SizeValueType m_LinearMontageSize = 0;
-  SizeValueType m_FinishedTiles = 0;
+  SizeValueType m_NumberOfPairs = 0;
+  SizeValueType m_FinishedPairs = 0;
   PointType     m_OriginAdjustment;
   SpacingType   m_ForcedSpacing;
   float         m_AbsoluteThreshold = 1.0;
