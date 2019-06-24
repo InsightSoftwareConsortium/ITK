@@ -181,7 +181,7 @@ protected:
   }
 
   /** For reading if only filename was given. */
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = ImageFileReader< ImageType >;
 
   /** If not already read, reads the image into memory.
    * Only the part which overlaps output image's requested region is read.
