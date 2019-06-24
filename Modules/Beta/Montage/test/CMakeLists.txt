@@ -278,10 +278,6 @@ AddTestTi64raw(2)
 AddTestTi64raw(3)
 AddTestTi64raw(4)
 
-option(ITKMontage_EnableFailingTests "Should we enable tests which are failing due to not-yet-resolved issues?" OFF)
-
-if (ITKMontage_EnableFailingTests)
-
 itk_add_test(NAME itkMontage-10-129-C_2
   COMMAND MontageTestDriver
   itkMontageTest2D
@@ -339,6 +335,9 @@ itk_add_test(NAME itkMontagePCMFiles-10-129
     -10.488
   )
 
+option(ITKMontage_EnableFailingTests "Should we enable tests which are failing due to not-yet-resolved issues?" OFF)
+
+if (ITKMontage_EnableFailingTests)
 itk_add_test(NAME itkMontagePCMFilesS200_32_33
   COMMAND MontageTestDriver
   itkMontagePCMTestFiles
@@ -350,6 +349,7 @@ itk_add_test(NAME itkMontagePCMFilesS200_32_33
     74.09566
     7.614863315
   )
+endif(ITKMontage_EnableFailingTests)
 
 itk_add_test(NAME itkMontagePCMFilesS200_33_67
   COMMAND MontageTestDriver
@@ -412,8 +412,6 @@ itk_add_test(NAME itkMontagePCMFilesDzZ_T1_identity
     0.0
     0.0
   )
-
-endif(ITKMontage_EnableFailingTests)
 
 if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region2_150_Mosaic36Flat/36/1323.tif)
 
