@@ -302,7 +302,7 @@ itk_add_test(NAME itkMontage-S200-6-C
     DATA{Input/S200-6-C/,REGEX:.*}
     ${TESTING_OUTPUT_PATH}/itkMontage-S200-6-C
     ${TESTING_OUTPUT_PATH}/itkMontage-S200-6-C-Pairs
-    0 2 1 1 0 0 1 25
+    0 2 0 10 0 0 1 25
   )
 
 itk_add_test(NAME itkMontageMNML3
@@ -311,7 +311,7 @@ itk_add_test(NAME itkMontageMNML3
     DATA{Input/MNML_3_200x_701/,REGEX:.*}
     ${TESTING_OUTPUT_PATH}/itkMontageMNML3_
     ${TESTING_OUTPUT_PATH}/itkMontageMNML3Pairs
-    1 -1 0 1 0 0 0 5
+    1 -1 0 5 0 0 0 5
   )
 
 itk_add_test(NAME itkMontageMNML5
@@ -320,7 +320,7 @@ itk_add_test(NAME itkMontageMNML5
     DATA{Input/MNML_5_500x_101/,REGEX:.*}
     ${TESTING_OUTPUT_PATH}/itkMontageMNML5_
     ${TESTING_OUTPUT_PATH}/itkMontageMNML5Pairs
-    0 1 1 1 0 0 1 10
+    0 1 0 10 0 0 1 10
   )
 
 itk_add_test(NAME itkMontagePCMFiles-10-129
