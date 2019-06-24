@@ -79,9 +79,9 @@ public:
 
   using RealType = typename PCMType::InternalPixelType;
 
-  using PCMOperatorType = itk::PhaseCorrelationOperator< RealType, ImageDimension >;
+  using PCMOperatorType = PhaseCorrelationOperator< RealType, ImageDimension >;
 
-  using PCMOptimizerType = itk::MaxPhaseCorrelationOptimizer< PCMType >;
+  using PCMOptimizerType = MaxPhaseCorrelationOptimizer< PCMType >;
 
   /**  Type for the transform. */
   using TransformType = typename PCMType::TransformType;
@@ -230,7 +230,7 @@ protected:
   }
 
   /** For reading if only filename was given. */
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = ImageFileReader< ImageType >;
 
   using TranslationOffset = typename TransformType::OutputVectorType;
 
