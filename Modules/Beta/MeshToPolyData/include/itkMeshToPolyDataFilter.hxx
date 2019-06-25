@@ -20,6 +20,224 @@
 
 #include "itkMeshToPolyDataFilter.h"
 
+#include "itkVertexCell.h"
+#include "itkLineCell.h"
+#include "itkMesh.h"
+#include "itkTriangleCell.h"
+#include "itkQuadrilateralCell.h"
+#include "itkPolygonCell.h"
+#include "itkTetrahedronCell.h"
+#include "itkHexahedronCell.h"
+
+namespace
+{
+
+template< typename TMesh, typename TPolyData >
+class VisitCellsClass
+{
+public:
+  using MeshType = TMesh;
+  using PolyDataType = TPolyData;
+  // typedef the itk cells we are interested in
+  using CellInterfaceType = itk::CellInterface< typename MeshType::PixelType, typename MeshType::CellTraits >;
+
+  using CellsContainerType = typename TPolyData::CellsContainer;
+
+  using VertexCellType = itk::VertexCell<CellInterfaceType>;
+  using LineCellType = itk::LineCell<CellInterfaceType>;
+  using TriangleCellType = itk::TriangleCell<CellInterfaceType>;
+  using QuadrilateralCellType = itk::QuadrilateralCell<CellInterfaceType>;
+  using PolygonCellType = itk::PolygonCell<CellInterfaceType>;
+  using TetrahedronCellType = itk::TetrahedronCell<CellInterfaceType>;
+  using HexahedronCellType = itk::HexahedronCell<CellInterfaceType>;
+
+  // Set the output polydata vertices container
+  void SetVertices(CellsContainerType* vertices)
+  {
+    m_Vertices = vertices;
+  }
+
+  // Set the output polydata polygons container
+  void SetLines(CellsContainerType* lines)
+  {
+    m_Lines = lines;
+  }
+
+  // Set the output polydata polygons container
+  void SetPolygons(CellsContainerType* polygons)
+  {
+    m_Polygons = polygons;
+  }
+
+  // Set the output polydata triangleStrips container
+  void SetTriangleStrips(CellsContainerType* triangleStrips)
+  {
+    m_TriangleStrips = triangleStrips;
+  }
+
+  // Set the associated input cell id container
+  void SetVerticesCellIds(CellsContainerType* cellIds)
+  {
+    m_VerticesCellIds = cellIds;
+  }
+
+  // Set the associated input cell id container
+  void SetLinesCellIds(CellsContainerType* cellIds)
+  {
+    m_LinesCellIds = cellIds;
+  }
+
+  // Set the associated input cell id container
+  void SetPolygonsCellIds(CellsContainerType* cellIds)
+  {
+    m_PolygonsCellIds = cellIds;
+  }
+
+  // Set the associated input cell id container
+  void SetTriangleStripsCellIds(CellsContainerType* cellIds)
+  {
+    m_TriangleStripsCellIds = cellIds;
+  }
+
+  // Visit a vertex and create a vertex in the output
+  void Visit(unsigned long cellId, VertexCellType* cell)
+  {
+    constexpr unsigned int numberOfPoints = VertexCellType::NumberOfPoints;
+    m_Vertices->push_back( numberOfPoints );
+    m_Vertices->push_back( cell->GetPointId() );
+    m_VerticesCellIds->push_back( static_cast< unsigned int >( cellId ) );
+  }
+
+  // Visit a line and create a line in the output
+  void Visit(unsigned long cellId, LineCellType* cell)
+  {
+    constexpr unsigned int numberOfPoints = LineCellType::NumberOfPoints;
+    m_Lines->push_back( numberOfPoints );
+    const typename LineCellType::PointIdConstIterator pointIdEnd = cell->PointIdsEnd();
+    for( typename LineCellType::PointIdConstIterator pointIdIt = cell->PointIdsBegin(); pointIdIt != pointIdEnd; ++pointIdIt )
+      {
+      m_Lines->push_back( *pointIdIt );
+      }
+    m_LinesCellIds->push_back( static_cast< unsigned int >( cellId ) );
+  }
+
+  // Visit a triangle and create a triangle in the output
+  void Visit(unsigned long cellId, TriangleCellType* cell)
+  {
+    constexpr unsigned int numberOfPoints = TriangleCellType::NumberOfPoints;
+    m_Polygons->push_back( numberOfPoints );
+    const typename TriangleCellType::PointIdConstIterator pointIdEnd = cell->PointIdsEnd();
+    for( typename TriangleCellType::PointIdConstIterator pointIdIt = cell->PointIdsBegin(); pointIdIt != pointIdEnd; ++pointIdIt )
+      {
+      m_Polygons->push_back( *pointIdIt );
+      }
+    m_PolygonsCellIds->push_back( static_cast< unsigned int >( cellId ) );
+  }
+
+  // Visit a quadrilateral and create a quadrilateral in the output
+  void Visit(unsigned long cellId, QuadrilateralCellType* cell)
+  {
+    constexpr unsigned int numberOfPoints = QuadrilateralCellType::NumberOfPoints;
+    m_Polygons->push_back( numberOfPoints );
+    const typename QuadrilateralCellType::PointIdConstIterator pointIdEnd = cell->PointIdsEnd();
+    for( typename QuadrilateralCellType::PointIdConstIterator pointIdIt = cell->PointIdsBegin(); pointIdIt != pointIdEnd; ++pointIdIt )
+      {
+      m_Polygons->push_back( *pointIdIt );
+      }
+    m_PolygonsCellIds->push_back( static_cast< unsigned int >( cellId ) );
+  }
+
+  // Visit a polygon and create a polygon in the output
+  void Visit(unsigned long cellId, PolygonCellType* cell)
+  {
+    const unsigned int numberOfPoints = cell->GetNumberOfPoints();
+    m_Polygons->push_back( numberOfPoints );
+    const typename PolygonCellType::PointIdConstIterator pointIdEnd = cell->PointIdsEnd();
+    for( typename PolygonCellType::PointIdConstIterator pointIdIt = cell->PointIdsBegin(); pointIdIt != pointIdEnd; ++pointIdIt )
+      {
+      m_Polygons->push_back( *pointIdIt );
+      }
+    m_PolygonsCellIds->push_back( static_cast< unsigned int >( cellId ) );
+  }
+
+  //// Visit a tetrahedron and create a tetrahedron in the output
+  //void Visit(unsigned long, TetrahedronCellType* cell)
+  //{
+    //constexpr unsigned int numberOfPoints = TetrahedronCellType::NumberOfPoints;
+    //constexpr unsigned int numberOfFaces = TetrahedronCellType::NumberOfFaces;
+    //constexpr unsigned int numberOfEdges = TetrahedronCellType::NumberOfFaces;
+    //for( unsigned int faceId = 0; faceId < numberOfFaces; ++faceId )
+      //{
+      //typename TetrahedronCellType::FaceAutoPointer facePointer;
+      //cell->GetFace( faceId, facePointer );
+      //// TODO
+      ////faceIds = vtkIdList::New();
+      ////case VTK_TETRA:
+        ////for (faceId = 0; faceId < 4; faceId++)
+        ////{
+          ////faceIds->Reset();
+          ////faceVerts = vtkTetra::GetFaceArray(faceId);
+          ////faceIds->InsertNextId(pts[faceVerts[0]]);
+          ////faceIds->InsertNextId(pts[faceVerts[1]]);
+          ////faceIds->InsertNextId(pts[faceVerts[2]]);
+          ////numFacePts = 3;
+          ////input->GetCellNeighbors(cellId, faceIds, cellIds);
+          ////if ( cellIds->GetNumberOfIds() <= 0 )
+          ////{
+            ////polys->InsertNextCell(numFacePts);
+            ////for ( int i=0; i < numFacePts; i++)
+            ////{
+              ////polys->InsertCellPoint(pts[faceVerts[i]]);
+            ////}
+            ////polyCellIds.push_back(cellId);
+          ////}
+        ////}
+        ////break;
+      //}
+  //}
+
+  //// Visit a hexahedron and create a hexahedron in the output
+  //void Visit(unsigned long, HexahedronCellType* cell)
+  //{
+      //// TODO
+      ////case VTK_HEXAHEDRON:
+        ////for (faceId = 0; faceId < 6; faceId++)
+        ////{
+          ////faceIds->Reset();
+          ////faceVerts = vtkHexahedron::GetFaceArray(faceId);
+          ////faceIds->InsertNextId(pts[faceVerts[0]]);
+          ////faceIds->InsertNextId(pts[faceVerts[1]]);
+          ////faceIds->InsertNextId(pts[faceVerts[2]]);
+          ////faceIds->InsertNextId(pts[faceVerts[3]]);
+          ////numFacePts = 4;
+          ////input->GetCellNeighbors(cellId, faceIds, cellIds);
+          ////if ( cellIds->GetNumberOfIds() <= 0 )
+          ////{
+            ////polys->InsertNextCell(numFacePts);
+            ////for ( int i=0; i < numFacePts; i++)
+            ////{
+              ////polys->InsertCellPoint(pts[faceVerts[i]]);
+            ////}
+            ////polyCellIds.push_back(cellId);
+          ////}
+        ////}
+        ////break;
+  //}
+
+private:
+  CellsContainerType * m_Vertices;
+  CellsContainerType * m_Lines;
+  CellsContainerType * m_Polygons;
+  CellsContainerType * m_TriangleStrips;
+
+  CellsContainerType * m_VerticesCellIds;
+  CellsContainerType * m_LinesCellIds;
+  CellsContainerType * m_PolygonsCellIds;
+  CellsContainerType * m_TriangleStripsCellIds;
+};
+
+} // end anonymous namespace
+
 namespace itk
 {
 
@@ -135,19 +353,25 @@ MeshToPolyDataFilter< TInputMesh >
   const InputMeshType * inputMesh = this->GetInput();
   PolyDataType * outputPolyData = this->GetOutput();
 
-  using PointsContainerType = typename PolyDataType::PointsContainer;
-  const PointsContainerType * inputPoints = inputMesh->GetPoints();
-  typename PointsContainerType::Pointer outputPoints = PointsContainerType::New();
-  outputPoints->Reserve( inputPoints->Size() );
+  using MeshPointsContainerType = typename InputMeshType::PointsContainer;
+  using PolyDataPointsContainerType = typename PolyDataType::PointsContainer;
+  const MeshPointsContainerType * inputPoints = inputMesh->GetPoints();
+  typename PolyDataPointsContainerType::Pointer outputPoints = PolyDataPointsContainerType::New();
+  outputPoints->resize( inputPoints->Size() );
+  // 2D Mesh -> 3D PolyData, third dimension point locations defaults to 0.0.
+  typename PolyDataType::PointType nullPoint{ 0.0f };
+  outputPoints->assign( inputPoints->Size(), nullPoint );
 
-  typename PointsContainerType::ConstIterator inputPointItr = inputPoints->Begin();
-  typename PointsContainerType::ConstIterator inputPointEnd = inputPoints->End();
+  typename MeshPointsContainerType::ConstIterator inputPointItr = inputPoints->Begin();
+  typename MeshPointsContainerType::ConstIterator inputPointEnd = inputPoints->End();
 
-  typename PointsContainerType::Iterator outputPointItr = outputPoints->Begin();
-
+  typename PolyDataPointsContainerType::Iterator outputPointItr = outputPoints->Begin();
   while ( inputPointItr != inputPointEnd )
     {
-    outputPointItr.Value() = inputPointItr.Value();
+    for( unsigned int ii = 0; ii < InputMeshType::PointDimension; ++ii )
+      {
+      outputPointItr.Value()[ii] = inputPointItr.Value()[ii];
+      }
     ++inputPointItr;
     ++outputPointItr;
     }
@@ -174,385 +398,187 @@ MeshToPolyDataFilter< TInputMesh >
     outputPolyData->SetPointData( outputPointData );
     }
 
+  const IdentifierType numberOfCells = inputMesh->GetNumberOfCells();
 
-  //vtkUnstructuredGrid *input=static_cast<vtkUnstructuredGrid *>(dataSetInput);
-  //vtkCellArray *connectivity = input->GetCells();
-  //if (connectivity == nullptr)
-  //{
-    //return;
-  //}
-  //IdentifierType numberOfPoints = 0;
-  //vtkIdType *pts = nullptr;
-  //vtkPoints *p = input->GetPoints();
-  //vtkIdType numCells=input->GetNumberOfCells();
-  //vtkPointData *pd = input->GetPointData();
-  //vtkCellData *cellData = input->GetCellData();
-  //vtkPointData *outputPD = output->GetPointData();
-  //vtkCellData *outputCellData = output->GetCellData();
-  //vtkCellArray *verts, *lines, *polys, *strips;
-  //vtkIdList *cellIds, *faceIds;
-  //int faceId, *faceVerts, numFacePts;
-  //double x[3];
+  using CellsContainerType = typename PolyDataType::CellsContainer;
+  typename CellsContainerType::Pointer vertices = CellsContainerType::New();
+  vertices->reserve( numberOfCells / 4 + 1 );
+  typename CellsContainerType::Pointer lines = CellsContainerType::New();
+  lines->reserve( numberOfCells / 4 + 1 );
+  typename CellsContainerType::Pointer polygons = CellsContainerType::New();
+  polygons->reserve( numberOfCells / 4 + 1 );
+  //typename CellsContainerType::Pointer triangleStrips = CellsContainerType::New();
+  //triangleStrips->reserve( numberOfCells / 4 + 1 );
 
-  //// Check input
-  //if ( connectivity == nullptr )
-  //{
-    //vtkDebugMacro(<<"Nothing to extract");
-    //return;
-  //}
+  // These store the cell ids of the input that map to the
+  // new vert/line/poly/strip cells, for copying cell data
+  // in appropriate order.
+  typename CellsContainerType::Pointer verticesCellIds = CellsContainerType::New();
+  verticesCellIds->Reserve( numberOfCells / 4 + 1 );
+  typename CellsContainerType::Pointer linesCellIds = CellsContainerType::New();
+  linesCellIds->Reserve( numberOfCells / 4 + 1 );
+  typename CellsContainerType::Pointer polygonsCellIds = CellsContainerType::New();
+  polygonsCellIds->Reserve( numberOfCells / 4 + 1 );
+  //typename CellsContainerType::Pointer triangleStripsCellIds = CellsContainerType::New();
+  //triangleStripsCellIds->Reserve( numberOfCells / 4 + 1 );
 
-  //// Determine nature of what we have to do
-  //cellIds = vtkIdList::New();
-  //faceIds = vtkIdList::New();
+  using CellTraits = typename InputMeshType::CellTraits;
+  using PixelType = typename InputMeshType::PixelType;
 
-  //// Just pass points through, never merge
-  //output->SetPoints(input->GetPoints());
-  //outputPD->PassData(pd);
+  // Setup the vertex visitor
+  typedef CellInterfaceVisitorImplementation<
+    PixelType, CellTraits,
+    VertexCell< CellInterface< PixelType, CellTraits > >,
+    VisitCellsClass< InputMeshType, PolyDataType > > VertexVisitor;
+  typename VertexVisitor::Pointer vertexVisitor = VertexVisitor::New();
+  vertexVisitor->SetVertices( vertices );
+  vertexVisitor->SetLines( lines );
+  vertexVisitor->SetPolygons( polygons );
+  //vertexVisitor->SetTriangleStrips( triangleStrips );
+  vertexVisitor->SetVerticesCellIds( verticesCellIds );
+  vertexVisitor->SetLinesCellIds( linesCellIds );
+  vertexVisitor->SetPolygonsCellIds( polygonsCellIds );
+  //vertexVisitor->SetTriangleStripsCellIds( triangleStripsCellIds );
 
-  //outputCellData->CopyGlobalIdsOn();
-  //outputCellData->CopyAllocate(cellData,numCells,numCells/2);
+  // Setup the line visitor
+  typedef CellInterfaceVisitorImplementation<
+    PixelType, CellTraits,
+    LineCell< CellInterface< PixelType, CellTraits > >,
+    VisitCellsClass< InputMeshType, PolyDataType > > LineVisitor;
+  typename LineVisitor::Pointer lineVisitor = LineVisitor::New();
+  lineVisitor->SetVertices( vertices );
+  lineVisitor->SetLines( lines );
+  lineVisitor->SetPolygons( polygons );
+  //lineVisitor->SetTriangleStrips( triangleStrips );
+  lineVisitor->SetVerticesCellIds( verticesCellIds );
+  lineVisitor->SetLinesCellIds( linesCellIds );
+  lineVisitor->SetPolygonsCellIds( polygonsCellIds );
+  //lineVisitor->SetTriangleStripsCellIds( triangleStripsCellIds );
 
-  //verts = vtkCellArray::New();
-  //verts->Allocate(numCells/4+1,numCells);
-  //lines = vtkCellArray::New();
-  //lines->Allocate(numCells/4+1,numCells);
-  //polys = vtkCellArray::New();
-  //polys->Allocate(numCells/4+1,numCells);
-  //strips = vtkCellArray::New();
-  //strips->Allocate(numCells/4+1,numCells);
+  // Setup the triangle visitor
+  typedef CellInterfaceVisitorImplementation<
+    PixelType, CellTraits,
+    TriangleCell< CellInterface< PixelType, CellTraits > >,
+    VisitCellsClass< InputMeshType, PolyDataType > > TriangleVisitor;
+  typename TriangleVisitor::Pointer triangleVisitor = TriangleVisitor::New();
+  triangleVisitor->SetVertices( vertices );
+  triangleVisitor->SetLines( lines );
+  triangleVisitor->SetPolygons( polygons );
+  //triangleVisitor->SetTriangleStrips( triangleStrips );
+  triangleVisitor->SetVerticesCellIds( verticesCellIds );
+  triangleVisitor->SetLinesCellIds( linesCellIds );
+  triangleVisitor->SetPolygonsCellIds( polygonsCellIds );
+  //triangleVisitor->SetTriangleStripsCellIds( triangleStripsCellIds );
 
-  //// Used for nonlinear cells only
-  //vtkNew<vtkGenericCell> cell;
-  //vtkNew<vtkIdList> ipts;
-  //vtkNew<vtkPoints> coords;
-  //vtkNew<vtkIdList> icellIds;
+  // Setup the quadrilateral visitor
+  typedef CellInterfaceVisitorImplementation<
+    PixelType, CellTraits,
+    QuadrilateralCell< CellInterface< PixelType, CellTraits > >,
+    VisitCellsClass< InputMeshType, PolyDataType > > QuadrilateralVisitor;
+  typename QuadrilateralVisitor::Pointer quadrilateralVisitor = QuadrilateralVisitor::New();
+  quadrilateralVisitor->SetVertices( vertices );
+  quadrilateralVisitor->SetLines( lines );
+  quadrilateralVisitor->SetPolygons( polygons );
+  //quadrilateralVisitor->SetTriangleStrips( triangleStrips );
+  quadrilateralVisitor->SetVerticesCellIds( verticesCellIds );
+  quadrilateralVisitor->SetLinesCellIds( linesCellIds );
+  quadrilateralVisitor->SetPolygonsCellIds( polygonsCellIds );
+  //quadrilateralVisitor->SetTriangleStripsCellIds( triangleStripsCellIds );
 
-  //// These store the cell ids of the input that map to the
-  //// new vert/line/poly/strip cells, for copying cell data
-  //// in appropriate order.
-  //std::vector< vtkIdType > vertCellIds;
-  //std::vector< vtkIdType > lineCellIds;
-  //std::vector< vtkIdType > polyCellIds;
-  //std::vector< vtkIdType > stripCellIds;
-  //vertCellIds.reserve( numCells );
-  //lineCellIds.reserve( numCells );
-  //polyCellIds.reserve( numCells );
-  //stripCellIds.reserve( numCells );
+  // Setup the polygon visitor
+  typedef CellInterfaceVisitorImplementation<
+    PixelType, CellTraits,
+    PolygonCell< CellInterface< PixelType, CellTraits > >,
+    VisitCellsClass< InputMeshType, PolyDataType > > PolygonVisitor;
+  typename PolygonVisitor::Pointer polygonVisitor = PolygonVisitor::New();
+  polygonVisitor->SetVertices( vertices );
+  polygonVisitor->SetLines( lines );
+  polygonVisitor->SetPolygons( polygons );
+  //polygonVisitor->SetTriangleStrips( triangleStrips );
+  polygonVisitor->SetVerticesCellIds( verticesCellIds );
+  polygonVisitor->SetLinesCellIds( linesCellIds );
+  polygonVisitor->SetPolygonsCellIds( polygonsCellIds );
+  //polygonVisitor->SetTriangleStripsCellIds( triangleStripsCellIds );
 
-  //// Loop over all cells now that visibility is known
-  //// (Have to compute visibility first for 3D cell boundaries)
-  //int progressInterval = numCells/20 + 1;
-  //for (IdentifierType cellId = 0, connectivity->InitTraversal();
-       //connectivity->GetNextCell(numberOfPoints,pts);
-       //++cellId)
-  //{
-    ////Progress and abort method support
-    //if ( !(cellId % progressInterval) )
-    //{
-      //vtkDebugMacro(<<"Process cell #" << cellId);
-      //this->UpdateProgress(static_cast<double>(cellId)/numCells);
-    //}
+  // TODO
+  // Setup the tetrahedron visitor
+  //typedef CellInterfaceVisitorImplementation<
+    //PixelType, CellTraits,
+    //TetrahedronCell< CellInterface< PixelType, CellTraits > >,
+    //VisitCellsClass< InputMeshType, PolyDataType > > TetrahedronVisitor;
+  //typename TetrahedronVisitor::Pointer tetrahedronVisitor = TetrahedronVisitor::New();
+  //tetrahedronVisitor->SetVertices( vertices );
+  //tetrahedronVisitor->SetLines( lines );
+  //tetrahedronVisitor->SetPolygons( polygons );
+  //tetrahedronVisitor->SetTriangleStrips( triangleStrips );
+  //tetrahedronVisitor->SetVerticesCellIds( verticesCellIds );
+  //tetrahedronVisitor->SetLinesCellIds( linesCellIds );
+  //tetrahedronVisitor->SettetrahedronsCellIds( tetrahedronsCellIds );
+  //tetrahedronVisitor->SetTriangleStripsCellIds( triangleStripsCellIds );
 
-    ////special code for nonlinear cells - rarely occurs, so right now it
-    ////is slow.
-    //switch (input->GetCellType(cellId))
-    //{
-      //case VTK_EMPTY_CELL:
-        //break;
 
-      //case VTK_VERTEX:
-      //case VTK_POLY_VERTEX:
-        //verts->InsertNextCell(numberOfPoints,pts);
-        //vertCellIds.push_back(cellId);
-        //break;
+  typename InputMeshType::CellType::MultiVisitor::Pointer multiVisitor = InputMeshType::CellType::MultiVisitor::New();
+  multiVisitor->AddVisitor(vertexVisitor.GetPointer());
+  multiVisitor->AddVisitor(lineVisitor.GetPointer());
+  multiVisitor->AddVisitor(triangleVisitor.GetPointer());
+  multiVisitor->AddVisitor(quadrilateralVisitor.GetPointer());
+  multiVisitor->AddVisitor(polygonVisitor.GetPointer());
+  //multiVisitor->AddVisitor(tetrahedronVisitor.GetPointer());
 
-      //case VTK_LINE:
-      //case VTK_POLY_LINE:
-        //lines->InsertNextCell(numberOfPoints,pts);
-        //lineCellIds.push_back(cellId);
-        //break;
+  // Now ask the mesh to accept the multivisitor which
+  // will Call Visit for each cell in the mesh that matches the
+  // cell types of the visitors added to the MultiVisitor
+  inputMesh->Accept(multiVisitor);
 
-      //case VTK_TRIANGLE:
-      //case VTK_QUAD:
-      //case VTK_POLYGON:
-        //polys->InsertNextCell(numberOfPoints,pts);
-        //polyCellIds.push_back(cellId);
-        //break;
+  vertices->shrink_to_fit();
+  outputPolyData->SetVertices( vertices );
+  lines->shrink_to_fit();
+  outputPolyData->SetLines( lines );
+  polygons->shrink_to_fit();
+  outputPolyData->SetPolygons( polygons );
+  //triangleStrips->shrink_to_fit();
+  //outputPolyData->SetTriangleStrips( triangleStrips );
 
-      //case VTK_TRIANGLE_STRIP:
-        //strips->InsertNextCell(numberOfPoints,pts);
-        //stripCellIds.push_back(cellId);
-        //break;
+  using CellDataContainerType = typename PolyDataType::CellDataContainer;
+  const CellDataContainerType * inputCellData = inputMesh->GetCellData();
+  if( inputCellData )
+    {
+    typename CellDataContainerType::Pointer outputCellData = CellDataContainerType::New();
+    outputCellData->Reserve( inputCellData->Size() );
+    SizeValueType offset = 0;
+    SizeValueType size = verticesCellIds->Size();
 
-      //case VTK_TETRA:
-        //for (faceId = 0; faceId < 4; faceId++)
-        //{
-          //faceIds->Reset();
-          //faceVerts = vtkTetra::GetFaceArray(faceId);
-          //faceIds->InsertNextId(pts[faceVerts[0]]);
-          //faceIds->InsertNextId(pts[faceVerts[1]]);
-          //faceIds->InsertNextId(pts[faceVerts[2]]);
-          //numFacePts = 3;
-          //input->GetCellNeighbors(cellId, faceIds, cellIds);
-          //if ( cellIds->GetNumberOfIds() <= 0 )
-          //{
-            //polys->InsertNextCell(numFacePts);
-            //for ( int i=0; i < numFacePts; i++)
-            //{
-              //polys->InsertCellPoint(pts[faceVerts[i]]);
-            //}
-            //polyCellIds.push_back(cellId);
-          //}
-        //}
-        //break;
-
-      //case VTK_HEXAHEDRON:
-        //for (faceId = 0; faceId < 6; faceId++)
-        //{
-          //faceIds->Reset();
-          //faceVerts = vtkHexahedron::GetFaceArray(faceId);
-          //faceIds->InsertNextId(pts[faceVerts[0]]);
-          //faceIds->InsertNextId(pts[faceVerts[1]]);
-          //faceIds->InsertNextId(pts[faceVerts[2]]);
-          //faceIds->InsertNextId(pts[faceVerts[3]]);
-          //numFacePts = 4;
-          //input->GetCellNeighbors(cellId, faceIds, cellIds);
-          //if ( cellIds->GetNumberOfIds() <= 0 )
-          //{
-            //polys->InsertNextCell(numFacePts);
-            //for ( int i=0; i < numFacePts; i++)
-            //{
-              //polys->InsertCellPoint(pts[faceVerts[i]]);
-            //}
-            //polyCellIds.push_back(cellId);
-          //}
-        //}
-        //break;
-
-      //case VTK_WEDGE:
-        //for (faceId = 0; faceId < 5; faceId++)
-        //{
-          //faceIds->Reset();
-          //faceVerts = vtkWedge::GetFaceArray(faceId);
-          //faceIds->InsertNextId(pts[faceVerts[0]]);
-          //faceIds->InsertNextId(pts[faceVerts[1]]);
-          //faceIds->InsertNextId(pts[faceVerts[2]]);
-          //numFacePts = 3;
-          //if (faceVerts[3] >= 0)
-          //{
-            //faceIds->InsertNextId(pts[faceVerts[3]]);
-            //numFacePts = 4;
-          //}
-          //input->GetCellNeighbors(cellId, faceIds, cellIds);
-          //if ( cellIds->GetNumberOfIds() <= 0 )
-          //{
-            //polys->InsertNextCell(numFacePts);
-            //for ( int i=0; i < numFacePts; i++)
-            //{
-              //polys->InsertCellPoint(pts[faceVerts[i]]);
-            //}
-            //polyCellIds.push_back(cellId);
-          //}
-        //}
-        //break;
-
-      //case VTK_PYRAMID:
-        //for (faceId = 0; faceId < 5; faceId++)
-        //{
-          //faceIds->Reset();
-          //faceVerts = vtkPyramid::GetFaceArray(faceId);
-          //faceIds->InsertNextId(pts[faceVerts[0]]);
-          //faceIds->InsertNextId(pts[faceVerts[1]]);
-          //faceIds->InsertNextId(pts[faceVerts[2]]);
-          //numFacePts = 3;
-          //if (faceVerts[3] >= 0)
-          //{
-            //faceIds->InsertNextId(pts[faceVerts[3]]);
-            //numFacePts = 4;
-          //}
-          //input->GetCellNeighbors(cellId, faceIds, cellIds);
-          //if ( cellIds->GetNumberOfIds() <= 0 )
-          //{
-            //polys->InsertNextCell(numFacePts);
-            //for ( int i=0; i < numFacePts; i++)
-            //{
-              //polys->InsertCellPoint(pts[faceVerts[i]]);
-            //}
-            //polyCellIds.push_back(cellId);
-          //}
-        //}
-        //break;
-
-      //case VTK_PENTAGONAL_PRISM:
-        //for (faceId = 0; faceId < 7; faceId++)
-        //{
-          //faceIds->Reset();
-          //faceVerts = vtkPentagonalPrism::GetFaceArray(faceId);
-          //faceIds->InsertNextId(pts[faceVerts[0]]);
-          //faceIds->InsertNextId(pts[faceVerts[1]]);
-          //faceIds->InsertNextId(pts[faceVerts[2]]);
-          //faceIds->InsertNextId(pts[faceVerts[3]]);
-          //numFacePts = 4;
-          //if (faceVerts[4] >= 0)
-          //{
-            //faceIds->InsertNextId(pts[faceVerts[4]]);
-            //numFacePts = 5;
-          //}
-          //input->GetCellNeighbors(cellId, faceIds, cellIds);
-          //if ( cellIds->GetNumberOfIds() <= 0 )
-          //{
-            //polys->InsertNextCell(numFacePts);
-            //for ( int i=0; i < numFacePts; i++)
-            //{
-              //polys->InsertCellPoint(pts[faceVerts[i]]);
-            //}
-            //polyCellIds.push_back(cellId);
-          //}
-        //}
-        //break;
-
-      //case VTK_HEXAGONAL_PRISM:
-        //for (faceId = 0; faceId < 8; faceId++)
-        //{
-          //faceIds->Reset();
-          //faceVerts = vtkHexagonalPrism::GetFaceArray(faceId);
-          //faceIds->InsertNextId(pts[faceVerts[0]]);
-          //faceIds->InsertNextId(pts[faceVerts[1]]);
-          //faceIds->InsertNextId(pts[faceVerts[2]]);
-          //faceIds->InsertNextId(pts[faceVerts[3]]);
-          //numFacePts = 4;
-          //if (faceVerts[4] >= 0)
-          //{
-            //faceIds->InsertNextId(pts[faceVerts[4]]);
-            //faceIds->InsertNextId(pts[faceVerts[5]]);
-            //numFacePts = 6;
-          //}
-          //input->GetCellNeighbors(cellId, faceIds, cellIds);
-          //if ( cellIds->GetNumberOfIds() <= 0 )
-          //{
-            //polys->InsertNextCell(numFacePts);
-            //for ( int i=0; i < numFacePts; i++)
-            //{
-              //polys->InsertCellPoint(pts[faceVerts[i]]);
-            //}
-            //polyCellIds.push_back(cellId);
-          //}
-        //}
-        //break;
-
-      ////Quadratic cells
-      //case VTK_QUADRATIC_EDGE:
-      //case VTK_CUBIC_LINE:
-      //case VTK_QUADRATIC_TRIANGLE:
-      //case VTK_QUADRATIC_QUAD:
-      //case VTK_QUADRATIC_POLYGON:
-      //case VTK_QUADRATIC_TETRA:
-      //case VTK_QUADRATIC_HEXAHEDRON:
-      //case VTK_QUADRATIC_WEDGE:
-      //case VTK_QUADRATIC_PYRAMID:
-      //case VTK_QUADRATIC_LINEAR_QUAD:
-      //case VTK_BIQUADRATIC_TRIANGLE:
-      //case VTK_BIQUADRATIC_QUAD:
-      //case VTK_TRIQUADRATIC_HEXAHEDRON:
-      //case VTK_QUADRATIC_LINEAR_WEDGE:
-      //case VTK_BIQUADRATIC_QUADRATIC_WEDGE:
-      //case VTK_BIQUADRATIC_QUADRATIC_HEXAHEDRON:
+    // Copy the cell data in appropriate order : verts / lines / polys / strips
+    for( SizeValueType ii = 0; ii < verticesCellIds->Size(); ++ii )
+      {
+      outputCellData->InsertElement( ii,
+                                     inputCellData->ElementAt( verticesCellIds->ElementAt( ii ) ) );
+      }
+    offset += size;
+    size = linesCellIds->Size();
+    for( SizeValueType ii = 0; ii < size; ++ii )
+      {
+      outputCellData->InsertElement( offset + ii,
+                                     inputCellData->ElementAt( linesCellIds->ElementAt( ii ) ) );
+      }
+    offset += size;
+    size = polygonsCellIds->Size();
+    for( SizeValueType ii = 0; ii < size; ++ii )
+      {
+      outputCellData->InsertElement( offset + ii,
+                                     inputCellData->ElementAt( polygonsCellIds->ElementAt( ii ) ) );
+      }
+    offset += size;
+    //size = triangleStripsCellIds->Size();
+    //for( SizeValueType ii = 0; ii < size; ++ii )
       //{
-        //input->GetCell(cellId,cell);
-
-        //if ( cell->GetCellDimension() == 1 )
-        //{
-          //cell->Triangulate(0,ipts,coords);
-          //for ( int i=0; i < ipts->GetNumberOfIds(); i+=2)
-          //{
-            //lines->InsertNextCell(2);
-            //lines->InsertCellPoint(ipts->GetId(i));
-            //lines->InsertCellPoint(ipts->GetId(i+1));
-            //lineCellIds.push_back(cellId);
-          //}
-        //}
-        //else if ( cell->GetCellDimension() == 2 )
-        //{
-          //cell->Triangulate(0,ipts,coords);
-          //for ( int i=0; i < ipts->GetNumberOfIds(); i+=3)
-          //{
-            //polys->InsertNextCell(3);
-            //polys->InsertCellPoint(ipts->GetId(i));
-            //polys->InsertCellPoint(ipts->GetId(i+1));
-            //polys->InsertCellPoint(ipts->GetId(i+2));
-            //polyCellIds.push_back(cellId);
-          //}
-        //}
-        //else //3D nonlinear cell
-        //{
-          //vtkCell *face;
-          //for (int j=0; j < cell->GetNumberOfFaces(); j++)
-          //{
-            //face = cell->GetFace(j);
-            //input->GetCellNeighbors(cellId, face->PointIds, icellIds);
-            //if ( icellIds->GetNumberOfIds() <= 0)
-            //{
-              //face->Triangulate(0,ipts,coords);
-              //for ( int i=0; i < ipts->GetNumberOfIds(); i+=3)
-              //{
-                //polys->InsertNextCell(3);
-                //polys->InsertCellPoint(ipts->GetId(i));
-                //polys->InsertCellPoint(ipts->GetId(i+1));
-                //polys->InsertCellPoint(ipts->GetId(i+2));
-                //polyCellIds.push_back(cellId);
-              //}
-            //}
-          //}
-        //} //3d cell
+      //outputCellData->InsertElement( offset + ii,
+                                     //inputCellData->ElementAt( triangleStripsCellIds->ElementAt( ii ) ) );
       //}
-        //break; //done with quadratic cells
-    //} //switch
-  //} //for all cells
 
-  //// Update ourselves and release memory
-  ////
-  //output->SetVerts(verts);
-  //verts->Delete();
-  //output->SetLines(lines);
-  //lines->Delete();
-  //output->SetPolys(polys);
-  //polys->Delete();
-  //output->SetStrips(strips);
-  //strips->Delete();
+    outputPolyData->SetCellData( outputCellData );
+    }
 
-  //// Copy the cell data in appropriate order : verts / lines / polys / strips
-  //size_t offset = 0;
-  //size_t size = vertCellIds.size();
-  //for ( size_t i = 0; i < size; ++i )
-  //{
-    //outputCellData->CopyData(cellData, vertCellIds[i], static_cast<vtkIdType>(i) );
-  //}
-  //offset += size;
-  //size = lineCellIds.size();
-  //for ( size_t i = 0; i < size; ++i )
-  //{
-    //outputCellData->CopyData(cellData, lineCellIds[i], static_cast<vtkIdType>(i+offset) );
-  //}
-  //offset += size;
-  //size = polyCellIds.size();
-  //for ( size_t i = 0; i < size; ++i )
-  //{
-    //outputCellData->CopyData(cellData, polyCellIds[i], static_cast<vtkIdType>(i+offset) );
-  //}
-  //offset += size;
-  //size = stripCellIds.size();
-  //for ( size_t i = 0; i < size; ++i )
-  //{
-    //outputCellData->CopyData(cellData, stripCellIds[i], static_cast<vtkIdType>(i+offset) );
-  //}
-
-  //output->Squeeze();
-
-  //vtkDebugMacro(<<"Extracted " << input->GetNumberOfPoints() << " points,"
-    //<< output->GetNumberOfCells() << " cells.");
-
-  //cellIds->Delete();
-  //faceIds->Delete();
 }
 
 } // end namespace itk

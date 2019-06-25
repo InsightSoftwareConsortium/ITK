@@ -98,7 +98,7 @@ PolyData< TPixelType >
 template< typename TPixelType >
 void
 PolyData< TPixelType >
-::SetVertices(CellContainer *vertices)
+::SetVertices(CellsContainer *vertices)
 {
   itkDebugMacro("setting Vertices container to " << vertices);
   if ( m_VerticesContainer != vertices )
@@ -110,13 +110,13 @@ PolyData< TPixelType >
 
 
 template< typename TPixelType >
-typename PolyData< TPixelType >::CellContainer *
+typename PolyData< TPixelType >::CellsContainer *
 PolyData< TPixelType >
 ::GetVertices()
 {
   itkDebugMacro("Starting GetVertices()");
   if ( !m_VerticesContainer ) {
-    this->SetVertices( CellContainer::New() );
+    this->SetVertices( CellsContainer::New() );
     }
   itkDebugMacro("returning Vertices container of " << m_VerticesContainer);
   return m_VerticesContainer.GetPointer();
@@ -124,7 +124,7 @@ PolyData< TPixelType >
 
 
 template< typename TPixelType >
-const typename PolyData< TPixelType >::CellContainer *
+const typename PolyData< TPixelType >::CellsContainer *
 PolyData< TPixelType >
 ::GetVertices() const
 {
@@ -136,7 +136,7 @@ PolyData< TPixelType >
 template< typename TPixelType >
 void
 PolyData< TPixelType >
-::SetLines(CellContainer *lines)
+::SetLines(CellsContainer *lines)
 {
   itkDebugMacro("setting Lines container to " << lines);
   if ( m_LinesContainer != lines )
@@ -148,13 +148,13 @@ PolyData< TPixelType >
 
 
 template< typename TPixelType >
-typename PolyData< TPixelType >::CellContainer *
+typename PolyData< TPixelType >::CellsContainer *
 PolyData< TPixelType >
 ::GetLines()
 {
   itkDebugMacro("Starting GetLines()");
   if ( !m_LinesContainer ) {
-    this->SetLines( CellContainer::New() );
+    this->SetLines( CellsContainer::New() );
     }
   itkDebugMacro("returning Lines container of " << m_LinesContainer);
   return m_LinesContainer.GetPointer();
@@ -162,7 +162,7 @@ PolyData< TPixelType >
 
 
 template< typename TPixelType >
-const typename PolyData< TPixelType >::CellContainer *
+const typename PolyData< TPixelType >::CellsContainer *
 PolyData< TPixelType >
 ::GetLines() const
 {
@@ -174,7 +174,7 @@ PolyData< TPixelType >
 template< typename TPixelType >
 void
 PolyData< TPixelType >
-::SetPolygons(CellContainer *polygons)
+::SetPolygons(CellsContainer *polygons)
 {
   itkDebugMacro("setting Polygons container to " << polygons);
   if ( m_PolygonsContainer != polygons )
@@ -186,13 +186,13 @@ PolyData< TPixelType >
 
 
 template< typename TPixelType >
-typename PolyData< TPixelType >::CellContainer *
+typename PolyData< TPixelType >::CellsContainer *
 PolyData< TPixelType >
 ::GetPolygons()
 {
   itkDebugMacro("Starting GetPolygons()");
   if ( !m_PolygonsContainer ) {
-    this->SetPolygons( CellContainer::New() );
+    this->SetPolygons( CellsContainer::New() );
     }
   itkDebugMacro("returning Polygons container of " << m_PolygonsContainer);
   return m_PolygonsContainer.GetPointer();
@@ -200,7 +200,7 @@ PolyData< TPixelType >
 
 
 template< typename TPixelType >
-const typename PolyData< TPixelType >::CellContainer *
+const typename PolyData< TPixelType >::CellsContainer *
 PolyData< TPixelType >
 ::GetPolygons() const
 {
@@ -212,7 +212,7 @@ PolyData< TPixelType >
 template< typename TPixelType >
 void
 PolyData< TPixelType >
-::SetTriangleStrips(CellContainer *polygons)
+::SetTriangleStrips(CellsContainer *polygons)
 {
   itkDebugMacro("setting TriangleStrips container to " << polygons);
   if ( m_TriangleStripsContainer != polygons )
@@ -224,13 +224,13 @@ PolyData< TPixelType >
 
 
 template< typename TPixelType >
-typename PolyData< TPixelType >::CellContainer *
+typename PolyData< TPixelType >::CellsContainer *
 PolyData< TPixelType >
 ::GetTriangleStrips()
 {
   itkDebugMacro("Starting GetTriangleStrips()");
   if ( !m_TriangleStripsContainer ) {
-    this->SetTriangleStrips( CellContainer::New() );
+    this->SetTriangleStrips( CellsContainer::New() );
     }
   itkDebugMacro("returning TriangleStrips container of " << m_TriangleStripsContainer);
   return m_TriangleStripsContainer.GetPointer();
@@ -238,7 +238,7 @@ PolyData< TPixelType >
 
 
 template< typename TPixelType >
-const typename PolyData< TPixelType >::CellContainer *
+const typename PolyData< TPixelType >::CellsContainer *
 PolyData< TPixelType >
 ::GetTriangleStrips() const
 {
