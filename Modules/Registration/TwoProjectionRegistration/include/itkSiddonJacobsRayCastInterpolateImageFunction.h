@@ -186,6 +186,19 @@ public:
     return true;
   }
 
+#if !defined(ITKV4_COMPATIBILITY)
+  SizeType
+  GetRadius() const override
+  {
+    const InputImageType * input = this->GetInputImage();
+    if (!input)
+    {
+      itkExceptionMacro("Input image required!");
+    }
+    return input->GetLargestPossibleRegion().GetSize();
+  }
+#endif
+
 protected:
   SiddonJacobsRayCastInterpolateImageFunction();
 
