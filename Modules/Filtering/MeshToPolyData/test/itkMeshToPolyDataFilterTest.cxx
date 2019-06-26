@@ -22,6 +22,7 @@
 #include "itkMeshFileReader.h"
 #include "itkMesh.h"
 #include "itkTestingMacros.h"
+#include "itkMath.h"
 
 namespace{
 class ShowProgress : public itk::Command
@@ -86,7 +87,28 @@ int itkMeshToPolyDataFilterTest( int argc, char * argv[] )
 
   TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
-  FilterType::PolyDataType::ConstPointer polyData = filter->GetOutput();
+  using PolyDataType = FilterType::PolyDataType;
+  PolyDataType::ConstPointer polyData = filter->GetOutput();
+
+  TEST_EXPECT_EQUAL( polyData->GetNumberOfPoints(), 2903 );
+
+  PolyDataType::PointsContainer::ConstPointer points = polyData->GetPoints();
+  TEST_EXPECT_TRUE( itk::Math::FloatAlmostEqual< float >( points->GetElement( 0 )[0], 3.71636, 10, 1e-4 ) );
+  TEST_EXPECT_TRUE( itk::Math::FloatAlmostEqual< float >( points->GetElement( 0 )[1], 2.34339, 10, 1e-4 ) );
+  TEST_EXPECT_TRUE( itk::Math::FloatAlmostEqual< float >( points->GetElement( 0 )[2], 0.0, 10, 1e-4 ) );
+
+  TEST_EXPECT_EQUAL( polyData->GetVertices()->size(), 0 );
+
+  TEST_EXPECT_EQUAL( polyData->GetLines()->size(), 0 );
+
+  TEST_EXPECT_EQUAL( polyData->GetPolygons()->size(), 15593 );
+  TEST_EXPECT_EQUAL( polyData->GetPolygons()->GetElement( 0 ), 4 );
+  TEST_EXPECT_EQUAL( polyData->GetPolygons()->GetElement( 1 ), 250 );
+  TEST_EXPECT_EQUAL( polyData->GetPolygons()->GetElement( 2 ), 251 );
+  TEST_EXPECT_EQUAL( polyData->GetPolygons()->GetElement( 3 ), 210 );
+  TEST_EXPECT_EQUAL( polyData->GetPolygons()->GetElement( 4 ), 252 );
+  TEST_EXPECT_EQUAL( polyData->GetPolygons()->GetElement( 5 ), 4 );
+  TEST_EXPECT_EQUAL( polyData->GetPolygons()->GetElement( 6 ), 252 );
 
   return EXIT_SUCCESS;
 }
