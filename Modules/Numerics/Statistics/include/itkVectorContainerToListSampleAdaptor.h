@@ -256,8 +256,6 @@ private:
    * measurement vectors */
   VectorContainerConstPointer  m_VectorContainer;
 
-  /** temporary points for conversions */
-  mutable typename VectorContainerType::Element m_TempPoint;
 };  // end of class VectorContainerToListSampleAdaptor
 } // end of namespace Statistics
 } // end of namespace itk
