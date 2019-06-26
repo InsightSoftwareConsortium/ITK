@@ -26,10 +26,18 @@ namespace itk
 
 /** \class MeshToPolyDataFilter
  *
- * \brief Filters a image by iterating over its pixels.
+ * \brief Convert a PointSet or Mesh to PolyData
  *
- * Filters a image by iterating over its pixels in a multi-threaded way
- * and {to be completed by the developer}.
+ * Convert an itk::PointSet or itk::Mesh to an itk::PolyData for visualization
+ * with vtk.js.
+ *
+ * Currently support ITK cell types:
+ *
+ * - itk::VertexCell
+ * - itk::LineCell
+ * - itk::TriangleCell
+ * - itk::QuadrilateralCell
+ * - itk::PolygonCell
  *
  * \ingroup MeshToPolyData
  *

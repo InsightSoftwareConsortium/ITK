@@ -63,7 +63,7 @@ public:
   using PointDataContainer = typename MeshTraits::PointDataContainer;
   using CellIdentifier = typename MeshTraits::CellIdentifier;
   using CellDataContainer = typename MeshTraits::CellDataContainer;
-  using CellContainer = VectorContainer< CellIdentifier, uint32_t >;
+  using CellsContainer = VectorContainer< CellIdentifier, uint32_t >;
 
   void Initialize() override;
 
@@ -77,24 +77,24 @@ public:
   const PointsContainer * GetPoints() const;
 
   /** Lines in format [1 pointIndex1 1 pointIndex2 1 pointIndex3 ... ] */
-  void SetVertices(CellContainer *);
-  CellContainer * GetVertices();
-  const CellContainer* GetVertices() const;
+  void SetVertices(CellsContainer *);
+  CellsContainer * GetVertices();
+  const CellsContainer* GetVertices() const;
 
   /** Lines in format [nPointsLine1 pointIndex1 pointIndex2 nPointsLine2 pointIndex1 pointIndex2 ... ] */
-  void SetLines(CellContainer *);
-  CellContainer * GetLines();
-  const CellContainer* GetLines() const;
+  void SetLines(CellsContainer *);
+  CellsContainer * GetLines();
+  const CellsContainer* GetLines() const;
 
   /** Polygons in format [nPointsPolygon1 pointIndex1 pointIndex2 nPointsPolygon2 pointIndex1 pointIndex2 ... ] */
-  void SetPolygons(CellContainer *);
-  CellContainer * GetPolygons();
-  const CellContainer* GetPolygons() const;
+  void SetPolygons(CellsContainer *);
+  CellsContainer * GetPolygons();
+  const CellsContainer* GetPolygons() const;
 
   /** TriangleStrips in format [nPointsTriangleStrip1 pointIndex1 pointIndex2 nPointsTriangleStrip2 pointIndex1 pointIndex2 ... ] */
-  void SetTriangleStrips(CellContainer *);
-  CellContainer * GetTriangleStrips();
-  const CellContainer* GetTriangleStrips() const;
+  void SetTriangleStrips(CellsContainer *);
+  CellsContainer * GetTriangleStrips();
+  const CellsContainer* GetTriangleStrips() const;
 
   void SetPointData(PointDataContainer *);
   PointDataContainer * GetPointData();
@@ -134,10 +134,10 @@ protected:
    * accessed through point identifiers. */
   typename PointsContainer::Pointer m_PointsContainer;
 
-  typename CellContainer::Pointer m_VerticesContainer;
-  typename CellContainer::Pointer m_LinesContainer;
-  typename CellContainer::Pointer m_PolygonsContainer;
-  typename CellContainer::Pointer m_TriangleStripsContainer;
+  typename CellsContainer::Pointer m_VerticesContainer;
+  typename CellsContainer::Pointer m_LinesContainer;
+  typename CellsContainer::Pointer m_PolygonsContainer;
+  typename CellsContainer::Pointer m_TriangleStripsContainer;
 
   /** An object containing data associated with the mesh's points.
    * Optionally, this can be nullptr, indicating that no data are associated with

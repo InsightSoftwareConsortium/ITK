@@ -1,0 +1,2 @@
+itkMeshToPolyDataFilter\.hxx Namespace Disable
+itkMeshToPolyDataFilterTest\.cxx Namespace Disable
