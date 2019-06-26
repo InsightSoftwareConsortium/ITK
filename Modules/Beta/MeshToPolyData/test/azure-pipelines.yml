@@ -1,6 +1,7 @@
 variables:
-  ITKGitTag: v5.0rc01
-  CMakeBuildType: MinSizeRel
+  ITKGitTag: v5.0.0
+  ITKPythonGitTag: v5.0.0.post1
+  CMakeBuildType: Release
 
 trigger:
   batch: true
@@ -156,7 +157,7 @@ jobs:
     displayName: 'Fetch build script'
 
   - script: |
-      export ITK_PACKAGE_VERSION=$(ITKGitTag)
+      export ITK_PACKAGE_VERSION=$(ITKPythonGitTag)
       ./dockcross-manylinux-download-cache-and-build-module-wheels.sh
     displayName: 'Build Python packages'
 
@@ -171,7 +172,7 @@ jobs:
   timeoutInMinutes: 0
   cancelTimeoutInMinutes: 300
   pool:
-    vmImage: 'macos-10.13'
+    vmImage: 'macos-10.14'
 
   steps:
   - script: |
@@ -180,7 +181,7 @@ jobs:
     displayName: 'Fetch build script'
 
   - script: |
-      export ITK_PACKAGE_VERSION=$(ITKGitTag)
+      export ITK_PACKAGE_VERSION=$(ITKPythonGitTag)
       ./macpython-download-cache-and-build-module-wheels.sh
     displayName: 'Build Python packages'
 
@@ -204,7 +205,7 @@ jobs:
 
   - script: |
       call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-      set ITK_PACKAGE_VERSION=$(ITKGitTag)
+      set ITK_PACKAGE_VERSION=$(ITKPythonGitTag)
       set CC=cl.exe
       set CXX=cl.exe
       powershell.exe -file .\windows-download-cache-and-build-module-wheels.ps1
