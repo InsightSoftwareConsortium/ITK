@@ -3,11 +3,9 @@
 find_package(PythonInterp)
 find_package(PythonLibs)
 
-# Check for required at least python versions
-if(WIN32 AND PYTHON_VERSION_STRING VERSION_LESS 3.5)
-  message(WARNING "Python versions less than 3.5 are not supported on Windows. Python version: \"${PYTHON_VERSION_STRING}\".")
-elseif(PYTHON_VERSION_STRING VERSION_LESS 2.7)
-  message(WARNING "Python versions less than 2.7 are not supported. Python version: \"${PYTHON_VERSION_STRING}\".")
+# Check for supported python versions
+if(PYTHON_VERSION_STRING VERSION_LESS 3.5)
+  message(WARNING "Python versions less than 3.5 are not supported. Python version: \"${PYTHON_VERSION_STRING}\".")
 endif()
 
 # check for version mismatch.
