@@ -427,6 +427,12 @@ private:
 
   mutable ModifiedTimeType m_MovingTransformedPointSetTime;
   mutable ModifiedTimeType m_FixedTransformedPointSetTime;
+
+  //Create ranges over the point set for multithreaded computation of value and derivatives
+  using PointIdentifierPair = std::pair<PointIdentifier, PointIdentifier>;
+  using PointIdentifierRanges = std::vector<PointIdentifierPair>;
+  const PointIdentifierRanges  CreateRanges() const;
+
 };
 } // end namespace itk
 
