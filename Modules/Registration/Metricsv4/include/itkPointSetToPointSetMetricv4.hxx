@@ -287,7 +287,8 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
 
   PointIdentifierRanges ranges = this->CreateRanges();
   std::vector< CompensatedSummation< MeasureType > > threadValues( ranges.size() );
-  std::vector< DerivativeType > threadDerivatives( ranges.size() );
+  using CompensatedDerivative = typename std::vector< CompensatedSummation<ParametersValueType> >;
+  std::vector< CompensatedDerivative > threadDerivatives( ranges.size() );
   std::function< void(unsigned int) > sumNeighborhoodValues =
       [ this, &derivative, &threadDerivatives, &threadValues, &ranges, &calculateValue,
         &virtualTransformedPointSet, &fixedTransformedPointSet]
@@ -298,6 +299,8 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
 
     DerivativeType threadLocalTransformDerivative( this->GetNumberOfLocalParameters() );
     threadLocalTransformDerivative.Fill( NumericTraits<DerivativeValueType>::ZeroValue() );
+
+    CompensatedDerivative threadDerivativeSum( this->GetNumberOfLocalParameters() );
 
     CompensatedSummation< MeasureType > threadValue;
     PixelType pixel;
@@ -335,11 +338,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
         }
 
       // Map into parameter space
-      if( this->HasLocalSupport() || this->m_CalculateValueAndDerivativeInTangentSpace )
-        {
-        // Reset to zero since we're not accumulating in the local-support case.
-        threadLocalTransformDerivative.Fill( NumericTraits<DerivativeValueType>::ZeroValue() );
-        }
+      threadLocalTransformDerivative.Fill( NumericTraits<DerivativeValueType>::ZeroValue() );
 
       if( this->m_CalculateValueAndDerivativeInTangentSpace )
         {
@@ -378,9 +377,13 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
             }
           }
         }
+      for( NumberOfParametersType par = 0; par < this->GetNumberOfLocalParameters(); par++ )
+        {
+        threadDerivativeSum[par] += threadLocalTransformDerivative[par];
+        }
       }
       threadValues[rangeIndex] = threadValue;
-      threadDerivatives[rangeIndex] = threadLocalTransformDerivative;
+      threadDerivatives[rangeIndex] = threadDerivativeSum;
     };
 
   //Sum per thread
@@ -395,27 +398,26 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
     value += threadValues[i];
     }
 
-  DerivativeType localTransformDerivative( this->GetNumberOfLocalParameters() );
-  localTransformDerivative.Fill( NumericTraits<DerivativeValueType>::ZeroValue() );
-  if( ! this->HasLocalSupport() && ! this->m_CalculateValueAndDerivativeInTangentSpace )
-    {
-    for(unsigned int i=0; i< threadDerivatives.size(); i++)
-      {
-      for( NumberOfParametersType par = 0; par < this->GetNumberOfLocalParameters(); par++ )
-        {
-        localTransformDerivative[par] += threadDerivatives[i][par];
-        }
-      }
-    }
   MeasureType valueSum = value.GetSum();
   if( this->VerifyNumberOfValidPoints( valueSum, derivative ) )
     {
     // For global-support transforms, average the accumulated derivative result
     if( ! this->HasLocalSupport() && ! this->m_CalculateValueAndDerivativeInTangentSpace )
       {
-      derivative = localTransformDerivative / static_cast<DerivativeValueType>( this->m_NumberOfValidPoints );
+      CompensatedDerivative localTransformDerivative( this->GetNumberOfLocalParameters() );
+      for(unsigned int i=0; i< threadDerivatives.size(); i++)
+        {
+        for( NumberOfParametersType par = 0; par < this->GetNumberOfLocalParameters(); par++ )
+          {
+          localTransformDerivative[par] += threadDerivatives[i][par];
+          }
+        }
+      for( NumberOfParametersType par = 0; par < this->GetNumberOfLocalParameters(); par++ )
+        {
+         derivative[par] = localTransformDerivative[par].GetSum()
+                                  / static_cast<DerivativeValueType>( this->m_NumberOfValidPoints );
+         }
       }
-
     valueSum /= static_cast<MeasureType>( this->m_NumberOfValidPoints );
     }
   calculatedValue = valueSum;
