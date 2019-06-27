@@ -56,69 +56,6 @@ TwoProjectionImageRegistrationMethod<TFixedImage, TMovingImage>::TwoProjectionIm
 
 
 template <typename TFixedImage, typename TMovingImage>
-unsigned long
-TwoProjectionImageRegistrationMethod<TFixedImage, TMovingImage>::GetMTime() const
-{
-  unsigned long mtime = Superclass::GetMTime();
-  unsigned long m;
-
-
-  // Some of the following should be removed once ivars are put in the
-  // input and output lists
-
-  if (m_Transform)
-  {
-    m = m_Transform->GetMTime();
-    mtime = (m > mtime ? m : mtime);
-  }
-
-  if (m_Interpolator1)
-  {
-    m = m_Interpolator1->GetMTime();
-    mtime = (m > mtime ? m : mtime);
-  }
-
-  if (m_Interpolator2)
-  {
-    m = m_Interpolator2->GetMTime();
-    mtime = (m > mtime ? m : mtime);
-  }
-
-  if (m_Metric)
-  {
-    m = m_Metric->GetMTime();
-    mtime = (m > mtime ? m : mtime);
-  }
-
-  if (m_Optimizer)
-  {
-    m = m_Optimizer->GetMTime();
-    mtime = (m > mtime ? m : mtime);
-  }
-
-  if (m_FixedImage1)
-  {
-    m = m_FixedImage1->GetMTime();
-    mtime = (m > mtime ? m : mtime);
-  }
-
-  if (m_FixedImage2)
-  {
-    m = m_FixedImage2->GetMTime();
-    mtime = (m > mtime ? m : mtime);
-  }
-
-  if (m_MovingImage)
-  {
-    m = m_MovingImage->GetMTime();
-    mtime = (m > mtime ? m : mtime);
-  }
-
-  return mtime;
-}
-
-
-template <typename TFixedImage, typename TMovingImage>
 void
 TwoProjectionImageRegistrationMethod<TFixedImage, TMovingImage>::SetInitialTransformParameters(
   const ParametersType & param)

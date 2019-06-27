@@ -209,11 +209,6 @@ public:
   DataObjectPointer
   MakeOutput(DataObjectPointerArraySizeType idx) override;
 
-  /** Method to return the latest modified time of this object or
-   * any of its cached ivars */
-  unsigned long
-  GetMTime() const override;
-
 protected:
   TwoProjectionImageRegistrationMethod();
   ~TwoProjectionImageRegistrationMethod() override {};

@@ -83,7 +83,7 @@ NormalizedCorrelationTwoImageToOneImageMetric<TFixedImage, TMovingImage>::GetVal
 
     fixedImage1->TransformIndexToPhysicalPoint(index, inputPoint);
 
-    if (this->m_FixedImageMask1 && !this->m_FixedImageMask1->IsInside(inputPoint))
+    if (this->m_FixedImageMask1 && !this->m_FixedImageMask1->IsInsideInWorldSpace(inputPoint))
     {
       ++ti1;
       continue;
@@ -91,7 +91,7 @@ NormalizedCorrelationTwoImageToOneImageMetric<TFixedImage, TMovingImage>::GetVal
 
     //    typename Superclass::OutputPointType transformedPoint = this->m_Transform->TransformPoint( inputPoint );
 
-    if (this->m_MovingImageMask && !this->m_MovingImageMask->IsInside(inputPoint))
+    if (this->m_MovingImageMask && !this->m_MovingImageMask->IsInsideInWorldSpace(inputPoint))
     {
       ++ti1;
       continue;
@@ -158,7 +158,7 @@ NormalizedCorrelationTwoImageToOneImageMetric<TFixedImage, TMovingImage>::GetVal
     //    typename Superclass::InputPointType inputPoint;
     fixedImage2->TransformIndexToPhysicalPoint(index, inputPoint);
 
-    if (this->m_FixedImageMask2 && !this->m_FixedImageMask2->IsInside(inputPoint))
+    if (this->m_FixedImageMask2 && !this->m_FixedImageMask2->IsInsideInWorldSpace(inputPoint))
     {
       ++ti2;
       continue;
@@ -166,7 +166,7 @@ NormalizedCorrelationTwoImageToOneImageMetric<TFixedImage, TMovingImage>::GetVal
 
     //    typename Superclass::OutputPointType transformedPoint = this->m_Transform->TransformPoint( inputPoint );
 
-    if (this->m_MovingImageMask && !this->m_MovingImageMask->IsInside(inputPoint))
+    if (this->m_MovingImageMask && !this->m_MovingImageMask->IsInsideInWorldSpace(inputPoint))
     {
       ++ti2;
       continue;
