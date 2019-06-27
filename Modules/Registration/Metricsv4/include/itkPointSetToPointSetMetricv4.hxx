@@ -178,9 +178,9 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
   using VirtualPointsContainer = typename VirtualPointSetType::PointsContainer;
   using VirtualVectorContainer =  typename VirtualPointsContainer::STLContainerType;
   const VirtualVectorContainer &virtualTransformedPointSet =
-    this->GetVirtualTransformedPointSet()->GetPoints()->CastToSTLConstContainer();
+    this->m_VirtualTransformedPointSet->GetPoints()->CastToSTLConstContainer();
   const FixedTransformedVectorContainer &fixedTransformedPointSet =
-    this->GetFixedTransformedPointSet()->GetPoints()->CastToSTLConstContainer();
+    this->m_FixedTransformedPointSet->GetPoints()->CastToSTLConstContainer();
 
   PointIdentifierRanges ranges = this->CreateRanges();
   std::vector< CompensatedSummation< MeasureType > > threadValues( ranges.size() );
@@ -188,7 +188,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
       [ this, &threadValues, &ranges, &virtualTransformedPointSet, &fixedTransformedPointSet]
       (unsigned int rangeIndex)
     {
-    CompensatedSummation< MeasureType > threadValue;
+    CompensatedSummation< MeasureType > threadValue = 0;
     PixelType pixel;
     NumericTraits<PixelType>::SetLength( pixel, 1 );
 
@@ -199,7 +199,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
         {
         if( this->m_UsePointSetData )
           {
-          bool doesPointDataExist = this->GetFixedPointSet()->GetPointData( index, &pixel );
+          bool doesPointDataExist = this->m_FixedPointSet->GetPointData( index, &pixel );
           if( ! doesPointDataExist )
             {
             itkExceptionMacro( "The corresponding data for point (pointId = " << index << ") does not exist." );
@@ -217,7 +217,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
                            sumNeighborhoodValues, nullptr );
   //Join sums
   CompensatedSummation<MeasureType> value = 0;
-  for(unsigned int i=0; i< threadValues.size(); i++)
+  for(unsigned int i=0; i < threadValues.size(); i++)
     {
     value += threadValues[i];
     }
@@ -281,9 +281,9 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
   using VirtualPointsContainer = typename VirtualPointSetType::PointsContainer;
   using VirtualVectorContainer =  typename VirtualPointsContainer::STLContainerType;
   const VirtualVectorContainer &virtualTransformedPointSet =
-    this->GetVirtualTransformedPointSet()->GetPoints()->CastToSTLConstContainer();
+    this->m_VirtualTransformedPointSet->GetPoints()->CastToSTLConstContainer();
   const FixedTransformedVectorContainer &fixedTransformedPointSet =
-    this->GetFixedTransformedPointSet()->GetPoints()->CastToSTLConstContainer();
+    this->m_FixedTransformedPointSet->GetPoints()->CastToSTLConstContainer();
 
   PointIdentifierRanges ranges = this->CreateRanges();
   std::vector< CompensatedSummation< MeasureType > > threadValues( ranges.size() );
@@ -393,12 +393,12 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
 
   //Sum thread results
   CompensatedSummation<MeasureType> value = 0;
-  for(unsigned int i=0; i< threadValues.size(); i++)
+  for(unsigned int i=0; i < threadValues.size(); i++)
     {
     value += threadValues[i];
     }
-
   MeasureType valueSum = value.GetSum();
+
   if( this->VerifyNumberOfValidPoints( valueSum, derivative ) )
     {
     // For global-support transforms, average the accumulated derivative result
@@ -491,7 +491,11 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
 {
   // Transform the moving point set with the moving transform.
   // We calculate the value and derivatives in the moving space.
-  if( ( this->GetMTime() > this->m_MovingTransformedPointSetTime ) || ( this->m_MovingTransform->GetMTime() > this->GetMTime() ) || !this->m_MovingTransformedPointSet )
+  bool update = !this->m_MovingTransformedPointSet;
+  update = update || this->m_MovingTransformedPointSetTime < this->GetMTime();
+  update = update || ( this->m_CalculateValueAndDerivativeInTangentSpace &&
+              ( this->m_MovingTransform->GetMTime() > this->m_MovingTransformedPointSetTime ) );
+  if( update )
     {
     this->m_MovingTransformPointLocatorsNeedInitialization = true;
     this->m_MovingTransformedPointSet = MovingTransformedPointSetType::New();
@@ -503,7 +507,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
     typename MovingPointsContainer::ConstIterator It = this->m_MovingPointSet->GetPoints()->Begin();
     while( It != this->m_MovingPointSet->GetPoints()->End() )
       {
-      if( this->m_CalculateValueAndDerivativeInTangentSpace == true )
+      if( this->m_CalculateValueAndDerivativeInTangentSpace )
         {
         PointType point = inverseTransform->TransformPoint( It.Value() );
         this->m_MovingTransformedPointSet->SetPoint( It.Index(), point );
@@ -516,6 +520,13 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
       ++It;
       }
     this->m_MovingTransformedPointSetTime = this->GetMTime();
+    if(!this->m_CalculateValueAndDerivativeInTangentSpace)
+      {
+      this->m_MovingTransformedPointSetTime = std::max( this->m_MovingTransformedPointSetTime,
+                                                        this->m_MovingTransform->GetMTime() );
+      }
+
+
     }
 }
 
@@ -525,11 +536,14 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
 ::TransformFixedAndCreateVirtualPointSet() const
 {
   // Transform the fixed point set through the virtual domain, and into the moving domain
-  if( ( this->GetMTime() > this->m_FixedTransformedPointSetTime )
-      || ( this->m_FixedTransform->GetMTime() > this->GetMTime() )
-      || ! this->m_FixedTransformedPointSet
-      || ! this->m_VirtualTransformedPointSet
-      || ( this->m_MovingTransform->GetMTime() > this->GetMTime() ) )
+  bool update =  ! this->m_FixedTransformedPointSet || ! this->m_VirtualTransformedPointSet;
+  update = update || this->m_FixedTransformedPointSetTime < this->GetMTime();
+  update = update || ( this->m_CalculateValueAndDerivativeInTangentSpace &&
+                       ( this->m_FixedTransform->GetMTime() > this->m_FixedTransformedPointSetTime ) );
+  update = update || ( !this->m_CalculateValueAndDerivativeInTangentSpace &&
+                       ( ( this->m_FixedTransform->GetMTime() > this->m_FixedTransformedPointSetTime) ||
+                         ( this->m_MovingTransform->GetMTime() > this->m_FixedTransformedPointSetTime)   ) );
+  if( update )
     {
     this->m_FixedTransformPointLocatorsNeedInitialization = true;
     this->m_FixedTransformedPointSet = FixedTransformedPointSetType::New();
@@ -537,12 +551,13 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
     this->m_VirtualTransformedPointSet = VirtualPointSetType::New();
     this->m_VirtualTransformedPointSet->Initialize();
 
-    typename FixedTransformType::InverseTransformBasePointer inverseTransform = this->m_FixedTransform->GetInverseTransform();
+    using InverseTransformBasePointer  = typename FixedTransformType::InverseTransformBasePointer;
+    InverseTransformBasePointer inverseTransform = this->m_FixedTransform->GetInverseTransform();
 
     typename FixedPointsContainer::ConstIterator It = this->m_FixedPointSet->GetPoints()->Begin();
     while( It != this->m_FixedPointSet->GetPoints()->End() )
       {
-      if( this->m_CalculateValueAndDerivativeInTangentSpace == true )
+      if( this->m_CalculateValueAndDerivativeInTangentSpace )
         {
         // txf into virtual space
         PointType point = inverseTransform->TransformPoint( It.Value() );
@@ -560,7 +575,14 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
         }
       ++It;
       }
-    this->m_FixedTransformedPointSetTime = this->GetMTime();
+      this->m_FixedTransformedPointSetTime = std::max( this->GetMTime(),
+                                                       this->m_FixedTransform->GetMTime());
+      if(!this->m_CalculateValueAndDerivativeInTangentSpace)
+        {
+        this->m_FixedTransformedPointSetTime = std::max( this->m_FixedTransformedPointSetTime,
+                                                         this->m_MovingTransform->GetMTime() );
+        }
+
     }
 }
 
@@ -579,13 +601,14 @@ void
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
 ::InitializePointsLocators() const
 {
-  if( this->m_FixedTransformPointLocatorsNeedInitialization )
+  if( this->RequiresFixedPointsLocator() &&
+      this->m_FixedTransformPointLocatorsNeedInitialization )
     {
     if( !this->m_FixedTransformedPointSet )
       {
       itkExceptionMacro( "The fixed transformed point set does not exist." );
       }
-    if( ! this->m_FixedTransformedPointsLocator )
+    if( !this->m_FixedTransformedPointsLocator )
       {
       this->m_FixedTransformedPointsLocator = PointsLocatorType::New();
       }
@@ -593,13 +616,14 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
     this->m_FixedTransformedPointsLocator->Initialize();
     }
 
-  if( this->m_MovingTransformPointLocatorsNeedInitialization )
+  if( this->RequiresMovingPointsLocator() &&
+      this->m_MovingTransformPointLocatorsNeedInitialization )
     {
     if( !this->m_MovingTransformedPointSet )
       {
       itkExceptionMacro( "The moving transformed point set does not exist." );
       }
-    if( ! this->m_MovingTransformedPointsLocator )
+    if( !this->m_MovingTransformedPointsLocator )
       {
       this->m_MovingTransformedPointsLocator = PointsLocatorType::New();
       }

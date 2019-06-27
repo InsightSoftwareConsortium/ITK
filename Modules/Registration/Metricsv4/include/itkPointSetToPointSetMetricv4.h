@@ -412,6 +412,15 @@ protected:
     return Superclass::POINT_SET_METRIC;
     }
 
+  virtual bool RequiresMovingPointsLocator() const
+    {
+    return true;
+    };
+
+  virtual bool RequiresFixedPointsLocator() const
+    {
+    return true;
+    };
 
 private:
   mutable bool m_MovingTransformPointLocatorsNeedInitialization;

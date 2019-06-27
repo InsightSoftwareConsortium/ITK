@@ -44,10 +44,6 @@ using ObjectToObjectMultiMetricv4TestMultiMetricType = itk::ObjectToObjectMultiM
 
 int itkObjectToObjectMultiMetricv4TestEvaluate( ObjectToObjectMultiMetricv4TestMultiMetricType::Pointer & multiVariateMetric, bool useDisplacementTransform )
 {
-  //The summations in the derivative depend on the ordering.
-  //Multithreading can introduce noticably different results
-  itk::MultiThreaderBase::New()->SetMaximumNumberOfThreads(1);
-
   int testStatus = EXIT_SUCCESS;
   using MultiMetricType = ObjectToObjectMultiMetricv4TestMultiMetricType;
 

@@ -60,10 +60,6 @@ public:
 
 int itkExpectationBasedPointSetMetricRegistrationTest( int argc, char *argv[] )
 {
-  //The summations in the derivative depend on the ordering.
-  //Multithreading can introduce noticably different results
-  itk::MultiThreaderBase::New()->SetMaximumNumberOfThreads(1);
-
   constexpr unsigned int Dimension = 2;
 
   unsigned int numberOfIterations = 10;
