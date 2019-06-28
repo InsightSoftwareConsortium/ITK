@@ -18,9 +18,3 @@ itk_add_test(
     DATA{Input/DisplacementField.nii.gz}
     ${FixedPointInverseDisplacementFieldTestTestDriverOutput}
 )
-
-itk_python_expression_add_test(
-  NAME FixedPointInverseDisplacementFieldPythonTest
-  EXPRESSION
-    "instance = itk.FixedPointInverseDisplacementFieldImageFilter.New()"
-)
