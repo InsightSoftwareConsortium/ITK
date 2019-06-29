@@ -123,7 +123,7 @@ int itkImageTest(int, char* [] )
   regionRef.SetSize(sizeRef);
   imageRef->SetRegions(regionRef);
 
-  typedef itk::Transform< double, Image::ImageDimension, Image::ImageDimension > TransformType;
+  using TransformType = itk::Transform< double, Image::ImageDimension, Image::ImageDimension >;
 
   Image::RegionType boxRegion = itk::ImageAlgorithm::EnlargeRegionOverBox(image->GetLargestPossibleRegion(),
                                                                           image.GetPointer(),

@@ -50,7 +50,7 @@ void itkSLICImageFilter(const std::string &inFileName,
 
 const unsigned int Dimension = TInputImageType::ImageDimension;
 
-typedef itk::Image<unsigned short, Dimension> OutputImageType;
+using OutputImageType = itk::Image<unsigned short, Dimension>;
 
 using InputImageType = TInputImageType;
 
@@ -58,7 +58,7 @@ using ReaderType = itk::ImageFileReader<InputImageType>;
 typename ReaderType::Pointer reader = ReaderType::New();
 reader->SetFileName(inFileName);
 
-typedef itk::SLICImageFilter< InputImageType, OutputImageType > FilterType;
+using FilterType = itk::SLICImageFilter< InputImageType, OutputImageType >;
 typename FilterType::Pointer filter = FilterType::New();
 filter->SetInput(reader->GetOutput());
 filter->SetSuperGridSize(gridSize);
@@ -97,7 +97,7 @@ int itkSLICImageFilterTest(int argc, char *argv[])
   const char *outFileName = argv[2];
 
   const unsigned int VDimension = 2;
-  typedef itk::VectorImage<float, VDimension> InputImageType;
+  using InputImageType = itk::VectorImage<float, VDimension>;
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
   ReaderType::Pointer reader = ReaderType::New();

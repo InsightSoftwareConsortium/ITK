@@ -69,7 +69,7 @@ public:
 
 protected:
 #if defined( SUPPORT_TOOLHELP32 )
-  typedef NTSTATUS ( WINAPI * PZwQuerySystemInformation )(UINT, PVOID, ULONG, PULONG);
+  using PZwQuerySystemInformation = NTSTATUS ( WINAPI * )(UINT, PVOID, ULONG, PULONG);
 
   // handle ntdll.dll library
   HMODULE m_hNTLib;

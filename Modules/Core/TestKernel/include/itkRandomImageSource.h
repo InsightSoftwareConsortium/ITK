@@ -81,11 +81,11 @@ public:
   using DirectionType = typename TOutputImage::DirectionType;
   using PointType = typename TOutputImage::PointType;
   using SizeValueType = typename SizeType::SizeValueType;
-  typedef SizeValueType                           SizeValueArrayType[TOutputImage::ImageDimension];
+  using SizeValueArrayType = SizeValueType[TOutputImage::ImageDimension];
   using SpacingValueType = typename TOutputImage::SpacingValueType;
-  typedef SpacingValueType                        SpacingValueArrayType[TOutputImage::ImageDimension];
+  using SpacingValueArrayType = SpacingValueType[TOutputImage::ImageDimension];
   using PointValueType = typename TOutputImage::PointValueType;
-  typedef PointValueType                          PointValueArrayType[TOutputImage::ImageDimension];
+  using PointValueArrayType = PointValueType[TOutputImage::ImageDimension];
 
   /** ImageDimension constant */
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;

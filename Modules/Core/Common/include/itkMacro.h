@@ -623,18 +623,18 @@ itkTypeMacro(newexcp, parentexcp);                                \
       };
 
 //
-// itkAlignedTypedef is a macro which creates a new typedef to make a
+// itkAlignedTypedef is a macro which creates a new type to make a
 // data structure aligned.
 //
 #if defined( ITK_HAS_GNU_ATTRIBUTE_ALIGNED )
 # define itkAlignedTypedef( alignment, oldtype, newtype )   \
-  typedef oldtype newtype __attribute__((aligned(alignment)))
+  using newtype = oldtype __attribute__((aligned(alignment)))
 #elif defined ( _MSC_VER )
 # define itkAlignedTypedef( alignment, oldtype, newtype )   \
-  typedef __declspec(align( alignment )) oldtype newtype
+  using newtype = __declspec(align( alignment )) oldtype
 #else
 # define itkAlignedTypedef( alignment, oldtype, newtype )   \
-  typedef oldtype newtype
+  using newtype = oldtype
 #endif
 
 #if defined ( ITK_FUTURE_LEGACY_REMOVE )

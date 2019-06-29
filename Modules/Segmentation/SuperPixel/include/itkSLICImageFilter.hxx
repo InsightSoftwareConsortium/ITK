@@ -127,7 +127,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
   itkDebugMacro("Shrinking Starting");
   typename InputImageType::Pointer shrunkImage;
   {
-  typedef itk::ShrinkImageFilter<InputImageType, InputImageType> ShrinkImageFilterType;
+  using ShrinkImageFilterType = itk::ShrinkImageFilter<InputImageType, InputImageType>;
   typename ShrinkImageFilterType::Pointer shrinker = ShrinkImageFilterType::New();
   shrinker->SetInput(inputImage);
   shrinker->SetShrinkFactors(m_SuperGridSize);
@@ -462,7 +462,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
   itk::Size<ImageDimension> radius;
   radius.Fill( 1 );
 
-  typedef ConstNeighborhoodIterator< TOutputImage,  ConstantBoundaryCondition< TOutputImage > > NeighborhoodType;
+  using NeighborhoodType = ConstNeighborhoodIterator< TOutputImage,  ConstantBoundaryCondition< TOutputImage > >;
 
   std::vector< IndexType > indexStack;
 
@@ -807,7 +807,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>
   unsigned long center;
   unsigned long stride[ImageDimension];
 
-  typedef NeighborhoodIterator< TOutputImage,  ConstantBoundaryCondition< TOutputImage > > NeighborhoodType;
+  using NeighborhoodType = NeighborhoodIterator< TOutputImage,  ConstantBoundaryCondition< TOutputImage > >;
 
   NeighborhoodType labelIt( radius, outputImage, outputImage->GetRequestedRegion() );
   labelIt.OverrideBoundaryCondition(&lbc);

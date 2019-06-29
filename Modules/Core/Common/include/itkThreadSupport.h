@@ -59,7 +59,7 @@ namespace itk
   constexpr std::size_t ITK_MAX_THREADS = ITK_DEFAULT_MAX_THREADS;
   using MutexType = HANDLE;
   using FastMutexType = CRITICAL_SECTION;
-  typedef unsigned(__stdcall * ThreadFunctionType)(void *);
+  using ThreadFunctionType = unsigned(__stdcall * )(void *);
   using ThreadProcessIdType = HANDLE;
   static const ThreadProcessIdType ITK_DEFAULT_THREAD_ID = INVALID_HANDLE_VALUE;
   using ITK_THREAD_RETURN_TYPE = unsigned;
@@ -71,7 +71,7 @@ namespace itk
   constexpr std::size_t ITK_MAX_THREADS = 1;
   using MutexType = int;
   using FastMutexType = int;
-  typedef void ( *ThreadFunctionType )(void *);
+  using ThreadFunctionType = void ( * )(void *);
   using ThreadProcessIdType = int;
   constexpr ThreadProcessIdType ITK_DEFAULT_THREAD_ID = 0;
   using ITK_THREAD_RETURN_TYPE = void;

@@ -6,7 +6,7 @@
 %include exception.i
 
 %{
-// VTK also includes a Py_hash_t typedef definition for Python 2 that clashes
+// VTK also includes a Py_hash_t type definition for Python 2 that clashes
 // with SWIG's preprocessor macro
 #if PY_VERSION_HEX < 0x3020000
 #ifdef Py_hash_t

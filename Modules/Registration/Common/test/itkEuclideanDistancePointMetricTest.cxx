@@ -100,9 +100,7 @@ int itkEuclideanDistancePointMetricTest( int argc, char* argv [] )
   using MeshType = itk::Mesh< ScalarType, Dimension >;
   using QuadEdgeMeshType = itk::QuadEdgeMesh< ScalarType, Dimension >;
 
-
-  typedef itk::EuclideanDistancePointMetric< MeshType,
-                                             QuadEdgeMeshType > MetricType;
+  using MetricType = itk::EuclideanDistancePointMetric< MeshType, QuadEdgeMeshType >;
 
   MetricType::Pointer metric = MetricType::New();
 
