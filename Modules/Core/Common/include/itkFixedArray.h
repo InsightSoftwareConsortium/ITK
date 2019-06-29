@@ -62,7 +62,7 @@ public:
   using ValueType = TValue;
 
   /** A type representing the C-array version of this FixedArray. */
-  typedef ValueType CArray[VLength];
+  using CArray = ValueType[VLength];
 
   /** An iterator through the array. */
   using Iterator = ValueType *;

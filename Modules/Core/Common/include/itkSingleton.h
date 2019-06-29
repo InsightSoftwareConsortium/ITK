@@ -44,9 +44,9 @@ namespace itk
 class ITKCommon_EXPORT SingletonIndex
 {
 public:
-  /** Standard class typedefs. */
-  typedef SingletonIndex Self;
-  typedef std::map<std::string, std::tuple<void*, std::function<void(void*)>, std::function<void(void)> > > SingletonData;
+  /** Standard class types. */
+  using Self = SingletonIndex;
+  using SingletonData = std::map<std::string, std::tuple<void*, std::function<void(void*)>, std::function<void(void)> > >;
 
   // obtain a global registered in the singleton index under the
   // globalName, if unknown then nullptr will be returned.

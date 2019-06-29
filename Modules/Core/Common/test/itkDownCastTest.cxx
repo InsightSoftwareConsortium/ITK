@@ -25,8 +25,8 @@
 
 #include "itkDynamicLoader.h"
 
-typedef itk::Object * ( *PRODUCER_FUNCTION )();
-typedef int ( *DYNAMIC_DOWNCAST_FUNCTION )( const char * type, const char * instanceSource, itk::Object const * base );
+using PRODUCER_FUNCTION = itk::Object * ( * )();
+using DYNAMIC_DOWNCAST_FUNCTION = int ( * )( const char * type, const char * instanceSource, itk::Object const * base );
 
 int itkDownCastTest( int argc, char * argv[] )
 {
