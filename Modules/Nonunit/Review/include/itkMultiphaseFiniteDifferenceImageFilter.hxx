@@ -20,7 +20,6 @@
 
 #include "itkMultiphaseFiniteDifferenceImageFilter.h"
 #include "itkImageRegionConstIterator.h"
-#include "itkExceptionObject.h"
 #include "itkEventObject.h"
 
 namespace itk

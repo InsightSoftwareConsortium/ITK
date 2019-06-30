@@ -20,7 +20,6 @@
 #include "ITKIOImageBaseExport.h"
 
 #include "itkMacro.h"
-#include "itkExceptionObject.h"
 
 namespace itk
 {

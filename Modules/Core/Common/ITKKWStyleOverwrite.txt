@@ -30,3 +30,4 @@ itkSize\.h SemicolonSpace Disable
 itkOffset\.h SemicolonSpace Disable
 itkMultiThreaderBase.h Comments Disable
 itkSingleton\.cxx Namespace Disable
+itkExceptionObject\.h IfNDefDefine Disable
