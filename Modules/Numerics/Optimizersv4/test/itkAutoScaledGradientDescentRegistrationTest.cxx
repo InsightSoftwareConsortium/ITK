@@ -22,7 +22,6 @@
 #include "itkRegistrationParameterScalesFromJacobian.h"
 
 #include "itkSize.h"
-#include "itkExceptionObject.h"
 #include "itkImageRegistrationMethodImageSource.h"
 #include "itkMath.h"
 #include "itkTestingMacros.h"

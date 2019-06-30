@@ -20,7 +20,6 @@
 #define itkFEMObjectSpatialObject_h
 
 #include "itkFEMObject.h"
-#include "itkExceptionObject.h"
 #include "itkSpatialObject.h"
 
 namespace itk

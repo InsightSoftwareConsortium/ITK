@@ -1330,7 +1330,9 @@ class kernel                                \
 #define ITKv5_CONST const
 #endif
 
+#define itkExceptionObject_h
 #include "itkExceptionObject.h"
+#undef itkExceptionObject_h
 
 /** itkDynamicCastInDebugMode
   * Use static_cast in Release builds, and dynamic_cast in Debug

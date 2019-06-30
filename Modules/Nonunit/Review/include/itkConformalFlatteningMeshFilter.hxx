@@ -19,7 +19,6 @@
 #define itkConformalFlatteningMeshFilter_hxx
 
 #include "itkConformalFlatteningMeshFilter.h"
-#include "itkExceptionObject.h"
 
 #include "itkMath.h"
 
