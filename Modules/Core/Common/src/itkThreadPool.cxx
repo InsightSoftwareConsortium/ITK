@@ -32,11 +32,11 @@ namespace itk
 
 struct ThreadPoolGlobals
 {
-  ThreadPoolGlobals():m_DoNotWaitForThreads(false){};
+  ThreadPoolGlobals() = default;
   // To lock on the internal variables.
   std::mutex m_Mutex;
   ThreadPool::Pointer m_ThreadPoolInstance;
-  bool m_DoNotWaitForThreads;
+  bool m_WaitForThreads = true;
 };
 
 itkGetGlobalSimpleMacro(ThreadPool, ThreadPoolGlobals, PimplGlobals);
@@ -79,7 +79,7 @@ ThreadPool
 ::GetDoNotWaitForThreads()
 {
   itkInitGlobalsMacro(PimplGlobals);
-  return m_PimplGlobals->m_DoNotWaitForThreads;
+  return !m_PimplGlobals->m_WaitForThreads;
 }
 
 void
@@ -87,7 +87,7 @@ ThreadPool
 ::SetDoNotWaitForThreads(bool doNotWaitForThreads)
 {
   itkInitGlobalsMacro(PimplGlobals);
-  m_PimplGlobals->m_DoNotWaitForThreads = doNotWaitForThreads;
+  m_PimplGlobals->m_WaitForThreads = !doNotWaitForThreads;
 }
 
 ThreadPool
@@ -142,7 +142,7 @@ ThreadPool
   //explicitly terminated by a call to the ExitProcess function".
   waitForThreads = false;
 #else
-  if(m_PimplGlobals->m_DoNotWaitForThreads)
+  if ( !m_PimplGlobals->m_WaitForThreads )
     {
     waitForThreads = false;
     }
