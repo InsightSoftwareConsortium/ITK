@@ -119,7 +119,7 @@ public:
   SymmetricSecondRankTensor(const SymmetricSecondRankTensor< TCoordRepB, NDimension > & pa):
     BaseArray(pa) {}
 
-  typedef ComponentType ComponentArrayType[Self::InternalDimension];
+  using ComponentArrayType = ComponentType[Self::InternalDimension];
 
   /** Pass-through constructor for the Array base class. */
   SymmetricSecondRankTensor(const ComponentArrayType r):BaseArray(r) {}

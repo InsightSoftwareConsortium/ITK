@@ -19,7 +19,6 @@
 #define itkESMDemonsRegistrationFunction_hxx
 
 #include "itkESMDemonsRegistrationFunction.h"
-#include "itkExceptionObject.h"
 #include "itkMath.h"
 
 namespace itk

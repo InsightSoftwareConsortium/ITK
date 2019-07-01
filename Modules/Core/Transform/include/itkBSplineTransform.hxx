@@ -325,7 +325,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
 
 
   // Set the origin parameters
-  typedef typename ImageType::PointType PointType;
+  using PointType = typename ImageType::PointType;
   PointType origin;
   origin.Fill( 0.0 );
   for( unsigned int i = 0; i < NDimensions; i++ )

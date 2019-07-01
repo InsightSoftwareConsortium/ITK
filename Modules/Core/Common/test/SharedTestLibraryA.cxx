@@ -19,6 +19,6 @@
 
 void bar()
 {
-  typedef itk::Image<float,2> ImageType;
+  using ImageType = itk::Image<float,2>;
   ImageType::Pointer image = ImageType::New();
 }

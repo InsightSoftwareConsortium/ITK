@@ -514,8 +514,8 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
   // Check whether the input or the output is a
   // SpecialCoordinatesImage. If either are, then we cannot use the
   // fast path since index mapping will definitely not be linear.
-  typedef SpecialCoordinatesImage< PixelType, ImageDimension >           OutputSpecialCoordinatesImageType;
-  typedef SpecialCoordinatesImage< InputPixelType, InputImageDimension > InputSpecialCoordinatesImageType;
+  using OutputSpecialCoordinatesImageType = SpecialCoordinatesImage< PixelType, ImageDimension >;
+  using InputSpecialCoordinatesImageType = SpecialCoordinatesImage< InputPixelType, InputImageDimension >;
 
   const bool isSpecialCoordinatesImage = ( dynamic_cast< const InputSpecialCoordinatesImageType * >( this->GetInput() )
        || dynamic_cast< const OutputSpecialCoordinatesImageType * >( this->GetOutput() ) );

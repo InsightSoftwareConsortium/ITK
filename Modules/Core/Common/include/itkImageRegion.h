@@ -92,8 +92,8 @@ public:
   using IndexValueType = typename IndexType::IndexValueType;
   using OffsetType = typename IndexType::OffsetType;
   using OffsetValueType = typename OffsetType::OffsetValueType;
-  typedef IndexValueType  IndexValueArrayType[ImageDimension];
-  typedef OffsetValueType OffsetTableType[ImageDimension+1];
+  using IndexValueArrayType = IndexValueType[ImageDimension];
+  using OffsetTableType = OffsetValueType[ImageDimension+1];
 
   /** Size type alias support A size is used to define region bounds. */
   using SizeType = Size< Self::ImageDimension >;
