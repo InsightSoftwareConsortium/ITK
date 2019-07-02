@@ -21,6 +21,7 @@
 #include "itkImageToImageFilter.h"
 #include "itkVectorLinearInterpolateImageFunction.h"
 
+#if !defined ( ITK_LEGACY_REMOVE )
 namespace itk
 {
 /** \class VectorExpandImageFilter
@@ -181,6 +182,7 @@ private:
   InterpolatorPointer      m_Interpolator;
 };
 } // end namespace itk
+#endif //ITK_LEGACY_REMOVE
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkVectorExpandImageFilter.hxx"
