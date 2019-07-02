@@ -62,8 +62,9 @@ namespace itk
  * \sa Vector
  * \sa VectorInterpolateImageFunction
  * \sa VectorLinearInterpolationImageFunction
- *
  * \sa ExpandImageFilter
+ *
+ * \deprecated Please use ExpandImageFilter instead.
  *
  * \ingroup GeometricTransform
  * \ingroup ITKImageIntensity

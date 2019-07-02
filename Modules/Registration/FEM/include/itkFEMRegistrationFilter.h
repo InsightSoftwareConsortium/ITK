@@ -36,7 +36,7 @@
 #include "itkWarpImageFilter.h"
 #include "itkImageToImageMetric.h"
 #include "itkTranslationTransform.h"
-#include "itkVectorExpandImageFilter.h"
+#include "itkExpandImageFilter.h"
 #include "itkFixedArray.h"
 
 #include "itkRecursiveMultiResolutionPyramidImageFilter.h"
@@ -174,7 +174,7 @@ public:
 
   using ImageToMeshType = itk::fem::ImageToRectilinearFEMObjectFilter<TMovingImage>;
 
-  using ExpanderType = itk::VectorExpandImageFilter<FieldType, FieldType>;
+  using ExpanderType = itk::ExpandImageFilter<FieldType, FieldType>;
   using ExpandFactorsType = typename ExpanderType::ExpandFactorsType;
 
   using FieldPointer = typename FieldType::Pointer;

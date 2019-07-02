@@ -50,15 +50,11 @@ namespace itk
  * This filter is implemented as a multithreaded filter and supports
  * streaming.
  *
- * \warning This filter only works for image with scalar pixel types.
- * For vector images use VectorExpandImageFilter.
- *
  * This filter assumes that the input and output image has the same
  * number of dimensions.
  *
  * \sa InterpolateImageFunction
  * \sa LinearInterpolationImageFunction
- * \sa VectorExpandImageFilter
  *
  * \ingroup GeometricTransform
  * \ingroup ITKImageGrid
