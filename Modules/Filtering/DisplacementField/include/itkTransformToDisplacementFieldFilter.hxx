@@ -78,8 +78,7 @@ void
 TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
 ::SetOutputSpacing(const SpacePrecisionType *spacing)
 {
-  SpacingType ss(spacing);
-  this->SetOutputSpacing(ss);
+  this->SetOutputSpacing(SpacingType(spacing));
 }
 
 
@@ -88,8 +87,7 @@ void
 TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
 ::SetOutputOrigin(const SpacePrecisionType *origin)
 {
-  OriginType pp(origin);
-  this->SetOutputOrigin(pp);
+  this->SetOutputOrigin(OriginType(origin));
 }
 
 template< typename TOutputImage, typename TParametersValueType>

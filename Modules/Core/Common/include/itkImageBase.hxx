@@ -135,9 +135,7 @@ void
 ImageBase< VImageDimension >
 ::SetOrigin(const double origin[VImageDimension])
 {
-  PointType p(origin);
-
-  this->SetOrigin(p);
+  this->SetOrigin(PointType(origin));
 }
 
 
@@ -146,10 +144,7 @@ void
 ImageBase< VImageDimension >
 ::SetOrigin(const float origin[VImageDimension])
 {
-  Point< float, VImageDimension > of(origin);
-  PointType                       p;
-  p.CastFrom(of);
-  this->SetOrigin(p);
+  this->SetOrigin(PointType(origin));
 }
 
 
