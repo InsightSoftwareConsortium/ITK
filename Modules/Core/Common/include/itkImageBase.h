@@ -834,20 +834,6 @@ protected:
   void Graft(const DataObject *data) override;
 
 private:
-  void InternalSetSpacing(const SpacingValueType spacing[VImageDimension])
-    {
-      SpacingType s(spacing);
-      this->SetSpacing(s);
-    }
-
-  template <typename TSpacingValue>
-  void InternalSetSpacing(const TSpacingValue spacing[VImageDimension])
-    {
-      Vector<TSpacingValue,VImageDimension> sf(spacing);
-      SpacingType                           s;
-      s.CastFrom(sf);
-      this->SetSpacing(s);
-    }
 
   OffsetValueType m_OffsetTable[VImageDimension + 1];
 

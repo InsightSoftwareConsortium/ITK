@@ -119,6 +119,8 @@ public:
   template< typename TVectorValueType >
   Vector(const Vector< TVectorValueType, NVectorDimension > & r):BaseArray(r) {}
   Vector(const ValueType r[Dimension]):BaseArray(r) {}
+  template< typename TVectorValueType >
+  Vector(const TVectorValueType r[Dimension]):BaseArray(r) {}
 
   /** Pass-through assignment operator for the Array base class. */
   template< typename TVectorValueType >
