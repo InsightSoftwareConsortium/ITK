@@ -33,6 +33,8 @@
 #include "itkHistogramMatchingImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkLinearInterpolateImageFunction.h"
+#include "itkDisplacementFieldTransform.h"
+#include "itkResampleImageFilter.h"
 
 constexpr unsigned int Dimension = 2;
 
@@ -151,23 +153,29 @@ int main( int argc, char *argv[] )
   filter->SetConstraintWeight( 1 );
   filter->Update();
 
-  using WarperType = itk::WarpImageFilter<
-                          MovingImageType,
-                          MovingImageType,
-                          DisplacementFieldType  >;
+  using InterpolatorPrecisionType = double;
+  using TransformPrecisionType = float;
+  using WarperType = itk::ResampleImageFilter< MovingImageType,
+                                               MovingImageType,
+                                               InterpolatorPrecisionType,
+                                               TransformPrecisionType >;
   using InterpolatorType = itk::LinearInterpolateImageFunction<
-                                   MovingImageType,
-                                   double          >;
+                                               MovingImageType,
+                                               InterpolatorPrecisionType >;
   WarperType::Pointer warper = WarperType::New();
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   warper->SetInput( movingImageReader->GetOutput() );
   warper->SetInterpolator( interpolator );
-  warper->SetOutputSpacing( fixedImage->GetSpacing() );
-  warper->SetOutputOrigin( fixedImage->GetOrigin() );
-  warper->SetOutputDirection( fixedImage->GetDirection() );
-  warper->SetDisplacementField( filter->GetOutput() );
+  warper->UseReferenceImageOn();
+  warper->SetReferenceImage( fixedImage );
+
+  using DisplacementFieldTransformType = itk::DisplacementFieldTransform<TransformPrecisionType, Dimension>;
+  auto displacementTransform = DisplacementFieldTransformType::New();
+  displacementTransform->SetDisplacementField( filter->GetOutput() );
+  warper->SetTransform( displacementTransform );
+
 
   // Write warped image out to file
   using OutputPixelType = unsigned short;
