@@ -94,9 +94,7 @@ void
 ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType >
 ::SetOutputOrigin(const double *origin)
 {
-  OriginPointType p(origin);
-
-  this->SetOutputOrigin(p);
+  this->SetOutputOrigin(OriginPointType(origin));
 }
 
 template< typename TInputImage,

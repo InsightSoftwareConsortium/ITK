@@ -87,9 +87,7 @@ void
 WarpVectorImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::SetOutputOrigin(const double *origin)
 {
-  PointType p(origin);
-
-  this->SetOutputOrigin(p);
+  this->SetOutputOrigin(PointType(origin));
 }
 
 /** Set displacement field as Inputs[1] for this ProcessObject. */
