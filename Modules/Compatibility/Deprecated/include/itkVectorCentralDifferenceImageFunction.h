@@ -39,8 +39,10 @@ namespace itk
  * This implementation was taken from the Insight Journal paper:
  * https://hdl.handle.net/1926/510
  *
+ * \deprecated Please use CentralDifferenceImageFunction instead.
+ *
  * \ingroup ImageFunctions
- * \ingroup ITKReview
+ * \ingroup ITKDeprecated
  */
 template<
   typename TInputImage,
