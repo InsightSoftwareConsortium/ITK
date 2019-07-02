@@ -104,7 +104,7 @@ public:
   using ScanIteratorType = ConstNeighborhoodIterator<VirtualImageType>;
 
   // one ScanMemType for each thread
-  typedef struct ScanMemType {
+  using ScanMemType = struct {
     // queues used in the scanning
     // sum of the fixed value squared
     SumQueueType QsumFixed2;
@@ -127,10 +127,10 @@ public:
     FixedImagePointType     mappedFixedPoint;
     MovingImagePointType    mappedMovingPoint;
     VirtualPointType        virtualPoint;
-  } ScanMemType;
+  };
 
   // For dense scan over one image region
-  typedef struct ScanParametersType {
+  using ScanParametersType = struct {
     // const values during scanning
     ImageRegionType scanRegion;
     SizeValueType   numberOfFillZero; // for each queue
@@ -141,8 +141,7 @@ public:
     typename MovingImageType::ConstPointer  movingImage;
     typename VirtualImageType::ConstPointer virtualImage;
     RadiusType radius;
-
-  } ScanParametersType;
+  };
 
 protected:
   ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader() :

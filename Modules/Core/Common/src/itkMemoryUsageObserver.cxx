@@ -92,18 +92,18 @@ WindowsMemoryUsageObserver::~WindowsMemoryUsageObserver()
 using KPRIORITY = LONG;
 #define SystemProcessesAndThreadsInformation    5
 
-typedef struct _CLIENT_ID {
+using CLIENT_ID = struct _CLIENT_ID {
   DWORD UniqueProcess;
   DWORD UniqueThread;
-} CLIENT_ID;
+};
 
-typedef struct _UNICODE_STRING {
+using UNICODE_STRING = struct _UNICODE_STRING {
   USHORT Length;
   USHORT MaximumLength;
   PWSTR Buffer;
-} UNICODE_STRING;
+};
 
-typedef struct _VM_COUNTERS {
+using VM_COUNTERS = struct {
 #ifdef _WIN64
   // the following was inferred by painful reverse engineering
   SIZE_T PeakVirtualSize;             // not actually
@@ -130,9 +130,9 @@ typedef struct _VM_COUNTERS {
   SIZE_T PagefileUsage;
   SIZE_T PeakPagefileUsage;
 #endif
-} VM_COUNTERS;
+};
 
-typedef struct _SYSTEM_THREADS {
+using SYSTEM_THREADS = struct {
   LARGE_INTEGER KernelTime;
   LARGE_INTEGER UserTime;
   LARGE_INTEGER CreateTime;
@@ -144,9 +144,10 @@ typedef struct _SYSTEM_THREADS {
   ULONG ContextSwitchCount;
   LONG State;
   LONG WaitReason;
-} SYSTEM_THREADS, *PSYSTEM_THREADS;
+};
+using PSYSTEM_THREADS = SYSTEM_THREADS *;
 
-typedef struct _SYSTEM_PROCESSES { // Information Class 5
+using SYSTEM_PROCESSES = struct { // Information Class 5
   ULONG NextEntryDelta;
   ULONG MaximumNumberOfThreads;
   ULONG Reserved1[6];
@@ -174,7 +175,8 @@ typedef struct _SYSTEM_PROCESSES { // Information Class 5
   IO_COUNTERS IoCounters;
 #endif
   SYSTEM_THREADS Threads[1];
-} SYSTEM_PROCESSES, *PSYSTEM_PROCESSES;
+};
+using PSYSTEM_PROCESSES = SYSTEM_PROCESSES *;
 #endif
 
 MemoryUsageObserverBase::MemoryLoadType

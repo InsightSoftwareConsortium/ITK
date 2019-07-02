@@ -72,10 +72,10 @@ public:
 
   /** Begin is the first valid iterator position within the region.  End is ONE
       PAST the last valid iterator position in the region. */
-  typedef struct RegionStruct {
+  using RegionType = struct {
     Iterator Begin;
     Iterator End;
-  } RegionType;
+  };
 
   /** Returns an array of RegionStructs which represent contiguous
    * arrays of nodes within the narrow band. */
