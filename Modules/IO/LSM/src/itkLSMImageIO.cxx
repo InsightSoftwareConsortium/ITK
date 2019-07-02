@@ -59,7 +59,7 @@ using Float32_t = float;
 using Float64_t = double;
 using Float96_t = long double;
 
-typedef struct {
+using zeiss_info = struct {
   UInt32_t U32MagicNumber;
   Int32_t S32StructureSize;
   Int32_t S32DimensionX;
@@ -89,7 +89,7 @@ typedef struct {
   UInt32_t u32OffsetBleachRoi;
   UInt32_t u32OffsetNextRecording;
   UInt32_t u32Reserved[TIF_CZ_LSMINFO_SIZE_RESERVED];
-} zeiss_info;
+};
 
 LSMImageIO::LSMImageIO()
 {

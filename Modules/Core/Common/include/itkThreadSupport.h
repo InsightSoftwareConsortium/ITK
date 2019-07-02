@@ -83,11 +83,11 @@ namespace itk
   /** Platform specific Conditional Variable type alias
    */
 #if defined(ITK_USE_PTHREADS)
-  typedef struct {
+  using ConditionVariableType = struct {
   pthread_cond_t m_ConditionVariable;
-  } ConditionVariableType;
+  };
 #elif defined(ITK_USE_WIN32_THREADS)
-  typedef struct {
+  using ConditionVariableType = struct {
   int m_NumberOfWaiters;                   // number of waiting threads
   CRITICAL_SECTION m_NumberOfWaitersLock;  // Serialize access to
                                            // m_NumberOfWaiters
@@ -101,7 +101,7 @@ namespace itk
 
   int m_WasBroadcast;                      // Used as boolean. Keeps track of whether
                                            // we were broadcasting or signaling
-  } ConditionVariableType;
+  };
 #else
   using ConditionVariableType = struct { };
 #endif

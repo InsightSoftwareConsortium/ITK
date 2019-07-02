@@ -24,10 +24,10 @@
 #include "itksys/SystemTools.hxx"
 #include "itkMutexLock.h"
 
-typedef struct {
+using SharedThreadData = struct {
   int numberOfLoop;
   itk::MutexLock::Pointer sharedMutex;
-} SharedThreadData;
+};
 
 void* ThreadFunction(void *ptr)
 {
