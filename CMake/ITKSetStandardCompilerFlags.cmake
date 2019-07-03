@@ -145,7 +145,10 @@ function(check_compiler_optimization_flags c_optimization_flags_var cxx_optimiza
   if(MSVC)
       set(InstructionSetOptimizationFlags
          # https://docs.microsoft.com/en-us/cpp/build/reference/arch-x64?view=vs-2015
-         /arch:SSE /arch:SSE2 /arch:/AVX ) # /arch:/AVX2 AVX2 circa 2013
+         /arch:SSE /arch:SSE2 /arch:AVX) # AVX2 support circa 2013 hardware
+      if(MSVC_VERSION GREATER_EQUAL 1800)
+        list(APPEND InstructionSetOptimizationFlags /arch:AVX2)
+      endif()
   else()
     if (${CMAKE_C_COMPILER} MATCHES "icc.*$")
       set(USING_INTEL_ICC_COMPILER TRUE)
@@ -154,7 +157,7 @@ function(check_compiler_optimization_flags c_optimization_flags_var cxx_optimiza
       set(USING_INTEL_ICC_COMPILER TRUE)
     endif()
     if(USING_INTEL_ICC_COMPILER)
-      set(InstructionSetOptimizationFlags "" )
+      set(InstructionSetOptimizationFlags "")
     else()
       set(InstructionSetOptimizationFlags "")
     endif ()
