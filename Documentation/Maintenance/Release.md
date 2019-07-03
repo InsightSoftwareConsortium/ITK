@@ -179,7 +179,7 @@ The following must be ensured before tagging the ITK repository:
     * For bugfix releases, this is done before the tag. For feature releases,
     this is done after the final tag.
   * Make sure **all new remote modules are built in by the Doxygen build**.
-  * **Update** the `WikiExamples` and `SphinxExamples` remote modules.
+  * **Update** the `SphinxExamples` remote modules.
 
 ### Increment the version number
 
@@ -664,23 +664,6 @@ Generate the `.tar.gz` and `.zip` tarballs:
    git archive --format=tar --prefix=${prefix}/ --output=${prefix}.tar ${tag}
    gzip -9  ${prefix}.tar
    git archive --format=zip -9 --prefix=${prefix}/ --output=${prefix}.zip ${tag}
-```
-
-Update ITK Wiki Examples
-------------------------
-
-Update the CMake minimum version in the example files if necessary.
-
-Download the latest examples from the [ITK wiki examples] (i.e. `git pull`
-on the `ITKWikiExamples` repository), and run:
-
-```sh
-   wget -O ITKWikiExamples-master.zip https://github.com/InsightSoftwareConsortium/ITKWikiExamples/archive/master.zip
-   unzip ITKWikiExamples-master.zip
-   mv ITKWikiExamples-master InsightWikiExamples-${version}
-   zip -r InsightWikiExamples-${version}.zip InsightWikiExamples-${version}
-   tar cvf InsightWikiExamples-${version}.tar InsightWikiExamples-${version}
-   gzip -9 InsightWikiExamples-${version}.tar
 ```
 
 Upload the release artifacts to GitHub
