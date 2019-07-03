@@ -145,9 +145,14 @@ function(check_compiler_optimization_flags c_optimization_flags_var cxx_optimiza
   if(MSVC)
       set(InstructionSetOptimizationFlags
          # https://docs.microsoft.com/en-us/cpp/build/reference/arch-x64?view=vs-2015
-         /arch:SSE /arch:SSE2 /arch:AVX) # AVX2 support circa 2013 hardware
+         /arch:AVX ) # AVX support circa 2013 hardware
       if(MSVC_VERSION GREATER_EQUAL 1800)
-        list(APPEND InstructionSetOptimizationFlags /arch:AVX2)
+         list(APPEND InstructionSetOptimizationFlags
+              /arch:AVX2) # AVX support circa 2013 hardware
+      endif()
+      if("${CMAKE_SIZEOF_VOID_P}" EQUAL "4")
+         list(APPEND InstructionSetOptimizationFlags
+              /arch:SSE /arch:SSE2)
       endif()
   else()
     if (${CMAKE_C_COMPILER} MATCHES "icc.*$")
