@@ -16,36 +16,7 @@ file( GLOB_RECURSE examples_list_fullpath
   "${PROJECT_SOURCE_DIR}/Examples/*.py"
   "${PROJECT_SOURCE_DIR}/Examples/*.java"
 )
-file( GLOB_RECURSE wiki_examples_list_fullpath
-  "${PROJECT_SOURCE_DIR}/Modules/Remote/WikiExamples/Conversions/*.cxx"
-  "${PROJECT_SOURCE_DIR}/Modules/Remote/WikiExamples/Curves/*.cxx"
-  "${PROJECT_SOURCE_DIR}/Modules/Remote/WikiExamples/Developer/*.cxx"
-  "${PROJECT_SOURCE_DIR}/Modules/Remote/WikiExamples/DICOM/*.cxx"
-  "${PROJECT_SOURCE_DIR}/Modules/Remote/WikiExamples/EdgesAndGradients/*.cxx"
-  "${PROJECT_SOURCE_DIR}/Modules/Remote/WikiExamples/Functions/*.cxx"
-  "${PROJECT_SOURCE_DIR}/Modules/Remote/WikiExamples/ImageProcessing/*.cxx"
-  "${PROJECT_SOURCE_DIR}/Modules/Remote/WikiExamples/Images/*.cxx"
-  "${PROJECT_SOURCE_DIR}/Modules/Remote/WikiExamples/ImageSegmentation/*.cxx"
-  "${PROJECT_SOURCE_DIR}/Modules/Remote/WikiExamples/Inspection/*.cxx"
-  "${PROJECT_SOURCE_DIR}/Modules/Remote/WikiExamples/Instructions/*.cxx"
-  "${PROJECT_SOURCE_DIR}/Modules/Remote/WikiExamples/IO/*.cxx"
-  "${PROJECT_SOURCE_DIR}/Modules/Remote/WikiExamples/Iterators/*.cxx"
-  "${PROJECT_SOURCE_DIR}/Modules/Remote/WikiExamples/Math/*.cxx"
-  "${PROJECT_SOURCE_DIR}/Modules/Remote/WikiExamples/Meshes/*.cxx"
-  "${PROJECT_SOURCE_DIR}/Modules/Remote/WikiExamples/Metrics/*.cxx"
-  "${PROJECT_SOURCE_DIR}/Modules/Remote/WikiExamples/Morphology/*.cxx"
-  "${PROJECT_SOURCE_DIR}/Modules/Remote/WikiExamples/Operators/*.cxx"
-  "${PROJECT_SOURCE_DIR}/Modules/Remote/WikiExamples/PointSet/*.cxx"
-  "${PROJECT_SOURCE_DIR}/Modules/Remote/WikiExamples/Registration/*.cxx"
-  "${PROJECT_SOURCE_DIR}/Modules/Remote/WikiExamples/Segmentation/*.cxx"
-  "${PROJECT_SOURCE_DIR}/Modules/Remote/WikiExamples/SimpleOperations/*.cxx"
-  "${PROJECT_SOURCE_DIR}/Modules/Remote/WikiExamples/Smoothing/*.cxx"
-  "${PROJECT_SOURCE_DIR}/Modules/Remote/WikiExamples/SpatialObjects/*.cxx"
-  "${PROJECT_SOURCE_DIR}/Modules/Remote/WikiExamples/SpectralAnalysis/*.cxx"
-  "${PROJECT_SOURCE_DIR}/Modules/Remote/WikiExamples/Statistics/*.cxx"
-  "${PROJECT_SOURCE_DIR}/Modules/Remote/WikiExamples/VectorImages/*.cxx"
-  "${PROJECT_SOURCE_DIR}/Modules/Remote/WikiExamples/Visualization/*.cxx"
-)
+
 file( GLOB_RECURSE sphinx_examples_list_fullpath
   "${PROJECT_SOURCE_DIR}/Modules/Remote/SphinxExamples/src/*.cxx"
   "${PROJECT_SOURCE_DIR}/Modules/Remote/SphinxExamples/src/*.py"
@@ -59,7 +30,7 @@ foreach( _example ${examples_list_fullpath} )
   list( APPEND examples_list ${example_relative} )
 endforeach()
 string( LENGTH "${PROJECT_SOURCE_DIR}/Modules/Remote/" root_length )
-foreach( _example ${wiki_examples_list_fullpath} ${sphinx_examples_list_fullpath} )
+foreach( _example ${sphinx_examples_list_fullpath} )
   string( SUBSTRING ${_example} ${root_length} -1 example_relative )
   list( APPEND examples_list ${example_relative} )
 endforeach()
