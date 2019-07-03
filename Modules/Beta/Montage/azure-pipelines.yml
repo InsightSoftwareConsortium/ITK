@@ -66,7 +66,7 @@ jobs:
       mkdir ITK-build
       cd ITK-build
       $(compilerInitialization)
-      cmake -DCMAKE_C_COMPILER:FILEPATH="$(cCompiler)" -DBUILD_SHARED_LIBS:BOOL=ON -DCMAKE_CXX_COMPILER="$(cxxCompiler)" -DCMAKE_BUILD_TYPE:STRING=$(CMakeBuildType) -DBUILD_TESTING:BOOL=OFF -GNinja ../ITK
+      cmake -DCMAKE_C_COMPILER:FILEPATH="$(cCompiler)" -DBUILD_SHARED_LIBS:BOOL=ON -DCMAKE_CXX_COMPILER="$(cxxCompiler)" -DCMAKE_BUILD_TYPE:STRING=$(CMakeBuildType) -DBUILD_TESTING:BOOL=OFF -DExternalData_URL_TEMPLATES="https://insightsoftwareconsortium.github.io/ITKMontageData/%(algo)/%(hash)" -GNinja ../ITK
       ninja
     workingDirectory: $(Agent.BuildDirectory)
     displayName: 'Build ITK'
@@ -113,6 +113,7 @@ jobs:
       set(dashboard_cache "
       ITK_DIR:PATH=\${CTEST_DASHBOARD_ROOT}/ITK-build
       BUILD_TESTING:BOOL=ON
+      ExternalData_URL_TEMPLATES=https://insightsoftwareconsortium.github.io/ITKMontageData/%(algo)/%(hash)
       ")
       string(TIMESTAMP build_date "%Y-%m-%d")
       message("CDash Build Identifier: \${build_date} \${CTEST_BUILD_NAME}")
