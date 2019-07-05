@@ -28,13 +28,14 @@
 
 namespace itk
 {
-template< typename TFixedImage, typename TMovingImage >
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >::PhaseCorrelationImageRegistrationMethod()
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
+::PhaseCorrelationImageRegistrationMethod()
 {
   this->SetNumberOfRequiredInputs( 2 );
   this->SetNumberOfRequiredOutputs( 2 ); // for 0-the Transform, 1-the phase correlation image
 
-  m_BandPassFilter->SetFunctor( m_BandPassFunctor );
+  m_BandPassFilter->SetFunctor( m_IdentityFunctor );
 
   m_FixedConstantPadder->SetConstant( NumericTraits< FixedImagePixelType >::Zero );
   m_MovingConstantPadder->SetConstant( NumericTraits< MovingImagePixelType >::Zero );
@@ -75,9 +76,9 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >::PhaseCorre
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 void
-PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage>
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::SetPaddingMethod( const PaddingMethod paddingMethod )
 {
   if ( this->m_PaddingMethod != paddingMethod )
@@ -110,9 +111,9 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage>
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 void
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::Initialize()
 {
   itkDebugMacro( "initializing registration" );
@@ -144,8 +145,18 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
     }
 
   // set up the pipeline
-  m_FixedPadder->SetInput( m_FixedImage );
-  m_MovingPadder->SetInput( m_MovingImage );
+  m_FixedRoI->SetInput( m_FixedImage );
+  m_MovingRoI->SetInput( m_MovingImage );
+  if ( m_CropToOverlap )
+    {
+    m_FixedPadder->SetInput( m_FixedRoI->GetOutput() );
+    m_MovingPadder->SetInput( m_MovingRoI->GetOutput() );
+    }
+  else
+    {
+    m_FixedPadder->SetInput( m_FixedImage );
+    m_MovingPadder->SetInput( m_MovingImage );
+    }
   if ( m_FixedImageFFT.IsNull() )
     {
     m_Operator->SetFixedImage( m_FixedFFT->GetOutput() );
@@ -189,22 +200,38 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
     {
     m_IFFT->SetInput( finalOperatorFilter->GetOutput() );
     m_RealOptimizer->SetInput( m_IFFT->GetOutput() );
-    m_RealOptimizer->SetFixedImage( m_FixedImage );
-    m_RealOptimizer->SetMovingImage( m_MovingImage );
+    if ( m_CropToOverlap )
+      {
+      m_RealOptimizer->SetFixedImage( m_FixedRoI->GetOutput() );
+      m_RealOptimizer->SetMovingImage( m_MovingRoI->GetOutput() );
+      }
+    else
+      {
+      m_RealOptimizer->SetFixedImage( m_FixedImage );
+      m_RealOptimizer->SetMovingImage( m_MovingImage );
+      }
     }
   else
     {
     m_ComplexOptimizer->SetInput( finalOperatorFilter->GetOutput() );
-    m_ComplexOptimizer->SetFixedImage( m_FixedImage );
-    m_ComplexOptimizer->SetMovingImage( m_MovingImage );
+    if ( m_CropToOverlap )
+      {
+      m_ComplexOptimizer->SetFixedImage( m_FixedRoI->GetOutput() );
+      m_ComplexOptimizer->SetMovingImage( m_MovingRoI->GetOutput() );
+      }
+    else
+      {
+      m_ComplexOptimizer->SetFixedImage( m_FixedImage );
+      m_ComplexOptimizer->SetMovingImage( m_MovingImage );
+      }
     }
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
-typename PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >::SizeType
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
-::RoundUpToFFTSize( typename PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >::SizeType size )
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
+typename PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >::SizeType
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
+::RoundUpToFFTSize( SizeType size )
 {
   // FFTs are faster when image size can be factorized using smaller prime numbers
   const auto sizeGreatestPrimeFactor = std::min< SizeValueType >( 5, m_FixedFFT->GetSizeGreatestPrimeFactor() );
@@ -228,77 +255,149 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
   return size;
 }
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 void
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::DeterminePadding()
 {
-  SizeType fixedSize = m_FixedImage->GetLargestPossibleRegion().GetSize();
-  SizeType movingSize = m_MovingImage->GetLargestPossibleRegion().GetSize();
-  SizeType fftSize;
-  SizeType size0;
-  size0.Fill( 0 );
+  const SizeType fixedSize = m_FixedImage->GetLargestPossibleRegion().GetSize();
+  const SizeType movingSize = m_MovingImage->GetLargestPossibleRegion().GetSize();
+  const SizeType size0 = SizeType::Filled( 0 );
+  SizeType fftSize, fixedPad, movingPad;
 
-  if ( m_PadToSize == size0 )
+  if ( m_CropToOverlap )
     {
-    // set up padding to resize the images to the same size
-    SizeType maxSize;
-
+    typename MovingImageType::RegionType fRegion = m_FixedImage->GetLargestPossibleRegion();
+    typename MovingImageType::RegionType mRegion = m_MovingImage->GetLargestPossibleRegion();
+    typename MovingImageType::SpacingType spacing = m_MovingImage->GetSpacing();
+    typename MovingImageType::IndexType shiftIndex, fIndex;
+    typename MovingImageType::IndexType mIndex = mRegion.GetIndex();
+    typename MovingImageType::PointType originShift = m_MovingImage->GetOrigin() - m_FixedImage->GetOrigin();
     for ( unsigned int d = 0; d < ImageDimension; ++d )
       {
-      if ( fixedSize[d] >= movingSize[d] )
+      shiftIndex[d] = std::round( originShift[d] / spacing[d] );
+      mIndex[d] += shiftIndex[d];
+      }
+    mRegion.SetIndex( mIndex );
+    fRegion.Crop( mRegion );
+
+    // now expand this region somewhat
+    SizeType iSize = fRegion.GetSize();
+    fIndex = fRegion.GetIndex();
+    SizeType extraPadding;
+    std::array< SizeValueType, 3 > padCandidates;
+    for ( unsigned int d = 0; d < ImageDimension; ++d )
+      {
+      padCandidates[0] = 16; // a fixed 16-pixel padding
+      padCandidates[1] = std::ceil( iSize[d] / 2 ); // 50% of overlapping region
+      padCandidates[2] = std::min( fixedSize[d], movingSize[d] ) / 100; // 1% of smaller image's size
+      std::sort( padCandidates.begin(), padCandidates.end() );
+      extraPadding[d] = padCandidates[1]; // pick median
+
+      // clip it to actual image sizes
+      if ( extraPadding[d] + iSize[d] > fixedSize[d] )
         {
-        maxSize[d] = fixedSize[d];
+        extraPadding[d] = fixedSize[d] - iSize[d];
+        }
+      if ( extraPadding[d] + iSize[d] > movingSize[d] )
+        {
+        extraPadding[d] = movingSize[d] - iSize[d];
+        }
+
+      // expand regions appropriately
+      iSize[d] += extraPadding[d];
+      if ( shiftIndex[d] > 0 ) // fixed is to the "left" of moving
+        {
+        fIndex[d] -= extraPadding[d];
+        mIndex[d] = 0;
         }
       else
         {
-        maxSize[d] = movingSize[d];
+        mIndex[d] = movingSize[d] - iSize[d];
         }
-      // we need to pad on both ends along this dimension
-      maxSize[d] += 2 * m_ObligatoryPadding[d];
       }
 
-    fftSize = RoundUpToFFTSize( maxSize );
-    }
-  else
-    {
-    fftSize = m_PadToSize;
-    }
+    // construct regions from indices and size
+    fRegion.SetIndex( fIndex );
+    fRegion.SetSize( iSize );
+    mRegion.SetIndex( mIndex );
+    mRegion.SetSize( iSize );
+    m_FixedRoI->SetRegionOfInterest( fRegion );
+    m_MovingRoI->SetRegionOfInterest( mRegion );
 
-  SizeType fftHalf = fftSize;
-  fftHalf[0] = fftSize[0] / 2 + 1;
-  if ( m_FixedImageFFT.IsNotNull() )
-    {
-    SizeType fftCached = m_FixedImageFFT->GetLargestPossibleRegion().GetSize();
-    itkAssertOrThrowMacro( fftCached == fftHalf, "FixedImage's cached FFT ("
-        << fftCached << ") must have the common padded size: " << fftSize
-        << " halved in first dimension: " << fftHalf );
-    }
-  if ( m_MovingImageFFT.IsNotNull() )
-    {
-    SizeType fftCached = m_MovingImageFFT->GetLargestPossibleRegion().GetSize();
-    itkAssertOrThrowMacro( fftCached == fftHalf, "MovingImage's cached FFT ("
-        << fftCached << ") must have the common padded size: " << fftSize
-        << " halved in first dimension: " << fftHalf );
-    }
-
-  SizeType fixedPad, movingPad;
-  for ( unsigned int d = 0; d < ImageDimension; ++d )
-    {
-    if ( fixedSize[d] + 2 * m_ObligatoryPadding[d] > fftSize[d] )
+    for ( unsigned int d = 0; d < ImageDimension; ++d )
       {
-      itkExceptionMacro( "PadToSize(" << fftSize[d] << ") for dimension " << d
-          << " must be larger than fixed image size (" << fixedSize[d] << ")"
-          << " and twice the obligatory padding (" << m_ObligatoryPadding[d] << ")" );
+      fftSize[d] = iSize[d] + 2 * m_ObligatoryPadding[d];
       }
-    fixedPad[d] = ( fftSize[d] - fixedSize[d] ) - m_ObligatoryPadding[d];
-    if ( movingSize[d] + 2 * m_ObligatoryPadding[d] > fftSize[d] )
+    fftSize = RoundUpToFFTSize( fftSize );
+    for ( unsigned int d = 0; d < ImageDimension; ++d )
       {
-      itkExceptionMacro( "PadToSize(" << fftSize[d] << ") for dimension " << d
-          << " must be larger than moving image size (" << movingSize[d] << ")"
-          << " and twice the obligatory padding (" << m_ObligatoryPadding[d] << ")" );
+      fixedPad[d] = ( fftSize[d] - iSize[d] ) - m_ObligatoryPadding[d];
+      movingPad[d] = ( fftSize[d] - iSize[d] ) - m_ObligatoryPadding[d];
       }
-    movingPad[d] = ( fftSize[d] - movingSize[d] ) - m_ObligatoryPadding[d];
+    }
+  else // do not crop to overlap
+    {
+    if ( m_PadToSize == size0 )
+      {
+      // set up padding to resize the images to the same size
+      SizeType maxSize;
+    
+      for ( unsigned int d = 0; d < ImageDimension; ++d )
+        {
+        if ( fixedSize[d] >= movingSize[d] )
+          {
+          maxSize[d] = fixedSize[d];
+          }
+        else
+          {
+          maxSize[d] = movingSize[d];
+          }
+        // we need to pad on both ends along this dimension
+        maxSize[d] += 2 * m_ObligatoryPadding[d];
+        }
+    
+      fftSize = RoundUpToFFTSize( maxSize );
+      }
+    else
+      {
+      fftSize = m_PadToSize;
+      }
+    
+    SizeType fftHalf = fftSize;
+    fftHalf[0] = fftSize[0] / 2 + 1;
+    if ( m_FixedImageFFT.IsNotNull() )
+      {
+      SizeType fftCached = m_FixedImageFFT->GetLargestPossibleRegion().GetSize();
+      itkAssertOrThrowMacro( fftCached == fftHalf, "FixedImage's cached FFT ("
+          << fftCached << ") must have the common padded size: " << fftSize
+          << " halved in first dimension: " << fftHalf );
+      }
+    if ( m_MovingImageFFT.IsNotNull() )
+      {
+      SizeType fftCached = m_MovingImageFFT->GetLargestPossibleRegion().GetSize();
+      itkAssertOrThrowMacro( fftCached == fftHalf, "MovingImage's cached FFT ("
+          << fftCached << ") must have the common padded size: " << fftSize
+          << " halved in first dimension: " << fftHalf );
+      }
+    
+    for ( unsigned int d = 0; d < ImageDimension; ++d )
+      {
+      if ( fixedSize[d] + 2 * m_ObligatoryPadding[d] > fftSize[d] )
+        {
+        itkExceptionMacro( "PadToSize(" << fftSize[d] << ") for dimension " << d
+            << " must be larger than fixed image size (" << fixedSize[d] << ")"
+            << " and twice the obligatory padding (" << m_ObligatoryPadding[d] << ")" );
+        }
+      fixedPad[d] = ( fftSize[d] - fixedSize[d] ) - m_ObligatoryPadding[d];
+      if ( movingSize[d] + 2 * m_ObligatoryPadding[d] > fftSize[d] )
+        {
+        itkExceptionMacro( "PadToSize(" << fftSize[d] << ") for dimension " << d
+            << " must be larger than moving image size (" << movingSize[d] << ")"
+            << " and twice the obligatory padding (" << m_ObligatoryPadding[d] << ")" );
+        }
+      movingPad[d] = ( fftSize[d] - movingSize[d] ) - m_ObligatoryPadding[d];
+      }
     }
 
   m_FixedPadder->SetPadLowerBound( m_ObligatoryPadding );
@@ -308,9 +407,9 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 void
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::StartOptimization()
 {
   ParametersType empty( ImageDimension );
@@ -329,6 +428,11 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
       WriteDebug( m_MovingPadder->GetOutput(), "m_MovingPadder.nrrd" );
       WriteDebug( m_FixedFFT->GetOutput(), "m_FixedFFT.nrrd" );
       WriteDebug( m_MovingFFT->GetOutput(), "m_MovingFFT.nrrd" );
+      if ( m_CropToOverlap )
+        {
+        WriteDebug( m_FixedRoI->GetOutput(), "m_FixedRoI.nrrd" );
+        WriteDebug( m_MovingRoI->GetOutput(), "m_MovingRoI.nrrd" );
+        }
       }
 
     m_FixedPadder->UpdateOutputInformation(); // to make sure xSize is valid
@@ -339,15 +443,16 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
     m_IFFT->GraftOutput( phaseCorrelation );
     m_IFFT->Update();
 
+    const unsigned offsetCount = ImageDimension;
     if ( m_RealOptimizer )
       {
-      const unsigned offsetCount = ImageDimension;
       m_RealOptimizer->SetOffsetCount( offsetCount ); // update can reduce this, so we have to set it each time
       m_RealOptimizer->Update();
       offset = m_RealOptimizer->GetOffsets()[0];
       }
     else
       {
+      m_ComplexOptimizer->SetOffsetCount( offsetCount ); // update can reduce this, so we have to set it each time
       m_ComplexOptimizer->Update();
       offset = m_ComplexOptimizer->GetOffsets()[0];
       }
@@ -369,6 +474,21 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
       WriteDebug( m_IFFT->GetOutput(), "m_IFFT.nrrd" );
       WriteDebug( m_BandPassFilter->GetOutput(), "m_BandPassFilter.nrrd" );
       WriteDebug( m_Operator->GetOutput(), "m_Operator.nrrd" );
+
+      // now do banpass of input images and inverse FFT
+      m_IFFT->SetInput( m_BandPassFilter->GetOutput() );
+      m_BandPassFilter->SetInput( m_FixedFFT->GetOutput() );
+      typename RealImageType::Pointer invImage = m_IFFT->GetOutput();
+      invImage->Update();
+      invImage->DisconnectPipeline();
+      invImage->CopyInformation( m_FixedPadder->GetOutput() );
+      WriteDebug( invImage.GetPointer(), "iFixed.nrrd" );
+      m_BandPassFilter->SetInput( m_MovingFFT->GetOutput() );
+      invImage = m_IFFT->GetOutput();
+      invImage->Update();
+      invImage->DisconnectPipeline();
+      invImage->CopyInformation( m_MovingPadder->GetOutput() );
+      WriteDebug( invImage.GetPointer(), "iMoving.nrrd" );
       }
     }
   catch ( ExceptionObject& err )
@@ -394,9 +514,9 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 void
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );
@@ -410,6 +530,11 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
   os << indent << "Obligatory Padding: " << m_ObligatoryPadding << std::endl;
   os << indent << "Padding Method: " << int( m_PaddingMethod ) << std::endl;
 
+  os << indent << "Crop To Overlap: " << m_CropToOverlap << std::endl;
+  os << indent << "Butterworth Order: " << m_ButterworthOrder << std::endl;
+  os << indent << "Low Frequency: " << this->GetButterworthLowFrequency() << std::endl;
+  os << indent << "High Frequency: " << this->GetButterworthHighFrequency() << std::endl;
+
   os << indent << "Fixed Image: " << m_FixedImage.GetPointer() << std::endl;
   os << indent << "Moving Image: " << m_MovingImage.GetPointer() << std::endl;
   os << indent << "Fixed Image FFT: " << m_FixedImageFFT.GetPointer() << std::endl;
@@ -421,9 +546,9 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 void
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::GenerateOutputInformation()
 {
   Superclass::GenerateOutputInformation();
@@ -449,9 +574,9 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 void
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::GenerateData()
 {
   this->Initialize();
@@ -459,27 +584,27 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
-const typename PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >::TransformOutputType*
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
+const typename PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >::TransformOutputType*
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::GetOutput() const
 {
   return static_cast< const TransformOutputType* >( this->ProcessObject::GetOutput( 0 ) );
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
-const typename PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >::RealImageType*
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
+const typename PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >::RealImageType*
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::GetPhaseCorrelationImage() const
 {
   return static_cast< const RealImageType* >( this->ProcessObject::GetOutput( 1 ) );
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 DataObject::Pointer
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::MakeOutput( DataObjectPointerArraySizeType output )
 {
   switch ( output )
@@ -496,9 +621,9 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 void
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::SetFixedImage( const FixedImageType* fixedImage )
 {
   itkDebugMacro( "setting Fixed Image to " << fixedImage );
@@ -513,9 +638,9 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 void
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::SetMovingImage( const MovingImageType* movingImage )
 {
   itkDebugMacro( "setting Moving Image to " << movingImage );
@@ -530,9 +655,9 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 void
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::SetFixedImageFFT( const ComplexImageType* fixedImageFFT )
 {
   itkDebugMacro( "setting fixedImageFFT Image to " << fixedImageFFT );
@@ -544,9 +669,9 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 void
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::SetMovingImageFFT( const ComplexImageType* movingImageFFT )
 {
   itkDebugMacro( "setting movingImageFFT Image to " << movingImageFFT );
@@ -558,12 +683,14 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 void
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::SetReleaseDataFlag( bool a_flag )
 {
   Superclass::SetReleaseDataFlag( a_flag );
+  m_FixedRoI->SetReleaseDataFlag( a_flag );
+  m_MovingRoI->SetReleaseDataFlag( a_flag );
   m_FixedConstantPadder->SetReleaseDataFlag( a_flag );
   m_MovingConstantPadder->SetReleaseDataFlag( a_flag );
   m_FixedMirrorPadder->SetReleaseDataFlag( a_flag );
@@ -576,12 +703,14 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 void
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::SetReleaseDataBeforeUpdateFlag( bool a_flag )
 {
   Superclass::SetReleaseDataBeforeUpdateFlag( a_flag );
+  m_FixedRoI->SetReleaseDataBeforeUpdateFlag( a_flag );
+  m_MovingRoI->SetReleaseDataBeforeUpdateFlag( a_flag );
   m_FixedConstantPadder->SetReleaseDataBeforeUpdateFlag( a_flag );
   m_MovingConstantPadder->SetReleaseDataBeforeUpdateFlag( a_flag );
   m_FixedMirrorPadder->SetReleaseDataBeforeUpdateFlag( a_flag );
@@ -594,9 +723,9 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 void
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::SetOptimizer( RealOptimizerType* optimizer )
 {
   itkDebugMacro( "setting RealOptimizer to " << optimizer );
@@ -609,9 +738,9 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
 }
 
 
-template< typename TFixedImage, typename TMovingImage >
+template< typename TFixedImage, typename TMovingImage, typename TInternalPixelType >
 void
-PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage >
+PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPixelType >
 ::SetOptimizer( ComplexOptimizerType* optimizer )
 {
   itkDebugMacro( "setting ComplexOptimizer to " << optimizer );

@@ -101,7 +101,8 @@ int
 montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actualTiles,
              const std::string& inputPath, const std::string& outFilename,
              bool varyPaddingMethods, int peakMethodToUse, bool loadIntoMemory,
-             unsigned streamSubdivisions, bool writeTransformFiles, bool allowDrift, unsigned positionTolerance )
+             unsigned streamSubdivisions, bool writeTransformFiles, bool allowDrift,
+             unsigned positionTolerance, bool writeImage )
 {
   int result = EXIT_SUCCESS;
   using ScalarPixelType = typename itk::NumericTraits< PixelType >::ValueType;
@@ -328,6 +329,7 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
           if ( alternativeError >= 5.0 && alternativeError < singleError )
             {
             result = EXIT_FAILURE;
+            registrationErrors << "\tseverly wrong\t" << alternativeError;
             std::cout << "  severly wrong: " << alternativeError;
             }
           if ( allowDrift )
@@ -346,6 +348,8 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
       // also allow accumulation of one pixel for each registration - this effectively double the tolerance
       double avgError = 0.5 * totalError / ( xMontageSize * yMontageSize - 1 );
       avgError /= Dimension; // report per-dimension error
+      registrationErrors << "\nAverage translation error for padding method " << padMethod
+                << " and peak interpolation method " << peakMethod << ": " << avgError << std::endl;
       std::cout << "\nAverage translation error for padding method " << padMethod
                 << " and peak interpolation method " << peakMethod << ": " << avgError << std::endl;
       if ( avgError >= 1.2 )
@@ -353,44 +357,46 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
         result = EXIT_FAILURE;
         }
 
-      // write generated mosaic
-      typename ResamplerType::Pointer resampleF = ResamplerType::New();
-      itk::SimpleFilterWatcher fw2( resampleF, "resampler" );
-      resampleF->SetMontageSize( { xMontageSize, yMontageSize } );
-      if ( !loadIntoMemory )
+      if ( writeImage ) // write generated mosaic
         {
-        resampleF->SetOriginAdjustment( originAdjustment );
-        resampleF->SetForcedSpacing( sp );
-        }
-      for ( unsigned y = 0; y < yMontageSize; y++ )
-        {
-        ind[1] = y;
-        for ( unsigned x = 0; x < xMontageSize; x++ )
+        typename ResamplerType::Pointer resampleF = ResamplerType::New();
+        itk::SimpleFilterWatcher fw2( resampleF, "resampler" );
+        resampleF->SetMontageSize( { xMontageSize, yMontageSize } );
+        if ( !loadIntoMemory )
           {
-          ind[0] = x;
-          std::string filename = inputPath + stageTiles[y][x].FileName;
-          if ( loadIntoMemory )
-            {
-            resampleF->SetInputTile( ind, oImages[y][x] );
-            }
-          else
-            {
-            resampleF->SetInputTile( ind, filename );
-            }
-          resampleF->SetTileTransform( ind, montage->GetOutputTransform( ind ) );
+          resampleF->SetOriginAdjustment( originAdjustment );
+          resampleF->SetForcedSpacing( sp );
           }
-        }
+        for ( unsigned y = 0; y < yMontageSize; y++ )
+          {
+          ind[1] = y;
+          for ( unsigned x = 0; x < xMontageSize; x++ )
+            {
+            ind[0] = x;
+            std::string filename = inputPath + stageTiles[y][x].FileName;
+            if ( loadIntoMemory )
+              {
+              resampleF->SetInputTile( ind, oImages[y][x] );
+              }
+            else
+              {
+              resampleF->SetInputTile( ind, filename );
+              }
+            resampleF->SetTileTransform( ind, montage->GetOutputTransform( ind ) );
+            }
+          }
 
-      // resampleF->Update();
-      using WriterType = itk::ImageFileWriter< OriginalImageType >;
-      typename WriterType::Pointer w = WriterType::New();
-      w->SetInput( resampleF->GetOutput() );
-      // resampleF->DebugOn(); //generate an image of contributing regions
-      // MetaImage format supports streaming
-      w->SetFileName( outFilename + std::to_string( padMethod ) + "_" + std::to_string( peakMethod ) + ".mha" );
-      // w->UseCompressionOn();
-      w->SetNumberOfStreamDivisions( streamSubdivisions );
-      w->Update();
+        // resampleF->Update(); // updating here prevents streaming
+        using WriterType = itk::ImageFileWriter< OriginalImageType >;
+        typename WriterType::Pointer w = WriterType::New();
+        w->SetInput( resampleF->GetOutput() );
+        // resampleF->DebugOn(); //generate an image of contributing regions
+        // MetaImage format supports streaming
+        w->SetFileName( outFilename + std::to_string( padMethod ) + "_" + std::to_string( peakMethod ) + ".mha" );
+        // w->UseCompressionOn();
+        w->SetNumberOfStreamDivisions( streamSubdivisions );
+        w->Update();
+        }
       if ( peakMethodToUse >= 0 ) // peak method was specified
         {
         break; // do not try them all

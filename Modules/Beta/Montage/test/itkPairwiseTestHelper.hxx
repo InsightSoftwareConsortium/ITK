@@ -90,7 +90,7 @@ calculateError( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& ac
   auto padMethod = static_cast< PMType >( paddingMethod );
   phaseCorrelationMethod->SetPaddingMethod( padMethod );
 
-  using OperatorType = itk::PhaseCorrelationOperator< typename itk::NumericTraits< PixelType >::RealType, Dimension >;
+  using OperatorType = itk::PhaseCorrelationOperator< typename PhaseCorrelationMethodType::InternalPixelType, Dimension >;
   typename OperatorType::Pointer pcmOperator = OperatorType::New();
   phaseCorrelationMethod->SetOperator( pcmOperator );
 
@@ -156,7 +156,7 @@ pairwiseTests( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& act
   int result = EXIT_SUCCESS;
   constexpr unsigned Dimension = 2;
   using ImageType = itk::Image< PixelType, Dimension >;
-  using PCMType = itk::PhaseCorrelationImageRegistrationMethod< ImageType, ImageType >;
+  using PCMType = itk::PhaseCorrelationImageRegistrationMethod< ImageType, ImageType, float >;
   using PadMethodUnderlying = typename std::underlying_type< typename PCMType::PaddingMethod >::type;
 
   for ( auto padMethod = static_cast< PadMethodUnderlying >( PCMType::PaddingMethod::Zero );

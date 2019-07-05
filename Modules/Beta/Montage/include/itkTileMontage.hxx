@@ -66,7 +66,7 @@ TileMontage< TImageType, TCoordinate >
     }
   os << indent << "Montage size: " << m_MontageSize << std::endl;
   os << indent << "Linear Montage size: " << m_LinearMontageSize << std::endl;
-  os << indent << "Finished Tiles: " << m_FinishedTiles << std::endl;
+  os << indent << "Finished Pairs: " << m_FinishedPairs << std::endl;
   os << indent << "Origin Adjustment: " << m_OriginAdjustment << std::endl;
   os << indent << "Forced Spacing: " << m_ForcedSpacing << std::endl;
   os << indent << "Obligatory Padding: " << m_ObligatoryPadding << std::endl;
@@ -236,8 +236,11 @@ TileMontage< TImageType, TCoordinate >
   // m_PCM->DebugOn();
   m_PCM->Update();
 
-  m_FFTCache[lFixedInd] = m_PCM->GetFixedImageFFT(); // certainly not null
-  m_FFTCache[lMovingInd] = m_PCM->GetMovingImageFFT(); // certrainly not null
+  if ( !m_CropToOverlap )
+    {
+    m_FFTCache[lFixedInd] = m_PCM->GetFixedImageFFT(); // certainly not null
+    m_FFTCache[lMovingInd] = m_PCM->GetMovingImageFFT(); // certrainly not null
+    }
 
   const typename PCMType::OffsetVector& offsets = m_PCM->GetOffsets();
   SizeValueType regLinearIndex = lMovingInd;
@@ -315,17 +318,16 @@ TileMontage< TImageType, TCoordinate >
           TileIndexType referenceIndex = currentIndex;
           referenceIndex[regDim] = currentIndex[regDim] - 1;
           this->RegisterPair( referenceIndex, currentIndex );
+          m_FinishedPairs++;
+          // all registrations finished = 95% of total progress
+          this->UpdateProgress( m_FinishedPairs * 0.95 / m_NumberOfPairs );
           }
         }
 
       // optimize positions later, now just set the expected position (no translation)
       m_CurrentAdjustments[this->nDIndexToLinearIndex( currentIndex )].Fill( 0.0 );
 
-      // montage this index in lower dimension
-      MontageDimension( d - 1, currentIndex );
-
-      m_FinishedTiles++;
-      this->UpdateProgress( float( m_FinishedTiles ) / m_LinearMontageSize );
+      MontageDimension( d - 1, currentIndex ); // montage this index in lower dimension
       this->ReleaseMemory( currentIndex ); // kick old tile out of cache
       }
 
@@ -436,13 +438,14 @@ TileMontage< TImageType, TCoordinate >
       }
     maxSizes[d] += 2 * m_ObligatoryPadding[d];
     }
-  if ( forceSame )
+  if ( forceSame && !m_CropToOverlap )
     {
     maxSizes = m_PCM->RoundUpToFFTSize( maxSizes );
     m_PCM->SetPadToSize( maxSizes );
     }
 
   m_PCMOptimizer->SetPixelDistanceTolerance( m_PositionTolerance );
+  m_PCM->SetCropToOverlap( m_CropToOverlap );
 
   // we connect these classes here in case user has provided new versions
   m_PCM->SetOperator( m_PCMOperator );
@@ -455,50 +458,45 @@ TileMontage< TImageType, TCoordinate >
 ::OptimizeTiles()
 {
   // formulate global optimization as an overdetermined linear system
-  SizeValueType mullAll = 1; // multiplication of sizes along all dimensions
-  for ( unsigned d = 0; d < ImageDimension; d++ )
-    {
-    mullAll *= m_MontageSize[d];
-    }
-  SizeValueType nReg = 0; // number of equations = number of registration pairs
-  for ( unsigned d = 0; d < ImageDimension; d++ )
-    {
-    nReg += ( mullAll / m_MontageSize[d] ) * ( m_MontageSize[d] - 1 );
-    }
-
   constexpr unsigned Dimension = ImageDimension;
   using SparseMatrix = Eigen::SparseMatrix< TCoordinate, Eigen::RowMajor >;
-  SparseMatrix regCoef( nReg + 1, m_LinearMontageSize );
-  regCoef.reserve( Eigen::VectorXi::Constant( nReg + 1, 2 ) ); // 2 non-zeroes per row
+  SparseMatrix regCoef( m_NumberOfPairs + 1, m_LinearMontageSize );
+  regCoef.reserve( Eigen::VectorXi::Constant( m_NumberOfPairs + 1, 2 ) ); // 2 non-zeroes per row
   using TranslationsMatrix = Eigen::Matrix< TCoordinate, Eigen::Dynamic, Dimension >;
-  TranslationsMatrix translations( nReg + 1, Dimension );
-  std::vector< SizeValueType > equationToCandidate( nReg );
+  TranslationsMatrix translations( m_NumberOfPairs + 1, Dimension );
+  std::vector< SizeValueType > equationToCandidate( m_NumberOfPairs );
   SizeValueType regIndex = 0;
+  double confidenceTotal = 0.0;
   for ( SizeValueType i = 0; i < m_LinearMontageSize * ImageDimension; i++ )
     {
     if ( !m_TransformCandidates[i].empty() )
       {
       SizeValueType linIndex = i % m_LinearMontageSize;
-      unsigned dim = i / m_LinearMontageSize;
       TileIndexType currentIndex = this->LinearIndexTonDIndex( linIndex );
       TileIndexType referenceIndex = currentIndex;
+      unsigned dim = i / m_LinearMontageSize;
       referenceIndex[dim] = currentIndex[dim] - 1;
       SizeValueType refLinearIndex = this->nDIndexToLinearIndex( referenceIndex );
 
-      // construct equation: -1*refLinearIndex + 1*linIndex = candidateOffset
-      regCoef.insert( regIndex, refLinearIndex ) = -1;
-      regCoef.insert( regIndex, linIndex ) = 1;
+      // construct equation: -c*refLinearIndex + c*linIndex = c*candidateOffset, c=confidence
+      const float& confidence = m_CandidateConfidences[i][0];
+      regCoef.insert( regIndex, refLinearIndex ) = -confidence;
+      regCoef.insert( regIndex, linIndex ) = confidence;
       const TranslationOffset& candidateOffset = m_TransformCandidates[i][0];
       for ( unsigned d = 0; d < ImageDimension; d++ )
         {
-        translations( regIndex, d ) = candidateOffset[d];
+        translations( regIndex, d ) = confidence * candidateOffset[d];
         }
       equationToCandidate[regIndex] = i;
       ++regIndex;
+      assert( m_CandidateConfidences[i][0] > 0 );
+      confidenceTotal += m_CandidateConfidences[i][0];
       }
     }
+  TCoordinate confidenceAvg = confidenceTotal / m_NumberOfPairs;
+  assert( regIndex == m_NumberOfPairs );
 
-  regCoef.insert( regIndex, 0 ) = 1; // tile 0,0...0
+  regCoef.insert( regIndex, 0 ) = confidenceAvg; // tile 0,0...0
   for ( unsigned d = 0; d < ImageDimension; d++ )
     {
     translations( regIndex, d ) = 0; // should have position 0,0...0
@@ -519,7 +517,7 @@ TileMontage< TImageType, TCoordinate >
     regCoef.makeCompressed();
     solver.compute( regCoef );
     TranslationsMatrix solutions( m_LinearMontageSize, Dimension );
-    TranslationsMatrix residuals( m_LinearMontageSize, Dimension );
+    TranslationsMatrix residuals( m_NumberOfPairs + 1, Dimension );
     solutions = solver.solve( translations );
     residuals = regCoef * solutions - translations;
 
@@ -540,9 +538,7 @@ TileMontage< TImageType, TCoordinate >
           }
 
         cOffset[d] = solutions( i, d );
-        // convert solutions and residuals into pixel coordinates
-        solutions( i, d ) /= spacing[d];
-        residuals( i, d ) /= spacing[d];
+        solutions( i, d ) /= spacing[d]; // convert solutions into pixel coordinates
         }
       if ( this->GetDebug() )
         {
@@ -550,14 +546,14 @@ TileMontage< TImageType, TCoordinate >
         }
       }
 
-    TranslationsMatrix stdDev0 = ( translations.cwiseAbs2().colwise().sum() / nReg ).cwiseSqrt(); // assume zero mean
+    TranslationsMatrix stdDev0 = ( translations.cwiseAbs2().colwise().sum() / m_NumberOfPairs ).cwiseSqrt(); // assume zero mean
     if ( this->GetDebug() )
       {
       std::cout << "\nstdDev0:\n" << stdDev0;
       }
 
-    std::vector< TCoordinate > outlierScore( nReg, 0.0 ); // sum of squares
-    for ( SizeValueType i = 0; i < nReg; i++ )
+    std::vector< TCoordinate > outlierScore( m_NumberOfPairs, 0.0 ); // sum of squares
+    for ( SizeValueType i = 0; i < m_NumberOfPairs; i++ )
       {
       for ( unsigned d = 0; d < ImageDimension; d++ )
         {
@@ -581,7 +577,7 @@ TileMontage< TImageType, TCoordinate >
       std::cout << "\nresiduals:\n";
       }
 
-    for ( SizeValueType i = 0; i < nReg; i++ )
+    for ( SizeValueType i = 0; i < m_NumberOfPairs; i++ )
       {
       TCoordinate residual = 0;
       if ( this->GetDebug() )
@@ -590,6 +586,7 @@ TileMontage< TImageType, TCoordinate >
         }
       for ( unsigned d = 0; d < ImageDimension; d++ )
         {
+        residuals( i, d ) /= spacing[d]; // convert residuals into pixel coordinates
         if ( this->GetDebug() )
           {
           std::cout << ' ' << std::setw( 8 ) << residuals( i, d );
@@ -597,7 +594,21 @@ TileMontage< TImageType, TCoordinate >
         residual += residuals( i, d ) * residuals( i, d );
         }
       residual = std::sqrt( residual ); // MSE -> RMSE
-      TCoordinate cost = residual + std::sqrt( residual * outlierScore[i] ) + outlierScore[i];
+
+      // reduce residual by confidence
+      SizeValueType candidateIndex = equationToCandidate[i];
+      if ( m_CandidateConfidences[candidateIndex].empty() )
+        {
+        residual /= confidenceAvg;
+        }
+      else
+        {
+        residual /= m_CandidateConfidences[candidateIndex][0];
+        }
+
+      // establish cost of this equation
+      TCoordinate cost = residual * ( 1.0 + outlierScore[i] );
+
       if ( this->GetDebug() )
         {
         std::cout << " :" << std::setw( 6 ) << outlierScore[i];
@@ -623,7 +634,16 @@ TileMontage< TImageType, TCoordinate >
     else // eliminate the problematic equation
       {
       SizeValueType candidateIndex = equationToCandidate[maxIndex];
-      std::cout << "Outlier detected. Equation " << maxIndex << ", Registration " << candidateIndex << ", T: ";
+      std::cout << "Outlier detected. Eq. " << maxIndex << ", Reg. " << candidateIndex;
+
+      // calculate indices of the involved tiles
+      SizeValueType linIndex = candidateIndex % m_LinearMontageSize;
+      TileIndexType currentIndex = this->LinearIndexTonDIndex( linIndex );
+      TileIndexType referenceIndex = currentIndex;
+      unsigned dim = candidateIndex / m_LinearMontageSize;
+      referenceIndex[dim] = currentIndex[dim] - 1;
+      std::cout << ": " << currentIndex << "->" << referenceIndex << "  T: ";
+
       if ( !m_TransformCandidates[candidateIndex].empty() )
         {
         std::cout << m_TransformCandidates[candidateIndex][0];
@@ -637,10 +657,16 @@ TileMontage< TImageType, TCoordinate >
       if ( !m_TransformCandidates[candidateIndex].empty() )
         {
         // get a new equation from m_TransformCandidates
+        const float& confidence = m_CandidateConfidences[candidateIndex][0];
+        typename SparseMatrix::InnerIterator it( regCoef, maxIndex );
+        regCoef.coeffRef( maxIndex, it.index() ) = -confidence;
+        ++it;
+        regCoef.coeffRef( maxIndex, it.index() ) = confidence;
+
         const TranslationOffset& candidateOffset = m_TransformCandidates[candidateIndex][0];
         for ( unsigned d = 0; d < ImageDimension; d++ )
           {
-          translations( maxIndex, d ) = candidateOffset[d];
+          translations( maxIndex, d ) = confidence * candidateOffset[d];
           }
         std::cout << "  Replaced by T: " << candidateOffset;
         }
@@ -676,9 +702,15 @@ TileMontage< TImageType, TCoordinate >
   m_MaxOuter = ind;
   m_MaxInner.Fill( NumericTraits< TCoordinate >::max() );
 
+  m_NumberOfPairs = 0; // number of equations = number of registration pairs
+  for ( unsigned d = 0; d < ImageDimension; d++ )
+    {
+    m_NumberOfPairs += ( m_LinearMontageSize / m_MontageSize[d] ) * ( m_MontageSize[d] - 1 );
+    }
+
   TileIndexType ind0;
   ind0.Fill( 0 );
-  m_FinishedTiles = 0;
+  m_FinishedPairs = 0;
   m_CurrentAdjustments[0].Fill( 0.0 ); // 0 translation by default
 
   this->MontageDimension( this->ImageDimension - 1, ind0 );
