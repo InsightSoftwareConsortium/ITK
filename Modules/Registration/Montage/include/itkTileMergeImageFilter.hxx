@@ -72,7 +72,7 @@ TileMergeImageFilter< TImageType, TPixelAccumulateType, TInterpolator >
     {
     m_Montage = montage;
     this->SetMontageSize( montage->m_MontageSize );
-    this->m_FinishedTiles = montage->m_FinishedTiles;
+    this->m_FinishedPairs = montage->m_FinishedPairs;
     this->m_OriginAdjustment = montage->m_OriginAdjustment;
     this->m_ForcedSpacing = montage->m_ForcedSpacing;
 

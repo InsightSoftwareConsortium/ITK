@@ -36,7 +36,8 @@ namespace itk
  *
  * \ingroup Montage
  */
-template< typename TImageType, typename TCoordinate = float >
+template< typename TImageType, typename TCoordinate = typename std::conditional<
+  std::is_same< typename TImageType::PixelType, double >::value, double, float >::type >
 class ITK_TEMPLATE_EXPORT TileMontage : public ProcessObject
 {
 public:
@@ -74,13 +75,13 @@ public:
   using ImageIndexType = typename ImageType::IndexType;
 
   /** Internal PhaseCorrelationImageRegistrationMethod's type alias. */
-  using PCMType = PhaseCorrelationImageRegistrationMethod< ImageType, ImageType >;
+  using PCMType = PhaseCorrelationImageRegistrationMethod< ImageType, ImageType, TCoordinate >;
 
-  using RealType = typename itk::NumericTraits< PixelType >::RealType;
+  using RealType = typename PCMType::InternalPixelType;
 
-  using PCMOperatorType = itk::PhaseCorrelationOperator< RealType, ImageDimension >;
+  using PCMOperatorType = PhaseCorrelationOperator< RealType, ImageDimension >;
 
-  using PCMOptimizerType = itk::MaxPhaseCorrelationOptimizer< PCMType >;
+  using PCMOptimizerType = MaxPhaseCorrelationOptimizer< PCMType >;
 
   /**  Type for the transform. */
   using TransformType = typename PCMType::TransformType;
@@ -145,6 +146,14 @@ public:
    * up to about half the image size.*/
   itkSetMacro( PositionTolerance, SizeValueType );
   itkGetConstMacro( PositionTolerance, SizeValueType );
+
+  /** Set/Get tile cropping. Should tiles be cropped to overlapping
+   * region for computing the cross correlation? Default: True.
+   *
+   * This improves results, and in case overlaps are less than 25%
+   * computation is also faster. */
+  itkSetMacro( CropToOverlap, bool );
+  itkGetConstMacro( CropToOverlap, bool );
 
   /** Set/Get obligatory padding.
    * If set, padding of this many pixels is added on both beginning and end
@@ -221,7 +230,7 @@ protected:
   }
 
   /** For reading if only filename was given. */
-  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ReaderType = ImageFileReader< ImageType >;
 
   using TranslationOffset = typename TransformType::OutputVectorType;
 
@@ -269,12 +278,14 @@ protected:
 private:
   SizeType      m_MontageSize;
   SizeValueType m_LinearMontageSize = 0;
-  SizeValueType m_FinishedTiles = 0;
+  SizeValueType m_NumberOfPairs = 0;
+  SizeValueType m_FinishedPairs = 0;
   PointType     m_OriginAdjustment;
   SpacingType   m_ForcedSpacing;
   float         m_AbsoluteThreshold = 1.0;
   float         m_RelativeThreshold = 3.0;
   SizeValueType m_PositionTolerance = 0;
+  bool          m_CropToOverlap = true;
   SizeType      m_ObligatoryPadding;
 
   std::vector< std::string >       m_Filenames;

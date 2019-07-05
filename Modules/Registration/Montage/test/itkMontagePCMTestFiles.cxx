@@ -40,7 +40,7 @@ int PhaseCorrelationRegistrationFiles( int argc, char* argv[] )
   using FixedImageType = itk::Image< FixedPixelType, Dimension >;
   using MovingImageType = itk::Image< MovingPixelType, Dimension >;
 
-  itkAssertOrThrowMacro( argc == 4 + 2*Dimension, "Not enough parameters" );
+  itkAssertOrThrowMacro( argc == 4 + 2*Dimension, "Wrong number of parameters" );
 
   using FixedReaderType = itk::ImageFileReader< FixedImageType >;
   typename FixedReaderType::Pointer fixedReader = FixedReaderType::New();
@@ -73,7 +73,7 @@ int PhaseCorrelationRegistrationFiles( int argc, char* argv[] )
   phaseCorrelationMethod->DebugOn();
 
   // Operator type
-  using OperatorType = itk::PhaseCorrelationOperator< typename itk::NumericTraits< TFixedImagePixel >::RealType, VDimension >;
+  using OperatorType = itk::PhaseCorrelationOperator< typename PhaseCorrelationMethodType::InternalPixelType, VDimension >;
   typename OperatorType::Pointer pcmOperator = OperatorType::New();
   phaseCorrelationMethod->SetOperator( pcmOperator );
 

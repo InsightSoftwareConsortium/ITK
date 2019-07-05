@@ -145,7 +145,7 @@ function(AddTestOMC slicerNumber inMemory tolerance)
       DATA{Input/OMC/FlatField/${slicerNumber}/,REGEX:.*}
       ${TESTING_OUTPUT_PATH}/itkMontageOMC${slicerNumber}_
       ${TESTING_OUTPUT_PATH}/itkMontageOMC${slicerNumber}Pairs_
-      1 -1 ${inMemory} 1 0 0 0 ${tolerance}
+      1 -1 ${inMemory} 1 0 0 0 ${tolerance} 1
     )
 endfunction()
 
@@ -163,7 +163,7 @@ itk_add_test(NAME itkMontageRGBinMemory
     DATA{Input/VisibleHumanRGB/,REGEX:.*}
     ${SyntheticOutputPath}/itkMontageRGBim
     ${SyntheticOutputPath}/itkMontageRGBimPairs
-    1 -1 1 1 0 1 0 0
+    1 -1 1 1 0 1 0 0 1
   )
 
 itk_add_test(NAME itkMontageRGBpairsTol
@@ -174,7 +174,7 @@ itk_add_test(NAME itkMontageRGBpairsTol
     DATA{Input/VisibleHumanRGB/,REGEX:.*}
     ${SyntheticOutputPath}/itkMontageRGBpTol
     ${SyntheticOutputPath}/itkMontageRGBpTolPairs
-    1 -1 0 1 1 1 0 10
+    1 -1 0 1 1 1 0 10 1
   )
 
 itk_add_test(NAME itkMontageRGBpairs
@@ -185,7 +185,7 @@ itk_add_test(NAME itkMontageRGBpairs
     DATA{Input/VisibleHumanRGB/,REGEX:.*}
     ${SyntheticOutputPath}/itkMontageRGBp
     ${SyntheticOutputPath}/itkMontageRGBpPairs
-    1 -1 0 1 1 1 0 0
+    1 -1 0 1 1 1 0 0 1
   )
 
 function(AddInMemoryMontageTest variation willFail)
@@ -217,7 +217,7 @@ itk_add_test(NAME itkMontageMediumCarbonSteel
     DATA{Input/MediumCarbonSteel/,REGEX:.*}
     ${TESTING_OUTPUT_PATH}/itkMontageMediumCarbonSteel
     ${TESTING_OUTPUT_PATH}/itkMontageMediumCarbonSteelPairs
-    1 -1 1 4 1 0 0 0
+    1 -1 1 4 1 0 0 0 1
   )
 
 itk_add_test(NAME itkMontageCMUrun2_64
@@ -226,7 +226,7 @@ itk_add_test(NAME itkMontageCMUrun2_64
     DATA{Input/05MAR09_run2_64-Raw/,REGEX:.*}
     ${TESTING_OUTPUT_PATH}/itkMontageCMUrun2_64_
     ${TESTING_OUTPUT_PATH}/itkMontageCMUrun2_64Pairs_
-    0 1 1 0 0 0 0 0
+    0 1 1 0 0 0 0 0 1
   )
 
 itk_add_test(NAME itkMontageCMUrun2_64_comb
@@ -235,7 +235,7 @@ itk_add_test(NAME itkMontageCMUrun2_64_comb
     DATA{Input/05MAR09_run2_64-Raw/,REGEX:.*}
     ${SyntheticOutputPath}/itkMontageCMUrun2_64_comb
     ${SyntheticOutputPath}/itkMontageCMUrun2_64_combPairs
-    1 -1 1 4 1 1 0 0
+    1 -1 1 4 1 1 0 0 1
   )
 
 function(AddTestTi64flat slicerNumber)
@@ -247,7 +247,7 @@ function(AddTestTi64flat slicerNumber)
         ${inDir}
         ${TESTING_OUTPUT_PATH}/itkMontageTi64flat${slicerNumber}_
         ${TESTING_OUTPUT_PATH}/itkMontageTi64flat${slicerNumber}Pairs_
-        0 2 1 1 0 0 1 0
+        0 2 1 1 0 0 1 0 1
       )
   endif()
 endfunction()
@@ -267,7 +267,7 @@ function(AddTestTi64raw slicerNumber)
         ${inDir}
         ${TESTING_OUTPUT_PATH}/itkMontageTi64raw${slicerNumber}_
         ${TESTING_OUTPUT_PATH}/itkMontageTi64raw${slicerNumber}Pairs_
-        0 2 1 1 0 0 1 0
+        0 2 1 1 0 0 1 0 1
       )
   endif()
 endfunction()
@@ -278,17 +278,13 @@ AddTestTi64raw(2)
 AddTestTi64raw(3)
 AddTestTi64raw(4)
 
-option(ITKMontage_EnableFailingTests "Should we enable tests which are failing due to not-yet-resolved issues?" OFF)
-
-if (ITKMontage_EnableFailingTests)
-
 itk_add_test(NAME itkMontage-10-129-C_2
   COMMAND MontageTestDriver
   itkMontageTest2D
     DATA{Input/10-129-C_2/,REGEX:.*}
     ${TESTING_OUTPUT_PATH}/itkMontage-10-129-C_2
     ${TESTING_OUTPUT_PATH}/itkMontage-10-129-C_2Pairs
-    0 2 0 1 0 0 1 0
+    0 2 0 1 0 0 1 0 1
   )
 
 itk_add_test(NAME itkMontage-S200-small
@@ -297,7 +293,7 @@ itk_add_test(NAME itkMontage-S200-small
     DATA{Input/S200-small/,REGEX:.*}
     ${TESTING_OUTPUT_PATH}/itkMontage-S200-small
     ${TESTING_OUTPUT_PATH}/itkMontage-S200-smallPairs
-    0 1 1 1 0 0 75
+    0 1 1 1 0 0 75 0 1
   )
 
 itk_add_test(NAME itkMontage-S200-6-C
@@ -306,7 +302,7 @@ itk_add_test(NAME itkMontage-S200-6-C
     DATA{Input/S200-6-C/,REGEX:.*}
     ${TESTING_OUTPUT_PATH}/itkMontage-S200-6-C
     ${TESTING_OUTPUT_PATH}/itkMontage-S200-6-C-Pairs
-    0 2 1 1 0 0 1 25
+    0 2 0 10 0 0 1 25 0
   )
 
 itk_add_test(NAME itkMontageMNML3
@@ -315,7 +311,7 @@ itk_add_test(NAME itkMontageMNML3
     DATA{Input/MNML_3_200x_701/,REGEX:.*}
     ${TESTING_OUTPUT_PATH}/itkMontageMNML3_
     ${TESTING_OUTPUT_PATH}/itkMontageMNML3Pairs
-    1 -1 0 1 0 0 0 5
+    1 -1 0 5 0 0 0 5 1
   )
 
 itk_add_test(NAME itkMontageMNML5
@@ -324,7 +320,59 @@ itk_add_test(NAME itkMontageMNML5
     DATA{Input/MNML_5_500x_101/,REGEX:.*}
     ${TESTING_OUTPUT_PATH}/itkMontageMNML5_
     ${TESTING_OUTPUT_PATH}/itkMontageMNML5Pairs
-    0 1 1 1 0 0 0 10
+    0 1 0 10 0 0 1 10 1
+  )
+
+itk_add_test(NAME itkMontagePCMFiles-10-129
+  COMMAND MontageTestDriver
+  itkMontagePCMTestFiles
+    DATA{Input/10-129-C_2/10-129-C_2_p00.jpg}
+    DATA{Input/10-129-C_2/10-129-C_2_p01.jpg}
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMFiles-10-129.nrrd
+    0.0
+    295.0904267
+    -6.143508728
+    -10.488
+  )
+
+option(ITKMontage_EnableFailingTests "Should we enable tests which are failing due to not-yet-resolved issues?" OFF)
+
+if (ITKMontage_EnableFailingTests)
+itk_add_test(NAME itkMontagePCMFilesS200_32_33
+  COMMAND MontageTestDriver
+  itkMontagePCMTestFiles
+    DATA{Input/S200-small/S200-6-320x_p032.jpg}
+    DATA{Input/S200-small/S200-6-320x_p033.jpg}
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMFilesS200_32_33.nrrd
+    2381.0
+    0.0
+    74.09566
+    7.614863315
+  )
+endif(ITKMontage_EnableFailingTests)
+
+itk_add_test(NAME itkMontagePCMFilesS200_33_67
+  COMMAND MontageTestDriver
+  itkMontagePCMTestFiles
+    DATA{Input/S200-small/S200-6-320x_p033.jpg}
+    DATA{Input/S200-small/S200-6-320x_p067.jpg}
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMFilesS200_33_67.nrrd
+    0.0
+    1742.66
+    -6.05019
+    16.063841685
+  )
+
+itk_add_test(NAME itkMontagePCMFilesS200_134_168
+  COMMAND MontageTestDriver
+  itkMontagePCMTestFiles
+    DATA{Input/S200-small/S200-6-320x_p134.jpg}
+    DATA{Input/S200-small/S200-6-320x_p168.jpg}
+    ${TESTING_OUTPUT_PATH}/itkMontagePCMFilesS200_134_168.nrrd
+    0.0
+    1742.06
+    -6.6058
+    21.370794
   )
 
 itk_add_test(NAME itkMontagePCMFilesFocus
@@ -346,9 +394,9 @@ itk_add_test(NAME itkMontagePCMFilesMNML0304
     DATA{Input/MNML_3_200x_701/MNML-3_200x_701-Raw_p04.png}
     ${TESTING_OUTPUT_PATH}/itkMontagePCMFilesMNML0304.nrrd
     0.0
-    155.6277085
-    0.176346072
-    0.431967015
+    917.0
+    1.0
+    1.0
   )
 
 itk_add_test(NAME itkMontagePCMFilesDzZ_T1_identity
@@ -358,14 +406,12 @@ itk_add_test(NAME itkMontagePCMFilesDzZ_T1_identity
     DATA{Input/DzZ_T1/DzZ_T1_inf.nrrd}
     ${TESTING_OUTPUT_PATH}/itkMontagePCMFilesDzZ_T1_identity.nrrd
     0.0
-    0.0
+    140.904
     0.0
     0.0
     0.0
     0.0
   )
-
-endif(ITKMontage_EnableFailingTests)
 
 if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region2_150_Mosaic36Flat/36/1323.tif)
 
@@ -391,7 +437,7 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region2_150_Mosaic36Flat/36/1323.
       ${flatFolder}
       ${TESTING_OUTPUT_PATH}/itkMontageTi7R2_150S36flat
       ${TESTING_OUTPUT_PATH}/itkMontageTi7R2_150S36flatPairs
-      0 1 1 5 0 0 1 0
+      0 1 1 5 0 0 1 0 1
     )
 
   itk_add_test(NAME itkMontageTi7R2_150S36raw
@@ -400,7 +446,7 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region2_150_Mosaic36Flat/36/1323.
       ${rawFolder}
       ${TESTING_OUTPUT_PATH}/itkMontageTi7R2_150S36raw
       ${TESTING_OUTPUT_PATH}/itkMontageTi7R2_150S36rawPairs
-      0 1 1 5 0 0 1 0
+      0 1 1 5 0 0 1 0 1
     )
 
   if (ITKMontage_EnableFailingTests) 
@@ -412,8 +458,8 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region2_150_Mosaic36Flat/36/1323.
       ${TESTING_OUTPUT_PATH}/itkMontagePCMFiles36raw088_089.nrrd
       81.28
       0.0
-      0.182847892
-      -0.247248172
+      0.0
+      0.0
     )
   endif(ITKMontage_EnableFailingTests)
 endif()
@@ -428,7 +474,7 @@ if (EXISTS "${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region1_10_Mosaic36/Ti-7Al_Regio
       ${rawFolder}
       ${TESTING_OUTPUT_PATH}/itkMontageTi7R1_10S36_
       ${TESTING_OUTPUT_PATH}/itkMontageTi7R1_10S36Pairs_
-      0 1 1 5 0 0 1 0
+      0 1 1 5 0 0 1 0 1
     )
 endif()
 
@@ -442,7 +488,7 @@ if (EXISTS "${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region1_10_Mosaic180/Ti-7Al_Regi
       ${rawFolder}
       ${TESTING_OUTPUT_PATH}/itkMontageTi7R1_10S180_
       ${TESTING_OUTPUT_PATH}/itkMontageTi7R1_10S180Pairs_
-      0 1 1 5 0 0 1 0
+      0 1 1 5 0 0 1 0 1
     )
 endif()
 
@@ -453,7 +499,7 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles/Image_10_10.tif)
       ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles
       ${TESTING_OUTPUT_PATH}/itkMontageTiles
       ${TESTING_OUTPUT_PATH}/itkMontageTilesPairs
-      0 -1 1 1 0 0 0 0
+      0 -1 1 1 0 0 0 0 1
     )
 endif()
 
@@ -464,6 +510,6 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/NoisyTiles/NoisyImage_10_10.tif)
       ${CMAKE_CURRENT_LIST_DIR}/Input/NoisyTiles
       ${TESTING_OUTPUT_PATH}/itkMontageNoisyTiles
       ${TESTING_OUTPUT_PATH}/itkMontageNoisyTilesPairs
-      0 -1 1 1 0 0 0 0
+      0 -1 1 1 0 0 0 0 1
     )
 endif()
