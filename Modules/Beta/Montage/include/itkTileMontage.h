@@ -23,6 +23,9 @@
 #include "itkMaxPhaseCorrelationOptimizer.h"
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
 
+#include <atomic>
+#include <deque>
+#include <mutex>
 #include <vector>
 
 namespace itk
@@ -49,8 +52,6 @@ public:
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
   using ImageType = TImageType;
-  // using ImagePointer = typename ImageType::Pointer;
-  // using ImageConstPointer = typename ImageType::ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
@@ -94,20 +95,6 @@ public:
 
   /** Smart Pointer type to a DataObject. */
   using DataObjectPointer = typename DataObject::Pointer;
-
-  /** Passes ReleaseDataFlag to internal filters. */
-  void SetReleaseDataFlag( bool flag ) override
-  {
-    Superclass::SetReleaseDataFlag( flag );
-    m_PCM->SetReleaseDataFlag( flag );
-  }
-
-  /** Passes ReleaseDataBeforeUpdateFlag to internal filters. */
-  void SetReleaseDataBeforeUpdateFlag( const bool flag ) override
-  {
-    Superclass::SetReleaseDataBeforeUpdateFlag( flag );
-    m_PCM->SetReleaseDataBeforeUpdateFlag( flag );
-  }
 
   /** Set/Get the OriginAdjustment. Origin adjustment multiplied by tile index
    * is added to origin of images when only their filename is specified.
@@ -163,27 +150,18 @@ public:
     if ( this->m_ObligatoryPadding != pad )
       {
       this->m_ObligatoryPadding = pad;
-      m_PCM->SetObligatoryPadding( pad );
       this->Modified();
       }
   }
   itkGetConstMacro( ObligatoryPadding, SizeType );
 
-  /** Set/Get the PhaseCorrelationImageRegistrationMethod. */
-  virtual void SetPCM( PCMType* pcm )
-  {
-    if ( this->m_PCM != pcm )
-      {
-      this->m_PCM = pcm;
-      m_PCM->SetObligatoryPadding( m_ObligatoryPadding );
-      this->Modified();
-      }
-  }
-  itkGetModifiableObjectMacro( PCM, PCMType );
+  /** Set/Get the padding method. */
+  itkSetMacro( PaddingMethod, typename PCMType::PaddingMethod );
+  itkGetConstMacro( PaddingMethod, typename PCMType::PaddingMethod );
 
-  /** Set/Get the PhaseCorrelationImageRegistrationMethod. */
-  itkSetObjectMacro( PCMOptimizer, PCMOptimizerType );
-  itkGetModifiableObjectMacro( PCMOptimizer, PCMOptimizerType );
+  /** Set/Get the peak interpolation method. */
+  itkSetMacro( PeakInterpolationMethod, typename PCMOptimizerType::PeakInterpolationMethod );
+  itkGetConstMacro( PeakInterpolationMethod, typename PCMOptimizerType::PeakInterpolationMethod );
 
   /** Get/Set size of the image mosaic. */
   itkGetConstMacro( MontageSize, SizeType );
@@ -196,6 +174,7 @@ public:
     SizeValueType linearIndex = this->nDIndexToLinearIndex( position );
     this->SetNthInput( linearIndex, image );
     m_FFTCache[linearIndex] = nullptr;
+    m_Tiles[linearIndex] = nullptr;
   }
   void SetInputTile( TileIndexType position, const std::string& imageFilename )
   {
@@ -233,11 +212,12 @@ protected:
   using ReaderType = ImageFileReader< ImageType >;
 
   using TranslationOffset = typename TransformType::OutputVectorType;
+  using ImagePointer = typename ImageType::Pointer;
+  using ImageConstPointer = typename ImageType::ConstPointer;
 
   template <typename TImageToRead>
   typename TImageToRead::Pointer
-  GetImageHelper( TileIndexType nDIndex, bool metadataOnly, RegionType region,
-                  ImageFileReader< TImageToRead >* reader = nullptr );
+  GetImageHelper( TileIndexType nDIndex, bool metadataOnly, RegionType region );
 
   /** Just get image pointer if the image is present, otherwise read it from file. */
   typename ImageType::Pointer GetImage( TileIndexType nDIndex, bool metadataOnly );
@@ -250,9 +230,6 @@ protected:
 
   /** If possible, removes from memory tile with index smaller by 1 along all dimensions. */
   void ReleaseMemory( TileIndexType finishedTile );
-
-  /** Montage this dimension, and all lower dimensions. */
-  void MontageDimension( int d, TileIndexType initialTile );
 
   /** Accesses output, sets a transform to it, and updates progress. */
   void WriteOutTransform( TileIndexType index, TranslationOffset offset );
@@ -275,11 +252,16 @@ protected:
 
   void OptimizeTiles();
 
+  std::deque< std::mutex > m_TileReadLocks; // to avoid reading the same tile by more than one thread in parallel
+  // deque is not reallocated when resized, so no mutex moving causing a crash
+
 private:
   SizeType      m_MontageSize;
   SizeValueType m_LinearMontageSize = 0;
   SizeValueType m_NumberOfPairs = 0;
-  SizeValueType m_FinishedPairs = 0;
+
+  std::atomic< SizeValueType > m_FinishedPairs = { 0 };
+
   PointType     m_OriginAdjustment;
   SpacingType   m_ForcedSpacing;
   float         m_AbsoluteThreshold = 1.0;
@@ -288,17 +270,20 @@ private:
   bool          m_CropToOverlap = true;
   SizeType      m_ObligatoryPadding;
 
+  std::mutex m_MemberProtector; // to prevent concurrent access to non-thread-safe internal member variables
+
+  typename PCMType::PaddingMethod  m_PaddingMethod = PCMType::PaddingMethod::MirrorWithExponentialDecay;
   std::vector< std::string >       m_Filenames;
   std::vector< FFTConstPointer >   m_FFTCache;
+  std::vector< ImagePointer >      m_Tiles; // metadata/image storage (if filenames are given instead of actual images)
   std::vector< OffsetVector >      m_TransformCandidates; // to adjacent tiles
   std::vector< ConfidencesType >   m_CandidateConfidences;
   std::vector< TranslationOffset > m_CurrentAdjustments;
-  typename PCMType::Pointer        m_PCM = PCMType::New();
-  typename ReaderType::Pointer     m_Reader = ReaderType::New();
-  typename ImageType::Pointer      m_Dummy = ImageType::New();
 
-  typename PCMOperatorType::Pointer  m_PCMOperator = PCMOperatorType::New();
-  typename PCMOptimizerType::Pointer m_PCMOptimizer = PCMOptimizerType::New();
+  typename PCMOptimizerType::PeakInterpolationMethod m_PeakInterpolationMethod =
+    PCMOptimizerType::PeakInterpolationMethod::Parabolic;
+
+  const typename ImageType::Pointer m_Dummy = ImageType::New();
 
   // members needed for ResampleIntoSingleImage
   ContinuousIndexType m_MinInner; // minimum index for cropped montage

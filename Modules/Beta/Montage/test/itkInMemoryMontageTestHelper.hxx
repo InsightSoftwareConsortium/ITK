@@ -141,7 +141,6 @@ private:
   using Origin2D = std::vector< OriginRow >;
   using OriginalImageType = itk::Image< PixelType, Dimension >; // possibly RGB instead of scalar
   using PCMType = itk::PhaseCorrelationImageRegistrationMethod< ScalarImageType, ScalarImageType >;
-  using PadMethodUnderlying = typename std::underlying_type< typename PCMType::PaddingMethod >::type;
   using TransformType = itk::TranslationTransform< double, Dimension >;
   using StageTiles = itk::TileLayout2D;
 

@@ -138,7 +138,6 @@ TileMergeImageFilter< TImageType, TPixelAccumulateType, TInterpolator >
   Superclass::SetMontageSize( montageSize );
   m_Transforms.resize( this->m_LinearMontageSize );
   m_Tiles.resize( this->m_LinearMontageSize );
-  m_TileReadLocks.resize( this->m_LinearMontageSize );
   this->SetNumberOfRequiredOutputs( 1 );
 }
 
@@ -250,7 +249,7 @@ TileMergeImageFilter< TImageType, TPixelAccumulateType, TInterpolator >
 
   ImagePointer outputImage = this->GetOutput();
   RegionType reqR = outputImage->GetRequestedRegion();
-  std::lock_guard< std::mutex > lockGuard( m_TileReadLocks[linearIndex] );
+  std::lock_guard< std::mutex > lockGuard( this->m_TileReadLocks[linearIndex] );
   if ( m_Tiles[linearIndex].IsNotNull() )
     {
     RegionType r = m_Tiles[linearIndex]->GetBufferedRegion();
@@ -261,7 +260,7 @@ TileMergeImageFilter< TImageType, TPixelAccumulateType, TInterpolator >
     }
 
   bool onlyMetadata = ( wantedRegion.GetNumberOfPixels() == 0 );
-  m_Tiles[linearIndex] = Superclass::template GetImageHelper< ImageType >( nDIndex, onlyMetadata, reqR, nullptr );
+  m_Tiles[linearIndex] = Superclass::template GetImageHelper< ImageType >( nDIndex, onlyMetadata, reqR );
   return m_Tiles[linearIndex];
 }
 
@@ -444,8 +443,8 @@ TileMergeImageFilter< TImageType, TPixelAccumulateType, TInterpolator >
     return; // nothing to do
     }
   bool interpolate = true;
-  if ( m_Montage.IsNotNull() && m_Montage->m_PCMOptimizer->GetPeakInterpolationMethod() ==
-                                  Superclass::PCMOptimizerType::PeakInterpolationMethod::None )
+  if ( m_Montage.IsNotNull() && m_Montage->GetPeakInterpolationMethod() ==
+       Superclass::PCMOptimizerType::PeakInterpolationMethod::None )
     {
     interpolate = false;
     // TODO: replace this by a check whether all the
