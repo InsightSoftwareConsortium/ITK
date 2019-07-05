@@ -254,6 +254,12 @@ public:
   };
   itkGetConstMacro( PaddingMethod, PaddingMethod );
   void SetPaddingMethod( const PaddingMethod paddingMethod );
+  friend std::ostream&
+  operator<<( std::ostream& os, const PaddingMethod& pm )
+  {
+    os << static_cast< typename std::underlying_type< PaddingMethod >::type >( pm );
+    return os;
+  }
 
   /** Set/Get tile cropping. Should tiles be cropped to overlapping
    * region for computing the cross correlation? Default: True.

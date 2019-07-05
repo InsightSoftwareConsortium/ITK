@@ -88,6 +88,12 @@ public:
   };
   itkGetConstMacro( PeakInterpolationMethod, PeakInterpolationMethod );
   void SetPeakInterpolationMethod( const PeakInterpolationMethod peakInterpolationMethod );
+  friend std::ostream&
+  operator<<( std::ostream& os, const PeakInterpolationMethod& pim )
+  {
+    os << static_cast< typename std::underlying_type< PeakInterpolationMethod >::type >( pim );
+    return os;
+  }
 
   /** Get/Set maximum city-block distance for peak merging. Zero disables it. */
   itkGetConstMacro( MergePeaks, unsigned );
