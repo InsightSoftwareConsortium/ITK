@@ -26,7 +26,8 @@ int itkMontageTest2D(int argc, char* argv[])
   if ( argc < 4 )
     {
     std::cerr << "Usage: " << argv[0] << " <directoryWtihInputData> <montageTSV> <mockTSV>";
-    std::cerr << " [ varyPaddingMethods peakMethod loadIntoMemory streamSubdivisions doPairs writeTransforms allowDrift ]" << std::endl;
+    std::cerr << " [ varyPaddingMethods peakMethod loadIntoMemory streamSubdivisions doPairs";
+    std::cerr << " writeTransforms allowDrift positionTolerance writeImage ]" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -70,6 +71,11 @@ int itkMontageTest2D(int argc, char* argv[])
     {
     positionTolerance = std::stoul( argv[11] );
     }
+  bool writeImage = true;
+  if ( argc > 12 )
+    {
+    writeImage = std::stoi( argv[12] );
+    }
 
   std::string inputPath = argv[1];
   if ( inputPath.back() != '/' && inputPath.back() != '\\' )
@@ -92,7 +98,7 @@ int itkMontageTest2D(int argc, char* argv[])
     r1 = montageTest< itk::RGBPixel< unsigned char >, itk::RGBPixel< unsigned int > >(
       stageTiles, actualTiles, inputPath, argv[2],
       varyPaddingMethods, peakMethod, loadIntoMemory, streamSubdivisions,
-      writeTransforms, allowDrift, positionTolerance );
+      writeTransforms, allowDrift, positionTolerance, writeImage );
     if ( doPairs )
       {
       r2 = pairwiseTests< unsigned char >(
@@ -104,7 +110,7 @@ int itkMontageTest2D(int argc, char* argv[])
     r1 = montageTest< unsigned short, double >(
       stageTiles, actualTiles, inputPath, argv[2],
       varyPaddingMethods, peakMethod, loadIntoMemory, streamSubdivisions,
-      writeTransforms, allowDrift, positionTolerance );
+      writeTransforms, allowDrift, positionTolerance, writeImage );
     if ( doPairs )
       {
       r2 = pairwiseTests< unsigned short >(
