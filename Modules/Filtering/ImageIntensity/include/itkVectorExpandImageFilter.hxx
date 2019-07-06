@@ -25,6 +25,7 @@
 #include "itkProgressReporter.h"
 #include "itkMath.h"
 
+#if !defined ( ITK_LEGACY_REMOVE )
 namespace itk
 {
 template< typename TInputImage, typename TOutputImage >
@@ -286,5 +287,6 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
   outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
 }
 } // end namespace itk
+#endif //ITK_LEGACY_REMOVE
 
 #endif
