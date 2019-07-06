@@ -255,7 +255,6 @@ private:
   /** the points container which will be actually used for storing
    * measurement vectors */
   VectorContainerConstPointer  m_VectorContainer;
-
 };  // end of class VectorContainerToListSampleAdaptor
 } // end of namespace Statistics
 } // end of namespace itk
