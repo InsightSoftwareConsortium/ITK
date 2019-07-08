@@ -528,7 +528,10 @@ MeshToPolyDataFilter< TInputMesh >
   // Now ask the mesh to accept the multivisitor which
   // will Call Visit for each cell in the mesh that matches the
   // cell types of the visitors added to the MultiVisitor
-  inputMesh->Accept(multiVisitor);
+  if( numberOfCells )
+    {
+    inputMesh->Accept(multiVisitor);
+    }
 
   vertices->shrink_to_fit();
   outputPolyData->SetVertices( vertices );
