@@ -22,6 +22,8 @@ def _get_numpy_pixelid(itk_Image_type):
                "SL":numpy.int64,
                "F":numpy.float32,
                "D":numpy.float64,
+               "PF2":numpy.float32,
+               "PF3":numpy.float32,
                 }
     import os
     if os.name == 'nt':

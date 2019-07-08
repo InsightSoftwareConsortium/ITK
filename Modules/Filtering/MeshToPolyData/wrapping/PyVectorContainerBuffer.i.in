@@ -12,8 +12,16 @@
         if not HAVE_NUMPY:
             raise ImportError('Numpy not available.')
 
+        import itk
+
         itksize = vector_container.Size()
-        shape   = [itksize]
+        container_type = itk.template(vector_container)
+        if isinstance(container_type[1][1], type):
+            element_type = itk.template(container_type[1][1])
+            dimension = element_type[1][1]
+            shape   = [itksize * dimension]
+        else:
+            shape   = [itksize]
 
         pixelType     = "@PixelType@"
         numpydatatype = _get_numpy_pixelid(pixelType)
