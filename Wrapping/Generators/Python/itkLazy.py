@@ -35,6 +35,8 @@ class LazyITKModule(types.ModuleType):
         self.__belong_lazy_attributes = dict( (k,v[0]) for k,v in lazy_attributes.items() if len(v) > 0 )
         for k in lazy_attributes:
             setattr(self, k, not_loaded)
+        # For PEP 366
+        setattr(self, '__package__', 'itk')
 
     def __getattribute__(self, attr):
         value = types.ModuleType.__getattribute__(self, attr)
