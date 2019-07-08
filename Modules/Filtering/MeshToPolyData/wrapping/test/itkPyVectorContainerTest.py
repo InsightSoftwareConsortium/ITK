@@ -63,5 +63,33 @@ class TestNumpyVectorContainerMemoryviewInterface(unittest.TestCase):
         arr_cp[0] = 2
         self.assertNotEqual(v2_cp.GetElement(0), arr_cp[0])
 
+        PointType = itk.Point[itk.F, 3]
+        v_point = itk.VectorContainer[itk.UL, PointType].New()
+        v_point.Reserve(2)
+        point = PointType()
+        point[0] = 1.0
+        point[1] = 2.0
+        point[2] = 4.0
+        v_point.SetElement(0, point)
+        point[0] = 6.0
+        point[1] = 8.0
+        point[2] = 9.0
+        v_point.SetElement(1, point)
+        arr = itk.PyVectorContainer[PointType].array_view_from_vector_container(v_point)
+        self.assertTrue(np.array_equal(arr, np.array([1.0, 2.0, 4.0, 6.0, 8.0, 9.0])))
+
+        PointType = itk.Point[itk.F, 2]
+        v_point = itk.VectorContainer[itk.UL, PointType].New()
+        v_point.Reserve(2)
+        point = PointType()
+        point[0] = 1.0
+        point[1] = 2.0
+        v_point.SetElement(0, point)
+        point[0] = 6.0
+        point[1] = 8.0
+        v_point.SetElement(1, point)
+        arr = itk.PyVectorContainer[PointType].array_view_from_vector_container(v_point)
+        self.assertTrue(np.array_equal(arr, np.array([1.0, 2.0, 6.0, 8.0])))
+
 if __name__ == '__main__':
     unittest.main()

@@ -4,6 +4,10 @@ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/PyBuffer.i.init"
 
 itk_wrap_class("itk::PyVectorContainer")
   UNIQUE(types "${WRAP_ITK_SCALAR};D")
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    # Wrap itk.Point[itk.F, ${d}]
+    list(APPEND types PF${d})
+  endforeach()
   foreach(t ${types})
     set(PixelType ${t})
     itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
