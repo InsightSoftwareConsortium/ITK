@@ -76,7 +76,7 @@ class TestNumpyVectorContainerMemoryviewInterface(unittest.TestCase):
         point[2] = 9.0
         v_point.SetElement(1, point)
         arr = itk.PyVectorContainer[PointType].array_view_from_vector_container(v_point)
-        self.assertTrue(np.array_equal(arr, np.array([1.0, 2.0, 4.0, 6.0, 8.0, 9.0])))
+        self.assertTrue(np.array_equal(arr, np.array([[1.0, 2.0, 4.0], [6.0, 8.0, 9.0]])))
 
         PointType = itk.Point[itk.F, 2]
         v_point = itk.VectorContainer[itk.UL, PointType].New()
@@ -89,7 +89,7 @@ class TestNumpyVectorContainerMemoryviewInterface(unittest.TestCase):
         point[1] = 8.0
         v_point.SetElement(1, point)
         arr = itk.PyVectorContainer[PointType].array_view_from_vector_container(v_point)
-        self.assertTrue(np.array_equal(arr, np.array([1.0, 2.0, 6.0, 8.0])))
+        self.assertTrue(np.array_equal(arr, np.array([[1.0, 2.0], [6.0, 8.0]])))
 
 if __name__ == '__main__':
     unittest.main()
