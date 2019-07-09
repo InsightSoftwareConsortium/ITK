@@ -544,7 +544,7 @@ MeshToPolyDataFilter< TInputMesh >
 
   using CellDataContainerType = typename PolyDataType::CellDataContainer;
   const CellDataContainerType * inputCellData = inputMesh->GetCellData();
-  if( inputCellData )
+  if( inputCellData && inputCellData->Size() )
     {
     typename CellDataContainerType::Pointer outputCellData = CellDataContainerType::New();
     outputCellData->Reserve( inputCellData->Size() );
