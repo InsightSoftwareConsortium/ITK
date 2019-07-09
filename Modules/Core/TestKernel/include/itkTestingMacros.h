@@ -32,6 +32,20 @@ namespace itk
 // end namespace itk - this is here for documentation purposes
 }
 
+// e39284b354a047a8f7931bc9d541f193480ad1b3 introduced ITK_ prefix
+// so define the new names for the benefit of the new code
+// which is compiled with ITK_FUTURE_LEGACY_REMOVE enabled.
+#define ITK_EXERCISE_BASIC_OBJECT_METHODS EXERCISE_BASIC_OBJECT_METHODS
+#define ITK_TRY_EXPECT_EXCEPTION TRY_EXPECT_EXCEPTION
+#define ITK_TRY_EXPECT_NO_EXCEPTION TRY_EXPECT_NO_EXCEPTION
+#define ITK_TEST_EXPECT_TRUE_STATUS_VALUE TEST_EXPECT_TRUE_STATUS_VALUE
+#define ITK_TEST_EXPECT_TRUE TEST_EXPECT_TRUE
+#define ITK_TEST_EXPECT_EQUAL_STATUS_VALUE TEST_EXPECT_EQUAL_STATUS_VALUE
+#define ITK_TEST_EXPECT_EQUAL TEST_EXPECT_EQUAL
+#define ITK_TEST_SET_GET TEST_SET_GET
+#define ITK_TEST_SET_GET_VALUE TEST_SET_GET_VALUE
+#define ITK_TEST_SET_GET_NULL_VALUE TEST_SET_GET_NULL_VALUE
+#define ITK_TEST_SET_GET_BOOLEAN TEST_SET_GET_BOOLEAN
 
 // object's Class must be specified to build on sun studio
 #define EXERCISE_BASIC_OBJECT_METHODS( object, Class, SuperClass )        \
