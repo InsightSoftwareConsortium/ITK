@@ -183,7 +183,7 @@ void AnalyzeObjectLabelMapImageIO::Read(void* buffer)
   while( !this->m_InputFileStream.read(reinterpret_cast<char *>(RunLengthArray), sizeof(RunLengthElement)
                                        * NumberOfRunLengthElementsPerRead).eof() )
     {
-    for(auto & i : RunLengthArray)
+    for(const auto & i : RunLengthArray)
       {
       //           myfile<< "Assigning: " << (int)RunLengthArray[i].voxel_count
       //             << " voxels of label " << (int)RunLengthArray[i].voxel_value
@@ -191,7 +191,7 @@ void AnalyzeObjectLabelMapImageIO::Read(void* buffer)
       if( i.voxel_count == 0 )
         {
         itkDebugMacro(
-          << "Inside AnaylzeObjectLabelMap Invalid Length " << (int)RunLengthArray[i].voxel_count << std::endl);
+          << "Inside AnaylzeObjectLabelMap Invalid Length " << static_cast<int> ( i.voxel_count ) << std::endl);
         exit(-1);
         }
       for( int j = 0; j < i.voxel_count; j++ )
