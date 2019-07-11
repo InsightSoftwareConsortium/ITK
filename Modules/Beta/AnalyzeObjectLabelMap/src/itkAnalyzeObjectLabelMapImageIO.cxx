@@ -17,7 +17,6 @@ PURPOSE.  See the above copyright notices for more information.
 
 #include "itkAnalyzeObjectLabelMapImageIO.h"
 #include "itkIOCommon.h"
-#include "itkExceptionObject.h"
 #include "itkByteSwapper.h"
 #include "itkMetaDataObject.h"
 #include "itkSpatialOrientationAdapter.h"
