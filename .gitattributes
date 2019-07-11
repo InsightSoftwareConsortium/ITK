@@ -40,6 +40,7 @@ zap.pl           crlf=input
 
 # ghostflow-director GitHub automatic check for maximum repository file size
 *                     hooks-max-size=100000
+Modules/Numerics/FEM/src/dsrc2c.c hooks-max-size=260000
 Modules/ThirdParty/** hooks-max-size=300000
 Modules/ThirdParty/NIFTI/src/nifti/nifti2/nifti2_io.c hooks-max-size=400000
 Modules/ThirdParty/VNL/src/vxl/v3p/netlib/triangle.c hooks-max-size=670000
