@@ -28,7 +28,7 @@ zap.pl           crlf=input
 
 
 # Custom attribute to mark sources as using our C++/C code style.
-[attr]our-c-style  whitespace=tab-in-indent,no-lf-at-eof  hooks.style=KWStyle,uncrustify format.clang-format-8.0
+[attr]our-c-style  whitespace=tab-in-indent,no-lf-at-eof  hooks.style=KWStyle,clangformat
 
 *.c              our-c-style
 *.h              our-c-style

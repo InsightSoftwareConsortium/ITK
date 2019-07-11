@@ -14,15 +14,23 @@
 # limitations under the License.
 #=============================================================================
 
-# Run uncrustify and KWStyle pre-commit hooks.
+# Run clangformat and KWStyle pre-commit hooks.
 #
 # 'git config' is used to enable the hooks and set their configuration files.
 # The repository .gitattributes must also enable the hooks on the targeted
 # files.
 
+die() {
+          echo 'pre-commit hook failure' 1>&2
+          echo '-----------------------' 1>&2
+          echo '' 1>&2
+          echo "$@" 1>&2
+          exit 1
+}
+
 do_KWStyle=$(git config --bool hooks.KWStyle) || do_KWStyle=false
 
-do_uncrustify=$(git config --bool hooks.uncrustify) || do_uncrustify=false
+do_clangformat=$(git config --bool hooks.clangformat) || do_clangformat=false
 
 if [ "$(uname)" == "Darwin" ]; then
     console="</dev/tty" # MacOSX
@@ -144,35 +152,34 @@ run_KWStyle() {
 }
 
 #-----------------------------------------------------------------------------
-# uncrustify.
-check_for_uncrustify() {
-  uncrustify_path=$(git config hooks.uncrustify.path) ||
-  uncrustify_path=$(which uncrustify) ||
-  die "uncrustify executable was not found.
+# clangformat.
+check_for_clangformat() {
+  clangformat_path=$(git config hooks.clangformat.path) ||
+  clangformat_path=$(which clangformat) ||
+  die "clangformat executable was not found.
 
-Please install uncrustify or set the executable location with
+Please install clang-format version 8.0 or set the executable location with
 
-  git config hooks.uncrustify.path /path/to/uncrustify
-
-  See https://github.com/uncrustify/uncrustify"
-
-  uncrustify_conf=$(git config hooks.uncrustify.conf)
-  if ! test -f "$uncrustify_conf"; then
-    die "The file '$uncrustify_conf' does not exist.
-
-Please run
-
-  git config hooks.uncrustify.conf path/to/uncrustify.conf"
-  fi
+  git config hooks.clangformat.path /path/to/clang-format
+  "
 }
 
-run_uncrustify_on_file() {
+run_clang_format_check_attr()
+{
+    IN=$1
+    OUT=$2
+    ERR=$3
+    "${clangformat_path}" -style=file "$IN" > "$OUT" 2> "$ERR"
+    return $?
+}
+
+run_clangformat_on_file() {
   MERGED="$1"
-  if run_style_on_file "$MERGED" uncrustify; then
+  if run_style_on_file "$MERGED" "clangformat"; then
     ext="$$$(expr "$MERGED" : '.*\(\.[^/]*\)$')"
     BACKUP="./$MERGED.BACKUP.$ext"
     LOCAL="./$MERGED.STAGED.$ext"
-    REMOTE="./$MERGED.UNCRUSTIFY.$ext"
+    REMOTE="./$MERGED.CLANGFORMAT.$ext"
     NEW_MERGED="./$MERGED.NEW.$ext"
     ERROR_LOG="./$MERGED.$ext.log"
     OLD_MERGED="$MERGED"
@@ -184,15 +191,15 @@ run_uncrustify_on_file() {
     cp -- "$BACKUP" "$MERGED"
     cp -- "$BACKUP" "$LOCAL"
 
-    if ! "$uncrustify_path" -c "$uncrustify_conf" -f "$LOCAL" \
-      -o "$REMOTE" 2> "$ERROR_LOG"; then
+    run_clang_format_check_attr "$LOCAL" "$REMOTE" "$ERROR_LOG"
+    clang_format_status=$?
+    if [  $clang_format_status -ne 0 ]; then
       mv -- "$BACKUP" "$OLD_MERGED"
 
       if test "$merge_keep_temporaries" = "false"; then
         rm -f -- "$LOCAL" "$REMOTE" "$BACKUP"
       fi
-
-      die "error when running uncrustify on $OLD_MERGED"
+      die "error when running clangformat on $OLD_MERGED"
     fi
 
     if test $(git hash-object -- "$LOCAL") != $(git hash-object -- "$REMOTE") &&
@@ -203,7 +210,7 @@ run_uncrustify_on_file() {
         rm -f -- "$LOCAL" "$REMOTE" "$BACKUP" "$NEW_MERGED"
       fi
 
-      die "uncrustify merge of $OLD_MERGED failed
+      die "clang-format merge of $OLD_MERGED failed
       Error log: $ERROR_LOG"
     fi
 
@@ -219,7 +226,7 @@ run_uncrustify_on_file() {
     git add -- "$MERGED"
     rm -f -- "$LOCAL" "$REMOTE" "$BACKUP" "$ERROR_LOG" "$NEW_MERGED"
 
-  fi # end if run uncrustify on file
+  fi # end if run clangformat on file
 
   if $do_KWStyle &&
     $have_KWStyle &&
@@ -231,14 +238,7 @@ run_uncrustify_on_file() {
   fi
 }
 
-run_uncrustify() {
-  $do_KWStyle && check_for_KWStyle
-  if test $?; then
-    have_KWStyle=false
-  else
-    have_KWStyle=true
-  fi
-
+run_clangformat() {
   merge_tool=$(get_merge_tool "$merge_tool") || die "Merge tool not configured.
 
 Set the merge tool with
@@ -252,15 +252,22 @@ For more information, see
   merge_keep_temporaries="$(git config --bool mergetool.keepTemporaries || echo false)"
   git diff-index --cached --diff-filter=ACMR --name-only HEAD -- |
   while read MERGED; do
-    run_uncrustify_on_file "$MERGED" || return
+    run_clangformat_on_file "$MERGED" || return
   done # end for changed files
+
+  $do_KWStyle && check_for_KWStyle
+  if test $?; then
+    have_KWStyle=false
+  else
+    have_KWStyle=true
+  fi
 }
 
 # Do not run during merge commits for now.
 if test -f "$GIT_DIR/MERGE_HEAD"; then
   :
-elif $do_uncrustify; then
-  # We use git-mergetool settings to review the uncrustify changes.
+elif $do_clangformat; then
+  # We use git-mergetool settings to review the clangformat changes.
   TOOL_MODE=merge
   . "$(git --exec-path)/git-mergetool--lib"
   # Redefine check_unchanged because we do not need to check if the merge was
@@ -268,10 +275,10 @@ elif $do_uncrustify; then
   check_unchanged() {
     status=0
   }
-  check_for_uncrustify
-  run_uncrustify || exit 1
-# do_uncrustify will run KWStyle on the files incrementally so excessive
-# uncrustify merges do not have to occur.
+  check_for_clangformat
+  run_clangformat || exit 1
+# do_clangformat will run KWStyle on the files incrementally so excessive
+# clangformat merges do not have to occur.
 elif $do_KWStyle; then
   if check_for_KWStyle; then
     run_KWStyle || exit 1
