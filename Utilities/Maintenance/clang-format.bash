@@ -119,8 +119,8 @@ esac
 $git_ls |
 
   # Select sources with our attribute.
-  git check-attr --stdin format.clang-format-8.0 |
-  grep -e ': format\.clang-format-8\.0: set$'     |
+  git check-attr --stdin hooks.style |
+  grep -e 'hooks.style: .*clangformat'      |
   grep -v 'ThirdParty'                       |
   sed -n 's/:[^:]*:[^:]*$//p'                |
   # Update sources in-place.

@@ -470,11 +470,6 @@ if(NOT ITK_USE_SYSTEM_FFTW)
 endif()
 configure_file(CMake/ITKConfig.cmake.in CMakeFiles/ITKConfig.cmake @ONLY)
 
-#----------------------------------------------------------------------------
-# Configure maintenance scripts
-configure_file(Utilities/Maintenance/doSingleKWStyleUncrustifyFix.sh.in
-  Utilities/Maintenance/doSingleKWStyleUncrustifyFix.sh @ONLY)
-
 #-----------------------------------------------------------------------------
 install(FILES ${ITK_BINARY_DIR}/CMakeFiles/ITKConfig.cmake
               ${ITK_BINARY_DIR}/ITKConfigVersion.cmake
