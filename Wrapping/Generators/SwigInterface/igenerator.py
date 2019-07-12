@@ -696,7 +696,12 @@ class SwigInputGenerator(object):
         # [1:-1] is there to drop the quotes
         for lang in langs:
             headerFile.write("#ifdef SWIG%s\n" % lang)
-            headerFile.write("%%module %s%s\n" % (self.moduleName, lang.title()))
+            if lang == "PYTHON":
+                # Also, release the GIL
+                headerFile.write("%%module(threads=\"1\") %s%s\n" % (self.moduleName, lang.title()))
+                headerFile.write('%feature("nothreadallow");\n')
+            else:
+                headerFile.write("%%module %s%s\n" % (self.moduleName, lang.title()))
             headerFile.write("#endif\n")
         headerFile.write('\n')
 
