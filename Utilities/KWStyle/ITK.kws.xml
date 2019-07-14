@@ -4,7 +4,7 @@
 <DeclarationOrder>0,1,2</DeclarationOrder>
 <Typedefs>[A-Z]</Typedefs>
 <InternalVariables>m_[A-Z]</InternalVariables>
-<SemicolonSpace>0</SemicolonSpace>
+<SemicolonSpace>1</SemicolonSpace>
 <EndOfFileNewLine>1</EndOfFileNewLine>
 <Tabs>1</Tabs>
 <Spaces>3</Spaces>
