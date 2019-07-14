@@ -13,7 +13,7 @@
 <NameOfClass>[NameOfClass],itk</NameOfClass>
 <IfNDefDefine>[NameOfClass]_[Extension]</IfNDefDefine>
 <EmptyLines>2</EmptyLines>
-<Template>[TNV]</Template>
+<Template>([TNV]|D|unsigned int|int|bool|QMatrix|B[12]|typename|class|U|R|InputImage|Arguments|Function|vecLength|Output)</Template>
 <Operator>1,1</Operator>
 <Header>Utilities/KWStyle/ITKHeader.h,false,true</Header>
 </Description>
