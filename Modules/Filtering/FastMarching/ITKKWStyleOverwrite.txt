@@ -6,3 +6,4 @@ test/itkFastMarchingTest.cxx Namespace Disable
 test/itkFastMarchingImageFilterRealTest2.cxx Namespace Disable
 test/itkFastMarchingImageFilterRealTest1.cxx Namespace Disable
 test/itkFastMarchingExtensionImageFilterTest.cxx Namespace Disable
+itkFastMarchingTraits\.h Template Disable
