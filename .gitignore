@@ -37,3 +37,6 @@ CMakeLists.txt.user*
 
 # Mac System File
 .DS_Store
+
+# Ignore testing temporary files
+Testing/Temporary/
