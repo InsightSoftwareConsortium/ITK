@@ -15,13 +15,17 @@
 #   limitations under the License.
 #
 #==========================================================================*/
-
-
 import types
 import itkBase
 
 not_loaded = 'not loaded'
 
+def _lazy_itk_module_reconstructor(module_name, state):
+    # Similar to copyreg._reconstructor
+    lazy_module = types.ModuleType.__new__(LazyITKModule, state)
+    types.ModuleType.__init__(lazy_module, module_name)
+
+    return lazy_module
 
 class LazyITKModule(types.ModuleType):
 
@@ -37,6 +41,8 @@ class LazyITKModule(types.ModuleType):
             setattr(self, k, not_loaded)
         # For PEP 366
         setattr(self, '__package__', 'itk')
+        setattr(self, 'lazy_attributes', lazy_attributes)
+        setattr(self, 'loaded_lazy_modules', set())
 
     def __getattribute__(self, attr):
         value = types.ModuleType.__getattribute__(self, attr)
@@ -44,7 +50,39 @@ class LazyITKModule(types.ModuleType):
             module = self.__belong_lazy_attributes[attr]
             namespace = {}
             itkBase.LoadModule(module, namespace)
+            self.loaded_lazy_modules.add(module)
             for k, v in namespace.items():
                 setattr(self, k, v)
             value = namespace[attr]
         return value
+
+    # For pickle support
+    def __reduce_ex__(self, proto):
+        state = self.__getstate__()
+        return _lazy_itk_module_reconstructor, (self.__name__, state), state
+
+    # For pickle support
+    def __getstate__(self):
+        state = self.__dict__.copy()
+        lazy_modules = list()
+        # import ipdb; ipdb.set_trace()
+        for key in self.lazy_attributes:
+            if isinstance(state[key], LazyITKModule):
+                lazy_modules.append((key, state[key].lazy_attributes))
+            state[key] = not_loaded
+        state['lazy_modules'] = lazy_modules
+
+        return state
+
+    # For pickle support
+    def __setstate__(self, state):
+        self.__dict__.update(state)
+        for module_name, lazy_attributes in state['lazy_modules']:
+            self.__dict__.add(module_name, LazyITKModule(module_name,
+                lazy_attributes))
+
+        for module in state['loaded_lazy_modules']:
+            namespace = {}
+            itkBase.LoadModule(module, namespace)
+            for k, v in namespace.items():
+                setattr(self, k, v)
