@@ -215,9 +215,17 @@ void RawImageIO< TPixel, VImageDimension >
   {
     itkReadRawBytesAfterSwappingMacro< long >( buffer, m_ByteOrder, numberOfComponents );
   }
+  else if ( this->GetComponentType() == LONGLONG )
+  {
+    itkReadRawBytesAfterSwappingMacro< long long >( buffer, m_ByteOrder, numberOfComponents );
+  }
   else if ( this->GetComponentType() == ULONG )
   {
     itkReadRawBytesAfterSwappingMacro< unsigned long >( buffer, m_ByteOrder, numberOfComponents );
+  }
+  else if ( this->GetComponentType() == ULONGLONG )
+  {
+    itkReadRawBytesAfterSwappingMacro< unsigned long long >( buffer, m_ByteOrder, numberOfComponents );
   }
   else if ( this->GetComponentType() == FLOAT )
   {
@@ -299,9 +307,19 @@ void RawImageIO< TPixel, VImageDimension >
     {
       itkWriteRawBytesAfterSwappingMacro< long >( buffer, file, m_ByteOrder, numberOfBytes, numberOfComponents );
     }
+    else if ( this->GetComponentType() == LONGLONG )
+    {
+      itkWriteRawBytesAfterSwappingMacro< long long >(
+        buffer, file, m_ByteOrder, numberOfBytes, numberOfComponents );
+    }
     else if ( this->GetComponentType() == ULONG )
     {
       itkWriteRawBytesAfterSwappingMacro< unsigned long >(
+        buffer, file, m_ByteOrder, numberOfBytes, numberOfComponents );
+    }
+    else if ( this->GetComponentType() == ULONGLONG )
+    {
+      itkWriteRawBytesAfterSwappingMacro< unsigned long long >(
         buffer, file, m_ByteOrder, numberOfBytes, numberOfComponents );
     }
     else if ( this->GetComponentType() == FLOAT )
