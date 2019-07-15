@@ -20,5 +20,5 @@ itk_fetch_module(AnisotropicDiffusionLBR
     http://insight-journal.org/browse/publication/953
   "
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKAnisotropicDiffusionLBR.git
-  GIT_TAG 18d8b00d2c610f0c8c332bd2300f3f0c08c018bf
+  GIT_TAG 492228aa2b641c2276a7b56c479a854f7e8413d4
   )
