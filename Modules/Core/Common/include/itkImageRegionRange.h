@@ -398,7 +398,7 @@ public:
     auto endRegionIndex = m_IterationRegionIndex;
     endRegionIndex.back() += m_IterationRegionSize.back();
 
-    OffsetType iterationOffset{};
+    OffsetType iterationOffset{ {} }; // Initialize offsets to 0, by aggregate initializer
     *(iterationOffset.rbegin()) = m_IterationRegionSize.back();
 
     return iterator
