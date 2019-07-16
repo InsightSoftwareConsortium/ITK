@@ -21,3 +21,11 @@ import itk
 assert(itk.__package__ == 'itk')
 from itk import ITKCommon
 assert(ITKCommon.__package__ == 'itk')
+
+# Test pickling used bash Dask
+try:
+    import cloudpickle
+    itkpickled = cloudpickle.dumps(itk)
+    cloudpickle.loads(itkpickled)
+except ImportError:
+    pass
