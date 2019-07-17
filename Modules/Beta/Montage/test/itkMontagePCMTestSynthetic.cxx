@@ -62,24 +62,28 @@ public:
     m_Image->SetOrigin( m_ImageOrigin );
     m_Image->SetDirection( m_ImageDirection );
 
-    itk::Point< double, VDimension > p;
-    TPixel value;
-    using ImageIteratorType = itk::ImageRegionIteratorWithIndex< ImageType >;
-    ImageIteratorType it( m_Image, region );
-    while ( !it.IsAtEnd() )
+    multiThreader->ParallelizeImageRegion< VDimension >( region,
+      [&](const typename ImageType::RegionType & fragment)
       {
-      m_Image->TransformIndexToPhysicalPoint( it.GetIndex(), p );
-      if ( m_SphereCenter.EuclideanDistanceTo( p ) > m_SphereRadius )
-        {
-        value = itk::NumericTraits< TPixel >::ZeroValue();
-        }
-      else
-        {
-        value = itk::NumericTraits< TPixel >::OneValue();
-        }
-      it.Set( value );
-      ++it;
-      }
+        itk::Point< double, VDimension > p;
+        TPixel value;
+        itk::ImageRegionIteratorWithIndex< ImageType > it( m_Image, fragment );
+        while ( !it.IsAtEnd() )
+          {
+          m_Image->TransformIndexToPhysicalPoint( it.GetIndex(), p );
+          if ( m_SphereCenter.EuclideanDistanceTo( p ) > m_SphereRadius )
+            {
+            value = itk::NumericTraits< TPixel >::ZeroValue();
+            }
+          else
+            {
+            value = itk::NumericTraits< TPixel >::OneValue();
+            }
+          it.Set( value );
+          ++it;
+          }
+      },
+      nullptr );
 
     return m_Image.GetPointer();
   }
@@ -97,6 +101,8 @@ protected:
 
 private:
   typename ImageType::Pointer m_Image;
+
+  typename MultiThreaderBase::Pointer multiThreader = MultiThreaderBase::New();
 
 public:
   double                            m_SphereRadius;
