@@ -29,7 +29,7 @@ _WriteRawBytesAfterSwappingUtility( const void * buffer, std::ofstream & file, i
 
   using InternalByteSwapperType = itk::ByteSwapper< TStrongType >;
   const itk::SizeValueType numberOfPixels = numberOfBytes / ( sizeof( TStrongType ) );
-  if ( byteOrder == itk::ImageIOBase::LittleEndian )
+  if ( byteOrder == itk::ImageIOBase::LittleEndian && InternalByteSwapperType::SystemIsBigEndian() )
   {
     TStrongType * tempBuffer = new TStrongType[numberOfPixels];
     memcpy( (char *)tempBuffer, buffer, numberOfBytes );
@@ -37,7 +37,7 @@ _WriteRawBytesAfterSwappingUtility( const void * buffer, std::ofstream & file, i
     file.write( (char *)tempBuffer, numberOfBytes );
     delete[] tempBuffer;
   }
-  else if ( byteOrder == itk::ImageIOBase::BigEndian )
+  else if ( byteOrder == itk::ImageIOBase::BigEndian && InternalByteSwapperType::SystemIsLittleEndian() )
   {
     TStrongType * tempBuffer = new TStrongType[numberOfPixels];
     memcpy( (char *)tempBuffer, buffer, numberOfBytes );
