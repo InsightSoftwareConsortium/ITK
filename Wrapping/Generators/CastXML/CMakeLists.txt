@@ -290,7 +290,16 @@ macro(itk_wrap_module_castxml library_name)
   get_directory_property(include_dir_list INCLUDE_DIRECTORIES)
   list(REMOVE_DUPLICATES include_dir_list)
 
+  # Get the compile_definitions of the module added with add_compile_definitions
+  # From the wrapping folder (current)
   get_directory_property(compile_definition_list COMPILE_DEFINITIONS)
+  # And from the top module folder
+  set(module_folder "${WRAPPER_LIBRARY_SOURCE_DIR}/..")
+  get_directory_property(compile_definition_list_at_module
+    DIRECTORY "${module_folder}"
+    COMPILE_DEFINITIONS)
+  # Merge and remove duplicates
+  list(APPEND compile_definition_list ${compile_definition_list_at_module})
   list(REMOVE_DUPLICATES compile_definition_list)
 
   set(c)
