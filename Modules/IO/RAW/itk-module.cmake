@@ -5,7 +5,7 @@ reading RAW files.")
 
 itk_module(ITKIORAW
   ENABLE_SHARED
-  PRIVATE_DEPENDS
+  DEPENDS
     ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel
