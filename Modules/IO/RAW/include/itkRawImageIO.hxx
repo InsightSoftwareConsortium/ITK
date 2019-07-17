@@ -21,8 +21,27 @@
 #include "itkRawImageIO.h"
 #include "itkIntTypes.h"
 
+
 namespace itk
 {
+
+/** Utility function for writing RAW bytes */
+extern void
+WriteRawBytesAfterSwapping( ImageIOBase::IOComponentType componentType,
+    const void * buffer,
+    std::ofstream & file,
+    ImageIOBase::ByteOrder byteOrder,
+    SizeValueType numberOfBytes,
+    SizeValueType numberOfComponents );
+
+/** Utility function for reading RAW bytes */
+extern void
+ReadRawBytesAfterSwapping( ImageIOBase::IOComponentType componentType,
+    void * buffer,
+    ImageIOBase::ByteOrder byteOrder,
+    SizeValueType numberOfComponents );
+
+
 template< typename TPixel, unsigned int VImageDimension >
 RawImageIO< TPixel, VImageDimension >::RawImageIO():
   ImageIOBase()
@@ -101,51 +120,6 @@ void RawImageIO< TPixel, VImageDimension >
   m_ManualHeaderSize = true;
 }
 
-template < typename TStrongType >
-static void
-itkWriteRawBytesAfterSwappingMacro( const void * buffer, std::ofstream & file, ImageIOBase::ByteOrder byteOrder,
-                                    SizeValueType numberOfBytes, SizeValueType numberOfComponents )
-{
-
-  using InternalByteSwapperType = ByteSwapper< TStrongType >;
-  const SizeValueType numberOfPixels = numberOfBytes / ( sizeof( TStrongType ) );
-  if ( byteOrder == ImageIOBase::LittleEndian )
-  {
-    TStrongType * tempBuffer = new TStrongType[numberOfPixels];
-    memcpy( (char *)tempBuffer, buffer, numberOfBytes );
-    InternalByteSwapperType::SwapRangeFromSystemToLittleEndian( (TStrongType *)tempBuffer, numberOfComponents );
-    file.write( (char *)tempBuffer, numberOfBytes );
-    delete[] tempBuffer;
-  }
-  else if ( byteOrder == ImageIOBase::BigEndian )
-  {
-    TStrongType * tempBuffer = new TStrongType[numberOfPixels];
-    memcpy( (char *)tempBuffer, buffer, numberOfBytes );
-    InternalByteSwapperType::SwapRangeFromSystemToBigEndian( (TStrongType *)tempBuffer, numberOfComponents );
-    file.write( (char *)tempBuffer, numberOfBytes );
-    delete[] tempBuffer;
-  }
-  else
-  {
-    file.write( static_cast< const char * >( buffer ), numberOfBytes );
-  }
-}
-
-template < typename TStrongType >
-static void
-itkReadRawBytesAfterSwappingMacro( void * buffer, ImageIOBase::ByteOrder byteOrder, SizeValueType numberOfComponents )
-{
-  using InternalByteSwapperType = ByteSwapper< TStrongType >;
-  if ( byteOrder == ImageIOBase::LittleEndian )
-  {
-    InternalByteSwapperType::SwapRangeFromSystemToLittleEndian( (TStrongType *)buffer, numberOfComponents );
-  }
-  else if ( byteOrder == ImageIOBase::BigEndian )
-  {
-    InternalByteSwapperType::SwapRangeFromSystemToBigEndian( (TStrongType *)buffer, numberOfComponents );
-  }
-}
-
 template< typename TPixel, unsigned int VImageDimension >
 void RawImageIO< TPixel, VImageDimension >
 ::Read(void *buffer)
@@ -168,6 +142,7 @@ void RawImageIO< TPixel, VImageDimension >
 
   itkDebugMacro(<< "Reading " << numberOfBytesToBeRead << " bytes");
 
+  const auto componentType = this->GetComponentType();
   if ( m_FileType == Binary )
     {
     if ( !this->ReadBufferAsBinary(file, buffer, numberOfBytesToBeRead) )
@@ -186,55 +161,7 @@ void RawImageIO< TPixel, VImageDimension >
 
   itkDebugMacro( << "Reading Done" );
   const SizeValueType numberOfComponents = this->GetImageSizeInComponents();
-  // Swap bytes if necessary
-  if ( this->GetComponentType() == USHORT )
-  {
-    itkReadRawBytesAfterSwappingMacro< unsigned short >( buffer, m_ByteOrder, numberOfComponents );
-  }
-  else if ( this->GetComponentType() == SHORT )
-  {
-    itkReadRawBytesAfterSwappingMacro< short >( buffer, m_ByteOrder, numberOfComponents );
-  }
-  else if ( this->GetComponentType() == CHAR )
-  {
-    itkReadRawBytesAfterSwappingMacro< char >( buffer, m_ByteOrder, numberOfComponents );
-  }
-  else if ( this->GetComponentType() == UCHAR )
-  {
-    itkReadRawBytesAfterSwappingMacro< unsigned char >( buffer, m_ByteOrder, numberOfComponents );
-  }
-  else if ( this->GetComponentType() == UINT )
-  {
-    itkReadRawBytesAfterSwappingMacro< unsigned int >( buffer, m_ByteOrder, numberOfComponents );
-  }
-  else if ( this->GetComponentType() == INT )
-  {
-    itkReadRawBytesAfterSwappingMacro< int >( buffer, m_ByteOrder, numberOfComponents );
-  }
-  else if ( this->GetComponentType() == LONG )
-  {
-    itkReadRawBytesAfterSwappingMacro< long >( buffer, m_ByteOrder, numberOfComponents );
-  }
-  else if ( this->GetComponentType() == LONGLONG )
-  {
-    itkReadRawBytesAfterSwappingMacro< long long >( buffer, m_ByteOrder, numberOfComponents );
-  }
-  else if ( this->GetComponentType() == ULONG )
-  {
-    itkReadRawBytesAfterSwappingMacro< unsigned long >( buffer, m_ByteOrder, numberOfComponents );
-  }
-  else if ( this->GetComponentType() == ULONGLONG )
-  {
-    itkReadRawBytesAfterSwappingMacro< unsigned long long >( buffer, m_ByteOrder, numberOfComponents );
-  }
-  else if ( this->GetComponentType() == FLOAT )
-  {
-    itkReadRawBytesAfterSwappingMacro< float >( buffer, m_ByteOrder, numberOfComponents );
-  }
-  else if ( this->GetComponentType() == DOUBLE )
-  {
-    itkReadRawBytesAfterSwappingMacro< double >( buffer, m_ByteOrder, numberOfComponents );
-  }
+  ReadRawBytesAfterSwapping(componentType, buffer, m_ByteOrder, numberOfComponents );
 }
 
 template< typename TPixel, unsigned int VImageDimension >
@@ -266,70 +193,17 @@ void RawImageIO< TPixel, VImageDimension >
 
   // Actually do the writing
   //
+  const auto componentType = this->GetComponentType();
   if ( m_FileType == ASCII )
     {
-    this->WriteBufferAsASCII( file, buffer, this->GetComponentType(),
+    this->WriteBufferAsASCII( file, buffer, componentType,
                               this->GetImageSizeInComponents() );
     }
   else //binary
     {
     const SizeValueType numberOfBytes = this->GetImageSizeInBytes();
     const SizeValueType numberOfComponents = this->GetImageSizeInComponents();
-    // Swap bytes if necessary
-    if ( this->GetComponentType() == USHORT )
-    {
-      itkWriteRawBytesAfterSwappingMacro< unsigned short >(
-        buffer, file, m_ByteOrder, numberOfBytes, numberOfComponents );
-    }
-    else if ( this->GetComponentType() == SHORT )
-    {
-      itkWriteRawBytesAfterSwappingMacro< short >( buffer, file, m_ByteOrder, numberOfBytes, numberOfComponents );
-    }
-    else if ( this->GetComponentType() == CHAR )
-    {
-      itkWriteRawBytesAfterSwappingMacro< char >( buffer, file, m_ByteOrder, numberOfBytes, numberOfComponents );
-    }
-    else if ( this->GetComponentType() == UCHAR )
-    {
-      itkWriteRawBytesAfterSwappingMacro< unsigned char >(
-        buffer, file, m_ByteOrder, numberOfBytes, numberOfComponents );
-    }
-    else if ( this->GetComponentType() == UINT )
-    {
-      itkWriteRawBytesAfterSwappingMacro< unsigned int >(
-        buffer, file, m_ByteOrder, numberOfBytes, numberOfComponents );
-    }
-    else if ( this->GetComponentType() == INT )
-    {
-      itkWriteRawBytesAfterSwappingMacro< int >( buffer, file, m_ByteOrder, numberOfBytes, numberOfComponents );
-    }
-    else if ( this->GetComponentType() == LONG )
-    {
-      itkWriteRawBytesAfterSwappingMacro< long >( buffer, file, m_ByteOrder, numberOfBytes, numberOfComponents );
-    }
-    else if ( this->GetComponentType() == LONGLONG )
-    {
-      itkWriteRawBytesAfterSwappingMacro< long long >(
-        buffer, file, m_ByteOrder, numberOfBytes, numberOfComponents );
-    }
-    else if ( this->GetComponentType() == ULONG )
-    {
-      itkWriteRawBytesAfterSwappingMacro< unsigned long >(
-        buffer, file, m_ByteOrder, numberOfBytes, numberOfComponents );
-    }
-    else if ( this->GetComponentType() == ULONGLONG )
-    {
-      itkWriteRawBytesAfterSwappingMacro< unsigned long long >(
-        buffer, file, m_ByteOrder, numberOfBytes, numberOfComponents );
-    }
-    else if ( this->GetComponentType() == FLOAT )
-    {
-      itkWriteRawBytesAfterSwappingMacro< float >( buffer, file, m_ByteOrder, numberOfBytes, numberOfComponents );
-    }
-    else if ( this->GetComponentType() == DOUBLE )
-    {
-      itkWriteRawBytesAfterSwappingMacro< double >( buffer, file, m_ByteOrder, numberOfBytes, numberOfComponents );
-    }
+    WriteRawBytesAfterSwapping( componentType, buffer, file, m_ByteOrder, numberOfBytes, numberOfComponents );
   }
 }
 } // namespace itk
