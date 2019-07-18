@@ -20,26 +20,28 @@ itk_add_test(NAME itkMontageGenericTests
 set(SyntheticOutputPath "${TESTING_OUTPUT_PATH}/synthetic")
 file(MAKE_DIRECTORY ${SyntheticOutputPath})
 
-function(AddTestSynthetic dimTTcode)
+function(AddTestSynthetic dimTTcode startSize endSize)
   itk_add_test(NAME itkMontagePCMSynthetic_${dimTTcode}
     COMMAND MontageTestDriver
     itkMontagePCMTestSynthetic
       ${dimTTcode}
       ${SyntheticOutputPath}/itkMontagePCMSynthetic_${dimTTcode}.nrrd
       ${SyntheticOutputPath}/itkMontagePCMSynthetic_${dimTTcode}.tfm
+      ${startSize}
+      ${endSize}
     )
 endfunction()
 
-AddTestSynthetic(2cc)
-AddTestSynthetic(2ff)
-AddTestSynthetic(2dd)
-AddTestSynthetic(2cf)
-AddTestSynthetic(2fd)
-AddTestSynthetic(3cc)
-AddTestSynthetic(3ff)
-AddTestSynthetic(3dd)
-AddTestSynthetic(3cf)
-AddTestSynthetic(3fd)
+AddTestSynthetic(2cc  21 23)
+AddTestSynthetic(2ff  17 19)
+AddTestSynthetic(2dd  17 51)
+AddTestSynthetic(2cf  11 13)
+AddTestSynthetic(2fd  51 71)
+AddTestSynthetic(3cc  21 23)
+AddTestSynthetic(3ff  17 19)
+AddTestSynthetic(3dd  31 47)
+AddTestSynthetic(3cf  11 13)
+AddTestSynthetic(3fd  19 21)
 
 
 itk_add_test(NAME itkMontagePCMSynthetic_ShouldFail
@@ -48,6 +50,7 @@ itk_add_test(NAME itkMontagePCMSynthetic_ShouldFail
     2cc
     ${TESTING_OUTPUT_PATH}/itkMontagePCMSynthetic_ShouldNotExist.nrrd
     ${TESTING_OUTPUT_PATH}/itkMontagePCMSynthetic_ShouldNotExist.tfm
+    17 19
     0.9 1.1
   )
 set_tests_properties(itkMontagePCMSynthetic_ShouldFail PROPERTIES WILL_FAIL TRUE)
