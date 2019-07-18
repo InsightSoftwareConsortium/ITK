@@ -1,3 +1,5 @@
+name: ITK.macOS
+
 trigger:
   branches:
     include:
