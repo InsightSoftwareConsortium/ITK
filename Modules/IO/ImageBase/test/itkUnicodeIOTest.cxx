@@ -39,8 +39,8 @@ bool checkAlphaExists()
   FILE * tmp = _wfopen(wstr.c_str(), L"r");
 #else
   std::string utf8_str;
-  utf8_str.append(1, (char)(0xCE));
-  utf8_str.append(1, (char)(0xB1));
+  utf8_str.append(1, '\xCE');
+  utf8_str.append(1, '\xB1');
   utf8_str += ".txt";
   FILE * tmp = fopen(utf8_str.c_str(), "r");
 #endif
@@ -65,8 +65,8 @@ bool removeAlpha()
   return (_wunlink(wstr.c_str()) != -1);
 #else
   std::string utf8_str;
-  utf8_str.append(1,(char)(0xCE));
-  utf8_str.append(1,(char)(0xB1));
+  utf8_str.append(1, '\xCE');
+  utf8_str.append(1, '\xB1');
   utf8_str += ".txt";
   return (unlink(utf8_str.c_str()) != -1);
 #endif
@@ -84,8 +84,8 @@ int main( int , char * [] )
 
   // Put alpha.txt encoded in utf8 within a std::string
   std::string utf8_str;
-  utf8_str.append(1, (char)(0xCE));
-  utf8_str.append(1, (char)(0xB1));
+  utf8_str.append(1, '\xCE');
+  utf8_str.append(1, '\xB1');
   utf8_str += ".txt";
 
   // Check if we actually find it is a valid string
@@ -110,8 +110,8 @@ int main( int , char * [] )
 
   // Create a non utf8 std::string
   std::string bad_utf8_str;
-  bad_utf8_str.push_back((char)(0xC0));
-  bad_utf8_str.push_back((char)(0xC0));
+  bad_utf8_str.push_back('\xCE');
+  bad_utf8_str.push_back('\xCE');
   bad_utf8_str += ".txt";
 
   // Check if we actually find it is a non-valid utf-8 string
