@@ -1,5 +1,4 @@
 itk_wrap_include("itkMesh.h")
-itk_wrap_include("itkPointSet.h")
 itk_wrap_include("itkDefaultStaticMeshTraits.h")
 
 itk_wrap_class("itk::MeshSource" POINTER)
