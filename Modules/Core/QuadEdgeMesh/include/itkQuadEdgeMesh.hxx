@@ -360,7 +360,7 @@ void QuadEdgeMesh< TPixel, VDimension, TTraits >
   PolygonCellType *pe;
 
   // The QuadEdgeMeshCellTypes first
-  if ( ( qe = dynamic_cast< EdgeCellType * >( cell.GetPointer() ) ) )
+  if ( ( qe = dynamic_cast< EdgeCellType * >( cell.GetPointer() ) ) != nullptr )
     {
     // NOTE ALEX: here
     this->AddEdge( qe->GetQEGeom()->GetOrigin(),
@@ -368,7 +368,7 @@ void QuadEdgeMesh< TPixel, VDimension, TTraits >
     cell.ReleaseOwnership();
     delete qe;
     }
-  else if ( ( pe = dynamic_cast< PolygonCellType * >( cell.GetPointer() ) ) )
+  else if ( ( pe = dynamic_cast< PolygonCellType * >( cell.GetPointer() ) ) != nullptr )
     {
     PointIdList             points;
     PointIdInternalIterator pit = pe->InternalPointIdsBegin();
