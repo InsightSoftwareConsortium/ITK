@@ -24,9 +24,6 @@
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkNumericTraits.h"
 
-#include <deque>
-#include <mutex>
-
 namespace itk
 {
 /** \class TileMergeImageFilter
@@ -163,7 +160,7 @@ public:
 
 protected:
   TileMergeImageFilter();
-  virtual ~TileMergeImageFilter(){};
+  virtual ~TileMergeImageFilter() = default;
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   /** Method invoked by the pipeline in order to trigger the computation of the registration. */
@@ -179,9 +176,6 @@ protected:
   {
     return ImageType::New();
   }
-
-  /** For reading if only filename was given. */
-  using ReaderType = ImageFileReader< ImageType >;
 
   /** If not already read, reads the image into memory.
    * Only the part which overlaps output image's requested region is read.
@@ -215,8 +209,6 @@ private:
   PixelType m_Background = PixelType(); // default background value (not covered by any input tile)
 
   std::vector<TransformConstPointer> m_Transforms;
-  std::deque<std::mutex>             m_TileReadLocks; //to avoid reading the same tile by more than one thread in parallel
-  //deque is not reallocated when resized, so no mutex moving causing a crash
   std::vector<ImagePointer>          m_Tiles; // metadata/image storage (if filenames are given instead of actual images)
   typename Superclass::ConstPointer  m_Montage;
   std::vector<RegionType>            m_InputMappings; //where do input tile regions map into the output

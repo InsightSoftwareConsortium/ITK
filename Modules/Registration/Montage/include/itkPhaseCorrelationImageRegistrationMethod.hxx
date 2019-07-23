@@ -528,7 +528,7 @@ PhaseCorrelationImageRegistrationMethod< TFixedImage, TMovingImage, TInternalPix
 
   os << indent << "Pad To Size: " << m_PadToSize << std::endl;
   os << indent << "Obligatory Padding: " << m_ObligatoryPadding << std::endl;
-  os << indent << "Padding Method: " << int( m_PaddingMethod ) << std::endl;
+  os << indent << "Padding Method: " << m_PaddingMethod << std::endl;
 
   os << indent << "Crop To Overlap: " << m_CropToOverlap << std::endl;
   os << indent << "Butterworth Order: " << m_ButterworthOrder << std::endl;

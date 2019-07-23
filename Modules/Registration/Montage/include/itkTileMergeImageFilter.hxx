@@ -138,7 +138,6 @@ TileMergeImageFilter< TImageType, TPixelAccumulateType, TInterpolator >
   Superclass::SetMontageSize( montageSize );
   m_Transforms.resize( this->m_LinearMontageSize );
   m_Tiles.resize( this->m_LinearMontageSize );
-  m_TileReadLocks.resize( this->m_LinearMontageSize );
   this->SetNumberOfRequiredOutputs( 1 );
 }
 
@@ -250,7 +249,7 @@ TileMergeImageFilter< TImageType, TPixelAccumulateType, TInterpolator >
 
   ImagePointer outputImage = this->GetOutput();
   RegionType reqR = outputImage->GetRequestedRegion();
-  std::lock_guard< std::mutex > lockGuard( m_TileReadLocks[linearIndex] );
+  std::lock_guard< std::mutex > lockGuard( this->m_TileReadLocks[linearIndex] );
   if ( m_Tiles[linearIndex].IsNotNull() )
     {
     RegionType r = m_Tiles[linearIndex]->GetBufferedRegion();
@@ -261,7 +260,7 @@ TileMergeImageFilter< TImageType, TPixelAccumulateType, TInterpolator >
     }
 
   bool onlyMetadata = ( wantedRegion.GetNumberOfPixels() == 0 );
-  m_Tiles[linearIndex] = Superclass::template GetImageHelper< ImageType >( nDIndex, onlyMetadata, reqR, nullptr );
+  m_Tiles[linearIndex] = Superclass::template GetImageHelper< ImageType >( nDIndex, onlyMetadata, reqR );
   return m_Tiles[linearIndex];
 }
 
@@ -443,16 +442,7 @@ TileMergeImageFilter< TImageType, TPixelAccumulateType, TInterpolator >
     {
     return; // nothing to do
     }
-  bool interpolate = true;
-  if ( m_Montage.IsNotNull() && m_Montage->m_PCMOptimizer->GetPeakInterpolationMethod() ==
-                                  Superclass::PCMOptimizerType::PeakInterpolationMethod::None )
-    {
-    interpolate = false;
-    // TODO: replace this by a check whether all the
-    // origins+transforms are divisible by spacing (within tolerance)
-    }
   ImageRegionIteratorWithIndex< ImageType > oIt( outputImage, currentRegion );
-
   if ( m_RegionContributors[i].empty() ) // not covered by any tile
     {
     while ( !oIt.IsAtEnd() )
@@ -460,35 +450,73 @@ TileMergeImageFilter< TImageType, TPixelAccumulateType, TInterpolator >
       oIt.Set( m_Background );
       ++oIt;
       }
+    return;
     }
-  else if ( m_RegionContributors[i].size() == 1 ) // just one tile
-    {
-    SizeValueType tileIndex = *m_RegionContributors[i].begin();
-    TileIndexType nDIndex = this->LinearIndexTonDIndex( tileIndex );
-    OffsetType tileToRegion = currentRegion.GetIndex() - m_InputMappings[tileIndex].GetIndex();
-    RegionType inRegion = currentRegion;
-    ImageConstPointer input = this->GetImage( nDIndex, reg0 ); // matadata (at least)
-    inRegion.SetIndex( input->GetLargestPossibleRegion().GetIndex() + tileToRegion );
-    input = this->GetImage( nDIndex, inRegion ); // metadata + at least inRegion of data
 
+  using ContinuousValueType = typename ContinuousIndexType::ValueType;
+  std::vector< SizeValueType > tileIndices( m_RegionContributors[i].begin(), m_RegionContributors[i].end() );
+  const unsigned nTiles = tileIndices.size();
+  std::vector< ImageConstPointer > inputs( nTiles );
+  std::vector< RegionType* > tileRegions( nTiles );
+  std::vector< RegionType > inRegions( nTiles );
+  std::vector< Vector< ContinuousValueType, ImageDimension > > continuousIndexDifferences( nTiles );
+  for ( unsigned t = 0; t < nTiles; t++ )
+    {
+    TileIndexType nDIndex = this->LinearIndexTonDIndex( tileIndices[t] );
+    OffsetType tileToRegion = currentRegion.GetIndex() - m_InputMappings[tileIndices[t]].GetIndex();
+    inRegions[t] = currentRegion;
+    ImageConstPointer input = this->GetImage( nDIndex, reg0 ); // matadata (at least)
+    inRegions[t].SetIndex( input->GetLargestPossibleRegion().GetIndex() + tileToRegion );
+    inputs[t] = this->GetImage( nDIndex, inRegions[t] ); // metadata + at least inRegions[t] of data
+    tileRegions[t] = &m_InputMappings[tileIndices[t]];
+    for ( unsigned d = 0; d < ImageDimension; d++ )
+      {
+      continuousIndexDifferences[t][d] =
+        inputs[t]->GetLargestPossibleRegion().GetIndex( d ) - m_InputsContinuousIndices[tileIndices[t]][d];
+      }
+    }
+
+  ContinuousValueType eps = 1e-4;
+  typename ImageType::SpacingType spacing = outputImage->GetSpacing();
+  bool interpolate = false;
+  if ( m_Montage.IsNotNull() ) // we can check whether interpolation was used
+    {
+    const auto InterpolationNone = Superclass::PCMOptimizerType::PeakInterpolationMethod::None;
+    interpolate = ( m_Montage->GetPeakInterpolationMethod() != InterpolationNone );
+    }
+  else // examine alignment of image grids of all the contributing regions
+    {
+    const typename ImageType::PointType oOrigin = outputImage->GetOrigin();
+    for ( unsigned t = 0; t < nTiles; t++ )
+      {
+      const typename ImageType::PointType iOrigin = inputs[t]->GetOrigin();
+      for ( unsigned d = 0; d < ImageDimension; d++ )
+        {
+        ContinuousValueType translation = ( oOrigin[d] - iOrigin[d] ) / spacing[d] + continuousIndexDifferences[t][d];
+        ContinuousValueType absDiff = std::abs( translation - std::round( translation ) );
+        if ( absDiff > eps )
+          {
+          interpolate = true;
+          break;
+          }
+        }
+      }
+    }
+
+  if ( nTiles == 1 ) // blending not needed
+    {
     if ( !interpolate )
       {
-      ImageAlgorithm::Copy( input.GetPointer(), outputImage.GetPointer(), inRegion, currentRegion );
+      ImageAlgorithm::Copy( inputs[0].GetPointer(), outputImage.GetPointer(), inRegions[0], currentRegion );
       }
     else
       {
-      Vector< typename ContinuousIndexType::ValueType, ImageDimension > continuousIndexDifference;
-      for ( unsigned d = 0; d < ImageDimension; d++ )
-        {
-        continuousIndexDifference[d] =
-          input->GetLargestPossibleRegion().GetIndex( d ) - m_InputsContinuousIndices[tileIndex][d];
-        }
       typename TInterpolator::Pointer interp = TInterpolator::New();
-      interp->SetInputImage( input );
+      interp->SetInputImage( inputs[0] );
       while ( !oIt.IsAtEnd() )
         {
         ContinuousIndexType continuousIndex = oIt.GetIndex();
-        continuousIndex += continuousIndexDifference;
+        continuousIndex += continuousIndexDifferences[0];
         oIt.Set( interp->EvaluateAtContinuousIndex( continuousIndex ) );
         ++oIt;
         }
@@ -496,24 +524,7 @@ TileMergeImageFilter< TImageType, TPixelAccumulateType, TInterpolator >
     }
   else // more than one tile contributes
     {
-    std::vector< SizeValueType > tileIndices( m_RegionContributors[i].begin(), m_RegionContributors[i].end() );
-    unsigned nTiles = tileIndices.size();
-    std::vector< ImageConstPointer > inputs( nTiles );
-    std::vector< RegionType* > tileRegions( nTiles );
-    std::vector< RegionType > inRegions( nTiles );
-    for ( unsigned t = 0; t < nTiles; t++ )
-      {
-      TileIndexType nDIndex = this->LinearIndexTonDIndex( tileIndices[t] );
-      OffsetType tileToRegion = currentRegion.GetIndex() - m_InputMappings[tileIndices[t]].GetIndex();
-      inRegions[t] = currentRegion;
-      ImageConstPointer input = this->GetImage( nDIndex, reg0 ); // matadata (at least)
-      inRegions[t].SetIndex( input->GetLargestPossibleRegion().GetIndex() + tileToRegion );
-      inputs[t] = this->GetImage( nDIndex, inRegions[t] ); // metadata + at least inRegions[t] of data
-      tileRegions[t] = &m_InputMappings[tileIndices[t]];
-      }
-
-    TPixelAccumulateType zeroSum = NumericTraits< TPixelAccumulateType >::ZeroValue();
-
+    const TPixelAccumulateType zeroSum = NumericTraits< TPixelAccumulateType >::ZeroValue();
     if ( !interpolate )
       {
       std::vector< ImageRegionConstIterator< ImageType > > iIt( nTiles );
@@ -542,7 +553,6 @@ TileMergeImageFilter< TImageType, TPixelAccumulateType, TInterpolator >
     else
       {
       std::vector< typename TInterpolator::Pointer > iInt( nTiles );
-      std::vector< Vector< typename ContinuousIndexType::ValueType, ImageDimension > > continuousIndexDifferences( nTiles );
       for ( unsigned t = 0; t < nTiles; t++ )
         {
         for ( unsigned d = 0; d < ImageDimension; d++ )

@@ -23,6 +23,7 @@
 
 #include "itkMultiThreaderBase.h"
 #include "itkNumericTraits.h"
+#include "itkThreadPool.h"
 
 #include "itk_eigen.h"
 #include ITK_EIGEN( Sparse )
@@ -50,6 +51,13 @@ TileMontage< TImageType, TCoordinate >
   initialSize.Fill( 1 );
   initialSize[0] = 2;
   this->SetMontageSize( initialSize );
+
+#if defined( ITK_USE_FFTWF ) || defined( ITK_USE_FFTWD ) // FFTW, MKL and cuFFT are already parallel
+  // we want light parallelism, just to overlap IO with computation
+  this->SetNumberOfWorkUnits( std::max( 2u, MultiThreaderBase::GetGlobalDefaultNumberOfThreads() / 16 ) );
+#else // we are dealing with VNL's single threaded implementation
+  this->SetNumberOfWorkUnits( MultiThreaderBase::GetGlobalDefaultNumberOfThreads() ); // we want full parallelism
+#endif
 
   // required for GenerateOutputInformation to be called
   this->SetNthOutput( 0, this->MakeOutput( 0 ).GetPointer() );
@@ -81,11 +89,6 @@ TileMontage< TImageType, TCoordinate >
   os << indent << "FFTCache (filled/capcity): " << m_FFTCache.size() - nullCount
     << "/" << m_FFTCache.size() << std::endl;
 
-  os << indent << "PhaseCorrelationImageRegistrationMethod: " << m_PCM.GetPointer() << std::endl;
-  os << indent << "PCM Optimizer: " << m_PCMOptimizer.GetPointer() << std::endl;
-  os << indent << "PCM Operator: " << m_PCMOperator.GetPointer() << std::endl;
-  os << indent << "Image Reader: " << m_Reader.GetPointer() << std::endl;
-
   os << indent << "MinInner: " << m_MinInner << std::endl;
   os << indent << "MaxInner: " << m_MaxInner << std::endl;
   os << indent << "MinOuter: " << m_MinOuter << std::endl;
@@ -107,8 +110,10 @@ TileMontage< TImageType, TCoordinate >
     this->SetNumberOfRequiredInputs( m_LinearMontageSize );
     this->SetNumberOfRequiredOutputs( m_LinearMontageSize );
     m_MontageSize = montageSize;
+    m_TileReadLocks.resize( m_LinearMontageSize );
     m_Filenames.resize( m_LinearMontageSize );
     m_FFTCache.resize( m_LinearMontageSize );
+    m_Tiles.resize( m_LinearMontageSize );
     m_CurrentAdjustments.resize( m_LinearMontageSize );
     m_TransformCandidates.resize( ImageDimension * m_LinearMontageSize ); // adjacency along each dimension
     m_CandidateConfidences.resize( ImageDimension * m_LinearMontageSize );
@@ -120,7 +125,7 @@ template< typename TImageType, typename TCoordinate >
 template< typename TImageToRead >
 typename TImageToRead::Pointer
 TileMontage< TImageType, TCoordinate >
-::GetImageHelper( TileIndexType nDIndex, bool metadataOnly, RegionType region, ImageFileReader< TImageToRead >* reader)
+::GetImageHelper( TileIndexType nDIndex, bool metadataOnly, RegionType region)
 {
   DataObjectPointerArraySizeType linearIndex = nDIndexToLinearIndex( nDIndex );
   const auto cInput = static_cast< TImageToRead* >( this->GetInput( linearIndex ) );
@@ -139,11 +144,7 @@ TileMontage< TImageType, TCoordinate >
   else // examine cache and read from file if necessary
     {
     using ImageReaderType = ImageFileReader< TImageToRead >;
-    typename ImageReaderType::Pointer iReader = reader;
-    if ( iReader == nullptr )
-      {
-      iReader = ImageReaderType::New();
-      }
+    typename ImageReaderType::Pointer iReader = ImageReaderType::New();
     iReader->SetFileName( this->m_Filenames[linearIndex] );
     iReader->UpdateOutputInformation();
     result = iReader->GetOutput();
@@ -182,7 +183,20 @@ TileMontage< TImageType, TCoordinate >
 ::GetImage( TileIndexType nDIndex, bool metadataOnly )
 {
   RegionType reg0; // default-initialized to zeroes
-  return GetImageHelper< ImageType >( nDIndex, metadataOnly, reg0, m_Reader );
+  SizeValueType linearIndex = this->nDIndexToLinearIndex( nDIndex );
+  std::lock_guard< std::mutex > lockGuard( m_TileReadLocks[linearIndex] );
+  // if we are not cropping to overlap, FFTCache will kick in later
+  // and we don't want to double-cache the input tiles
+  if ( !m_CropToOverlap && m_Tiles[linearIndex].IsNotNull() )
+    {
+    RegionType r = m_Tiles[linearIndex]->GetBufferedRegion();
+    if ( metadataOnly || r.GetNumberOfPixels() > 0 )
+      {
+      return m_Tiles[linearIndex];
+      }
+    }
+
+  return GetImageHelper< ImageType >( nDIndex, metadataOnly, reg0 );
 }
 
 template< typename TImageType, typename TCoordinate >
@@ -228,16 +242,34 @@ TileMontage< TImageType, TCoordinate >
   SizeValueType lFixedInd = nDIndexToLinearIndex( fixed );
   SizeValueType lMovingInd = nDIndexToLinearIndex( moving );
 
+  typename PCMType::Pointer          m_PCM = PCMType::New();
+  typename PCMOperatorType::Pointer  m_PCMOperator = PCMOperatorType::New();
+  typename PCMOptimizerType::Pointer m_PCMOptimizer = PCMOptimizerType::New();
+  m_PCM->SetPaddingMethod( m_PaddingMethod );
+  m_PCM->SetCropToOverlap( m_CropToOverlap );
+  m_PCM->SetOperator( m_PCMOperator );
+  m_PCM->SetOptimizer( m_PCMOptimizer );
+  m_PCM->SetObligatoryPadding( m_ObligatoryPadding );
+  m_PCM->SetReleaseDataFlag( this->GetReleaseDataFlag() );
+  m_PCM->SetReleaseDataBeforeUpdateFlag( this->GetReleaseDataBeforeUpdateFlag() );
+  m_PCMOptimizer->SetPixelDistanceTolerance( m_PositionTolerance );
+  m_PCMOptimizer->SetPeakInterpolationMethod( m_PeakInterpolationMethod );
+
   auto mImage = this->GetImage( moving, false );
   m_PCM->SetFixedImage( this->GetImage( fixed, false ) );
   m_PCM->SetMovingImage( mImage );
-  m_PCM->SetFixedImageFFT( m_FFTCache[lFixedInd] ); // maybe null
-  m_PCM->SetMovingImageFFT( m_FFTCache[lMovingInd] ); // maybe null
+  // scoping the lock
+  {
+    std::lock_guard< std::mutex > lock( m_MemberProtector );
+    m_PCM->SetFixedImageFFT( m_FFTCache[lFixedInd] );   // maybe null
+    m_PCM->SetMovingImageFFT( m_FFTCache[lMovingInd] ); // maybe null
+  }
   // m_PCM->DebugOn();
   m_PCM->Update();
 
   if ( !m_CropToOverlap )
     {
+    std::lock_guard< std::mutex > lock( m_MemberProtector );
     m_FFTCache[lFixedInd] = m_PCM->GetFixedImageFFT(); // certainly not null
     m_FFTCache[lMovingInd] = m_PCM->GetMovingImageFFT(); // certrainly not null
     }
@@ -284,56 +316,18 @@ TileMontage< TImageType, TCoordinate >
   if ( releaseTile )
     {
     SizeValueType linearIndex = this->nDIndexToLinearIndex( oldIndex );
+    std::lock_guard< std::mutex > lock( m_MemberProtector );
     m_FFTCache[linearIndex] = nullptr;
     if ( !m_Filenames[linearIndex].empty() ) // release the input image too
       {
       this->SetInputTile( oldIndex, m_Dummy );
       }
-    }
-}
-
-template< typename TImageType, typename TCoordinate >
-void
-TileMontage< TImageType, TCoordinate >
-::MontageDimension( int d, TileIndexType initialTile )
-{
-  TileIndexType currentIndex = initialTile;
-  if ( d < 0 )
-    {
-    return; // nothing to do, terminate recursion
-    }
-  else // d>=0
-    {
-    currentIndex[d] = 0; // montage first index in lower dimension
-    MontageDimension( d - 1, currentIndex );
-
-    for ( unsigned i = 1; i < m_MontageSize[d]; i++ )
+    if ( m_Tiles[linearIndex] )
       {
-      // register i-th tile to adjacent tiles along all dimensions (lower index only)
-      currentIndex[d] = i;
-      for ( unsigned regDim = 0; regDim < ImageDimension; regDim++ )
-        {
-        if ( currentIndex[regDim] > 0 ) // we are not at the edge along this dimension
-          {
-          TileIndexType referenceIndex = currentIndex;
-          referenceIndex[regDim] = currentIndex[regDim] - 1;
-          this->RegisterPair( referenceIndex, currentIndex );
-          m_FinishedPairs++;
-          // all registrations finished = 95% of total progress
-          this->UpdateProgress( m_FinishedPairs * 0.95 / m_NumberOfPairs );
-          }
-        }
-
-      // optimize positions later, now just set the expected position (no translation)
-      m_CurrentAdjustments[this->nDIndexToLinearIndex( currentIndex )].Fill( 0.0 );
-
-      MontageDimension( d - 1, currentIndex ); // montage this index in lower dimension
-      this->ReleaseMemory( currentIndex ); // kick old tile out of cache
+      RegionType reg0;
+      m_Tiles[linearIndex]->SetBufferedRegion( reg0 );
+      m_Tiles[linearIndex]->Allocate( false );
       }
-
-    // kick "rightmost" tile in previous row out of cache
-    currentIndex[d] = m_MontageSize[d];
-    this->ReleaseMemory( currentIndex );
     }
 }
 
@@ -399,57 +393,10 @@ TileMontage< TImageType, TCoordinate >
 ::GenerateOutputInformation()
 {
   Superclass::GenerateOutputInformation();
-
-  std::vector< double > sizes( ImageDimension ); // default initialized to 0
-  SizeType maxSizes;
-  maxSizes.Fill( 0 );
-  for ( SizeValueType i = 0; i < m_LinearMontageSize; i++ )
+  for ( SizeValueType i = 1; i < m_LinearMontageSize; i++ )
     {
-    if ( i > 0 ) // otherwise primary output has same modification time as this class
-      {          // and GenerateData does not get called
-      this->SetNthOutput( i, this->MakeOutput( i ).GetPointer() );
-      }
-    // the rest of this code determines average and maximum tile sizes
-    TileIndexType nDIndex = this->LinearIndexTonDIndex( i );
-    typename ImageType::Pointer input = this->GetImage( nDIndex, true );
-    RegionType reg = input->GetLargestPossibleRegion();
-    for ( unsigned d = 0; d < ImageDimension; d++ )
-      {
-      sizes[d] += reg.GetSize( d );
-      maxSizes[d] = std::max( maxSizes[d], reg.GetSize( d ) );
-      }
+    this->SetNthOutput( i, this->MakeOutput( i ).GetPointer() );
     }
-
-  // divide by count to get average
-  for ( unsigned d = 0; d < ImageDimension; d++ )
-    {
-    sizes[d] /= m_LinearMontageSize;
-    }
-
-  // if maximum size is more than twice the average along any dimension,
-  // we will not pad all the images to maxSize
-  // in most cases images will be of similar or exactly the same size
-  bool forceSame = true;
-  for ( unsigned d = 0; d < ImageDimension; d++ )
-    {
-    if ( sizes[d] * 2 < maxSizes[d] )
-      {
-      forceSame = false;
-      }
-    maxSizes[d] += 2 * m_ObligatoryPadding[d];
-    }
-  if ( forceSame && !m_CropToOverlap )
-    {
-    maxSizes = m_PCM->RoundUpToFFTSize( maxSizes );
-    m_PCM->SetPadToSize( maxSizes );
-    }
-
-  m_PCMOptimizer->SetPixelDistanceTolerance( m_PositionTolerance );
-  m_PCM->SetCropToOverlap( m_CropToOverlap );
-
-  // we connect these classes here in case user has provided new versions
-  m_PCM->SetOperator( m_PCMOperator );
-  m_PCM->SetOptimizer( m_PCMOptimizer );
 }
 
 template< typename TImageType, typename TCoordinate >
@@ -713,11 +660,62 @@ TileMontage< TImageType, TCoordinate >
   m_FinishedPairs = 0;
   m_CurrentAdjustments[0].Fill( 0.0 ); // 0 translation by default
 
-  this->MontageDimension( this->ImageDimension - 1, ind0 );
+  typename ThreadPool::Pointer pool = ThreadPool::GetInstance();
+  ThreadIdType tpThreads = pool->GetMaximumNumberOfThreads();
+  ThreadIdType workUnits = this->GetNumberOfWorkUnits();
+  if ( tpThreads <= workUnits )
+    {
+    pool->AddThreads( workUnits - tpThreads + 1 );
+    }
+
+  std::vector< std::future< void > > futures( m_LinearMontageSize );
+  SizeValueType waited = 0;
+  for ( SizeValueType i = 0; i < m_LinearMontageSize; i++ )
+    {
+    // filling ThreadPool's queue with more top-level jobs
+    // than there are threads causes dead-lock, so let's be conservative
+    if ( i - waited >= workUnits)
+      {
+      TileIndexType currentIndex = this->LinearIndexTonDIndex( waited );
+      futures[waited].get(); // waits for the computation to finish
+      this->ReleaseMemory( currentIndex );
+      ++waited;
+      }
+
+    TileIndexType currentIndex = this->LinearIndexTonDIndex( i );
+    futures[i] = pool->AddWork( [this, currentIndex]()
+      {
+      // register i-th tile to adjacent tiles along all dimensions (lower index only)
+      TileIndexType currentTile = currentIndex; // we cannot modify currentIndex
+      for ( unsigned regDim = 0; regDim < ImageDimension; regDim++ )
+        {
+        if ( currentTile[regDim] > 0 ) // we are not at the edge along this dimension
+          {
+          TileIndexType referenceIndex = currentTile;
+          referenceIndex[regDim] = currentTile[regDim] - 1;
+          this->RegisterPair( referenceIndex, currentTile );
+          ++m_FinishedPairs;
+          // all registrations finished = 95% of total progress
+          this->UpdateProgress( m_FinishedPairs * 0.95 / m_NumberOfPairs );
+          }
+        }
+      }
+    );
+    // optimize positions later, now just set the expected position (no translation)
+    m_CurrentAdjustments[waited].Fill( 0.0 );
+    }
+
+  for ( SizeValueType i = waited; i < m_LinearMontageSize; i++ )
+    {
+    TileIndexType currentIndex = this->LinearIndexTonDIndex( i );
+    futures[i].get(); // waits for the computation to finish
+    this->ReleaseMemory( currentIndex );
+    }
 
   this->OptimizeTiles();
 
   // clear rest of the cache after montaging is finished
+  RegionType reg0;
   for ( SizeValueType i = 0; i < m_LinearMontageSize; i++ )
     {
     TileIndexType tileIndex = this->LinearIndexTonDIndex( i );
@@ -726,6 +724,11 @@ TileMontage< TImageType, TCoordinate >
     if ( !m_Filenames[i].empty() ) // release the input image too
       {
       this->SetInputTile( tileIndex, m_Dummy );
+      }
+    if ( m_Tiles[i] )
+      {
+      m_Tiles[i]->SetBufferedRegion( reg0 );
+      m_Tiles[i]->Allocate( false );
       }
     }
   this->UpdateProgress( 1.0f );
