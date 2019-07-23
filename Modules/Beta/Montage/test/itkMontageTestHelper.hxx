@@ -194,13 +194,15 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
 
     typename MontageType::Pointer montage = MontageType::New();
     auto paddingMethod = static_cast< typename PCMType::PaddingMethod >( padMethod );
-    montage->GetModifiablePCM()->SetPaddingMethod( paddingMethod );
+    montage->SetPaddingMethod( paddingMethod );
     montage->SetPositionTolerance( positionTolerance );
     montage->SetMontageSize( { xMontageSize, yMontageSize } );
     if ( !loadIntoMemory )
       {
       montage->SetOriginAdjustment( originAdjustment );
       montage->SetForcedSpacing( sp );
+      // Set full coarse-grained parallelism. It helps with decoding JPEG images.
+      montage->SetNumberOfWorkUnits( itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads() );
       }
 
     for ( unsigned y = 0; y < yMontageSize; y++ )
@@ -229,11 +231,7 @@ montageTest( const itk::TileLayout2D& stageTiles, const itk::TileLayout2D& actua
         {
         peakMethod = static_cast< PeakFinderUnderlying >( peakMethodToUse );
         }
-      montage->GetModifiablePCMOptimizer()->SetPeakInterpolationMethod(
-        static_cast< PeakInterpolationType >( peakMethod ) );
-      montage->Modified(); // optimizer is not an "input" to PCM
-      // so its modification does not cause a pipeline update automatically
-
+      montage->SetPeakInterpolationMethod( static_cast< PeakInterpolationType >( peakMethod ) );
       std::cout << "    PeakMethod " << peakMethod << std::endl;
       itk::SimpleFilterWatcher fw( montage, "montage" );
       // montage->SetDebug( true ); // enable more debugging output from global tile optimization

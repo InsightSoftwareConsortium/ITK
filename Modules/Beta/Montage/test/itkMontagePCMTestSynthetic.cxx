@@ -62,24 +62,28 @@ public:
     m_Image->SetOrigin( m_ImageOrigin );
     m_Image->SetDirection( m_ImageDirection );
 
-    itk::Point< double, VDimension > p;
-    TPixel value;
-    using ImageIteratorType = itk::ImageRegionIteratorWithIndex< ImageType >;
-    ImageIteratorType it( m_Image, region );
-    while ( !it.IsAtEnd() )
+    multiThreader->ParallelizeImageRegion< VDimension >( region,
+      [&](const typename ImageType::RegionType & fragment)
       {
-      m_Image->TransformIndexToPhysicalPoint( it.GetIndex(), p );
-      if ( m_SphereCenter.EuclideanDistanceTo( p ) > m_SphereRadius )
-        {
-        value = itk::NumericTraits< TPixel >::ZeroValue();
-        }
-      else
-        {
-        value = itk::NumericTraits< TPixel >::OneValue();
-        }
-      it.Set( value );
-      ++it;
-      }
+        itk::Point< double, VDimension > p;
+        TPixel value;
+        itk::ImageRegionIteratorWithIndex< ImageType > it( m_Image, fragment );
+        while ( !it.IsAtEnd() )
+          {
+          m_Image->TransformIndexToPhysicalPoint( it.GetIndex(), p );
+          if ( m_SphereCenter.EuclideanDistanceTo( p ) > m_SphereRadius )
+            {
+            value = itk::NumericTraits< TPixel >::ZeroValue();
+            }
+          else
+            {
+            value = itk::NumericTraits< TPixel >::OneValue();
+            }
+          it.Set( value );
+          ++it;
+          }
+      },
+      nullptr );
 
     return m_Image.GetPointer();
   }
@@ -98,6 +102,8 @@ protected:
 private:
   typename ImageType::Pointer m_Image;
 
+  typename MultiThreaderBase::Pointer multiThreader = MultiThreaderBase::New();
+
 public:
   double                            m_SphereRadius;
   typename ImageType::PointType     m_SphereCenter;
@@ -112,14 +118,16 @@ public:
 template< unsigned int VDimension, typename TFixedImagePixel, typename TMovingImagePixel >
 int PhaseCorrelationRegistration( int argc, char* argv[] )
 {
-  if ( argc < 4 )
+  if ( argc < 6 )
     {
     std::cerr << "Usage: " << argv[0] << " <<dimension><fixedTypeChar><movingTypeChar>>";
-    std::cerr << "<phaseCorrelationFile> <transformFile> [movingImageSpacings]" << std::endl;
-    std::cerr << "e.g.\n\t" << argv[0] << " 2cf phase.nrrd transform.tfm 1.0 1.0" << std::endl;
+    std::cerr << " <phaseCorrelationFile> <transformFile> <startSize> <endSize> [movingImageSpacings]" << std::endl;
+    std::cerr << "e.g.\n\t" << argv[0] << " 2cf phase.nrrd transform.tfm 17 31 1.0 1.0" << std::endl;
     return EXIT_FAILURE;
     }
   const char* phaseCorrelationFile = argv[2];
+  unsigned startSize = std::stoul(argv[4]);
+  unsigned endSize = std::stoul(argv[5]);
 
   using FixedImageType = itk::Image< TFixedImagePixel, VDimension >;
   using MovingImageType = itk::Image< TMovingImagePixel, VDimension >;
@@ -149,7 +157,7 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
   std::vector< TestCoefficientsType > testCoefficients = { { 2.0, -0.1, 0.05, 0.1, -2.1 },
                                                            { 2.5, -0.3, 0.05, 0.15, 2.15 } };
 
-  for ( unsigned size1 = 17; size1 <= 31; size1++ )
+  for ( unsigned size1 = startSize; size1 <= endSize; size1++ )
     {
     std::cout << "\nSize " << size1 << std::endl;
     for ( const auto& coef : testCoefficients )
@@ -177,9 +185,9 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
         movingImageSource->m_SphereCenter[i] += actualParameters[i];
         movingOrigin[i] = size1 * coef[3] + i * coef[4];
         // movingSpacing[i] = 1.0 / (0.8 + i); //test different spacing (unsupported)
-        if ( argc > 4 + int( i ) )
+        if ( argc > 6 + int( i ) )
           {
-          movingSpacing[i] = std::stod( argv[4 + i] );
+          movingSpacing[i] = std::stod( argv[6 + i] );
           }
         movingSize[i] = (unsigned long)( size[i] / movingSpacing[i] + 3 * std::pow( -1, i ) );
         movingSize[i] = std::max< itk::SizeValueType >( movingSize[i], 7u );
@@ -239,7 +247,7 @@ int PhaseCorrelationRegistration( int argc, char* argv[] )
           ParametersType transformParameters = pcm->GetOutput()->Get()->GetParameters();
 
           const unsigned int numberOfParameters = actualParameters.Size();
-          const double       tolerance = 1.0 + 1e-6;
+          const double tolerance = 1.0 + 1e-6;
 
           // Validate the translation parameters
           for ( unsigned int i = 0; i < numberOfParameters; i++ )

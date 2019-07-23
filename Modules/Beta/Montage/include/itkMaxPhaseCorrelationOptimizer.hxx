@@ -42,8 +42,7 @@ MaxPhaseCorrelationOptimizer< TRegistrationMethod >
 {
   Superclass::PrintSelf( os, indent );
   os << indent << "MaxCalculator: " << m_MaxCalculator << std::endl;
-  auto pim = static_cast< typename std::underlying_type< PeakInterpolationMethod >::type >( m_PeakInterpolationMethod );
-  os << indent << "PeakInterpolationMethod: " << pim << std::endl;
+  os << indent << "PeakInterpolationMethod: " << m_PeakInterpolationMethod << std::endl;
   os << indent << "MergePeaks: " << m_MergePeaks << std::endl;
   os << indent << "ZeroSuppression: " << m_ZeroSuppression << std::endl;
   os << indent << "PixelDistanceTolerance: " << m_PixelDistanceTolerance << std::endl;
