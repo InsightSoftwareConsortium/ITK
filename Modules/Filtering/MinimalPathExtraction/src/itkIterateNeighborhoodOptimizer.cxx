@@ -18,7 +18,7 @@
 #include "itkIterateNeighborhoodOptimizer.h"
 #include "itkCommand.h"
 #include "itkEventObject.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 
 namespace itk
 {
