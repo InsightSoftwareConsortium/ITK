@@ -58,7 +58,9 @@ jobs:
     displayName: 'Install build dependencies'
 
   - script: |
-      git clone --depth 5 --branch $(ITKGitTag) https://github.com/InsightSoftwareConsortium/ITK.git
+      git clone https://github.com/InsightSoftwareConsortium/ITK.git
+      cd ITK
+      git checkout $(ITKGitTag)
     workingDirectory: $(Agent.BuildDirectory)
     displayName: 'Download ITK'
 
