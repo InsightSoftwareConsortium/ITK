@@ -18,7 +18,7 @@
 #define itkSingleImageCostFunction_h
 
 #include "itkNumericTraits.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include "itkContinuousIndex.h"
 #include "itkSingleValuedCostFunction.h"
 #include "itkInterpolateImageFunction.h"
