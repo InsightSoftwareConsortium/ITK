@@ -21,7 +21,7 @@
 // Disable warning for lengthy symbol names in this file only
 
 #include "itkCovariantVector.h"
-#include "itkExceptionObject.h"
+#include "itkMacro.h"
 #include <list>
 #include "itkSpatialObjectProperty.h"
 #include "itkProcessObject.h"

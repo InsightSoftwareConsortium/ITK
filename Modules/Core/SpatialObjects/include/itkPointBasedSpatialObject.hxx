@@ -106,10 +106,8 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 
   if ( it == itend )
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription(
+    itkExceptionMacro( <<
       "SpatialObject: ClosestPoint called using an empty point list");
-    throw exception;
     }
 
   SpatialObjectPointType closestPoint;
@@ -141,10 +139,8 @@ PointBasedSpatialObject< TDimension, TSpatialObjectPointType >
 
   if ( it == itend )
     {
-    ExceptionObject exception(__FILE__, __LINE__);
-    exception.SetDescription(
+    itkExceptionMacro( <<
       "SpatialObject: ClosestPoint called using an empty point list");
-    throw exception;
     }
 
   SpatialObjectPointType closestPoint;

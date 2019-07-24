@@ -202,10 +202,7 @@ ContourSpatialObject< TDimension >
     case BEZIER_INTERPOLATION:
       // TODO: Implement bezier interpolation
       {
-      ExceptionObject e(__FILE__);
-      e.SetLocation( "ContourSpatialObject:Update()");
-      e.SetDescription( "Bezier interpolation type not yet defined." );
-      throw e;
+      itkExceptionMacro( << "Bezier interpolation type not yet defined." );
       }
       break;
     case LINEAR_INTERPOLATION:
