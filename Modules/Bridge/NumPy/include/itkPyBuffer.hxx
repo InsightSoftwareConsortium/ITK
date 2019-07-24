@@ -109,12 +109,6 @@ PyBuffer<TImage>
   dimension  = PySequence_Size(shape);
 
   numberOfComponents = PyInt_AsLong(numOfComponent);
-  if( numberOfComponents > 1 && numberOfComponents != DefaultConvertPixelTraits<PixelType>::GetNumberOfComponents() )
-    {
-    PyErr_SetString( PyExc_RuntimeError, "Mismatch between the number of components in the image and the fastest running dimension of the Numpy array ." );
-    Py_DECREF(shapeseq);
-    return nullptr;
-    }
 
   for( unsigned int i = 0; i < dimension; ++i )
     {
