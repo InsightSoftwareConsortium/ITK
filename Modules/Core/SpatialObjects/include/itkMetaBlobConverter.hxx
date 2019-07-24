@@ -78,7 +78,7 @@ MetaBlobConverter< NDimensions >
     pnt.SetBlue( ( *it2 )->m_Color[2] );
     pnt.SetAlpha( ( *it2 )->m_Color[3] );
 
-    blob->GetPoints().push_back(pnt);
+    blob->AddPoint(pnt);
     it2++;
     }
 

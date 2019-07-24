@@ -113,7 +113,7 @@ MetaVesselTubeConverter< NDimensions >
 
     pnt.SetId( ( *it2 )->m_ID );
 
-    vesselTubeSO->GetPoints().push_back(pnt);
+    vesselTubeSO->AddPoint(pnt);
 
     it2++;
     }

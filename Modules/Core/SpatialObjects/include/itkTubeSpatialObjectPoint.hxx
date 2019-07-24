@@ -46,6 +46,14 @@ double
 TubeSpatialObjectPoint< TPointDimension >
 ::GetRadiusInWorldSpace() const
 {
+  if( m_SpatialObject == nullptr )
+    {
+    ExceptionObject e(__FILE__);
+    e.SetLocation( "SpatialObjectPoint:GetRadiusInWorldSpace" );
+    e.SetDescription( "The SpatialObject must be set prior to calling." );
+    throw e;
+    }
+
   CovariantVectorType cVect;
   cVect.Fill( m_RadiusInObjectSpace );
   cVect = Superclass::m_SpatialObject->GetObjectToWorldTransform()->
@@ -65,10 +73,18 @@ void
 TubeSpatialObjectPoint< TPointDimension >
 ::SetRadiusInWorldSpace(double newR)
 {
+  if( m_SpatialObject == nullptr )
+    {
+    ExceptionObject e(__FILE__);
+    e.SetLocation( "SpatialObjectPoint:SetRadiusInWorldSpace" );
+    e.SetDescription( "The SpatialObject must be set prior to calling." );
+    throw e;
+    }
+
   CovariantVectorType cVect;
   cVect.Fill( newR );
-  cVect = Superclass::m_SpatialObject->GetObjectToWorldTransform()->GetInverseTransform()->
-    TransformCovariantVector( cVect );
+  cVect = Superclass::m_SpatialObject->GetObjectToWorldTransform()->
+    GetInverseTransform()->TransformCovariantVector( cVect );
   m_RadiusInObjectSpace = 0;
   for( unsigned int d=0; d<TPointDimension; ++d )
     {
@@ -82,6 +98,14 @@ const typename TubeSpatialObjectPoint< TPointDimension >::VectorType
 TubeSpatialObjectPoint< TPointDimension >
 ::GetTangentInWorldSpace() const
 {
+  if( m_SpatialObject == nullptr )
+    {
+    ExceptionObject e(__FILE__);
+    e.SetLocation( "SpatialObjectPoint:GetTangentInWorldSpace" );
+    e.SetDescription( "The SpatialObject must be set prior to calling." );
+    throw e;
+    }
+
   return Superclass::m_SpatialObject->GetObjectToWorldTransform()->
     TransformVector( m_TangentInObjectSpace );
 }
@@ -91,6 +115,14 @@ void
 TubeSpatialObjectPoint< TPointDimension >
 ::SetTangentInWorldSpace(const VectorType & newT)
 {
+  if( m_SpatialObject == nullptr )
+    {
+    ExceptionObject e(__FILE__);
+    e.SetLocation( "SpatialObjectPoint:SetTangentInWorldSpace" );
+    e.SetDescription( "The SpatialObject must be set prior to calling." );
+    throw e;
+    }
+
   m_TangentInObjectSpace = Superclass::m_SpatialObject->GetObjectToWorldTransform()->
     GetInverseTransform()->TransformVector( newT );
 }
@@ -100,6 +132,14 @@ const typename TubeSpatialObjectPoint< TPointDimension >::CovariantVectorType
 TubeSpatialObjectPoint< TPointDimension >
 ::GetNormal1InWorldSpace() const
 {
+  if( m_SpatialObject == nullptr )
+    {
+    ExceptionObject e(__FILE__);
+    e.SetLocation( "SpatialObjectPoint:GetNormal1InWorldSpace" );
+    e.SetDescription( "The SpatialObject must be set prior to calling." );
+    throw e;
+    }
+
   return Superclass::m_SpatialObject->GetObjectToWorldTransform()->
     TransformCovariantVector( m_Normal1InObjectSpace );
 }
@@ -109,6 +149,14 @@ void
 TubeSpatialObjectPoint< TPointDimension >
 ::SetNormal1InWorldSpace(const CovariantVectorType & newV1)
 {
+  if( m_SpatialObject == nullptr )
+    {
+    ExceptionObject e(__FILE__);
+    e.SetLocation( "SpatialObjectPoint:SetNormal1InWorldSpace" );
+    e.SetDescription( "The SpatialObject must be set prior to calling." );
+    throw e;
+    }
+
   m_Normal1InObjectSpace = Superclass::m_SpatialObject->GetObjectToWorldTransform()->
     GetInverseTransform()->TransformCovariantVector( newV1 );
 }
@@ -118,6 +166,14 @@ const typename TubeSpatialObjectPoint< TPointDimension >::CovariantVectorType
 TubeSpatialObjectPoint< TPointDimension >
 ::GetNormal2InWorldSpace() const
 {
+  if( m_SpatialObject == nullptr )
+    {
+    ExceptionObject e(__FILE__);
+    e.SetLocation( "SpatialObjectPoint:GetNormal2InWorldSpace" );
+    e.SetDescription( "The SpatialObject must be set prior to calling." );
+    throw e;
+    }
+
   return Superclass::m_SpatialObject->GetObjectToWorldTransform()->
     TransformCovariantVector( m_Normal2InObjectSpace );
 }
@@ -127,6 +183,14 @@ void
 TubeSpatialObjectPoint< TPointDimension >
 ::SetNormal2InWorldSpace(const CovariantVectorType & newV2)
 {
+  if( m_SpatialObject == nullptr )
+    {
+    ExceptionObject e(__FILE__);
+    e.SetLocation( "SpatialObjectPoint:SetNormal2InWorldSpace" );
+    e.SetDescription( "The SpatialObject must be set prior to calling." );
+    throw e;
+    }
+
   m_Normal2InObjectSpace = Superclass::m_SpatialObject->GetObjectToWorldTransform()->
     GetInverseTransform()->TransformCovariantVector( newV2 );
 }
