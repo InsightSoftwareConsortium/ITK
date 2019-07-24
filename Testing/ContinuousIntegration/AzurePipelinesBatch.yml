@@ -1,5 +1,7 @@
 # Build triggered on a rolling or batch basis on the master and release branches. They may take longer than the standard CI configurations.
 
+name: ITK.Coverage
+
 trigger:
   batch: true
   branches:

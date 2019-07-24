@@ -26,7 +26,7 @@
 /**
  *  This program test one instantiation of the itk::ImageRegistrationMethod class
  *
- *  Only typedef are tested in this file.
+ *  Only types are tested in this file.
  */
 
 int itkImageRegistrationMethodTest_11(int, char* [] )

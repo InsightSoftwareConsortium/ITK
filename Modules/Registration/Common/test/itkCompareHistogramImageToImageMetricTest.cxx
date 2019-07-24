@@ -74,10 +74,9 @@ int itkCompareHistogramImageToImageMetricTest(int , char* [])
     FixedImageType::Pointer  fixedImage  = fixedImageSource->GetOutput();
 
     // Set up the metric.
-    typedef itk::KullbackLeiblerCompareHistogramImageToImageMetric<
+    using MetricType = itk::KullbackLeiblerCompareHistogramImageToImageMetric<
                                                        FixedImageType,
-                                                       MovingImageType
-                                                               > MetricType;
+                                                       MovingImageType>;
     using TransformBaseType = MetricType::TransformType;
     using ScalesType = MetricType::ScalesType;
     using ParametersType = TransformBaseType::ParametersType;

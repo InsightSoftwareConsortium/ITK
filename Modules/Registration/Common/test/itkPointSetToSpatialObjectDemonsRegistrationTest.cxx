@@ -51,10 +51,9 @@ int itkPointSetToSpatialObjectDemonsRegistrationTest(int, char* [] )
   sphereSource->Update();
 
 
-  typedef itk::PointSetToSpatialObjectDemonsRegistration<
+  using DemonsRegistrationType = itk::PointSetToSpatialObjectDemonsRegistration<
                                       PointSetType,
-                                      EllipseType
-                                        > DemonsRegistrationType;
+                                      EllipseType>;
 
   DemonsRegistrationType::Pointer  demonsRegistration = DemonsRegistrationType::New();
 

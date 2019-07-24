@@ -92,7 +92,7 @@ PyBuffer<TImage>
   size_t                      pixelSize     = sizeof(ComponentType);
   size_t                      len           = 1;
 
-  if(PyObject_GetBuffer(arr, &pyBuffer, PyBUF_WRITABLE | PyBUF_ND | PyBUF_ANY_CONTIGUOUS ) == -1)
+  if(PyObject_GetBuffer(arr, &pyBuffer, PyBUF_ND | PyBUF_ANY_CONTIGUOUS ) == -1)
     {
     PyErr_SetString( PyExc_RuntimeError, "Cannot get an instance of NumPy array." );
     PyBuffer_Release(&pyBuffer);

@@ -87,11 +87,10 @@ int itkFastMarchingImageFilterBaseTest( int , char * [] )
   // Done outside the helper function in the test because GCC is limited
   // when calling overloaded base class functions.
   const unsigned int Dimension = 2;
-  typedef float                               PixelType;
-  typedef itk::Image< PixelType, Dimension >  ImageType;
+  using PixelType = float;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::FastMarchingImageFilterBase< ImageType, ImageType >
-    FastMarchingImageFilterType;
+  using FastMarchingImageFilterType = itk::FastMarchingImageFilterBase< ImageType, ImageType >;
 
   FastMarchingImageFilterType::Pointer fastMarchingFilter =
     FastMarchingImageFilterType::New();

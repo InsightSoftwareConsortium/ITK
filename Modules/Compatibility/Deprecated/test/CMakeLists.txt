@@ -4,6 +4,7 @@ itkAtomicIntTest.cxx
 itkBarrierTest.cxx
 itkConditionVariableTest.cxx
 itkSimpleFastMutexLockTest.cxx
+itkVectorCentralDifferenceImageFunctionTest.cxx
 itkVectorResampleImageFilterTest.cxx
 )
 
@@ -31,6 +32,9 @@ set_tests_properties(itkSimpleFastMutexLockTest PROPERTIES TIMEOUT 60)
 if (NOT ITK_LEGACY_REMOVE)
   itk_add_test(NAME itkSpawnThreadTest COMMAND ITKDeprecatedTestDriver itkSpawnThreadTest 100)
 endif()
+
+itk_add_test(NAME itkVectorCentralDifferenceImageFunctionTest
+      COMMAND ITKDeprecatedTestDriver itkVectorCentralDifferenceImageFunctionTest)
 
 itk_add_test(NAME itkVectorResampleImageFilterTest
       COMMAND ITKDeprecatedTestDriver

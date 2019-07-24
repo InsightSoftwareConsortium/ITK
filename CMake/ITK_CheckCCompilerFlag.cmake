@@ -22,21 +22,9 @@
 
 include(CheckCSourceCompiles)
 
-macro (ITK_CHECK_C_COMPILER_FLAG _FLAG _RESULT)
-   set(SAFE_CMAKE_REQUIRED_DEFINITIONS "${CMAKE_REQUIRED_DEFINITIONS}")
-   set(CMAKE_REQUIRED_DEFINITIONS "${_FLAG}")
-   CHECK_C_SOURCE_COMPILES("int main(void) { return 0; }" ${_RESULT}
-     # Some compilers do not fail with a bad flag
-     FAIL_REGEX "warning: command line option .* is valid for .* but not for C"
-                                                            # Apple gcc
-     FAIL_REGEX "unrecognized .*option"                     # GNU
-     FAIL_REGEX "unknown .*option"                          # Clang
-     FAIL_REGEX "ignoring unknown option"                   # MSVC
-     FAIL_REGEX "warning D9002"                             # MSVC, any lang
-     FAIL_REGEX "[Uu]nknown option"                         # HP
-     FAIL_REGEX "[Ww]arning: [Oo]ption"                     # SunPro
-     FAIL_REGEX "command option .* is not recognized"       # XL
-     FAIL_REGEX "warning #10156: ignoring option"       # INTEL compilers
-     )
-   set (CMAKE_REQUIRED_DEFINITIONS "${SAFE_CMAKE_REQUIRED_DEFINITIONS}")
-endmacro ()
+macro(ITK_CHECK_C_COMPILER_FLAG _FLAG _RESULT)
+  if(ITK_LEGACY_REMOVE)
+    message( FATAL_ERROR "REPLACE ITK_CHECK_C_COMPILER_FLAG with check_c_compiler_flag" )
+  endif()
+  check_c_compiler_flag( ${_FLAG} ${_RESULT} )
+endmacro()

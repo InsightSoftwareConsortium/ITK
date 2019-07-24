@@ -234,7 +234,7 @@ int thirdTest()
   os << "Baz, Bar" << std::endl;
   fb.close();
 
-  typedef itk::TransformFileReaderTemplate<TParametersValueType> TransformReaderType;
+  using TransformReaderType = itk::TransformFileReaderTemplate<TParametersValueType>;
   typename TransformReaderType::Pointer reader = TransformReaderType::New();
   reader->SetFileName("IllegalMat.Mat");
   try

@@ -198,9 +198,7 @@ public:
   void SetRadius(const SizeValueType *rad)
   {
     SizeType s;
-    std::copy(rad,
-              rad+VDimension,
-              s.m_InternalArray);
+    std::copy_n(rad, VDimension, s.m_InternalArray);
     this->SetRadius(s);
   }
 

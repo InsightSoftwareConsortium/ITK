@@ -38,7 +38,7 @@ namespace itk
  * \ingroup   ITKVtkGlue
  *
  * \sphinx
- * \sphinxexample{Remote/WikiExamples/DisplayITKImage,Display ITK Image}
+ * \sphinxexample{Remote/SphinxExamples/DisplayITKImage,Display ITK Image}
  * \sphinxexample{IO/itkVtkImageConvertDICOM,Uses a custom user matrix to align the image with DICOM physical space}
  * \endsphinx
  */

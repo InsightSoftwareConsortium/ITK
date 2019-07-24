@@ -75,8 +75,7 @@ VectorContainerToListSampleAdaptor<TVectorContainer>
     itkExceptionMacro( "Vector container has not been set yet" );
     }
 
-  this->m_TempPoint = this->m_VectorContainer->GetElement( identifier );
-  return this->m_TempPoint;
+  return this->m_VectorContainer->ElementAt( identifier );
 }
 
 template<typename TVectorContainer>

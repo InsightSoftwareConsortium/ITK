@@ -94,9 +94,7 @@ void
 InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 ::SetOutputOrigin(const double *origin)
 {
-  OriginPointType p(origin);
-
-  this->SetOutputOrigin(p);
+  this->SetOutputOrigin( OriginPointType(origin) );
 }
 
 /**

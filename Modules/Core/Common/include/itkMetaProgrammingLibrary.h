@@ -167,7 +167,25 @@ template <> struct NotC<true>  : FalseType {};
 template < typename TF> struct Not : NotC<TF::Value>
 { using Type = typename NotC<TF::Value>::Type; };
 
+/** MPL relational type trait to check if a static_cast conversion
+ * exists.
+ *
+ * Identifies if "static_cast<TToType>(TFromType)" can be done.
+ */
+template <typename TFromType, typename TToType, typename TNoDeclType = TToType>
+struct is_static_castable
+  : std::false_type
+{};
+/// \cond SPECIALIZATION_IMPLEMENTATION
+template <typename TFromType, typename TToType>
+struct is_static_castable<TFromType,
+                          TToType,
+                          decltype(static_cast<TToType>(std::declval<TFromType>()))>
+  : std::true_type
+{};
+/// \endcond
 } // mpl namespace
+
 
 // TrueType and FalseType have moved to itk::mpl.
 // Expect itk::TrueType and itk::False type to be deprecated.

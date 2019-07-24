@@ -73,7 +73,7 @@ std::map< std::string, int > RegressionTestBaselines(char *);
 using ComparePairType = std::pair< char *, char * >;
 
 // A structure to hold regression test parameters
-typedef struct
+using RegressionTestParameters = struct _RegressionTestParameters
 {
   std::vector< ComparePairType > compareList;
   double intensityTolerance;
@@ -82,7 +82,7 @@ typedef struct
   bool verifyInputInformation;
   double coordinateTolerance;
   double directionTolerance;
-} RegressionTestParameters;
+};
 
 RegressionTestParameters& GetRegressionTestParameters();
 
@@ -108,11 +108,11 @@ struct ProcessedOutputType
 };
 
 // A structure to hold redirect output parameters
-typedef struct
+using RedirectOutputParameters = struct _RedirectOutputParameters
 {
   bool redirect;
   std::string fileName;
-} RedirectOutputParameters;
+};
 
 RedirectOutputParameters& GetRedirectOutputParameters();
 

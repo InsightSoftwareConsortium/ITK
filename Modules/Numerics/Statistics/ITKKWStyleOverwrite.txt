@@ -1,2 +1,3 @@
 test/.*\.cxx Namespace Disable
+test/itkMeasurementVectorTraitsTest\.cxx Operator Disable
 itkStatisticsTypesTest\.cxx Typedefs Disable

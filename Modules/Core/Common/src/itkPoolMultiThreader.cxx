@@ -177,8 +177,8 @@ PoolMultiThreader
       chunkSize++; // we want slightly bigger chunks to be processed first
       }
 
-    SizeValueType workUnit = 0;
-    for ( SizeValueType i = firstIndex; i < lastIndexPlus1; i += chunkSize )
+    SizeValueType workUnit = 1;
+    for ( SizeValueType i = firstIndex + chunkSize; i < lastIndexPlus1; i += chunkSize )
       {
       m_ThreadInfoArray[workUnit++].Future = m_ThreadPool->AddWork(
         [aFunc]( SizeValueType start, SizeValueType end)
@@ -195,14 +195,19 @@ PoolMultiThreader
       }
     itkAssertOrThrowMacro( workUnit <= m_NumberOfWorkUnits,
       "Number of work units was somehow miscounted!" );
-    //now wait for all computations to finish
-    for (SizeValueType i = 0; i < workUnit; i++)
+    // execute this thread's share
+    for ( SizeValueType ii = firstIndex; ii < firstIndex + chunkSize; ii++ )
       {
-      m_ThreadInfoArray[i].Future.get();
+      aFunc( ii );
+      }
+    // now wait for the other computations to finish
+    for (SizeValueType i = 1; i < workUnit; i++)
+      {
       if ( filter )
         {
-        filter->UpdateProgress( ( i + 1 ) / float( workUnit ) );
+        filter->UpdateProgress( i / float( workUnit ) );
         }
+      m_ThreadInfoArray[i].Future.get();
       }
     }
   else if ( firstIndex + 1 == lastIndexPlus1 )
@@ -247,11 +252,12 @@ PoolMultiThreader
       ThreadIdType splitCount = splitter->GetNumberOfSplits( region, m_NumberOfWorkUnits );
       itkAssertOrThrowMacro( splitCount <= m_NumberOfWorkUnits,
         "Split count is greater than number of work units!" );
-      // now wait for all computations to finish
-      for ( ThreadIdType i = 0; i < splitCount; i++ )
+      ImageIORegion iRegion;
+      ThreadIdType total;
+      for ( ThreadIdType i = 1; i < splitCount; i++ )
         {
-        ImageIORegion iRegion = region;
-        ThreadIdType total = splitter->GetSplit( i, splitCount, iRegion );
+        iRegion = region;
+        total = splitter->GetSplit( i, splitCount, iRegion );
         if (i < total)
           {
           m_ThreadInfoArray[i].Future = m_ThreadPool->AddWork(
@@ -269,14 +275,19 @@ PoolMultiThreader
             << " even though we checked possible number of splits beforehand!" );
           }
         }
+      iRegion = region;
+      total = splitter->GetSplit( 0, splitCount, iRegion );
+      // execute this thread's share
+      funcP( &iRegion.GetIndex()[0], &iRegion.GetSize()[0] );
 
-      for (ThreadIdType i = 0; i < splitCount; i++)
+      // now wait for the other computations to finish
+      for ( ThreadIdType i = 1; i < splitCount; i++ )
         {
-        m_ThreadInfoArray[i].Future.get();
         if ( filter )
           {
-          filter->UpdateProgress( ( i + 1 ) / float( splitCount ) );
+          filter->UpdateProgress( i / float( splitCount ) );
           }
+        m_ThreadInfoArray[i].Future.get();
         }
       }
     }

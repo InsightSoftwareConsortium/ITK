@@ -40,7 +40,7 @@ namespace itk
 {
 extern "C"
 {
-typedef void *( *c_void_cast )(void *);
+using c_void_cast = void *( * )(void *);
 }
 
 #if !defined ( ITK_LEGACY_REMOVE )

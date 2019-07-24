@@ -31,7 +31,7 @@ class foo
   {
     char a;
   };
-  typedef A AlignedA __attribute__ ((aligned(64)));
+  using AlignedA = A __attribute__ ((aligned(64)));
   AlignedA *AlignedElementsOfA;
 };
 
@@ -46,7 +46,7 @@ int main()
 {
   foo<int> f;
 
-  typedef A AlignedA __attribute__ ((aligned(64)));
+  using AlignedA = A __attribute__ ((aligned(64)));
 
   return OnlyTrue<__alignof__( AlignedA ) == 64>::Result
     && OnlyTrue<__alignof__( B ) == 64>::Result;

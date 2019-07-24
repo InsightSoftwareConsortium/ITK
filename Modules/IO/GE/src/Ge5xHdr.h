@@ -57,7 +57,7 @@
 
 #define GE_5X_MAGIC_NUMBER       0x494d4746
 
-typedef struct GE_5x_ImgHdr {
+using Ge5xPixelHeader = struct {
   int GENESIS_IH_img_magic;
   int GENESIS_IH_img_hdr_length;
   int GENESIS_IH_img_width;
@@ -98,7 +98,7 @@ typedef struct GE_5x_ImgHdr {
   int GENESIS_IH_img_l_series;
   int GENESIS_IH_img_p_image;
   int GENESIS_IH_img_l_image;
-} Ge5xPixelHeader;
+};
 
 
 enum GE_SUITE_HDR_ENUM {

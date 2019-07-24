@@ -139,7 +139,7 @@ SlopeInterceptWriteTest()
   //
   // fill out an image and write it as nifti.
   const char *filename = "SlopeIntercept.nii";
-  typedef itk::Image<PixelType,3> OutputImageType;
+  using OutputImageType = itk::Image<PixelType,3>;
   typename OutputImageType::RegionType region;
   typename OutputImageType::IndexType start;
   start[0] = 0;
@@ -154,7 +154,7 @@ SlopeInterceptWriteTest()
   typename OutputImageType::Pointer outputimage = OutputImageType::New();
   outputimage->SetRegions(region);
   outputimage->Allocate();
-  typedef itk::ImageRegionIterator<OutputImageType> OutputIteratorType;
+  using OutputIteratorType = itk::ImageRegionIterator<OutputImageType>;
   OutputIteratorType itout(outputimage,outputimage->GetLargestPossibleRegion());
   itout.GoToBegin();
   for(unsigned i = 0; i < 256; i++,++itout)
@@ -165,7 +165,7 @@ SlopeInterceptWriteTest()
       }
     itout.Set(static_cast<PixelType>(i));
     }
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
   typename WriterType::Pointer writer = WriterType::New();
   itk::NiftiImageIO::Pointer niftiImageIO(itk::NiftiImageIO::New());
   niftiImageIO->SetRescaleSlope(1.0/256.0);
@@ -185,7 +185,7 @@ SlopeInterceptWriteTest()
     }
   //
   // read the image back in
-  typedef itk::Image<float,3> ImageType;
+  using ImageType = itk::Image<float,3>;
   typename ImageType::Pointer image;
   try
     {
@@ -196,7 +196,7 @@ SlopeInterceptWriteTest()
     itk::IOTestHelper::Remove(filename);
     return EXIT_FAILURE;
     }
-  typedef itk::ImageRegionIterator<ImageType> IteratorType;
+  using IteratorType = itk::ImageRegionIterator<ImageType>;
   IteratorType it(image,image->GetLargestPossibleRegion());
   it.GoToBegin();
   double maxerror = 0.0;

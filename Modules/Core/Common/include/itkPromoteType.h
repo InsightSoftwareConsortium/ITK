@@ -40,7 +40,7 @@ template <int N, typename TA, typename TB> struct SizeToType;
  * \ingroup MetaProgrammingLibrary
  * \ingroup ITKCommon
  */
-template <int N> struct Identity { typedef char Type[N]; };
+template <int N> struct Identity { using Type = char[N]; };
 
 /** Helper macro to implement \c itk::PromoteType<>.
  * This macros helps specializing \c SizeToType<> for any pair of type.

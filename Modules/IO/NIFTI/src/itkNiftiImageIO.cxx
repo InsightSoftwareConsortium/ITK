@@ -229,8 +229,6 @@ static int DumpNiftiHeader(const std::string & fname)
 static void dumpdata(const void *x)
 {
   std::cerr << "----------------------" << std::endl;
-
-  //    typedef const float (*itkarray)[1][2][2][2][3];
   const float *a = (const float *)x;
   for ( unsigned int i = 0; i < 24; i++ )         // t
     {

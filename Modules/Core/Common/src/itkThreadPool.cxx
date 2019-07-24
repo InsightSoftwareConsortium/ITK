@@ -32,11 +32,21 @@ namespace itk
 
 struct ThreadPoolGlobals
 {
-  ThreadPoolGlobals():m_DoNotWaitForThreads(false){};
+  ThreadPoolGlobals() = default;
   // To lock on the internal variables.
   std::mutex m_Mutex;
   ThreadPool::Pointer m_ThreadPoolInstance;
-  bool m_DoNotWaitForThreads;
+#if defined( _WIN32 ) && defined( ITKCommon_EXPORTS )
+  // ThreadPool's destructor is called during DllMain's DLL_PROCESS_DETACH.
+  // Because ITKCommon-5.X.dll is usually being detached due to process termination,
+  // lpvReserved is non-NULL meaning that "all threads in the process
+  // except the current thread either have exited already or have been
+  // explicitly terminated by a call to the ExitProcess function".
+  // Therefore we must not wait for the condition_variable.
+  bool m_WaitForThreads = false;
+#else // In a static library, we have to wait.
+  bool m_WaitForThreads = true;
+#endif
 };
 
 itkGetGlobalSimpleMacro(ThreadPool, ThreadPoolGlobals, PimplGlobals);
@@ -79,7 +89,7 @@ ThreadPool
 ::GetDoNotWaitForThreads()
 {
   itkInitGlobalsMacro(PimplGlobals);
-  return m_PimplGlobals->m_DoNotWaitForThreads;
+  return !m_PimplGlobals->m_WaitForThreads;
 }
 
 void
@@ -87,7 +97,7 @@ ThreadPool
 ::SetDoNotWaitForThreads(bool doNotWaitForThreads)
 {
   itkInitGlobalsMacro(PimplGlobals);
-  m_PimplGlobals->m_DoNotWaitForThreads = doNotWaitForThreads;
+  m_PimplGlobals->m_WaitForThreads = !doNotWaitForThreads;
 }
 
 ThreadPool
@@ -133,35 +143,21 @@ ThreadPool
 ThreadPool
 ::~ThreadPool()
 {
-  bool waitForThreads = !m_Threads.empty();
-#if defined(_WIN32) && defined(ITKCommon_EXPORTS)
-  //This destructor is called during DllMain's DLL_PROCESS_DETACH.
-  //Because ITKCommon-4.X.dll is usually being detached due to process termination,
-  //lpvReserved is non-NULL meaning that "all threads in the process
-  //except the current thread either have exited already or have been
-  //explicitly terminated by a call to the ExitProcess function".
-  waitForThreads = false;
-#else
-  if(m_PimplGlobals->m_DoNotWaitForThreads)
     {
-    waitForThreads = false;
-    }
-#endif
-  {
     std::unique_lock< std::mutex > mutexHolder( m_PimplGlobals->m_Mutex );
 
     this->m_Stopping = true;
     }
 
-  if (waitForThreads)
+  if ( m_PimplGlobals->m_WaitForThreads && !m_Threads.empty() )
     {
     m_Condition.notify_all();
     }
 
   // Even if the threads have already been terminated,
   // we should join() the std::thread variables.
-  // Otherwise some sanity check in debug mode makes a problem.
-  for (ThreadIdType i = 0; i < m_Threads.size(); i++)
+  // Otherwise some sanity check in debug mode complains.
+  for ( ThreadIdType i = 0; i < m_Threads.size(); i++ )
     {
     m_Threads[i].join();
     }

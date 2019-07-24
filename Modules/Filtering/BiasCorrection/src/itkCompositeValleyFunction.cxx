@@ -23,7 +23,7 @@ CompositeValleyFunction
 ::CompositeValleyFunction(const MeasureArrayType & classMeans,
                           const MeasureArrayType & classSigmas)
 {
-  unsigned int length = classMeans.size();
+  const std::size_t length = classMeans.size();
 
   if ( length != classSigmas.size() )
     {
@@ -41,7 +41,7 @@ CompositeValleyFunction
     throw ex;
     }
 
-  for ( unsigned int i = 0; i < length; i++ )
+  for ( std::size_t i = 0; i < length; i++ )
     {
     this->AddNewClass(classMeans[i], classSigmas[i]);
     }

@@ -1,3 +1,5 @@
+name: ITK.Windows.Python
+
 trigger:
   branches:
     include:

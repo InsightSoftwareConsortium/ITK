@@ -94,6 +94,4 @@ private:
 };
 } // end namespace itk
 
-#endif
-
-// eof - itkQuadEdgeMeshEulerOperatorSplitEdgeFunction.h
+#endif // itkQuadEdgeMeshEulerOperatorSplitEdgeFunction.h

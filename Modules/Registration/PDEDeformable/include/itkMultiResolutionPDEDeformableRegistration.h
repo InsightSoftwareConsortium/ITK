@@ -58,7 +58,7 @@ namespace itk
  * initial condition.
  *
  * MultiResolutionPyramidImageFilters are used to downsample the fixed
- * and moving images. A VectorExpandImageFilter is used to upsample
+ * and moving images. A ResampleImageFilter is used to upsample
  * the deformation as we move from a coarse to fine solution.
  *
  * This class is templated over the fixed image type, the moving image type,
@@ -70,7 +70,7 @@ namespace itk
  * \sa PDEDeformableRegistrationFilter
  * \sa DemonsRegistrationFilter
  * \sa MultiResolutionPyramidImageFilter
- * \sa VectorExpandImageFilter
+ * \sa ResampleImageFilter
  *
  * The current implementation of this class does not support streaming.
  *

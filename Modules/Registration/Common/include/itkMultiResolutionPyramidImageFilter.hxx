@@ -110,14 +110,9 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 ::SetStartingShrinkFactors(
   unsigned int factor)
 {
-  unsigned int array[ImageDimension];
-
-  for ( unsigned int dim = 0; dim < ImageDimension; ++dim )
-    {
-    array[dim] = factor;
-    }
-
-  this->SetStartingShrinkFactors(array);
+  const auto fixedArray =
+    FixedArray<unsigned int, ImageDimension>::Filled(factor);
+  this->SetStartingShrinkFactors(fixedArray.GetDataPointer());
 }
 
 /**
@@ -127,7 +122,7 @@ template< typename TInputImage, typename TOutputImage >
 void
 MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 ::SetStartingShrinkFactors(
-  unsigned int *factors)
+  const unsigned int *factors)
 {
   for ( unsigned int dim = 0; dim < ImageDimension; ++dim )
     {

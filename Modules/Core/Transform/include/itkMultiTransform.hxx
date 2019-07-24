@@ -96,9 +96,9 @@ MultiTransform<TParametersValueType, NDimensions, NSubDimensions>
     {
     const ParametersType & subParameters = (*it)->GetParameters();
     /* use vnl_vector data_block() to get data ptr */
-    std::copy(subParameters.data_block(),
-              subParameters.data_block()+subParameters.Size(),
-              &(this->m_Parameters.data_block() )[offset]);
+    std::copy_n(subParameters.data_block(),
+                subParameters.Size(),
+                &(this->m_Parameters.data_block() )[offset]);
     offset += subParameters.Size();
     ++it;
     }
@@ -171,9 +171,9 @@ MultiTransform<TParametersValueType, NDimensions, NSubDimensions>
     {
     const FixedParametersType & subFixedParameters = (*it)->GetFixedParameters();
     /* use vnl_vector data_block() to get data ptr */
-    std::copy(subFixedParameters.data_block(),
-              subFixedParameters.data_block()+subFixedParameters.Size(),
-              &(this->m_FixedParameters.data_block() )[offset]);
+    std::copy_n(subFixedParameters.data_block(),
+                subFixedParameters.Size(),
+                &(this->m_FixedParameters.data_block() )[offset]);
     offset += subFixedParameters.Size();
     ++it;
     }

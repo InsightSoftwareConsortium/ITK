@@ -162,7 +162,7 @@ public:
   m_OrderEigenValues(OrderByValue) {}
 
   SymmetricEigenAnalysis(const unsigned int dimension):
-  m_UseEigenLibrary(false),
+
   m_Dimension(dimension),
   m_Order(dimension),
   m_OrderEigenValues(OrderByValue) {}
