@@ -355,6 +355,7 @@ As implied above, the changes to SpatialObject are extensive.   They include the
 * PointBasedSpatialObjects had a PointListType type declaration.  This was confusing because it refered to a list of SpatialObjectPoints and not ITK::Points.  So, to avoid such confusion, now TubeSpatialObjects define TubePointListType, BlobSpatialObjects define BlobPointListType, and so forth.
 * `ImageMaskSpatialObject::GetAxisAlignedBoundingBoxRegion()` was removed. `ImageMaskSpatialObject::ComputeMyBoundingBoxInIndexSpace()` should be used instead.
 * `SpatialObjectReader::GetScene` was renamed to `GetGroup` along with changing the type from `ScenePointer` to `GroupPointer`.
+  * Elements of a `Group` are now `Children`, so `scene->GetObjects` now becomes `group->GetChildren`
 
 Class changes
 -------------
