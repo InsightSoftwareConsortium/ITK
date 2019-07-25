@@ -43,11 +43,13 @@ jobs:
       displayName: 'Download dashboard script and testing data'
 
     - bash: |
+        python_executable=`which python3`
         cat > dashboard.cmake << EOF
         set(CTEST_BUILD_CONFIGURATION "Release")
         set(CTEST_CMAKE_GENERATOR "Ninja")
         set(BUILD_NAME_SUFFIX "-Python")
         set(dashboard_cache "
+          PYTHON_EXECUTABLE:FILEPATH=${python_executable}
           DISABLE_MODULE_TESTS:BOOL=ON
           BUILD_SHARED_LIBS:BOOL=OFF
           BUILD_EXAMPLES:BOOL=OFF
