@@ -6,6 +6,9 @@ set(ITKOptimizersv4_SRCS
   itkLBFGS2Optimizerv4.cxx
   itkLBFGSBOptimizerv4.cxx
   itkAmoebaOptimizerv4.cxx
+  itkRegistrationParameterScalesEstimator.cxx
+  itkObjectToObjectMetricBase.cxx
+  itkMultiStartOptimizerv4.cxx
   )
 
 itk_module_add_library(ITKOptimizersv4 ${ITKOptimizersv4_SRCS})

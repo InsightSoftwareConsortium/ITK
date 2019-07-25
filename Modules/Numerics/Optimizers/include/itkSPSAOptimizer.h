@@ -59,14 +59,24 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(SPSAOptimizer, SingleValuedNonLinearOptimizer);
 
-  /** Codes of stopping conditions */
-  typedef enum {
-    Unknown,
-    MaximumNumberOfIterations,
-    BelowTolerance,
-    MetricError
-    } StopConditionType;
-
+  /** \class StopConditionType
+   *
+   * \ingroup ITKOptimizers
+   * Codes of stopping conditions */
+  enum class StopConditionType : uint8_t {
+      Unknown,
+      MaximumNumberOfIterations,
+      BelowTolerance,
+      MetricError
+  };
+#if !defined(ITK_LEGACY_REMOVE)
+        //We need to expose the enum values at the class level
+        // for backwards compatibility
+        static constexpr StopConditionType Unknown = StopConditionType::Unknown;
+        static constexpr StopConditionType MaximumNumberOfIterations = StopConditionType::MaximumNumberOfIterations;
+        static constexpr StopConditionType BelowTolerance = StopConditionType::BelowTolerance;
+        static constexpr StopConditionType MetricError = StopConditionType::MetricError;
+#endif
   /** Advance one step following the gradient direction. */
   virtual void AdvanceOneStep();
 
@@ -262,6 +272,10 @@ private:
   double m_Alpha;
   double m_Gamma;
 }; // end class SPSAOptimizer
+
+// Define how to print enumeration
+extern ITKOptimizers_EXPORT std::ostream& operator<<(std::ostream& out, const SPSAOptimizer::StopConditionType value);
+
 } // end namespace itk
 
 #endif // end #ifndef itkSPSAOptimizer_h

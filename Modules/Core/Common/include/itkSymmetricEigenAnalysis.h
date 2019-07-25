@@ -111,6 +111,17 @@ namespace detail
     }
 } // end namespace detail
 
+/** \class OrderType
+ * \ingroup ITKCommon
+ * Order of eigen values
+ */
+    enum class OrderType : uint8_t
+    {
+        OrderByValue = 1,
+        OrderByMagnitude,
+        DoNotOrder
+    };
+
 /** \class SymmetricEigenAnalysis
  * \brief Find Eigen values of a real 2D symmetric matrix. It
  * serves as a thread-safe alternative to the class:
@@ -150,13 +161,16 @@ template< typename TMatrix, typename TVector, typename TEigenMatrix = TMatrix >
 class ITK_TEMPLATE_EXPORT SymmetricEigenAnalysis
 {
 public:
-  typedef enum
-  {
-    OrderByValue = 1,
-    OrderByMagnitude,
-    DoNotOrder
-  }
-  EigenValueOrderType;
+
+  /** Enables reverse compatibility for enumeration values */
+  using EigenValueOrderType = OrderType;
+#if !defined(ITK_LEGACY_REMOVE)
+    //We need to expose the enum values at the class level
+    // for backwards compatibility
+    static constexpr EigenValueOrderType OrderByValue = EigenValueOrderType::OrderByValue;
+    static constexpr EigenValueOrderType OrderByMagnitude = EigenValueOrderType::OrderByMagnitude;
+    static constexpr EigenValueOrderType DoNotOrder = EigenValueOrderType::DoNotOrder;
+#endif
 
   SymmetricEigenAnalysis() :
   m_OrderEigenValues(OrderByValue) {}
@@ -683,13 +697,15 @@ template< unsigned int VDimension, typename TMatrix, typename TVector, typename 
 class ITK_TEMPLATE_EXPORT SymmetricEigenAnalysisFixedDimension
 {
 public:
-  typedef enum
-  {
-    OrderByValue = 1,
-    OrderByMagnitude,
-    DoNotOrder
-  }
-  EigenValueOrderType;
+  /** Enables reverse compatibility for enumeration values */
+  using EigenValueOrderType = OrderType;
+#if !defined(ITK_LEGACY_REMOVE)
+    //We need to expose the enum values at the class level
+    // for backwards compatibility
+    static constexpr EigenValueOrderType OrderByValue = EigenValueOrderType::OrderByValue;
+    static constexpr EigenValueOrderType OrderByMagnitude = EigenValueOrderType::OrderByMagnitude;
+    static constexpr EigenValueOrderType DoNotOrder = EigenValueOrderType::DoNotOrder;
+#endif
 
   SymmetricEigenAnalysisFixedDimension(): m_OrderEigenValues(OrderByValue) {}
   ~SymmetricEigenAnalysisFixedDimension() = default;

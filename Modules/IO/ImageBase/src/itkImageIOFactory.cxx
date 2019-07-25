@@ -69,4 +69,17 @@ ImageIOFactory::CreateImageIO(const char *path, FileModeType mode)
     }
   return nullptr;
 }
+
+/** Print enum values */
+std::ostream& operator<<(std::ostream& out, const ImageIOFactory::FileModeType value)
+{
+    const char* s =0;
+    switch(value)
+    {
+        case ImageIOFactory::FileModeType::ReadMode: s = "ImageIOFactory::FileModeType::ReadMode"; break;
+        case ImageIOFactory::FileModeType::WriteMode: s = "ImageIOFactory::FileModeType::WriteMode"; break;
+        default: s = "INVALID VALUE FOR ImageIOFactory::FileModeType";
+    }
+    return out << s;
+}
 } // end namespace itk

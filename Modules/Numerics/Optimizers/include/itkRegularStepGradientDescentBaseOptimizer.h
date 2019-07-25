@@ -49,16 +49,28 @@ public:
   itkTypeMacro(RegularStepGradientDescentBaseOptimizer,
                SingleValuedNonLinearOptimizer);
 
-  /** Codes of stopping conditions. */
-  typedef enum {
+  /** \class StopConditionType
+   *
+   * \ingroup ITKOptimizers
+   * Codes of stopping conditions. */
+  enum class StopConditionType : uint8_t {
     GradientMagnitudeTolerance = 1,
     StepTooSmall = 2,
     ImageNotAvailable = 3,
     CostFunctionError = 4,
     MaximumNumberOfIterations = 5,
     Unknown = 6
-    } StopConditionType;
-
+    };
+#if !defined(ITK_LEGACY_REMOVE)
+        //We need to expose the enum values at the class level
+        // for backwards compatibility
+        static constexpr StopConditionType GradientMagnitudeTolerance = StopConditionType::GradientMagnitudeTolerance;
+        static constexpr StopConditionType StepTooSmall = StopConditionType::StepTooSmall;
+        static constexpr StopConditionType ImageNotAvailable = StopConditionType::ImageNotAvailable;
+        static constexpr StopConditionType CostFunctionError = StopConditionType::CostFunctionError;
+        static constexpr StopConditionType MaximumNumberOfIterations = StopConditionType::MaximumNumberOfIterations;
+        static constexpr StopConditionType Unknown = StopConditionType::Unknown;
+#endif
   /** Specify whether to minimize or maximize the cost function. */
   itkSetMacro(Maximize, bool);
   itkGetConstReferenceMacro(Maximize, bool);
@@ -147,6 +159,10 @@ protected:
   SizeValueType      m_CurrentIteration;
   std::ostringstream m_StopConditionDescription;
 };
+
+// Define how to print enumeration
+extern ITKOptimizers_EXPORT std::ostream& operator<<(std::ostream& out, const RegularStepGradientDescentBaseOptimizer::StopConditionType value);
+
 } // end namespace itk
 
 #endif

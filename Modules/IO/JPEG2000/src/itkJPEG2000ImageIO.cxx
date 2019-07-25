@@ -39,19 +39,27 @@ class JPEG2000ImageIOInternal
 {
 public:
 
-  typedef enum {
+  typedef enum{
     J2K_CFMT = 0,
     JP2_CFMT = 1,
     JPT_CFMT = 2,
     MJ2_CFMT = 3
-    } DecodingFormatType;
+    }DecodingFormatType;
 
-  typedef enum {
+  enum class DFMFormatType : uint8_t {
     PXM_DFMT = 0,
     PGX_DFMT = 1,
     BMP_DFMT = 2,
     YUV_DFMT = 3
-    } DFMFormatType;
+    };
+#if !defined(ITK_LEGACY_REMOVE)
+        //We need to expose the enum values at the class level
+        // for backwards compatibility
+        static constexpr DFMFormatType PXM_DFMT = DFMFormatType::PXM_DFMT;
+        static constexpr DFMFormatType PGX_DFMT = DFMFormatType::PGX_DFMT;
+        static constexpr DFMFormatType BMP_DFMT = DFMFormatType::BMP_DFMT;
+        static constexpr DFMFormatType YUV_DFMT = DFMFormatType::YUV_DFMT;
+#endif
 
   opj_codec_t *m_Dinfo;
 
@@ -1240,5 +1248,21 @@ JPEG2000ImageIO
   return false;
 }
 
+std::ostream& operator<<(std::ostream& out, const JPEG2000ImageIOInternal::DFMFormatType value)
+{
+    const char* s =0;
+    switch(value)
+    {
+        case JPEG2000ImageIOInternal::DFMFormatType::PXM_DFMT: s = "JPEG2000ImageIOInternal::DFMFormatType::PXM_DFMT"; break;
+        case JPEG2000ImageIOInternal::DFMFormatType::PGX_DFMT: s = "JPEG2000ImageIOInternal::DFMFormatType::PGX_DFMT"; break;
+        case JPEG2000ImageIOInternal::DFMFormatType::BMP_DFMT: s = "JPEG2000ImageIOInternal::DFMFormatType::BMP_DFMT"; break;
+        case JPEG2000ImageIOInternal::DFMFormatType::YUV_DFMT: s = "JPEG2000ImageIOInternal::DFMFormatType::YUV_DFMT"; break;
+        default: s = "INVALID VALUE FOR JPEG2000ImageIOInternal::DFMFormatType";
+    }
+    return out << s;
+}
+
+// Define how to print enumeration
+std::ostream& operator<<(std::ostream& out, const JPEG2000ImageIOInternal::DFMFormatType value);
 
 } // end namespace itk

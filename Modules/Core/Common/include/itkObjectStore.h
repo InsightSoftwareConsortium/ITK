@@ -25,6 +25,12 @@
 
 namespace itk
 {
+
+/** \class GrowthStrategyType
+* \ingroup ITKCommon
+* Type of memory allocation strategy */
+enum class StrategyForGrowthType : uint8_t { LINEAR_GROWTH = 0, EXPONENTIAL_GROWTH = 1 };
+
 /** \class ObjectStore
  * \brief A specialized memory management object for allocating and destroying
  * contiguous blocks of objects.

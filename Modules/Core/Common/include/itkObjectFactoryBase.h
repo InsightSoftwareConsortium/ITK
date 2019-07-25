@@ -30,6 +30,7 @@
 
 #include "itkCreateObjectFunction.h"
 #include "itkSingletonMacro.h"
+#include "ITKCommonExport.h"
 #include <list>
 #include <vector>
 
@@ -98,15 +99,25 @@ public:
    */
   static void RegisterFactoryInternal(ObjectFactoryBase *);
 
-  /** Position at which the new factory will be registered in the
+  /** \class InsertionPositionType
+   *
+   *  \ingroup ITKCommon
+   *
+   *  Position at which the new factory will be registered in the
    *  internal factory container.
    */
-  typedef enum
-    {
-    INSERT_AT_FRONT,
-    INSERT_AT_BACK,
-    INSERT_AT_POSITION
-    }  InsertionPositionType;
+   enum class InsertionPositionType : uint8_t {
+        INSERT_AT_FRONT,
+        INSERT_AT_BACK,
+        INSERT_AT_POSITION
+   };
+#if !defined(ITK_LEGACY_REMOVE)
+        //We need to expose the enum values at the class level
+        // for backwards compatibility
+        static constexpr InsertionPositionType INSERT_AT_FRONT = InsertionPositionType::INSERT_AT_FRONT;
+        static constexpr InsertionPositionType INSERT_AT_BACK = InsertionPositionType::INSERT_AT_BACK;
+        static constexpr InsertionPositionType INSERT_AT_POSITION = InsertionPositionType::INSERT_AT_POSITION;
+#endif
 
   /** Register a factory so it can be used to create itk objects.
    *
@@ -259,6 +270,8 @@ private:
   static ObjectFactoryBasePrivate * m_PimplGlobals;
 };
 
+// Define how to print enumeration
+extern ITKCommon_EXPORT std::ostream& operator<<(std::ostream& out, const ObjectFactoryBase::InsertionPositionType value);
 
 } // end namespace itk
 

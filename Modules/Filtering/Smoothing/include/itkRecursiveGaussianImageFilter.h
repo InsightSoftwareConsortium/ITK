@@ -19,9 +19,17 @@
 #define itkRecursiveGaussianImageFilter_h
 
 #include "itkRecursiveSeparableImageFilter.h"
+#include "ITKSmoothingExport.h"
 
 namespace itk
 {
+/**\class EnumGaussianOrderType
+ * \ingroup ITKSmoothing
+ * Enum type that indicates if the filter applies the equivalent operation
+   of convolving with a gaussian, first derivative of a gaussian or the
+   second derivative of a gaussian.  */
+enum class EnumGaussianOrderType : uint8_t { ZeroOrder, FirstOrder, SecondOrder };
+
 /** \class RecursiveGaussianImageFilter
  * \brief Base class for computing IIR convolution with an approximation of a  Gaussian kernel.
  *
@@ -87,10 +95,15 @@ public:
   itkGetConstMacro(Sigma, ScalarRealType);
   itkSetMacro(Sigma, ScalarRealType);
 
-  /** Enum type that indicates if the filter applies the equivalent operation
-      of convolving with a gaussian, first derivative of a gaussian or the
-      second derivative of a gaussian.  */
-  typedef  enum { ZeroOrder, FirstOrder, SecondOrder } OrderEnumType;
+  /** Enables backwards compatibility for enum values */
+  using OrderEnumType = EnumGaussianOrderType;
+#if !defined(ITK_LEGACY_REMOVE)
+        //We need to expose the enum values at the class level
+        // for backwards compatibility
+        static constexpr OrderEnumType ZeroOrder = OrderEnumType::ZeroOrder;
+        static constexpr OrderEnumType FirstOrder = OrderEnumType::FirstOrder;
+        static constexpr OrderEnumType SecondOrder = OrderEnumType::SecondOrder;
+#endif
 
   /** Type of the output image */
   using OutputImageType = TOutputImage;
@@ -196,6 +209,10 @@ private:
 
   OrderEnumType m_Order;
 };
+
+/** Define how to print enumerations */
+extern ITKSmoothing_EXPORT std::ostream & operator<<( std::ostream & out, const EnumGaussianOrderType value );
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

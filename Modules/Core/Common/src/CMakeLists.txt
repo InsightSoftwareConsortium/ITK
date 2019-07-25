@@ -54,6 +54,7 @@ set(ITKCommon_SRCS
   itkMemoryProbesCollectorBase.cxx
   itkCreateObjectFunction.cxx
   itkLogger.cxx
+  itkLogggerThreadWrapper.cxx
   itkLogOutput.cxx
   itkLoggerOutput.cxx
   itkProgressAccumulator.cxx
@@ -137,6 +138,11 @@ set(ITKCommon_SRCS
   itkRandomVariateGeneratorBase.cxx
   itkMath.cxx
   itkProgressTransformer.cxx
+  itkExtractImageFilter.cxx
+  itkFrustumSpatialFunction.cxx
+  itkObjectStore.cxx
+  itkSymmetricEigenAnalysis.cxx
+  itkTreeIteratorBase.cxx
   )
 
 if(WIN32)

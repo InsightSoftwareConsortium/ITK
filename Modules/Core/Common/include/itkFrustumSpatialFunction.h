@@ -22,6 +22,15 @@
 
 namespace itk
 {
+/** \class RotationPlaneType
+ *  \ingroup ITKCommon
+ *  Enumerations for Frustum rotation type
+ */
+enum class RotationPlaneType : uint8_t {
+    RotateInXZPlane = 1,
+    RotateInYZPlane
+};
+
 /**
  * \class FrustumSpatialFunction
  * \brief Spatial function implementation of a truncated pyramid.
@@ -62,10 +71,13 @@ public:
   using OutputType = typename Superclass::OutputType;
 
   /** Rotate the frustum in the XZ or the YZ plane. */
-  typedef enum {
-    RotateInXZPlane = 1,
-    RotateInYZPlane
-    } FrustumRotationPlaneType;
+  using FrustumRotationPlaneType = RotationPlaneType;
+#if !defined(ITK_LEGACY_REMOVE)
+    // We need to expose the enum values at the class level
+    // for backwards compatibility
+    static constexpr FrustumRotationPlaneType RotateInXZPlane = FrustumRotationPlaneType::RotateInXZPlane;
+    static constexpr FrustumRotationPlaneType RotateInYZPlane = FrustumRotationPlaneType::RotateInYZPlane;
+#endif
 
   /** Evaluates the function at a given position. */
   OutputType Evaluate(const InputType & position) const override;
@@ -112,6 +124,9 @@ private:
   double                    m_BottomPlane{ 0.0f };
   FrustumRotationPlaneType  m_RotationPlane;
 };
+
+/** Define how to print enumerations */
+extern ITKCommon_EXPORT std::ostream& operator<<(std::ostream& out, const RotationPlaneType value);
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

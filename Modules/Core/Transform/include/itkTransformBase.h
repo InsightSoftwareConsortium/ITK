@@ -114,14 +114,24 @@ public:
   /** Generate a platform independent name */
   virtual std::string GetTransformTypeAsString() const = 0;
 
-  typedef enum {
-    UnknownTransformCategory=0,
-    Linear=1,
-    BSpline=2,
-    Spline=3,
-    DisplacementField=4,
-    VelocityField=5
-  } TransformCategoryType;
+  enum class TransformCategoryType : uint8_t {
+      UnknownTransformCategory=0,
+      Linear=1,
+      BSpline=2,
+      Spline=3,
+      DisplacementField=4,
+      VelocityField=5
+  };
+#if !defined(ITK_LEGACY_REMOVE)
+    //We need to expose the enum values at the class level
+    // for backwards compatibility
+    static constexpr TransformCategoryType UnknownTransformCategory = TransformCategoryType::UnknownTransformCategory;
+    static constexpr TransformCategoryType Linear = TransformCategoryType::Linear;
+    static constexpr TransformCategoryType BSpline = TransformCategoryType::BSpline;
+    static constexpr TransformCategoryType Spline = TransformCategoryType::Spline;
+    static constexpr TransformCategoryType DisplacementField = TransformCategoryType::DisplacementField;
+    static constexpr TransformCategoryType VelocityField = TransformCategoryType::VelocityField;
+#endif
 
   /** Get transform category */
   virtual TransformCategoryType GetTransformCategory() const = 0;
@@ -142,6 +152,11 @@ protected:
 /** This helps to meet backward compatibility */
 using TransformBase = TransformBaseTemplate< double >;
 
+// Define how to print enumeration
+extern ITKTransform_EXPORT std::ostream& operator<<(std::ostream& out,
+            const typename TransformBaseTemplate<double>::TransformCategoryType value);
+extern ITKTransform_EXPORT std::ostream& operator<<(std::ostream& out,
+            const typename TransformBaseTemplate<float>::TransformCategoryType value);
 } // end namespace itk
 
 #endif

@@ -64,6 +64,19 @@ TransformIOFactoryTemplate<TParametersValueType>
   return nullptr;
 }
 
+/** Print enum values */
+std::ostream& operator<<(std::ostream& out, const TransformIOFactoryFileModeType value)
+{
+    const char* s =0;
+    switch(value)
+    {
+        case TransformIOFactoryFileModeType::ReadMode: s = "TransformIOFactoryFileModeType::ReadMode"; break;
+        case TransformIOFactoryFileModeType::WriteMode: s = "TransformIOFactoryFileModeType::WriteMode"; break;
+        default: s = "INVALID VALUE FOR TransformIOFactoryFileModeType";
+    }
+    return out << s;
+}
+
 ITK_GCC_PRAGMA_DIAG_PUSH()
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 

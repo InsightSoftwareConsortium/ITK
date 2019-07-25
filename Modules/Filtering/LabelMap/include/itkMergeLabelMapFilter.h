@@ -19,9 +19,20 @@
 #define itkMergeLabelMapFilter_h
 
 #include "itkInPlaceLabelMapFilter.h"
+#include "ITKLabelMapExport.h"
 
 namespace itk
 {
+    /**\class ChoiceMethod
+     *  \ingroup ITKLabelMap
+     */
+    enum class ChoiceMethod : uint8_t {
+        KEEP = 0,
+        AGGREGATE = 1,
+        PACK = 2,
+        STRICT = 3
+    };
+
 /** \class MergeLabelMapFilter
  * \brief Merges several Label Maps
  *
@@ -98,12 +109,17 @@ public:
 #ifdef STRICT
 #undef STRICT
 #endif
-  typedef enum {
-    KEEP = 0,
-    AGGREGATE = 1,
-    PACK = 2,
-    STRICT = 3
-    } MethodChoice;
+
+  /** Enables backwards compatibility for enum values */
+  using MethodChoice = ChoiceMethod;
+#if !defined(ITK_LEGACY_REMOVE)
+        //We need to expose the enum values at the class level
+        // for backwards compatibility
+        static constexpr MethodChoice KEEP = MethodChoice::KEEP;
+        static constexpr MethodChoice AGGREGATE = MethodChoice::AGGREGATE;
+        static constexpr MethodChoice PACK = MethodChoice::PACK;
+        static constexpr MethodChoice STRICT = MethodChoice::STRICT;
+#endif
 
   /** Set/Get the method used to merge the label maps */
   itkSetMacro(Method, MethodChoice);
@@ -128,6 +144,10 @@ private:
 
   void MergeWithStrict();
 }; // end of class
+
+/** Define how to print enumerations */
+extern ITKLabelMap_EXPORT std::ostream& operator<<(std::ostream& out, const ChoiceMethod value);
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

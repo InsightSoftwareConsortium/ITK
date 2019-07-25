@@ -4,9 +4,10 @@ dilation, opening and closing filters, you will find here geodesic operations,
 maxima and minima filters, and reconstruction filters.")
 
 itk_module(ITKMathematicalMorphology
+  DEPENDS
+    ITKImageIntensity
   COMPILE_DEPENDS
     ITKImageFilterBase
-    ITKImageIntensity
     ITKImageGrid
     ITKThresholding
     ITKConnectedComponents

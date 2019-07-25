@@ -40,4 +40,16 @@ void VideoIOBase::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os,indent);
 }
 
+/** Print Enumerations */
+std::ostream& operator<<(std::ostream& out, const VideoIOBase::ReadType value)
+{
+    const char* s =0;
+    switch(value)
+    {
+        case VideoIOBase::ReadType::ReadFromFile: s = "VideoIOBase::ReadType::ReadFromFile"; break;
+        case VideoIOBase::ReadType::ReadFromCamera: s = "VideoIOBase::ReadType::ReadFromCamera"; break;
+        default: s = "INVALID VALUE FOR VideoIOBase::ReadType";
+    }
+    return out << s;
+}
 } //namespace itk end

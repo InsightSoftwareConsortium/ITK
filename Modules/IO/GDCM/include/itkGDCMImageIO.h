@@ -259,8 +259,20 @@ public:
   static bool GetLoadPrivateTagsDefault() { return true; }
 #endif
 
-  /** Set/Get a compression type to use. */
-  typedef enum { JPEG = 0, JPEG2000, JPEGLS, RLE } TCompressionType;
+  /** \class TCompressionType
+   *
+   * \ingroup ITKIOGDCM
+   * Set/Get a compression type to use. */
+  enum class TCompressionType : uint8_t{ JPEG = 0, JPEG2000, JPEGLS, RLE };
+#if !defined(ITK_LEGACY_REMOVE)
+        //We need to expose the enum values at the class level
+        // for backwards compatibility
+        static constexpr TCompressionType JPEG = TCompressionType::JPEG;
+        static constexpr TCompressionType JPEG2000 = TCompressionType::JPEG2000;
+        static constexpr TCompressionType JPEGLS = TCompressionType::JPEGLS;
+        static constexpr TCompressionType RLE = TCompressionType::RLE;
+#endif
+
   itkSetEnumMacro(CompressionType, TCompressionType);
   itkGetEnumMacro(CompressionType, TCompressionType);
 
@@ -313,6 +325,10 @@ private:
   ImageIOBase::IOComponentType m_InternalComponentType;
   InternalHeader *             m_DICOMHeader;
 };
+
+// Define how to print enumeration
+extern ITKIOGDCM_EXPORT std::ostream& operator<<(std::ostream& out, const GDCMImageIO::TCompressionType value);
+
 } // end namespace itk
 
 #endif // itkGDCMImageIO_h

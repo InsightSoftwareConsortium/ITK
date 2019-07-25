@@ -181,13 +181,13 @@ protected:
    *   that enables the greatest number of planes in the volume to be
    *   intercepted.
    */
-  typedef enum {
-    UNDEFINED_DIRECTION = 0,      //!< Undefined
-    TRANSVERSE_IN_X,              //!< x
-    TRANSVERSE_IN_Y,              //!< y
-    TRANSVERSE_IN_Z,              //!< z
-    LAST_DIRECTION
-    } TraversalDirection;
+  enum TraversalDirection : uint8_t {
+      UNDEFINED_DIRECTION = 0,      //!< Undefined
+      TRANSVERSE_IN_X,              //!< x
+      TRANSVERSE_IN_Y,              //!< y
+      TRANSVERSE_IN_Z,              //!< z
+      LAST_DIRECTION
+  };
 
   // Cache the image in the structure. Skip the smart pointer for
   // efficiency. This inner class will go in/out of scope with every

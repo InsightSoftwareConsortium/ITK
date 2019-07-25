@@ -21,6 +21,7 @@
 
 #include "itkObject.h"
 #include "itkImageIOBase.h"
+#include "ITKIOImageBaseExport.h"
 
 namespace itk
 {
@@ -47,9 +48,17 @@ public:
   /** Convenient type alias. */
   using ImageIOBasePointer = ::itk::ImageIOBase::Pointer;
 
-  /** Mode in which the files is intended to be used */
-  typedef enum { ReadMode, WriteMode } FileModeType;
-
+  /** \class FileModeType
+   *
+   * \ingroup ITKIOImageBase
+   * Mode in which the files is intended to be used */
+  enum class FileModeType : uint8_t { ReadMode, WriteMode };
+#if !defined(ITK_LEGACY_REMOVE)
+        //We need to expose the enum values at the class level
+        // for backwards compatibility
+        static constexpr FileModeType ReadMode = FileModeType::ReadMode;
+        static constexpr FileModeType WriteMode = FileModeType::WriteMode;
+#endif
   /** Create the appropriate ImageIO depending on the particulars of the file.
     */
   static ImageIOBasePointer CreateImageIO(const char *path, FileModeType mode);
@@ -58,6 +67,10 @@ protected:
   ImageIOFactory();
   ~ImageIOFactory() override;
 };
+
+// Define how to print enumeration
+extern ITKIOImageBase_EXPORT std::ostream& operator<<(std::ostream& out, const ImageIOFactory::FileModeType value);
+
 } // end namespace itk
 
 #endif

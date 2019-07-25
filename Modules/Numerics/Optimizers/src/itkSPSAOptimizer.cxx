@@ -518,4 +518,20 @@ SPSAOptimizer::GetStopConditionDescription() const
     }
   return reason.str();
 }
+
+/** Print enum values */
+std::ostream& operator<<(std::ostream& out, const SPSAOptimizer::StopConditionType value)
+{
+    const char* s =0;
+    switch(value)
+    {
+        case SPSAOptimizer::StopConditionType::Unknown: s = "SPSAOptimizer::StopConditionType::Unknown"; break;
+        case SPSAOptimizer::StopConditionType::MaximumNumberOfIterations: s = "SPSAOptimizer::StopConditionType::MaximumNumberOfIterations"; break;
+        case SPSAOptimizer::StopConditionType::BelowTolerance: s = "SPSAOptimizer::StopConditionType::BelowTolerance"; break;
+        case SPSAOptimizer::StopConditionType::MetricError: s = "SPSAOptimizer::StopConditionType::MetricError"; break;
+        default: s = "INVALID VALUE FOR SPSAOptimizer::StopConditionType";
+    }
+    return out << s;
+}
+
 } // end namespace itk
