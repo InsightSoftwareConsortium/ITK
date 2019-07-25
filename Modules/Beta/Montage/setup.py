@@ -13,7 +13,7 @@ except ImportError:
 
 setup(
     name='itk-montage',
-    version='0.3.0',
+    version='0.4.0',
     author='Insight Software Consortium',
     author_email='itk+community@discourse.itk.org',
     packages=['itk'],
@@ -48,6 +48,6 @@ setup(
     keywords='ITK InsightToolkit Montage Image-stitching Image-montage',
     url=r'https://github.com/InsightSoftwareConsortium/ITKMontage',
     install_requires=[
-        r'itk>=5.0.0'
+        r'itk>=5.0.1'
     ]
     )
