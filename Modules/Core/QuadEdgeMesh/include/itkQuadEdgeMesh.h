@@ -203,7 +203,7 @@ public:
   void SqueezePointsIds();
 
   /** overloaded method for backward compatibility */
-  void BuildCellLinks() {}
+  void BuildCellLinks() const {}
 
 #if !defined( ITK_WRAPPING_PARSER )
   /** overloaded method for backward compatibility */
