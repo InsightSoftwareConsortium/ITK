@@ -92,7 +92,7 @@ MetaTubeConverter< NDimensions >
 
     pnt.SetId( ( *it2 )->m_ID );
 
-    tubeSO->GetPoints().push_back(pnt);
+    tubeSO->AddPoint(pnt);
 
     it2++;
     }

@@ -77,7 +77,7 @@ MetaLandmarkConverter< NDimensions >
     pnt.SetBlue( ( *it2 )->m_Color[2] );
     pnt.SetAlpha( ( *it2 )->m_Color[3] );
 
-    landmarkSO->GetPoints().push_back(pnt);
+    landmarkSO->AddPoint(pnt);
     it2++;
     }
 

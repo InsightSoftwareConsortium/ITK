@@ -126,7 +126,7 @@ MetaContourConverter< NDimensions >
     pnt.SetAlpha( ( *itI )->m_Color[3] );
 
     pnt.SetPositionInObjectSpace(point);
-    contourSO->GetPoints().push_back(pnt);
+    contourSO->AddPoint(pnt);
     itI++;
     }
 

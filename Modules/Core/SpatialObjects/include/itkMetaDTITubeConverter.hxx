@@ -186,7 +186,7 @@ MetaDTITubeConverter< NDimensions >
       pnt.SetId( (int)( ( *it2 )->GetField("id") ) );
       }
 
-    tubeSO->GetPoints().push_back(pnt);
+    tubeSO->AddPoint(pnt);
 
     it2++;
     }

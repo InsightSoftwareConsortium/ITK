@@ -46,10 +46,7 @@ SpatialObjectPoint< TPointDimension >
 {
   if( m_SpatialObject == nullptr )
     {
-    ExceptionObject e(__FILE__);
-    e.SetLocation( "SpatialObjectPoint:SetPosition" );
-    e.SetDescription( "The SpatialObject must be set prior to calling." );
-    throw e;
+    itkExceptionMacro( << "The SpatialObject must be set prior to calling." );
     }
 
   m_PositionInObjectSpace = m_SpatialObject->GetObjectToWorldTransform()->
@@ -63,10 +60,7 @@ SpatialObjectPoint< TPointDimension >
 {
   if( m_SpatialObject == nullptr )
     {
-    ExceptionObject e(__FILE__);
-    e.SetLocation( "SpatialObjectPoint:GetPosition" );
-    e.SetDescription( "The SpatialObject must be set prior to calling." );
-    throw e;
+    itkExceptionMacro( << "The SpatialObject must be set prior to calling." );
     }
 
   return m_SpatialObject->GetObjectToWorldTransform()->TransformPoint(
