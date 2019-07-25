@@ -20,10 +20,30 @@
 
 #include "itkTransformBase.h"
 #include "itkSingleValuedCostFunctionv4.h"
-
+#include "ITKOptimizersv4Export.h"
 
 namespace itk
 {
+/** \class SourceTypeOfGradient
+ * \ingroup ITKOptimizersv4
+ * Source of the gradient(s) used by the metric
+ * (e.g. image gradients, in the case of
+ * image to image metrics). Defaults to Moving. */
+ enum class SourceTypeOfGradient : uint8_t { GRADIENT_SOURCE_FIXED=0,
+        GRADIENT_SOURCE_MOVING,
+        GRADIENT_SOURCE_BOTH };
+
+/** \class CategoryTypeForMetric
+ * \ingroup ITKOptimizersv4
+ */
+ enum class CategoryTypeForMetric : uint8_t {
+        UNKNOWN_METRIC = 0,
+        OBJECT_METRIC = 1,
+        IMAGE_METRIC = 2,
+        POINT_SET_METRIC = 3,
+        MULTI_METRIC = 4
+ };
+
   /** \class ObjectToObjectMetricBaseTemplate
    * \brief Base class for all object-to-object similarlity metrics added in ITKv4.
    *
@@ -88,12 +108,15 @@ public:
   itkSetConstObjectMacro( MovingObject, ObjectType );
   itkGetConstObjectMacro( MovingObject, ObjectType );
 
-  /** Source of the gradient(s) used by the metric
-   * (e.g. image gradients, in the case of
-   * image to image metrics). Defaults to Moving. */
-  typedef enum  { GRADIENT_SOURCE_FIXED=0,
-                  GRADIENT_SOURCE_MOVING,
-                  GRADIENT_SOURCE_BOTH } GradientSourceType;
+    /** Enables backwards compatibility for enum values */
+    using GradientSourceType = SourceTypeOfGradient;
+#if !defined(ITK_LEGACY_REMOVE)
+      //We need to expose the enum values at the class level
+      // for backwards compatibility
+      static constexpr GradientSourceType GRADIENT_SOURCE_FIXED = GradientSourceType::GRADIENT_SOURCE_FIXED;
+      static constexpr GradientSourceType GRADIENT_SOURCE_MOVING = GradientSourceType::GRADIENT_SOURCE_MOVING;
+      static constexpr GradientSourceType GRADIENT_SOURCE_BOTH = GradientSourceType::GRADIENT_SOURCE_BOTH;
+#endif
 
   /**
    * Set source of gradient.  This variable allows the user to switch
@@ -205,6 +228,10 @@ protected:
 
 /** This helps to meet backward compatibility */
 using ObjectToObjectMetricBase = ObjectToObjectMetricBaseTemplate<double>;
+
+/** Define how to print enumerations */
+extern ITKOptimizersv4_EXPORT std::ostream& operator<<(std::ostream& out, const SourceTypeOfGradient value);
+extern ITKOptimizersv4_EXPORT std::ostream& operator<<(std::ostream& out, const CategoryTypeForMetric value);
 
 } // end namespace itk
 

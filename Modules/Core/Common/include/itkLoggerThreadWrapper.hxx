@@ -31,7 +31,7 @@ template< typename SimpleLoggerType >
 void LoggerThreadWrapper< SimpleLoggerType >::SetPriorityLevel(PriorityLevelType level)
 {
   this->m_Mutex.lock();
-  this->m_OperationQ.push(SET_PRIORITY_LEVEL);
+  this->m_OperationQ.push(LoggerThreadWrapperOperationType::SET_PRIORITY_LEVEL);
   this->m_LevelQ.push(level);
   this->m_Mutex.unlock();
 }
@@ -53,7 +53,7 @@ void LoggerThreadWrapper< SimpleLoggerType >::SetLevelForFlushing(PriorityLevelT
 {
   this->m_Mutex.lock();
   this->m_LevelForFlushing = level;
-  this->m_OperationQ.push(SET_LEVEL_FOR_FLUSHING);
+  this->m_OperationQ.push(LoggerThreadWrapperOperationType::SET_LEVEL_FOR_FLUSHING);
   this->m_LevelQ.push(level);
   this->m_Mutex.unlock();
 }
@@ -89,7 +89,7 @@ template< typename SimpleLoggerType >
 void LoggerThreadWrapper< SimpleLoggerType >::AddLogOutput(OutputType *output)
 {
   this->m_Mutex.lock();
-  this->m_OperationQ.push(ADD_LOG_OUTPUT);
+  this->m_OperationQ.push(LoggerThreadWrapperOperationType::ADD_LOG_OUTPUT);
   this->m_OutputQ.push(output);
   this->m_Mutex.unlock();
 }
@@ -100,7 +100,7 @@ void LoggerThreadWrapper< SimpleLoggerType >::Write(PriorityLevelType level, std
   this->m_Mutex.lock();
   if ( this->m_PriorityLevel >= level )
     {
-    this->m_OperationQ.push(WRITE);
+    this->m_OperationQ.push(LoggerThreadWrapperOperationType::WRITE);
     this->m_MessageQ.push(content);
     this->m_LevelQ.push(level);
     }
@@ -120,21 +120,19 @@ void LoggerThreadWrapper< SimpleLoggerType >::Flush()
     {
     switch ( this->m_OperationQ.front() )
       {
-      case Self::SET_PRIORITY_LEVEL:
+      case LoggerThreadWrapperOperationType::SET_PRIORITY_LEVEL:
         this->m_PriorityLevel = this->m_LevelQ.front();
         this->m_LevelQ.pop();
         break;
-      case Self::SET_LEVEL_FOR_FLUSHING:
+      case LoggerThreadWrapperOperationType::SET_LEVEL_FOR_FLUSHING:
         this->m_LevelForFlushing = this->m_LevelQ.front();
         this->m_LevelQ.pop();
         break;
-
-      case Self::ADD_LOG_OUTPUT:
+      case LoggerThreadWrapperOperationType::ADD_LOG_OUTPUT:
         this->m_Output->AddLogOutput( this->m_OutputQ.front() );
         this->m_OutputQ.pop();
         break;
-
-      case Self::WRITE:
+      case LoggerThreadWrapperOperationType::WRITE:
         this->SimpleLoggerType::Write( this->m_LevelQ.front(), this->m_MessageQ.front() );
         this->m_LevelQ.pop();
         this->m_MessageQ.pop();
@@ -180,22 +178,22 @@ LoggerThreadWrapper< SimpleLoggerType >
       {
       switch ( m_OperationQ.front() )
         {
-        case Self::SET_PRIORITY_LEVEL:
+        case LoggerThreadWrapperOperationType::SET_PRIORITY_LEVEL:
           this->m_PriorityLevel = m_LevelQ.front();
           m_LevelQ.pop();
           break;
 
-        case Self::SET_LEVEL_FOR_FLUSHING:
+        case LoggerThreadWrapperOperationType::SET_LEVEL_FOR_FLUSHING:
           this->m_LevelForFlushing = m_LevelQ.front();
           m_LevelQ.pop();
           break;
 
-        case Self::ADD_LOG_OUTPUT:
+        case LoggerThreadWrapperOperationType::ADD_LOG_OUTPUT:
           this->m_Output->AddLogOutput( m_OutputQ.front() );
           m_OutputQ.pop();
           break;
 
-        case Self::WRITE:
+        case LoggerThreadWrapperOperationType::WRITE:
           SimpleLoggerType::Write( m_LevelQ.front(), m_MessageQ.front() );
           m_LevelQ.pop();
           m_MessageQ.pop();

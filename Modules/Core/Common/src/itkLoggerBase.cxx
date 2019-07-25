@@ -81,7 +81,7 @@ LoggerBase
       break;
       }
     }
-  s << "  :  " << this->GetName() <<  "  " <<  m_LevelString[level] << content;
+  s << "  :  " << this->GetName() <<  "  " <<  m_LevelString[static_cast<int>(level)] << content;
 
   return s.str();
 }
@@ -96,5 +96,23 @@ void LoggerBase::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "LevelForFlushing: " << this->GetLevelForFlushing() << std::endl;
   os << indent << "TimeStampFormat: " << this->GetTimeStampFormat() << std::endl;
   os << indent << "HumanReadableFormat: " << this->GetHumanReadableFormat() << std::endl;
+}
+
+/** Print enumerations */
+std::ostream& operator<<(std::ostream& out, const LoggerBase::PriorityLevelType value)
+{
+    const char* s = 0;
+    switch(value)
+    {
+        case LoggerBase::PriorityLevelType::MUSTFLUSH: s = "LoggerBase::PriorityLevelType::MUSTFLUSH"; break;
+        case LoggerBase::PriorityLevelType::FATAL: s = "LoggerBase::PriorityLevelType::FATAL"; break;
+        case LoggerBase::PriorityLevelType::CRITICAL: s = "LoggerBase::PriorityLevelType::CRITICAL"; break;
+        case LoggerBase::PriorityLevelType::WARNING: s = "LoggerBase::PriorityLevelType::WARNING"; break;
+        case LoggerBase::PriorityLevelType::INFO: s = "LoggerBase::PriorityLevelType::INFO"; break;
+        case LoggerBase::PriorityLevelType::DEBUG: s = "LoggerBase::PriorityLevelType::DEBUG"; break;
+        case LoggerBase::PriorityLevelType::NOTSET: s = "LoggerBase::PriorityLevelType::NOTSET"; break;
+        default: s = "INVALID VALUE FOR LoggerBase::PriorityLevelType";
+    }
+    return out << s;
 }
 } //namespace

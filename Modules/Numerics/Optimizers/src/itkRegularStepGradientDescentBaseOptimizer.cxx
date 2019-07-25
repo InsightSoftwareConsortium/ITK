@@ -307,6 +307,29 @@ RegularStepGradientDescentBaseOptimizer
   os << indent << "Gradient: "
      << m_Gradient << std::endl;
 }
+
+/**Print enum values */
+std::ostream& operator<<(std::ostream& out, const RegularStepGradientDescentBaseOptimizer::StopConditionType value)
+{
+    const char* s =0;
+    switch(value)
+    {
+        case RegularStepGradientDescentBaseOptimizer::StopConditionType::GradientMagnitudeTolerance: s =
+                "RegularStepGradientDescentBaseOptimizer::StopConditionType::GradientMagnitudeTolerance"; break;
+        case RegularStepGradientDescentBaseOptimizer::StopConditionType::StepTooSmall: s =
+                "RegularStepGradientDescentBaseOptimizer::StopConditionType::StepTooSmall"; break;
+        case RegularStepGradientDescentBaseOptimizer::StopConditionType::ImageNotAvailable: s =
+                "RegularStepGradientDescentBaseOptimizer::StopConditionType::ImageNotAvailable"; break;
+        case RegularStepGradientDescentBaseOptimizer::StopConditionType::CostFunctionError: s =
+                "RegularStepGradientDescentBaseOptimizer::StopConditionType::CostFunctionError"; break;
+        case RegularStepGradientDescentBaseOptimizer::StopConditionType::MaximumNumberOfIterations: s =
+                "RegularStepGradientDescentBaseOptimizer::StopConditionType::MaximumNumberOfIterations"; break;
+        case RegularStepGradientDescentBaseOptimizer::StopConditionType::Unknown: s =
+                "RegularStepGradientDescentBaseOptimizer::StopConditionType::Unknown"; break;
+        default: s = "INVALID VALUE FOR ";
+    }
+    return out << s;
+}
 } // end namespace itk
 
 #endif

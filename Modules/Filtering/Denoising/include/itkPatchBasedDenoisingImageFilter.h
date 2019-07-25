@@ -32,6 +32,7 @@
 #include <type_traits>
 
 #include <vector>
+#include "ITKDenoisingExport.h"
 
 namespace itk
 {
@@ -529,6 +530,10 @@ private:
   BaseSamplerPointer                m_Sampler;
   typename ListAdaptorType::Pointer m_SearchSpaceList;
 };
+/** Define how to print enumerations */
+extern ITKDenoising_EXPORT std::ostream& operator<<(std::ostream& out, const NoiseType value);
+extern ITKDenoising_EXPORT std::ostream& operator<<(std::ostream& out, const SpaceType value);
+extern ITKDenoising_EXPORT std::ostream& operator<<(std::ostream& out, const StateTypeOfFilter value);
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

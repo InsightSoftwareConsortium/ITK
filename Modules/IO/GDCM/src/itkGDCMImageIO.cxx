@@ -1496,4 +1496,19 @@ void GDCMImageIO::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Scan Options:" << m_ScanOptions << std::endl;
 #endif
 }
+
+/** Print enum values */
+std::ostream& operator<<(std::ostream& out, const GDCMImageIO::TCompressionType value)
+{
+    const char* s = 0;
+    switch(value)
+    {
+        case GDCMImageIO::TCompressionType::JPEG: s = "GDCMImageIO::TCompressionType::JPEG"; break;
+        case GDCMImageIO::TCompressionType::JPEG2000: s = "GDCMImageIO::TCompressionType::JPEG2000"; break;
+        case GDCMImageIO::TCompressionType::JPEGLS: s = "GDCMImageIO::TCompressionType::JPEGLS"; break;
+        case GDCMImageIO::TCompressionType::RLE: s = "GDCMImageIO::TCompressionType::RLE"; break;
+        default: s = "INVALID VALUE FOR GDCMImageIO::TCompressionType";
+    }
+    return out << s;
+}
 } // end namespace itk

@@ -267,11 +267,11 @@ public:
 
   /** Enums used to specify write style: whether binary or ASCII. Some
    * subclasses use this, some ignore it. */
-  typedef  enum { ASCII, Binary, TypeNotApplicable } FileType;
+  enum FileType : uint8_t { ASCII, Binary, TypeNotApplicable };
 
   /** Enums used to specify byte order; whether Big Endian or Little Endian.
    * Some subclasses use this, some ignore it. */
-  typedef  enum { BigEndian, LittleEndian, OrderNotApplicable } ByteOrder;
+  enum ByteOrder : uint8_t { BigEndian, LittleEndian, OrderNotApplicable };
 
   /** These methods control whether the file is written binary or ASCII.
    * Many file formats (i.e., subclasses) ignore this flag. */

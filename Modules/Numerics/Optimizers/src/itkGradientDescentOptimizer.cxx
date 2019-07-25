@@ -206,6 +206,19 @@ GradientDescentOptimizer
 
   this->InvokeEvent( IterationEvent() );
 }
+
+/** Print enum values */
+std::ostream& operator<<(std::ostream& out, const GradientDescentOptimizer::StopConditionType value)
+{
+    const char* s =0;
+    switch(value)
+    {
+        case GradientDescentOptimizer::StopConditionType::MaximumNumberOfIterations: s = "GradientDescentOptimizer::StopConditionType::MaximumNumberOfIterations"; break;
+        case GradientDescentOptimizer::StopConditionType::MetricError: s = "GradientDescentOptimizer::StopConditionType::MetricError"; break;
+        default: s = "INVALID VALUE FOR GradientDescentOptimizer::StopConditionType";
+    }
+    return out << s;
+}
 } // end namespace itk
 
 #endif

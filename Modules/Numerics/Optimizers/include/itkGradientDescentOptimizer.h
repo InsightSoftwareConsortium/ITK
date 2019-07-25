@@ -67,11 +67,20 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(GradientDescentOptimizer, SingleValuedNonLinearOptimizer);
 
-  /** Codes of stopping conditions */
-  typedef enum {
+  /** \class StopConditionType
+   *
+   * \ingroup ITKOptimizers
+   * Codes of stopping conditions */
+  enum class StopConditionType : uint8_t {
     MaximumNumberOfIterations,
     MetricError
-    } StopConditionType;
+    };
+#if !defined(ITK_LEGACY_REMOVE)
+        //We need to expose the enum values at the class level
+        // for backwards compatibility
+        static constexpr StopConditionType MaximumNumberOfIterations = StopConditionType::MaximumNumberOfIterations;
+        static constexpr StopConditionType MetricError = StopConditionType::MetricError;
+#endif
 
   /** Methods to configure the cost function. */
   itkGetConstReferenceMacro(Maximize, bool);
@@ -145,6 +154,10 @@ private:
   SizeValueType      m_CurrentIteration{0};
   std::ostringstream m_StopConditionDescription;
 };
+
+// Define how to print enumeration
+extern ITKOptimizers_EXPORT std::ostream& operator<<(std::ostream& out, const GradientDescentOptimizer::StopConditionType value);
+
 } // end namespace itk
 
 #endif

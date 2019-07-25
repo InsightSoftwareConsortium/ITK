@@ -3,6 +3,7 @@ neede for finite difference image filters.  Most of the classes in this module
 are abstract and therefore are not intended to be instantiated by themselves.")
 
 itk_module(ITKGPUFiniteDifference
+  ENABLE_SHARED
   DEPENDS
     ITKCommon
     ITKGPUCommon

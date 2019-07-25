@@ -23,6 +23,18 @@
 
 namespace itk
 {
+/** \class StopType
+ *  \ingroup ITKOptimizersv4
+ * Codes of stopping conditions. */
+enum class StopType : uint8_t {
+    MAXIMUM_NUMBER_OF_ITERATIONS,
+    COSTFUNCTION_ERROR,
+    UPDATE_PARAMETERS_ERROR,
+    STEP_TOO_SMALL,
+    CONVERGENCE_CHECKER_PASSED,
+    OTHER_ERROR
+};
+
   /** \class MultiStartOptimizerv4Template
    *  \brief Multi-start searches over input parameters and returns the best metric value
    *
@@ -64,15 +76,18 @@ public:
   using LocalOptimizerType = typename itk::GradientDescentOptimizerv4Template<TInternalComputationValueType>;
   using LocalOptimizerPointer = typename LocalOptimizerType::Pointer;
 
-  /** Codes of stopping conditions. */
-  typedef enum {
-    MAXIMUM_NUMBER_OF_ITERATIONS,
-    COSTFUNCTION_ERROR,
-    UPDATE_PARAMETERS_ERROR,
-    STEP_TOO_SMALL,
-    CONVERGENCE_CHECKER_PASSED,
-    OTHER_ERROR
-  } StopConditionType;
+  /** Enables backwards compatibility for enum values */
+  using StopConditionType = StopType;
+#if !defined(ITK_LEGACY_REMOVE)
+      //We need to expose the enum values at the class level
+      // for backwards compatibility
+      static constexpr StopConditionType MAXIMUM_NUMBER_OF_ITERATIONS = StopConditionType::MAXIMUM_NUMBER_OF_ITERATIONS;
+      static constexpr StopConditionType COSTFUNCTION_ERROR = StopConditionType::COSTFUNCTION_ERROR;
+      static constexpr StopConditionType UPDATE_PARAMETERS_ERROR = StopConditionType::UPDATE_PARAMETERS_ERROR;
+      static constexpr StopConditionType STEP_TOO_SMALL = StopConditionType::STEP_TOO_SMALL;
+      static constexpr StopConditionType CONVERGENCE_CHECKER_PASSED = StopConditionType::CONVERGENCE_CHECKER_PASSED;
+      static constexpr StopConditionType OTHER_ERROR = StopConditionType::OTHER_ERROR;
+#endif
 
   /** Stop condition return string type */
   using StopConditionReturnStringType = typename Superclass::StopConditionReturnStringType;
@@ -154,6 +169,9 @@ protected:
 
 /** This helps to meet backward compatibility */
 using MultiStartOptimizerv4 = MultiStartOptimizerv4Template<double>;
+
+/** Define how to print enumerations */
+extern ITKOptimizersv4_EXPORT std::ostream& operator<<(std::ostream& out, const StopType value);
 
 } // end namespace itk
 

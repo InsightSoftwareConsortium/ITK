@@ -27,9 +27,18 @@
 #include "itkOptimizerParameterScalesEstimator.h"
 #include "itkImageRandomConstIteratorWithIndex.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
+#include "ITKOptimizersv4Export.h"
 
 namespace itk
 {
+/** \class StrategyTypeForSampling
+   * \ingroup ITKOptimizersv4
+   * The strategies to sample physical points in the virtual domain. */
+    enum class StrategyTypeForSampling : uint8_t { FullDomainSampling = 0,
+        CornerSampling,
+        RandomSampling,
+        CentralRegionSampling,
+        VirtualDomainPointSetSampling };
 
 /** \class RegistrationParameterScalesEstimator
  *  \brief Implements a registration helper class for estimating scales of
@@ -101,12 +110,17 @@ public:
   using VirtualPointSetType = typename TMetric::VirtualPointSetType;
   using VirtualPointSetPointer = typename TMetric::VirtualPointSetPointer;
 
-  /** The strategies to sample physical points in the virtual domain. */
-  typedef enum { FullDomainSampling = 0,
-                 CornerSampling,
-                 RandomSampling,
-                 CentralRegionSampling,
-                 VirtualDomainPointSetSampling }    SamplingStrategyType;
+  /** Enables backwards compatibility for enum values */
+  using SamplingStrategyType = StrategyTypeForSampling;
+#if !defined(ITK_LEGACY_REMOVE)
+        //We need to expose the enum values at the class level
+        // for backwards compatibility
+        static constexpr SamplingStrategyType FullDomainSampling = SamplingStrategyType::FullDomainSampling;
+        static constexpr SamplingStrategyType CornerSampling = SamplingStrategyType::CornerSampling;
+        static constexpr SamplingStrategyType RandomSampling = SamplingStrategyType::RandomSampling;
+        static constexpr SamplingStrategyType CentralRegionSampling = SamplingStrategyType::CentralRegionSampling;
+        static constexpr SamplingStrategyType VirtualDomainPointSetSampling = SamplingStrategyType::VirtualDomainPointSetSampling;
+#endif
 
   using SamplePointContainerType = std::vector<VirtualPointType>;
 
@@ -274,6 +288,8 @@ private:
 
 }; //class RegistrationParameterScalesEstimator
 
+/** Define how to print enumerations */
+extern ITKOptimizersv4_EXPORT std::ostream& operator<<(std::ostream& out, const StrategyTypeForSampling value);
 
 }  // namespace itk
 

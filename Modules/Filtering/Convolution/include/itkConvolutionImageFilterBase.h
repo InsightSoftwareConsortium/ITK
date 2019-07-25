@@ -20,10 +20,20 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
+#include "ITKConvolutionExport.h"
 
 namespace itk
 {
-/** \class ConvolutionImageFilterBase
+/** \class ConvolutionImageFilterOutputRegionType
+ * \ingroup ITKConvolution
+ * Output region mode type enumeration
+ */
+enum class ConvolutionImageFilterOutputRegionType : uint8_t{
+        SAME = 0,
+        VALID
+};
+
+    /** \class ConvolutionImageFilterBase
  * \brief Abstract base class for the convolution image filters.
  *
  * \ingroup ITKConvolution
@@ -85,11 +95,14 @@ public:
   itkGetConstMacro(Normalize, bool);
   itkBooleanMacro(Normalize);
 
-  typedef enum
-  {
-    SAME = 0,
-    VALID
-  } OutputRegionModeType;
+  /** Reverse compatibility for enumerations */
+  using OutputRegionModeType = ConvolutionImageFilterOutputRegionType;
+#if !defined(ITK_LEGACY_REMOVE)
+    //We need to expose the enum values at the class level
+    // for backwards compatibility
+    static constexpr OutputRegionModeType SAME = OutputRegionModeType::SAME;
+    static constexpr OutputRegionModeType VALID = OutputRegionModeType::VALID;
+#endif
 
   /** Sets the output region mode. If set to SAME, the output region
    * will be the same as the input region, and regions of the image
@@ -130,6 +143,9 @@ private:
 
   OutputRegionModeType m_OutputRegionMode;
 };
+
+/** Define how to print enumerations */
+extern ITKConvolution_EXPORT std::ostream& operator<<(std::ostream& out, const ConvolutionImageFilterOutputRegionType value);
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

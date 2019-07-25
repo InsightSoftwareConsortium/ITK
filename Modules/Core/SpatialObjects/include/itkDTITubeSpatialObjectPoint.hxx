@@ -53,7 +53,7 @@ DTITubeSpatialObjectPoint< TPointDimension >
 ::TranslateEnumToChar(FieldEnumType name) const
 {
   // Do the translation
-  switch ( name )
+  switch (static_cast<int>(name) )
     {
     case 0:
       return std::string("FA");

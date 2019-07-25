@@ -80,5 +80,17 @@ VideoIOBase::Pointer VideoIOFactory::CreateVideoIO( IOModeType mode, const char*
   return nullptr;
 
 }
-
+/** Print Enumerations */
+std::ostream& operator<<(std::ostream& out, const VideoIOFactory::IOModeType value)
+{
+    const char* s =0;
+    switch(value)
+    {
+        case VideoIOFactory::IOModeType::ReadFileMode: s = "VideoIOFactory::IOModeType::ReadFileMode"; break;
+        case VideoIOFactory::IOModeType::ReadCameraMode: s = "VideoIOFactory::IOModeType::ReadCameraMode"; break;
+        case VideoIOFactory::IOModeType::WriteMode: s = "VideoIOFactory::IOModeType::WriteMode"; break;
+        default: s = "INVALID VALUE FOR VideoIOFactory::IOModeType";
+    }
+    return out << s;
+}
 } // end namespace itk
