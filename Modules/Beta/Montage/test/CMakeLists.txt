@@ -8,6 +8,7 @@ set(MontageTests
   itkMontagePCMTestFiles.cxx
   itkMontageGenericTests.cxx
   itkMontageTest2D.cxx
+  itkMontageTruthCreator.cxx
   )
 
 CreateTestDriver(Montage "${Montage-Test_LIBRARIES}" "${MontageTests}")
@@ -281,6 +282,30 @@ AddTestTi64raw(2)
 AddTestTi64raw(3)
 AddTestTi64raw(4)
 
+function(GroundTruthTest2D tempDir inputFile) # other command-line parameters
+  set(outDir ${TESTING_OUTPUT_PATH}/${tempDir}/)
+  file(MAKE_DIRECTORY ${outDir})
+  itk_add_test(NAME itkMontageGroundTruthMake${tempDir}
+    COMMAND MontageTestDriver
+    itkMontageTruthCreator ${inputFile} ${outDir} ${ARGN}
+    )
+  itk_add_test(NAME itkMontageGroundTruthRun${tempDir}
+    COMMAND MontageTestDriver --compareIntensityTolerance 0.0
+    #  --compare ${inputFile} ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}_2_1.mha
+    itkMontageTest2D
+      ${outDir}
+      ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}_
+      ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}Pairs_
+      0 1 1 1 0 0 0 0 1
+    )
+  SET_TESTS_PROPERTIES(itkMontageGroundTruthRun${tempDir}
+    PROPERTIES DEPENDS itkMontageGroundTruthMake${tempDir})
+endfunction()
+
+GroundTruthTest2D(10-129 DATA{Input/10-129-C_2/10-129-C_2_p00.jpg} 6 4 15 25)
+GroundTruthTest2D(run2 DATA{Input/05MAR09_run2_64-Raw/05MAR09_run2_64-Raw_p0.bmp} 3 2 30 50)
+GroundTruthTest2D(MediumCarbonSteel DATA{Input/MediumCarbonSteel/1701701_000000_Fused.bmp} 11 3 20 20)
+
 itk_add_test(NAME itkMontage-10-129-C_2
   COMMAND MontageTestDriver
   itkMontageTest2D
@@ -497,13 +522,15 @@ endif()
 
 if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles/Image_10_10.tif)
   itk_add_test(NAME itkMontageTiles
-    COMMAND MontageTestDriver
+    COMMAND MontageTestDriver --ignoreInputInformation
+    #  --compare ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles/itkMontageTiles2_0.mha ${TESTING_OUTPUT_PATH}/itkMontageTiles2_0.mha
     itkMontageTest2D
       ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles
       ${TESTING_OUTPUT_PATH}/itkMontageTiles
       ${TESTING_OUTPUT_PATH}/itkMontageTilesPairs
       0 -1 1 1 0 0 0 0 1
     )
+    GroundTruthTest2D(Tiles ${CMAKE_CURRENT_LIST_DIR}/Input/Tiles/itkMontageTiles2_0.mha 10 10 10 10)
 endif()
 
 if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/NoisyTiles/NoisyImage_10_10.tif)
