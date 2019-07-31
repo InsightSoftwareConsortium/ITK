@@ -199,7 +199,7 @@ set_tests_properties(itkKdTreeTest11 PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/i
 #  much for regression testing. They need the "dot" tool that is part of the
 #  Graphviz package. The dot executable is found as part of the process of
 #  configuring the Doxygen documentation. Therefore, to enable these tests
-#  below, you must enable BUILD_DOXYGEN and BUILD_DOCUMENTATION.
+#  below, you must enable BUILD_DOXYGEN and ITK_BUILD_DOCUMENTATION.
 #
 if(DOXYGEN_DOT_EXECUTABLE)
 itk_add_test(NAME itkKdTreeTest1Plot
