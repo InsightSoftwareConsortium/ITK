@@ -451,7 +451,6 @@ TileMontage< TImageType, TCoordinate >
 
   typename ImageType::SpacingType spacing = this->GetImage( this->LinearIndexTonDIndex( 0 ), true )->GetSpacing();
   Eigen::LeastSquaresConjugateGradient< SparseMatrix > solver;
-  const unsigned maxIter = 10 + std::pow( m_LinearMontageSize, 1.0 / ImageDimension );
   bool outlierExists = true;
   unsigned iteration = 0;
   while ( outlierExists )
