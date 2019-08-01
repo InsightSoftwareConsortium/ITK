@@ -22,7 +22,6 @@
 #include "itkTransform.h"
 #include "itkInterpolateImageFunction.h"
 #include "itkSingleValuedCostFunction.h"
-#include "itkExceptionObject.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkSpatialObject.h"
 
