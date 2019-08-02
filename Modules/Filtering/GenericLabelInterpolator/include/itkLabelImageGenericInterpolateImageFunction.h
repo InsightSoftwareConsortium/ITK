@@ -37,7 +37,7 @@ namespace itk
  * * \ingroup GenericLabelInterpolator
  */
 
-template <typename TInputImage, template <typename, typename> typename TInterpolator, typename TCoordRep = double>
+template <typename TInputImage, template <typename, typename> class TInterpolator, typename TCoordRep = double>
 class ITK_EXPORT LabelImageGenericInterpolateImageFunction : public InterpolateImageFunction<TInputImage, TCoordRep>
 {
 public:
