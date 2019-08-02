@@ -389,6 +389,7 @@ str = str
     #include "itkContinuousIndexSwigInterface.h"
     %}
 
+    %rename(__SetDirection_orig__) swig_name::SetDirection;
     %extend swig_name {
         itkIndex##template_params TransformPhysicalPointToIndex( itkPointD##template_params & point ) {
             itkIndex##template_params idx;
@@ -413,6 +414,28 @@ str = str
             self->TransformIndexToPhysicalPoint<double>( idx, point );
             return point;
         }
+
+        %pythoncode %{
+            def SetDirection(self, direction):
+                def is_arraylike(arr):
+                    return hasattr(arr, 'shape') and \
+                    hasattr(arr, 'dtype') and \
+                    hasattr(arr, '__array__') and \
+                    hasattr(arr, 'ndim')
+                if is_arraylike(direction):
+                    import itk
+                    import numpy as np
+
+                    array = np.asarray(direction).astype(np.float64)
+                    dimension = self.GetImageDimension()
+                    for dim in array.shape:
+                        if dim != dimension:
+                            raise ValueError('Array does not have the expected shape')
+                    matrix = itk.matrix_from_array(array)
+                    self.__SetDirection_orig__(matrix)
+                else:
+                    self.__SetDirection_orig__(direction)
+            %}
 
         // TODO: also add that method. But with which types?
         //  template<class TCoordRep>
