@@ -67,7 +67,7 @@ int ReplaceFeatureMapNanInfImageFilterInstantiationTest( int argc, char *argv[] 
   filter->SetMaskImage( maskReader->GetOutput() );
   filter->SetThreshold( 1300 );
 
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   using PostProcessingFilterType = itk::ReplaceFeatureMapNanInfImageFilter<OutputImageType>;
   PostProcessingFilterType::Pointer postProcessingFilter = PostProcessingFilterType::New();
@@ -81,7 +81,7 @@ int ReplaceFeatureMapNanInfImageFilterInstantiationTest( int argc, char *argv[] 
   writer->SetInput( postProcessingFilter->GetOutput() );
 
 
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
