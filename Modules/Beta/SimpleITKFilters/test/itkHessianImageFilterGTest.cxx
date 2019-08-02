@@ -156,17 +156,17 @@ TEST_F(HessianImageFilterFixture,ValueTest_3D)
   std::cout << "Value: " << image->GetPixel(MakeIndex(13,12,12)) << std::endl;
   std::cout << "Value: " << image->GetPixel(MakeIndex(14,12,12)) << std::endl;
 
-  EXPECT_VECTOR_NEAR(MakeFixedArray(-0.0001615,0.0,0.0,
-                                    -0.0001615,0.0,
-                                    -0.0001615),
-                      output->GetPixel(MakeIndex(12,12,12)),
-                      1e-6);
+  ITK_EXPECT_VECTOR_NEAR(MakeFixedArray(-0.0001615,0.0,0.0,
+                                        -0.0001615,0.0,
+                                        -0.0001615),
+                         output->GetPixel(MakeIndex(12,12,12)),
+                         1e-6);
 
-  EXPECT_VECTOR_NEAR(MakeFixedArray(-0.00014602,0.0,0.0,
-                                    -0.00014602,0.0,
-                                    -0.00014602),
-                      output->GetPixel(MakeIndex(10,10,10)),
-                      1e-5);
+  ITK_EXPECT_VECTOR_NEAR(MakeFixedArray(-0.00014602,0.0,0.0,
+                                        -0.00014602,0.0,
+                                        -0.00014602),
+                         output->GetPixel(MakeIndex(10,10,10)),
+                         1e-5);
 
 }
 
@@ -193,25 +193,25 @@ TEST_F(HessianImageFilterFixture,ValueTest_2D)
 
   Utils::HessianImageType::Pointer output = filter->GetOutput();
 
-  EXPECT_VECTOR_NEAR(MakeFixedArray(-2.0,0.0,0.0),
-                     output->GetPixel(MakeIndex(10,10)),
-                     1e-6);
+  ITK_EXPECT_VECTOR_NEAR(MakeFixedArray(-2.0,0.0,0.0),
+                         output->GetPixel(MakeIndex(10,10)),
+                         1e-6);
 
-  EXPECT_VECTOR_NEAR(MakeFixedArray(-2.0,0.0,0.0),
-                     output->GetPixel(MakeIndex(10,0)),
-                     1e-6);
+  ITK_EXPECT_VECTOR_NEAR(MakeFixedArray(-2.0,0.0,0.0),
+                         output->GetPixel(MakeIndex(10,0)),
+                         1e-6);
 
   image->SetSpacing(MakeVector(10.0,2.0));
   image->Modified();
 
   filter->Update();
 
-  EXPECT_VECTOR_NEAR(MakeFixedArray(-.02,0.0,0.0),
-                     output->GetPixel(MakeIndex(10,10)),
-                     1e-6);
+  ITK_EXPECT_VECTOR_NEAR(MakeFixedArray(-.02,0.0,0.0),
+                         output->GetPixel(MakeIndex(10,10)),
+                         1e-6);
 
-  EXPECT_VECTOR_NEAR(MakeFixedArray(-.02,0.0,0.0),
-                     output->GetPixel(MakeIndex(10,0)),
-                     1e-6);
+  ITK_EXPECT_VECTOR_NEAR(MakeFixedArray(-.02,0.0,0.0),
+                         output->GetPixel(MakeIndex(10,0)),
+                         1e-6);
 
 }
