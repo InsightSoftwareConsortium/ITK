@@ -1,21 +1,9 @@
 ITKBoneMorphometry
 ==================
 
-.. |CircleCI| image:: https://circleci.com/gh/InsightSoftwareConsortium/ITKBoneMorphometry.svg?style=shield
-    :target: https://circleci.com/gh/InsightSoftwareConsortium/ITKBoneMorphometry
-
-.. |TravisCI| image:: https://travis-ci.org/InsightSoftwareConsortium/ITKBoneMorphometry.svg?branch=master
-    :target: https://travis-ci.org/InsightSoftwareConsortium/ITKBoneMorphometry
-
-.. |AppVeyor| image:: https://img.shields.io/appveyor/ci/jbvimort/ITKBoneMorphometry.svg
-    :target: https://ci.appveyor.com/project/jbvimort/ITKBoneMorphometry
-
-=========== =========== ===========
-   Linux      macOS       Windows
-=========== =========== ===========
-|CircleCI|  |TravisCI|  |AppVeyor|
-=========== =========== ===========
-
+.. image:: https://dev.azure.com/ITKBoneMorphometry/ITKBoneMorphometry/_apis/build/status/InsightSoftwareConsortium.ITKBoneMorphometry?branchName=master
+    :target: https://dev.azure.com/ITKBoneMorphometry/ITKBoneMorphometry/_build/latest?definitionId=1&branchName=master
+    :alt: Build status
 
 Overview
 --------
