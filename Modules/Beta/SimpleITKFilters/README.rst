@@ -1,14 +1,14 @@
 ITKSimpleITKFilters
 =================================
 
-.. image:: https://circleci.com/gh/SimpleITK/ITKSimpleITKFilters.svg?style=shield
-    :target: https://circleci.com/gh/SimpleITK/ITKSimpleITKFilters
 
-.. image:: https://travis-ci.org/SimpleITK/ITKSimpleITKFilters.svg?branch=master
-    :target: https://travis-ci.org/SimpleITK/ITKSimpleITKFilters
+.. image:: https://dev.azure.com/SimpleITK-DevOps/SimpleITK/_apis/build/status/SimpleITK.ITKSimpleITKFilters?branchName=master
+    :target: https://dev.azure.com/SimpleITK-DevOps/SimpleITK/_build?definitionId=14&_a=summary
+    :alt:    Build Status
 
-.. image:: https://img.shields.io/appveyor/ci/blowekamp/itksimpleitkfilters.svg
-    :target: https://ci.appveyor.com/project/blowekamp/itksimpleitkfilters
+.. image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
+    :target: https://github.com/InsightSoftwareConsortium/ITKTotalVariation/blob/master/LICENSE
+    :alt: License
 
 This module contains a collection of additional ITK Filters used by SimpleITK. These filter are useful to SimpleITK in that they may wrap existing ITK filters with an interface expected by SimpleITK, or may add important basic filters needed for completeness.
 
