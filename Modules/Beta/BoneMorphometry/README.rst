@@ -5,6 +5,14 @@ ITKBoneMorphometry
     :target: https://dev.azure.com/ITKBoneMorphometry/ITKBoneMorphometry/_build/latest?definitionId=1&branchName=master
     :alt: Build status
 
+.. image:: https://img.shields.io/pypi/v/itk-bonemorphometry.svg
+    :target: https://pypi.python.org/pypi/itk-bonemorphometry
+    :alt: PyPI
+
+.. image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
+    :target: https://github.com/InsightSoftwareConsortium/ITKBoneMorphometry/blob/master/LICENSE)
+    :alt: License
+
 Overview
 --------
 
