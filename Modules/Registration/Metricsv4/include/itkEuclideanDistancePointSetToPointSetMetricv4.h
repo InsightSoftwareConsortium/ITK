@@ -82,11 +82,6 @@ protected:
   EuclideanDistancePointSetToPointSetMetricv4() = default;
   ~EuclideanDistancePointSetToPointSetMetricv4() override = default;
 
-  bool RequiresFixedPointsLocator() const override
-    {
-    return false;
-    }
-
   /** PrintSelf function */
   void PrintSelf( std::ostream & os, Indent indent ) const override;
 };
