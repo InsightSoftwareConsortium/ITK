@@ -1,3 +1,5 @@
+name: ITK.Linux
+
 trigger:
   branches:
     include:

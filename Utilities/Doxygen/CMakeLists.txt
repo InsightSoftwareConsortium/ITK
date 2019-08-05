@@ -1,9 +1,14 @@
-#
-# Build the documentation
-#
-include (${CMAKE_ROOT}/Modules/Documentation.cmake)
+option(ITK_BUILD_DOCUMENTATION "Build the documentation (Doxygen)." OFF)
+mark_as_advanced(ITK_BUILD_DOCUMENTATION)
+if(ITK_BUILD_DOCUMENTATION)
+  find_package(UnixCommands)
+  find_package(Doxygen)
+  find_package(Gnuplot)
+  find_package(HTMLHelp)
+  find_package(Perl)
+  find_package(Wget)
+endif()
 
-mark_as_advanced(BUILD_DOCUMENTATION)
 
 # -------------------------------------------------------------
 #
@@ -118,7 +123,7 @@ configure_file(${ITK_SOURCE_DIR}/Utilities/Doxygen/doxygen.config.in
                ${ITK_BINARY_DIR}/single-doxygen.config)
 
 # -------------------------------------------------------------
-if (BUILD_DOCUMENTATION)
+if (ITK_BUILD_DOCUMENTATION)
 
   # When updating Doxygen versions, also re-run workbox-sw to regenerate the
   # service worker pre-cache. Do this by running:

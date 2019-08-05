@@ -266,7 +266,7 @@ public:
         itkAssertInDebugAndIgnoreInReleaseMacro(newBuffer);
         const std::size_t nb = std::min(newSize, oldSize);
         itkAssertInDebugAndIgnoreInReleaseMacro(nb == 0 || (nb > 0  && oldBuffer != nullptr));
-        std::copy(oldBuffer, oldBuffer+nb, newBuffer);
+        std::copy_n(oldBuffer, nb, newBuffer);
         }
     };
 

@@ -187,10 +187,8 @@ public:
 protected:
   RawImageIOFactory() = default;
   ~RawImageIOFactory() override = default;
-  using myProductType = RawImageIO< TPixel, VImageDimension >;
-  const myProductType *m_MyProduct;
 };
-} // namespace itk
+}
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkRawImageIO.hxx"

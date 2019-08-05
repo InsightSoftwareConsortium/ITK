@@ -19,8 +19,8 @@
 #  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_WARNING_FLAGS}")
 
 
-include(ITK_CheckCCompilerFlag)
-include(ITK_CheckCXXCompilerFlag)
+include(CheckCXXCompilerFlag)
+include(CheckCCompilerFlag)
 if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.14.0)
   include(CheckPIESupported)
   check_pie_supported()
@@ -31,7 +31,7 @@ function(check_c_compiler_flags c_flag_var)
   set(flag_list "${ARGN}")
   foreach(flag IN LISTS flag_list)
     string(REPLACE "=" "_" flag_var ${flag} )
-    ITK_CHECK_C_COMPILER_FLAG(${flag} C_HAS_WARNING${flag_var})
+    check_c_compiler_flag(${flag} C_HAS_WARNING${flag_var})
     if(${C_HAS_WARNING${flag_var}})
       set(local_c_flags "${local_c_flags} ${flag}")
     endif()
@@ -45,7 +45,7 @@ function(check_cxx_compiler_flags cxx_flag_var)
   set(flag_list "${ARGN}")
   foreach(flag IN LISTS flag_list)
     string(REPLACE "=" "_" flag_var ${flag} )
-    ITK_CHECK_CXX_COMPILER_FLAG(${flag} CXX_HAS_WARNING${flag_var})
+    check_cxx_compiler_flag(${flag} CXX_HAS_WARNING${flag_var})
     if(${CXX_HAS_WARNING${flag_var}})
       set(local_cxx_flags "${local_cxx_flags} ${flag}")
     endif()
@@ -145,7 +145,15 @@ function(check_compiler_optimization_flags c_optimization_flags_var cxx_optimiza
   if(MSVC)
       set(InstructionSetOptimizationFlags
          # https://docs.microsoft.com/en-us/cpp/build/reference/arch-x64?view=vs-2015
-         /arch:SSE /arch:SSE2 /arch:/AVX ) # /arch:/AVX2 AVX2 circa 2013
+         /arch:AVX ) # AVX support circa 2013 hardware
+      if(MSVC_VERSION GREATER_EQUAL 1800)
+         list(APPEND InstructionSetOptimizationFlags
+              /arch:AVX2) # AVX support circa 2013 hardware
+      endif()
+      if("${CMAKE_SIZEOF_VOID_P}" EQUAL "4")
+         list(APPEND InstructionSetOptimizationFlags
+              /arch:SSE /arch:SSE2)
+      endif()
   else()
     if (${CMAKE_C_COMPILER} MATCHES "icc.*$")
       set(USING_INTEL_ICC_COMPILER TRUE)
@@ -154,7 +162,7 @@ function(check_compiler_optimization_flags c_optimization_flags_var cxx_optimiza
       set(USING_INTEL_ICC_COMPILER TRUE)
     endif()
     if(USING_INTEL_ICC_COMPILER)
-      set(InstructionSetOptimizationFlags "" )
+      set(InstructionSetOptimizationFlags "")
     else()
       set(InstructionSetOptimizationFlags "")
     endif ()

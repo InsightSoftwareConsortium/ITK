@@ -23,9 +23,7 @@ namespace itk
 
   Command::~Command() = default;
 
-  CStyleCommand::CStyleCommand()
-
-  {}
+  CStyleCommand::CStyleCommand() = default;
 
   CStyleCommand::~CStyleCommand()
     {

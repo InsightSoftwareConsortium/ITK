@@ -14,7 +14,6 @@
 #  pragma warning ( disable : 4127 ) // conditional expression is constant
 #  pragma warning ( disable : 4505 ) // unreferenced local function has been removed
 #  pragma warning ( disable : 4786 ) // 'identifier' : identifier was truncated to 'number' characters in the debug information
-#  pragma warning ( disable : 4231 ) // nonstandard extension used : 'extern' before template explicit instantiation
 #  pragma warning ( disable : 4267 ) // data-conversion related to 'size_t'
 # endif // _MSC_VER
 #endif // __vcl_windows_header_h__

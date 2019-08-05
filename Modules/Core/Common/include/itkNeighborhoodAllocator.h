@@ -78,7 +78,7 @@ public:
     m_ElementCount(other.m_ElementCount),
     m_Data(new TPixel[other.m_ElementCount])
   {
-    std::copy(other.m_Data, other.m_Data + m_ElementCount, m_Data);
+    std::copy_n(other.m_Data, m_ElementCount, m_Data);
   }
 
 
@@ -99,7 +99,7 @@ public:
     if(this != &other)
       {
       this->set_size(other.m_ElementCount);
-      std::copy(other.m_Data, other.m_Data + m_ElementCount, m_Data);
+      std::copy_n(other.m_Data, m_ElementCount, m_Data);
     }
     return *this;
   }

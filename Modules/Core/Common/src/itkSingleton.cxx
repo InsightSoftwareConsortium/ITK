@@ -34,8 +34,8 @@ namespace
 class GlobalSingletonIndexInitializer
 {
 public:
-  typedef GlobalSingletonIndexInitializer            Self;
-  typedef ::itk::SingletonIndex                      SingletonIndex;
+  using Self = GlobalSingletonIndexInitializer;
+  using SingletonIndex = ::itk::SingletonIndex;
 
   GlobalSingletonIndexInitializer() {}
 

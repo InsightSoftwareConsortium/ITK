@@ -204,10 +204,27 @@ class TestNumpyITKMemoryviewInterface(unittest.TestCase):
     def test_NumPyBridge_ImageFromBuffer(self):
         "Create an image with image_from_array with a non-writeable input"
 
-        data = 'hello world '
+        data = b'hello world '
         array = np.frombuffer(data, dtype=np.uint8)
         array = array.reshape((2, 6))
         image = itk.image_from_array(array)
+
+    def test_non_contiguous_array(self):
+        "Check that a non-contiguous array raises the appropriate error"
+
+        data = np.random.random((10, 10, 10))
+        data = data[..., 0]   # slicing the array makes it non-contiguous
+        assert not data.flags['C_CONTIGUOUS']
+        assert not data.flags['F_CONTIGUOUS']
+        try:
+            itk.image_from_array(data)
+        except ValueError as e:
+            assert str(e) == ("Array memory is not contiguous. "
+                              "Try converting your array with "
+                              "`ascontiguousarray()` or `copy()` "
+                              "or use `GetImageFromArray()`")
+        else:
+            assert False
 
 
 if __name__ == '__main__':

@@ -50,15 +50,11 @@ namespace itk
  * This filter is implemented as a multithreaded filter and supports
  * streaming.
  *
- * \warning This filter only works for image with scalar pixel types.
- * For vector images use VectorExpandImageFilter.
- *
  * This filter assumes that the input and output image has the same
  * number of dimensions.
  *
  * \sa InterpolateImageFunction
  * \sa LinearInterpolationImageFunction
- * \sa VectorExpandImageFilter
  *
  * \ingroup GeometricTransform
  * \ingroup ITKImageGrid
@@ -132,15 +128,6 @@ public:
    * the pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
   void GenerateInputRequestedRegion() override;
-
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
-  itkConceptMacro( InputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< typename TInputImage::PixelType > ) );
-  itkConceptMacro( OutputHasNumericTraitsCheck,
-                   ( Concept::HasNumericTraits< OutputPixelType > ) );
-  // End concept checking
-#endif
 
 protected:
   ExpandImageFilter();

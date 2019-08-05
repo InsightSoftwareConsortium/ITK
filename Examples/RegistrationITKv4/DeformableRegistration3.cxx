@@ -41,7 +41,8 @@
 #include "itkSymmetricForcesDemonsRegistrationFilter.h"
 #include "itkHistogramMatchingImageFilter.h"
 #include "itkCastImageFilter.h"
-#include "itkWarpImageFilter.h"
+#include "itkDisplacementFieldTransform.h"
+#include "itkResampleImageFilter.h"
 // Software Guide : EndCodeSnippet
 
 //  The following section of code implements a Command observer
@@ -290,53 +291,55 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginLatex
   //
-  // The \doxygen{WarpImageFilter} can be used to warp the moving image with
-  // the output deformation field. Like the \doxygen{ResampleImageFilter},
-  // the WarpImageFilter requires the specification of the input image to be
-  // resampled, an input image interpolator, and the output image spacing and
-  // origin.
+  // The \doxygen{ResampleImageFilter} can be used to warp the moving image with
+  // the output deformation field. The \doxygen{ResampleImageFilter}
+  // requires specifications for the input image to be resampled: an
+  // input image interpolator, a transform and the output image's
+  // meta-data can be set from a reference image.
   //
-  // \index{itk::WarpImageFilter}
-  // \index{itk::WarpImageFilter!SetInput()}
-  // \index{itk::WarpImageFilter!SetInterpolator()}
-  // \index{itk::WarpImageFilter!SetOutputSpacing()}
-  // \index{itk::WarpImageFilter!SetOutputOrigin()}
+  // \index{itk::ResampleImageFilter}
+  // \index{itk::ResampleImageFilter!SetInput()}
+  // \index{itk::ResampleImageFilter!SetReferenceImage()}
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using WarperType = itk::WarpImageFilter<
-                          MovingImageType,
-                          MovingImageType,
-                          DisplacementFieldType  >;
+  using InterpolatorPrecisionType = double;
+  using TransformPrecisionType = float;
+  using WarperType = itk::ResampleImageFilter< MovingImageType, MovingImageType,
+                                               InterpolatorPrecisionType,
+                                               TransformPrecisionType>;
   using InterpolatorType = itk::LinearInterpolateImageFunction<
                                    MovingImageType,
-                                   double          >;
+                                   InterpolatorPrecisionType >;
   WarperType::Pointer warper = WarperType::New();
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   warper->SetInput( movingImageReader->GetOutput() );
   warper->SetInterpolator( interpolator );
-  warper->SetOutputSpacing( fixedImage->GetSpacing() );
-  warper->SetOutputOrigin( fixedImage->GetOrigin() );
-  warper->SetOutputDirection( fixedImage->GetDirection() );
+  warper->UseReferenceImageOn();
+  warper->SetReferenceImage( fixedImage );
   // Software Guide : EndCodeSnippet
 
 
   // Software Guide : BeginLatex
   //
-  // Unlike the ResampleImageFilter, the WarpImageFilter
-  // warps or transforms the input image with respect to the deformation field
-  // represented by an image of vectors.  The resulting warped or resampled
-  // image is written to file as per previous examples.
+  // The displacement field is not an itk::Transform type. The
+  // ResampleImageFilter requires an itk::Transform as input, so a
+  // DisplacementFieldTransform needs to be constructed. The
+  // resulting warped or resampled  image is written to file as per
+  // previous examples.
   //
-  // \index{itk::WarpImageFilter!SetDisplacementField()}
+  // \index{itk::ResampleImageFilter!SetTransform()}
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  warper->SetDisplacementField( filter->GetOutput() );
+  using DisplacementFieldTransformType = itk::DisplacementFieldTransform<TransformPrecisionType, Dimension>;
+  auto displacementTransform = DisplacementFieldTransformType::New();
+  displacementTransform->SetDisplacementField( filter->GetOutput() );
+  warper->SetTransform( displacementTransform );
   // Software Guide : EndCodeSnippet
 
 

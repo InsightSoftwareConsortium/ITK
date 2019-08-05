@@ -54,7 +54,6 @@ itkSigmoidImageFilterTest.cxx
 itkDivideImageFilterTest.cxx
 itkDivideImageFilterTest2.cxx
 itkDivideOrZeroOutImageFilterTest.cxx
-itkVectorExpandImageFilterTest.cxx
 itkAdaptImageFilterTest.cxx
 itkOrImageFilterTest.cxx
 itkRGBToLuminanceImageFilterAndAdaptorTest.cxx
@@ -79,6 +78,10 @@ itkClampImageFilterTest.cxx
 itkNthElementPixelAccessorTest2.cxx
 itkMagnitudeAndPhaseToComplexImageFilterTest.cxx
 )
+
+if (NOT ITK_LEGACY_REMOVE)
+  list(APPEND ITKImageIntensityTests itkVectorExpandImageFilterTest.cxx)
+endif()
 
 # Disable optimization on the tests below to avoid possible
 # optimization bugs in some compilers. This option will appear on the
@@ -268,8 +271,10 @@ itk_add_test(NAME itkDivideImageFilterTest2
       COMMAND ITKImageIntensityTestDriver itkDivideImageFilterTest2)
 itk_add_test(NAME itkDivideOrZeroOutImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkDivideOrZeroOutImageFilterTest)
-itk_add_test(NAME itkVectorExpandImageFilterTest
-      COMMAND ITKImageIntensityTestDriver itkVectorExpandImageFilterTest)
+if (NOT ITK_LEGACY_REMOVE)
+  itk_add_test(NAME itkVectorExpandImageFilterTest
+        COMMAND ITKImageIntensityTestDriver itkVectorExpandImageFilterTest)
+endif()
 itk_add_test(NAME itkAdaptImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkAdaptImageFilterTest)
 itk_add_test(NAME itkOrImageFilterTest

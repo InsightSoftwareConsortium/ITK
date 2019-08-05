@@ -82,7 +82,7 @@ MetaSurfaceConverter< NDimensions >
     pnt.SetPositionInObjectSpace(point);
     pnt.SetNormalInObjectSpace(normal);
 
-    surfaceSO->GetPoints().push_back(pnt);
+    surfaceSO->AddPoint(pnt);
     it2++;
     }
 

@@ -758,6 +758,17 @@ private:
   ArrayOfExtensionsType m_SupportedWriteExtensions;
 };
 
+/** Utility function for writing RAW bytes */
+extern ITKIOImageBase_EXPORT void
+WriteRawBytesAfterSwapping( ImageIOBase::IOComponentType componentType, const void* buffer, std::ofstream& file,
+                            ImageIOBase::ByteOrder byteOrder, SizeValueType numberOfBytes,
+                            SizeValueType numberOfComponents );
+
+/** Utility function for reading RAW bytes */
+extern ITKIOImageBase_EXPORT void
+ReadRawBytesAfterSwapping( ImageIOBase::IOComponentType componentType, void* buffer, ImageIOBase::ByteOrder byteOrder,
+                           SizeValueType numberOfComponents );
+
 #define IMAGEIOBASE_TYPEMAP(type,ctype)                         \
   template <> struct ImageIOBase::MapPixelType<type>    \
   {                                                     \

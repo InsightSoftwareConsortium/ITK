@@ -32,7 +32,8 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkWarpImageFilter.h"
+#include "itkDisplacementFieldTransform.h"
+#include "itkResampleImageFilter.h"
 // Software Guide : BeginCodeSnippet
 #include "itkVector.h"
 #include "itkLandmarkDisplacementFieldSource.h"
@@ -188,26 +189,32 @@ int main( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-  DisplacementFieldType::ConstPointer displacementField = deformer->GetOutput();
+  DisplacementFieldType::Pointer displacementField = deformer->GetOutput();
 
-  using FilterType = itk::WarpImageFilter< MovingImageType,
-                                MovingImageType,
-                                DisplacementFieldType  >;
-
+  using InterpolatorPrecisionType = double;
+  using TransformPrecisionType = float;
+  using FilterType = itk::ResampleImageFilter< MovingImageType, MovingImageType,
+                                               InterpolatorPrecisionType,
+                                               TransformPrecisionType>;
   FilterType::Pointer warper = FilterType::New();
 
   using InterpolatorType = itk::LinearInterpolateImageFunction<
-                       MovingImageType, double >;
+                       MovingImageType, InterpolatorPrecisionType >;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
   warper->SetInterpolator( interpolator );
 
+  using DisplacementFieldTransformType = itk::DisplacementFieldTransform<TransformPrecisionType, Dimension>;
+  auto displacementTransform = DisplacementFieldTransformType::New();
+  displacementTransform->SetDisplacementField( displacementField );
+  warper->SetTransform( displacementTransform );
 
   warper->SetOutputSpacing( displacementField->GetSpacing() );
   warper->SetOutputOrigin(  displacementField->GetOrigin() );
 
-  warper->SetDisplacementField( displacementField );
+  warper->SetOutputDirection( displacementField->GetDirection() );
+  warper->SetSize( displacementField->GetLargestPossibleRegion().GetSize() );
 
   warper->SetInput( movingReader->GetOutput() );
 

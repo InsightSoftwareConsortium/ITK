@@ -192,7 +192,7 @@ GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
   // Make symmetric
   size_t s = coeff.size() - 1;
   coeff.insert(coeff.begin(), s, 0);
-  std::copy( coeff.rbegin(), coeff.rbegin() + s, coeff.begin() );
+  std::copy_n( coeff.rbegin(), s, coeff.begin() );
 
   return coeff;
 }

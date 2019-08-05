@@ -25,21 +25,21 @@ else()
   # If 64 bit Linux build host, use the CastXML binary
   if(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
 
-    set(_castxml_hash 34f25f13e8da17ca29fe0ae012a1c1e591b6c08e3c9a48d7bfbab789a4ee8f33a564789ca161ac07056ba4edf5088518b366ea0be4057635f1231e5d2aaf4b69)
+    set(_castxml_hash b7829ea94c85f0f23055c3925719fdc2cbdf3543b45f914c4d0aab433c412df1c49cec2c465f2ede4f043d41693695d923f229c79d4ca2bcf70136705212a2c5)
     set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
     set(_download_castxml_binaries 1)
 
   # If 64 bit Windows build host, use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "AMD64")
 
-    set(_castxml_hash 016619654f553c0a79de9072d1f880a842f9720e25e90232b84129bbe89889342259f716691e748925857802a727ad139849cf427ea1aa22f4e5b2e6a38fcf7d)
+    set(_castxml_hash 315a6acef496b9d0dc9a8e0414119c22d1e1e866b8862b6372f587821c1741ac084460b1cd41b3772c4aae3922025e708c86b0a82c8a6d9952093d5e7ed9122d)
     set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
     set(_download_castxml_binaries 1)
 
   # If 64 bit Mac OS X build host ( >= 10.9, Mavericks), use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" AND (NOT CMAKE_HOST_SYSTEM_VERSION VERSION_LESS "13.0.0"))
 
-    set(_castxml_hash 79a6cdbb0d22e73646ccf67ab4b0069ca1943476ab364e0eb22238694f26a1ea36e255ff599b6dfd550d76bace8aa1036b390f26f0e0f8b361d57ef887bca7b0)
+    set(_castxml_hash 88c9b5954ca7417f7b519f3006dc6fe4bd194af0837168edc30007a41eaae6d4eee97cef2a72747432af14941c7f60333b77c25e208b2540dcde2d61e0d0e6f3)
     set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
     set(_download_castxml_binaries 1)
 
@@ -139,8 +139,8 @@ else()
     endif()
     ExternalProject_Add(castxml
       GIT_REPOSITORY ${git_protocol}://github.com/CastXML/CastXML.git
-      # CastXML master, 2018-08-06
-      GIT_TAG ae9312119f768840cddfee22d0996266c7a06848
+      # CastXML master, 2019-07-15
+      GIT_TAG 75bd5c41785e9ea2bcd5e2ffda575d660a1c9dae
       UPDATE_COMMAND ""
       DEPENDS ${castxml_deps}
       CMAKE_ARGS -Wno-dev
@@ -290,7 +290,16 @@ macro(itk_wrap_module_castxml library_name)
   get_directory_property(include_dir_list INCLUDE_DIRECTORIES)
   list(REMOVE_DUPLICATES include_dir_list)
 
+  # Get the compile_definitions of the module added with add_compile_definitions
+  # From the wrapping folder (current)
   get_directory_property(compile_definition_list COMPILE_DEFINITIONS)
+  # And from the top module folder
+  set(module_folder "${WRAPPER_LIBRARY_SOURCE_DIR}/..")
+  get_directory_property(compile_definition_list_at_module
+    DIRECTORY "${module_folder}"
+    COMPILE_DEFINITIONS)
+  # Merge and remove duplicates
+  list(APPEND compile_definition_list ${compile_definition_list_at_module})
   list(REMOVE_DUPLICATES compile_definition_list)
 
   set(c)

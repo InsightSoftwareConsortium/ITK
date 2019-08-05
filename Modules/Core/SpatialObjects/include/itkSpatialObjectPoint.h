@@ -50,6 +50,9 @@ public:
   /** Default destructor. */
   virtual ~SpatialObjectPoint() = default;
 
+  virtual const char * GetNameOfClass() const
+  { return "SpatialObjectPoint"; };
+
   using Self = SpatialObjectPoint;
 
   using SpatialObjectType = SpatialObject<TPointDimension>;

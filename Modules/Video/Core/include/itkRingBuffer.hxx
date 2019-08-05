@@ -190,7 +190,7 @@ RingBuffer< TElement >
     {
     for (size_t i = 0; i < currentSize - n; ++i)
       {
-      unsigned int tailIndex = this->GetOffsetBufferIndex(1);
+      const auto tailIndex = static_cast<SizeValueType>(this->GetOffsetBufferIndex(1));
       this->m_PointerVector.erase( this->m_PointerVector.begin() + tailIndex );
 
       // Decrement head index if necessary

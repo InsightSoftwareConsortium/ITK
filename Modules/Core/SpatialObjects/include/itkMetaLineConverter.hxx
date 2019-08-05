@@ -87,7 +87,7 @@ MetaLineConverter< NDimensions >
     pnt.SetBlue( ( *it2 )->m_Color[2] );
     pnt.SetAlpha( ( *it2 )->m_Color[3] );
 
-    lineSO->GetPoints().push_back(pnt);
+    lineSO->AddPoint(pnt);
     it2++;
     }
   return lineSO.GetPointer();

@@ -4,7 +4,7 @@
 <DeclarationOrder>0,1,2</DeclarationOrder>
 <Typedefs>[A-Z]</Typedefs>
 <InternalVariables>m_[A-Z]</InternalVariables>
-<SemicolonSpace>0</SemicolonSpace>
+<SemicolonSpace>1</SemicolonSpace>
 <EndOfFileNewLine>1</EndOfFileNewLine>
 <Tabs>1</Tabs>
 <Spaces>3</Spaces>
@@ -13,7 +13,7 @@
 <NameOfClass>[NameOfClass],itk</NameOfClass>
 <IfNDefDefine>[NameOfClass]_[Extension]</IfNDefDefine>
 <EmptyLines>2</EmptyLines>
-<Template>[TNV]</Template>
+<Template>([TNV]|D|unsigned int|int|bool|QMatrix|B[12]|typename|class|U|R|InputImage|Arguments|Function|vecLength|Output)</Template>
 <Operator>1,1</Operator>
 <Header>Utilities/KWStyle/ITKHeader.h,false,true</Header>
 </Description>

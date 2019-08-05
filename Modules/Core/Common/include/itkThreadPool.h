@@ -76,7 +76,9 @@ public:
    *
    * This method returns an std::future, and calling get()
    * will block until the result is ready. Example usage:
-   * auto result = pool.AddWork([](int param) { return param; }, 7);
+\code
+auto result = pool->AddWork([](int param) { return param; }, 7);
+\endcode
    * std::cout << result.get() << std::endl; */
   template< class Function, class... Arguments >
   auto

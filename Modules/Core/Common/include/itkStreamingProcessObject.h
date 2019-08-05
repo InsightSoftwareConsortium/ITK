@@ -43,7 +43,7 @@ class  ITKCommon_EXPORT StreamingProcessObject
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(StreamingProcessObject);
 
-  /** Standard class typedefs. */
+  /** Standard class types. */
   using Self = StreamingProcessObject;
   using Superclass = ProcessObject;
   using Pointer = SmartPointer< Self >;

@@ -79,12 +79,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::SetOutputSpacing(
   const double *spacing)
 {
-  SpacingType s;
-  for(unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
-    {
-    s[i] = static_cast< typename SpacingType::ValueType >(spacing[i]);
-    }
-  this->SetOutputSpacing(s);
+  this->SetOutputSpacing(SpacingType(spacing));
 }
 
 
@@ -94,9 +89,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::SetOutputOrigin(
   const double *origin)
 {
-  PointType p(origin);
-
-  this->SetOutputOrigin(p);
+  this->SetOutputOrigin(PointType(origin));
 }
 
 /** Helper method to set the output parameters based on this image */

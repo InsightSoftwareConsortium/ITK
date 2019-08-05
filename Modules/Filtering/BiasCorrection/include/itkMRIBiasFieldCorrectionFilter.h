@@ -90,7 +90,7 @@ public:
   using InternalEnergyFunction = CompositeValleyFunction;
 
   /** The type of the sampling factors. */
-  typedef unsigned int SamplingFactorType[SpaceDimension];
+  using SamplingFactorType = unsigned int[SpaceDimension];
 
   /** Specify the input image. */
   itkSetObjectMacro(Image, ImageType);

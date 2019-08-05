@@ -20,7 +20,6 @@
 #include "ITKIOMeshBaseExport.h"
 
 #include "itkMacro.h"
-#include "itkExceptionObject.h"
 
 namespace itk
 {

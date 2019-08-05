@@ -82,7 +82,7 @@ public:
   // Point section:
   using PointsContainer = typename Superclass::PointsContainer;
   using PointsContainerPointer = typename Superclass::PointsContainerPointer;
-  typedef CoordRepType CoordRepArrayType[Self::PointDimension];
+  using CoordRepArrayType = CoordRepType[Self::PointDimension];
 
   // Point data section:
   using PointDataContainer = typename Superclass::PointDataContainer;
@@ -203,7 +203,7 @@ public:
   void SqueezePointsIds();
 
   /** overloaded method for backward compatibility */
-  void BuildCellLinks() {}
+  void BuildCellLinks() const {}
 
 #if !defined( ITK_WRAPPING_PARSER )
   /** overloaded method for backward compatibility */

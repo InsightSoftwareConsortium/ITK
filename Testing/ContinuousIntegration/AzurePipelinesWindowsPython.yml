@@ -1,3 +1,5 @@
+name: ITK.Windows.Python
+
 trigger:
   branches:
     include:
@@ -20,10 +22,15 @@ jobs:
         if DEFINED SYSTEM_PULLREQUEST_SOURCECOMMITID git checkout $(System.PullRequest.SourceCommitId)
       displayName: Checkout pull request HEAD
 
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.7'
+        architecture: 'x64'
+
     - script: |
-        pip3 install ninja numpy
-        pip3 install --upgrade setuptools
-        pip3 install scikit-ci-addons
+        python -m pip install ninja numpy
+        python -m pip install --upgrade setuptools
+        python -m pip install scikit-ci-addons
       displayName: 'Install dependencies'
 
     - script: |

@@ -56,7 +56,7 @@ public:
   using TotalAbsoluteFrequencyType = NumericTraits< AbsoluteFrequencyType >::AccumulateType;
   using TotalRelativeFrequencyType = NumericTraits< RelativeFrequencyType >::AccumulateType;
 
-  using MeasurementVectorLength = unsigned int;
+  using MeasurementVectorLength = std::size_t;
 
   template< typename TVectorType >
   static bool IsResizable(const TVectorType &)

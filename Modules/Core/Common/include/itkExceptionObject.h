@@ -15,12 +15,9 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkMacro_h
-#error "Do not include itkExceptionObject.h directly,  include itkMacro.h instead."
-#else // itkMacro_h
-
 #ifndef itkExceptionObject_h
-#define itkExceptionObject_h
+#error "Do not include itkExceptionObject.h directly,  include itkMacro.h instead."
+#else // itkExceptionObject_h
 
 #include <string>
 #include <stdexcept>
@@ -307,5 +304,3 @@ public:
 } // end namespace itk
 
 #endif //itkExceptionObject_h
-
-#endif //itkMacro_h

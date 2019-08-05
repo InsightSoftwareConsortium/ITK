@@ -21,7 +21,6 @@
 #include "itkExpandImageFilter.h"
 #include "itkImageScanlineIterator.h"
 #include "itkObjectFactory.h"
-#include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
 
 namespace itk

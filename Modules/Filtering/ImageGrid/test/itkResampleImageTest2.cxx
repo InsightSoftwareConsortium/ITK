@@ -172,7 +172,7 @@ int itkResampleImageTest2(int argc, char * argv[])
 
     typename ImageType::SizeType outputSize;
 
-    typedef typename ImageType::SizeType::SizeValueType SizeValueType;
+    using SizeValueType = typename ImageType::SizeType::SizeValueType;
     for( unsigned int i = 0; i < NDimensions; ++i )
       {
       outputSize[i] = itk::Math::Ceil< SizeValueType >(

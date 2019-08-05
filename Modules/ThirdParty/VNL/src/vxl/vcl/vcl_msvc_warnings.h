@@ -42,9 +42,6 @@
 // 'identifier' : identifier was truncated to 'number' characters in the debug information
 #pragma warning ( disable : 4786 )
 
-// nonstandard extension used : 'extern' before template explicit instantiation
-#pragma warning ( disable : 4231 )
-
 // data-conversion related to 'size_t'
 #pragma warning ( disable : 4267 )
 
