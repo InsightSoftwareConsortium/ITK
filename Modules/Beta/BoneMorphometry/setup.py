@@ -50,6 +50,6 @@ setup(
     keywords='ITK InsightToolkit bones morphometry',
     url=r'https://github.com/InsightSoftwareConsortium/ITKBoneMorphometry',
     install_requires=[
-        r'itk>=5.0b01'
+        r'itk>=5.0.1'
     ]
     )
