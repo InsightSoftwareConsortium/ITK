@@ -255,6 +255,7 @@ void
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
 ::CalculateValueAndDerivative( MeasureType & calculatedValue, DerivativeType & derivative, bool calculateValue ) const
 {
+
   this->InitializeForIteration();
 
   // Virtual point set will be the same size as fixed point set as long as it's
@@ -276,24 +277,29 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
    * This splitting is required in order to avoid having the threads
    * repeatedly write to same location causing false sharing
    */
-  //Use STL container to make sure no unesecarry checks are performed
-  using FixedTransformedVectorContainer = typename FixedPointsContainer::STLContainerType;
-  using VirtualPointsContainer = typename VirtualPointSetType::PointsContainer;
-  using VirtualVectorContainer =  typename VirtualPointsContainer::STLContainerType;
-  const VirtualVectorContainer &virtualTransformedPointSet =
-    this->m_VirtualTransformedPointSet->GetPoints()->CastToSTLConstContainer();
-  const FixedTransformedVectorContainer &fixedTransformedPointSet =
-    this->m_FixedTransformedPointSet->GetPoints()->CastToSTLConstContainer();
-
   PointIdentifierRanges ranges = this->CreateRanges();
+
+  //Storage for per thread results
   std::vector< CompensatedSummation< MeasureType > > threadValues( ranges.size() );
   using CompensatedDerivative = typename std::vector< CompensatedSummation<ParametersValueType> >;
   std::vector< CompensatedDerivative > threadDerivatives( ranges.size() );
+
+  //Thread lambda for accumlating derivatives
   std::function< void(unsigned int) > sumNeighborhoodValues =
-      [ this, &derivative, &threadDerivatives, &threadValues, &ranges, &calculateValue,
-        &virtualTransformedPointSet, &fixedTransformedPointSet]
+      [ this, &derivative, &threadDerivatives, &threadValues, &ranges, &calculateValue]
       (unsigned int rangeIndex)
     {
+
+    //Use STL container to make sure no unesecarry checks are performed
+    using FixedTransformedVectorContainer = typename FixedPointsContainer::STLContainerType;
+    using VirtualPointsContainer = typename VirtualPointSetType::PointsContainer;
+    using VirtualVectorContainer =  typename VirtualPointsContainer::STLContainerType;
+    const VirtualVectorContainer &virtualTransformedPointSet =
+      this->m_VirtualTransformedPointSet->GetPoints()->CastToSTLConstContainer();
+    const FixedTransformedVectorContainer &fixedTransformedPointSet =
+      this->m_FixedTransformedPointSet->GetPoints()->CastToSTLConstContainer();
+
+
     MovingTransformJacobianType  jacobian( MovingPointDimension, this->GetNumberOfLocalParameters() );
     MovingTransformJacobianType  jacobianCache;
 
@@ -342,7 +348,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
 
       if( this->m_CalculateValueAndDerivativeInTangentSpace )
         {
-        for( DimensionType d = 0; d < PointDimension; ++d )
+        for( DimensionType d = 0; d < this->GetNumberOfLocalParameters(); ++d )
           {
           threadLocalTransformDerivative[d] += pointDerivative[d];
           }
@@ -412,6 +418,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
           localTransformDerivative[par] += threadDerivatives[i][par];
           }
         }
+      derivative.SetSize( this->GetNumberOfLocalParameters() );
       for( NumberOfParametersType par = 0; par < this->GetNumberOfLocalParameters(); par++ )
         {
          derivative[par] = localTransformDerivative[par].GetSum()
@@ -519,14 +526,13 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
         }
       ++It;
       }
-    this->m_MovingTransformedPointSetTime = this->GetMTime();
+    this->m_MovingTransformedPointSetTime = std::max( this->m_MovingTransformedPointSetTime,
+                                                      this->GetMTime() );
     if(!this->m_CalculateValueAndDerivativeInTangentSpace)
       {
       this->m_MovingTransformedPointSetTime = std::max( this->m_MovingTransformedPointSetTime,
                                                         this->m_MovingTransform->GetMTime() );
       }
-
-
     }
 }
 
@@ -538,11 +544,9 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
   // Transform the fixed point set through the virtual domain, and into the moving domain
   bool update =  ! this->m_FixedTransformedPointSet || ! this->m_VirtualTransformedPointSet;
   update = update || this->m_FixedTransformedPointSetTime < this->GetMTime();
-  update = update || ( this->m_CalculateValueAndDerivativeInTangentSpace &&
-                       ( this->m_FixedTransform->GetMTime() > this->m_FixedTransformedPointSetTime ) );
+  update = update || this->m_FixedTransform->GetMTime() > this->m_FixedTransformedPointSetTime;
   update = update || ( !this->m_CalculateValueAndDerivativeInTangentSpace &&
-                       ( ( this->m_FixedTransform->GetMTime() > this->m_FixedTransformedPointSetTime) ||
-                         ( this->m_MovingTransform->GetMTime() > this->m_FixedTransformedPointSetTime)   ) );
+                       ( this->m_MovingTransform->GetMTime() > this->m_FixedTransformedPointSetTime ) );
   if( update )
     {
     this->m_FixedTransformPointLocatorsNeedInitialization = true;
@@ -582,7 +586,6 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
         this->m_FixedTransformedPointSetTime = std::max( this->m_FixedTransformedPointSetTime,
                                                          this->m_MovingTransform->GetMTime() );
         }
-
     }
 }
 
