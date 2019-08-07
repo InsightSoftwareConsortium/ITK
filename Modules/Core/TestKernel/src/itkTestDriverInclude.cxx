@@ -126,7 +126,8 @@ void usage()
   std::cerr << std::endl;
   std::cerr << "  --compareDirectionTolerance TOLERANCE" << std::endl;
   std::cerr << "      Default is 1.0e-6." << std::endl;
-  std::cerr << std::endl;  std::cerr << "  --ignoreInputInformation" << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "  --ignoreInputInformation" << std::endl;
   std::cerr << "      Skip verification of matching origins, spacings, and directions of input images." << std::endl;
   std::cerr << std::endl;
   std::cerr << "  --no-process" << std::endl;
@@ -231,9 +232,7 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
        --(*ac);
        }
 
-
-     hashTestList.emplace_back( filename, hashVector  );
-
+      hashTestList.emplace_back( filename, hashVector  );
       }
     else if ( !skip && strcmp((*av)[i], "--") == 0 )
       {
@@ -323,7 +322,6 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
       (*av) += 2;
       *ac -= 2;
       }
-
     else if ( !skip && strcmp((*av)[i], "--ignoreInputInformation") == 0 )
       {
       regressionTestParameters.verifyInputInformation = false;
