@@ -13,7 +13,7 @@ network implementations due to performance issues."
   GIT_TAG c293e56699d6d102dcde567baf1cf5b704819c17
   )
 
-  if(NOT ITK_LEGACY_SILENT)
+  if(NOT ITK_LEGACY_SILENT AND Module_NeuralNetworks)
     message(WARNING "NeuralNetworks remote module is deprecated.
     Development of this module has ended, and it will be removed
     in future ITK versions.")
