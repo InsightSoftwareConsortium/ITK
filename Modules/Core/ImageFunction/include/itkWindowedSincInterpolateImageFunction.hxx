@@ -245,14 +245,15 @@ WindowedSincInterpolateImageFunction< TInputImage, VRadius,
 
   // Iterate over the neighborhood, taking the correct set
   // of weights in each dimension
-  double xPixelValue = 0.0;
+  using PixelType = typename NumericTraits< typename TInputImage::PixelType >::RealType;
+  PixelType xPixelValue = NumericTraits< PixelType >::ZeroValue();
   for ( unsigned int j = 0; j < m_OffsetTableSize; j++ )
     {
     // Get the offset for this neighbor
     unsigned int off = m_OffsetTable[j];
 
     // Get the intensity value at the pixel
-    double xVal = nit.GetPixel(off);
+    PixelType xVal = nit.GetPixel( off );
 
     // Multiply the intensity by each of the weights. Gotta hope
     // that the compiler will unwrap this loop and pipeline this!
