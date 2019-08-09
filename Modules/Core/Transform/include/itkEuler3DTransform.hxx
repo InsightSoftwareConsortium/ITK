@@ -348,6 +348,7 @@ Euler3DTransform<TParametersValueType>
     {
     this->m_ComputeZYX = flag;
     this->ComputeMatrix();
+    this->ComputeOffset();
     // The meaning of the parameters has changed so the transform
     // has been modified even if the parameter values have not.
     this->Modified();

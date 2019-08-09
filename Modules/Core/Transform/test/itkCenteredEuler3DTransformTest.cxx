@@ -335,6 +335,55 @@ int itkCenteredEuler3DTransformTest(int, char *[] )
     return EXIT_FAILURE;
     }
 
+  std::cout << "Testing offset updating after changing angle order (ZYX) : ";
+  const double dtr = (std::atan(1.0) * 4.0) / 180.0; // cast angles from degrees to radians
+
+  EulerTransformType::Pointer centeredtransform = EulerTransformType::New();
+  EulerTransformType::ParametersType transformParameters = centeredtransform->GetParameters();
+  transformParameters[0] = 32;
+  transformParameters[1] = -51;
+  transformParameters[2] = 17;
+  transformParameters[3] = 0;
+  transformParameters[4] = 0;
+  transformParameters[5] = 0;
+
+  itk::Point<double> rotationCenter; // center of rotation
+  rotationCenter[0] = 14.26;
+  rotationCenter[1] = -32.819;
+  rotationCenter[2] = 48.019;
+
+  parameters[0] = transformParameters[0] * dtr;
+  parameters[1] = transformParameters[1] * dtr;
+  parameters[2] = transformParameters[2] * dtr;
+  parameters[3] = rotationCenter[0];
+  parameters[4] = rotationCenter[1];
+  parameters[5] = rotationCenter[2];
+  parameters[6] = transformParameters[3];
+  parameters[7] = transformParameters[4];
+  parameters[8] = transformParameters[5];
+  centeredtransform->SetParameters(parameters);
+  centeredtransform->SetComputeZYX(true);
+
+  itk::Point<double> testPoint;
+  testPoint[0] = rotationCenter[0];
+  testPoint[1] = rotationCenter[1];
+  testPoint[2] = rotationCenter[2];
+
+  itk::Point<double> outputTestPoint = centeredtransform->TransformPoint(testPoint);
+
+  double computeError = (outputTestPoint[0] - testPoint[0]) * (outputTestPoint[0] - testPoint[0]) +
+      (outputTestPoint[1] - testPoint[1]) * (outputTestPoint[1] - testPoint[1]) +
+      (outputTestPoint[2] - testPoint[2]) * (outputTestPoint[2] - testPoint[2]);
+  computeError = std::sqrt(computeError);
+
+  double errorTolerance = 0.001;
+  if (computeError > errorTolerance)
+    {
+    std::cout << " [ FAILED ] " << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << " [ PASSED ] " << std::endl;
+
   return EXIT_SUCCESS;
 
 }
