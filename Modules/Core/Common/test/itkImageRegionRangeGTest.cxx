@@ -184,6 +184,8 @@ namespace
     EXPECT_EQ(rangeIterator, range.begin());
   }
 
+
+#ifdef NDEBUG
   template <typename TImage>
   void Check_Range_constructor_throws_ExceptionObject_when_iteration_region_is_outside_of_buffered_region(
     TImage& image,
@@ -203,7 +205,7 @@ namespace
       EXPECT_TRUE(std::strstr(description, "outside of buffered region") != nullptr);
     }
   }
-
+#endif
 
 }  // namespace
 
