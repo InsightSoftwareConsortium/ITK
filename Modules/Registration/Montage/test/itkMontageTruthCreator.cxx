@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+#include "itkWindowedSincInterpolateImageFunction.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
@@ -127,8 +128,10 @@ CreateGroundTruth( char* inFilename, const std::vector< unsigned >& montageSize,
   resampleFilter->SetOutputSpacing( inImage->GetSpacing() );
   resampleFilter->SetInput( inImage );
   resampleFilter->SetSize( tileSize );
-  // resampleFilter->SetTransform( scaleTransform ); // identity
-  // resampleFilter->SetInterpolator( interpolator );
+
+  using SincType = itk::WindowedSincInterpolateImageFunction< ImageType, 5 >;
+  typename SincType::Pointer sinc = SincType::New();
+  resampleFilter->SetInterpolator( sinc ); // replace default linear interpolator
   using WriterType = itk::ImageFileWriter< ImageType >;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetInput( resampleFilter->GetOutput() );
