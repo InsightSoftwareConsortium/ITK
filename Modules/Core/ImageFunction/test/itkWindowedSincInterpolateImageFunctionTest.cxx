@@ -21,6 +21,7 @@
 #include "itkWindowedSincInterpolateImageFunction.h"
 #include "itkConstantBoundaryCondition.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkRGBPixel.h"
 
 namespace SincInterpolate {
 
@@ -120,6 +121,9 @@ OutputType trueValue )
   return true;
 
 }
+
+// Test instantiation with RGB pixel type
+using RGBInterpolatorType = itk::WindowedSincInterpolateImageFunction< itk::Image< itk::RGBPixel< short > >, 3 >;
 
 } // SincInterpolate namespace
 
