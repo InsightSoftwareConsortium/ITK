@@ -378,17 +378,18 @@ DCMTKFileReader
 ::CanReadFile(const std::string &filename)
 {
   auto *MInfo = new DcmMetaInfo();
-  bool rval = false;
-  if( MInfo &&
-      MInfo->loadFile(filename.c_str(),
-                      EXS_Unknown,
-                      EGL_noChange,
-                      65536) == EC_Normal)
+  if(!MInfo)
     {
-    rval = true;
+    return false;
     }
+  OFCondition loadCondition = MInfo->loadFile(filename.c_str(),
+                              EXS_Unknown, EGL_noChange, 65536);
   delete MInfo;
-  return rval;
+  if (loadCondition == EC_Normal || loadCondition == EC_FileMetaInfoHeaderMissing)
+    {
+    return true;
+    }
+  return false;
 }
 
 bool
