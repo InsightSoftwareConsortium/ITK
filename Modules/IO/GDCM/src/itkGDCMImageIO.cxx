@@ -153,30 +153,30 @@ readNoPreambleDicom( std::ifstream & file )  // NOTE: This file is duplicated in
     long length=std::numeric_limits<long>::max();
     const std::string vr{vrcode};
     if ( vr == "AE" || vr == "AS" || vr == "AT"
-         || vr == "CS" || vr == "DA" || vr == "DS"
-         || vr == "DT" || vr == "FL" || vr == "FD"
-         || vr == "IS" || vr == "LO" || vr == "PN"
-         || vr == "SH" || vr == "SL" || vr == "SS"
-         || vr == "ST" || vr == "TM" || vr == "UI"
-         || vr == "UL" || vr == "US"
+      || vr == "CS" || vr == "DA" || vr == "DS"
+      || vr == "DT" || vr == "FL" || vr == "FD"
+      || vr == "IS" || vr == "LO" || vr == "PN"
+      || vr == "SH" || vr == "SL" || vr == "SS"
+      || vr == "ST" || vr == "TM" || vr == "UI"
+      || vr == "UL" || vr == "US"
         )
     {
+      // Explicit VR (value representation stored in the file)
       unsigned short uslength=0;
       file.read(reinterpret_cast<char *>(&uslength),sizeof(unsigned short));
       ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian(&uslength);
       length = uslength;
     }
-    else {
-      //Read the reserved byte
-      unsigned short uslength=0;
-      file.read(reinterpret_cast<char *>(&uslength),sizeof(unsigned short));
-      ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian(&uslength);
+    else
+    {
+      // Implicit VR (value representation not stored in the file)
+      char lengthChars[4] = { vrcode[0], vrcode[1], '\0', '\0' };
+      file.read(lengthChars+2, 2);
 
-      unsigned int uilength=0;
-      file.read(reinterpret_cast<char *>(&uilength),sizeof(unsigned int));
-      ByteSwapper<unsigned int>::SwapFromSystemToLittleEndian(&uilength);
+      unsigned int* uilength = reinterpret_cast<unsigned int*>(lengthChars);
+      ByteSwapper<unsigned int>::SwapFromSystemToLittleEndian(uilength);
 
-      length = uilength;
+      length = (*uilength);
     }
     if(length <= 0 )
     {
