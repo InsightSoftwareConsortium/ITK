@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+#include <iomanip>
 #include "itkHistogramMatchingImageFilter.h"
 #include "itkCommand.h"
 
@@ -26,7 +27,7 @@
  * reference image.
  */
 
-double refPattern( unsigned long offset )
+static double refPattern( unsigned long offset )
 {
   if ( offset < 40  ) { return 5.0;  }
   if ( offset < 160 ) { return 10.0; }
@@ -35,7 +36,7 @@ double refPattern( unsigned long offset )
   return 0.0;
 }
 
-double srcPattern( unsigned long offset )
+static double srcPattern( unsigned long offset )
 {
   if ( offset < 40  ) { return 5.0  * 1.5; }
   if ( offset < 160 ) { return 10.0 * 0.9; }
@@ -57,17 +58,84 @@ public:
     {std::cout << "Progress " << m_Process->GetProgress() << std::endl;}
   itk::ProcessObject::Pointer m_Process;
 };
+} // namespace
+
+template <typename ImageType>
+static bool CompareImages( itk::ImageRegionIterator< ImageType > & refIter,
+                    itk::ImageRegionIterator< ImageType > & outIter)
+{
+  bool passed = true;
+  refIter.GoToBegin();
+  outIter.GoToBegin();
+  while( !outIter.IsAtEnd() )
+    {
+      typename ImageType::PixelType diff = refIter.Get() - outIter.Get();
+      if ( itk::Math::abs( diff ) > 1 )
+        {
+          passed = false;
+          std::cout << "Test failed at: " << outIter.GetIndex() << " ";
+          std::cout << "Output value: " << outIter.Get() << " ";
+          std::cout << "Ref value: " << refIter.Get() << std::endl;
+        }
+      ++outIter;
+      ++refIter;
+    }
+  return passed;
 }
 
+/**
+ * Write the histogram to the console
+ * @tparam HistogramType
+ * @param refHistogram
+ */
+template <typename HistogramConstPointerType>
+void
+PrintHistogramInfo( HistogramConstPointerType refHistogram )
+{
+  std::cout << std::endl;
+  std::cout << "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^" << std::endl;
+  std::cout << refHistogram << std::endl;
+  std::cout << "--------------------------------------------------------------------" << std::endl;
+
+  // If the reference histogram is provided, then extract summary statistics
+  // directly from the histogram.
+  const auto & allReferenceMinsByDimension = refHistogram->GetMins(); // Array of dimensions
+  const auto & allReferenceMinsFirstDimension = allReferenceMinsByDimension.at(0); // Mins for dimension 0
+  const auto & allReferenceMaxsByDimension = refHistogram->GetMaxs(); // Array of dimensions
+  const auto & allReferenceMaxsFirstDimension = allReferenceMaxsByDimension.at(0); // Maxes for dimension 0
+  constexpr int colWidth = 8;
+  const std::ios_base::fmtflags initial_cout_state{ std::cout.flags() };
+  std::cout << std::left << std::setw(colWidth) << "INDEX"
+            << std::left << std::setw(colWidth) << "FREQ"
+            << std::left << std::setw(colWidth) << "MIN"
+            << std::left << std::setw(colWidth) << "MAX"
+            << std::left << std::setw(colWidth) << "BINSIZE"
+            << std::endl;
+  for( auto histit = refHistogram->Begin(); histit != refHistogram->End(); ++histit )
+    {
+      const auto histidx = histit.GetIndex()[0];
+      const auto binmin = static_cast<double>(allReferenceMinsFirstDimension[histidx]);
+      const auto binmax = static_cast<double>(allReferenceMaxsFirstDimension[histidx]);
+
+      std::cout << std::left << std::setw(colWidth) << histidx
+        << std::left << std::setw(colWidth) << histit.GetFrequency()
+        << std::left << std::setw(colWidth) << binmin
+        << std::left << std::setw(colWidth) << binmax
+        << std::left << std::setw(colWidth) << binmax - binmin
+        << std::endl;
+    }
+  std::cout << "\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^" << std::endl;
+  std::cout.flags(initial_cout_state);
+}
 
 template <typename TScalar>
 int itkHistogramMatchingImageFilterTest()
 {
-
   using PixelType = TScalar;
-  enum {ImageDimension = 3};
-  using ImageType = itk::Image<PixelType,ImageDimension>;
-  using Iterator = itk::ImageRegionIterator<ImageType>;
+  constexpr unsigned int ImageDimension = 3;
+
+  using ImageType = itk::Image< PixelType, ImageDimension >;
+  using Iterator = itk::ImageRegionIterator< ImageType >;
 
   typename ImageType::SizeType size;
   size[0] = 30;
@@ -89,7 +157,7 @@ int itkHistogramMatchingImageFilterTest()
   origin[0] = 1.0;
   origin[1] = 10.0;
   origin[2] = 100.0;
-  reference->SetOrigin(origin);
+  reference->SetOrigin( origin );
 
   source->SetLargestPossibleRegion( region );
   source->SetBufferedRegion( region );
@@ -102,74 +170,201 @@ int itkHistogramMatchingImageFilterTest()
 
   while ( !refIter.IsAtEnd() )
     {
-    refIter.Set( static_cast<PixelType>( refPattern( counter ) ) );
-    srcIter.Set( static_cast<PixelType>( srcPattern( counter ) ) );
+      refIter.Set( static_cast< PixelType >( refPattern( counter ) ) );
+      srcIter.Set( static_cast< PixelType >( srcPattern( counter ) ) );
 
-    ++refIter;
-    ++srcIter;
-    ++counter;
+      ++refIter;
+      ++srcIter;
+      ++counter;
     }
-
-
-  using FilterType = itk::HistogramMatchingImageFilter<ImageType,ImageType>;
-  typename FilterType::Pointer filter = FilterType::New();
-
-  filter->SetReferenceImage( reference );
-  filter->SetSourceImage( source );
-  filter->SetNumberOfHistogramLevels( 50 );
-  filter->SetNumberOfMatchPoints( 8 );
-  filter->ThresholdAtMeanIntensityOn();
-
-  ShowProgressObject progressWatch(filter);
-  itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
-  command = itk::SimpleMemberCommand<ShowProgressObject>::New();
-  command->SetCallbackFunction(&progressWatch,
-                               &ShowProgressObject::ShowProgress);
-  filter->AddObserver(itk::ProgressEvent(), command);
-
-  filter->Update();
-  filter->Print( std::cout );
-
-  // Walk the output and compare with reference
-  Iterator outIter( filter->GetOutput(), region );
-
-  refIter.GoToBegin();
 
   bool passed = true;
+  using FilterType = itk::HistogramMatchingImageFilter< ImageType, ImageType >;
+  typename FilterType::HistogramType::ConstPointer refHistogram = nullptr;
 
-  while( !outIter.IsAtEnd() )
+  // Test with historical reference image input, and then capture the histogram as cached
+  // value for other tests
+  {
+  typename FilterType::Pointer filterWithReferenceImage = FilterType::New();
+
+  filterWithReferenceImage->SetReferenceImage( reference );
+  filterWithReferenceImage->SetSourceImage( source );
+  filterWithReferenceImage->SetNumberOfHistogramLevels( 50 );
+  filterWithReferenceImage->SetNumberOfMatchPoints( 8 );
+
+  ShowProgressObject progressWatch( filterWithReferenceImage );
+  itk::SimpleMemberCommand< ShowProgressObject >::Pointer command;
+  command = itk::SimpleMemberCommand< ShowProgressObject >::New();
+  command->SetCallbackFunction( &progressWatch, &ShowProgressObject::ShowProgress );
+  filterWithReferenceImage->AddObserver( itk::ProgressEvent(), command );
+
     {
-    PixelType diff = refIter.Get() - outIter.Get();
-    if ( itk::Math::abs( diff ) > 1 )
-      {
-      passed = false;
-      std::cout << "Test failed at: " << outIter.GetIndex() << " ";
-      std::cout << "Output value: " << outIter.Get() << " ";
-      std::cout << "Ref value: " << refIter.Get() << std::endl;
-      }
-    ++outIter;
-    ++refIter;
+      // Exercise and test with ThresholdAtMeanIntensityOff
+      filterWithReferenceImage->ThresholdAtMeanIntensityOff();
+      filterWithReferenceImage->Update();
+      filterWithReferenceImage->Print( std::cout );
+    }
+    {
+      // Exercise auxiliary functions
+      std::cout << "Exercise auxiliary functions" << std::endl;
+      std::cout << filterWithReferenceImage->GetNumberOfHistogramLevels() << std::endl;
+      std::cout << filterWithReferenceImage->GetNumberOfMatchPoints() << std::endl;
+
+      std::cout << "Source Histogram: " << filterWithReferenceImage->GetSourceHistogram() << std::endl;
+      std::cout << "Reference Histogram: " << filterWithReferenceImage->GetReferenceHistogram() << std::endl;
+      std::cout << "Output Histogram: " << filterWithReferenceImage->GetOutputHistogram() << std::endl;
+
+      std::cout << "Threshold At Mean Intensity? ";
+      std::cout << filterWithReferenceImage->GetThresholdAtMeanIntensity() << std::endl;
+    }
+    {
+      // Exercise and test with ThresholdAtMeanIntensityOn
+      filterWithReferenceImage->ThresholdAtMeanIntensityOn();
+      filterWithReferenceImage->Update();
+      filterWithReferenceImage->Print( std::cout );
+
+      // Walk the output and compare with reference
+      Iterator outIter( filterWithReferenceImage->GetOutput(), region );
+      std::cout << "filterWithReferenceImage - Image Test -- START" << std::endl;
+      passed &= CompareImages( refIter, outIter );
+      std::cout << "filterWithReferenceImage - Image Test -- FINISHED" << std::endl;
+    }
+    {
+      // Get referenceHistogram for other tests
+      refHistogram = filterWithReferenceImage->GetReferenceHistogram();
+      PrintHistogramInfo( refHistogram );
     }
 
+  }
+  std::cout << "===================================================================================" << std::endl;
+  {
+    // Test SourceHistogram same size (50) as ReferenceHistogram
+    typename FilterType::Pointer filterWithSameSizeHistogram = FilterType::New();
 
-  // Exercise auxiliary functions
-  std::cout << "Exercise auxiliary functions" << std::endl;
-  std::cout << filter->GetNumberOfHistogramLevels() << std::endl;
-  std::cout << filter->GetNumberOfMatchPoints() << std::endl;
+    filterWithSameSizeHistogram->SetReferenceHistogram( refHistogram );
+    filterWithSameSizeHistogram->GenerateReferenceHistogramFromImageOff();
+    filterWithSameSizeHistogram->SetSourceImage( source );
+    filterWithSameSizeHistogram->SetNumberOfHistogramLevels( 50 );
+    filterWithSameSizeHistogram->SetNumberOfMatchPoints( 8 );
+    filterWithSameSizeHistogram->ThresholdAtMeanIntensityOn();
 
-  std::cout << "Source Histogram: " <<
-    filter->GetSourceHistogram() << std::endl;
-  std::cout << "Reference Histogram: " <<
-    filter->GetReferenceHistogram() << std::endl;
-  std::cout << "Output Histogram: " <<
-    filter->GetOutputHistogram() << std::endl;
+    ShowProgressObject progressWatchHistogramReference( filterWithSameSizeHistogram );
+    itk::SimpleMemberCommand<ShowProgressObject>::Pointer commandHistogramReference;
+    commandHistogramReference = itk::SimpleMemberCommand<ShowProgressObject>::New();
+    commandHistogramReference->SetCallbackFunction(&progressWatchHistogramReference,
+                                 &ShowProgressObject::ShowProgress);
+    filterWithSameSizeHistogram->AddObserver(itk::ProgressEvent(), commandHistogramReference );
 
-  std::cout << "Threshold At Mean Intensity? ";
-  std::cout << filter->GetThresholdAtMeanIntensity() << std::endl;
+    filterWithSameSizeHistogram->ThresholdAtMeanIntensityOn();
+    filterWithSameSizeHistogram->Update();
+    filterWithSameSizeHistogram->Print( std::cout );
 
-  filter->ThresholdAtMeanIntensityOff();
-  filter->Update();
-  filter->Print( std::cout );
+    // Walk the output and compare with reference
+    Iterator outIter( filterWithSameSizeHistogram->GetOutput(), region );
+    std::cout << "filterWithSameSizeHistogram - Image Test -- START" << std::endl;
+    passed &= CompareImages( refIter, outIter );
+    std::cout << "filterWithSameSizeHistogram - Image Test -- FINISHED" << std::endl;
+
+  }
+  // Test SourceHistogram smaller than (31) ReferenceHistogram
+  {
+    typename FilterType::Pointer filterWithSmallerHistogram = FilterType::New();
+
+    filterWithSmallerHistogram->SetReferenceHistogram( refHistogram );
+    filterWithSmallerHistogram->SetGenerateReferenceHistogramFromImage(false);
+    filterWithSmallerHistogram->SetSourceImage( source );
+    filterWithSmallerHistogram->SetNumberOfHistogramLevels( 31 );
+    filterWithSmallerHistogram->SetNumberOfMatchPoints( 8 );
+    filterWithSmallerHistogram->ThresholdAtMeanIntensityOn();
+
+    ShowProgressObject progressWatchHistogramReference( filterWithSmallerHistogram );
+    itk::SimpleMemberCommand<ShowProgressObject>::Pointer commandHistogramReference;
+    commandHistogramReference = itk::SimpleMemberCommand<ShowProgressObject>::New();
+    commandHistogramReference->SetCallbackFunction(&progressWatchHistogramReference,
+                                                   &ShowProgressObject::ShowProgress);
+    filterWithSmallerHistogram->AddObserver(itk::ProgressEvent(), commandHistogramReference );
+
+    filterWithSmallerHistogram->ThresholdAtMeanIntensityOn();
+    filterWithSmallerHistogram->Update();
+    filterWithSmallerHistogram->Print( std::cout );
+
+    // Walk the output and compare with reference
+    Iterator outIter( filterWithSmallerHistogram->GetOutput(), region );
+    std::cout << "filterWithSmallerHistogram - Image Test -- START" << std::endl;
+    passed &= CompareImages( refIter, outIter );
+    std::cout << "filterWithSmallerHistogram - Image Test -- FINISHED" << std::endl;
+
+  }
+
+  // Test SourceHistogram larger than (93) ReferenceHistogram
+  {
+    typename FilterType::Pointer filterWithLargerHistogram = FilterType::New();
+
+    filterWithLargerHistogram->SetReferenceHistogram( refHistogram );
+    filterWithLargerHistogram->SetGenerateReferenceHistogramFromImage(false);
+    filterWithLargerHistogram->SetSourceImage( source );
+    filterWithLargerHistogram->SetNumberOfHistogramLevels( 93 );
+    filterWithLargerHistogram->SetNumberOfMatchPoints( 8 );
+    filterWithLargerHistogram->ThresholdAtMeanIntensityOn();
+
+    ShowProgressObject progressWatchHistogramReference( filterWithLargerHistogram );
+    itk::SimpleMemberCommand<ShowProgressObject>::Pointer commandHistogramReference;
+    commandHistogramReference = itk::SimpleMemberCommand<ShowProgressObject>::New();
+    commandHistogramReference->SetCallbackFunction(&progressWatchHistogramReference,
+                                                   &ShowProgressObject::ShowProgress);
+    filterWithLargerHistogram->AddObserver(itk::ProgressEvent(), commandHistogramReference );
+
+    filterWithLargerHistogram->ThresholdAtMeanIntensityOn();
+    filterWithLargerHistogram->Update();
+    filterWithLargerHistogram->Print( std::cout );
+
+    // Walk the output and compare with reference
+    Iterator outIter( filterWithLargerHistogram->GetOutput(), region );
+    std::cout << "filterWithLargerHistogram - Image Test -- START" << std::endl;
+    passed &= CompareImages( refIter, outIter );
+    std::cout << "filterWithLargerHistogram - Image Test -- FINISHED" << std::endl;
+  }
+
+  // Incorrect input setting failures for ReferenceHistogram
+  {
+    typename FilterType::Pointer mismatchReferenceChoice = FilterType::New();
+    try
+    {
+      mismatchReferenceChoice->SetReferenceHistogram( refHistogram );
+      mismatchReferenceChoice->SetGenerateReferenceHistogramFromImage( true );
+      mismatchReferenceChoice->SetSourceImage( source );
+      mismatchReferenceChoice->SetNumberOfHistogramLevels( 10 );
+      mismatchReferenceChoice->SetNumberOfMatchPoints( 2 );
+      mismatchReferenceChoice->Update();
+      passed = false; // We should never get here, and exception should have been thrown
+      std::cout << "ERROR: Reached code that should have aborted due to thrown exception of missing ReferenceHistogram\n"
+                << __FILE__ << ":" << __LINE__ << std::endl;
+    }
+    catch(itk::ExceptionObject & )
+    {
+      std::cout << "Test caught known exception for SetReferenceHistogram correctly, NO FAILURE!" << std::endl;
+    }
+  }
+  // Incorrect input setting failures for ReferenceImage
+  {
+    typename FilterType::Pointer mismatchReferenceChoice = FilterType::New();
+    try
+    {
+      mismatchReferenceChoice->SetReferenceImage( reference );
+      mismatchReferenceChoice->SetGenerateReferenceHistogramFromImage( false );
+      mismatchReferenceChoice->SetSourceImage( source );
+      mismatchReferenceChoice->SetNumberOfHistogramLevels( 10 );
+      mismatchReferenceChoice->SetNumberOfMatchPoints( 2 );
+      mismatchReferenceChoice->Update();
+      passed = false; // We should never get here, and exception should have been thrown
+      std::cout << "ERROR: Reached code that should have aborted due to thrown exception of missing ReferenceImage\n"
+                << __FILE__ << ":" << __LINE__ <<  std::endl;
+    }
+    catch(itk::ExceptionObject & )
+    {
+      std::cout << "Test caught known exception for SetReferenceImage correctly, NO FAILURE!" << std::endl;
+    }
+  }
 
   if ( !passed )
     {
