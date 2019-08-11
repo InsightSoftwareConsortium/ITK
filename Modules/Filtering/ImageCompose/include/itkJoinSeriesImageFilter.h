@@ -98,7 +98,7 @@ protected:
   ~JoinSeriesImageFilter() override = default;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  /** Override VeriyInputInformation() to add the additional check
+  /** Override VerifyInputInformation() to add the additional check
    * that all inputs have the same number of components.
    *
    * \sa ProcessObject::VerifyInputInformation
