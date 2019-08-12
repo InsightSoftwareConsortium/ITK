@@ -23,6 +23,11 @@
 
 namespace itk
 {
+// See https://docs.microsoft.com/en-us/cpp/error-messages/compiler-errors-1/compiler-error-c2059?view=vs-2019
+#ifdef STRICT
+#  define TEMPINPLACELABELMAPSTRICT STRICT
+#  undef STRICT
+#endif
     /**\class ChoiceMethod
      *  \ingroup ITKLabelMap
      */
@@ -32,7 +37,10 @@ namespace itk
         PACK = 2,
         STRICT = 3
     };
-
+#ifdef TEMPINPLACELABELMAPSTRICT
+#  define STRICT TEMPINPLACELABELMAPSTRICT
+#  undef TEMPINPLACELABELMAPSTRICT
+#endif
 /** \class MergeLabelMapFilter
  * \brief Merges several Label Maps
  *
