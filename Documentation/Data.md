@@ -67,7 +67,7 @@ For the reasons stated in the [Discussion](#discussion) section, rather than
 the binary files themselves, ITK and related projects use content link files
 associated with these files.
 
-To generate the content link file, use the procedure in [Upload Binary Data].
+To generate the content link file, use the procedure in [UploadBinaryData].
 
 
 ### Commit
