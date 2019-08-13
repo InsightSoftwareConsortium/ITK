@@ -182,5 +182,9 @@ nm libitkjpeg.a |grep " [TRD] " | awk '{ print "#define "$3" itk_jpeg_"$3 }'
 #define jpeg_write_tables            itk_jpeg_jpeg_write_tables
 #define jround_up                    itk_jpeg_jround_up
 #define jzero_far                    itk_jpeg_jzero_far
+#define jpeg_aritab                  itk_jpeg_jpeg_aritab
+#define jinit_arith_encoder          itk_jpeg_jinit_arith_encoder
+#define jinit_arith_decoder          itk_jpeg_jinit_arith_decoder
+#define jpeg_copy_critical_parameters itk_jpeg_jpeg_copy_critical_parameters
 
 #endif
