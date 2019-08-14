@@ -217,6 +217,12 @@ macro(check_compiler_platform_flags)
          if(MSVC_VERSION GREATER 1310)
            set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} /bigobj")
          endif()
+         # Force synchronous writes for building ITK on MSVC 1920-1929
+         # https://docs.microsoft.com/en-us/cpp/build/reference/fs-force-synchronous-pdb-writes?view=vs-201
+         if(MSVC_VERSION GREATER_EQUAL 1920)
+           set(ITK_REQUIRED_C_FLAGS "${ITK_REQUIRED_CXX_FLAGS} /FS")
+           set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} /FS")
+         endif()
        endif()
   endif()
 
