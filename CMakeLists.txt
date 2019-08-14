@@ -432,6 +432,9 @@ add_subdirectory(Modules/Remote)
 # Enable modules according to user inputs and the module dependency DAG.
 include(ITKModuleEnablement)
 
+# Setup clang-format for code style enforcement
+include(ITKClangFormatSetup)
+
 #----------------------------------------------------------------------
 # Generate ITKConfig.cmake for the build tree.
 set(ITK_CONFIG_CODE "
@@ -466,11 +469,6 @@ if(NOT ITK_USE_SYSTEM_FFTW)
   set(FFTW_INCLUDE_PATH "\${ITK_INSTALL_PREFIX}/include/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Algorithms")
 endif()
 configure_file(CMake/ITKConfig.cmake.in CMakeFiles/ITKConfig.cmake @ONLY)
-
-#----------------------------------------------------------------------------
-# Configure maintenance scripts
-configure_file(Utilities/Maintenance/doSingleKWStyleUncrustifyFix.sh.in
-  Utilities/Maintenance/doSingleKWStyleUncrustifyFix.sh @ONLY)
 
 #-----------------------------------------------------------------------------
 install(FILES ${ITK_BINARY_DIR}/CMakeFiles/ITKConfig.cmake

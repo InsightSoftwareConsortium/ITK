@@ -12,6 +12,7 @@ itkGDCMImageIOOrthoDirTest.cxx
 itkGDCMImageOrientationPatientTest.cxx
 itkGDCMLoadImageSpacingTest.cxx
 itkGDCMLegacyMultiFrameTest.cxx
+itkGDCMImageIONoPreambleTest.cxx
 )
 
 CreateTestDriver(ITKIOGDCM  "${ITKIOGDCM-Test_LIBRARIES}" "${ITKIOGDCMTests}")
@@ -156,4 +157,9 @@ itk_add_test(NAME itkGDCMLegacyMultiFrameTest
       # https://discourse.slicer.org/t/dicom-multiframe-support/4806/9
       DATA{Input/LegacyMultiFrame.dcm}
       ${ITK_TEST_OUTPUT_DIR}/itkGDCMLegacyMultiFrameTest.mha
+  )
+
+itk_add_test(NAME itkGDCMImageIONoPreambleTest
+  COMMAND ITKIOGDCMTestDriver itkGDCMImageIONoPreambleTest
+  DATA{Input/NoPreambleDicomTest.dcm}
   )

@@ -208,13 +208,12 @@ OBJMeshIO
   this->m_PointPixelComponentType = FLOAT;
   this->m_PointPixelType = VECTOR;
   this->m_NumberOfPointPixelComponents = 3;
-  this->m_NumberOfPointPixels = this->m_NumberOfPoints;
   // this->m_UpdatePointData = true;
 
   // Set default cell pixel component and point pixel type
-  this->m_CellPixelComponentType = FLOAT;
-  this->m_CellPixelType  = SCALAR;
-  this->m_NumberOfCellPixelComponents = itk::NumericTraits< unsigned int >::OneValue();
+  this->m_CellPixelComponentType = LONG;
+  this->m_CellPixelType = VECTOR;
+  this->m_NumberOfCellPixelComponents = 3;
   this->m_UpdateCellData = false;
 
   CloseFile();
@@ -595,7 +594,7 @@ OBJMeshIO
   // Point data must be vector
   if ( !m_UpdatePointData || m_NumberOfPointPixelComponents != m_PointDimension )
     {
-    itkExceptionMacro(<< "MNI Mesh required point normals");
+    itkExceptionMacro( << "OBJ Mesh writer does not support normals" );
     }
 
   // Check file name

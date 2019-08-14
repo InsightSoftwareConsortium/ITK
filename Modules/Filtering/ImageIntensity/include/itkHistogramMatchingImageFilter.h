@@ -174,7 +174,7 @@ protected:
   void DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 
-  /** Override VeriyInputInformation() since this filter does not expect
+  /** Override VerifyInputInformation() since this filter does not expect
    * the input images to occupy the same physical space.
    *
    * \sa ProcessObject::VerifyInputInformation

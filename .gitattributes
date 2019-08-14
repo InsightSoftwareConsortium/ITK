@@ -26,11 +26,15 @@ remove_ext       crlf=input
 vxl_doxy.pl      crlf=input
 zap.pl           crlf=input
 
-*.c              whitespace=tab-in-indent,no-lf-at-eof  hooks.style=KWStyle,uncrustify
-*.h              whitespace=tab-in-indent,no-lf-at-eof  hooks.style=KWStyle,uncrustify
-*.cxx            whitespace=tab-in-indent,no-lf-at-eof  hooks.style=KWStyle,uncrustify
-*.hxx            whitespace=tab-in-indent,no-lf-at-eof  hooks.style=KWStyle,uncrustify
-*.txx            whitespace=tab-in-indent,no-lf-at-eof  hooks.style=KWStyle,uncrustify
+
+# Custom attribute to mark sources as using our C++/C code style.
+[attr]our-c-style  whitespace=tab-in-indent,no-lf-at-eof  hooks.style=KWStyle,clangformat
+
+*.c              our-c-style
+*.h              our-c-style
+*.cxx            our-c-style
+*.hxx            our-c-style
+*.txx            our-c-style
 *.txt            whitespace=tab-in-indent,no-lf-at-eof
 *.cmake          whitespace=tab-in-indent,no-lf-at-eof
 
