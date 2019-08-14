@@ -47,7 +47,6 @@
 #include "itkComplexToModulusImageFilter.h"
 #include "itkShiftScaleImageFilter.h"
 #include "itkAbsImageFilter.h"
-// #include "itkFlipImageFilter.h"
 
 #include <vector>
 #include <complex>
