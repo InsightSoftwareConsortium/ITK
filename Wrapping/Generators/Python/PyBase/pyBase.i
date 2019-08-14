@@ -423,6 +423,18 @@ str = str
 
 %enddef
 
+%define DECL_PYTHON_IMAGE_CLASS(swig_name)
+  %extend swig_name {
+      %pythoncode {
+          def __array__(self, dtype=None):
+              import itk
+              import numpy as np
+              array = itk.array_view_from_image(self)
+              return np.asarray(array, dtype=dtype)
+      }
+  }
+%enddef
+
 
 %define DECL_PYTHON_ITK_MATRIX(class_name)
   %rename(__GetVnlMatrix_orig__) class_name::GetVnlMatrix;
