@@ -276,31 +276,33 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
    * This splitting is required in order to avoid having the threads
    * repeatedly write to same location causing false sharing
    */
-  //Use STL container to make sure no unesecarry checks are performed
-  using FixedTransformedVectorContainer = typename FixedPointsContainer::STLContainerType;
-  using VirtualPointsContainer = typename VirtualPointSetType::PointsContainer;
-  using VirtualVectorContainer =  typename VirtualPointsContainer::STLContainerType;
-  const VirtualVectorContainer &virtualTransformedPointSet =
-    this->m_VirtualTransformedPointSet->GetPoints()->CastToSTLConstContainer();
-  const FixedTransformedVectorContainer &fixedTransformedPointSet =
-    this->m_FixedTransformedPointSet->GetPoints()->CastToSTLConstContainer();
-
+  //GetNumberOfLocalParameters is not trhead safe in itkCompositeTransform
+  NumberOfParametersType numberOfLocalParameters = this->GetNumberOfLocalParameters();
   PointIdentifierRanges ranges = this->CreateRanges();
   std::vector< CompensatedSummation< MeasureType > > threadValues( ranges.size() );
   using CompensatedDerivative = typename std::vector< CompensatedSummation<ParametersValueType> >;
   std::vector< CompensatedDerivative > threadDerivatives( ranges.size() );
   std::function< void(unsigned int) > sumNeighborhoodValues =
       [ this, &derivative, &threadDerivatives, &threadValues, &ranges, &calculateValue,
-        &virtualTransformedPointSet, &fixedTransformedPointSet]
+        &numberOfLocalParameters]
       (unsigned int rangeIndex)
     {
-    MovingTransformJacobianType  jacobian( MovingPointDimension, this->GetNumberOfLocalParameters() );
+    //Use STL container to make sure no unesecarry checks are performed
+    using FixedTransformedVectorContainer = typename FixedPointsContainer::STLContainerType;
+    using VirtualPointsContainer = typename VirtualPointSetType::PointsContainer;
+    using VirtualVectorContainer =  typename VirtualPointsContainer::STLContainerType;
+    const VirtualVectorContainer &virtualTransformedPointSet =
+      this->m_VirtualTransformedPointSet->GetPoints()->CastToSTLConstContainer();
+    const FixedTransformedVectorContainer &fixedTransformedPointSet =
+      this->m_FixedTransformedPointSet->GetPoints()->CastToSTLConstContainer();
+
+    MovingTransformJacobianType  jacobian( MovingPointDimension, numberOfLocalParameters );
     MovingTransformJacobianType  jacobianCache;
 
-    DerivativeType threadLocalTransformDerivative( this->GetNumberOfLocalParameters() );
+    DerivativeType threadLocalTransformDerivative( numberOfLocalParameters );
     threadLocalTransformDerivative.Fill( NumericTraits<DerivativeValueType>::ZeroValue() );
 
-    CompensatedDerivative threadDerivativeSum( this->GetNumberOfLocalParameters() );
+    CompensatedDerivative threadDerivativeSum( numberOfLocalParameters );
 
     CompensatedSummation< MeasureType > threadValue;
     PixelType pixel;
@@ -354,7 +356,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
                                                                    jacobian,
                                                                    jacobianCache );
 
-        for( NumberOfParametersType par = 0; par < this->GetNumberOfLocalParameters(); par++ )
+        for( NumberOfParametersType par = 0; par < numberOfLocalParameters; par++ )
           {
           for( DimensionType d = 0; d < PointDimension; ++d )
             {
@@ -371,13 +373,13 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
           }
         else
           {
-          for( NumberOfParametersType par = 0; par < this->GetNumberOfLocalParameters(); par++ )
+          for( NumberOfParametersType par = 0; par < numberOfLocalParameters; par++ )
             {
             derivative[this->GetNumberOfLocalParameters() * index + par] = threadLocalTransformDerivative[par];
             }
           }
         }
-      for( NumberOfParametersType par = 0; par < this->GetNumberOfLocalParameters(); par++ )
+      for( NumberOfParametersType par = 0; par < numberOfLocalParameters; par++ )
         {
         threadDerivativeSum[par] += threadLocalTransformDerivative[par];
         }
@@ -404,15 +406,16 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
     // For global-support transforms, average the accumulated derivative result
     if( ! this->HasLocalSupport() && ! this->m_CalculateValueAndDerivativeInTangentSpace )
       {
-      CompensatedDerivative localTransformDerivative( this->GetNumberOfLocalParameters() );
+      CompensatedDerivative localTransformDerivative( numberOfLocalParameters );
       for(unsigned int i=0; i< threadDerivatives.size(); i++)
         {
-        for( NumberOfParametersType par = 0; par < this->GetNumberOfLocalParameters(); par++ )
+        for( NumberOfParametersType par = 0; par < numberOfLocalParameters; par++ )
           {
           localTransformDerivative[par] += threadDerivatives[i][par];
           }
         }
-      for( NumberOfParametersType par = 0; par < this->GetNumberOfLocalParameters(); par++ )
+      derivative.SetSize( numberOfLocalParameters );
+      for( NumberOfParametersType par = 0; par < numberOfLocalParameters; par++ )
         {
          derivative[par] = localTransformDerivative[par].GetSum()
                                   / static_cast<DerivativeValueType>( this->m_NumberOfValidPoints );
