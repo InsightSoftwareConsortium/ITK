@@ -56,10 +56,10 @@ int main( int argc, char *argv[] )
               showUsage(argv[0]);
               return 0;
           case 'n':
-              numelrows = atoi(optarg);
+              numelrows = std::stoi(optarg);
               break;
           case 'm':
-              numelcols = atoi(optarg);
+              numelcols = std::stoi(optarg);
               break;
           default:
               if (c > 0) { showUsage(argv[0]); return 0; }
@@ -82,13 +82,13 @@ int main( int argc, char *argv[] )
 
 int test_vnl_index_sort()
 {
-  typedef double             MeasurementValueType;
-  typedef vnl_vector<MeasurementValueType> MeasurementVectorType;
-  typedef vnl_matrix<MeasurementValueType> MeasurementMatrixType;
+  using MeasurementValueType = double;
+  using MeasurementVectorType = vnl_vector<MeasurementValueType>;
+  using MeasurementMatrixType = vnl_matrix<MeasurementValueType>;
 
-  typedef int                RankValType;
-  typedef vnl_vector<RankValType> IndexVectorType;
-  typedef vnl_matrix<RankValType> IndexMatrixType;
+  using RankValType = int;
+  using IndexVectorType = vnl_vector<RankValType>;
+  using IndexMatrixType = vnl_matrix<RankValType>;
 
   typedef vnl_index_sort<MeasurementValueType, RankValType> IndexSortType;
 

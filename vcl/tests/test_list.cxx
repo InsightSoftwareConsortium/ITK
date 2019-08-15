@@ -7,7 +7,7 @@
 
 int test_list_main(int /*argc*/,char* /*argv*/[])
 {
-  typedef std::list<int> container;
+  using container = std::list<int>;
   container m;
 
   m.push_back(1);

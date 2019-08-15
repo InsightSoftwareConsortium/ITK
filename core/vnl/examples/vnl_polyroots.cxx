@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
   }
   else
     for (int i=0; i<argc; ++i)
-      pts[i] = std::atof(argv[i]);
+      pts[i] = std::stod(argv[i]);
 
   std::cout << "Coefficients = [ " << pts << " ]\n"
            << "Polynomial = ";

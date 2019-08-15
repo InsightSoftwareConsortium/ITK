@@ -6,7 +6,7 @@
 
 int test_deque_main(int /*argc*/,char* /*argv*/[])
 {
-  typedef std::deque<int> mydeque;
+  using mydeque = std::deque<int>;
   mydeque dq;
 
   dq.push_front(2);

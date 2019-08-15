@@ -117,7 +117,7 @@ inst(std::complex<double>);
 
 void complex_test()
 {
-  typedef std::complex<double> ct;
+  using ct = std::complex<double>;
 
   vnl_matrix<ct> A(5,4); // #rows must be >= #cols when using netlib QR decomposition
   vnl_vector<ct> b(5);
