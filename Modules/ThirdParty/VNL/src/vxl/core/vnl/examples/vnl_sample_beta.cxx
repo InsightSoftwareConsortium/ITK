@@ -30,8 +30,8 @@ int main(int argc, char* argv[])
              << "for given a (first command line argument), and where n is the second argument.\n";
     return -1;
   }
-  double a = std::atof(argv[1]);
-  int n = std::atoi(argv[2]);
+  double a = std::stod(argv[1]);
+  int n = std::stoi(argv[2]);
   while (n--) {
     double u = vnl_sample_uniform(0,1);
     double v = vnl_sample_uniform(0,vnl_math::twopi);

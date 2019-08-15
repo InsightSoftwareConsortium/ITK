@@ -214,7 +214,7 @@ int main( int , char * [] )
   double xx[nn];
   xx[0] = 1.0;
   xx[1] = 7.0;
-  typedef double * RowType;
+  using RowType = double *;
   RowType A[mm];
   double AA[4];
   A[0] = &(AA[0]);
@@ -238,7 +238,7 @@ int main( int , char * [] )
   xx[0] = 1.0;
   xx[1] = 7.0;
   xx[2] = 9.0;
-  typedef double * RowType;
+  using RowType = double *;
   RowType A[mm];
   double AA[6];
   A[0] = &(AA[0]);
@@ -263,7 +263,7 @@ int main( int , char * [] )
   double xx[nn];
   xx[0] = 1.0;
   xx[1] = 7.0;
-  typedef double * RowType;
+  using RowType = double *;
   RowType A[mm];
   double AA[6];
   A[0] = &(AA[0]);
@@ -290,7 +290,7 @@ int main( int , char * [] )
   double xx[nn];
   xx[0] = 0.0;
   xx[1] = 0.0;
-  typedef double * RowType;
+  using RowType = double *;
   RowType A[mm];
   double AA[4];
   A[0] = &(AA[0]);
@@ -314,7 +314,7 @@ int main( int , char * [] )
   xx[0] = 0.0;
   xx[1] = 0.0;
   xx[2] = 0.0;
-  typedef double * RowType;
+  using RowType = double *;
   RowType A[mm];
   double AA[6];
   A[0] = &(AA[0]);
@@ -339,7 +339,7 @@ int main( int , char * [] )
   double xx[nn];
   xx[0] = 0.0;
   xx[1] = 0.0;
-  typedef double * RowType;
+  using RowType = double *;
   RowType A[mm];
   double AA[6];
   A[0] = &(AA[0]);
@@ -368,7 +368,7 @@ int main( int , char * [] )
   bb[1] = 7.0;
   double xx[mm];
   solver.SetStandardErrorEstimatesFlag( false );
-  typedef double * RowType;
+  using RowType = double *;
   RowType A[mm];
   double AA[4];
   A[0] = &(AA[0]);
@@ -393,7 +393,7 @@ int main( int , char * [] )
   solver.SetStandardErrorEstimatesFlag( true );
   double se[nn];
   solver.SetStandardErrorEstimates( se );
-  typedef double * RowType;
+  using RowType = double *;
   RowType A[mm];
   double AA[4];
   A[0] = &(AA[0]);
@@ -420,7 +420,7 @@ int main( int , char * [] )
   solver.SetStandardErrorEstimatesFlag( true );
   double se[nn];
   solver.SetStandardErrorEstimates( se );
-  typedef double * RowType;
+  using RowType = double *;
   RowType A[mm];
   double AA[4];
   A[0] = &(AA[0]);

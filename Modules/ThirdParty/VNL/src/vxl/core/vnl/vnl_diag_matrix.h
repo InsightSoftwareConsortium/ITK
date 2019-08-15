@@ -42,7 +42,12 @@ class VNL_EXPORT vnl_diag_matrix
   vnl_vector<T> diagonal_;
 
  public:
-  vnl_diag_matrix() : diagonal_() {}
+  vnl_diag_matrix() = default;
+  vnl_diag_matrix(const vnl_diag_matrix<T> & that)  = default;
+  vnl_diag_matrix(vnl_diag_matrix<T> && that)  = default;
+  vnl_diag_matrix& operator=(const vnl_diag_matrix<T> & that)  = default;
+  vnl_diag_matrix& operator=(vnl_diag_matrix<T> && that)  = default;
+  ~vnl_diag_matrix() = default;
 
   //: Construct an empty diagonal matrix.
   vnl_diag_matrix(unsigned nn) : diagonal_(nn) {}
@@ -53,12 +58,6 @@ class VNL_EXPORT vnl_diag_matrix
   //: Construct a diagonal matrix from a vnl_vector.
   //  The vector elements become the diagonal elements.
   vnl_diag_matrix(vnl_vector<T> const& that): diagonal_(that) {}
- ~vnl_diag_matrix() = default;
-
-  inline vnl_diag_matrix& operator=(vnl_diag_matrix<T> const& that) {
-    this->diagonal_ = that.diagonal_;
-    return *this;
-  }
 
   // Operations----------------------------------------------------------------
 

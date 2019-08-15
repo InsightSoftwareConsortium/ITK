@@ -68,9 +68,13 @@ foreach(p
 endforeach()
 
 project(VXL #Project name must be all caps to have properly generated VXL_VERSION_* variables
-    VERSION 2.0.2.0
+    VERSION 2.0.2.1 # defines #VXL_VERSION{,MAJOR,MINOR,PATCH,TWEAK}
     DESCRIPTION "A multi-platform collection of C++ software libraries for Computer Vision and Image Understanding."
     LANGUAGES CXX C)
+
+SET(VXL_API_VERSION "${VXL_VERSION_MAJOR}.${VXL_VERSION_MINOR}")
+SET(VXL_LIBRARY_PROPERTIES ${VXL_LIBRARY_PROPERTIES} VERSION "${VXL_VERSION}"
+    SOVERSION "${VXL_API_VERSION}")
 
 include(CMakeDependentOption)
 include(${CMAKE_CURRENT_SOURCE_DIR}/config/cmake/VXLInitializeBuildType.cmake)
@@ -155,7 +159,11 @@ set( CMAKE_EXE_LINKER_FLAGS    "${CMAKE_EXE_LINKER_FLAGS} ${VXL_EXTRA_CMAKE_EXE_
 set( CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} ${VXL_EXTRA_CMAKE_MODULE_LINKER_FLAGS}" )
 set( CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${VXL_EXTRA_CMAKE_SHARED_LINKER_FLAGS}" )
 
-
+if(MSVC_VERSION GREATER_EQUAL 1920)
+# Force synchronous writes of .pdb files for building VXL on MSVC 1920-1929
+# https://docs.microsoft.com/en-us/cpp/build/reference/fs-force-synchronous-pdb-writes?view=vs-201
+  add_compile_options( "/FS" )
+endif()
 #-------------------------------------------------------------------
 #-- BUILD CONFIG OPTIONS
 
