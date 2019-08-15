@@ -13,6 +13,86 @@ pr: none
 variables:
   ExternalDataVersion: 5.0.0
 jobs:
+  - job: Windows
+    timeoutInMinutes: 0
+    cancelTimeoutInMinutes: 300
+    strategy:
+      maxParallel: 2
+      matrix:
+        v140:
+          CTEST_CMAKE_GENERATOR_TOOLSET: v140
+          CTEST_CMAKE_GENERATOR_PLATFORM: x64
+          CTEST_CONFIGURATION_TYPE: Release
+          CTEST_CMAKE_GENERATOR: "Visual Studio 15 2017"
+          imageName: 'vs2017-win2016'
+        v142:
+          CTEST_CMAKE_GENERATOR_TOOLSET: v142
+          CTEST_CMAKE_GENERATOR_PLATFORM: x64
+          CTEST_CONFIGURATION_TYPE: Release
+          CTEST_CMAKE_GENERATOR: "Visual Studio 16 2019"
+          imageName: 'windows-2019'
+    pool:
+      vmImage: $(imageName)
+    steps:
+      - checkout: self
+        clean: true
+        fetchDepth: 5
+
+      - script: |
+          if DEFINED SYSTEM_PULLREQUEST_SOURCECOMMITID git checkout $(System.PullRequest.SourceCommitId)
+        displayName: Checkout pull request HEAD
+
+      - script: |
+          pip3 install ninja
+          pip3 install --upgrade setuptools
+          pip3 install scikit-ci-addons
+        displayName: 'Install dependencies'
+
+      - script: |
+          git clone -b dashboard --single-branch https://github.com/InsightSoftwareConsortium/ITK.git ITK-dashboard
+
+          curl -L https://github.com/InsightSoftwareConsortium/ITK/releases/download/v$(ExternalDataVersion)/InsightData-$(ExternalDataVersion).tar.gz -O
+          cmake -E tar xfz InsightData-$(ExternalDataVersion).tar.gz
+          cmake -E rename InsightToolkit-$(ExternalDataVersion)/.ExternalData/MD5 $(Build.SourcesDirectory)/.ExternalData/MD5
+        workingDirectory: $(Agent.BuildDirectory)
+        displayName: 'Download dashboard script and testing data'
+
+      - bash: |
+          cat > dashboard.cmake << EOF
+          set(CTEST_BUILD_CONFIGURATION "$(CTEST_CONFIGURATION_TYPE)")
+          set(CTEST_CMAKE_GENERATOR_TOOLSET "$(CTEST_CMAKE_GENERATOR_TOOLSET)")
+          set(CTEST_CMAKE_GENERATOR_PLATFORM "$(CTEST_CMAKE_GENERATOR_PLATFORM)")
+          set(CTEST_CMAKE_GENERATOR "$(CTEST_CMAKE_GENERATOR)")
+          set(dashboard_cache "
+            BUILD_SHARED_LIBS:BOOL=ON
+            BUILD_EXAMPLES:BOOL=OFF
+            ITK_WRAP_PYTHON:BOOL=OFF
+          ")
+          include(\$ENV{AGENT_BUILDDIRECTORY}/ITK-dashboard/azure_dashboard.cmake)
+          EOF
+          cat dashboard.cmake
+        workingDirectory: $(Agent.BuildDirectory)/ITK-dashboard
+        displayName: 'Configure CTest script'
+
+      - script: |
+          cmake --version
+          ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -VV -j 4
+        displayName: 'Build and test'
+        env:
+          CTEST_OUTPUT_ON_FAILURE: 1
+
+      - script: |
+          ci_addons ctest_junit_formatter $(Build.SourcesDirectory)-build > $(Agent.BuildDirectory)/JUnitTestResults.xml
+        condition: succeededOrFailed()
+        displayName: 'Format CTest output in JUnit format'
+
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFiles: "$(Agent.BuildDirectory)/JUnitTestResults.xml"
+          testRunTitle: 'CTest $(Agent.OS)'
+        condition: succeededOrFailed()
+        displayName: 'Publish test results'
+
   - job: Linux
     timeoutInMinutes: 0
     cancelTimeoutInMinutes: 300
