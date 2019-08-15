@@ -224,6 +224,16 @@ protected:
 
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 
+  bool RequiresFixedPointsLocator() const override
+    {
+    return false;
+    }
+
+  bool RequiresMovingPointsLocator() const override
+    {
+    return false;
+    }
+
 private:
   DensityFunctionPointer                   m_MovingDensityFunction;
 
