@@ -16,7 +16,7 @@ template <class T, class S> static
 void test_hilbert(T /*dummy*/, char const* type, S residual)
 {
   std::cout << "----- Testing svd<"<<type<<">(Hilbert_3x3) -----" << std::endl;
-  typedef typename vnl_numeric_traits<T>::abs_t abs_t;
+  using abs_t = typename vnl_numeric_traits<T>::abs_t;
   // Test inversion and recomposition of 5x5 hilbert matrix
   vnl_matrix<T> H(5,5);
   for (int i = 0; i < 5; ++i)

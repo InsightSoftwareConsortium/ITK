@@ -115,7 +115,7 @@ testlib_main( int argc, char* argv[] )
 
   // Assume the index type for vector<string> and
   // vector<TestMainFunction> are the same.
-  typedef std::vector<std::string>::size_type vec_size_t;
+  using vec_size_t = std::vector<std::string>::size_type;
 
   // Error check.
   if ( testlib_test_func_.size() != testlib_test_name_.size() ) {
