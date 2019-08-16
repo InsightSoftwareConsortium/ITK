@@ -324,6 +324,10 @@ macro(itk_setup_swig_python type base_name interface_file python_file cpp_file d
     -w508 # Declaration of 'name' shadows declaration accessible via operator->(), previous declaration of'declaration'
     -w509 # Overloaded method declaration effectively ignored, as it is shadowed by declaration
     -o ${cpp_file}
+    # The order of this include folder and the next one matters as otherwise the following exception is thrown:
+    # "This version of exception.i should not be used"
+    -I${SWIG_DIR}/python
+    -I${SWIG_DIR}
     -I${GENERATORS_SRC_DIR}
     -I${WRAP_ITK_TYPEDEFS_DIRECTORY}/python
     -I${WRAP_ITK_TYPEDEFS_DIRECTORY}
