@@ -14,4 +14,5 @@ execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "import numpy"
   )
 if(_have_numpy_return_code EQUAL 0)
   itk_python_add_test(NAME itkImagePythonTest COMMAND itkImageTest.py)
+  itk_python_add_test(NAME itkMatrixPythonTest COMMAND itkMatrixTest.py)
 endif()
