@@ -56,6 +56,7 @@ jobs:
           ITK_WRAP_PYTHON:BOOL=ON
           ITK_BUILD_DEFAULT_MODULES:BOOL=OFF
           ITKGroup_Core:BOOL=ON
+          Module_ITKBridgeNumPy:BOOL=ON
         ")
         include(\$ENV{AGENT_BUILDDIRECTORY}/ITK-dashboard/azure_dashboard.cmake)
         EOF
