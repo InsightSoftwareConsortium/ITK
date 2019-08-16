@@ -417,12 +417,8 @@ str = str
 
         %pythoncode %{
             def SetDirection(self, direction):
-                def is_arraylike(arr):
-                    return hasattr(arr, 'shape') and \
-                    hasattr(arr, 'dtype') and \
-                    hasattr(arr, '__array__') and \
-                    hasattr(arr, 'ndim')
-                if is_arraylike(direction):
+                import itkHelpers
+                if itkHelpers.is_arraylike(direction):
                     import itk
                     import numpy as np
 
