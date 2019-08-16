@@ -7,5 +7,5 @@ Please refer to the documentation upstream for a detailed description:
 https://github.com/albarji/proxTV
 "
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKTotalVariation.git
-  GIT_TAG a8c27685996535021e2eb07449a4a668b423d7a1
+  GIT_TAG a3b9340c5bfbee797a9f8fda3581004578fcd588
 )
