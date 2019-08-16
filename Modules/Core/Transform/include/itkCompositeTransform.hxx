@@ -932,14 +932,11 @@ CompositeTransform<TParametersValueType, NDimensions>
    return this->m_NumberOfLocalParameters;
    }
 
-  this->m_LocalParametersUpdateTime = this->GetMTime();
-
   /* Returns to total number of *local* params in all transforms currently
    * set to be used for optimized.
    * Note that unlike in GetNumberOfParameters(), we don't expect the
    * number of local parameters to possibly change. */
   NumberOfParametersType result = NumericTraits< NumberOfParametersType >::ZeroValue();
-
   for( signed long tind = (signed long) this->GetNumberOfTransforms() - 1; tind >= 0; tind-- )
     {
     if( this->GetNthTransformToOptimize( tind ) )
@@ -949,6 +946,9 @@ CompositeTransform<TParametersValueType, NDimensions>
       }
     }
   this->m_NumberOfLocalParameters = result;
+
+  this->m_LocalParametersUpdateTime = this->GetMTime();
+
   return result;
 }
 
