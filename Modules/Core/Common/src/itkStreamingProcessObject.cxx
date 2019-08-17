@@ -134,10 +134,10 @@ void StreamingProcessObject::UpdateOutputData(DataObject *itkNotUsed(output))
   /*
    * Make sure we have the necessary inputs
    */
-  unsigned int ninputs = this->GetNumberOfValidRequiredInputs();
+  const DataObjectPointerArraySizeType ninputs = this->GetNumberOfValidRequiredInputs();
   if (ninputs < this->GetNumberOfRequiredInputs())
     {
-    itkExceptionMacro(<< "At least " << static_cast<unsigned int>( this->GetNumberOfRequiredInputs() )
+    itkExceptionMacro(<< "At least " << this->GetNumberOfRequiredInputs()
       << " inputs are required but only " << ninputs << " are specified.");
     }
 
