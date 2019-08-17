@@ -352,7 +352,7 @@ TemporalProcessObject::UpdateOutputData(DataObject* itkNotUsed(output))
   try
     {
     // Make sure all required input ports full
-    DataObjectPointerArraySizeType ninputs = this->GetNumberOfValidRequiredInputs();
+    const DataObjectPointerArraySizeType ninputs = this->GetNumberOfValidRequiredInputs();
     if ( ninputs < this->GetNumberOfRequiredInputs() )
       {
       itkExceptionMacro(<< "At least " << this->GetNumberOfRequiredInputs()
