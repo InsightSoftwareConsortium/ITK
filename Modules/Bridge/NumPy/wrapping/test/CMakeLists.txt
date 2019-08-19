@@ -16,6 +16,8 @@ if(_have_numpy_return_code EQUAL 0)
   )
 endif()
 
-itk_python_add_test(NAME itkPyBufferMemoryLeakTest
-  COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/itkPyBufferMemoryLeakTest.py
-)
+if(NOT WIN32)
+  itk_python_add_test(NAME itkPyBufferMemoryLeakTest
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/itkPyBufferMemoryLeakTest.py
+  )
+endif()
