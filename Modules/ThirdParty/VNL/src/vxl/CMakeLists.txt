@@ -155,7 +155,11 @@ set( CMAKE_EXE_LINKER_FLAGS    "${CMAKE_EXE_LINKER_FLAGS} ${VXL_EXTRA_CMAKE_EXE_
 set( CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} ${VXL_EXTRA_CMAKE_MODULE_LINKER_FLAGS}" )
 set( CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${VXL_EXTRA_CMAKE_SHARED_LINKER_FLAGS}" )
 
-
+if(MSVC_VERSION GREATER_EQUAL 1920)
+# Force synchronous writes of .pdb files for building VXL on MSVC 1920-1929
+# https://docs.microsoft.com/en-us/cpp/build/reference/fs-force-synchronous-pdb-writes?view=vs-201
+  add_compile_options( "/FS" )
+endif()
 #-------------------------------------------------------------------
 #-- BUILD CONFIG OPTIONS
 
