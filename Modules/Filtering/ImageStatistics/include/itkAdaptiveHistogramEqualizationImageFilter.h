@@ -47,7 +47,8 @@ namespace itk
  * (beta=1, with alpha=1).
  *
  * The parameter window controls the size of the region over which
- * local statistics are calculated.
+ * local statistics are calculated. The size of the window is controlled
+ * by SetRadius -- the default Radius is 5 in all directions.
  *
  * By altering alpha, beta and window, a host of equalization and unsharp
  * masking filters is available.
