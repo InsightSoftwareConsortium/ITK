@@ -218,7 +218,7 @@ int itkMontageTruthCreator( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  itk::ImageIOBase::Pointer imageIO = itk::ImageIOFactory::CreateImageIO( argv[1], itk::ImageIOFactory::ReadMode );
+  itk::ImageIOBase::Pointer imageIO = itk::ImageIOFactory::CreateImageIO( argv[1], itk::ImageIOFactory::FileModeType::ReadMode );
   imageIO->SetFileName( argv[1] );
   imageIO->ReadImageInformation();
   unsigned dim = imageIO->GetNumberOfDimensions();
