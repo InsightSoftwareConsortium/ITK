@@ -22,7 +22,7 @@
 /////////////////////////////////
 static int readImageInfo(char *filename, itk::ImageIOBase::IOComponentType *ComponentType, int *dim)
 {
-  itk::ImageIOBase::Pointer imageIO = itk::ImageIOFactory::CreateImageIO(filename, itk::ImageIOFactory::ReadMode);
+  itk::ImageIOBase::Pointer imageIO = itk::ImageIOFactory::CreateImageIO(filename, itk::ImageIOFactory::FileModeType::ReadMode);
 
   if ( imageIO.IsNull() )
     {
