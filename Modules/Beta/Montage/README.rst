@@ -24,6 +24,26 @@ This work is based on, in part::
   The Insight Journal - 2006 July - December
   http://hdl.handle.net/1926/396
 
+Installation
+------------
+
+To install the Python package::
+
+  pip install itk-montage
+
+To build the C++ module, either enable the CMake option in ITK's
+build configuration::
+
+  Module_Montage:BOOL=ON
+
+Or, build the module as a separate project against an ITK build tree::
+
+  git clone https://github.com/InsightSoftwareConsortium/ITKMontage
+  mkdir ITKMontage-build
+  cd ITKMontage-build
+  cmake -DITK_DIR=/path/to/ITK-build ../ITKMontage
+  cmake --build .
+
 See Also
 --------
 
