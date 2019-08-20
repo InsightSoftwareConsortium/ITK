@@ -260,12 +260,11 @@ SliceImageFilter< TInputImage, TOutputImage >
     {
     outputSpacing[i] = inputSpacing[i] * itk::Math::abs(m_Step[i]);
 
-    // clamp start
-    // Based on the sign of the step include 1 after the end.
+    // clamp start, inclusive start interval
     IndexValueType start = std::max( m_Start[i], inputIndex[i] - int(m_Step[i]<0));
     start = std::min( start,  static_cast<IndexValueType>(inputIndex[i] + inputSize[i]) - int(m_Step[i]<0) );
 
-    // clamp stop
+    // clamp stop as open interval
     // Based on the sign of the step include 1 after the end.
     IndexValueType stop = std::max( m_Stop[i], inputIndex[i] - int(m_Step[i]<0) );
     stop = std::min( stop,  static_cast<IndexValueType>(inputIndex[i] + inputSize[i]) - int(m_Step[i]<0));
