@@ -648,9 +648,7 @@ endmacro()
 
 
 macro(itk_wrap_submodule_python module)
-  set(ITK_WRAP_PYTHON_SWIG_EXT "")
-  # To address Python 2.7 hypot bug, https://bugs.python.org/issue11566
-  set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%begin %{\n#include \"PatchedPython27pyconfig.h\"\n%}\n\n")
+  set(ITK_WRAP_PYTHON_SWIG_EXT "\n")
 
   # register the module for the lib module
   set(ITK_WRAP_PYTHON_LIBRARY_IMPORTS "${ITK_WRAP_PYTHON_LIBRARY_IMPORTS}from ${module}Python import *\n")
