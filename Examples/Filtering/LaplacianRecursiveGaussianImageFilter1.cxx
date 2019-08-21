@@ -175,11 +175,11 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  filterX1->SetOrder( FilterType::ZeroOrder );
-  filterY1->SetOrder( FilterType::SecondOrder );
+  filterX1->SetOrder( itk::EnumGaussianOrderType::ZeroOrder );
+  filterY1->SetOrder( itk::EnumGaussianOrderType::SecondOrder );
 
-  filterX2->SetOrder( FilterType::SecondOrder );
-  filterY2->SetOrder( FilterType::ZeroOrder );
+  filterX2->SetOrder( itk::EnumGaussianOrderType::SecondOrder );
+  filterY2->SetOrder( itk::EnumGaussianOrderType::ZeroOrder );
   // Software Guide : EndCodeSnippet
 
 

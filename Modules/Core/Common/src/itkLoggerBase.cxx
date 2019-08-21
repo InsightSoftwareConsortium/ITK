@@ -22,8 +22,8 @@ namespace itk
 {
 LoggerBase::LoggerBase()
 {
-  this->m_PriorityLevel = LoggerBase::NOTSET;
-  this->m_LevelForFlushing = LoggerBase::MUSTFLUSH;
+  this->m_PriorityLevel = LoggerBase::PriorityLevelType::NOTSET;
+  this->m_LevelForFlushing = LoggerBase::PriorityLevelType::MUSTFLUSH;
   this->m_Clock = RealTimeClock::New();
   this->m_Output = MultipleLogOutput::New();
   this->m_TimeStampFormat = REALVALUE;

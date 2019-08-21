@@ -48,7 +48,7 @@ int itkMeshSpatialObjectTest(int, char * [] )
     }
 
   mesh->SetCellsAllocationMethod(
-    MeshType::CellsAllocatedDynamicallyCellByCell );
+    itk::MeshClassCellsAllocationMethodType::CellsAllocatedDynamicallyCellByCell );
   CellAutoPointer testCell1;
   testCell1.TakeOwnership(  new TetraCellType );
   testCell1->SetPointIds(tetraPoints);
@@ -162,7 +162,7 @@ int itkMeshSpatialObjectTest(int, char * [] )
   MeshType::PointIdentifier trianglePoint2[] = {1,2,3};
 
   meshTriangle->SetCellsAllocationMethod(
-    MeshType::CellsAllocatedDynamicallyCellByCell );
+    itk::MeshClassCellsAllocationMethodType::CellsAllocatedDynamicallyCellByCell );
   CellAutoPointer testCell3;
   testCell3.TakeOwnership(  new TriangleCellType );
   testCell3->SetPointIds(trianglePoint1);

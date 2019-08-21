@@ -30,7 +30,7 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>
 
 {
   this->m_NumberOfIterations = static_cast<SizeValueType>(0);
-  this->m_StopCondition      = MAXIMUM_NUMBER_OF_ITERATIONS;
+  this->m_StopCondition      = StopType::MAXIMUM_NUMBER_OF_ITERATIONS;
   this->m_StopConditionDescription << this->GetNameOfClass() << ": ";
 
   this->m_BestParametersIndex= static_cast<ParameterListSizeType>(0);
@@ -217,7 +217,7 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>
       this->m_StopConditionDescription << "Maximum number of iterations ("
       << this->m_NumberOfIterations
       << ") exceeded.";
-      this->m_StopCondition = MAXIMUM_NUMBER_OF_ITERATIONS;
+      this->m_StopCondition = StopType::MAXIMUM_NUMBER_OF_ITERATIONS;
       this->StopOptimization();
       break;
       }

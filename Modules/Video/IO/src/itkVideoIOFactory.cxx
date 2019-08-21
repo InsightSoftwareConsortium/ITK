@@ -47,7 +47,7 @@ VideoIOBase::Pointer VideoIOFactory::CreateVideoIO( IOModeType mode, const char*
     {
 
     // Check file readability if reading from file
-    if (mode == ReadFileMode)
+    if (mode == IOModeType::ReadFileMode)
       {
       if (j->CanReadFile(arg))
         {
@@ -56,7 +56,7 @@ VideoIOBase::Pointer VideoIOFactory::CreateVideoIO( IOModeType mode, const char*
       }
 
     // Check camera readability if reading from camera
-    else if (mode == ReadCameraMode)
+    else if (mode == IOModeType::ReadCameraMode)
       {
       int cameraIndex = std::stoi(arg);
       if (j->CanReadCamera(cameraIndex))
@@ -66,7 +66,7 @@ VideoIOBase::Pointer VideoIOFactory::CreateVideoIO( IOModeType mode, const char*
       }
 
     // Check file writability if writing
-    else if (mode == WriteMode)
+    else if (mode == IOModeType::WriteMode)
       {
       if (j->CanWriteFile(arg))
         {

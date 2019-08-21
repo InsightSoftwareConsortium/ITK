@@ -44,10 +44,10 @@ int itkLoggerManagerTest( int argc, char *argv [] )
     itk::LoggerManager::Pointer manager = itk::LoggerManager::New();
 
     itk::Logger::Pointer logger = manager->CreateLogger( "org.itk.logTester.logger",
-      itk::LoggerBase::DEBUG, itk::LoggerBase::CRITICAL );
+      itk::LoggerBase::PriorityLevelType::DEBUG, itk::LoggerBase::PriorityLevelType::CRITICAL );
 
     itk::ThreadLogger::Pointer t_logger = manager->CreateThreadLogger( "org.itk.ThreadLogger",
-      itk::LoggerBase::WARNING, itk::LoggerBase::CRITICAL );
+      itk::LoggerBase::PriorityLevelType::WARNING, itk::LoggerBase::PriorityLevelType::CRITICAL );
 
     std::cout << "Testing itk::LoggerManager" << std::endl;
 
@@ -66,14 +66,14 @@ int itkLoggerManagerTest( int argc, char *argv [] )
     std::cout << "  But the logged messages will be in order." << std::endl;
     std::cout << "  Each line is an atom for synchronization." << std::endl;
     // Writing by the logger
-    manager->Write(itk::LoggerBase::DEBUG, "This is the DEBUG message.\n");
+    manager->Write(itk::LoggerBase::PriorityLevelType::DEBUG, "This is the DEBUG message.\n");
     std::cout << "  Message #1" << std::endl;
-    manager->Write(itk::LoggerBase::INFO, "This is the INFO message.\n");
-    manager->Write(itk::LoggerBase::WARNING, "This is the WARNING message.\n");
+    manager->Write(itk::LoggerBase::PriorityLevelType::INFO, "This is the INFO message.\n");
+    manager->Write(itk::LoggerBase::PriorityLevelType::WARNING, "This is the WARNING message.\n");
     std::cout << "  Message #2" << std::endl;
-    manager->Write(itk::LoggerBase::CRITICAL, "This is the CRITICAL message.\n");
-    manager->Write(itk::Logger::FATAL, "This is the FATAL message.\n");
-    manager->Write(itk::LoggerBase::MUSTFLUSH, "This is the MUSTFLUSH message.\n");
+    manager->Write(itk::LoggerBase::PriorityLevelType::CRITICAL, "This is the CRITICAL message.\n");
+    manager->Write(itk::Logger::PriorityLevelType::FATAL, "This is the FATAL message.\n");
+    manager->Write(itk::LoggerBase::PriorityLevelType::MUSTFLUSH, "This is the MUSTFLUSH message.\n");
     std::cout << "  Message #3" << std::endl;
     itk::Logger* pLogger;
     pLogger = manager->GetLogger("org.itk.logTester.logger");
@@ -81,7 +81,7 @@ int itkLoggerManagerTest( int argc, char *argv [] )
     {
       throw "LoggerManager::GetLogger() failed";
     }
-    pLogger->Write(itk::LoggerBase::INFO, "This is the message from the logger got from a LoggerManager");
+    pLogger->Write(itk::LoggerBase::PriorityLevelType::INFO, "This is the message from the logger got from a LoggerManager");
     if( manager->GetLogger("abc") != nullptr )
     {
       throw "LoggerManager::GetLogger() must return nullptr";

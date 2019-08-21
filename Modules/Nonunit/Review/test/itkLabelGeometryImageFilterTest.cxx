@@ -55,7 +55,7 @@ int itkLabelGeometryImageFilterTest( int argc, char * argv[] )
 
   // Determine the dimension of the image and template the filter over
   // this dimension.
-  itk::ImageIOBase::Pointer imageIO = itk::ImageIOFactory::CreateImageIO(intensityImageName.c_str(), itk::ImageIOFactory::ReadMode);
+  itk::ImageIOBase::Pointer imageIO = itk::ImageIOFactory::CreateImageIO(intensityImageName.c_str(), itk::ImageIOFactory::FileModeType::ReadMode);
   imageIO->SetFileName(intensityImageName);
   imageIO->ReadImageInformation();
   const size_t ImageDimension =  imageIO->GetNumberOfDimensions();

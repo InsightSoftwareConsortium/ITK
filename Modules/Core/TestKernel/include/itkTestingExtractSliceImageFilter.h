@@ -165,11 +165,11 @@ public:
     {
     switch(choosenStrategy)
       {
-    case DIRECTIONCOLLAPSETOGUESS:
-    case DIRECTIONCOLLAPSETOIDENTITY:
-    case DIRECTIONCOLLAPSETOSUBMATRIX:
+    case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS:
+    case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY:
+    case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX:
       break;
-    case DIRECTIONCOLLAPSETOUNKOWN:
+    case TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN:
     default:
       itkExceptionMacro( << "Invalid Strategy Chosen for itk::ExtractSliceImageFilter" );
       }
@@ -194,19 +194,19 @@ public:
   /** \sa SetDirectionCollapseToStrategy */
   void SetDirectionCollapseToGuess()
     {
-    this->SetDirectionCollapseToStrategy(DIRECTIONCOLLAPSETOGUESS);
+    this->SetDirectionCollapseToStrategy(TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS);
     }
 
   /** \sa SetDirectionCollapseToStrategy */
   void SetDirectionCollapseToIdentity()
     {
-    this->SetDirectionCollapseToStrategy(DIRECTIONCOLLAPSETOIDENTITY);
+    this->SetDirectionCollapseToStrategy(TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY);
     }
 
   /** \sa SetDirectionCollapseToStrategy */
   void SetDirectionCollapseToSubmatrix()
     {
-    this->SetDirectionCollapseToStrategy(DIRECTIONCOLLAPSETOSUBMATRIX);
+    this->SetDirectionCollapseToStrategy(TestExtractSliceImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX);
     }
 
 

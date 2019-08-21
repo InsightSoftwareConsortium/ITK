@@ -169,15 +169,15 @@ public:
    * example when the application programmer knows that a 4D image
    * is 3D+time, and that the 3D sub-space is properly defined.
    */
-  void SetDirectionCollapseToStrategy(const DIRECTIONCOLLAPSESTRATEGY choosenStrategy)
+  void SetDirectionCollapseToStrategy(const ExtractImageFilterCollapseStrategy choosenStrategy)
     {
     switch(choosenStrategy)
       {
-    case DIRECTIONCOLLAPSETOGUESS:
-    case DIRECTIONCOLLAPSETOIDENTITY:
-    case DIRECTIONCOLLAPSETOSUBMATRIX:
+    case ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS:
+    case ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY:
+    case ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX:
       break;
-    case DIRECTIONCOLLAPSETOUNKOWN:
+    case ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN:
     default:
       itkExceptionMacro( << "Invalid Strategy Chosen for itk::ExtractImageFilter" );
       }
@@ -202,19 +202,19 @@ public:
   /** \sa SetDirectionCollapseToStrategy */
   void SetDirectionCollapseToGuess()
     {
-    this->SetDirectionCollapseToStrategy(DIRECTIONCOLLAPSETOGUESS);
+    this->SetDirectionCollapseToStrategy(ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS);
     }
 
   /** \sa SetDirectionCollapseToStrategy */
   void SetDirectionCollapseToIdentity()
     {
-    this->SetDirectionCollapseToStrategy(DIRECTIONCOLLAPSETOIDENTITY);
+    this->SetDirectionCollapseToStrategy(ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY);
     }
 
   /** \sa SetDirectionCollapseToStrategy */
   void SetDirectionCollapseToSubmatrix()
     {
-    this->SetDirectionCollapseToStrategy(DIRECTIONCOLLAPSETOSUBMATRIX);
+    this->SetDirectionCollapseToStrategy(ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX);
     }
 
 
@@ -289,7 +289,7 @@ protected:
   OutputImageRegionType m_OutputImageRegion;
 
 private:
-  DIRECTIONCOLLAPSESTRATEGY m_DirectionCollapseStrategy;
+  ExtractImageFilterCollapseStrategy m_DirectionCollapseStrategy;
 };
 
 /** Define how to print enumerations */

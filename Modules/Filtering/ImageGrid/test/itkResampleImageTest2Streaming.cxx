@@ -53,7 +53,7 @@ public:
   /** Override this so not linear. See test below. */
   typename itk::TransformBaseTemplate< TCoordRepType >::TransformCategoryType GetTransformCategory() const override
     {
-    return itk::TransformBaseTemplate< TCoordRepType >::UnknownTransformCategory;
+    return itk::TransformBaseTemplate< TCoordRepType >::TransformCategoryType::UnknownTransformCategory;
     }
 };
 }

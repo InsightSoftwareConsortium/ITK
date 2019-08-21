@@ -202,7 +202,7 @@ public:
    */
   TransformCategoryType GetTransformCategory() const override
   {
-    return Self::Linear;
+    return Self::TransformCategoryType::Linear;
   }
 
   /** Set the fixed parameters and update internal transformation.

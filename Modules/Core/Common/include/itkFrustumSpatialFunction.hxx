@@ -24,7 +24,7 @@ namespace itk
 {
 template< unsigned int VDimension, typename TInput >
 FrustumSpatialFunction< VDimension, TInput >::FrustumSpatialFunction() :
-  m_RotationPlane( RotateInXZPlane )
+  m_RotationPlane( RotationPlaneType::RotateInXZPlane )
 {
   m_Apex.Fill( 0.0f );
 }
@@ -59,7 +59,7 @@ FrustumSpatialFunction< VDimension, TInput >
       }
     }
 
-  if ( m_RotationPlane == RotateInXZPlane )
+  if ( m_RotationPlane == RotationPlaneType::RotateInXZPlane )
     {
     const double dx = relativePosition[0];
     const double dy = relativePosition[1];
@@ -87,7 +87,7 @@ FrustumSpatialFunction< VDimension, TInput >
 
     return 1;
     }
-  else if ( m_RotationPlane == RotateInYZPlane )
+  else if ( m_RotationPlane == RotationPlaneType::RotateInYZPlane )
     {
     const double dx = relativePosition[0];
     const double dy = relativePosition[1];

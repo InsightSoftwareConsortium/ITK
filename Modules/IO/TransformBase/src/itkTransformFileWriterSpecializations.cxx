@@ -136,7 +136,7 @@ void TransformFileWriterTemplate<TParametersValueType>
   if( m_TransformIO.IsNull() )
     {
     using TransformFactoryIOType = TransformIOFactoryTemplate<TParametersValueType>;
-    m_TransformIO = TransformFactoryIOType::CreateTransformIO( m_FileName.c_str(), WriteMode );
+    m_TransformIO = TransformFactoryIOType::CreateTransformIO( m_FileName.c_str(), TransformIOFactoryFileModeType::WriteMode );
 
     if ( m_TransformIO.IsNull() )
       {

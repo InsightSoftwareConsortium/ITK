@@ -46,14 +46,14 @@ TransformIOFactoryTemplate<TParametersValueType>
   for ( auto k = possibleTransformIO.begin();
         k != possibleTransformIO.end(); ++k )
     {
-    if ( mode == ReadMode )
+    if ( mode == TransformIOFactoryFileModeType::ReadMode )
       {
       if ( ( *k )->CanReadFile(path) )
         {
         return *k;
         }
       }
-    else if ( mode == WriteMode )
+    else if ( mode == TransformIOFactoryFileModeType::WriteMode )
       {
       if ( ( *k )->CanWriteFile(path) )
         {

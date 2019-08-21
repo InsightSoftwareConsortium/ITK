@@ -158,7 +158,7 @@ int itkObjectFactoryTest3(int, char *[])
   itk::ObjectFactoryBase::RegisterFactory( factory1 );
   itk::ObjectFactoryBase::RegisterFactory( factory2 );
   itk::ObjectFactoryBase::RegisterFactory( factory3 );
-  itk::ObjectFactoryBase::RegisterFactory( factory4, itk::ObjectFactoryBase::INSERT_AT_FRONT );
+  itk::ObjectFactoryBase::RegisterFactory( factory4, itk::ObjectFactoryBase::InsertionPositionType::INSERT_AT_FRONT );
 
   descriptionList.push_back("factory4");
   descriptionList.push_back("factory1");
@@ -173,7 +173,7 @@ int itkObjectFactoryTest3(int, char *[])
     }
 
 
-  itk::ObjectFactoryBase::RegisterFactory( factory5, itk::ObjectFactoryBase::INSERT_AT_BACK );
+  itk::ObjectFactoryBase::RegisterFactory( factory5, itk::ObjectFactoryBase::InsertionPositionType::INSERT_AT_BACK );
   descriptionList.push_back("factory5");
 
   result = ListRegisteredFactories("TryC", descriptionList );
@@ -184,7 +184,7 @@ int itkObjectFactoryTest3(int, char *[])
     }
 
 
-  itk::ObjectFactoryBase::RegisterFactory( factory6, itk::ObjectFactoryBase::INSERT_AT_POSITION, 3 );
+  itk::ObjectFactoryBase::RegisterFactory( factory6, itk::ObjectFactoryBase::InsertionPositionType::INSERT_AT_POSITION, 3 );
   descriptionList.clear();
   descriptionList.push_back("factory4");  // position 0
   descriptionList.push_back("factory1");  // position 1
@@ -201,7 +201,7 @@ int itkObjectFactoryTest3(int, char *[])
     }
 
 
-  itk::ObjectFactoryBase::RegisterFactory( factory7, itk::ObjectFactoryBase::INSERT_AT_BACK );
+  itk::ObjectFactoryBase::RegisterFactory( factory7, itk::ObjectFactoryBase::InsertionPositionType::INSERT_AT_BACK );
   descriptionList.push_back("factory7");
 
   result = ListRegisteredFactories("TryE", descriptionList );

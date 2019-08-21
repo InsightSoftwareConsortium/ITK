@@ -40,7 +40,7 @@ RegularStepGradientDescentBaseOptimizer
   m_Maximize = false;
   m_CostFunction = nullptr;
   m_CurrentStepLength   =   0;
-  m_StopCondition = Unknown;
+  m_StopCondition = StopConditionType::Unknown;
   m_Gradient.Fill(0.0f);
   m_PreviousGradient.Fill(0.0f);
   m_RelaxationFactor = 0.5;
@@ -59,7 +59,7 @@ RegularStepGradientDescentBaseOptimizer
   m_CurrentStepLength         = m_MaximumStepLength;
   m_CurrentIteration          = 0;
 
-  m_StopCondition = Unknown;
+  m_StopCondition = StopConditionType::Unknown;
   m_StopConditionDescription.str("");
   m_StopConditionDescription << this->GetNameOfClass() << ": ";
 
@@ -98,7 +98,7 @@ RegularStepGradientDescentBaseOptimizer
     {
     if ( m_CurrentIteration >= m_NumberOfIterations )
       {
-      m_StopCondition = MaximumNumberOfIterations;
+      m_StopCondition = StopConditionType::MaximumNumberOfIterations;
       m_StopConditionDescription << "Maximum number of iterations ("
                                  << m_NumberOfIterations
                                  << ") exceeded.";
@@ -115,7 +115,7 @@ RegularStepGradientDescentBaseOptimizer
       }
     catch ( ExceptionObject & excp )
       {
-      m_StopCondition = CostFunctionError;
+      m_StopCondition = StopConditionType::CostFunctionError;
       m_StopConditionDescription << "Cost function error after "
                                  << m_CurrentIteration
                                  << " iterations. "
@@ -201,7 +201,7 @@ RegularStepGradientDescentBaseOptimizer
 
   if ( gradientMagnitude < m_GradientMagnitudeTolerance )
     {
-    m_StopCondition = GradientMagnitudeTolerance;
+    m_StopCondition = StopConditionType::GradientMagnitudeTolerance;
     m_StopConditionDescription << "Gradient magnitude tolerance met after "
                                << m_CurrentIteration
                                << " iterations. Gradient magnitude ("
@@ -230,7 +230,7 @@ RegularStepGradientDescentBaseOptimizer
 
   if ( m_CurrentStepLength < m_MinimumStepLength )
     {
-    m_StopCondition = StepTooSmall;
+    m_StopCondition = StopConditionType::StepTooSmall;
     m_StopConditionDescription << "Step too small after "
                                << m_CurrentIteration
                                << " iterations. Current step ("

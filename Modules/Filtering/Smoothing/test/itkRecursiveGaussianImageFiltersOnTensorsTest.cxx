@@ -85,8 +85,8 @@ int itkRecursiveGaussianImageFiltersOnTensorsTest(int, char* [] )
   FilterType::Pointer filterY = FilterType::New();
   filterX->SetDirection( 0 );   // 0 --> X direction
   filterY->SetDirection( 1 );   // 1 --> Y direction
-  filterX->SetOrder( FilterType::ZeroOrder );
-  filterY->SetOrder( FilterType::ZeroOrder );
+  filterX->SetOrder( itk::EnumGaussianOrderType::ZeroOrder );
+  filterY->SetOrder( itk::EnumGaussianOrderType::ZeroOrder );
   filterX->SetNormalizeAcrossScale( false );
   filterY->SetNormalizeAcrossScale( false );
   filterX->SetInput( inputImage );

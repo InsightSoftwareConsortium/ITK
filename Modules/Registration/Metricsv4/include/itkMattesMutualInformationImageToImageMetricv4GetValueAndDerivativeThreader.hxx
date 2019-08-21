@@ -339,7 +339,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
 
   SizeValueType movingParzenBin = 0;
 
-  const bool transformIsDisplacement = this->m_MattesAssociate->m_MovingTransform->GetTransformCategory() == MovingTransformType::DisplacementField;
+  const bool transformIsDisplacement = this->m_MattesAssociate->m_MovingTransform->GetTransformCategory() == MovingTransformType::TransformCategoryType::DisplacementField;
   while( pdfMovingIndex <= pdfMovingIndexMax )
     {
     const auto val = static_cast<PDFValueType>(

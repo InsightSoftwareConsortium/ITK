@@ -98,7 +98,7 @@ int itkVotingBinaryImageFilterTest(int argc, char* argv[] )
 
 
   itk::ImageIOBase::Pointer iobase =
-    itk::ImageIOFactory::CreateImageIO( infname.c_str(), itk::ImageIOFactory::ReadMode);
+    itk::ImageIOFactory::CreateImageIO( infname.c_str(), itk::ImageIOFactory::FileModeType::ReadMode);
 
   if ( iobase.IsNull() )
     {

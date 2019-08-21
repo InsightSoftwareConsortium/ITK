@@ -138,7 +138,7 @@ public:
   void EstimateScales(ScalesType &parameterScales) override
     {
     this->CheckAndSetInputs();
-    this->SetSamplingStrategy( Superclass::RandomSampling );
+    this->SetSamplingStrategy( itk::StrategyTypeForSampling::RandomSampling );
     this->SetNumberOfRandomSamples( 1000 );
     this->SampleVirtualDomain();
 

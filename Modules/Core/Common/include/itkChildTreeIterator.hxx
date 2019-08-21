@@ -86,7 +86,7 @@ template< typename TTreeType >
 typename ChildTreeIterator< TTreeType >::NodeType
 ChildTreeIterator< TTreeType >::GetType() const
 {
-  return TreeIteratorBase< TTreeType >::CHILD;
+  return TreeIteratorBaseNodeType::CHILD;
 }
 
 /** Return true if the next node exists */

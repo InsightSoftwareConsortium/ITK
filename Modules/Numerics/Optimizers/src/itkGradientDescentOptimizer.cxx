@@ -110,7 +110,8 @@ GradientDescentOptimizer
       {
       // An exception has occurred.
       // Terminate immediately.
-      m_StopCondition = MetricError;
+      m_StopCondition = StopConditionType::
+              MetricError;
       m_StopConditionDescription << "Metric error";
       StopOptimization();
 
@@ -133,7 +134,7 @@ GradientDescentOptimizer
       m_StopConditionDescription << "Maximum number of iterations ("
                                  << m_NumberOfIterations
                                  << ") exceeded.";
-      m_StopCondition = MaximumNumberOfIterations;
+      m_StopCondition = StopConditionType::MaximumNumberOfIterations;
       StopOptimization();
       break;
       }

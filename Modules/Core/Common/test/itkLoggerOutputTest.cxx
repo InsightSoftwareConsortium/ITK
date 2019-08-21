@@ -48,8 +48,8 @@ int itkLoggerOutputTest( int argc, char *argv [] )
 
     // Setting the logger
     logger->SetName("org.itk.rootLogger");
-    logger->SetPriorityLevel(itk::LoggerBase::INFO);
-    logger->SetLevelForFlushing(itk::LoggerBase::CRITICAL);
+    logger->SetPriorityLevel(itk::LoggerBase::PriorityLevelType::INFO);
+    logger->SetLevelForFlushing(itk::LoggerBase::PriorityLevelType::CRITICAL);
 
     std::cout << "  Adding console and file stream LogOutputs" << std::endl;
     logger->AddLogOutput(coutput);

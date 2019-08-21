@@ -193,7 +193,7 @@ MeshToMeshFilter< TInputMesh, TOutputMesh >
   using InputCellsContainer = typename TInputMesh::CellsContainer;
   using CellAutoPointer = typename TOutputMesh::CellAutoPointer;
 
-  outputMesh->SetCellsAllocationMethod(OutputMeshType::CellsAllocatedDynamicallyCellByCell);
+  outputMesh->SetCellsAllocationMethod(OutputMeshType::CellsAllocationMethodType::CellsAllocatedDynamicallyCellByCell);
 
   typename OutputCellsContainer::Pointer outputCells = OutputCellsContainer::New();
   const InputCellsContainer *inputCells = inputMesh->GetCells();

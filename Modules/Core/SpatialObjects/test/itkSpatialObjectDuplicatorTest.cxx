@@ -77,9 +77,9 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
     p.SetGreen(i+1);
     p.SetBlue(i+2);
     p.SetAlpha(i+3);
-    p.AddField(DTITubePointType::FA,i);
-    p.AddField(DTITubePointType::ADC,2*i);
-    p.AddField(DTITubePointType::GA,3*i);
+    p.AddField(itk::DTITubeSpatialObjectPointFieldEnumType::FA,i);
+    p.AddField(itk::DTITubeSpatialObjectPointFieldEnumType::ADC,2*i);
+    p.AddField(itk::DTITubeSpatialObjectPointFieldEnumType::GA,3*i);
     p.AddField("Lambda1",4*i);
     p.AddField("Lambda2",5*i);
     p.AddField("Lambda3",6*i);
@@ -138,19 +138,19 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
           // Testing the color of the tube points
         if( itk::Math::NotExactlyEquals((*jdti).GetRed(), value))
           {
-          std::cout<<" [FAILED] : Red : found " << ( *jdti).GetRed() << " instead of " << value <<std::endl;
+          std::cout<<" [FAILED] : RGBColormapFilterEnumType::Red : found " << ( *jdti).GetRed() << " instead of " << value <<std::endl;
           return EXIT_FAILURE;
           }
 
         if(itk::Math::NotExactlyEquals((*jdti).GetGreen(), value+1))
           {
-          std::cout<<" [FAILED] : Green : found " << ( *jdti).GetGreen() << " instead of " << value+1 <<std::endl;
+          std::cout<<" [FAILED] : RGBColormapFilterEnumType::Green : found " << ( *jdti).GetGreen() << " instead of " << value+1 <<std::endl;
           return EXIT_FAILURE;
           }
 
         if(itk::Math::NotExactlyEquals((*jdti).GetBlue(), value+2))
           {
-          std::cout<<"[FAILED] : Blue : found " << ( *jdti).GetBlue() << " instead of " << value+2 <<std::endl;
+          std::cout<<"[FAILED] : RGBColormapFilterEnumType::Blue : found " << ( *jdti).GetBlue() << " instead of " << value+2 <<std::endl;
           return EXIT_FAILURE;
           }
 
@@ -160,17 +160,17 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
           return EXIT_FAILURE;
           }
 
-        if(itk::Math::NotExactlyEquals((*jdti).GetField(DTITubePointType::FA), value))
+        if(itk::Math::NotExactlyEquals((*jdti).GetField(itk::DTITubeSpatialObjectPointFieldEnumType::FA), value))
           {
           std::cout<<" [FAILED] : FA : found " << ( *jdti).GetField("FA") << " instead of " << value <<std::endl;
           return EXIT_FAILURE;
           }
-        if(itk::Math::NotExactlyEquals((*jdti).GetField(DTITubePointType::ADC), value*2))
+        if(itk::Math::NotExactlyEquals((*jdti).GetField(itk::DTITubeSpatialObjectPointFieldEnumType::ADC), value*2))
           {
           std::cout<<" [FAILED] : ADC : found " << ( *jdti).GetField("ADC") << " instead of " << value*2 <<std::endl;
           return EXIT_FAILURE;
           }
-        if(itk::Math::NotExactlyEquals((*jdti).GetField(DTITubePointType::GA), value*3))
+        if(itk::Math::NotExactlyEquals((*jdti).GetField(itk::DTITubeSpatialObjectPointFieldEnumType::GA), value*3))
           {
           std::cout<<" [FAILED] : GA : found " << ( *jdti).GetField("FA") << " instead of " << value*3 <<std::endl;
           return EXIT_FAILURE;

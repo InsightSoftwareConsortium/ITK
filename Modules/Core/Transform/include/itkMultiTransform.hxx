@@ -39,7 +39,7 @@ MultiTransform<TParametersValueType, NDimensions, NSubDimensions>
 {
   // If all sub-transforms are the same, return that type. Otherwise
   // return Unknown.
-  TransformCategoryType result = Self::UnknownTransformCategory;
+  TransformCategoryType result = Self::TransformCategoryType::UnknownTransformCategory;
 
   for( SizeValueType tind = 0; tind < this->GetNumberOfTransforms(); tind++ )
     {
@@ -52,7 +52,7 @@ MultiTransform<TParametersValueType, NDimensions, NSubDimensions>
       {
       if( type != result )
         {
-        result = Self::UnknownTransformCategory;
+        result = Self::TransformCategoryType::UnknownTransformCategory;
         break;
         }
       }

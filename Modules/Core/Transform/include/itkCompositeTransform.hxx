@@ -43,7 +43,7 @@ CompositeTransform<TParametersValueType, NDimensions>
   bool isLinearTransform = this->IsLinear();
   if( isLinearTransform )
     {
-    return Self::Linear;
+    return Self::TransformCategoryType::Linear;
     }
 
   // Check if displacement field
@@ -51,7 +51,7 @@ CompositeTransform<TParametersValueType, NDimensions>
   for( signed long tind = static_cast<signed long>( this->GetNumberOfTransforms() ) - 1; tind >= 0; tind-- )
     {
     if( this->GetNthTransformToOptimize( tind ) &&
-      ( this->GetNthTransformConstPointer( tind )->GetTransformCategory() != Self::DisplacementField ) )
+      ( this->GetNthTransformConstPointer( tind )->GetTransformCategory() != Self::TransformCategoryType::DisplacementField ) )
       {
       isDisplacementFieldTransform = false;
       break;
@@ -60,11 +60,11 @@ CompositeTransform<TParametersValueType, NDimensions>
 
   if( isDisplacementFieldTransform )
     {
-    return Self::DisplacementField;
+    return Self::TransformCategoryType::DisplacementField;
     }
   else
     {
-    return Self::UnknownTransformCategory;
+    return Self::TransformCategoryType::UnknownTransformCategory;
     }
 }
 

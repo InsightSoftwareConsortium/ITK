@@ -1206,11 +1206,11 @@ void GDCMImageIO::Write(const void *buffer)
   if ( m_UseCompression )
     {
     gdcm::ImageChangeTransferSyntax change;
-    if ( m_CompressionType == JPEG )
+    if ( m_CompressionType == TCompressionType::JPEG )
       {
       change.SetTransferSyntax(gdcm::TransferSyntax::JPEGLosslessProcess14_1);
       }
-    else if ( m_CompressionType == JPEG2000 )
+    else if ( m_CompressionType == TCompressionType::JPEG2000 )
       {
       change.SetTransferSyntax(gdcm::TransferSyntax::JPEG2000Lossless);
       }
@@ -1450,11 +1450,11 @@ void GDCMImageIO::InternalSetCompressor(const std::string &_compressor )
   if (_compressor == "" ||
       _compressor == "JPEG2000")
     {
-    m_CompressionType = JPEG2000;
+    m_CompressionType = TCompressionType::JPEG2000;
     }
   else if (_compressor == "JPEG" )
     {
-    m_CompressionType = JPEG;
+    m_CompressionType = TCompressionType::JPEG;
     }
   else
     {
