@@ -438,15 +438,18 @@ int itkTubeSpatialObjectTest(int, char * [] )
   if(  (std::fabs(t[0]-0.57735)>0.0001)
     || (std::fabs(t[1]-0.57735)>0.0001)
     || (std::fabs(t[2]-0.57735)>0.0001)
-    || (std::fabs(n1[0]-0.0)>0.0001)
-    || (std::fabs(n1[1]+0.57735)>0.0001)
-    || (std::fabs(n1[2]-0.57735)>0.0001)
-    || (std::fabs(n2[0]-0.666667)>0.0001)
-    || (std::fabs(n2[1]+0.333333)>0.0001)
-    || (std::fabs(n2[2]+0.333333)>0.0001)
+    || (std::fabs(n1[0]-0.707107)>0.0001)
+    || (std::fabs(n1[1]+0.707107)>0.0001)
+    || (std::fabs(n1[2]-0.0)>0.0001)
+    || (std::fabs(n2[0]-0.408248)>0.0001)
+    || (std::fabs(n2[1]-0.408248)>0.0001)
+    || (std::fabs(n2[2]+0.816497)>0.0001)
     )
     {
     std::cout << "[FAILED]" << std::endl;
+    std::cout << " t = " << t << std::endl;
+    std::cout << " n1 = " << n1 << std::endl;
+    std::cout << " n2 = " << n2 << std::endl;
     return EXIT_FAILURE;
     }
 
