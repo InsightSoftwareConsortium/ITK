@@ -143,8 +143,12 @@ template< typename TPixel >
 class ITK_TEMPLATE_EXPORT WienerDeconvolutionFunctor
 {
 public:
-  WienerDeconvolutionFunctor() { m_KernelZeroMagnitudeThreshold = 0.0; }
+  WienerDeconvolutionFunctor() {}
   ~WienerDeconvolutionFunctor() = default;
+  WienerDeconvolutionFunctor( const WienerDeconvolutionFunctor & f )
+    : m_NoisePowerSpectralDensityConstant( f.m_NoisePowerSpectralDensityConstant )
+    , m_KernelZeroMagnitudeThreshold( f.m_KernelZeroMagnitudeThreshold )
+  {}
 
   bool operator!=( const WienerDeconvolutionFunctor & ) const
   {
@@ -196,8 +200,8 @@ public:
   }
 
 private:
-  double m_NoisePowerSpectralDensityConstant;
-  double m_KernelZeroMagnitudeThreshold;
+  double m_NoisePowerSpectralDensityConstant = 0.0;
+  double m_KernelZeroMagnitudeThreshold = 0.0;
 };
 } //namespace Functor
 
