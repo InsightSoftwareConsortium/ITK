@@ -119,7 +119,7 @@ ImageFileWriter< TInputImage >
                     << m_FileName);
       }
     m_ImageIO = ImageIOFactory::CreateImageIO(m_FileName.c_str(),
-                                              ImageIOFactory::WriteMode);
+                                              ImageIOFactory::FileModeType::WriteMode);
     m_FactorySpecifiedImageIO = true;
     }
 

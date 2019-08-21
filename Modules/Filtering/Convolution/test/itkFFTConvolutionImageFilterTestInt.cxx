@@ -73,13 +73,13 @@ int itkFFTConvolutionImageFilterTestInt(int argc, char * argv[])
     if ( outputRegionMode == "SAME" )
       {
       convolver->SetOutputRegionModeToSame();
-      ITK_TEST_SET_GET_VALUE( ConvolutionFilterType::SAME, convolver->GetOutputRegionMode() );
+      ITK_TEST_SET_GET_VALUE( itk::ConvolutionImageFilterOutputRegionType::SAME, convolver->GetOutputRegionMode() );
       std::cout << "OutputRegionMode set to SAME." << std::endl;
       }
     else if ( outputRegionMode == "VALID" )
       {
       convolver->SetOutputRegionModeToValid();
-      ITK_TEST_SET_GET_VALUE( ConvolutionFilterType::VALID, convolver->GetOutputRegionMode() );
+      ITK_TEST_SET_GET_VALUE( itk::ConvolutionImageFilterOutputRegionType::VALID, convolver->GetOutputRegionMode() );
       std::cout << "OutputRegionMode set to VALID." << std::endl;
       }
     else

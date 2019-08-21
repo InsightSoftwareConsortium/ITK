@@ -807,7 +807,7 @@ int HashTestImage( const char *testImageFilename,
                    const std::vector<std::string> &baselineMD5Vector )
 {
   itk::ImageIOBase::Pointer iobase =
-    itk::ImageIOFactory::CreateImageIO( testImageFilename, itk::ImageIOFactory::ReadMode);
+    itk::ImageIOFactory::CreateImageIO( testImageFilename, itk::ImageIOFactory::FileModeType::ReadMode);
 
   if ( iobase.IsNull() )
     {

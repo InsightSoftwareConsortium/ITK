@@ -28,7 +28,7 @@ template< typename TImage >
 MergeLabelMapFilter< TImage >
 ::MergeLabelMapFilter()
 {
-  this->m_Method = KEEP;
+  this->m_Method = ChoiceMethod::KEEP;
 }
 
 template< typename TImage >
@@ -41,22 +41,22 @@ MergeLabelMapFilter< TImage >
 
   switch ( this->m_Method )
     {
-    case KEEP:
+        case ChoiceMethod::KEEP:
       {
       this->MergeWithKeep();
       break;
       }
-    case AGGREGATE:
+        case ChoiceMethod::AGGREGATE:
       {
       this->MergeWithAggregate();
       break;
       }
-    case PACK:
+        case ChoiceMethod::PACK:
       {
       this->MergeWithPack();
       break;
       }
-    case STRICT:
+        case ChoiceMethod::STRICT:
       {
       this->MergeWithStrict();
       break;

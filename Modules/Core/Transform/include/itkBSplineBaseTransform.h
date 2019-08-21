@@ -294,7 +294,7 @@ public:
 
   TransformCategoryType GetTransformCategory() const override
   {
-    return Self::BSpline;
+    return Self::TransformCategoryType::BSpline;
   }
 
   unsigned int GetNumberOfAffectedWeights() const;

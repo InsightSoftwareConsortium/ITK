@@ -759,7 +759,7 @@ int itkMINCImageIOTest(int ac, char * av [] )
     itksys::SystemTools::ChangeDirectory(prefix.c_str() );
     }
 
-  itk::ObjectFactoryBase::RegisterFactory(itk::MINCImageIOFactory::New() ,itk::ObjectFactoryBase::INSERT_AT_FRONT);
+  itk::ObjectFactoryBase::RegisterFactory(itk::MINCImageIOFactory::New() ,itk::ObjectFactoryBase::InsertionPositionType::INSERT_AT_FRONT);
 
   int result(0);
   // stright forward test

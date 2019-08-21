@@ -47,7 +47,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
   this->m_FixedTransformedPointSetTime = this->GetMTime();
 
   // We iterate over the fixed points to calculate the value and derivative.
-  this->SetGradientSource( Superclass::GRADIENT_SOURCE_FIXED );
+  this->SetGradientSource( SourceTypeOfGradient::GRADIENT_SOURCE_FIXED );
 
   this->m_HaveWarnedAboutNumberOfValidPoints = false;
 

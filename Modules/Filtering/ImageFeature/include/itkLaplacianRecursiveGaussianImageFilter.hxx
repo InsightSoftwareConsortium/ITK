@@ -38,14 +38,14 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   for ( unsigned int i = 0; i < NumberOfSmoothingFilters; i++ )
     {
     m_SmoothingFilters[i] = GaussianFilterType::New();
-    m_SmoothingFilters[i]->SetOrder(GaussianFilterType::ZeroOrder);
+    m_SmoothingFilters[i]->SetOrder(EnumGaussianOrderType::ZeroOrder);
     m_SmoothingFilters[i]->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
     m_SmoothingFilters[i]->ReleaseDataFlagOn();
     m_SmoothingFilters[i]->InPlaceOn();
     }
 
   m_DerivativeFilter = DerivativeFilterType::New();
-  m_DerivativeFilter->SetOrder(DerivativeFilterType::SecondOrder);
+  m_DerivativeFilter->SetOrder(EnumGaussianOrderType::SecondOrder);
   m_DerivativeFilter->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
   m_DerivativeFilter->ReleaseDataFlagOn();
   m_DerivativeFilter->InPlaceOff();

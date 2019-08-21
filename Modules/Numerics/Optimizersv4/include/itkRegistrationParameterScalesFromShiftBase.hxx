@@ -58,7 +58,7 @@ RegistrationParameterScalesFromShiftBase< TMetric >
     {
     //FIXME: remove if we end up not using this
     //if( this->MetricIsPointSetToPointSetType() )
-    if (this->GetSamplingStrategy() == Superclass::VirtualDomainPointSetSampling)
+    if (this->GetSamplingStrategy() == StrategyTypeForSampling::VirtualDomainPointSetSampling)
       {
       // Use the first virtual point since the center of the virtual domain
       // may not line up with a sample point.

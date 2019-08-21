@@ -37,7 +37,7 @@ CorrelationImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInterna
   m_HelperDenseThreader = CorrelationHelperDenseThreaderType::New();
   m_HelperSparseThreader = CorrelationHelperSparseThreaderType::New();
 
-  if( this->m_MovingTransform->GetTransformCategory() == MovingTransformType::DisplacementField )
+  if( this->m_MovingTransform->GetTransformCategory() == MovingTransformType::TransformCategoryType::DisplacementField )
     {
     itkExceptionMacro("does not support displacement field transforms!!");
     }

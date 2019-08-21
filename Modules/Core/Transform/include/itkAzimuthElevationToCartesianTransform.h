@@ -172,7 +172,7 @@ public:
   this class derives from AffineTransform, its not a linear transform */
   TransformCategoryType GetTransformCategory() const override
   {
-       return Self::UnknownTransformCategory;
+       return Self::TransformCategoryType::UnknownTransformCategory;
   }
 
   /** Defines that the forward transform goes from azimuth,elevation to

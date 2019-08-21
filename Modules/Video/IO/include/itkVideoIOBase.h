@@ -127,7 +127,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Member Variables */
-  ReadType           m_ReadType{ReadFromFile};
+  ReadType           m_ReadType{ReadType::ReadFromFile};
   TemporalRatioType  m_FramesPerSecond{0.0};
   FrameOffsetType    m_FrameTotal;
   FrameOffsetType    m_CurrentFrame;

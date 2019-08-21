@@ -623,25 +623,25 @@ ObjectFactoryBase
   //
   switch( where )
     {
-    case INSERT_AT_BACK:
+    case InsertionPositionType::INSERT_AT_BACK:
       {
       if( position )
         {
-        itkGenericExceptionMacro(<< "position argument must not be used with INSERT_AT_BACK option");
+        itkGenericExceptionMacro(<< "position argument must not be used with InsertionPositionType::INSERT_AT_BACK option");
         }
       m_PimplGlobals->m_RegisteredFactories->push_back(factory);
       break;
       }
-    case INSERT_AT_FRONT:
+    case InsertionPositionType::INSERT_AT_FRONT:
       {
       if( position )
         {
-        itkGenericExceptionMacro(<< "position argument must not be used with INSERT_AT_FRONT option");
+        itkGenericExceptionMacro(<< "position argument must not be used with InsertionPositionType::INSERT_AT_FRONT option");
         }
       m_PimplGlobals->m_RegisteredFactories->push_front(factory);
       break;
       }
-    case INSERT_AT_POSITION:
+    case InsertionPositionType::INSERT_AT_POSITION:
       {
       const size_t numberOfFactories = m_PimplGlobals->m_RegisteredFactories->size();
       if( position < numberOfFactories )

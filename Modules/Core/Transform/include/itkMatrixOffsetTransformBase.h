@@ -211,7 +211,7 @@ public:
    */
   TransformCategoryType GetTransformCategory() const override
   {
-    return Self::Linear;
+    return Self::TransformCategoryType::Linear;
   }
 
   /** Set matrix of an MatrixOffsetTransformBase

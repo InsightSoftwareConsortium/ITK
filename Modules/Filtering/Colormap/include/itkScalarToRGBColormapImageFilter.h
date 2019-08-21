@@ -52,7 +52,7 @@ enum class RGBColormapFilterEnumType : uint8_t {
  *
  * The input image's scalar pixel values are mapped into a color map.
  * The color map is specified by passing the SetColormap function one of the
- * predefined maps. The following selects the "Hot" colormap:
+ * predefined maps. The following selects the "RGBColormapFilterEnumType::Hot" colormap:
    \code
    RGBFilterType::Pointer colormapImageFilter = RGBFilterType::New();
    colormapImageFilter->SetColormap( RGBFilterType::Hot );

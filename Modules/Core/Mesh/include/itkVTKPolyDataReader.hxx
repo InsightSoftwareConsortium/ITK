@@ -49,7 +49,7 @@ VTKPolyDataReader< TOutputMesh >
   typename OutputMeshType::Pointer outputMesh = this->GetOutput();
 
   outputMesh->SetCellsAllocationMethod(
-    OutputMeshType::CellsAllocatedDynamicallyCellByCell);
+          MeshClassCellsAllocationMethodType::CellsAllocatedDynamicallyCellByCell);
 
   if ( m_FileName.empty() )
     {

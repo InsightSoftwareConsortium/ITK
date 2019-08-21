@@ -211,7 +211,7 @@ public:
   /** Set method to set the reference image. */
   void SetReferenceImage(ReferenceImageType *referenceImage)
   {
-    if ( m_GradientImageTypeEnumeration == GradientIsInASingleImage )
+    if ( m_GradientImageTypeEnumeration == GradientEnumeration::GradientIsInASingleImage )
       {
       itkExceptionMacro(<< "Cannot call both methods:"
                         << "AddGradientImage and SetGradientImage. Please call only one of them.");
@@ -219,7 +219,7 @@ public:
 
     this->ProcessObject::SetNthInput(0, referenceImage);
 
-    m_GradientImageTypeEnumeration = GradientIsInManyImages;
+    m_GradientImageTypeEnumeration = GradientEnumeration::GradientIsInManyImages;
   }
 
   /** Get reference image */

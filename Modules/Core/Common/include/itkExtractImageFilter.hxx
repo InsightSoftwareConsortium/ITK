@@ -31,7 +31,7 @@ namespace itk
 template< typename TInputImage, typename TOutputImage >
 ExtractImageFilter< TInputImage, TOutputImage >
 ::ExtractImageFilter():
-  m_DirectionCollapseStrategy(DIRECTIONCOLLAPSETOUNKOWN)
+  m_DirectionCollapseStrategy(ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN)
 {
   Superclass::InPlaceOff();
   this->DynamicMultiThreadingOn();
@@ -218,12 +218,12 @@ ExtractImageFilter< TInputImage, TOutputImage >
       {
       switch(m_DirectionCollapseStrategy)
         {
-      case DIRECTIONCOLLAPSETOIDENTITY:
+      case ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY:
           {
           outputDirection.SetIdentity();
           }
         break;
-      case DIRECTIONCOLLAPSETOSUBMATRIX:
+      case ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX:
           {
           if ( vnl_determinant( outputDirection.GetVnlMatrix() ) == 0.0 )
             {
@@ -231,7 +231,7 @@ ExtractImageFilter< TInputImage, TOutputImage >
             }
           }
         break;
-      case DIRECTIONCOLLAPSETOGUESS:
+      case ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOGUESS:
           {
           if ( vnl_determinant( outputDirection.GetVnlMatrix() ) == 0.0 )
             {
@@ -239,7 +239,7 @@ ExtractImageFilter< TInputImage, TOutputImage >
             }
           }
         break;
-      case DIRECTIONCOLLAPSETOUNKOWN:
+      case ExtractImageFilterCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN:
       default:
           {
           itkExceptionMacro( << "It is required that the strategy for collapsing the direction matrix be explicitly specified. "

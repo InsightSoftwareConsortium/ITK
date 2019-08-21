@@ -96,11 +96,11 @@ public:
    * lambda_2 < .... */
   void OrderEigenValuesBy(EigenValueOrderType order)
   {
-    if ( order == OrderByMagnitude )
+    if ( order == OrderTypeOfEigenValue::OrderByMagnitude )
       {
       m_Calculator.SetOrderEigenMagnitudes(true);
       }
-    else if ( order == DoNotOrder )
+    else if ( order == OrderTypeOfEigenValue::DoNotOrder )
       {
       m_Calculator.SetOrderEigenValues(false);
       }
@@ -156,11 +156,11 @@ public:
    * lambda_2 < .... */
   void OrderEigenValuesBy(EigenValueOrderType order)
   {
-    if ( order == OrderByMagnitude )
+    if ( order == OrderTypeOfEigenValue::OrderByMagnitude )
       {
       m_Calculator.SetOrderEigenMagnitudes(true);
       }
-    else if ( order == DoNotOrder )
+    else if ( order == OrderTypeOfEigenValue::DoNotOrder )
       {
       m_Calculator.SetOrderEigenValues(false);
       }

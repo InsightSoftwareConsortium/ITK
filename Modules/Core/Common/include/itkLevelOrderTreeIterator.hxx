@@ -75,7 +75,7 @@ template< typename TTreeType >
 typename LevelOrderTreeIterator< TTreeType >::NodeType
 LevelOrderTreeIterator< TTreeType >::GetType() const
 {
-  return TreeIteratorBase< TTreeType >::LEVELORDER;
+  return TreeIteratorBaseNodeType::LEVELORDER;
 }
 
 /** Return true if the next value exists */

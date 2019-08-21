@@ -38,7 +38,7 @@ int itkRegularSphereMeshSourceTest2(int, char* [] )
 
   MeshType::Pointer mesh1 = source1->GetOutput();
 
-  if( mesh1->GetCellsAllocationMethod() != MeshType::CellsAllocatedDynamicallyCellByCell )
+  if( mesh1->GetCellsAllocationMethod() != itk::MeshClassCellsAllocationMethodType::CellsAllocatedDynamicallyCellByCell )
     {
     std::cerr << "mesh1->GetCellsAllocationMethod() != MeshType::CellsAllocatedDynamicallyCellByCell"
               << std::endl;

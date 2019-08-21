@@ -91,7 +91,7 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
     {
     optionalFilterWeights += 0.1f;
     }
-  if ( this->GetOutputRegionMode() == Self::VALID )
+  if ( this->GetOutputRegionMode() == ConvolutionImageFilterOutputRegionType::VALID )
     {
     optionalFilterWeights += 0.1f;
     }
@@ -142,7 +142,7 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
   convolutionFilter->ReleaseDataFlagOn();
   progress->RegisterInternalFilter( convolutionFilter, 1.0f - optionalFilterWeights );
 
-  if ( this->GetOutputRegionMode() == Self::SAME )
+  if ( this->GetOutputRegionMode() == ConvolutionImageFilterOutputRegionType::SAME )
     {
     // Graft the output of the convolution filter onto this filter's
     // output.

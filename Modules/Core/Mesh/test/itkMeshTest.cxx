@@ -185,7 +185,7 @@ int itkMeshTest(int, char* [] )
   /**
    * Specify the method used for allocating cells
    */
-   mesh->SetCellsAllocationMethod( MeshType::CellsAllocatedDynamicallyCellByCell );
+   mesh->SetCellsAllocationMethod( itk::MeshClassCellsAllocationMethodType::CellsAllocatedDynamicallyCellByCell );
 
   /**
    * Create the test cell. Note that testCell is a generic auto

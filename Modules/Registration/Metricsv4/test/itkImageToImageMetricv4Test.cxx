@@ -274,7 +274,7 @@ void ImageToImageMetricv4TestComputeIdentityTruthValues(
         sum += movingImageDerivative[dim] + fixedImageDerivative[dim];
         }
 
-      if( metric->GetMovingTransform()->GetTransformCategory() == MovingTransformType::DisplacementField )
+      if( metric->GetMovingTransform()->GetTransformCategory() == MovingTransformType::TransformCategoryType::DisplacementField )
         {
         truthDerivative[ count * metric->GetNumberOfLocalParameters() + par ]
                                                                         = sum;
@@ -291,7 +291,7 @@ void ImageToImageMetricv4TestComputeIdentityTruthValues(
 
   // Take the averages
   truthValue /= metric->GetNumberOfValidPoints();
-  if( metric->GetMovingTransform()->GetTransformCategory() != MovingTransformType::DisplacementField )
+  if( metric->GetMovingTransform()->GetTransformCategory() != MovingTransformType::TransformCategoryType::DisplacementField )
     {
     truthDerivative /= metric->GetNumberOfValidPoints();
     }
@@ -497,7 +497,7 @@ int itkImageToImageMetricv4Test(int, char ** const)
   metric->SetMovingTransform( movingTransform );
   // Tell the metric to compute image gradients for both fixed and moving.
   metric->SetGradientSource(
-                ImageToImageMetricv4TestMetricType::GRADIENT_SOURCE_BOTH );
+          itk::SourceTypeOfGradient::GRADIENT_SOURCE_BOTH );
 
   // Enable ITK debugging output
   metric->SetDebug( false );
@@ -605,7 +605,7 @@ int itkImageToImageMetricv4Test(int, char ** const)
   metric->SetUseMovingImageGradientFilter( true );
   // Tell the metric to compute image gradients for both fixed and moving.
   metric->SetGradientSource(
-                ImageToImageMetricv4TestMetricType::GRADIENT_SOURCE_BOTH );
+          itk::SourceTypeOfGradient::GRADIENT_SOURCE_BOTH );
 
   //Evaluate the metric
   std::cout
@@ -637,7 +637,7 @@ int itkImageToImageMetricv4Test(int, char ** const)
   metric->SetMovingTransform( movingTransform );
   metric->SetFixedTransform( fixedTransform );
   metric->SetGradientSource(
-                ImageToImageMetricv4TestMetricType::GRADIENT_SOURCE_BOTH );
+          itk::SourceTypeOfGradient::GRADIENT_SOURCE_BOTH );
   metric->SetUseFixedImageGradientFilter( false );
   metric->SetUseMovingImageGradientFilter( false );
 

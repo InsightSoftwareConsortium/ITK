@@ -52,14 +52,14 @@ MeshIOFactory
 
   for (auto & k : possibleMeshIO)
     {
-    if ( mode == ReadMode )
+    if ( mode == FileModeType::ReadMode )
       {
       if ( k->CanReadFile(path) )
         {
         return k;
         }
       }
-    else if ( mode == WriteMode )
+    else if ( mode == FileModeType::WriteMode )
       {
       if ( k->CanWriteFile(path) )
         {

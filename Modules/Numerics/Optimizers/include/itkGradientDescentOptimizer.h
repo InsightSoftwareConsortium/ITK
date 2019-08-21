@@ -149,7 +149,7 @@ protected:
 private:
   bool               m_Stop{false};
   double             m_Value{0.0};
-  StopConditionType  m_StopCondition{MaximumNumberOfIterations};
+  StopConditionType  m_StopCondition{StopConditionType::MaximumNumberOfIterations};
   SizeValueType      m_NumberOfIterations{100};
   SizeValueType      m_CurrentIteration{0};
   std::ostringstream m_StopConditionDescription;

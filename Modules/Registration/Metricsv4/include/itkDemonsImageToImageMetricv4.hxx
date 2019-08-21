@@ -33,7 +33,7 @@ DemonsImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComp
   this->m_SparseGetValueAndDerivativeThreader = DemonsSparseGetValueAndDerivativeThreaderType::New();
 
   // Unlike most other metrics, this defaults to using fixed image gradients
-  this->SetGradientSource( this->GRADIENT_SOURCE_FIXED );
+  this->SetGradientSource( SourceTypeOfGradient::GRADIENT_SOURCE_FIXED );
 
   this->m_Normalizer = NumericTraits<TInternalComputationValueType>::OneValue();
   this->m_DenominatorThreshold = static_cast<TInternalComputationValueType>(1e-9);
@@ -48,7 +48,7 @@ DemonsImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComp
 {
   // Make sure user has not set to use both moving and fixed image
   // gradients
-  if( this->GetGradientSource() == this->GRADIENT_SOURCE_BOTH )
+  if( this->GetGradientSource() == SourceTypeOfGradient::GRADIENT_SOURCE_BOTH )
     {
     itkExceptionMacro("GradientSource has been set to GRADIENT_SOURCE_BOTH. "
                       "You must choose either GRADIENT_SOURCE_MOVING or "
@@ -57,7 +57,7 @@ DemonsImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComp
 
   // Verify that the transform has local support, and its number of local
   // parameters equals the dimensionality of the image gradient source.
-  if( this->m_MovingTransform->GetTransformCategory() != MovingTransformType::DisplacementField )
+  if( this->m_MovingTransform->GetTransformCategory() != MovingTransformType::TransformCategoryType::DisplacementField )
     {
     itkExceptionMacro( "The moving transform must be a displacement field transform" );
     }
@@ -65,7 +65,7 @@ DemonsImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComp
   // compute the normalizer
   ImageDimensionType dimension;
   typename TFixedImage::SpacingType imageSpacing;
-  if( this->GetGradientSource() == this->GRADIENT_SOURCE_FIXED )
+  if( this->GetGradientSource() == SourceTypeOfGradient::GRADIENT_SOURCE_FIXED )
     {
     imageSpacing = this->m_FixedImage->GetSpacing();
     dimension = FixedImageDimension;
