@@ -186,12 +186,12 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ColorMapFunctorType =
+  using ColormapFunctorType =
     itk::Functor::ScalarToRGBPixelFunctor<unsigned long>;
-  using ColorMapFilterType =
+  using ColormapFilterType =
     itk::UnaryFunctorImageFilter<LabeledImageType,
-                                 RGBImageType, ColorMapFunctorType>;
-  ColorMapFilterType::Pointer colormapper = ColorMapFilterType::New();
+                                 RGBImageType, ColormapFunctorType>;
+  ColormapFilterType::Pointer colormapper = ColormapFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
