@@ -208,6 +208,8 @@ protected:
    */
   void VerifyInputInformation() ITKv5_CONST override {}
 
+  void VerifyPreconditions() ITKv5_CONST override;
+
   /** Compute min, max and mean of an image. */
   void ComputeMinMaxMean(const InputImageType *image,
                          THistogramMeasurement & minValue,

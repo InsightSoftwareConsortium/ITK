@@ -114,6 +114,30 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 template< typename TInputImage, typename TOutputImage, typename THistogramMeasurement >
 void
 HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
+::VerifyPreconditions() ITKv5_CONST
+{
+  Superclass::VerifyPreconditions();
+
+  if ( m_GenerateReferenceHistogramFromImage )
+  {
+    if (  this->GetReferenceImage() == nullptr )
+    {
+      itkExceptionMacro( << "ReferenceImage required when GenerateReferenceHistogramFromImage is true." )
+    }
+  }
+  else
+  {
+    if ( this->GetReferenceHistogram() == nullptr )
+    {
+      itkExceptionMacro( << "ReferenceHistogram required when GenerateReferenceHistogramFromImage is false." )
+    }
+  }
+}
+
+
+template< typename TInputImage, typename TOutputImage, typename THistogramMeasurement >
+void
+HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 ::BeforeThreadedGenerateData()
 {
   THistogramMeasurement sourceMeanValue;
