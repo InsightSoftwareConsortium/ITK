@@ -90,8 +90,8 @@ enum class RGBColormapFilterEnumType : uint8_t {
  * \ingroup ITKColormap
  *
  * \sphinx
- * \sphinxexample{Filtering/Colormap/CreateACustomColorMap, Create A Custom Color Map}
- * \sphinxexample{Filtering/Colormap/ApplyAColorMapToAnImage,Apply A Color Map To An Image}
+ * \sphinxexample{Filtering/Colormap/CreateACustomColormap, Create A Custom Colormap}
+ * \sphinxexample{Filtering/Colormap/ApplyAColormapToAnImage,Apply A Colormap To An Image}
  * \endsphinx
  */
 template< typename TInputImage, typename TOutputImage >
