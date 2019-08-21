@@ -303,13 +303,20 @@ TubeSpatialObject< TDimension, TTubePointType >
 {
   itkDebugMacro("Computing the tangent vectors of the tube");
 
+  // Discrete Frenet Frame computation from
+  //   http://purl.flvc.org/fsu/fd/FSU_migr_etd-7477
+  //   Discrete Frenet Frame with Application to Structural Biology and
+  //      Kinematics.
+  //   Lu, Yuanting et al.
+  //   FSU Dissertation FSU_migr_etd-7477, June 27, 2013
+
   int length = this->GetNumberOfPoints();
   if ( length == 0 )
     {
     return false;
     }
 
-  PointType  x1, x3;
+  PointType  x1, x2, x3;
   VectorType t;
   double     l;
   t.Fill(0.0);
@@ -326,6 +333,7 @@ TubeSpatialObject< TDimension, TTubePointType >
 
   while ( it3 < (unsigned int)length )
     {
+    // Compute tanget using the adjacent points
     x1 = this->GetPoint(it1)->GetPositionInObjectSpace();
     x3 = this->GetPoint(it3)->GetPositionInObjectSpace();
     l = 0;
@@ -334,16 +342,31 @@ TubeSpatialObject< TDimension, TTubePointType >
       t[i] = ( x3[i] - x1[i] );
       l = l + t[i] * t[i];
       }
-
     l = std::sqrt(l);
+    // if the adjacent points correspond, use the current point and one
+    //   forward point
     if ( Math::AlmostEquals( l, 0.0 ) )
       {
-      std::cerr << "TubeSpatialObject::ComputeTangentAndNormals() : ";
-      std::cerr << "length between two consecutive points is 0";
-      std::cerr << " (use RemoveDuplicatePoints())" << std::endl;
-      std::cerr << "   p1 = " << x1 << std::endl;
-      std::cerr << "   p3 = " << x3 << std::endl;
-      return false;
+      x2 = this->GetPoint(it2)->GetPositionInObjectSpace();
+      for ( unsigned int i = 0; i < TDimension; i++ )
+        {
+        t[i] = ( x3[i] - x2[i] );
+        l = l + t[i] * t[i];
+        }
+      l = std::sqrt(l);
+      // if the forward point and the current point correspond, then
+      //   RemoveDuplicatePointsInObjectSpace was not called.
+      if ( Math::AlmostEquals( l, 0.0 ) )
+        {
+        x2 = this->GetPoint(it2)->GetPositionInObjectSpace();
+        std::cerr << "TubeSpatialObject::ComputeTangentAndNormals() : ";
+        std::cerr << "length between two consecutive points is 0";
+        std::cerr << " (use RemoveDuplicatePointsInObjectSpace())" << std::endl;
+        std::cerr << "   p1 = " << x1 << std::endl;
+        std::cerr << "   p2 = " << x2 << std::endl;
+        std::cerr << "   p3 = " << x3 << std::endl;
+        return false;
+        }
       }
     for ( unsigned int i = 0; i < TDimension; i++ )
       {
@@ -356,6 +379,7 @@ TubeSpatialObject< TDimension, TTubePointType >
     it3++;
     }
 
+  // Calculate tangets are the first and last point on a tube
   it1 = 0;
   it2 = 1;
   t = ( (TubePointType *)( this->GetPoint(it2) ) )->GetTangentInObjectSpace();
@@ -370,30 +394,54 @@ TubeSpatialObject< TDimension, TTubePointType >
   CovariantVectorType n2;
 
   it1 = 0;
+  it2 = 1;
+  VectorType t2;
   while ( it1 < (unsigned int)length )
     {
     t = ( (TubePointType *)( this->GetPoint(it1) ) )->GetTangentInObjectSpace();
 
+    it2 = it1 + 1;
+    if( it2 >= (unsigned int)length )
+      {
+      it2 = it1 - 1;
+      }
+    t2 = ((TubePointType *)(this->GetPoint(it2)))->GetTangentInObjectSpace();
+
     if ( TDimension == 2 )
       {
-      t = ( (TubePointType *)( this->GetPoint(it1) ) )->GetTangentInObjectSpace();
-      n1[0] = -t[1];
-      n1[1] = t[0];
+      // The normal to the tanget in 2D is the orthogonal direction to the
+      //   tangent.
+      n1[0] = t[1];
+      n1[1] = -t[0];
       ( (TubePointType *)( this->GetPoint(it1) ) )->SetNormal1InObjectSpace(n1);
       }
     else if ( TDimension == 3 )
       {
-      n1[0] = -t[1];
-      n1[1] = t[0];
-      n1[2] = 0;
+      // The normal to the tanget in 3D is the cross product of adjacent
+      //   tangent directions.
+      n1[0] = t[1] * t2[2] - t[2] * t2[1];
+      n1[1] = t[2] * t2[0] - t[0] * t2[2];
+      n1[2] = t[0] * t2[1] - t[1] * t2[0];
 
-      if ( n1[0] + n1[1] + n1[2] == 0.0 ) // if the normal is null
+      if ( n1[0]*n1[0] + n1[1]*n1[1] + n1[2]*n1[2] == 0.0 )
         {
-        n1[0] = 0;
-        n1[1] = -t[2];
-        n1[2] = t[1];
+        if( it1 != 0 )
+          {
+          n1 = ((TubePointType *)(this->GetPoint(it1-1)))->
+            GetNormal1InObjectSpace();
+          }
+        else
+          {
+          // if the normal is null, pick an orthogonal direction
+          double d = std::sqrt( t[0]*t[0] + t[1]*t[1] );
+          n1[0] = t[1] / d;
+          n1[1] = -t[0] / d;
+          n1[2] = 0;
+          }
         }
 
+      // The second normal is the cross product of the tangent and the
+      //   first normal
       n2[0] = t[1] * n1[2] - t[2] * n1[1];
       n2[1] = t[2] * n1[0] - t[0] * n1[2];
       n2[2] = t[0] * n1[1] - t[1] * n1[0];
