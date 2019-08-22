@@ -1,10 +1,12 @@
+name: ITK.Windows
+
 trigger:
   branches:
     include:
     - master
     - release*
 variables:
-  ExternalDataVersion: 4.13.1
+  ExternalDataVersion: 4.13.2
 jobs:
 - job: Windows
   timeoutInMinutes: 0
@@ -15,39 +17,59 @@ jobs:
     - checkout: self
       clean: true
       fetchDepth: 5
+
     - script: |
         if DEFINED SYSTEM_PULLREQUEST_SOURCECOMMITID git checkout $(System.PullRequest.SourceCommitId)
       displayName: Checkout pull request HEAD
 
-    - task: UsePythonVersion@0
-      inputs:
-        versionSpec: '3.7'
-
     - script: |
-
         pip3 install ninja
+        pip3 install --upgrade setuptools
+        pip3 install scikit-ci-addons
+      displayName: 'Install dependencies'
 
-      displayName: Install dependencies
     - script: |
         git clone -b dashboard --single-branch https://github.com/InsightSoftwareConsortium/ITK.git ITK-dashboard
 
         curl -L https://github.com/InsightSoftwareConsortium/ITK/releases/download/v$(ExternalDataVersion)/InsightData-$(ExternalDataVersion).tar.gz -O
         cmake -E tar xfz InsightData-$(ExternalDataVersion).tar.gz
         cmake -E rename InsightToolkit-$(ExternalDataVersion)/.ExternalData/MD5 $(Build.SourcesDirectory)/.ExternalData/MD5
-
-      displayName: Download dashboard script and testing data
       workingDirectory: $(Agent.BuildDirectory)
+      displayName: 'Download dashboard script and testing data'
+
+    - bash: |
+        cat > dashboard.cmake << EOF
+        set(CTEST_BUILD_CONFIGURATION "MinSizeRel")
+        set(CTEST_CMAKE_GENERATOR "Ninja")
+        set(ENV{CC} cl.exe)
+        set(ENV{CXX} cl.exe)
+        set(dashboard_cache "
+          BUILD_SHARED_LIBS:BOOL=ON
+          BUILD_EXAMPLES:BOOL=OFF
+          ITK_WRAP_PYTHON:BOOL=OFF
+        ")
+        include(\$ENV{AGENT_BUILDDIRECTORY}/ITK-dashboard/azure_dashboard.cmake)
+        EOF
+        cat dashboard.cmake
+      workingDirectory: $(Agent.BuildDirectory)/ITK-dashboard
+      displayName: 'Configure CTest script'
+
     - script: |
         cmake --version
-
         call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-        set BUILD_SHARED_LIBS=ON
-        set BUILD_EXAMPLES=OFF
-        set CTEST_BUILD_CONFIGURATION=MinSizeRel
-        set CC=cl.exe
-        set CXX=cl.exe
-        set CTEST_OUTPUT_ON_FAILURE=1
+        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -VV -j 4
+      displayName: 'Build and test'
+      env:
+        CTEST_OUTPUT_ON_FAILURE: 1
 
-        ctest -S ITK-dashboard/azure_dashboard.cmake -V -j 4
-      displayName: Build and test
-      workingDirectory: $(Agent.BuildDirectory)
+    - script: |
+        ci_addons ctest_junit_formatter $(Build.SourcesDirectory)-build > $(Agent.BuildDirectory)/JUnitTestResults.xml
+      condition: succeededOrFailed()
+      displayName: 'Format CTest output in JUnit format'
+
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFiles: "$(Agent.BuildDirectory)/JUnitTestResults.xml"
+        testRunTitle: 'CTest $(Agent.OS)'
+      condition: succeededOrFailed()
+      displayName: 'Publish test results'
