@@ -531,6 +531,8 @@ class SwigInputGenerator(object):
             for processObject in processObjects:
                 snakeCase = self.camelCaseToSnakeCase(processObject)
                 self.snakeCaseProcessObjectFunctions.add(snakeCase)
+                self.outputFile.write('import itkHelpers\n')
+                self.outputFile.write('@itkHelpers.accept_numpy_array_like\n')
                 self.outputFile.write('def %s(*args, **kwargs):\n' % snakeCase)
                 self.outputFile.write('    """Procedural interface for %s"""\n' % processObject)
                 self.outputFile.write('    import itk\n')

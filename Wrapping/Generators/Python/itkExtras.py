@@ -670,12 +670,12 @@ def set_inputs(new_itk_object, args=[], kargs={}):
         new_itk_object.SetInput(args[0])
         # but raise an exception if there is more than 1 argument
         if len(args) > 1:
-            raise TypeError('Object accept only 1 input.')
+            raise TypeError('Object accepts only 1 input.')
     except AttributeError:
         # There is no SetInput() method, try SetImage
         # but before, check the number of inputs
         if len(args) > 1:
-            raise TypeError('Object accept only 1 input.')
+            raise TypeError('Object accepts only 1 input.')
         methodList = ['SetImage', 'SetInputImage']
         methodName = None
         for m in methodList:
