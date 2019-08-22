@@ -276,7 +276,8 @@ SliceImageFilter< TInputImage, TOutputImage >
     if ( (m_Step[i] > 0 && stop > start) ||
          ( m_Step[i] < 0 && stop < start ) )
       {
-      outputSize[i] = (stop-start)/m_Step[i];
+      outputSize[i] = (stop-start-Math::sgn(m_Step[i]))/m_Step[i];
+      outputSize[i] += 1u;
       }
     else
       {
