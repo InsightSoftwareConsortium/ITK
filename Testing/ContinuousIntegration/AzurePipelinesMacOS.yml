@@ -1,10 +1,12 @@
+name: ITK.macOS
+
 trigger:
   branches:
     include:
     - master
     - release*
 variables:
-  ExternalDataVersion: 4.13.1
+  ExternalDataVersion: 4.13.2
 jobs:
 - job: macOS
   timeoutInMinutes: 0
@@ -22,38 +24,57 @@ jobs:
         fi
       displayName: Checkout pull request HEAD
 
-    - task: UsePythonVersion@0
-      inputs:
-        versionSpec: '3.7'
-
     - bash: |
         set -x
-
-        sudo pip3 install ninja
-
+        sudo python3 -m pip install ninja
+        sudo python3 -m pip install --upgrade setuptools
+        sudo python3 -m pip install scikit-ci-addons
       displayName: Install dependencies
+
     - bash: |
         set -x
-
         git clone -b dashboard --single-branch https://github.com/InsightSoftwareConsortium/ITK.git ITK-dashboard
 
         curl -L https://github.com/InsightSoftwareConsortium/ITK/releases/download/v$(ExternalDataVersion)/InsightData-$(ExternalDataVersion).tar.gz -O
         cmake -E tar xfz InsightData-$(ExternalDataVersion).tar.gz
         cmake -E rename InsightToolkit-$(ExternalDataVersion)/.ExternalData/MD5 $(Build.SourcesDirectory)/.ExternalData/MD5
-
-      displayName: Download dashboard script and testing data
       workingDirectory: $(Agent.BuildDirectory)
-    - script: |
+      displayName: 'Download dashboard script and testing data'
+
+    - bash: |
+        cat > dashboard.cmake << EOF
+        set(CTEST_BUILD_CONFIGURATION "Release")
+        set(CTEST_CMAKE_GENERATOR "Ninja")
+        set(dashboard_cache "
+          BUILD_SHARED_LIBS:BOOL=ON
+          BUILD_EXAMPLES:BOOL=ON
+          ITK_WRAP_PYTHON:BOOL=OFF
+        ")
+        include(\$ENV{AGENT_BUILDDIRECTORY}/ITK-dashboard/azure_dashboard.cmake)
+        EOF
+        cat dashboard.cmake
+      workingDirectory: $(Agent.BuildDirectory)/ITK-dashboard
+      displayName: 'Configure CTest script'
+
+    - bash: |
         set -x
-        xcode-select -p
-        sudo xcode-select -s /Applications/Xcode_9.4.1.app/Contents/Developer/
-        xcode-select -p
+
         c++ --version
         cmake --version
 
-        export BUILD_SHARED_LIBS=ON
-        export CTEST_OUTPUT_ON_FAILURE=1
+        ctest -S $(Agent.BuildDirectory)/ITK-dashboard/dashboard.cmake -VV -j 4
+      displayName: 'Build and test'
+      env:
+        CTEST_OUTPUT_ON_FAILURE: 1
 
-        ctest -S ITK-dashboard/azure_dashboard.cmake -V -j 4
-      displayName: Build and test
-      workingDirectory: $(Agent.BuildDirectory)
+    - script: |
+        ci_addons ctest_junit_formatter $(Build.SourcesDirectory)-build > $(Agent.BuildDirectory)/JUnitTestResults.xml
+      condition: succeededOrFailed()
+      displayName: 'Format CTest output in JUnit format'
+
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFiles: "$(Agent.BuildDirectory)/JUnitTestResults.xml"
+        testRunTitle: 'CTest $(Agent.OS)'
+      condition: succeededOrFailed()
+      displayName: 'Publish test results'
