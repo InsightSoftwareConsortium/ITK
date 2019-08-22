@@ -1,5 +1,5 @@
 variables:
-  ITKGitTag: c597d505fde9016a4b62f2ea969396205d049adf
+  ITKGitTag: 7018660adbbc74d37ee85b64e93c6cd43830a6a4
   ITKPythonGitTag: v5.0.1
   CMakeBuildType: Release
 
