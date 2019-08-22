@@ -53,51 +53,11 @@ public:
 }
 }
 
-
-class WeightedCovarianceTestFunction :
-  public itk::FunctionBase< MeasurementVectorType, double >
-{
-public:
-
-  /** Standard class type aliases. */
-  using Self = WeightedCovarianceTestFunction;
-
-  using Superclass = itk::FunctionBase< MeasurementVectorType, double >;
-
-  using Pointer = itk::SmartPointer<Self>;
-
-  using ConstPointer = itk::SmartPointer<const Self>;
-
-  /** Standard macros. */
-  itkTypeMacro(WeightedCovarianceTestFunction, FunctionBase);
-  itkNewMacro(Self);
-
-  /** Input type */
-  using InputType = MeasurementVectorType;
-
-  /** Output type */
-  using OutputType = double;
-
-  /**Evaluate at the specified input position */
-  OutputType Evaluate( const InputType & itkNotUsed( input ) ) const override
-    {
-    // MeasurementVectorType measurements;
-    // set the weight factor of the measurment
-    // vector with valuev[2, 2] to 0.5.
-    return 1.0;
-    }
-
-protected:
-  WeightedCovarianceTestFunction() = default;
-  ~WeightedCovarianceTestFunction() override = default;
-}; // end of class
-
-
 int itkWeightedCovarianceSampleFilterTest(int, char* [] )
 {
   std::cout << "WeightedCovarianceSampleFilter test \n \n";
 
- using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
+  using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
 
   using FilterType = itk::Statistics::MyWeightedCovarianceSampleFilter< SampleType >;
 
@@ -343,9 +303,41 @@ int itkWeightedCovarianceSampleFilterTest(int, char* [] )
       }
     }
 
+  //Class is defined only for this function.
+  class WeightedCovarianceSampleTestFunction1 :
+    public itk::FunctionBase< MeasurementVectorType, double >
+  {
+  public:
+    /** Standard class type aliases. */
+    using Self = WeightedCovarianceSampleTestFunction1;
+    using Pointer = itk::SmartPointer<Self>;
+
+    /** Standard macros. */
+    itkTypeMacro(WeightedCovarianceSampleTestFunction1, FunctionBase);
+    itkNewMacro(Self);
+
+    /** Input type */
+    using InputType = MeasurementVectorType;
+
+    /** Output type */
+    using OutputType = double;
+
+    /**Evaluate at the specified input position */
+    OutputType Evaluate( const InputType & itkNotUsed( input ) ) const override
+      {
+      // MeasurementVectorType measurements;
+      // set the weight factor of the measurment
+      // vector with valuev[2, 2] to 0.5.
+      return 1.0;
+      }
+
+  protected:
+    WeightedCovarianceSampleTestFunction1() = default;
+    ~WeightedCovarianceSampleTestFunction1() override = default;
+  }; // end of class
 
   //set  a constant 1.0 weight using a function
-  WeightedCovarianceTestFunction::Pointer weightFunction = WeightedCovarianceTestFunction::New();
+  WeightedCovarianceSampleTestFunction1::Pointer weightFunction = WeightedCovarianceSampleTestFunction1::New();
   filter->SetWeightingFunction( weightFunction );
 
   try
