@@ -90,6 +90,17 @@ class SwigInputGenerator(object):
         "itk::ObjectFactoryBasePrivate",
         "itk::ThreadPoolGlobals",
         "itk::MultiThreaderBaseGlobals",
+
+        "itk::ExtractImageFilterCollapseStrategy",
+        "itk::EnumGaussianOrderType",
+        "itk::MeshClassCellsAllocationMethodType",
+        "itk::DTITubeSpatialObjectPointFieldEnumType",
+        "itk::RGBColormapFilterEnumType",
+        "itk::ConvolutionImageFilterOutputRegionType",
+        "itk::MeshClassCellsAllocationMethodType",
+        "itk::SourceTypeOfGradient",
+        "itk::ChoiceMethod",
+
         ".+[(][*][)][(].+" # functor functions
     ]
 
