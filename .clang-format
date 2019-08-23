@@ -1,8 +1,18 @@
 ## This config file is only relevant for clang-format version 8.0.0
+##
+## Examples of each format style can be found on the in the clang-format documentation
 ## See: https://clang.llvm.org/docs/ClangFormatStyleOptions.html for details of each option
 ##
-## The clang-foramt binaries can be downloaded as part of the clang binar distributions
+## The clang-foramt binaries can be downloaded as part of the clang binary distributions
 ## from http://releases.llvm.org/download.html
+##
+## Use the script Utilities/Maintenance/clang-format.bash to faciliate
+## maintaining a consistent code style.
+##
+## EXAMPLE apply code style enforcement before commit:
+#     Utilities/Maintenance/clang-format.bash --clang ${PATH_TO_CLANG_FORMAT_8.0.0} --modified
+## EXAMPLE apply code style enforcement after commit:
+#     Utilities/Maintenance/clang-format.bash --clang ${PATH_TO_CLANG_FORMAT_8.0.0} --last
 ---
 # This configuration requires clang-format version 8.0.0 exactly.
 BasedOnStyle: Mozilla
