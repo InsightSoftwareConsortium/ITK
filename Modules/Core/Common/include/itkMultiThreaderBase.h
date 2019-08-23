@@ -173,28 +173,43 @@ public:
    * (void *)arg passed into the SetSingleMethod.
    *
    * DEPRECATED! Use WorkUnitInfo instead. */
+  // clang-format off
 ITK_GCC_PRAGMA_DIAG_PUSH()
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 INTEL_PRAGMA_WARN_PUSH
 INTEL_SUPPRESS_warning_1292
 CLANG_PRAGMA_PUSH
 CLANG_SUPPRESS_Wc__14_extensions
+  // clang-format on
 #ifdef ITK_LEGACY_SILENT
   struct ThreadInfoStruct
 #else
   struct [[deprecated( "Use WorkUnitInfo, ThreadInfoStruct is deprecated since ITK 5.0" )]] ThreadInfoStruct
 #endif
+  // clang-format off
 CLANG_PRAGMA_POP
 INTEL_PRAGMA_WARN_POP
+  // clang-format on
+#  ifdef ITK_LEGACY_SILENT
+    struct ThreadInfoStruct
+#  else
+    struct [[deprecated("Use WorkUnitInfo, ThreadInfoStruct is deprecated since ITK 5.0")]] ThreadInfoStruct
+#  endif
+  // clang-format off
+CLANG_PRAGMA_POP
+INTEL_PRAGMA_WARN_POP
+  // clang-format on
   {
     ThreadIdType ThreadID;
     ThreadIdType NumberOfThreads;
     void* UserData;
     ThreadFunctionType ThreadFunction;
     enum { SUCCESS, ITK_EXCEPTION, ITK_PROCESS_ABORTED_EXCEPTION, STD_EXCEPTION, UNKNOWN } ThreadExitCode;
-    };
+  };
+  // clang-format off
 ITK_GCC_PRAGMA_DIAG_POP()
-#endif //ITK_LEGACY_REMOVE
+  // clang-format on
+#endif // ITK_LEGACY_REMOVE
 
   /** This is the structure that is passed to the thread that is
    * created from the SingleMethodExecute. It is passed in as a void *,
