@@ -125,10 +125,10 @@ SpaceBeforeParens: ControlStatements
 SpaceBeforeRangeBasedForLoopColon: true
 SpaceInEmptyParentheses: false
 SpacesBeforeTrailingComments: 1
-SpacesInAngles:  true
-SpacesInContainerLiterals: true
+SpacesInAngles:  false
+SpacesInContainerLiterals: false
 SpacesInCStyleCastParentheses: false
-SpacesInParentheses: true
+SpacesInParentheses: false
 SpacesInSquareBrackets: false
 Standard:        Cpp11
 StatementMacros:
