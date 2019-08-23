@@ -29,7 +29,7 @@ AlwaysBreakAfterReturnType: All
 AlwaysBreakBeforeMultilineStrings: false
 AlwaysBreakTemplateDeclarations: Yes
 BinPackArguments: false
-BinPackParameters: true
+BinPackParameters: false
 BreakBeforeBraces: Custom
 BraceWrapping:
   # clang 9.0 feature AfterCaseLabel:  false
