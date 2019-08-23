@@ -109,13 +109,13 @@ public:
   /** Set the state of the filter to INITIALIZED */
   void SetStateToInitialized()
   {
-    this->SetState(INITIALIZED);
+    this->SetState(FilterStateType::INITIALIZED);
   }
 
   /** Set the state of the filter to UNINITIALIZED */
   void SetStateToUninitialized()
   {
-    this->SetState(UNINITIALIZED);
+    this->SetState(FilterStateType::UNINITIALIZED);
   }
 
   /** Set/Get the state of the filter. */
