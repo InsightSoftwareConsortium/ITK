@@ -136,6 +136,7 @@ public:
 
   /** Backwards compatibility for enum values */
   using DIRECTIONCOLLAPSESTRATEGY = ExtractImageFilterCollapseStrategy;
+  using DirectionCollapseStrategyEnum = ExtractImageFilterCollapseStrategy;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
