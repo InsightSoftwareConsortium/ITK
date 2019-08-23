@@ -11,6 +11,7 @@ itkMapContainer\.h Typedefs Disable
 itkMersenneTwisterRandomVariateGenerator\.h InternalVariables Disable
 itkNeighborhoodAllocator\.h Typedefs Disable
 itkNeighborhoodIteratorTestCommon\.hxx Namespace Disable
+VNLIterativeSparseSolverTraits\.h Namespace Disable
 itkNumericTraits.+\.h Comments Disable
 itkNumericTraits.+\.h InternalVariables Disable
 itkValarrayImageContainer\.h DeclarationOrder Disable

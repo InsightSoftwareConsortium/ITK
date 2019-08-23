@@ -3,7 +3,8 @@
 <LineLength>200</LineLength>
 <DeclarationOrder>0,1,2</DeclarationOrder>
 <Typedefs>[A-Z]</Typedefs>
-<InternalVariables>m_[A-Z]</InternalVariables>
+<!-- Disable checking of alignment for new clang-format enforced style
+  <InternalVariables>m_[A-Z]</InternalVariables> -->
 <SemicolonSpace>1</SemicolonSpace>
 <EndOfFileNewLine>1</EndOfFileNewLine>
 <Tabs>1</Tabs>
