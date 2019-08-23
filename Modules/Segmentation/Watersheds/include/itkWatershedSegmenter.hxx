@@ -178,10 +178,14 @@ void Segmenter< TInputImage >::GenerateData()
   // cap the maximum in the image so that we can always define a pixel
   // value that is one greater than the maximum value in the image.
   if ( NumericTraits< InputPixelType >::IsInteger
+      // clang-format off
 CLANG_PRAGMA_PUSH
 CLANG_SUPPRESS_Wfloat_equal
+      // clang-format on
        && maximum == NumericTraits< InputPixelType >::max() )
+    // clang-format off
 CLANG_PRAGMA_POP
+    // clang-format on
     {
     maximum -= NumericTraits< InputPixelType >::OneValue();
     }
