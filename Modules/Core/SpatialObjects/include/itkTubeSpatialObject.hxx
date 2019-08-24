@@ -327,7 +327,7 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentAndNormals()
     l = std::sqrt(l);
     // if the adjacent points correspond, use the current point and one
     //   forward point
-    if (Math::AlmostEquals(l, 0.0))
+    if ( Math::AlmostEquals( l, 0.0 ) || std::isnan(l) )
     {
       x2 = this->GetPoint(it2)->GetPositionInObjectSpace();
       for (unsigned int i = 0; i < TDimension; i++)
@@ -338,7 +338,7 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentAndNormals()
       l = std::sqrt(l);
       // if the forward point and the current point correspond, then
       //   RemoveDuplicatePointsInObjectSpace was not called.
-      if (Math::AlmostEquals(l, 0.0))
+      if ( Math::AlmostEquals( l, 0.0 ) || std::isnan(l) )
       {
         x2 = this->GetPoint(it2)->GetPositionInObjectSpace();
         std::cerr << "TubeSpatialObject::ComputeTangentAndNormals() : ";
@@ -414,10 +414,31 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentAndNormals()
         else
         {
           // if the normal is null, pick an orthogonal direction
-          double d = std::sqrt(t[0] * t[0] + t[1] * t[1]);
-          n1[0] = t[1] / d;
-          n1[1] = -t[0] / d;
-          n1[2] = 0;
+          double d = std::sqrt( t[0]*t[0] + t[1]*t[1] );
+          if( d != 0 )
+          {
+            n1[0] = t[1] / d;
+            n1[1] = -t[0] / d;
+            n1[2] = 0;
+          }
+          else
+          {
+            d = std::sqrt( t[1]*t[1] + t[2]*t[2] );
+            if( d != 0 )
+            {
+              n1[0] = 0;
+              n1[1] = t[2] / d;
+              n1[2] = -t[1] / d;
+            }
+            else
+            {
+              std::cerr << "Error: Duplicate points - normals undefined"
+                << std::endl;
+              n1[0] = 0;
+              n1[1] = 0;
+              n1[2] = 1;
+            }
+          }
         }
       }
 
