@@ -6,6 +6,7 @@ include(${_ITKModuleMacros_DIR}/ITKModuleAPI.cmake)
 include(${_ITKModuleMacros_DIR}/ITKModuleDoxygen.cmake)
 include(${_ITKModuleMacros_DIR}/ITKModuleHeaderTest.cmake)
 include(${_ITKModuleMacros_DIR}/ITKModuleKWStyleTest.cmake)
+include(${_ITKModuleMacros_DIR}/ITKModuleClangFormat.cmake)
 include(${_ITKModuleMacros_DIR}/CppcheckTargets.cmake)
 include(${_ITKModuleMacros_DIR}/ITKModuleCPPCheckTest.cmake)
 
